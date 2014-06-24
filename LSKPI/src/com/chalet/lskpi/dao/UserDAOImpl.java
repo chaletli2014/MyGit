@@ -255,4 +255,28 @@ public class UserDAOImpl implements UserDAO {
             }
         });
     }
+
+    public List<UserInfo> getSalesOfCurrentUser(UserInfo currentUser) throws Exception {
+        String sql = "";
+        Object[] params = null;
+        switch(currentUser.getLevel()){
+            case LsAttributes.USER_LEVEL_DSM:
+                sql = "select * from tbl_userinfo where level='REP' and superior = ? and userCode !='"+LsAttributes.VACANT_USER_CODE+"'";
+                params = new Object[]{currentUser.getUserCode()};
+                break;
+            case LsAttributes.USER_LEVEL_RSM:
+                sql = "select * from tbl_userinfo where level='REP' and region = ? and userCode !='"+LsAttributes.VACANT_USER_CODE+"'";
+                params = new Object[]{currentUser.getRegion()};
+                break;
+            case LsAttributes.USER_LEVEL_RSD:
+                sql = "select * from tbl_userinfo where level='REP' and regionCenter = ? and userCode !='"+LsAttributes.VACANT_USER_CODE+"'";
+                params = new Object[]{currentUser.getRegionCenter()};
+                break;
+            case LsAttributes.USER_LEVEL_BM:
+                sql = "select * from tbl_userinfo where level='REP' and userCode !='"+LsAttributes.VACANT_USER_CODE+"'";
+                params = new Object[]{};
+                break;
+        }
+        return dataBean.getJdbcTemplate().query(sql, params, new UserInfoRowMapper());
+    }
 }

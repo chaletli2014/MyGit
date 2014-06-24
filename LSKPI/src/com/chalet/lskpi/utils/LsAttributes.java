@@ -58,6 +58,10 @@ public class LsAttributes {
      */
     public static final String RETURNED_MESSAGE_10 = "未查到相关数据！";
     /**
+     * 关联销售不能为空.
+     */
+    public static final String RETURNED_MESSAGE_11 = "关联销售不能为空！";
+    /**
      * 获取用户信息失败，请重新登录APP.
      */
     public static final String NO_USER_FOUND = "获取用户信息失败，请重新登录APP";

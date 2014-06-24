@@ -40,4 +40,6 @@ public interface UserService {
 	
 	public void updateUserCodes(List<UserCode> userCodes) throws Exception;
 	
+	public List<UserInfo> getSalesOfCurrentUser(UserInfo currentUser ) throws Exception;
+	
 }

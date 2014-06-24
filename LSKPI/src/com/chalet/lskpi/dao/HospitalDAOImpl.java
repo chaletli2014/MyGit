@@ -99,6 +99,14 @@ public class HospitalDAOImpl implements HospitalDAO {
         }, keyHolder);
         logger.info("insertDoctor,returned id is "+keyHolder.getKey().intValue());
     }
+    
+    public void updateDoctorRelationship(int doctorId, String salesCode) throws Exception {
+        StringBuffer sql = new StringBuffer("update tbl_doctor set ");
+        sql.append("modifydate=NOW()");
+        sql.append(", salesCode=? ");
+        sql.append(" where id=? ");
+        dataBean.getJdbcTemplate().update(sql.toString(), new Object[]{salesCode,doctorId});
+    }
 
     public void updateDoctor(Doctor doctor) throws Exception {
         StringBuffer sql = new StringBuffer("update tbl_doctor set ");

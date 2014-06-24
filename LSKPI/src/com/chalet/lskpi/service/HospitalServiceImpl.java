@@ -65,6 +65,10 @@ public class HospitalServiceImpl implements HospitalService {
     public void insertDoctor(Doctor doctor) throws Exception {
         hospitalDAO.insertDoctor(doctor);
     }
+    
+    public void updateDoctorRelationship(int doctorId, String salesCode) throws Exception {
+        hospitalDAO.updateDoctorRelationship(doctorId, salesCode);
+    }
 
     public void updateDoctor(Doctor doctor) throws Exception {
         hospitalDAO.updateDoctor(doctor);

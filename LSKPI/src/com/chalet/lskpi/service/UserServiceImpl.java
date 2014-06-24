@@ -166,4 +166,8 @@ public class UserServiceImpl implements UserService {
 		logger.info("start to update the user codes in RES");
 		respirologyDAO.updateRESUserCodes(userCodes);
 	}
+
+    public List<UserInfo> getSalesOfCurrentUser(UserInfo currentUser) throws Exception {
+        return userDAO.getSalesOfCurrentUser(currentUser);
+    }
 }

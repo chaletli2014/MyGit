@@ -32,3 +32,25 @@ function showEdit(dataId,doctorname,hospitalName,hospitalCode) {
     $("#popupEdit #edit_dr_cancel").unbind("click").click(function() { $("#popupEdit").popup("close"); });
     $("#popupEdit").popup("open");
 }
+function showRefer(doctorId,doctorname,hospitalName,salesCode) {
+	$("#popupEditRelationship h1").html("医生关系维护");
+	$("#popupEditRelationship #edit_dataId").val(doctorId);
+	$("#popupEditRelationship #edit_relatedSales").val(salesCode);
+	
+	$("#popupEditRelationship #hospitalname").val(hospitalName);
+	$("#popupEditRelationship #doctorname").val(doctorname);
+	
+	$("#popupEditRelationship #edit_dr_submit").unbind("click").click(function() { 
+		if( !checkIsNotNull( $("#popupEditRelationship #relatedSales") ) ){
+			$("#popupEditRelationship #editdoctor_notification").html("请选择一个销售");
+		}else{
+			$.mobile.showPageLoadingMsg('b','数据保存中',false);
+			$("#popupEditRelationship").popup("close");
+			$('#popupEditRelationship #doEditDoctorRelationshipForm').submit();
+		}
+	});
+	$("#popupEditRelationship #edit_dr_cancel").unbind("click").click(function() { $("#popupEditRelationship").popup("close"); });
+	$("#popupEditRelationship").popup("open");
+	$("#popupEditRelationship #relatedSales option[value='"+salesCode+"']").attr("selected",true);
+	$("#popupEditRelationship #relatedSales").selectmenu('refresh');
+}

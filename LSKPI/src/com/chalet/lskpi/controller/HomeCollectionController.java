@@ -17,6 +17,7 @@ import com.chalet.lskpi.model.Hospital;
 import com.chalet.lskpi.model.UserInfo;
 import com.chalet.lskpi.service.HomeService;
 import com.chalet.lskpi.service.HospitalService;
+import com.chalet.lskpi.service.UserService;
 import com.chalet.lskpi.utils.LsAttributes;
 import com.chalet.lskpi.utils.LsKPIModelAndView;
 import com.chalet.lskpi.utils.StringUtils;
@@ -31,6 +32,10 @@ public class HomeCollectionController extends BaseController{
     @Autowired
     @Qualifier("homeService")
     private HomeService homeService;
+    
+    @Autowired
+    @Qualifier("userService")
+    private UserService userService;
 
     @RequestMapping("/homecollection")
     public ModelAndView homecollection(HttpServletRequest request){
@@ -76,6 +81,10 @@ public class HomeCollectionController extends BaseController{
             }else{
             	logger.info(String.format("there is no doctors found of user %s", currentUserTel));
             }
+            
+            //get the sales under current user.
+            List<UserInfo> salesList = userService.getSalesOfCurrentUser(currentUser);
+            view.addObject("salesList", salesList);
             
             String message = "";
             if( null != request.getSession().getAttribute(LsAttributes.COLLECT_HOMEDATA_MESSAGE) ){
@@ -195,6 +204,55 @@ public class HomeCollectionController extends BaseController{
     		request.getSession().setAttribute(LsAttributes.COLLECT_HOMEDATA_MESSAGE, LsAttributes.RETURNED_MESSAGE_1);
     	}
     	return "redirect:doctormaintenance";
+    }
+    
+    @RequestMapping("/doEditDoctorRelationship")
+    public String doEditDoctorRelationship(HttpServletRequest request){
+        ModelAndView view = new LsKPIModelAndView(request);
+        String currentUserTel = verifyCurrentUser(request,view);
+        UserInfo currentUser = (UserInfo)request.getSession().getAttribute(LsAttributes.CURRENT_OPERATOR_OBJECT);
+        logger.info(String.format("do edit doctor, current user's telephone is %s", currentUserTel));
+        if( null == currentUserTel || "".equalsIgnoreCase(currentUserTel) || null == currentUser ){
+            request.getSession().setAttribute(LsAttributes.COLLECT_HOMEDATA_MESSAGE, LsAttributes.NO_USER_FOUND_WEB);
+            return "redirect:doctormaintenance";
+        }
+        
+        if( !(LsAttributes.USER_LEVEL_REP.equalsIgnoreCase(currentUser.getLevel()) 
+                || LsAttributes.USER_LEVEL_DSM.equalsIgnoreCase(currentUser.getLevel())) ){
+            request.getSession().setAttribute(LsAttributes.COLLECT_HOMEDATA_MESSAGE, LsAttributes.RETURNED_MESSAGE_3);
+            return "redirect:doctormaintenance";
+        }
+        
+        String dataId = request.getParameter("dataId");
+        if( null == dataId || "".equalsIgnoreCase(dataId) ){
+            request.getSession().setAttribute(LsAttributes.COLLECT_HOMEDATA_MESSAGE, LsAttributes.RETURNED_MESSAGE_9);
+            return "redirect:doctormaintenance";
+        }
+        int doctorId = Integer.parseInt(dataId);
+        String relatedSales = request.getParameter("relatedSales");
+        String defaultRelatedSales = request.getParameter("edit_relatedSales");
+        
+        logger.info(String.format("edit the doctor data, dataId is %s, relatedSales is %s"
+                , dataId,relatedSales));
+        
+        if( null == relatedSales || "".equalsIgnoreCase(relatedSales) ){
+            request.getSession().setAttribute(LsAttributes.COLLECT_HOMEDATA_MESSAGE, LsAttributes.RETURNED_MESSAGE_11);
+            return "redirect:doctormaintenance";
+        }
+        
+        try{
+            if( defaultRelatedSales.equalsIgnoreCase(relatedSales) ){
+                logger.info(String.format("the sales %s is no changed, no need to update", defaultRelatedSales));
+            }else{
+                
+                hospitalService.updateDoctorRelationship(doctorId, relatedSales);
+                logger.info(String.format("user %s update doctor %s relationship successfully, the new salesCode is %s!", currentUserTel,doctorId,relatedSales));
+            }
+        }catch(Exception e){
+            logger.error("fail to edit doctor relationship,",e);
+            request.getSession().setAttribute(LsAttributes.COLLECT_HOMEDATA_MESSAGE, LsAttributes.RETURNED_MESSAGE_1);
+        }
+        return "redirect:doctormaintenance";
     }
     
     @RequestMapping("/doDeleteDoctor")
