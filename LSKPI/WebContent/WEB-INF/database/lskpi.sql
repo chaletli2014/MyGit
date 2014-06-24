@@ -279,3 +279,6 @@ create table tbl_home_data_weekly(
     createdate      datetime,
     updatedate      datetime
 );
+ALTER  TABLE tbl_home_data ADD INDEX INDEX_HOME_DOCTORID (doctorId);
+ALTER  TABLE tbl_home_data ADD INDEX INDEX_HOME_CREATEDATE (createdate);
+ALTER  TABLE tbl_doctor ADD INDEX INDEX_DOCTOR_HOSPITALCODE (hospitalCode);
