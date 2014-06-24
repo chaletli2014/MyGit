@@ -16,10 +16,10 @@
                 <label for="doctorname" class="select">医生姓名<span id="editdoctor_notification" class="error_message"></span></label>
                 <input name="doctorname" id="doctorname"/>
 				<div style="text-align: center;">
-	                <a href="javascript:void(0)" id="edit_dr_submit" style="display: inline;">
+	                <a href="javascript:void(0)" id="edit_dr_submit" style="display: block;">
 	                  <img alt="" src="<%=basePath%>images/button_submit_80_22.png" style="cursor: pointer;" />
 	                </a>
-	                <a href="javascript:void(0)" id="edit_dr_cancel" style="display: inline;">
+	                <a href="javascript:void(0)" id="edit_dr_cancel" style="display: block;">
 	                  <img alt="" src="<%=basePath%>images/button_cancel_80_22.png" style="cursor: pointer;" />
 	                </a>
 				</div>                

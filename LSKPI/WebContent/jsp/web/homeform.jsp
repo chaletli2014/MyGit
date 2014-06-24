@@ -62,7 +62,7 @@ function checkForm(){
 	                <input type="number" name="asthmanum" id="asthmanum"  value="${existedData.asthmanum==null?0:existedData.asthmanum}"/>
 	            </div>
                	<div data-role="fieldcontain" class="formCollection">
-	                <label for="ltenum" id="ltenum_label">处方>=8天的哮喘持续期病人次</label>
+	                <label for="ltenum" id="ltenum_label">处方≥8天的哮喘持续期病人次</label>
 	                <input type="number" name="ltenum" id="ltenum"  value="${existedData.ltenum==null?0:existedData.ltenum}"/>
 	            </div>
                	<div data-role="fieldcontain" class="formCollection">
@@ -70,15 +70,15 @@ function checkForm(){
 	                <input type="number" name="lsnum" id="lsnum"  value="${existedData.lsnum==null?0:existedData.lsnum}"/>
 	            </div>
                	<div data-role="fieldcontain" class="formCollection">
-	                <label for="efnum" id="efnum_label">8<=DOT<15天，病人次</label>
+	                <label for="efnum" id="efnum_label">8≤DOT<15天，病人次</label>
 	                <input type="number" name="efnum" id="efnum"  value="${existedData.efnum==null?0:existedData.efnum}"/>
 	            </div>
                	<div data-role="fieldcontain" class="formCollection">
-	                <label for="ftnum" id="ftnum_label">15<=DOT<30天，病人次</label>
+	                <label for="ftnum" id="ftnum_label">15≤DOT<30天，病人次</label>
 	                <input type="number" name="ftnum" id="ftnum"  value="${existedData.ftnum==null?0:existedData.ftnum}"/>
 	            </div>
                	<div data-role="fieldcontain" class="formCollection">
-	                <label for="lttnum" id="lttnum_label">DOT>=30天,病人次</label>
+	                <label for="lttnum" id="lttnum_label">DOT≥30天，病人次</label>
 	                <input type="number" name="lttnum" id="lttnum"  value="${existedData.lttnum==null?0:existedData.lttnum}"/>
 	            </div>
 	            

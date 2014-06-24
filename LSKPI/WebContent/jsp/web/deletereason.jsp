@@ -35,7 +35,7 @@ function submitForm(){
 		            <a class="submit_btn" href="javascript:void(0)">
 		                <img alt="" src="<%=basePath%>images/button_submit_80_22.png" style="cursor: pointer;" />
 		            </a>
-		            <a href="javascript:void(0)" id="edit_dr_cancel" style="display: inline;" onclick="javascript:window.location.href='<%=basePath%>doctormaintenance'">
+		            <a href="javascript:void(0)" id="edit_dr_cancel" style="display: block;" onclick="javascript:window.location.href='<%=basePath%>doctormaintenance'">
                       <img alt="" src="<%=basePath%>images/button_cancel_80_22.png" style="cursor: pointer;" />
                     </a>
 				</div>
