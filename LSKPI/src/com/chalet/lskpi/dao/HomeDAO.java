@@ -9,7 +9,7 @@ import com.chalet.lskpi.model.UserInfo;
 
 public interface HomeDAO {
 
-    public HomeData getHomeDataByDoctorId(String doctorId) throws Exception;
+    public HomeData getHomeDataByDoctorId(String doctorId, Date startDate, Date endDate) throws Exception;
     public HomeData getHomeDataById(int dataId) throws Exception;
     public void insert(HomeData homeData,String doctorId) throws Exception;
     public void update(HomeData homeData) throws Exception;

@@ -4,6 +4,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.sql.Timestamp;
 import java.util.Date;
 import java.util.List;
 
@@ -32,13 +33,13 @@ public class HomeDAOImpl implements HomeDAO {
     
     private Logger logger = Logger.getLogger(HomeDAOImpl.class);
     
-    public HomeData getHomeDataByDoctorId(String doctorId) throws Exception {
+    public HomeData getHomeDataByDoctorId(String doctorId, Date beginDate, Date endDate) throws Exception {
         StringBuffer sql = new StringBuffer();
         sql.append(" select hd.id, hd.doctorId, hd.salenum, hd.asthmanum, hd.ltenum, hd.lsnum, hd.efnum, hd.ftnum, hd.lttnum ")
         .append(" from tbl_home_data hd ")
         .append(" where hd.doctorId = ? ")
-        .append(" and DATE_FORMAT(hd.createdate,'%Y-%m-%d') = curdate()");
-        return dataBean.getJdbcTemplate().queryForObject(sql.toString(), new Object[]{doctorId}, new HomeDataRowMapper());
+        .append(" and hd.createdate between ? and ?");
+        return dataBean.getJdbcTemplate().queryForObject(sql.toString(), new Object[]{doctorId,new Timestamp(beginDate.getTime()),new Timestamp(endDate.getTime())}, new HomeDataRowMapper());
     }
 
     public HomeData getHomeDataById(int dataId) throws Exception {

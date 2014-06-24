@@ -29,7 +29,10 @@ public class HomeServiceImpl implements HomeService {
     
     public HomeData getHomeDataByDoctorId(String doctorId) throws Exception {
         try{
-            return homeDAO.getHomeDataByDoctorId(doctorId);
+            Date beginDate = DateUtils.getTheBeginDateOfCurrentWeek();
+            Date endDate = DateUtils.getGenerateWeeklyReportDate(new Date());
+            endDate = new Date(endDate.getTime() + 1 * 24 * 60 * 60 * 1000);
+            return homeDAO.getHomeDataByDoctorId(doctorId,beginDate,endDate);
         }catch(EmptyResultDataAccessException erd){
             logger.info("there is no record found.");
             return null;
