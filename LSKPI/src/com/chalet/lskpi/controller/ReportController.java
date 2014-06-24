@@ -32,6 +32,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.chalet.lskpi.model.HomeWeeklyData;
 import com.chalet.lskpi.model.MobilePEDDailyData;
 import com.chalet.lskpi.model.MobileRESDailyData;
 import com.chalet.lskpi.model.MonthlyData;
@@ -43,6 +44,7 @@ import com.chalet.lskpi.model.RespirologyData;
 import com.chalet.lskpi.model.TopAndBottomRSMData;
 import com.chalet.lskpi.model.UserInfo;
 import com.chalet.lskpi.model.WebUserInfo;
+import com.chalet.lskpi.service.HomeService;
 import com.chalet.lskpi.service.HospitalService;
 import com.chalet.lskpi.service.PediatricsService;
 import com.chalet.lskpi.service.RespirologyService;
@@ -77,6 +79,10 @@ public class ReportController extends BaseController{
     @Autowired
     @Qualifier("userService")
     private UserService userService;
+    
+    @Autowired
+    @Qualifier("homeService")
+    private HomeService homeService;
     
     private String populateRecipeTypeValue(String recipeTypeValue){
         String returnValue = recipeTypeValue;
@@ -530,9 +536,8 @@ public class ReportController extends BaseController{
         
         logger.info(String.format("weekly report: current user's telephone is %s, the user in session is %s", currentUserTel,currentUser));
         
-        if( null == currentUserTel || "".equalsIgnoreCase(currentUserTel) || null == currentUser 
-                || LsAttributes.USER_LEVEL_REP.equalsIgnoreCase(currentUser.getLevel())){
-        	view.addObject(LsAttributes.JSP_VERIFY_MESSAGE, LsAttributes.RETURNED_MESSAGE_3);
+        if( null == currentUserTel || "".equalsIgnoreCase(currentUserTel) || null == currentUser ){
+        	view.addObject(LsAttributes.JSP_VERIFY_MESSAGE, LsAttributes.NO_USER_FOUND_WEB);
         	view.setViewName("index");
         	return view;
         }
@@ -558,14 +563,12 @@ public class ReportController extends BaseController{
         }
         
         try{
-            List<MonthlyRatioData> monthlyRatioList = hospitalService.getMonthlyRatioData(currentUser);
-            MonthlyRatioData superiorMonthlyRatio = hospitalService.getUpperUserMonthlyRatioData(currentUser);
-            view.addObject("monthlyRatioList", monthlyRatioList);
-            view.addObject("superiorMonthlyRatio", superiorMonthlyRatio);
+            List<HomeWeeklyData> homeWeeklyDataList = homeService.getHomeWeeklyDataOfCurrentUser(currentUser);
+            view.addObject("homeWeeklyDataList", homeWeeklyDataList);
             view.addObject("currentUser", currentUser);
             populateDailyReportTitle(currentUser, view, LsAttributes.MONTHLYREPORTTITLE);
         }catch(Exception e){
-            logger.error("fail to get the monthly data in query,",e);
+            logger.error("fail to get the home weekly data,",e);
         }
         
         view.setViewName("homeCollectionReport");
@@ -581,10 +584,14 @@ public class ReportController extends BaseController{
         
         logger.info(String.format("weekly report: current user's telephone is %s, the user in session is %s", currentUserTel,currentUser));
         
-        if( null == currentUserTel || "".equalsIgnoreCase(currentUserTel) || null == currentUser 
-                || LsAttributes.USER_LEVEL_REP.equalsIgnoreCase(currentUser.getLevel())){
+        if( null == currentUserTel || "".equalsIgnoreCase(currentUserTel) || null == currentUser ){
+            view.addObject(LsAttributes.JSP_VERIFY_MESSAGE, LsAttributes.NO_USER_FOUND_WEB);
+            view.setViewName("weeklyReportDepartment");
+            return view;
+        }
+        if( LsAttributes.USER_LEVEL_REP.equalsIgnoreCase(currentUser.getLevel()) ){
             view.addObject(LsAttributes.JSP_VERIFY_MESSAGE, LsAttributes.RETURNED_MESSAGE_3);
-            view.setViewName("index");
+            view.setViewName("weeklyReportDepartment");
             return view;
         }
         
@@ -642,11 +649,15 @@ public class ReportController extends BaseController{
         ModelAndView view = new LsKPIModelAndView(request);
         String currentUserTel = verifyCurrentUser(request,view);
         UserInfo currentUser = (UserInfo)request.getSession().getAttribute(LsAttributes.CURRENT_OPERATOR_OBJECT);
-        if( null == currentUser 
-        		|| LsAttributes.USER_LEVEL_REP.equalsIgnoreCase(currentUser.getLevel()) ){
-        	view.addObject(LsAttributes.JSP_VERIFY_MESSAGE, LsAttributes.RETURNED_MESSAGE_3);
-        	view.setViewName("pedDailyReport");
-        	return view;
+        if( null == currentUserTel || "".equalsIgnoreCase(currentUserTel) || null == currentUser ){
+            view.addObject(LsAttributes.JSP_VERIFY_MESSAGE, LsAttributes.NO_USER_FOUND_WEB);
+            view.setViewName("weeklyReportDepartment");
+            return view;
+        }
+        if( LsAttributes.USER_LEVEL_REP.equalsIgnoreCase(currentUser.getLevel()) ){
+            view.addObject(LsAttributes.JSP_VERIFY_MESSAGE, LsAttributes.RETURNED_MESSAGE_3);
+            view.setViewName("weeklyReportDepartment");
+            return view;
         }
         
         String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+request.getContextPath()+"/";
@@ -694,11 +705,15 @@ public class ReportController extends BaseController{
         String currentUserTel = verifyCurrentUser(request,view);
         
         UserInfo currentUser = (UserInfo)request.getSession().getAttribute(LsAttributes.CURRENT_OPERATOR_OBJECT);
-        if( null == currentUser 
-        		|| LsAttributes.USER_LEVEL_REP.equalsIgnoreCase(currentUser.getLevel()) ){
-        	view.addObject(LsAttributes.JSP_VERIFY_MESSAGE, LsAttributes.RETURNED_MESSAGE_3);
-        	view.setViewName("resWeeklyReport");
+        if( null == currentUserTel || "".equalsIgnoreCase(currentUserTel) || null == currentUser ){
+        	view.addObject(LsAttributes.JSP_VERIFY_MESSAGE, LsAttributes.NO_USER_FOUND_WEB);
+        	view.setViewName("weeklyReportDepartment");
         	return view;
+        }
+        if( LsAttributes.USER_LEVEL_REP.equalsIgnoreCase(currentUser.getLevel()) ){
+            view.addObject(LsAttributes.JSP_VERIFY_MESSAGE, LsAttributes.RETURNED_MESSAGE_3);
+            view.setViewName("weeklyReportDepartment");
+            return view;
         }
         
         String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+request.getContextPath()+"/";

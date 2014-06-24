@@ -14,8 +14,8 @@ public interface HomeDAO {
     public void insert(HomeData homeData,String doctorId) throws Exception;
     public void update(HomeData homeData) throws Exception;
     
-    public List<HomeWeeklyData> getHomeWeeklyDataOfSales(UserInfo currentUser,Date lastWednesday) throws Exception;
-    public List<HomeWeeklyData> getHomeWeeklyDataOfDSM(UserInfo currentUser,Date lastWednesday) throws Exception;
-    public List<HomeWeeklyData> getHomeWeeklyDataOfRSM(UserInfo currentUser,Date lastWednesday) throws Exception;
-    public List<HomeWeeklyData> getHomeWeeklyDataOfRSD(Date lastWednesday) throws Exception;
+    public List<HomeWeeklyData> getHomeWeeklyDataOfSales(UserInfo currentUser,Date beginDate, Date endDate) throws Exception;
+    public List<HomeWeeklyData> getHomeWeeklyDataOfDSM(UserInfo currentUser,Date beginDate, Date endDate) throws Exception;
+    public List<HomeWeeklyData> getHomeWeeklyDataOfRSM(UserInfo currentUser,Date beginDate, Date endDate) throws Exception;
+    public List<HomeWeeklyData> getHomeWeeklyDataOfRSD(Date beginDate, Date endDate) throws Exception;
 }

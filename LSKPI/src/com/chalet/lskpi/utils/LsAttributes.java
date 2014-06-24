@@ -771,4 +771,27 @@ public class LsAttributes {
     public static final StringBuffer SQL_MONTHLY_INRATE_RSD_CONDITION
 		    = new StringBuffer(" where duration between ? and ? and hospitalCode = h.code ")
 		    .append(" group by h.region, duration ");
+    
+    public static final StringBuffer SQL_HOME_WEEKLY_DATA_SELECTION
+            = new StringBuffer("")
+            .append(" select  0 as newDrNum, 0 as totalDrNum ")
+            .append(" , homeData.newWhNum")
+            .append(" , homeData.cureRate ")
+            .append(" , homeData.lsnum ")
+            .append(" , homeData.lsRate ")
+            .append(" , homeData.reachRate ");
+    
+    public static final StringBuffer SQL_HOME_WEEKLY_DATA_SUB_SELECTION
+            = new StringBuffer("")
+            .append(" select sum(hd.salenum) as newWhNum ")
+            .append(" , sum(hd.ltenum)/sum(hd.asthmanum) as cureRate ")
+            .append(" , sum(hd.lsnum) as lsnum ")
+            .append(" , sum(hd.lsnum)/sum(hd.asthmanum) as lsRate ")
+            .append(" , sum(hd.lttnum)/sum(hd.lsnum) as reachRate ");
+    
+    public static final StringBuffer SQL_HOME_WEEKLY_DATA_SUB_FROM
+    = new StringBuffer(" from tbl_home_data hd, tbl_userinfo u, tbl_doctor d, tbl_doctor_history dh ");
+    
+    public static final StringBuffer SQL_HOME_WEEKLY_DATA_SUB_2_FROM
+    = new StringBuffer(" from tbl_home_data hd, tbl_userinfo u, tbl_doctor d, tbl_doctor_history dh, tbl_hospital h ");
 }

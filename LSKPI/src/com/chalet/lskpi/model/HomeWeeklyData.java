@@ -2,6 +2,7 @@ package com.chalet.lskpi.model;
 
 public class HomeWeeklyData {
 
+    private String userName;
     private int totalDrNum;
     private int newDrNum;
     /**
@@ -117,5 +118,13 @@ public class HomeWeeklyData {
 
     public void setReachRate(double reachRate) {
         this.reachRate = reachRate;
+    }
+
+    public String getUserName() {
+        return userName;
+    }
+
+    public void setUserName(String userName) {
+        this.userName = userName;
     }
 }

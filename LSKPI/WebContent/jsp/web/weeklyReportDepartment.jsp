@@ -28,11 +28,9 @@ function showNextPage(pageURL){
         	<div data-role="fieldcontain" class="department_img_div">
 	            <img alt="" src="<%=basePath%>images/img_bg_monthly_report_w.png" onclick="showNextPage('<%=basePath%>monthlyDataReport')" style="cursor: pointer;">
         	</div>
-        	<!-- 
         	<div data-role="fieldcontain" class="department_img_div">
 	            <img alt="" src="<%=basePath%>images/img_bg_home_report_w.png" onclick="showNextPage('<%=basePath%>homeReport')" style="cursor: pointer;">
         	</div>
-        	 -->
         </div>
         <jsp:include page="page_footer.jsp" flush="true">
         	<jsp:param name="backURL" value="index"/>

@@ -66,21 +66,23 @@ public class HomeServiceImpl implements HomeService {
     public List<HomeWeeklyData> getHomeWeeklyDataOfCurrentUser(UserInfo currentUser) throws Exception {
         List<HomeWeeklyData> homeWeeklyData = new ArrayList<HomeWeeklyData>();
         Date lastWednesday = DateUtils.getGenerateWeeklyReportDate();
+        Date beginDate = new Date(lastWednesday.getTime() - 6* 24 * 60 * 60 * 1000);
+        Date endDate = new Date(lastWednesday.getTime() + 1 * 24 * 60 * 60 * 1000);
         switch(currentUser.getLevel()){
             case LsAttributes.USER_LEVEL_BM:
-                homeWeeklyData = homeDAO.getHomeWeeklyDataOfRSD(lastWednesday);
+                homeWeeklyData = homeDAO.getHomeWeeklyDataOfRSD(beginDate, endDate);
                 break;
             case LsAttributes.USER_LEVEL_RSD:
-                homeWeeklyData = homeDAO.getHomeWeeklyDataOfRSD(lastWednesday);
+                homeWeeklyData = homeDAO.getHomeWeeklyDataOfRSD(beginDate, endDate);
                 break;
             case LsAttributes.USER_LEVEL_RSM:
-                homeWeeklyData = homeDAO.getHomeWeeklyDataOfRSM(currentUser,lastWednesday);
+                homeWeeklyData = homeDAO.getHomeWeeklyDataOfRSM(currentUser,beginDate, endDate);
                 break;
             case LsAttributes.USER_LEVEL_DSM:
-                homeWeeklyData = homeDAO.getHomeWeeklyDataOfDSM(currentUser,lastWednesday);
+                homeWeeklyData = homeDAO.getHomeWeeklyDataOfDSM(currentUser,beginDate, endDate);
                 break;
             case LsAttributes.USER_LEVEL_REP:
-                homeWeeklyData = homeDAO.getHomeWeeklyDataOfSales(currentUser,lastWednesday);
+                homeWeeklyData = homeDAO.getHomeWeeklyDataOfSales(currentUser,beginDate, endDate);
                 break;
         }
         return homeWeeklyData;

@@ -23,6 +23,7 @@ import com.chalet.lskpi.model.HomeWeeklyData;
 import com.chalet.lskpi.model.UserInfo;
 import com.chalet.lskpi.utils.DataBean;
 import com.chalet.lskpi.utils.DateUtils;
+import com.chalet.lskpi.utils.LsAttributes;
 
 @Repository("homeDAO")
 public class HomeDAOImpl implements HomeDAO {
@@ -96,27 +97,54 @@ public class HomeDAOImpl implements HomeDAO {
             homeData.getId()});
     }
 
-    public List<HomeWeeklyData> getHomeWeeklyDataOfSales(UserInfo currentUser,Date lastWednesday) throws Exception {
+    public List<HomeWeeklyData> getHomeWeeklyDataOfSales(UserInfo currentUser,Date beginDate, Date endDate) throws Exception {
         StringBuffer sql = new StringBuffer();
-        String duration = DateUtils.getTheBeginDateOfRefreshDate(lastWednesday)+"-"+DateUtils.getTheEndDateOfRefreshDate(lastWednesday);
-        sql.append(" select hd.id, hd.doctorId, hd.salenum, hd.asthmanum, hd.ltenum, hd.lsnum, hd.efnum, hd.ftnum, hd.lttnum ")
-        .append(" from tbl_home_data_weekly hdw, tbl_userinfo u, tbl_doctor d, tbl_doctor_history dh, tbl_hospital h ")
-        .append(" where ")
-        .append(" and duration = ?");
-        return dataBean.getJdbcTemplate().query(sql.toString(), new Object[]{currentUser.getSuperior(),duration}, new HomeWeeklyDataRowMapper());
+        sql.append(LsAttributes.SQL_HOME_WEEKLY_DATA_SELECTION)
+        .append(", ui.name ")
+        .append("from ( ")
+        .append(LsAttributes.SQL_HOME_WEEKLY_DATA_SUB_SELECTION)
+        .append(", u.name")
+        .append(", u.userCode ")
+        .append(LsAttributes.SQL_HOME_WEEKLY_DATA_SUB_FROM)
+        .append(" where ( ( hd.doctorId = d.id and d.salesCode = u.userCode )")
+        .append("   or ( hd.doctorId = dh.doctorId and dh.salesCode = u.userCode ) )")
+        .append(" and u.superior = ? ")
+        .append(" and u.level='REP' ")
+        .append(" and hd.createdate between ? and ? ") 
+        .append(" group by u.userCode ")
+        .append(") homeData")
+        .append(" right join tbl_userinfo ui on ui.userCode = homeData.userCode ")
+        .append(" where ui.superior = ? and ui.level='REP' ");
+        return dataBean.getJdbcTemplate().query(sql.toString(), new Object[]{currentUser.getSuperior(),new Timestamp(beginDate.getTime()),new Timestamp(endDate.getTime()),currentUser.getSuperior()}, new HomeWeeklyDataRowMapper());
     }
 
-    public List<HomeWeeklyData> getHomeWeeklyDataOfDSM(UserInfo currentUser,Date lastWednesday) throws Exception {
+    public List<HomeWeeklyData> getHomeWeeklyDataOfDSM(UserInfo currentUser,Date beginDate, Date endDate) throws Exception {
+        StringBuffer sql = new StringBuffer();
+        sql.append(LsAttributes.SQL_HOME_WEEKLY_DATA_SELECTION)
+        .append(", ui.name ")
+        .append("from ( ")
+        .append(LsAttributes.SQL_HOME_WEEKLY_DATA_SUB_SELECTION)
+        .append(", u.name")
+        .append(", u.userCode ")
+        .append(LsAttributes.SQL_HOME_WEEKLY_DATA_SUB_FROM)
+        .append(" where ( ( hd.doctorId = d.id and d.hospitalCode = h.code and h.dsmCode = u.userCode )")
+        .append("   or ( hd.doctorId = dh.doctorId and dh.hospitalCode = h.code and h.dsmCode = u.userCode ) )")
+        .append(" and u.region = ? ")
+        .append(" and u.level='DSM' ")
+        .append(" and hd.createdate between ? and ? ") 
+        .append(" group by u.userCode ")
+        .append(") homeData")
+        .append(" right join tbl_userinfo ui on ui.userCode = homeData.userCode ")
+        .append(" where ui.region = ? and ui.level='DSM' ");
+        return dataBean.getJdbcTemplate().query(sql.toString(), new Object[]{currentUser.getRegion(),new Timestamp(beginDate.getTime()),new Timestamp(endDate.getTime()),currentUser.getRegion()}, new HomeWeeklyDataRowMapper());
+    }
+
+    public List<HomeWeeklyData> getHomeWeeklyDataOfRSM(UserInfo currentUser,Date beginDate, Date endDate) throws Exception {
         // TODO Auto-generated method stub
         return null;
     }
 
-    public List<HomeWeeklyData> getHomeWeeklyDataOfRSM(UserInfo currentUser,Date lastWednesday) throws Exception {
-        // TODO Auto-generated method stub
-        return null;
-    }
-
-    public List<HomeWeeklyData> getHomeWeeklyDataOfRSD(Date lastWednesday) throws Exception {
+    public List<HomeWeeklyData> getHomeWeeklyDataOfRSD(Date beginDate, Date endDate) throws Exception {
         // TODO Auto-generated method stub
         return null;
     }
