@@ -1,0 +1,770 @@
+package com.chalet.lskpi.utils;
+
+public class LsAttributes {
+
+    public static final String COLLECT_RESPIROLOGY_MESSAGE = "collectRespirologyMessage";
+    public static final String COLLECT_PEDIATRICS_MESSAGE = "collectPediatricsMessage";
+    public static final String COLLECT_MONTHLYDATA_MESSAGE = "collectMonthlyDataMessage";
+    public static final String COLLECT_HOMEDATA_MESSAGE = "collectHomeDataMessage";
+    public static final String WEEKLY_PDF_REPORT_MESSAGE = "weeklyReportMessage";
+    public static final String WEEKLY_PDF_REFRESH_MESSAGE = "weeklyPDFRefreshMessage";
+    public static final String UPLOAD_FILE_MESSAGE = "uploadFileMessage";
+    public static final String CURRENT_OPERATOR_OBJECT = "operatorObj";
+    public static final String CURRENT_OPERATOR = "operator";
+    public static final String CURRENT_DATE = "currentDate";
+    /**
+     * 提交成功.
+     */
+    public static final String RETURNED_MESSAGE_0 = "提交成功";
+    /**
+     * 提交失败，系统错误.
+     */
+    public static final String RETURNED_MESSAGE_1 = "提交失败，系统错误！";
+    
+    /**
+     * 获取数据失败，系统错误.
+     */
+    public static final String RETURNED_MESSAGE_2 = "获取数据失败，系统错误！";
+    /**
+     * 很抱歉，您没有权限查看或使用该功能.
+     */
+    public static final String RETURNED_MESSAGE_3 = "很抱歉，您没有权限查看或使用该功能！";
+    /**
+     * 很抱歉，用来接收周报的邮箱地址不合法，请修正后重试.
+     */
+    public static final String RETURNED_MESSAGE_4 = "很抱歉，用来接收周报的邮箱地址不合法，请修正后重试！";
+    /**
+     * 导出周报的层级不能为空.
+     */
+    public static final String RETURNED_MESSAGE_5 = "导出周报的层级不能为空！";
+    /**
+     * 导出周报的日期不能为空.
+     */
+    public static final String RETURNED_MESSAGE_6 = "导出周报的日期不能为空！";
+    /**
+     * 无法获取医院信息，请重新选择医院.
+     */
+    public static final String RETURNED_MESSAGE_7 = "无法获取医院信息，请重新选择医院！";
+    /**
+     * 医院和医生姓名不能为空.
+     */
+    public static final String RETURNED_MESSAGE_8 = "医院和医生姓名不能为空！";
+    /**
+     * 获取医生信息失败.
+     */
+    public static final String RETURNED_MESSAGE_9 = "获取医生信息失败！";
+    /**
+     * 未查到相关数据.
+     */
+    public static final String RETURNED_MESSAGE_10 = "未查到相关数据！";
+    /**
+     * 获取用户信息失败，请重新登录APP.
+     */
+    public static final String NO_USER_FOUND = "获取用户信息失败，请重新登录APP";
+    /**
+     * 获取用户信息失败，请重新登录.
+     */
+    public static final String NO_USER_FOUND_WEB = "获取用户信息失败，请重新登录";
+    /**
+     * 周报未生成，请联系管理员.
+     */
+    public static final String NO_WEEKLY_PDF_FOUND = "周报未生成，请联系管理员";
+    /**
+     * 发送周报邮件失败，请联系管理员.
+     */
+    public static final String SEND_WEEKLY_PDF_ERROR = "发送周报邮件失败，请联系管理员";
+    /**
+     * 上周周报已发送，请注意查收.
+     */
+    public static final String WEEKLY_PDF_SEND = "上周周报已发送，请注意查收";
+    public static final String WEEKLY_PDF_REFRESHED = "周报已刷新";
+    public static final String JSP_VERIFY_MESSAGE = "message";
+    
+    public static final String MESSAGE_AREA_ID = "messageareaid";
+    public static final String VALID_RES_DATA_NUM = "validResDataNum";
+    public static final String INVALID_RES_DATA = "invalidResData";
+    public static final String EXISTS_RES_DATA = "existsResData";
+    
+    public static final String VALID_PED_DATA_NUM = "validPedDataNum";
+    public static final String INVALID_PED_DATA = "invalidPedData";
+    public static final String EXISTS_PED_DATA = "existsPedData";
+    
+    public static final String VALID_MONTHLY_DATA_NUM = "validDataNum";
+    public static final String INVALID_MONTHLY_DATA = "invalidData";
+    public static final String EXISTS_MONTHLY_DATA = "existsData";
+    
+    public static final String MOBILE_DAILY_REPORT_DATA = "mobileDailyReportData";
+    public static final String MOBILE_DAILY_REPORT_CHILD_DATA = "mobileDailyReportChildData";
+    public static final String MOBILE_DAILY_REPORT_PARENT_DATA = "mobileDailyReportParentData";
+    public static final String MOBILE_DAILY_REPORT_CENTRAL_DATA = "mobileDailyReportCentralData";
+    public static final String MOBILE_DAILY_REPORT_EAST1_DATA = "mobileDailyReportEast1Data";
+    public static final String MOBILE_DAILY_REPORT_EAST2_DATA = "mobileDailyReportEast2Data";
+    public static final String MOBILE_DAILY_REPORT_NORTH_DATA = "mobileDailyReportNorthData";
+    public static final String MOBILE_DAILY_REPORT_SOUTH_DATA = "mobileDailyReportSouthData";
+    public static final String MOBILE_DAILY_REPORT_WEST_DATA = "mobileDailyReportWestData";
+    
+    public static final String USER_LEVEL_REP = "REP";
+    public static final String USER_LEVEL_DSM = "DSM";
+    public static final String USER_LEVEL_RSM = "RSM";
+    public static final String USER_LEVEL_RSD = "RSD";
+    public static final String USER_LEVEL_BM = "BM";
+    public static final String USER_LEVEL_BU_HEAD = "BU Head";
+    public static final String USER_LEVEL_MD = "MD";
+    public static final String USER_LEVEL_SARTON = "Sarton";
+    
+    
+    public static final String BR_NAME_SOUTH = "South GRA";
+    public static final String BR_NAME_SOUTH_ZH = "南区";
+    public static final String BR_NAME_NORTH = "North GRA";
+    public static final String BR_NAME_NORTH_ZH = "北区";
+    public static final String BR_NAME_CENTRAL = "Central GRA";
+    public static final String BR_NAME_CENTRAL_ZH = "中区";
+    public static final String BR_NAME_EAST1 = "East1 GRA";
+    public static final String BR_NAME_EAST1_ZH = "东一区";
+    public static final String BR_NAME_EAST2 = "East2 GRA";
+    public static final String BR_NAME_EAST2_ZH = "东二区";
+    public static final String BR_NAME_WEST = "West GRA";
+    public static final String BR_NAME_WEST_ZH = "西区";
+    
+    public static final String DEPARTMENT_PED = "PED";
+    public static final String DEPARTMENT_RES = "RES";
+    
+    public static final String WEB_LOGIN_MESSAGE = "web_login_message";
+    public static final String WEB_LOGIN_USER = "web_login_user";
+    public static final String WEB_LOGIN_MESSAGE_NO_USER = "用户名或密码错误";
+    
+    public static final String DAILYREPORTTITLE_1 = "所属 [";
+    public static final String DAILYREPORTTITLE_2 = "] ";
+    public static final String DAILYREPORTTITLE_3 = "日报数据表";
+    public static final String DAILYREPORTTITLE_4 = "全国";
+    public static final String DAILYREPORTTITLE_REP = "销售";
+    public static final String DAILYREPORTTITLE_3_2 = "上周数据环比";
+    public static final String DAILYREPORTTITLE_SPLIT_1 = "[";
+    public static final String DAILYREPORTTITLE_SPLIT_2 = "]";
+    
+    public static final String MONTHLYREPORTTITLE = "销售袋数月报";
+    public static final String MONTHLY12TITLE = "销售袋数报告";
+    public static final String MONTHLYCOLLECTIONDATEERROR="销售袋数采集为次月1号到10号，目前无法录入";
+    
+    
+    public static final String DATAQUERY_PROCESS_DATA="processData";
+    public static final String DATAQUERY_PROCESS_DATA_DETAIL="processDataDetail";
+    public static final String DATAQUERY_PROCESS_CHILD_DATA="processChildData";
+    public static final String WEEKLY_RATIO_DATA = "weeklyRatioData";
+    
+    public static final String CURRENT_USER_LOWER_USERS = "lowerUsers";
+    
+    public static final String HOSPITAL_SEARCH_KEYWORD = "hospitalKeyword";
+    public static final String HOSPITAL_SEARCH_RESULT = "searchedHospitals";
+    public static final String HOSPITAL_SPLITCHAT_1 = ",";
+    public static final String HOSPITAL_SPLITCHAT_2 = " ";
+    
+    public static final String VACANT_USER_CODE="#N/A";
+    
+    public static final String COLLECT_HOMEDATA_DATAID = "dataId";
+    
+    public static final StringBuffer SQL_WEEKLY_PED_RATIO_DATA_SELECT_PED 
+    	= new StringBuffer("select lastweekdata.pnum ")
+    	    .append(" , ROUND((lastweekdata.pnum - last2weekdata.pnum) / last2weekdata.pnum,2) as pnumRatio ")
+    	    .append(" , lastweekdata.lsnum ")
+    	    .append(" , ROUND((lastweekdata.lsnum - last2weekdata.lsnum) / last2weekdata.lsnum,2) as lsnumRatio ")
+    	    .append(" , lastweekdata.inRate ")
+    	    .append(" , ROUND((lastweekdata.inRate - last2weekdata.inRate),2) as inRateRatio ")
+    	    .append(" , lastweekdata.whRate ")
+    	    .append(" , ROUND((lastweekdata.whRate - last2weekdata.whRate),2) as whRateRatio ")
+    	    .append(" , lastweekdata.averageDose ")
+    	    .append(" , ROUND((lastweekdata.averageDose - last2weekdata.averageDose ) / last2weekdata.averageDose,2) as averageDoseRatio ")
+    	    .append(" , lastweekdata.hmgRate as hmgRate ")
+    	    .append(" , ROUND((lastweekdata.hmgRate - last2weekdata.hmgRate ),2) as hmgRateRatio ")
+    	    .append(" , lastweekdata.omgRate as omgRate ")
+    	    .append(" , ROUND((lastweekdata.omgRate - last2weekdata.omgRate ),2) as omgRateRatio ")
+    	    .append(" , lastweekdata.tmgRate as tmgRate ")
+    	    .append(" , ROUND((lastweekdata.tmgRate - last2weekdata.tmgRate ),2) as tmgRateRatio ")
+    	    .append(" , lastweekdata.fmgRate as fmgRate ")
+    	    .append(" , ROUND((lastweekdata.fmgRate - last2weekdata.fmgRate ),2) as fmgRateRatio ");
+    
+    public static final StringBuffer SQL_WEEKLY_PED_RATIO_DATA_LASTWEEK_SELECT_PED 
+    	= new StringBuffer(" 	IFNULL(sum(lastweek.pnum),0) as pnum, ")
+				    .append("	IFNULL(sum(lastweek.lsnum),0) as lsnum, ")
+				    .append("	IFNULL(sum(lastweek.lsnum),0) / IFNULL(sum(lastweek.pnum),0) as whRate, ")
+				    .append("	IFNULL(sum(least(lastweek.innum,3)),0) / (count(1)*3) as inRate, ")
+				    .append("	IFNULL(sum(lastweek.averageDose*lastweek.lsnum)/sum(lastweek.lsnum),0) as averageDose, ")
+				    .append("	IFNULL(sum(lastweek.hmgRate*lastweek.lsnum)/sum(lastweek.lsnum),0) as hmgRate, ")
+				    .append("	IFNULL(sum(lastweek.omgRate*lastweek.lsnum)/sum(lastweek.lsnum),0) as omgRate, ")
+				    .append("	IFNULL(sum(lastweek.tmgRate*lastweek.lsnum)/sum(lastweek.lsnum),0) as tmgRate, ")
+				    .append("	IFNULL(sum(lastweek.fmgRate*lastweek.lsnum)/sum(lastweek.lsnum),0) as fmgRate ")
+				    .append("	from ( select * from tbl_pediatrics_data_weekly order by duration desc limit 0,920 ) lastweek, tbl_hospital h ")
+				    .append("   where lastweek.hospitalCode = h.code ");
+    
+    public static final StringBuffer SQL_WEEKLY_PED_RATIO_DATA_LAST2WEEK_SELECT_PED 
+		= new StringBuffer("	IFNULL(sum(last2week.pnum),0) as pnum, ")
+				    .append("	IFNULL(sum(last2week.lsnum),0) as lsnum, ")
+				    .append("	IFNULL(sum(last2week.lsnum),0) / IFNULL(sum(last2week.pnum),0) as whRate, ")
+				    .append("	IFNULL(sum(least(last2week.innum,3)),0) / (count(1)*3) as inRate, ")
+				    .append("	IFNULL(sum(last2week.averageDose*last2week.lsnum)/sum(last2week.lsnum),0) as averageDose, ")
+				    .append("	IFNULL(sum(last2week.hmgRate*last2week.lsnum)/sum(last2week.lsnum),0) as hmgRate, ")
+				    .append("	IFNULL(sum(last2week.omgRate*last2week.lsnum)/sum(last2week.lsnum),0) as omgRate, ")
+				    .append("	IFNULL(sum(last2week.tmgRate*last2week.lsnum)/sum(last2week.lsnum),0) as tmgRate, ")
+				    .append("	IFNULL(sum(last2week.fmgRate*last2week.lsnum)/sum(last2week.lsnum),0) as fmgRate ")
+				    .append("	from ( select * from tbl_pediatrics_data_weekly order by duration desc limit 920,920 ) last2week, tbl_hospital h ")
+				    .append("   where last2week.hospitalCode = h.code ");
+    
+    public static final StringBuffer SQL_HOSPITAL_WEEKLY_PED_RATIO_DATA_LASTWEEK_SELECT_PED 
+        = new StringBuffer(" 	IFNULL(lastweek.pnum,0) as pnum, ")
+                    .append("	IFNULL(lastweek.lsnum,0) as lsnum, ")
+                    .append("	IFNULL(IFNULL(lastweek.lsnum,0) / IFNULL(lastweek.pnum,0),0) as whRate, ")
+                    .append("	IFNULL(least(lastweek.innum,3),0) / 3 as inRate, ")
+                    .append("	IFNULL(lastweek.averageDose,0) as averageDose, ")
+                    .append("	IFNULL(lastweek.hmgRate,0) as hmgRate, ")
+                    .append("	IFNULL(lastweek.omgRate,0) as omgRate, ")
+                    .append("	IFNULL(lastweek.tmgRate,0) as tmgRate, ")
+                    .append("	IFNULL(lastweek.fmgRate,0) as fmgRate ")
+                    .append("	from ( select * from tbl_pediatrics_data_weekly order by duration desc limit 0,920 ) lastweek ");
+    
+    public static final StringBuffer SQL_HOSPITAL_WEEKLY_PED_RATIO_DATA_LAST2WEEK_SELECT_PED 
+        = new StringBuffer("	IFNULL(last2week.pnum,0) as pnum, ")
+                    .append("	IFNULL(last2week.lsnum,0) as lsnum, ")
+                    .append("	IFNULL(last2week.lsnum,0) / IFNULL(last2week.pnum,0) as whRate, ")
+                    .append("	IFNULL(least(last2week.innum,3),0) / 3 as inRate, ")
+                    .append("	IFNULL(last2week.averageDose,0) as averageDose, ")
+                    .append("	IFNULL(last2week.hmgRate,0) as hmgRate, ")
+                    .append("	IFNULL(last2week.omgRate,0) as omgRate, ")
+                    .append("	IFNULL(last2week.tmgRate,0) as tmgRate, ")
+                    .append("	IFNULL(last2week.fmgRate,0) as fmgRate ")
+                    .append("	from ( select * from tbl_pediatrics_data_weekly order by duration desc limit 920,920 ) last2week ");
+    
+    public static final StringBuffer SQL_WEEKLY_PED_RATIO_DATA_SELECT_RES 
+		    = new StringBuffer("select lastweekdata.pnum ")
+				    .append(" , ROUND((lastweekdata.pnum - last2weekdata.pnum) / last2weekdata.pnum,2) as pnumRatio ")
+				    .append(" , lastweekdata.lsnum ")
+				    .append(" , ROUND((lastweekdata.lsnum - last2weekdata.lsnum) / last2weekdata.lsnum,2) as lsnumRatio ")
+				    .append(" , lastweekdata.inRate ")
+				    .append(" , ROUND((lastweekdata.inRate - last2weekdata.inRate),2) as inRateRatio ")
+				    .append(" , lastweekdata.whRate ")
+				    .append(" , ROUND((lastweekdata.whRate - last2weekdata.whRate),2) as whRateRatio ")
+				    .append(" , lastweekdata.averageDose ")
+				    .append(" , ROUND((lastweekdata.averageDose - last2weekdata.averageDose ) / last2weekdata.averageDose,2) as averageDoseRatio ")
+				    .append(" , lastweekdata.omgRate as omgRate ")
+				    .append(" , ROUND((lastweekdata.omgRate - last2weekdata.omgRate ),2) as omgRateRatio ")
+				    .append(" , lastweekdata.tmgRate as tmgRate ")
+				    .append(" , ROUND((lastweekdata.tmgRate - last2weekdata.tmgRate ),2) as tmgRateRatio ")
+				    .append(" , lastweekdata.thmgRate as thmgRate ")
+				    .append(" , ROUND((lastweekdata.thmgRate - last2weekdata.thmgRate ),2) as thmgRateRatio ")
+				    .append(" , lastweekdata.fmgRate as fmgRate ")
+				    .append(" , ROUND((lastweekdata.fmgRate - last2weekdata.fmgRate ),2) as fmgRateRatio ")
+				    .append(" , lastweekdata.smgRate as smgRate ")
+				    .append(" , ROUND((lastweekdata.smgRate - last2weekdata.smgRate ),2) as smgRateRatio ")
+				    .append(" , lastweekdata.emgRate as emgRate ")
+				    .append(" , ROUND((lastweekdata.emgRate - last2weekdata.emgRate ),2) as emgRateRatio ");
+    
+    public static final StringBuffer SQL_WEEKLY_PED_RATIO_DATA_LASTWEEK_SELECT_RES 
+		    = new StringBuffer(" 	IFNULL(sum(lastweek.pnum),0) as pnum, ")
+				    .append("	IFNULL(sum(lastweek.lsnum),0) as lsnum, ")
+				    .append("	IFNULL(sum(lastweek.lsnum),0) / IFNULL(sum(lastweek.pnum),0) as whRate, ")
+				    .append("	IFNULL(sum(least(lastweek.innum,3)),0) / (count(1)*3) as inRate, ")
+				    .append("	IFNULL(sum(lastweek.averageDose*lastweek.lsnum)/sum(lastweek.lsnum),0) as averageDose, ")
+				    .append("	IFNULL(sum(lastweek.omgRate*lastweek.lsnum)/sum(lastweek.lsnum),0) as omgRate, ")
+				    .append("	IFNULL(sum(lastweek.tmgRate*lastweek.lsnum)/sum(lastweek.lsnum),0) as tmgRate, ")
+				    .append("	IFNULL(sum(lastweek.thmgRate*lastweek.lsnum)/sum(lastweek.lsnum),0) as thmgRate, ")
+				    .append("	IFNULL(sum(lastweek.fmgRate*lastweek.lsnum)/sum(lastweek.lsnum),0) as fmgRate, ")
+				    .append("	IFNULL(sum(lastweek.smgRate*lastweek.lsnum)/sum(lastweek.lsnum),0) as smgRate, ")
+				    .append("	IFNULL(sum(lastweek.emgRate*lastweek.lsnum)/sum(lastweek.lsnum),0) as emgRate ")
+				    .append("	from ( select * from tbl_respirology_data_weekly order by duration desc limit 0,398 ) lastweek, tbl_hospital h ")
+				    .append("   where lastweek.hospitalCode = h.code ");
+    public static final StringBuffer SQL_WEEKLY_PED_RATIO_DATA_LAST2WEEK_SELECT_RES 
+		    = new StringBuffer("	IFNULL(sum(last2week.pnum),0) as pnum, ")
+				    .append("	IFNULL(sum(last2week.lsnum),0) as lsnum, ")
+				    .append("	IFNULL(sum(last2week.lsnum),0) / IFNULL(sum(last2week.pnum),0) as whRate, ")
+				    .append("	IFNULL(sum(least(last2week.innum,3)),0) / (count(1)*3) as inRate, ")
+				    .append("	IFNULL(sum(last2week.averageDose*last2week.lsnum)/sum(last2week.lsnum),0) as averageDose, ")
+				    .append("	IFNULL(sum(last2week.omgRate*last2week.lsnum)/sum(last2week.lsnum),0) as omgRate, ")
+				    .append("	IFNULL(sum(last2week.tmgRate*last2week.lsnum)/sum(last2week.lsnum),0) as tmgRate, ")
+				    .append("	IFNULL(sum(last2week.thmgRate*last2week.lsnum)/sum(last2week.lsnum),0) as thmgRate, ")
+				    .append("	IFNULL(sum(last2week.fmgRate*last2week.lsnum)/sum(last2week.lsnum),0) as fmgRate, ")
+				    .append("	IFNULL(sum(last2week.smgRate*last2week.lsnum)/sum(last2week.lsnum),0) as smgRate, ")
+				    .append("	IFNULL(sum(last2week.emgRate*last2week.lsnum)/sum(last2week.lsnum),0) as emgRate ")
+				    .append("	from ( select * from tbl_respirology_data_weekly order by duration desc limit 398,398 ) last2week, tbl_hospital h ")
+				    .append("   where last2week.hospitalCode = h.code ");
+    
+    public static final StringBuffer SQL_HOSPITAL_WEEKLY_PED_RATIO_DATA_LASTWEEK_SELECT_RES 
+            = new StringBuffer(" 	IFNULL(lastweek.pnum,0) as pnum, ")
+                    .append("	IFNULL(lastweek.lsnum,0) as lsnum, ")
+                    .append("	IFNULL(IFNULL(lastweek.lsnum,0) / IFNULL(lastweek.pnum,0),0) as whRate, ")
+                    .append("	IFNULL(least(lastweek.innum,3),0) / 3 as inRate, ")
+                    .append("	IFNULL(lastweek.averageDose,0) as averageDose, ")
+                    .append("	IFNULL(lastweek.omgRate,0) as omgRate, ")
+                    .append("	IFNULL(lastweek.tmgRate,0) as tmgRate, ")
+                    .append("	IFNULL(lastweek.thmgRate,0) as thmgRate, ")
+                    .append("	IFNULL(lastweek.fmgRate,0) as fmgRate, ")
+                    .append("	IFNULL(lastweek.smgRate,0) as smgRate, ")
+                    .append("	IFNULL(lastweek.emgRate,0) as emgRate ")
+                    .append("	from ( select * from tbl_respirology_data_weekly order by duration desc limit 0,398 ) lastweek ");
+    
+    public static final StringBuffer SQL_HOSPITAL_WEEKLY_PED_RATIO_DATA_LAST2WEEK_SELECT_RES 
+            = new StringBuffer("	IFNULL(last2week.pnum,0) as pnum, ")
+                    .append("	IFNULL(last2week.lsnum,0) as lsnum, ")
+                    .append("	IFNULL(IFNULL(last2week.lsnum,0) / IFNULL(last2week.pnum,0),0) as whRate, ")
+                    .append("	IFNULL(least(last2week.innum,3),0) / 3 as inRate, ")
+                    .append("	IFNULL(last2week.averageDose,0) as averageDose, ")
+                    .append("	IFNULL(last2week.omgRate,0) as omgRate, ")
+                    .append("	IFNULL(last2week.tmgRate,0) as tmgRate, ")
+                    .append("	IFNULL(last2week.thmgRate,0) as thmgRate, ")
+                    .append("	IFNULL(last2week.fmgRate,0) as fmgRate, ")
+                    .append("	IFNULL(last2week.smgRate,0) as smgRate, ")
+                    .append("	IFNULL(last2week.emgRate,0) as emgRate ")
+                    .append("	from ( select * from tbl_respirology_data_weekly order by duration desc limit 398,398 ) last2week ");
+    
+    public static final StringBuffer SQL_MONTHLY_RATIO_SELECT
+            = new StringBuffer( "select IFNULL(lastMonthData.pedEmernum,0) as pedEmernum " )
+                    .append(", IFNULL(lastMonthData.pedroomnum,0) as pedroomnum ")
+                    .append(", IFNULL(lastMonthData.resnum,0) as resnum ")
+                    .append(", IFNULL(lastMonthData.othernum,0) as othernum ")
+                    .append(", ROUND(IFNULL(lastMonthData.pedEmernum/lastMonthData.totalnum,0),2) as pedemernumrate ")
+                    .append(", ROUND(IFNULL(lastMonthData.pedroomnum/lastMonthData.totalnum,0),2) as pedroomnumrate ")
+                    .append(", ROUND(IFNULL(lastMonthData.resnum/lastMonthData.totalnum,0),2) as resnumrate ")
+                    .append(", ROUND(IFNULL(lastMonthData.othernum/lastMonthData.totalnum,0),2) as othernumrate ")
+                    .append(", ROUND(IFNULL((lastMonthData.pedEmernum-last2MonthData.pedEmernum)/last2MonthData.pedEmernum,0),2) as pedemernumratio ")
+                    .append(", ROUND(IFNULL((lastMonthData.pedroomnum-last2MonthData.pedroomnum)/last2MonthData.pedroomnum,0),2) as pedroomnumratio ")
+                    .append(", ROUND(IFNULL((lastMonthData.resnum-last2MonthData.resnum)/last2MonthData.resnum,0),2) as resnumratio ")
+                    .append(", ROUND(IFNULL((lastMonthData.othernum-last2MonthData.othernum)/last2MonthData.othernum,0),2) as othernumratio ")
+                    .append(", ROUND(IFNULL(lastMonthData.pedEmernum/lastMonthData.totalnum - last2MonthData.pedEmernum/last2MonthData.totalnum,0),2) as pedemernumrateratio ")
+                    .append(", ROUND(IFNULL(lastMonthData.pedroomnum/lastMonthData.totalnum - last2MonthData.pedroomnum/last2MonthData.totalnum,0),2) as pedroomnumrateratio ")
+                    .append(", ROUND(IFNULL(lastMonthData.resnum/lastMonthData.totalnum - last2MonthData.resnum/last2MonthData.totalnum,0),2) as resnumrateratio ")
+                    .append(", ROUND(IFNULL(lastMonthData.othernum/lastMonthData.totalnum - last2MonthData.othernum/last2MonthData.totalnum,0),2) as othernumrateratio ")
+                    .append(", IFNULL(lastMonthData.totalnum,0) as totalnum ")
+                    .append(", ROUND(IFNULL((lastMonthData.totalnum - last2MonthData.totalnum)/last2MonthData.totalnum,0),2) as totalnumratio ")
+                    .append(", IFNULL(lastMonthData.innum,0) as innum ")
+                    .append(", ROUND(IFNULL((lastMonthData.innum-last2MonthData.innum)/last2MonthData.innum,0),2) as innumratio ")
+    				.append(", IFNULL(lastMonthData.hosnum,0) as hosnum ")
+    				.append(", ROUND(IFNULL((lastMonthData.hosnum-last2MonthData.hosnum)/last2MonthData.hosnum,0),2) as hosnumratio ")
+    				.append(", ROUND(IFNULL(lastMonthData.innum,0)/IFNULL(lastMonthData.hosnum,0),2) as inrate ")
+    				.append(", ROUND(IFNULL(lastMonthData.innum/lastMonthData.hosnum - last2MonthData.innum/last2MonthData.hosnum,0),2) as inrateratio ");
+    
+    public static final StringBuffer SQL_MONTHLY_RATIO_LASTMONTH_SELECT_REP
+    		= new StringBuffer( "select lastMonth.pedEmernum ,lastMonth.pedroomnum ,lastMonth.resnum ,lastMonth.othernum ,lastMonth.totalnum " )
+				    .append(", lastMonth.innum as innum ")
+					.append(", (select count(1) from tbl_hospital h where h.rsmRegion = u.region and h.dsmCode = u.superior and h.saleCode = u.userCode and h.isMonthlyAssessed='1') as hosnum " )
+					.append(", u.userCode as saleCode, u.superior as dsmCode, u.name as saleName , u.region as rsmRegion, u.regionCenter as region " )
+				    .append("    from (")
+				    .append("       select h.saleCode as saleCode ")
+				    .append("       , h.dsmCode ")
+				    .append("       , h.rsmRegion ")
+				    .append("       , h.region ")
+				    .append("       , sum(pedEmernum) as pedEmernum ")
+				    .append("       , sum(pedroomnum) as pedroomnum ")
+				    .append("       , sum(resnum) as resnum ")
+				    .append("       , sum(other) as othernum ")
+				    .append("       , sum(pedEmernum)+sum(pedroomnum)+sum(resnum)+sum(other) as totalnum ")
+				    .append("       , count(1) as innum ")
+				    .append("       from tbl_month_data md, tbl_hospital h ")
+				    .append("		where md.countMonth = DATE_FORMAT(DATE_SUB(now(), INTERVAL 1 MONTH),'%Y-%m') " )
+				    .append("       and md.hospitalCode = h.code and h.isMonthlyAssessed='1' ")
+				    .append("       and h.dsmCode=? ")
+				    .append("       group by h.dsmCode, h.saleCode ")
+				    .append("   ) lastMonth ")
+				    .append("   right join tbl_userinfo u on u.userCode = lastMonth.saleCode and u.superior = lastMonth.dsmCode")
+				    .append("   where u.superior = ? ")
+				    .append("   and u.level='REP' ");
+    
+    public static final StringBuffer SQL_MONTHLY_RATIO_LAST2MONTH_SELECT_REP
+    		= new StringBuffer( "select last2Month.pedEmernum ,last2Month.pedroomnum ,last2Month.resnum ,last2Month.othernum ,last2Month.totalnum " )
+				    .append(", last2Month.innum as innum ")
+					.append(", (select count(1) from tbl_hospital h where h.rsmRegion = u.region and h.dsmCode = u.superior and h.saleCode = u.userCode and h.isMonthlyAssessed='1') as hosnum " )
+					.append(", u.userCode as saleCode, u.superior as dsmCode, u.name as saleName , u.region as rsmRegion, u.regionCenter as region " )
+				    .append("    from (")
+				    .append("       select h.saleCode as saleCode ")
+				    .append("       , h.dsmCode ")
+				    .append("       , h.rsmRegion ")
+				    .append("       , h.region ")
+				    .append("       , sum(pedEmernum) as pedEmernum ")
+				    .append("       , sum(pedroomnum) as pedroomnum ")
+				    .append("       , sum(resnum) as resnum ")
+				    .append("       , sum(other) as othernum ")
+				    .append("       , sum(pedEmernum)+sum(pedroomnum)+sum(resnum)+sum(other) as totalnum ")
+				    .append("       , count(1) as innum ")
+				    .append("       from tbl_month_data md, tbl_hospital h ")
+				    .append("		where md.countMonth = DATE_FORMAT(DATE_SUB(now(), INTERVAL 2 MONTH),'%Y-%m') " )
+				    .append("       and md.hospitalCode = h.code and h.isMonthlyAssessed='1' ")
+				    .append("       and h.dsmCode=? ")
+				    .append("       group by h.dsmCode, h.saleCode ")
+				    .append("   ) last2Month ")
+				    .append("   right join tbl_userinfo u on u.userCode = last2Month.saleCode and u.superior = last2Month.dsmCode")
+				    .append("   where u.superior = ? ")
+				    .append("   and u.level='REP' ");
+    
+    public static final StringBuffer SQL_MONTHLY_RATIO_LASTMONTH_SELECT_DSM
+            = new StringBuffer( "select lastMonth.pedEmernum ,lastMonth.pedroomnum ,lastMonth.resnum ,lastMonth.othernum ,lastMonth.totalnum " )
+				    .append(", lastMonth.innum as innum ")
+					.append(", (select count(1) from tbl_hospital h where h.dsmCode = u.userCode and h.rsmRegion = u.region and h.isMonthlyAssessed='1') as hosnum " )
+					.append(", u.region as rsmRegion, u.regionCenter as region, u.name as dsmName " )
+				    .append("    from (")
+                    .append("       select h.dsmCode ")
+                    .append("       , ( select ui.name from tbl_userinfo ui where ui.userCode = h.dsmCode and ui.region = h.rsmRegion and ui.level='DSM' ) as dsmName ")
+                    .append("       , h.rsmRegion ")
+                    .append("       , h.region ")
+                    .append("       , sum(pedEmernum) as pedEmernum ")
+                    .append("       , sum(pedroomnum) as pedroomnum ")
+                    .append("       , sum(resnum) as resnum ")
+                    .append("       , sum(other) as othernum ")
+                    .append("       , sum(pedEmernum)+sum(pedroomnum)+sum(resnum)+sum(other) as totalnum ")
+                    .append("       , count(1) as innum ")
+                    .append("       from tbl_month_data md, tbl_hospital h ")
+                    .append("		where md.countMonth = DATE_FORMAT(DATE_SUB(now(), INTERVAL 1 MONTH),'%Y-%m') " )
+				    .append("       and md.hospitalCode = h.code and h.isMonthlyAssessed='1' ")
+                    .append("       and h.rsmRegion=? ")
+                    .append("       group by h.dsmCode ")
+                    .append("   ) lastMonth ")
+                    .append("   right join tbl_userinfo u on u.userCode = lastMonth.dsmCode ")
+                    .append("   where u.region = ? ")
+                    .append("   and u.level='DSM' ");
+    
+    public static final StringBuffer SQL_MONTHLY_RATIO_LAST2MONTH_SELECT_DSM
+            = new StringBuffer( "select last2Month.pedEmernum ,last2Month.pedroomnum ,last2Month.resnum ,last2Month.othernum ,last2Month.totalnum " )
+				    .append(", last2Month.innum as innum ")
+					.append(", (select count(1) from tbl_hospital h where h.dsmCode = u.userCode and h.rsmRegion = u.region and h.isMonthlyAssessed='1') as hosnum " )
+					.append(", u.region as rsmRegion, u.regionCenter as region, u.name as dsmName " )
+				    .append("    from (")
+                    .append("       select h.dsmCode ")
+                    .append("       , ( select ui.name from tbl_userinfo ui where ui.userCode = h.dsmCode and ui.region = h.rsmRegion and ui.level='DSM' ) as dsmName ")
+                    .append("       , h.rsmRegion ")
+                    .append("       , h.region ")
+                    .append("       , sum(pedEmernum) as pedEmernum ")
+                    .append("       , sum(pedroomnum) as pedroomnum ")
+                    .append("       , sum(resnum) as resnum ")
+                    .append("       , sum(other) as othernum ")
+                    .append("       , sum(pedEmernum)+sum(pedroomnum)+sum(resnum)+sum(other) as totalnum ")
+                    .append("       , count(1) as innum ")
+                    .append("       from tbl_month_data md, tbl_hospital h ")
+                    .append("		where md.countMonth = DATE_FORMAT(DATE_SUB(now(), INTERVAL 2 MONTH),'%Y-%m') " )
+				    .append("       and md.hospitalCode = h.code and h.isMonthlyAssessed='1' ")
+                    .append("       and h.rsmRegion=? ")
+                    .append("       group by h.dsmCode ")
+                    .append("   ) last2Month ")
+                    .append("   right join tbl_userinfo u on u.userCode = last2Month.dsmCode ")
+                    .append("   where u.region = ? ")
+                    .append("   and u.level='DSM' ");
+    
+    public static final StringBuffer SQL_MONTHLY_RATIO_LASTMONTH_SELECT_BELONG_RSM
+            = new StringBuffer( "select lastMonth.pedEmernum ,lastMonth.pedroomnum ,lastMonth.resnum ,lastMonth.othernum ,lastMonth.totalnum " )
+				    .append(", lastMonth.innum as innum ")
+					.append(", (select count(1) from tbl_hospital h where h.rsmRegion = u.region and h.isMonthlyAssessed='1') as hosnum " )
+					.append(", u.region as rsmRegion , u.regionCenter as region " )
+				    .append("    from (")
+                    .append("       select h.rsmRegion ")
+                    .append("       , h.region ")
+                    .append("       , sum(pedEmernum) as pedEmernum ")
+                    .append("       , sum(pedroomnum) as pedroomnum ")
+                    .append("       , sum(resnum) as resnum ")
+                    .append("       , sum(other) as othernum ")
+                    .append("       , sum(pedEmernum)+sum(pedroomnum)+sum(resnum)+sum(other) as totalnum ")
+                    .append("       , count(1) as innum ")
+                    .append("       from tbl_month_data md, tbl_hospital h ")
+                    .append("		where md.countMonth = DATE_FORMAT(DATE_SUB(now(), INTERVAL 1 MONTH),'%Y-%m') " )
+				    .append("       and md.hospitalCode = h.code and h.isMonthlyAssessed='1' ")
+                    .append("       and h.rsmRegion=? ")
+                    .append("       group by h.rsmRegion ")
+                    .append("   ) lastMonth ")
+                    .append("   right join tbl_userinfo u on u.region = lastMonth.rsmRegion ")
+                    .append("   where u.region =? ")
+                    .append("   and u.level='RSM' ");
+    
+    public static final StringBuffer SQL_MONTHLY_RATIO_LAST2MONTH_SELECT_BELONG_RSM
+    = new StringBuffer( "select last2Month.pedEmernum ,last2Month.pedroomnum ,last2Month.resnum ,last2Month.othernum ,last2Month.totalnum " )
+		    .append(", last2Month.innum as innum ")
+			.append(", (select count(1) from tbl_hospital h where h.rsmRegion = u.region and h.isMonthlyAssessed='1') as hosnum " )
+			.append(", u.region as rsmRegion , u.regionCenter as region " )
+		    .append("    from (")
+            .append("       select h.rsmRegion ")
+            .append("       , h.region ")
+            .append("       , sum(pedEmernum) as pedEmernum ")
+            .append("       , sum(pedroomnum) as pedroomnum ")
+            .append("       , sum(resnum) as resnum ")
+            .append("       , sum(other) as othernum ")
+            .append("       , sum(pedEmernum)+sum(pedroomnum)+sum(resnum)+sum(other) as totalnum ")
+            .append("       , count(1) as innum ")
+            .append("       from tbl_month_data md, tbl_hospital h ")
+            .append("		where md.countMonth = DATE_FORMAT(DATE_SUB(now(), INTERVAL 2 MONTH),'%Y-%m') " )
+            .append("       and md.hospitalCode = h.code and h.isMonthlyAssessed='1' ")
+            .append("       and h.rsmRegion=? ")
+            .append("       group by h.rsmRegion ")
+            .append("   ) last2Month ")
+            .append("   right join tbl_userinfo u on u.region = last2Month.rsmRegion ")
+            .append("   where u.region = ? ")
+            .append("   and u.level='RSM' ");
+    
+    public static final StringBuffer SQL_MONTHLY_RATIO_LASTMONTH_SELECT_RSM
+        = new StringBuffer( "select lastMonth.pedEmernum ,lastMonth.pedroomnum ,lastMonth.resnum ,lastMonth.othernum ,lastMonth.totalnum ")
+        	.append(", lastMonth.innum as innum ")
+        	.append(", (select count(1) from tbl_hospital h where h.rsmRegion = u.region and h.isMonthlyAssessed='1') as hosnum " )
+        	.append(", u.region as rsmRegion , u.regionCenter as region " )
+            .append("    from (")
+            .append("       select h.rsmRegion ")
+            .append("       , h.region ")
+            .append("       , sum(pedEmernum) as pedEmernum ")
+            .append("       , sum(pedroomnum) as pedroomnum ")
+            .append("       , sum(resnum) as resnum ")
+            .append("       , sum(other) as othernum ")
+            .append("       , sum(pedEmernum)+sum(pedroomnum)+sum(resnum)+sum(other) as totalnum ")
+            .append("       , count(1) as innum ")
+            .append("       from tbl_month_data md, tbl_hospital h ")
+            .append("		where md.countMonth = DATE_FORMAT(DATE_SUB(now(), INTERVAL 1 MONTH),'%Y-%m') " )
+            .append("       and md.hospitalCode = h.code and h.isMonthlyAssessed='1' ")
+            .append("       and h.region=? ")
+            .append("       group by h.rsmRegion ")
+            .append("   ) lastMonth ")
+            .append("   right join tbl_userinfo u on u.region = lastMonth.rsmRegion ")
+            .append("   where u.regionCenter = ? ")
+            .append("   and u.level='RSM' ");
+    
+    public static final StringBuffer SQL_MONTHLY_RATIO_LAST2MONTH_SELECT_RSM
+        = new StringBuffer( "select last2Month.pedEmernum ,last2Month.pedroomnum ,last2Month.resnum ,last2Month.othernum ,last2Month.totalnum " )
+		    .append(", last2Month.innum as innum ")
+			.append(", (select count(1) from tbl_hospital h where h.rsmRegion = u.region and h.isMonthlyAssessed='1') as hosnum " )
+			.append(", u.region as rsmRegion , u.regionCenter as region " )
+    		.append("    from (")
+            .append("       select h.rsmRegion ")
+            .append("       , h.region ")
+            .append("       , sum(pedEmernum) as pedEmernum ")
+            .append("       , sum(pedroomnum) as pedroomnum ")
+            .append("       , sum(resnum) as resnum ")
+            .append("       , sum(other) as othernum ")
+            .append("       , sum(pedEmernum)+sum(pedroomnum)+sum(resnum)+sum(other) as totalnum ")
+            .append("       , count(1) as innum ")
+            .append("       from tbl_month_data md, tbl_hospital h ")
+            .append("		where md.countMonth = DATE_FORMAT(DATE_SUB(now(), INTERVAL 2 MONTH),'%Y-%m') " )
+            .append("       and md.hospitalCode = h.code and h.isMonthlyAssessed='1' ")
+            .append("       and h.region=? ")
+            .append("       group by h.rsmRegion ")
+            .append("   ) last2Month ")
+            .append("   right join tbl_userinfo u on u.region = last2Month.rsmRegion ")
+            .append("   where u.regionCenter = ? ")
+            .append("   and u.level='RSM' ");
+    
+    public static final StringBuffer SQL_MONTHLY_RATIO_LASTMONTH_SELECT_BELONG_RSD
+            = new StringBuffer( "select lastMonth.pedEmernum ,lastMonth.pedroomnum ,lastMonth.resnum ,lastMonth.othernum ,lastMonth.totalnum " )
+				    .append(", lastMonth.innum as innum ")
+					.append(", (select count(1) from tbl_hospital h where h.region = u.regionCenter and h.isMonthlyAssessed='1') as hosnum " )
+					.append(", u.region as rsmRegion , u.regionCenter as region " )
+				    .append("    from (")
+                    .append("       select h.rsmRegion ")
+                    .append("       , h.region ")
+                    .append("       , sum(pedEmernum) as pedEmernum ")
+                    .append("       , sum(pedroomnum) as pedroomnum ")
+                    .append("       , sum(resnum) as resnum ")
+                    .append("       , sum(other) as othernum ")
+                    .append("       , sum(pedEmernum)+sum(pedroomnum)+sum(resnum)+sum(other) as totalnum ")
+                    .append("       , count(1) as innum ")
+                    .append("       from tbl_month_data md, tbl_hospital h ")
+                    .append("		where md.countMonth = DATE_FORMAT(DATE_SUB(now(), INTERVAL 1 MONTH),'%Y-%m') " )
+				    .append("       and md.hospitalCode = h.code and h.isMonthlyAssessed='1' ")
+                    .append("       and h.region=? ")
+                    .append("       group by h.region ")
+                    .append("   ) lastMonth ")
+                    .append("   right join tbl_userinfo u on u.regionCenter = lastMonth.region ")
+                    .append("   where u.regionCenter =? ")
+                    .append("   and u.level='RSD' ");
+    
+    public static final StringBuffer SQL_MONTHLY_RATIO_LAST2MONTH_SELECT_BELONG_RSD
+    = new StringBuffer( "select last2Month.pedEmernum ,last2Month.pedroomnum ,last2Month.resnum ,last2Month.othernum ,last2Month.totalnum " )
+		    .append(", last2Month.innum as innum ")
+			.append(", (select count(1) from tbl_hospital h where h.region = u.regionCenter and h.isMonthlyAssessed='1') as hosnum " )
+			.append(", u.region as rsmRegion , u.regionCenter as region " )
+		    .append("    from (")
+            .append("       select h.rsmRegion ")
+            .append("       , h.region ")
+            .append("       , sum(pedEmernum) as pedEmernum ")
+            .append("       , sum(pedroomnum) as pedroomnum ")
+            .append("       , sum(resnum) as resnum ")
+            .append("       , sum(other) as othernum ")
+            .append("       , sum(pedEmernum)+sum(pedroomnum)+sum(resnum)+sum(other) as totalnum ")
+            .append("       , count(1) as innum ")
+            .append("       from tbl_month_data md, tbl_hospital h ")
+            .append("		where md.countMonth = DATE_FORMAT(DATE_SUB(now(), INTERVAL 2 MONTH),'%Y-%m') " )
+			.append("       and md.hospitalCode = h.code and h.isMonthlyAssessed='1' ")
+            .append("       and h.region=? ")
+            .append("       group by h.region ")
+            .append("   ) last2Month ")
+            .append("   right join tbl_userinfo u on u.regionCenter = last2Month.region ")
+            .append("   where u.regionCenter = ? ")
+            .append("   and u.level='RSD' ");
+    
+    public static final StringBuffer SQL_MONTHLY_RATIO_LASTMONTH_SELECT_RSD
+    	= new StringBuffer( "select lastMonth.pedEmernum ,lastMonth.pedroomnum ,lastMonth.resnum ,lastMonth.othernum ,lastMonth.totalnum " )
+		    .append(", lastMonth.innum as innum ")
+			.append(", (select count(1) from tbl_hospital h where h.region = u.regionCenter and h.isMonthlyAssessed='1') as hosnum " )
+			.append(", u.region as rsmRegion , u.regionCenter as region " )
+		    .append("    from (")
+		    .append("       select h.rsmRegion ")
+		    .append("       , h.region ")
+		    .append("       , sum(pedEmernum) as pedEmernum ")
+		    .append("       , sum(pedroomnum) as pedroomnum ")
+		    .append("       , sum(resnum) as resnum ")
+		    .append("       , sum(other) as othernum ")
+		    .append("       , sum(pedEmernum)+sum(pedroomnum)+sum(resnum)+sum(other) as totalnum ")
+		    .append("       , count(1) as innum ")
+		    .append("       from tbl_month_data md, tbl_hospital h ")
+		    .append("		where md.countMonth = DATE_FORMAT(DATE_SUB(now(), INTERVAL 1 MONTH),'%Y-%m') " )
+			.append("       and md.hospitalCode = h.code and h.isMonthlyAssessed='1' ")
+		    .append("       group by h.region ")
+		    .append("   ) lastMonth ")
+		    .append("   right join tbl_userinfo u on u.regionCenter = lastMonth.region ")
+		    .append("   where u.level='RSD' ");
+    
+    public static final StringBuffer SQL_MONTHLY_RATIO_LAST2MONTH_SELECT_RSD
+    	= new StringBuffer( "select last2Month.pedEmernum ,last2Month.pedroomnum ,last2Month.resnum ,last2Month.othernum ,last2Month.totalnum " )
+		    .append(", last2Month.innum as innum ")
+			.append(", (select count(1) from tbl_hospital h where h.region = u.regionCenter and h.isMonthlyAssessed='1') as hosnum " )
+			.append(", u.region as rsmRegion , u.regionCenter as region " )
+		    .append("    from (")
+		    .append("       select h.rsmRegion ")
+		    .append("       , h.region ")
+		    .append("       , sum(pedEmernum) as pedEmernum ")
+		    .append("       , sum(pedroomnum) as pedroomnum ")
+		    .append("       , sum(resnum) as resnum ")
+		    .append("       , sum(other) as othernum ")
+		    .append("       , sum(pedEmernum)+sum(pedroomnum)+sum(resnum)+sum(other) as totalnum ")
+		    .append("       , count(1) as innum ")
+		    .append("       from tbl_month_data md, tbl_hospital h ")
+		    .append("		where md.countMonth = DATE_FORMAT(DATE_SUB(now(), INTERVAL 2 MONTH),'%Y-%m') " )
+			.append("       and md.hospitalCode = h.code and h.isMonthlyAssessed='1' ")
+		    .append("       group by h.region ")
+		    .append("   ) last2Month ")
+		    .append("   right join tbl_userinfo u on u.regionCenter = last2Month.region ")
+		    .append("   where u.level='RSD' ");
+    
+    public static final StringBuffer SQL_MONTHLY_RATIO_LASTMONTH_SELECT_BELONG_COUNTORY
+    	= new StringBuffer(" select IFNULL(sum(pedEmernum),0) as pedEmernum ")
+		    .append("       , IFNULL(sum(pedroomnum),0) as pedroomnum ")
+		    .append("       , IFNULL(sum(resnum),0) as resnum ")
+		    .append("       , IFNULL(sum(other),0) as othernum ")
+		    .append("       , IFNULL(sum(pedEmernum)+sum(pedroomnum)+sum(resnum)+sum(other),0) as totalnum ")
+		    .append("       , count(1) as innum ")
+			.append("       , (select count(1) from tbl_hospital h where h.isMonthlyAssessed='1') as hosnum ")
+		    .append("       from tbl_month_data md, tbl_hospital h ")
+		    .append("		where md.countMonth = DATE_FORMAT(DATE_SUB(now(), INTERVAL 1 MONTH),'%Y-%m') " )
+			.append("       and md.hospitalCode = h.code and h.isMonthlyAssessed='1' ");
+    
+    public static final StringBuffer SQL_MONTHLY_RATIO_LAST2MONTH_SELECT_BELONG_COUNTORY
+    	= new StringBuffer(" select IFNULL(sum(pedEmernum),0) as pedEmernum ")
+		    .append("       , IFNULL(sum(pedroomnum),0) as pedroomnum ")
+		    .append("       , IFNULL(sum(resnum),0) as resnum ")
+		    .append("       , IFNULL(sum(other),0) as othernum ")
+		    .append("       , IFNULL(sum(pedEmernum)+sum(pedroomnum)+sum(resnum)+sum(other),0) as totalnum ")
+		    .append("       , count(1) as innum ")
+			.append("       , (select count(1) from tbl_hospital h where h.isMonthlyAssessed='1') as hosnum ")
+		    .append("       from tbl_month_data md, tbl_hospital h ")
+		    .append("		where md.countMonth = DATE_FORMAT(DATE_SUB(now(), INTERVAL 2 MONTH),'%Y-%m') " )
+			.append("       and md.hospitalCode = h.code and h.isMonthlyAssessed='1' ");
+    
+    public static final StringBuffer SQL_MONTHLY_12_SELECT
+    	= new StringBuffer(" , sum(md.pedEmernum) as pedEmernum ")
+		    .append(" , sum(md.pedroomnum) as pedroomnum")
+		    .append(" , sum(md.resnum) as resnum")
+		    .append(" , sum(md.other) as other")
+		    .append(" , sum( md.pedEmernum + md.pedroomnum + md.resnum + md.other ) as totalnum ");
+    
+    public static final StringBuffer SQL_MONTHLY_12_GROUP
+    	= new StringBuffer(" group by dataMonth ")
+    		.append(" order by dataMonth desc")
+    		.append(" limit 0,12 ");
+    
+    public static final StringBuffer SQL_WEEKLY_HOS_SALES_DATA 
+        = new StringBuffer("select lastweekdata.hospitalCode, lastweekdata.hospitalName ")
+            .append(" , lastweekdata.pnum  ")
+            .append(" , ROUND((lastweekdata.pnum - last2weekdata.pnum) / last2weekdata.pnum,2) as pnumRatio ")
+            .append(" , lastweekdata.lsnum ")
+            .append(" , ROUND((lastweekdata.lsnum - last2weekdata.lsnum) / last2weekdata.lsnum,2) as lsnumRatio ")
+            .append(" , lastweekdata.whRate ")
+            .append(" , ROUND((lastweekdata.whRate - last2weekdata.whRate),2) as whRateRatio ")
+            .append(" , lastweekdata.averageDose ")
+            .append(" , ROUND((lastweekdata.averageDose - last2weekdata.averageDose ) / last2weekdata.averageDose,2) as averageDoseRatio ");
+    
+    public static final StringBuffer SQL_WEEKLY_HOS_SALES_DATA_LASTWEEK_SELECT_PED 
+        = new StringBuffer("    IFNULL(lastweek.pnum,0) as pnum, ")
+            .append("   IFNULL(lastweek.lsnum,0) as lsnum, ")
+            .append("   ROUND(IFNULL(lastweek.lsnum,0) / IFNULL(lastweek.pnum,0),2) as whRate, ")
+            .append("   IFNULL(lastweek.averageDose,0) as averageDose ")
+            .append("   from ( select * from tbl_pediatrics_data_weekly order by duration desc limit 0,920 ) lastweek ");
+
+    public static final StringBuffer SQL_WEEKLY_HOS_SALES_DATA_LAST2WEEK_SELECT_PED 
+        = new StringBuffer("    IFNULL(last2week.pnum,0) as pnum, ")
+            .append("   IFNULL(last2week.lsnum,0) as lsnum, ")
+            .append("   ROUND(IFNULL(last2week.lsnum,0) / IFNULL(last2week.pnum,0),2) as whRate, ")
+            .append("   IFNULL(last2week.averageDose,0) as averageDose ")
+            .append("   from ( select * from tbl_pediatrics_data_weekly order by duration desc limit 920,920 ) last2week ");
+    
+    public static final StringBuffer SQL_WEEKLY_HOS_SALES_DATA_LASTWEEK_SELECT_RES 
+        = new StringBuffer("    IFNULL(lastweek.pnum,0) as pnum, ")
+            .append("   IFNULL(lastweek.lsnum,0) as lsnum, ")
+            .append("   ROUND(IFNULL(lastweek.lsnum,0) / IFNULL(lastweek.pnum,0),2) as whRate, ")
+            .append("   IFNULL(lastweek.averageDose,0) as averageDose ")
+            .append("   from ( select * from tbl_respirology_data_weekly order by duration desc limit 0,398 ) lastweek ");
+    
+    public static final StringBuffer SQL_WEEKLY_HOS_SALES_DATA_LAST2WEEK_SELECT_RES 
+        = new StringBuffer("    IFNULL(last2week.pnum,0) as pnum, ")
+            .append("   IFNULL(last2week.lsnum,0) as lsnum, ")
+            .append("   ROUND(IFNULL(last2week.lsnum,0) / IFNULL(last2week.pnum,0),2) as whRate, ")
+            .append("   IFNULL(last2week.averageDose,0) as averageDose ")
+            .append("   from ( select * from tbl_respirology_data_weekly order by duration desc limit 398,398 ) last2week ");
+    
+    public static final StringBuffer SQL_DAILYREPORT_SELECTION_PED
+        = new StringBuffer("")
+            .append(" count(1) as inNum, ")
+            .append(" IFNULL(sum(pd.pnum),0) as pnum, ")
+            .append(" IFNULL(sum(pd.whnum),0) as whnum, ")
+            .append(" IFNULL(sum(pd.lsnum),0) as lsnum, ")
+            .append(" IFNULL( sum( ( ( 0.5*IFNULL(pd.hqd,0) + 0.5*2*IFNULL(pd.hbid,0) + 1*1*IFNULL(pd.oqd,0) + 1*2*IFNULL(pd.obid,0) + 2*1*IFNULL(pd.tqd,0) + 2*2*IFNULL(pd.tbid,0) ) / 100 ) * IFNULL(pd.lsnum,0) ) / IFNULL(sum(pd.lsnum),0),0 ) as averageDose,")
+            .append(" IFNULL( sum( IFNULL(pd.hqd,0)/100*IFNULL(pd.lsnum,0) ) / sum( IFNULL(pd.lsnum,0) ),0 ) as hmgRate,")
+            .append(" IFNULL( sum( IFNULL(pd.hbid,0)/100*IFNULL(pd.lsnum,0) + IFNULL(pd.oqd,0)/100*IFNULL(pd.lsnum,0) ) / sum( IFNULL(pd.lsnum,0) ),0 ) as omgRate,")
+            .append(" IFNULL( sum( IFNULL(pd.obid,0)/100*IFNULL(pd.lsnum,0) + IFNULL(pd.tqd,0)/100*IFNULL(pd.lsnum,0) ) / sum( IFNULL(pd.lsnum,0) ),0 ) as tmgRate,")
+            .append(" IFNULL( sum( IFNULL(pd.tbid,0)/100*IFNULL(pd.lsnum,0) ) / sum( IFNULL(pd.lsnum,0) ),0 ) as fmgRate ");
+    
+    public static final StringBuffer SQL_DAILYREPORT_SELECTION_ALIAS_PED
+        = new StringBuffer("")
+            .append(" IFNULL(dailyData.inNum,0) as inNum,  ")
+            .append(" IFNULL(dailyData.pnum,0) as pnum,  ")
+            .append(" IFNULL(dailyData.whnum,0) as whnum,  ")
+            .append(" IFNULL(dailyData.lsnum,0) as lsnum,  ")
+            .append(" IFNULL(dailyData.averageDose,0) as averageDose,  ")
+            .append(" IFNULL(dailyData.hmgRate,0) as hmgRate,  ")
+            .append(" IFNULL(dailyData.omgRate,0) as omgRate,  ")
+            .append(" IFNULL(dailyData.tmgRate,0) as tmgRate,  ")
+            .append(" IFNULL(dailyData.fmgRate,0) as fmgRate ");
+    
+    public static final StringBuffer SQL_DAILYREPORT_SELECTION_RES
+            = new StringBuffer("")
+            .append(" count(1) as inNum, ")
+            .append(" IFNULL(sum(rd.pnum),0) as pnum, ")
+            .append(" IFNULL(sum(rd.whnum),0) as whnum, ")
+            .append(" IFNULL(sum(rd.lsnum),0) as lsnum, ")
+            .append(" IFNULL( sum( ( ( 1*IFNULL(rd.oqd,0) + 2*1*IFNULL(rd.tqd,0) + 1*3*IFNULL(rd.otid,0) + 2*2*IFNULL(rd.tbid,0) + 2*3*IFNULL(rd.ttid,0) + 3*2*IFNULL(rd.thbid,0) + 4*2*IFNULL(rd.fbid,0) ) / 100 ) * IFNULL(rd.lsnum,0) ) / IFNULL(sum(rd.lsnum),0),0 ) as averageDose,")
+            .append(" IFNULL( sum( IFNULL(rd.oqd,0)/100*IFNULL(rd.lsnum,0) ) / sum( IFNULL(rd.lsnum,0) ),0 ) as omgRate,")
+            .append(" IFNULL( sum( IFNULL(rd.tqd,0)/100*IFNULL(rd.lsnum,0) ) / sum( IFNULL(rd.lsnum,0) ),0 ) as tmgRate,")
+            .append(" IFNULL( sum( IFNULL(rd.otid,0)/100*IFNULL(rd.lsnum,0) ) / sum( IFNULL(rd.lsnum,0) ),0 ) as thmgRate,")
+            .append(" IFNULL( sum( IFNULL(rd.tbid,0)/100*IFNULL(rd.lsnum,0) ) / sum( IFNULL(rd.lsnum,0) ),0 ) as fmgRate,")
+            .append(" IFNULL( sum( IFNULL(rd.ttid,0)/100*IFNULL(rd.lsnum,0) + IFNULL(rd.thbid,0)/100*IFNULL(rd.lsnum,0) ) / sum( IFNULL(rd.lsnum,0) ),0 ) as smgRate,")
+            .append(" IFNULL( sum( IFNULL(rd.fbid,0)/100*IFNULL(rd.lsnum,0) ) / sum( IFNULL(rd.lsnum,0) ),0 ) as emgRate ");
+    
+    public static final StringBuffer SQL_DAILYREPORT_SELECTION_ALIAS_RES
+            = new StringBuffer("")
+            .append(" IFNULL(dailyData.inNum,0) as inNum,  ")
+            .append(" IFNULL(dailyData.pnum,0) as pnum,  ")
+            .append(" IFNULL(dailyData.whnum,0) as whnum,  ")
+            .append(" IFNULL(dailyData.lsnum,0) as lsnum,  ")
+            .append(" IFNULL(dailyData.averageDose,0) as averageDose,  ")
+            .append(" IFNULL(dailyData.omgRate,0) as omgRate,  ")
+            .append(" IFNULL(dailyData.tmgRate,0) as tmgRate,  ")
+            .append(" IFNULL(dailyData.thmgRate,0) as thmgRate,  ")
+            .append(" IFNULL(dailyData.fmgRate,0) as fmgRate, ")
+            .append(" IFNULL(dailyData.smgRate,0) as smgRate,  ")
+            .append(" IFNULL(dailyData.emgRate,0) as emgRate ");
+    
+    public static final StringBuffer SQL_MONTHLY_INRATE_SELECTION
+		    = new StringBuffer(" select duration, h.region, h.rsmRegion, IFNULL(sum(least(innum,3)),0) / (count(1)*3) as inRate ");
+    public static final StringBuffer SQL_MONTHLY_INRATE_RSM_CONDITION
+		    = new StringBuffer(" where duration between ? and ? and hospitalCode = h.code ")
+		    .append(" group by h.region, h.rsmRegion, duration ");
+    public static final StringBuffer SQL_MONTHLY_INRATE_RSD_CONDITION
+		    = new StringBuffer(" where duration between ? and ? and hospitalCode = h.code ")
+		    .append(" group by h.region, duration ");
+}

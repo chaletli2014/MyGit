@@ -1,0 +1,23 @@
+var currentDate = new Date();
+var month = currentDate.getMonth();
+
+if( currentDate.getDay() <= 3 ){
+	currentDate.setDate(currentDate.getDate() - ( currentDate.getDay() + 4 ) );
+}else if( currentDate.getDay() > 3 ){
+	currentDate.setDate(currentDate.getDate() - ( currentDate.getDay() - 3 ) );
+}
+new Date(currentDate.getFullYear(),month,currentDate.getDate());
+---------------------------------------------------------------------------------------------
+
+--------------------------日报------------------------------------
+var currentDate = new Date();
+var month = currentDate.getMonth();
+
+if( currentDate.getDay() == 0 ){
+    currentDate.setDate(currentDate.getDate() - 2 );
+}else if( currentDate.getDay() == 1 ){
+    currentDate.setDate(currentDate.getDate() - 3 );
+}else{
+	currentDate.setDate(currentDate.getDate() - 1 );
+}
+new Date(currentDate.getFullYear(),month,currentDate.getDate());

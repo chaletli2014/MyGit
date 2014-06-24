@@ -1,0 +1,218 @@
+--2014/06/11
+1.
+
+--2014/06/10
+1. 销售月报模板更新
+2. 每月销售袋数的统计算法更新。
+
+--2014/05/28
+1. 销售每月袋数查询的日期从“当月的21日至月底”改为“次月的1日至10日”。对应到5月数据的录入时间为5.21至6.10，下个月开始调整为1日至10日，不再设置月底的时间
+
+--2014/05/22
+1. 修复提交月报数字时，新建数据没有set createdate的bug.
+
+--2014/05/20
+1. 前后台添加每月袋数采集统计表
+2. 前台页面添加导出RSM和RSD的每月上报率统计
+--2014/05/18
+1. 添加后台导出RSM和RSD的每月上报率统计
+
+--2014/05/14
+1. 添加月报数据模板
+
+--2014/5/11
+1. 更新月报上传补录数据功能
+2. 修正页面用户信息获取失败和权限的提示问题
+3. 刷新pdf周报使用refresh版本
+
+--2014/5/4
+1. 修正市场部刷新周报的模板
+
+--2014/4/25
+1. 修正数据查询中袋数采集查询的上报医院数环比数据不正确的bug。在mapper组装数据时，不应只判断大于等于0的情况。
+    MonthlyRatioDataRowMapper
+2. 市场部PDF中，RSD的分表标题需要修改，要改成“什么区”+“这个区多少家KPI医院”+“呼吸科重点医院每周报告”，一共应该是6*2=12个报告，具体参考附件
+3. 销售袋数需要加入上报率的计算，具体是：各层级的“上报医院数”/“负责医院数”，需要在手机版，网页版和数据查询的环比中都需要加入这个“袋数上报率”字段，位置调整为“袋鼠上报率”、“上报医院数”、“负责医院数”这样的顺序
+
+--2014/4/24
+1. 修复周报下载的时候提示邮件格式不对的bug。只有在邮件推送的时候验证邮箱格式。
+    ReportController
+2. 修复周报模板中，四个全国图的描述
+3. 添加对日报生成的控制开关
+    ReportThread
+
+--2014/4/22
+1. 后台导出所有RSM日报数据的模板中隐藏6个大区的标题行
+
+--2014/4/21
+1. 添加KPI资料下载功能
+    IndexController.java, uploadData.jsp, lskpi.js
+2. web版禁止右键功能
+    header.jsp
+
+--2014/4/16
+1. 在当前用户查看自己的日报时，过滤掉没有KPI医院的同级
+    PediatricsServiceImpl：getDailyPEDData4Mobile
+    RespirologyServiceImpl：getDailyRESData4Mobile
+2. 查看日报性能优化
+    PediatricsDAOImpl：
+        getDailyPEDData4RSMByRegion
+        getDailyPEDData4CountoryMobile
+        getAllRSMDataByTelephone
+        getDailyPEDData4DSMMobile
+        getDailyPEDData4RSMMobile
+        getDailyPEDData4RSDMobile
+    LsAttributes
+    
+3. 性能优化-DSM查看日报时不查询getTopAndBottomRSMData
+    ReportController.java
+
+--2014/4/15
+1. 修正数据下载的All DSM、 RSM下载时excel提示格式的问题。（原来放弃xlsx，是由于中文名导致的）修改文件后缀为xlsx
+    ReportController.java, BaseController.java,BirtReportUtils.java
+    
+--2014/4/14
+1. fix 邮件发送周报时，BM批量附件没有赋值的bug
+2. 医院排序数据下载的连接添加下划线
+
+--2014/4/9
+1. 增加医院销量查询功能
+
+--2014/4/8
+1. 修正医院数据报告模板，调整fixed 为 auto
+2. 修复下载原始数据的日期格式，添加HH:mm:ss
+
+--2014/4/4
+1. 修复因为downlaod中文名的pdf而修改tomcat server.xml配置encoding的bug，删掉在controller中的encode操作
+    IndexController.java
+    DataQueryController.java
+
+--2014/4/1
+1. 修复SQL_MONTHLY_RATIO_LASTMONTH_SELECT_DSM DSM那么为vacant，取值多余1的bug
+    LsAttributes.java
+
+--2014/3/31
+1. 修复PDF周报中上报率统计错误的bug。
+    pd.createdate between DATE_SUB(?, Interval 6 day) and ?
+    pd.createdate between DATE_SUB(?, Interval 6 day) and DATE_ADD(?, Interval 1 day)
+
+    rd.createdate between DATE_SUB(?, Interval 6 day) and ?
+    rd.createdate between DATE_SUB(?, Interval 6 day) and DATE_ADD(?, Interval 1 day)
+2. 修复getPrimarySalesOfHospital是取vacant造成的bug。
+    HospitalDAOImpl
+3. 修复录入界面中，当点击一个输入框，然后拖动页面向下滚动，footer栏上移的问题
+    page_footer.jsp 删除属性data-position="fixed"
+4. 修复下载所有RSM或DSM数据时，下载excel为空的bug
+	ReportController 加时间戳，每次都生成新文件
+5. 修复IE下，page_header背景色白色的问题
+	ls-theme.min.css  .ui-bar-a { background: #b0d69c; }
+	
+--2014/3/28
+1.修正从后台download RSM和DSM的pdf因为命名错误导致的问题
+    ReportController.java
+
+--2014/3/25
+1.确认仅将儿科的"人数"改为“人次”
+2.需要将录入板块中的数据校验去掉，允许后面的人次超过前面的总人数
+
+--2014/3/24
+1. 修正自动更新周中间表数据时，日期取错，因为是从0点开始
+    DAOImpl
+
+--2014/3/6
+1.上周数据环比中的“最常用剂量占比”此列删除，把“人数”扩展为呼吸科：“住院人数”和“雾化人数”，儿科：“门诊人数”和“雾化人数”
+2.查询中的环比删掉，正负数字移到数字下面
+3.数据查询中的上周数据环比，市场部层级（RSD）需要加入全国的统计和对比
+4.市场部的周报PDF，现在是全国表格+各RSD表格+全国图的形式，现在需要改为：全国表格+全国图+（RSD表格+RSD图）*6的形式
+5. 市场部在数据查询中查询销售袋数时，添加二级菜单功能，使其可以选择查看RSD还是RSM
+
+--2014/3/5
+1. 袋数统计中的外科及其他科室名称改为其他科室，包括录入，月报，查询
+2. 袋数饼图中只留百分比
+3. 提交数据：销售袋数提交日期为25日到月底
+4. 数据查询的上报进度中，RSM可以查看自己以及下属DSM的上报进度，以及该RSM下所有的KPI医院
+5. 销售袋数查询/上周数据环比：所有表格中的环比数据，标示从↑/↓改为+/-
+
+--2014/3/4
+1. 修正RSD的袋数月报环比错误的bug，last2Month取月份错误
+2. 修正周报的销售袋数报告：分为两张表
+3. 医院数据查询 	折线图的点改小
+4. 当周上报进度：每个科室第一张汇总表添加字样：每家考评医院每周上报至少3次
+5. 数据查询袋数报告：分为两张表
+
+--2014/3/1
+1.	提交数据：
+a)	呼吸科/儿科，将需要填写的KPI医院也加上*标志
+b)	开始的左上角添加字样：医院名称前的 * 表示该医院在考评范围内
+
+
+--2014/2/27
+1. 修正12个月的月报医院上报数统计bug
+--2014/2/26
+1. 修正上报率的bug，因为日期取0点，所以应该加7天
+
+--2014/2/22
+1. 袋数采集 (原定截止日期：2/23)
+    1.报告中的统计医院需要根据新的字段过滤
+    2.销售袋数表格中，需要添加，当月的累积上报医院数，
+    	显示在周报中的“销售袋数月报”，
+    	销售袋数查询中的“销售袋数历史”
+    	和数据查询中的“销售袋数查询”功能中，添加在每个单位的第二行
+
+--2014/2/20
+1. 袋数采集： 医院下拉列表，如果医院是统计医院则名字前面加星号
+
+--2014/2/16
+1. 市场部的手机端日报查看内容   添加所有RSD下RSM的表格
+2. 呼吸科，日报关键词中，门诊人数应该改为“住院人数”，还需要添加AECOPD的人数总和，字段名字“AE人数”（ 需要改日报邮件和日报导出功能 ）
+3. 周报pdf中市场部需要加入全国RSM的情况，分6个大区（原定截止日期：2/18）
+标题区域，姓名这栏不要了，职位：市场部，日期还是要的
+
+--2014/2/13
+1. 我发现在查询功能中的“上报医院数”都是显示100？
+2. 日报导出中，儿科中RSM级别给的是中文名字，而不是给的RSM代号。建议改成RSM代号。
+3. 日报导出中，表格的部分格式需要美化。
+
+--2014/2/12
+1. 修正Too many connections的问题，增加mysql的最大连接数，关闭开启的connection
+    --SELECT @@MAX_CONNECTIONS AS 'Max Connections';
+    --set GLOBAL max_connections=1000;
+    --HospitalDAOImpl
+2. 修正数据查询中，12个月袋数的数据错误问题
+    --HospitalDAOImpl( DATE_FORMAT(md.createdate,'%Y-%m') as dataMonth )
+3. 手机端查看日报的标题添加日期
+
+--2014/2/11
+1. 周报DDI数据的排序bug
+2. 数据查询功能中，上周数据环比，中的下级查询功能的线状图需要美化
+3. 月报袋数，为每个月的月底最后一天
+4. 袋数查询功能中，表格里需要含有上报医院数这个统计
+
+--2014/2/8
+1. 修正袋数采集，呼吸科，儿科录入数据中数字校验的提示信息 （人数只能为整数或0）
+2. 修复日报excel的数据错误bug
+3. 添加BU Head级别手机查看日报的全国数据
+4. 修正每日报告的模板
+
+--2014/2/7
+1. 修正404页面错误提示信息
+
+--2014/1/26
+1. 每日RSD邮件发送给Mac，顾
+    -- ReportServlet,EmailUtils
+2. 修正FileInputStream close bug
+	-- ExcelUtils
+
+--2014/1/24
+
+1. 修正日报查询中，下级如果有vacant，统计不正确的问题
+    -- 在 DAO获取数据时，应该添加rsmRegion或者superior的过滤
+    -- RespirologyDAOImpl、PediatricsDAOImpl
+2. 修正采集时，重复提交的bug
+    -- 在controller中提交前，添加再查询，如果存在就更新
+    -- 在JSP里判断，如果点击提交，则无法再次点击
+    --IndexController、*form.jsp
+3. 修正title为Pulmicort KPI
+	-- header.jsp
+	-- header_web.jsp
+4. 增加袋数12个月的数据查询

@@ -1,0 +1,10 @@
+eclipse.preferences.version=1
+encoding//WebContent/WEB-INF/config/system.properties=UTF-8
+encoding//WebContent/WEB-INF/init.properties=UTF-8
+encoding//WebContent/jsp/header.jsp=UTF-8
+encoding//WebContent/jsp/login.jsp=UTF-8
+encoding//WebContent/jsp/web/editdoctor.jsp=UTF-8
+encoding//WebContent/jsp/weeklyHospitalReport_404.html=UTF-8
+encoding//WebContent/jsp/weeklyReport_404.html=UTF-8
+encoding//src/com/chalet/lskpi/controller/IndexController.java=UTF-8
+encoding/<project>=UTF-8

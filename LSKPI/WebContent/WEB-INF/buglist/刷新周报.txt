@@ -1,0 +1,22 @@
+备注：
+1. 在以下内容总以 #ProjectPath# 代替 D:\chalet\Tomcat6.0\webapps\ROOT
+2. MM-dd-YYYY 代表周报生成日期，如：02-06-2014
+3. 在以下内容中以#hour#代替当前时间，如现在是上午10点钟到11点钟之间，则#hour#应替换为10
+4. 在以下内容中以#day#代替今天是星期几，如现在是周五，则#day#应替换为5
+
+刷新周报步骤如下：
+1. 删除上周周报生成目录：
+    #ProjectPath#\hospitalHTMLReport\MM-dd-YYYY
+    #ProjectPath#\lowerWeeklyReport\MM-dd-YYYY
+    #ProjectPath#\weeklyHTMLReport\MM-dd-YYYY
+    #ProjectPath#\weeklyReport\MM-dd-YYYY
+2. 在数据库中执行以下脚本：(脚本中的日期需要根据实际上周截止日期替换)
+    delete from tbl_pediatrics_data_weekly where duration='2014.01.30-2014.02.05';
+    delete from tbl_respirology_data_weekly where duration='2014.01.30-2014.02.05';
+3. 更改配置文件
+             配置文件位于#ProjectPath#\WEB-INF\config\system.properties
+            修改内容  
+            report_generate_time:0 -->   report_generate_time:#hour#
+            weekly_report_day:4    -->   weekly_report_day:#day#
+            
+4. 以上修正完成后，重启tomcat服务器即可完成周报的刷新。

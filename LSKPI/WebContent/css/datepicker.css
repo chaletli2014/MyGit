@@ -1,0 +1,41 @@
+	.jqmWindow {
+	    display: block;
+	    background-color: #EEE;
+	    color: #333;
+	    border: 1px solid black;
+	}
+
+	.jqmOverlay { background-color: #000; }
+
+ 	.datepickertable
+    {
+        font-size:30px;
+       /**/ margin:0px;
+        background-color:#000;
+        color:#fff;
+    }
+   .datepickertable input {
+		font-size:28px;
+		text-align:center;
+		padding:0px;
+	 
+		/**/font-weight:bold;
+	}
+	.datepickertable .add {
+		text-align: center; width: 53px; padding: 5px 0px;margin:0px 2px;cursor:pointer;
+	}
+	.datepickertable .datetext {
+		width:50px;padding:0px;height:38px;margin:0px 2px;
+	}
+	.datepickertable .subtract{
+		text-align: center; width: 53px; padding: 5px 0px; cursor:pointer;margin:0px 2px;
+	}
+	.datepickertable .buttonstyle{
+		font-size:20px;text-align: center; padding: 10px 0px;margin:2px;cursor:pointer;
+	}
+	.datepickertable .datestr{
+		width:200px;float:left;font-size:16px;margin-top:3px;letter-spacing:1px;font-weight:lighter; font-family: Helvetica, Arial, sans-serif;
+	}
+	.datepickertable .datestrbg{
+		border-bottom:thin solid #fff;font-size:18px;margin-bottom:5px;padding:5px;height:50px;
+	}	

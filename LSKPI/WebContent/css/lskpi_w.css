@@ -1,0 +1,228 @@
+body{
+	font-size: 20px;
+}
+.ls_header{
+	height:100px;
+}
+.page_header{
+	text-align: center;
+	font-weight:normal;
+	background: #1C7DBE;/*#0D713D*/
+	color:#fff;
+	padding:4px;
+	height:50px;
+	line-height: 50px;
+	font-size: 26px;
+}
+.weeklyInput{
+	border:1px solid;
+}
+input[type="number"]{
+	width:120px;
+}
+
+div.ls-grid-img div{
+	margin:4px 0px;
+}
+
+div.ls-grid-img div{
+	text-align: center;
+	margin-bottom:30px;
+}
+div.index_footer div img{
+	vertical-align: middle;
+}
+.ui-input-text{
+	font-weight: bold;
+}
+div.formCollection label{
+	font-size: 16px;
+}
+div.department_img_div{
+	text-align: center;
+}
+.roundCorner{
+  margin:auto;
+  padding:10px;
+  background:#fff;
+  width:80%;
+  height: inherit;
+  border: 3px solid #808183; 
+  -moz-border-radius-topleft: 15px; 
+  -moz-border-radius-topright: 15px; 
+  -moz-border-radius-bottomright: 15px; 
+  -moz-border-radius-bottomleft: 15px; 
+  -webkit-border-top-left-radius: 15px; 
+  -webkit-border-top-right-radius: 15px; 
+  -webkit-border-bottom-left-radius: 15px; 
+  -webkit-border-bottom-right-radius: 15px; 
+}
+div.ui-input-text.ls-error, div.ui-select.ls-error{
+	border:2px solid red;
+}
+.ui-grid-a>:nth-child(n) {
+	width: 50%;
+}
+
+div.uploaddata_input_file div form div, div.uploaddata_input_file div form div{
+	width:300px;
+}
+div.uploaddata_input_file div form div.uploadDataResult_div{
+	margin-top:4px;
+	width:100%;
+}
+div.uploaddata_input_file div form div.uploadDataResult_div div{
+	width:100%;
+}
+div.downloaddata_input_file{
+	width:100%;
+	border:1px solid #1C7DBE;
+}
+div.uploaddata_input_file{
+	float:right;
+	width:49%;
+	border:1px solid #1C7DBE;
+}
+div.download_title, div.upload_title{
+	height: 30px;
+	line-height:30px;
+	background: #1C7DBE;
+	font-weight: bold;
+	text-align: center;
+	color:white;
+	padding:6px 0px;
+}
+div.logo_header{
+	height: 40px;
+	background: #AED5A6;
+}
+div.element_block{
+	margin:10px;
+	padding:10px;
+	border:2px solid #1C7DBE;
+	background: #CFE8D6;
+}
+div.element_title{
+	border-bottom:1px solid #1C7DBE;
+	padding-bottom:6px;
+	margin-bottom:6px;
+}
+#dailyDataFile{
+	margin-top: 10px;
+}
+span.upload_failure_title{
+	font-weight: bold;
+	color:red;
+}
+span.upload_success_title{
+	font-weight: bold;
+	color:green;
+}
+table.mobileReport_table{
+	/*
+	margin:auto;
+	*/
+	text-align: center;
+	width:100%;
+	border-collapse:collapse;
+	margin:10px 0px;
+}
+table.mobileReport_table tr td{
+	font-size: 14px;
+}
+table tr.mobileReport_table_header td{
+	border-top: 2px solid #000000;
+	border-left: 1px solid #000000;
+	border-right: 1px solid #000000;
+	border-bottom: 1px solid #000000;
+}
+table tr.mobileReport_tr_even{
+	background: #b0d69c;
+}
+table tr.mobileReport_table_body td{
+	border: 1px solid #000000;
+	font-weight: bold;
+}
+.dailyReport_table_Title{
+	text-align: center;
+	font-size: 18px;
+	margin-bottom:4px;
+}
+.weeklyReport_iframe{
+	width:900px;
+	height:500px;
+	display:block;
+	margin:0 auto;
+}
+.loading_div{
+	position:fixed;
+	z-index:1000;
+	top:0;
+	left:0;
+	height:100%;
+	width:100%;
+	background: rgba( 174, 213, 166, .8 ) url('../images/loading.gif') 50% 50% no-repeat;
+}
+.report_process_bg_description{
+	font-size: 12px;
+	font-style:italic;
+	margin:6px 0px;
+	font-weight: bold;
+}
+.report_process_bg_span{
+	background: #b0d69c;
+	border:1px solid #808183;
+	margin: 0px 4px;
+}
+.ratio_up_noimg{
+	color:red;
+	text-align: center;
+}
+.ratio_down_noimg{
+	color:green;
+	text-align: center;
+}
+.ratio_up{
+	/*
+	background: url('../images/red.png') no-repeat;
+	*/
+	color:red;
+	text-align: center;
+}
+.ratio_down{
+	/*
+	background: url('../images/green.png') no-repeat;
+	*/
+	color:green;
+	text-align: center;
+}
+.report_table_td_name{
+	text-align: left;
+}
+.narrow_font{
+	font-family:"华文琥珀";
+	font-weight: bold;
+}
+.ls_hos_query_search{
+	text-align: right;
+}
+.ls_hos_query .ui-grid-a .ui-block-a{
+	width: 70%;
+}
+.ls_hos_query .ui-grid-a .ui-block-b{
+	width: 30%;
+}
+iframe{
+	border:0px;
+}
+.hos_sales_query_selected_column{
+	background: #E7F3E7;
+}
+.download_href_div a{
+	font-size: 15px;
+}
+.error_message{
+    font-style: italic;
+    color:red;
+    padding-left:10px;
+}
