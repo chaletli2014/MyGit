@@ -105,10 +105,10 @@ function deletedoctor(dataId,doctorname){
 			     <p style="width:100%"></p>
 			     <div style="text-align: center;">
 			         <a href="javascript:void(0)" id="delete_dr_submit" style="display: block;">
-			         	<img alt="" src="<%=basePath%>images/button_submit_80_22.png" style="cursor: pointer;" />
+			         	<img alt="" src="<%=basePath%>images/button_submit_140.png" style="cursor: pointer;" />
 			         </a>
 			         <a href="javascript:void(0)" id="delete_dr_cancel" style="display: block;">
-			         	<img alt="" src="<%=basePath%>images/button_cancel_80_22.png" style="cursor: pointer;" />
+			         	<img alt="" src="<%=basePath%>images/button_cancel_140.png" style="cursor: pointer;" />
 			         </a>
 			     </div>
 			   </div>
