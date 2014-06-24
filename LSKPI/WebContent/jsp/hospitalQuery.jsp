@@ -32,7 +32,7 @@ function showHospitalRatio(hosCode,hospitalKeyword){
         	<jsp:param name="basePath" value="<%=basePath%>"/>
         </jsp:include>
         <div data-role="content"  data-theme="a">
-        	<div class="roundCorner" style="padding:10px;background:#fff;">
+        	<div class="roundCorner" >
             <form id="hospitalSearchForm" action="doHospitalSearch" method="POST" data-ajax="false">
                 <div class="ui-grid-a">
 	                <div class="ui-block-a">
@@ -49,7 +49,7 @@ function showHospitalRatio(hosCode,hospitalKeyword){
             </form>
             </div>
             <c:if test="${searchedHospitals!= null && fn:length(searchedHospitals) > 0}">
-	        	<div class="roundCorner" style="padding:10px;background:#fff;">
+	        	<div class="roundCorner" >
 	        		<c:forEach items="${searchedHospitals}" var="searchedHospital">
 		        		<div class="ui-grid-a">
 			                <div class="ui-block-a">
@@ -67,7 +67,7 @@ function showHospitalRatio(hosCode,hospitalKeyword){
 	        	</div>
             </c:if>
             <c:if test="${hospitalKeyword!=null&&(searchedHospitals==null||fn:length(searchedHospitals)==0)}">
-                <div class="roundCorner" style="padding:10px;background:#fff;">
+                <div class="roundCorner" >
                                                                     没有检索到符合关键字的医院信息
                 </div>
             </c:if>

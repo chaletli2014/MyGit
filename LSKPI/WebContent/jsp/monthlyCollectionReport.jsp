@@ -14,7 +14,7 @@
             <jsp:param name="basePath" value="<%=basePath%>"/>
         </jsp:include>
         <div data-role="content"  data-theme="a">
-            <div class="roundCorner" style="padding:4px;background:#fff;">
+            <div class="roundCorner" style="padding:4px;">
                 <div class="dailyReport_table_Title">${selfTitle}</div>
                 <table class="mobileReport_table">
                    <tr class="mobileReport_table_header">

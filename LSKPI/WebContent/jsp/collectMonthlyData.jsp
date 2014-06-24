@@ -33,7 +33,7 @@ function checkForm(){
         	<jsp:param name="basePath" value="<%=basePath%>"/>
         </jsp:include>
         <div data-role="content"  data-theme="a">
-        	<div class="roundCorner" style="padding:10px;background:#fff;">
+        	<div class="roundCorner">
             <form id="monthlyDataForm" action="doCollectMonth" method="POST" data-ajax="false">
             	<input type="hidden" name="dataId" value="${existedData.id}"/>
 	        	<input type="hidden" name="hospitalCode" value="${hospitalCode}"/>

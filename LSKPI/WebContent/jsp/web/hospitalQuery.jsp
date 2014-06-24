@@ -65,7 +65,7 @@ function showHospitalRatio(hosCode,hospitalKeyword){
 	        	</div>
             </c:if>
             <c:if test="${hospitalKeyword!=null&&(searchedHospitals==null||fn:length(searchedHospitals)==0)}">
-                <div class="roundCorner" style="padding:10px;background:#fff;">
+                <div class="roundCorner" >
                                                                     没有检索到符合关键字的医院信息
                 </div>
             </c:if>

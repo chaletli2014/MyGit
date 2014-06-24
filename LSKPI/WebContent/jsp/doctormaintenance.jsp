@@ -93,7 +93,7 @@ function deletedoctor(dataId,doctorname){
 	        	</div>
             </c:if>
             <c:if test="${existedDoctors==null||fn:length(existedDoctors)==0}">
-                <div class="roundCorner" style="padding:10px;background:#fff;">
+                <div class="roundCorner">
                                                                 该用户目前未关联任何医生
                 </div>
             </c:if>

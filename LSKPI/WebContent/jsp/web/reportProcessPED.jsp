@@ -13,7 +13,7 @@
         	<jsp:param name="basePath" value="<%=basePath%>"/>
         </jsp:include>
         <div data-role="content" data-theme="a">
-        	<div class="roundCorner" style="padding:4px;background:#fff;">
+        	<div class="roundCorner" style="padding:4px;">
         	<div class="report_process_bg_description">每家考评医院每周上报至少3次</div>
 	            <table class="mobileReport_table">
 	               <tr class="mobileReport_table_header">
@@ -46,7 +46,7 @@
 		            </table>
 	            </c:if>
             </div>
-        	<div class="roundCorner" style="padding:4px;background:#fff;">
+        	<div class="roundCorner" style="padding:4px;">
         	   <div class="report_process_bg_description">背景色为<span class="report_process_bg_span">&nbsp;&nbsp;&nbsp;&nbsp;</span>的医院表示在统计列表中</div>
 	            <table class="mobileReport_table">
 	               <tr class="mobileReport_table_header">

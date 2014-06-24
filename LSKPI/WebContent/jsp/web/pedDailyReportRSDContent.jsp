@@ -1,7 +1,7 @@
 <%@page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <c:set var="dailyReportData" value="<%=request.getParameter("dailyReportData") %>"/>
 
-<div class="roundCorner" style="padding: 4px; background: #fff;">
+<div class="roundCorner" style="padding: 4px;">
 	<div class="dailyReport_table_Title"><%=request.getParameter("title") %></div>
 	<table class="mobileReport_table">
 		<tr class="mobileReport_table_header">

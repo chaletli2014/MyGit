@@ -54,7 +54,7 @@ function checkForm(){
         	<jsp:param name="basePath" value="<%=basePath%>"/>
         </jsp:include>
         <div data-role="content"  data-theme="a">
-        	<div class="roundCorner" style="padding:10px;background:#fff;">
+        	<div class="roundCorner">
         	<div class="report_process_bg_description">医院名称前的 * 表示该医院在考评范围内</div>
             <form id="pediatricsForm" action="collectPediatrics" method="POST" data-ajax="false">
             	<input type="hidden" name="dataId" value="${existedData.dataId}"/>

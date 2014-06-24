@@ -29,7 +29,7 @@ function checkForm(){
             <jsp:param name="basePath" value="<%=basePath%>"/>
         </jsp:include>
         <div data-role="content"  data-theme="a">
-            <div class="roundCorner" style="padding:4px;background:#fff;">
+            <div class="roundCorner" style="padding:4px;">
                 <div class="dailyReport_table_Title">${selfTitle}</div>
 	            <table class="mobileReport_table">
 	               <tr class="mobileReport_table_header">
@@ -136,7 +136,7 @@ function checkForm(){
 	               </c:if>
 	            </table>
             </div>
-            <div class="roundCorner" style="padding:4px;background:#fff;">
+            <div class="roundCorner" style="padding:4px;">
             	<div class="dailyReport_table_Title">查看下级上周数据环比</div>
             	<form id="lowerForm" action="showLowerRESReport" method="POST" data-ajax="false" class="validate">
             		<div data-role="fieldcontain">

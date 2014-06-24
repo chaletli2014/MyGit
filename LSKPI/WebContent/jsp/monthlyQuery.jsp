@@ -46,7 +46,7 @@ $(function(){
             <jsp:param name="basePath" value="<%=basePath%>"/>
         </jsp:include>
         <div data-role="content"  data-theme="a">
-            <div class="roundCorner" style="padding:4px;background:#fff;">
+            <div class="roundCorner" style="padding:4px;">
                 <div class="dailyReport_table_Title">${selfTitle}</div>
 	            <table class="mobileReport_table">
 	               <tr class="mobileReport_table_header">
@@ -328,7 +328,7 @@ $(function(){
 	            </table>
             </div>
             <c:if test="${'BM' != currentUser.level }">
-            	<div class="roundCorner" style="padding:4px;background:#fff;">
+            	<div class="roundCorner" style="padding:4px;">
 	                <div class="dailyReport_table_Title">${childTitle}</div>
 		            <table class="mobileReport_table">
 		               <tr class="mobileReport_table_header">
@@ -476,7 +476,7 @@ $(function(){
 	            </div>
             </c:if>
             <c:if test="${'BM'!=currentUser.level}">
-	            <div class="roundCorner" style="padding:4px;background:#fff;">
+	            <div class="roundCorner" style="padding:4px;">
 	                <div class="dailyReport_table_Title">${monthlyDataTitle}</div>
 	                <table class="mobileReport_table">
 	                    <tr class="mobileReport_table_header">
@@ -505,7 +505,7 @@ $(function(){
 	            </div>
             </c:if>
             <c:if test="${'BM'== currentUser.level}">
-	            <div class="roundCorner" style="padding:4px;background:#fff;">
+	            <div class="roundCorner" style="padding:4px;">
 	            	<div class="dailyReport_table_Title">查看下级袋数采集情况</div>
             		<form id="bmMonthlyForm" action="showLowerMonthlyData" method="POST" data-ajax="false" class="validate">
 	            	<div data-role="fieldcontain">
@@ -534,7 +534,7 @@ $(function(){
 	            </div>
             </c:if>
             <c:if test="${'RSD' == currentUser.level || 'RSM' == currentUser.level}">
-	            <div class="roundCorner" style="padding:4px;background:#fff;">
+	            <div class="roundCorner" style="padding:4px;">
 	            	<div class="dailyReport_table_Title">查看下级袋数采集情况</div>
 	            	<div data-role="fieldcontain">
 	            		<form id="lowerMonthlyForm" action="showLowerMonthlyData" method="POST" data-ajax="false" class="validate">

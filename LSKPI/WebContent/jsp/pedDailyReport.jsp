@@ -16,7 +16,7 @@
             <jsp:param name="basePath" value="<%=basePath%>"/>
         </jsp:include>
         <div data-role="content"  data-theme="a">
-            <div class="roundCorner" style="padding:4px;background:#fff;">
+            <div class="roundCorner" style="padding:4px;">
                 <div class="dailyReport_table_Title">${selfTitle}</div>
 	            <table class="mobileReport_table">
 	               <tr class="mobileReport_table_header">
@@ -50,7 +50,7 @@
 	            </table>
             </div>
             <c:if test="${operatorObj!= null && operatorObj.level=='BM'}">
-            <div class="roundCorner" style="padding: 4px; background: #fff;">
+            <div class="roundCorner" style="padding:4px;">
 				<div class="dailyReport_table_Title">${centralTitle}</div>
 				<table class="mobileReport_table">
 					<tr class="mobileReport_table_header">
@@ -83,7 +83,7 @@
 					</c:forEach>
 				</table>
 			</div>
-            <div class="roundCorner" style="padding: 4px; background: #fff;">
+            <div class="roundCorner" style="padding:4px;">
 				<div class="dailyReport_table_Title">${east1Title}</div>
 				<table class="mobileReport_table">
 					<tr class="mobileReport_table_header">
@@ -116,7 +116,7 @@
 					</c:forEach>
 				</table>
 			</div>
-            <div class="roundCorner" style="padding: 4px; background: #fff;">
+            <div class="roundCorner" style="padding:4px;">
 				<div class="dailyReport_table_Title">${east2Title}</div>
 				<table class="mobileReport_table">
 					<tr class="mobileReport_table_header">
@@ -149,7 +149,7 @@
 					</c:forEach>
 				</table>
 			</div>
-            <div class="roundCorner" style="padding: 4px; background: #fff;">
+            <div class="roundCorner" style="padding:4px;">
 				<div class="dailyReport_table_Title">${northTitle}</div>
 				<table class="mobileReport_table">
 					<tr class="mobileReport_table_header">
@@ -182,7 +182,7 @@
 					</c:forEach>
 				</table>
 			</div>
-            <div class="roundCorner" style="padding: 4px; background: #fff;">
+            <div class="roundCorner" style="padding:4px;">
 				<div class="dailyReport_table_Title">${southTitle}</div>
 				<table class="mobileReport_table">
 					<tr class="mobileReport_table_header">
@@ -215,7 +215,7 @@
 					</c:forEach>
 				</table>
 			</div>
-            <div class="roundCorner" style="padding: 4px; background: #fff;">
+            <div class="roundCorner" style="padding:4px;">
 				<div class="dailyReport_table_Title">${westTitle}</div>
 				<table class="mobileReport_table">
 					<tr class="mobileReport_table_header">
@@ -250,7 +250,7 @@
 			</div>
             </c:if>
             <c:if test="${mobileDailyReportChildData!= null && fn:length(mobileDailyReportChildData) > 0}">
-            <div class="roundCorner" style="padding: 4px; background: #fff;">
+            <div class="roundCorner" style="padding:4px;">
 				<div class="dailyReport_table_Title">${childTitle}</div>
 				<table class="mobileReport_table">
 					<tr class="mobileReport_table_header">
@@ -285,7 +285,7 @@
 			</div>
             </c:if>
             <c:if test="${operatorObj!= null && (operatorObj.level=='RSM'||operatorObj.level=='RSD'||operatorObj.level=='BM')}">
-	            <div class="roundCorner" style="padding:4px;background:#fff;">
+	            <div class="roundCorner" style="padding:4px;">
 	                <div class="dailyReport_table_Title">全国RSM数据排行</div>
 	                <table class="mobileReport_table">
 	                   <tr class="mobileReport_table_header">

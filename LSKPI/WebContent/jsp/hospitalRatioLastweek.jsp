@@ -15,7 +15,7 @@
         </jsp:include>
         <div data-role="content"  data-theme="a">
             <div class="dailyReport_table_Title">${selectedHospitalName}</div>
-            <div class="roundCorner" style="padding:4px;background:#fff;">
+            <div class="roundCorner" style="padding:4px;">
                 <div class="dailyReport_table_Title">儿科数据环比</div>
 	            <table class="mobileReport_table">
 	               <tr class="mobileReport_table_header">
@@ -63,7 +63,7 @@
 				   </tr>
 	            </table>
             </div>
-            <div class="roundCorner" style="padding:4px;background:#fff;">
+            <div class="roundCorner" style="padding:4px;">
                 <div class="dailyReport_table_Title">呼吸科数据环比</div>
 	            <table class="mobileReport_table">
 	               <tr class="mobileReport_table_header">
