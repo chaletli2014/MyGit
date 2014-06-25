@@ -231,6 +231,53 @@ public class BaseController {
     	view.addObject("monthlyDataTitle", monthlyDataTitle.toString());
     }
     
+    public void populateHomeWeeklyReportTitle(UserInfo currentUser, ModelAndView view, String datatype, String dsmName){
+        StringBuffer homeDataTitle = new StringBuffer();
+        switch(currentUser.getLevel()){ 
+            case LsAttributes.USER_LEVEL_REP:
+                homeDataTitle.append(LsAttributes.DAILYREPORTTITLE_1)
+                .append(dsmName)
+                .append(LsAttributes.DAILYREPORTTITLE_2)
+                .append(" ")
+                .append(LsAttributes.DAILYREPORTTITLE_REP)
+                .append(datatype);
+                break;
+            case LsAttributes.USER_LEVEL_DSM:
+                homeDataTitle.append(LsAttributes.DAILYREPORTTITLE_1)
+                .append(currentUser.getRegion())
+                .append(LsAttributes.DAILYREPORTTITLE_2)
+                .append(LsAttributes.USER_LEVEL_DSM)
+                .append(" ")
+                .append(datatype);
+                break;
+            case LsAttributes.USER_LEVEL_RSM:
+                homeDataTitle.append(LsAttributes.DAILYREPORTTITLE_1)
+                .append(StringUtils.getTheZHValueOfRegionCenter(currentUser.getRegionCenter()))
+                .append(LsAttributes.DAILYREPORTTITLE_2)
+                .append(LsAttributes.USER_LEVEL_RSM)
+                .append(" ")
+                .append(datatype);
+                break;
+            case LsAttributes.USER_LEVEL_RSD:
+                homeDataTitle.append(LsAttributes.DAILYREPORTTITLE_1)
+                .append(LsAttributes.DAILYREPORTTITLE_4)
+                .append(LsAttributes.DAILYREPORTTITLE_2)
+                .append(LsAttributes.USER_LEVEL_RSD)
+                .append(" ")
+                .append(datatype);
+                break;
+            case LsAttributes.USER_LEVEL_BM:
+                homeDataTitle.append(LsAttributes.DAILYREPORTTITLE_1)
+                .append(LsAttributes.DAILYREPORTTITLE_4)
+                .append(LsAttributes.DAILYREPORTTITLE_2)
+                .append(LsAttributes.USER_LEVEL_RSD)
+                .append(" ")
+                .append(datatype);
+                break;
+        }
+        view.addObject("homeDataTitle", homeDataTitle.toString());
+    }
+    
     public void checkAndCreateFileFolder(String filePath){
         File file = new File(filePath);
         if( !file.exists() ){

@@ -150,6 +150,7 @@ public class LsAttributes {
     public static final String MONTHLY12TITLE = "销售袋数报告";
     public static final String MONTHLYCOLLECTIONDATEERROR="销售袋数采集为次月1号到10号，目前无法录入";
     
+    public static final String HOMEWEEKLYREPORTTITLE = "家庭雾化周报";
     
     public static final String DATAQUERY_PROCESS_DATA="processData";
     public static final String DATAQUERY_PROCESS_DATA_DETAIL="processDataDetail";
@@ -774,7 +775,8 @@ public class LsAttributes {
     
     public static final StringBuffer SQL_HOME_WEEKLY_DATA_SELECTION
             = new StringBuffer("")
-            .append(" select  0 as newDrNum, 0 as totalDrNum ")
+            .append(" select ")
+            .append(" homeData.newWhNum")
             .append(" , homeData.newWhNum")
             .append(" , homeData.cureRate ")
             .append(" , homeData.lsnum ")
@@ -790,8 +792,8 @@ public class LsAttributes {
             .append(" , sum(hd.lttnum)/sum(hd.lsnum) as reachRate ");
     
     public static final StringBuffer SQL_HOME_WEEKLY_DATA_SUB_FROM
-    = new StringBuffer(" from tbl_home_data hd, tbl_userinfo u, tbl_doctor d, tbl_doctor_history dh ");
+    = new StringBuffer(" from tbl_home_data hd, tbl_userinfo u ");
     
-    public static final StringBuffer SQL_HOME_WEEKLY_DATA_SUB_2_FROM
-    = new StringBuffer(" from tbl_home_data hd, tbl_userinfo u, tbl_doctor d, tbl_doctor_history dh, tbl_hospital h ");
+    public static final StringBuffer SQL_HOME_WEEKLY_DATA_SUB_3_FROM
+    = new StringBuffer(" from tbl_home_data hd, tbl_hospital h ");
 }

@@ -566,7 +566,11 @@ public class ReportController extends BaseController{
             List<HomeWeeklyData> homeWeeklyDataList = homeService.getHomeWeeklyDataOfCurrentUser(currentUser);
             view.addObject("homeWeeklyDataList", homeWeeklyDataList);
             view.addObject("currentUser", currentUser);
-            populateDailyReportTitle(currentUser, view, LsAttributes.MONTHLYREPORTTITLE);
+            String dsmName = "";
+            if( LsAttributes.USER_LEVEL_REP.equalsIgnoreCase(currentUser.getLevel()) ){
+                dsmName = userService.getUserInfoByUserCode(currentUser.getSuperior()).getName();
+            }
+            populateHomeWeeklyReportTitle(currentUser, view, LsAttributes.HOMEWEEKLYREPORTTITLE, dsmName);
         }catch(Exception e){
             logger.error("fail to get the home weekly data,",e);
         }
