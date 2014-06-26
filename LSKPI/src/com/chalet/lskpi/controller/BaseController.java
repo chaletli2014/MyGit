@@ -233,6 +233,8 @@ public class BaseController {
     
     public void populateHomeWeeklyReportTitle(UserInfo currentUser, ModelAndView view, String datatype, String dsmName){
         StringBuffer homeDataTitle = new StringBuffer();
+        StringBuffer childTitle = new StringBuffer();
+        
         switch(currentUser.getLevel()){ 
             case LsAttributes.USER_LEVEL_REP:
                 homeDataTitle.append(LsAttributes.DAILYREPORTTITLE_1)
@@ -249,6 +251,13 @@ public class BaseController {
                 .append(LsAttributes.USER_LEVEL_DSM)
                 .append(" ")
                 .append(datatype);
+                
+                childTitle.append(LsAttributes.DAILYREPORTTITLE_1)
+                .append(currentUser.getName())
+                .append(LsAttributes.DAILYREPORTTITLE_2)
+                .append(LsAttributes.USER_LEVEL_REP)
+                .append(" ")
+                .append(datatype);
                 break;
             case LsAttributes.USER_LEVEL_RSM:
                 homeDataTitle.append(LsAttributes.DAILYREPORTTITLE_1)
@@ -257,12 +266,26 @@ public class BaseController {
                 .append(LsAttributes.USER_LEVEL_RSM)
                 .append(" ")
                 .append(datatype);
+                
+                childTitle.append(LsAttributes.DAILYREPORTTITLE_1)
+                .append(currentUser.getRegion())
+                .append(LsAttributes.DAILYREPORTTITLE_2)
+                .append(LsAttributes.USER_LEVEL_DSM)
+                .append(" ")
+                .append(datatype);
                 break;
             case LsAttributes.USER_LEVEL_RSD:
                 homeDataTitle.append(LsAttributes.DAILYREPORTTITLE_1)
                 .append(LsAttributes.DAILYREPORTTITLE_4)
                 .append(LsAttributes.DAILYREPORTTITLE_2)
                 .append(LsAttributes.USER_LEVEL_RSD)
+                .append(" ")
+                .append(datatype);
+                
+                childTitle.append(LsAttributes.DAILYREPORTTITLE_1)
+                .append(StringUtils.getTheZHValueOfRegionCenter(currentUser.getRegionCenter()))
+                .append(LsAttributes.DAILYREPORTTITLE_2)
+                .append(LsAttributes.USER_LEVEL_RSM)
                 .append(" ")
                 .append(datatype);
                 break;
@@ -276,6 +299,7 @@ public class BaseController {
                 break;
         }
         view.addObject("homeDataTitle", homeDataTitle.toString());
+        view.addObject("childTitle", childTitle.toString());
     }
     
     public void checkAndCreateFileFolder(String filePath){

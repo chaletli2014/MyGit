@@ -96,7 +96,7 @@ public class HomeDAOImpl implements HomeDAO {
             homeData.getId()});
     }
 
-    public List<HomeWeeklyData> getHomeWeeklyDataOfSales(UserInfo currentUser,Date beginDate, Date endDate) throws Exception {
+    public List<HomeWeeklyData> getHomeWeeklyDataOfSales(String dsmCode, String region, Date beginDate, Date endDate) throws Exception {
         StringBuffer sql = new StringBuffer();
         sql.append(LsAttributes.SQL_HOME_WEEKLY_DATA_SELECTION)
         .append(", ui.name ")
@@ -126,15 +126,15 @@ public class HomeDAOImpl implements HomeDAO {
         return dataBean.getJdbcTemplate().query(sql.toString(), new Object[]{
             new Timestamp(beginDate.getTime())
             , new Timestamp(endDate.getTime())
-            , currentUser.getSuperior()
-            , currentUser.getRegion()
+            , dsmCode
+            , region
             , new Timestamp(beginDate.getTime())
             , new Timestamp(endDate.getTime())
-            , currentUser.getSuperior()
-            , currentUser.getRegion()}, new HomeWeeklyDataRowMapper());
+            , dsmCode
+            , region}, new HomeWeeklyDataRowMapper());
     }
 
-    public List<HomeWeeklyData> getHomeWeeklyDataOfDSM(UserInfo currentUser,Date beginDate, Date endDate) throws Exception {
+    public List<HomeWeeklyData> getHomeWeeklyDataOfDSM(String region,Date beginDate, Date endDate) throws Exception {
         StringBuffer sql = new StringBuffer();
         sql.append(LsAttributes.SQL_HOME_WEEKLY_DATA_SELECTION)
         .append(", ui.name ")
@@ -163,13 +163,51 @@ public class HomeDAOImpl implements HomeDAO {
         return dataBean.getJdbcTemplate().query(sql.toString(), new Object[]{
             new Timestamp(beginDate.getTime())
             , new Timestamp(endDate.getTime())
-            , currentUser.getRegion()
+            , region
             , new Timestamp(beginDate.getTime())
             , new Timestamp(endDate.getTime())
-            , currentUser.getRegion()}, new HomeWeeklyDataRowMapper());
+            , region}, new HomeWeeklyDataRowMapper());
+    }
+    
+    public HomeWeeklyData getHomeWeeklyDataOfSingleDSM(String dsmCode, String region,Date beginDate, Date endDate) throws Exception {
+        StringBuffer sql = new StringBuffer();
+        sql.append(LsAttributes.SQL_HOME_WEEKLY_DATA_SELECTION)
+        .append(", ui.name ")
+        .append(", ( select count(1) from tbl_doctor d2, tbl_hospital h2 ")
+        .append("   where d2.hospitalCode = h2.code ")
+        .append("   and h2.dsmCode = ui.userCode ")
+        .append("   and d2.createdate between ? and ? ")
+        .append("   ) as newDrNum")
+        .append(", (")
+        .append("   select count(1) from tbl_doctor d2, tbl_hospital h2 ")
+        .append("   where d2.hospitalCode = h2.code ")
+        .append("   and h2.dsmCode = ui.userCode ")
+        .append("   ) as totalDrNum ")
+        .append("from ( ")
+        .append(LsAttributes.SQL_HOME_WEEKLY_DATA_SUB_SELECTION)
+        .append(", h.dsmCode ")
+        .append(LsAttributes.SQL_HOME_WEEKLY_DATA_SUB_3_FROM)
+        .append(" where ( hd.doctorId in ( select d.id from tbl_doctor d where d.hospitalCode = h.code )")
+        .append("   or hd.doctorId in ( select dh.doctorId from tbl_doctor_history dh where dh.hospitalCode = h.code ) )")
+        .append(" and h.dsmCode = ? ")
+        .append(" and h.rsmRegion = ? ")
+        .append(" and hd.createdate between ? and ? ") 
+        .append(" group by h.region, h.rsmRegion, h.dsmCode ")
+        .append(") homeData")
+        .append(" right join tbl_userinfo ui on ui.userCode = homeData.dsmCode ")
+        .append(" where ui.userCode = ? and ui.region = ? and ui.level='DSM' ");
+        return dataBean.getJdbcTemplate().queryForObject(sql.toString(), new Object[]{
+            new Timestamp(beginDate.getTime())
+            , new Timestamp(endDate.getTime())
+            , dsmCode
+            , region
+            , new Timestamp(beginDate.getTime())
+            , new Timestamp(endDate.getTime())
+            , dsmCode
+            , region}, new HomeWeeklyDataRowMapper());
     }
 
-    public List<HomeWeeklyData> getHomeWeeklyDataOfRSM(UserInfo currentUser,Date beginDate, Date endDate) throws Exception {
+    public List<HomeWeeklyData> getHomeWeeklyDataOfRSM(String regionCenter,Date beginDate, Date endDate) throws Exception {
         StringBuffer sql = new StringBuffer();
         sql.append(LsAttributes.SQL_HOME_WEEKLY_DATA_SELECTION)
         .append(", ui.region as name ")
@@ -198,10 +236,45 @@ public class HomeDAOImpl implements HomeDAO {
         return dataBean.getJdbcTemplate().query(sql.toString(), new Object[]{
             new Timestamp(beginDate.getTime())
             , new Timestamp(endDate.getTime())
-            , currentUser.getRegionCenter()
+            , regionCenter
             , new Timestamp(beginDate.getTime())
             , new Timestamp(endDate.getTime())
-            , currentUser.getRegionCenter()}, new HomeWeeklyDataRowMapper());
+            , regionCenter}, new HomeWeeklyDataRowMapper());
+    }
+    
+    public HomeWeeklyData getHomeWeeklyDataOfSingleRSM(String region,Date beginDate, Date endDate) throws Exception {
+        StringBuffer sql = new StringBuffer();
+        sql.append(LsAttributes.SQL_HOME_WEEKLY_DATA_SELECTION)
+        .append(", ui.region as name ")
+        .append(", ( select count(1) from tbl_doctor d2, tbl_hospital h2 ")
+        .append("   where d2.hospitalCode = h2.code ")
+        .append("   and h2.rsmRegion = ui.region ")
+        .append("   and d2.createdate between ? and ? ")
+        .append("   ) as newDrNum")
+        .append(", (")
+        .append("   select count(1) from tbl_doctor d2, tbl_hospital h2 ")
+        .append("   where d2.hospitalCode = h2.code ")
+        .append("   and h2.rsmRegion = ui.region ")
+        .append("   ) as totalDrNum ")
+        .append("from ( ")
+        .append(LsAttributes.SQL_HOME_WEEKLY_DATA_SUB_SELECTION)
+        .append(", h.rsmRegion")
+        .append(LsAttributes.SQL_HOME_WEEKLY_DATA_SUB_3_FROM)
+        .append(" where ( hd.doctorId in ( select d.id from tbl_doctor d where d.hospitalCode = h.code )")
+        .append("   or hd.doctorId in ( select dh.doctorId from tbl_doctor_history dh where dh.hospitalCode = h.code ) )")
+        .append(" and h.rsmRegion = ? ")
+        .append(" and hd.createdate between ? and ? ") 
+        .append(" group by h.region, h.rsmRegion ")
+        .append(") homeData")
+        .append(" right join tbl_userinfo ui on ui.region = homeData.rsmRegion ")
+        .append(" where ui.region = ? and ui.level='RSM' ");
+        return dataBean.getJdbcTemplate().queryForObject(sql.toString(), new Object[]{
+            new Timestamp(beginDate.getTime())
+            , new Timestamp(endDate.getTime())
+            , region
+            , new Timestamp(beginDate.getTime())
+            , new Timestamp(endDate.getTime())
+            , region}, new HomeWeeklyDataRowMapper());
     }
 
     public List<HomeWeeklyData> getHomeWeeklyDataOfRSD(Date beginDate, Date endDate) throws Exception {
@@ -230,6 +303,60 @@ public class HomeDAOImpl implements HomeDAO {
         .append(" right join tbl_userinfo ui on ui.regionCenter = homeData.region ")
         .append(" where ui.level='RSD' ");
         return dataBean.getJdbcTemplate().query(sql.toString(), new Object[]{
+            new Timestamp(beginDate.getTime())
+            , new Timestamp(endDate.getTime())
+            , new Timestamp(beginDate.getTime())
+            , new Timestamp(endDate.getTime())}, new HomeWeeklyDataRowMapper());
+    }
+    
+    public HomeWeeklyData getHomeWeeklyDataOfSingleRSD(String regionCenter, Date beginDate, Date endDate) throws Exception {
+        StringBuffer sql = new StringBuffer();
+        sql.append(LsAttributes.SQL_HOME_WEEKLY_DATA_SELECTION)
+        .append(", ui.regionCenter as name ")
+        .append(", ( select count(1) from tbl_doctor d2, tbl_hospital h2 ")
+        .append("   where d2.hospitalCode = h2.code ")
+        .append("   and h2.region = ui.regionCenter ")
+        .append("   and d2.createdate between ? and ? ")
+        .append("   ) as newDrNum")
+        .append(", (")
+        .append("   select count(1) from tbl_doctor d2, tbl_hospital h2 ")
+        .append("   where d2.hospitalCode = h2.code ")
+        .append("   and h2.region = ui.regionCenter ")
+        .append("   ) as totalDrNum ")
+        .append("from ( ")
+        .append(LsAttributes.SQL_HOME_WEEKLY_DATA_SUB_SELECTION)
+        .append(", h.region")
+        .append(LsAttributes.SQL_HOME_WEEKLY_DATA_SUB_3_FROM)
+        .append(" where ( hd.doctorId in ( select d.id from tbl_doctor d where d.hospitalCode = h.code )")
+        .append("   or hd.doctorId in ( select dh.doctorId from tbl_doctor_history dh where dh.hospitalCode = h.code ) )")
+        .append(" and hd.createdate between ? and ? ") 
+        .append(" and h.region = ? ")
+        .append(" group by h.region ")
+        .append(") homeData")
+        .append(" right join tbl_userinfo ui on ui.regionCenter = homeData.region ")
+        .append(" where ui.level='RSD' and ui.regionCenter = ?");
+        return dataBean.getJdbcTemplate().queryForObject(sql.toString(), new Object[]{
+            new Timestamp(beginDate.getTime())
+            , new Timestamp(endDate.getTime())
+            , new Timestamp(beginDate.getTime())
+            , new Timestamp(endDate.getTime())
+            , regionCenter
+            , regionCenter}, new HomeWeeklyDataRowMapper());
+    }
+    
+    public HomeWeeklyData getHomeWeeklyDataOfCountory(Date beginDate, Date endDate) throws Exception {
+        StringBuffer sql = new StringBuffer();
+        sql.append(LsAttributes.SQL_HOME_WEEKLY_DATA_SUB_SELECTION)
+        .append(", '全国' as name ")
+        .append(", ( select count(1) from tbl_doctor d2 ")
+        .append("   where d2.createdate between ? and ? ")
+        .append("   ) as newDrNum")
+        .append(", (")
+        .append("   select count(1) from tbl_doctor d2 ")
+        .append("   ) as totalDrNum ")
+        .append(LsAttributes.SQL_HOME_WEEKLY_DATA_FROM_HOME_ONLY)
+        .append(" where hd.createdate between ? and ? ");
+        return dataBean.getJdbcTemplate().queryForObject(sql.toString(), new Object[]{
             new Timestamp(beginDate.getTime())
             , new Timestamp(endDate.getTime())
             , new Timestamp(beginDate.getTime())

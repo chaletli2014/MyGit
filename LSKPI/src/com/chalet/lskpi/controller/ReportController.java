@@ -565,6 +565,13 @@ public class ReportController extends BaseController{
         try{
             List<HomeWeeklyData> homeWeeklyDataList = homeService.getHomeWeeklyDataOfCurrentUser(currentUser);
             view.addObject("homeWeeklyDataList", homeWeeklyDataList);
+            
+            List<HomeWeeklyData> lowerHomeWeeklyDataList = homeService.getHomeWeeklyDataOfLowerUser(currentUser);
+            view.addObject("lowerHomeWeeklyDataList", lowerHomeWeeklyDataList);
+            
+            HomeWeeklyData upperHomeWeeklyData = homeService.getHomeWeeklyDataOfUpperUser(currentUser);
+            view.addObject("upperHomeWeeklyData", upperHomeWeeklyData);
+            
             view.addObject("currentUser", currentUser);
             String dsmName = "";
             if( LsAttributes.USER_LEVEL_REP.equalsIgnoreCase(currentUser.getLevel()) ){

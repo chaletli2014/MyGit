@@ -796,4 +796,7 @@ public class LsAttributes {
     
     public static final StringBuffer SQL_HOME_WEEKLY_DATA_SUB_3_FROM
     = new StringBuffer(" from tbl_home_data hd, tbl_hospital h ");
+    
+    public static final StringBuffer SQL_HOME_WEEKLY_DATA_FROM_HOME_ONLY
+    = new StringBuffer(" from tbl_home_data hd ");
 }
