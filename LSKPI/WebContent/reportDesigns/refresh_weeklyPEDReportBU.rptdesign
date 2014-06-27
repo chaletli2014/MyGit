@@ -26570,13 +26570,13 @@ dataSetRow["inNum"]/dataSetRow["hosNum"]&#13;
         </grid>
         <grid id="1716">
             <property name="textAlign">center</property>
-            <property name="height">2.40625in</property>
+            <property name="height">2.9583333333333335in</property>
             <property name="width">9.4375in</property>
             <column id="1717">
                 <property name="width">9.4375in</property>
             </column>
             <row id="1718">
-                <property name="height">2.40625in</property>
+                <property name="height">2.9583333333333335in</property>
                 <cell id="1719">
                     <table id="2394">
                         <property name="fontFamily">"Microsoft YaHei UI"</property>
