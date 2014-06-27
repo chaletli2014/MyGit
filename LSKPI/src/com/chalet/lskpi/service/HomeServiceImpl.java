@@ -41,6 +41,19 @@ public class HomeServiceImpl implements HomeService {
             return null;
         }
     }
+    
+    public List<HomeData> getHomeDataByDate(Date startDate, Date endDate) throws Exception {
+        try{
+            endDate = new Date(endDate.getTime() + 1 * 24 * 60 * 60 * 1000);
+            return homeDAO.getHomeDataByDate(startDate, endDate);
+        }catch(EmptyResultDataAccessException erd){
+            logger.info("there is no record found.");
+            return new ArrayList<HomeData>();
+        } catch(Exception e){
+            logger.error("fail to get the home data by Date,",e);
+            return new ArrayList<HomeData>();
+        }
+    }
 
     public HomeData getHomeDataById(int dataId) throws Exception {
         try{

@@ -1,5 +1,7 @@
 package com.chalet.lskpi.model;
 
+import java.util.Date;
+
 public class HomeData {
 
     private int id;
@@ -8,6 +10,7 @@ public class HomeData {
     private String dsmName;
     private String salesName;
     private String hospitalName;
+    private String hospitalCode;
     private int doctorId;
     private String drName;
     /**
@@ -38,6 +41,8 @@ public class HomeData {
      * DOT>=30天,病人次.
      */
     private int lttnum;
+    
+    private Date createDate;
     
     public int getId() {
         return id;
@@ -191,5 +196,17 @@ public class HomeData {
     }
     public void setDrName(String drName) {
         this.drName = drName;
+    }
+    public String getHospitalCode() {
+        return hospitalCode;
+    }
+    public void setHospitalCode(String hospitalCode) {
+        this.hospitalCode = hospitalCode;
+    }
+    public Date getCreateDate() {
+        return createDate;
+    }
+    public void setCreateDate(Date createDate) {
+        this.createDate = createDate;
     }
 }

@@ -16,11 +16,11 @@ import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Repository;
 
+import com.chalet.lskpi.mapper.HomeDataExportRowMapper;
 import com.chalet.lskpi.mapper.HomeDataRowMapper;
 import com.chalet.lskpi.mapper.HomeWeeklyDataRowMapper;
 import com.chalet.lskpi.model.HomeData;
 import com.chalet.lskpi.model.HomeWeeklyData;
-import com.chalet.lskpi.model.UserInfo;
 import com.chalet.lskpi.utils.DataBean;
 import com.chalet.lskpi.utils.LsAttributes;
 
@@ -40,6 +40,29 @@ public class HomeDAOImpl implements HomeDAO {
         .append(" where hd.doctorId = ? ")
         .append(" and hd.createdate between ? and ?");
         return dataBean.getJdbcTemplate().queryForObject(sql.toString(), new Object[]{doctorId,new Timestamp(beginDate.getTime()),new Timestamp(endDate.getTime())}, new HomeDataRowMapper());
+    }
+    
+    public List<HomeData> getHomeDataByDate(Date beginDate, Date endDate) throws Exception {
+        StringBuffer sql = new StringBuffer();
+        sql.append(" select hd.id, hd.createdate, h.region, h.rsmRegion, h.code as hospitalCode, h.name as hospitalName, d.name as drName ")
+        .append(" , hd.salenum, hd.asthmanum, hd.ltenum, hd.lsnum, hd.efnum, hd.ftnum, hd.lttnum ")
+        .append(" , IFNULL((select name from tbl_userinfo u where u.userCode = h.dsmCode and u.level='DSM' ),'vacant') as dsmName ")
+        .append(" , IFNULL((select name from tbl_userinfo u where u.userCode = d.salesCode and u.level='REP' and d.salesCode is not null ),'vacant') as salesName ")
+        .append(" from tbl_home_data hd, tbl_doctor d, tbl_hospital h")
+        .append(" where hd.doctorid = d.id ")
+        .append(" and d.hospitalCode = h.code ")
+        .append(" and hd.createdate between ? and ? ")
+        .append(" union all ")
+        .append(" select hd.id, hd.createdate, h.region, h.rsmRegion, h.code as hospitalCode, h.name as hospitalName, dh.drName ")
+        .append(" , hd.salenum, hd.asthmanum, hd.ltenum, hd.lsnum, hd.efnum, hd.ftnum, hd.lttnum ")
+        .append(" , IFNULL((select name from tbl_userinfo u where u.userCode = h.dsmCode and u.level='DSM' ),'vacant') as dsmName ")
+        .append(" , IFNULL((select name from tbl_userinfo u where u.userCode = dh.salesCode and u.level='REP' and dh.salesCode is not null ),'vacant') as salesName ")
+        .append(" from tbl_home_data hd, tbl_doctor_history dh, tbl_hospital h")
+        .append(" where hd.doctorid = dh.doctorId ")
+        .append(" and dh.hospitalCode = h.code ")
+        .append(" and hd.createdate between ? and ? ")
+        .append(" order by createdate asc");
+        return dataBean.getJdbcTemplate().query(sql.toString(), new Object[]{new Timestamp(beginDate.getTime()),new Timestamp(endDate.getTime()),new Timestamp(beginDate.getTime()),new Timestamp(endDate.getTime())}, new HomeDataExportRowMapper());
     }
 
     public HomeData getHomeDataById(int dataId) throws Exception {

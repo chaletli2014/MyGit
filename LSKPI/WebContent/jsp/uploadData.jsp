@@ -78,6 +78,22 @@
 		loading();
 		$("#downloadDailyData").submit();
 	}
+   function downloadHomeData(){
+        
+        if( $("#home_datepicker") && $("#home_datepicker").val() == '' || 
+                $("#home_datepicker_end") && $("#home_datepicker_end").val() == '' ){
+            alert('请选择起止日期');
+            return false;
+        }
+        
+        if( compareDate($("#home_datepicker").val(),$("#home_datepicker_end").val()) ){
+            alert('开始日期不能大于截止日期');
+            return false;
+        }
+        
+        loading();
+        $("#downloadHomeData").submit();
+    }
 	function downloadMonthlyData(){
 		
 		if( ( $("#datepicker_monthly") && $("#datepicker_monthly").val() == '' ) || 
@@ -177,6 +193,20 @@
 					</c:if>
 				</div>
 			</div>
+			<div class="element_block">
+                <div class="element_title">家庭雾化数据查询</div>
+                <div>
+	                <form action="doDownloadHomeData" id="downloadHomeData" method="post" enctype="multipart/form-data" data-ajax="false" accept-charset="UTF-8">
+	                                                            选择日期：<input id="home_datepicker" type="text" name="chooseDate" class="ls_datepicker" readonly="readonly"/> - <input id="home_datepicker_end" type="text" name="chooseDate_end" class="ls_datepicker" readonly="readonly"/>
+	                 <img alt="" src="<%=basePath%>images/button_submit.png" style="cursor: pointer; vertical-align: middle;" onclick="downloadHomeData()" />
+	                </form>
+                    <c:if test="${homeDataFile != null}">
+                        <div id="homeDataFile">
+                            <a href="<%=basePath%>${homeDataFile}">${fn:substringAfter(homeDataFile,'/')}</a>
+                        </div>
+                    </c:if>
+                </div>
+            </div>
 			<div class="element_block">
 				<div class="element_title">全国DSM日报查询</div>
 				<div>

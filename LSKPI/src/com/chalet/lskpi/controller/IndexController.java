@@ -567,6 +567,10 @@ public class IndexController extends BaseController{
             view.addObject("monthlyDataFile", request.getSession().getAttribute("monthlyDataFile"));
             request.getSession().removeAttribute("monthlyDataFile");
         }
+        if( null != request.getSession().getAttribute("homeDataFile") ){
+            view.addObject("homeDataFile", request.getSession().getAttribute("homeDataFile"));
+            request.getSession().removeAttribute("homeDataFile");
+        }
         
         if( null != request.getSession().getAttribute("monthlyInRateDataFile") ){
         	view.addObject("monthlyInRateDataFile", request.getSession().getAttribute("monthlyInRateDataFile"));
@@ -671,6 +675,11 @@ public class IndexController extends BaseController{
             request.getSession().removeAttribute("monthlyDataFile");
         }
         
+        if( null != request.getSession().getAttribute("homeDataFile") ){
+            view.addObject("homeDataFile", request.getSession().getAttribute("homeDataFile"));
+            request.getSession().removeAttribute("homeDataFile");
+        }
+        
         if( null != request.getSession().getAttribute("reportFiles") ){
         	view.addObject("reportFiles", request.getSession().getAttribute("reportFiles"));
         	request.getSession().removeAttribute("reportFiles");
@@ -769,11 +778,9 @@ public class IndexController extends BaseController{
     
     private void readFiles(String localfilepath, String remotefilepath, List<ReportFileObject> fileList){
     	File file = new File(localfilepath);
-    	logger.info(String.format("the local file path is %s", localfilepath));
     	if (!file.isDirectory()) {
             logger.warn(String.format("the file is not a directory, the file name is %s", file.getName()));
 	    } else if (file.isDirectory()) {
-	    	logger.info(String.format("the file is a directory, the name is %s", file.getName()));
 	    	String[] filelist = file.list();
 	        for (int i = 0; i < filelist.length; i++) {
 	        	File readfile = new File(localfilepath + filelist[i]);
