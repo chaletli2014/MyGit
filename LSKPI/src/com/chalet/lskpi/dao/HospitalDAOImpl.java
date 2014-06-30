@@ -425,7 +425,7 @@ public class HospitalDAOImpl implements HospitalDAO {
 	@Override
 	public List<Hospital> getHospitalsByKeywords(String keywords)
 			throws Exception {
-		String searchSQL = "select * from tbl_hospital where name like '"+keywords+"' order by isResAssessed desc, isPedAssessed desc, name asc";
+		String searchSQL = "select * from tbl_hospital where name like '"+keywords+"' order by isResAssessed desc, isPedAssessed desc, isChestSurgeryAssessed desc,name asc";
 		logger.info("searchSQL is " + searchSQL);
 		return dataBean.getJdbcTemplate().query(searchSQL, new HospitalRowMapper());
 	}
@@ -452,6 +452,7 @@ public class HospitalDAOImpl implements HospitalDAO {
 				ps.setString(13, hospitals.get(i).getIsPedAssessed());
 				ps.setString(14, hospitals.get(i).getSaleCode());
 				ps.setString(15, hospitals.get(i).getIsMonthlyAssessed());
+//				ps.setString(16, hospitals.get(i).getIsChestSurgeryAssessed());
 			}
 			
 			@Override
@@ -598,8 +599,10 @@ public class HospitalDAOImpl implements HospitalDAO {
 		    StringBuilder sql = new StringBuilder(" ");
 		    if( LsAttributes.DEPARTMENT_PED.equalsIgnoreCase(department) ){
 		    	sql.append("select case when h.isPedAssessed='1' then concat('* ',h.name) else h.name end hospitalName ");
-		    }else{
+		    }else if( LsAttributes.DEPARTMENT_RES.equalsIgnoreCase(department) ){
 		    	sql.append("select case when h.isResAssessed='1' then concat('* ',h.name) else h.name end hospitalName ");
+		    }else if( LsAttributes.DEPARTMENT_CHE.equalsIgnoreCase(department) ){
+		        sql.append("select case when h.isChestSurgeryAssessed='1' then concat('* ',h.name) else h.name end hospitalName ");
 		    }
 		    sql.append(" from tbl_userinfo u, tbl_hos_user hu, tbl_hospital h ");
 		    sql.append(" where u.userCode = hu.userCode and hu.hosCode = h.code and u.telephone = ? ");
@@ -607,7 +610,9 @@ public class HospitalDAOImpl implements HospitalDAO {
 		        sql.append(" order by h.isPedAssessed desc, h.name asc");
 		    }else if( LsAttributes.DEPARTMENT_RES.equalsIgnoreCase(department) ){
 		        sql.append(" order by h.isResAssessed desc, h.name asc");
-		    }
+		    }else if( LsAttributes.DEPARTMENT_CHE.equalsIgnoreCase(department) ){
+                sql.append(" order by h.isChestSurgeryAssessed desc, h.name asc");
+            }
 		    ps = conn.prepareStatement(sql.toString());
 		    ps.setString(1,telephone);
 		    rs = ps.executeQuery();

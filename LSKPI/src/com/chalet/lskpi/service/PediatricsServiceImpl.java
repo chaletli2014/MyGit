@@ -237,12 +237,12 @@ public class PediatricsServiceImpl implements PediatricsService {
 	    } catch(IncorrectResultSizeDataAccessException ire){
 	        logger.error(ire.getMessage());
 	        PediatricsData defaultData = new PediatricsData();
-	        defaultData.setDataId(1);
+	        defaultData.setDataId(0);
 	        return defaultData;
 	    }catch(Exception e){
 	        logger.error("fail to get the pediatrics data by hospital - " + hospitalName,e);
 	        PediatricsData defaultData = new PediatricsData();
-            defaultData.setDataId(1);
+            defaultData.setDataId(0);
             return defaultData;
 	    }
 	}

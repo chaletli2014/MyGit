@@ -282,3 +282,27 @@ create table tbl_home_data_weekly(
 ALTER  TABLE tbl_home_data ADD INDEX INDEX_HOME_DOCTORID (doctorId);
 ALTER  TABLE tbl_home_data ADD INDEX INDEX_HOME_CREATEDATE (createdate);
 ALTER  TABLE tbl_doctor ADD INDEX INDEX_DOCTOR_HOSPITALCODE (hospitalCode);
+
+
+
+drop table tbl_chestSurgery_data;
+create table tbl_chestSurgery_data(
+    id              int NOT NULL primary key auto_increment,
+    createdate      datetime,
+    hospitalCode    varchar(100),
+    pnum            int,
+    risknum         int,
+    whnum           int,
+    lsnum           int,
+    oqd             DECIMAL(11,2),
+    tqd             DECIMAL(11,2),
+    otid            DECIMAL(11,2),
+    tbid            DECIMAL(11,2),
+    ttid            DECIMAL(11,2),
+    thbid           DECIMAL(11,2),
+    fbid            DECIMAL(11,2),
+    updatedate      datetime
+);
+
+alter table tbl_hospital add column isChestSurgeryAssessed varchar(2);
+

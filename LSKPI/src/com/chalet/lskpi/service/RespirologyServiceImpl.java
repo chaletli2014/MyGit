@@ -14,7 +14,6 @@ import org.springframework.stereotype.Service;
 import com.chalet.lskpi.dao.RespirologyDAO;
 import com.chalet.lskpi.model.DailyReportData;
 import com.chalet.lskpi.model.Hospital;
-import com.chalet.lskpi.model.MobilePEDDailyData;
 import com.chalet.lskpi.model.MobileRESDailyData;
 import com.chalet.lskpi.model.RateElement;
 import com.chalet.lskpi.model.ReportProcessData;
@@ -129,12 +128,12 @@ public class RespirologyServiceImpl implements RespirologyService {
 	    } catch(IncorrectResultSizeDataAccessException ire){
 	        logger.error(ire.getMessage());
 	        RespirologyData defaultData = new RespirologyData();
-	        defaultData.setDataId(1);
+	        defaultData.setDataId(0);
 	        return defaultData;
 	    }catch(Exception e){
 	        logger.error("fail to get the respirology data by hospital - " + hospitalName,e);
 	        RespirologyData defaultData = new RespirologyData();
-	        defaultData.setDataId(1);
+	        defaultData.setDataId(0);
 	        return defaultData;
 	    }
 	}

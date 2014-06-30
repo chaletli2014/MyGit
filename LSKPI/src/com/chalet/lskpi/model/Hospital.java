@@ -19,6 +19,7 @@ public class Hospital {
     private String isResAssessed;
     private String isPedAssessed;
     private String isMonthlyAssessed;
+    private String isChestSurgeryAssessed;
     
     public int getId() {
         return id;
@@ -115,5 +116,11 @@ public class Hospital {
     }
     public void setIsMonthlyAssessed(String isMonthlyAssessed) {
         this.isMonthlyAssessed = isMonthlyAssessed;
+    }
+    public String getIsChestSurgeryAssessed() {
+        return isChestSurgeryAssessed;
+    }
+    public void setIsChestSurgeryAssessed(String isChestSurgeryAssessed) {
+        this.isChestSurgeryAssessed = isChestSurgeryAssessed;
     }
 }

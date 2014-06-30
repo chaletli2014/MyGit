@@ -867,6 +867,10 @@ public class ExcelUtils {
                 isMonthlyAssessedCell.setCellType(Cell.CELL_TYPE_STRING);
                 String isMonthlyAssessed = isMonthlyAssessedCell.toString();
                 
+                Cell isChestSurgeryAssessedCell = row.getCell(hospitalHeaderColumn.get(hospitalHeaders.get(9)));
+                isChestSurgeryAssessedCell.setCellType(Cell.CELL_TYPE_STRING);
+                String isChestSurgeryAssessed = isChestSurgeryAssessedCell.toString();
+                
                 //collect rep info
                 Cell repCodeCell = row.getCell(repHeaderColumn.get(repHeaders.get(0)));
                 repCodeCell.setCellType(Cell.CELL_TYPE_STRING);
@@ -949,6 +953,7 @@ public class ExcelUtils {
                     hospital.setIsResAssessed(isResAssessed);
                     hospital.setIsPedAssessed(isPedAssessed);
                     hospital.setIsMonthlyAssessed(isMonthlyAssessed);
+                    hospital.setIsChestSurgeryAssessed(isChestSurgeryAssessed);
                     
                     hospitalMap.put(hospitalCode, hospital);
                     hospitalCodes.add(hospitalCode);

@@ -6,6 +6,7 @@ public class LsAttributes {
     public static final String COLLECT_PEDIATRICS_MESSAGE = "collectPediatricsMessage";
     public static final String COLLECT_MONTHLYDATA_MESSAGE = "collectMonthlyDataMessage";
     public static final String COLLECT_HOMEDATA_MESSAGE = "collectHomeDataMessage";
+    public static final String COLLECT_CHESTSURGERY_MESSAGE = "collectChestSurgeryMessage";
     public static final String WEEKLY_PDF_REPORT_MESSAGE = "weeklyReportMessage";
     public static final String WEEKLY_PDF_REFRESH_MESSAGE = "weeklyPDFRefreshMessage";
     public static final String UPLOAD_FILE_MESSAGE = "uploadFileMessage";
@@ -132,6 +133,7 @@ public class LsAttributes {
     
     public static final String DEPARTMENT_PED = "PED";
     public static final String DEPARTMENT_RES = "RES";
+    public static final String DEPARTMENT_CHE = "CHE";
     
     public static final String WEB_LOGIN_MESSAGE = "web_login_message";
     public static final String WEB_LOGIN_USER = "web_login_user";

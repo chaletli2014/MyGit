@@ -29,6 +29,7 @@ import com.chalet.lskpi.model.UserInfo;
 import com.chalet.lskpi.service.HospitalService;
 import com.chalet.lskpi.service.PediatricsService;
 import com.chalet.lskpi.service.RespirologyService;
+import com.chalet.lskpi.service.UploadService;
 import com.chalet.lskpi.service.UserService;
 import com.chalet.lskpi.utils.ExcelUtils;
 import com.chalet.lskpi.utils.LsAttributes;
@@ -59,6 +60,10 @@ public class UploadController {
     @Autowired
     @Qualifier("pediatricsService")
     private PediatricsService pediatricsService;
+    
+    @Autowired
+    @Qualifier("uploadService")
+    private UploadService uploadService;
 
     @RequestMapping("/doUploadAllData")
     public String doUploadAllData(HttpServletRequest request){
@@ -77,6 +82,7 @@ public class UploadController {
             hospitalHeaders.add("是否在呼吸科名单中（在=1，不在=0）");
             hospitalHeaders.add("是否在儿科名单中（在=1，不在=0）");
             hospitalHeaders.add("是否为月报袋数统计中（在=1，不在=0）");
+            hospitalHeaders.add("是否在胸外科名单中（在=1，不在=0）");
             
             List<String> repHeaders = new ArrayList<String>();
             repHeaders.add("Rep Code");
@@ -108,23 +114,7 @@ public class UploadController {
             long end = System.currentTimeMillis();
             logger.info("all item size is " + allInfos.size() + ", spend time " + (end - begin) + " ms");
             
-            logger.info("remove the old user infos firstly");
-            userService.delete();
-            userService.insert(allInfos.get("users"));
-            long finish = System.currentTimeMillis();
-            logger.info("time spent to insert the user infos into DB is " + (finish-end) + " ms");
-            
-            logger.info("begin to handle the hospital");
-            hospitalService.delete();
-            hospitalService.insert(allInfos.get("hospitals"));
-            long hosFinish = System.currentTimeMillis();
-            logger.info("time spent to insert the hospital infos into DB is " + (hosFinish-finish) + " ms");
-            
-            logger.info("begin to handle the hospital user reference");
-            userService.deleteHosUsers();
-            userService.insertHosUsers(allInfos.get("hosUsers"));
-            long hosUserFinish = System.currentTimeMillis();
-            logger.info("time spent to insert the hospital infos into DB is " + (hosUserFinish - hosFinish) + " ms");
+            uploadService.uploadAllData(allInfos);
             
             request.getSession().setAttribute(LsAttributes.UPLOAD_FILE_MESSAGE, LsAttributes.RETURNED_MESSAGE_0);
         }catch(Exception e){
@@ -185,9 +175,15 @@ public class UploadController {
             	try{
 	                RespirologyData respirologyData = respirologyService.getRespirologyDataByHospitalAndDate(data.getHospitalName(), data.getCreatedate());
 	                if( respirologyData != null ){
-	                    logger.info("upload res data, the data for " + data.getHospitalName() + "|" + data.getCreatedate() + ", is already exists, then update it which id is " + respirologyData.getDataId());
-	                    data.setDataId(respirologyData.getDataId());
-	                    respirologyService.update(data, null);
+	                    if( respirologyData.getDataId() != 0 ){
+	                        logger.info("upload res data, the data for " + data.getHospitalName() + "|" + data.getCreatedate() + ", is already exists, then update it which id is " + respirologyData.getDataId());
+	                        data.setDataId(respirologyData.getDataId());
+	                        respirologyService.update(data, null);
+	                    }else{
+	                        logger.error(String.format("the res data of %s is invalid", data.getHospitalName()));
+	                        validNum--;
+	                        invalidResData.add(data);
+	                    }
 	                }else{
 	                    logger.info("insert the new data of respirology");
 	                        respirologyService.insert(data);
@@ -261,13 +257,19 @@ public class UploadController {
     			try{
 	    			PediatricsData pediatricsData = pediatricsService.getPediatricsDataByHospitalAndDate(data.getHospitalName(), data.getCreatedate());
 	    			if( pediatricsData != null ){
-	    				logger.info("upload ped data, the data for " + data.getHospitalName() + "|" + data.getCreatedate() + ", is already exists, then update it which id is " + pediatricsData.getDataId());
-	//    				existsPedData.add(data);
-	    				data.setDataId(pediatricsData.getDataId());
-	    				pediatricsService.update(data, null);
+	    			    if( pediatricsData.getDataId() != 0 ){
+	    			        logger.info("upload ped data, the data for " + data.getHospitalName() + "|" + data.getCreatedate() + ", is already exists, then update it which id is " + pediatricsData.getDataId());
+	    			        //existsPedData.add(data);
+	    			        data.setDataId(pediatricsData.getDataId());
+	    			        pediatricsService.update(data, null);
+	    			    }else{
+	    			        logger.error(String.format("the ped data of %s is invalid", data.getHospitalName()));
+                            validNum--;
+                            invalidPedData.add(data);
+	    			    }
 	    			}else{
 	    				logger.info("insert the new data of pediatrics");
-	    				    pediatricsService.insert(data);
+	    				pediatricsService.insert(data);
 	    			}
     			}catch(Exception e){
     				logger.error("fail to insert the data of hospital " + data.getHospitalName() ,e);
