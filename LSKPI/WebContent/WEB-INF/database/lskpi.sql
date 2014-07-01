@@ -306,3 +306,8 @@ create table tbl_chestSurgery_data(
 
 alter table tbl_hospital add column isChestSurgeryAssessed varchar(2);
 ALTER  TABLE tbl_hospital ADD INDEX INDEX_HOSPITAL_CHEASSESSED (isChestSurgeryAssessed);
+
+ALTER TABLE tbl_respirology_data_weekly ADD INDEX INDEX_RES_WEEKLY_DURATION (duration);
+ALTER TABLE tbl_respirology_data_weekly ADD INDEX INDEX_RES_WEEKLY_REGION (region);
+ALTER TABLE tbl_pediatrics_data_weekly ADD INDEX INDEX_PED_WEEKLY_DURATION (duration);
+ALTER TABLE tbl_pediatrics_data_weekly ADD INDEX INDEX_PED_WEEKLY_REGION (region);
