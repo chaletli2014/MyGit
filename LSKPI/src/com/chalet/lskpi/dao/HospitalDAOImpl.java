@@ -432,7 +432,7 @@ public class HospitalDAOImpl implements HospitalDAO {
 	
 	@Override
 	public void insert(final List<Hospital> hospitals) throws Exception {
-		String insertSQL = "insert into tbl_hospital values(null,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
+		String insertSQL = "insert into tbl_hospital values(null,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
 		dataBean.getJdbcTemplate().batchUpdate(insertSQL, new BatchPreparedStatementSetter() {
 			
 			@Override
@@ -452,7 +452,7 @@ public class HospitalDAOImpl implements HospitalDAO {
 				ps.setString(13, hospitals.get(i).getIsPedAssessed());
 				ps.setString(14, hospitals.get(i).getSaleCode());
 				ps.setString(15, hospitals.get(i).getIsMonthlyAssessed());
-//				ps.setString(16, hospitals.get(i).getIsChestSurgeryAssessed());
+				ps.setString(16, hospitals.get(i).getIsChestSurgeryAssessed());
 			}
 			
 			@Override
