@@ -63,7 +63,7 @@ function checkForm(){
 	                <input type="number" name="pnum" id="pnum" value="${existedData.pnum==null?0:existedData.pnum}"/>
 	            </div>
 	            <div data-role="fieldcontain" class="formCollection">
-	                <label for="risknum" id="risknum_label">当日病房内高危因素病人人数</label>
+	                <label for="risknum" id="risknum_label">当日病房内合并COPD或哮喘的手术病人数</label>
 	                <input type="number" name="risknum" id="risknum"  value="${existedData.risknum==null?0:existedData.risknum}"/>
 	            </div>
                	<div data-role="fieldcontain" class="formCollection">
