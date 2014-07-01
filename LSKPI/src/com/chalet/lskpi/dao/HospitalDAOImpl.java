@@ -16,12 +16,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.jdbc.core.BatchPreparedStatementSetter;
 import org.springframework.jdbc.core.PreparedStatementCreator;
-import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Repository;
 
 import com.chalet.lskpi.mapper.DoctorRowMapper;
+import com.chalet.lskpi.mapper.HospitalRowMapper;
 import com.chalet.lskpi.mapper.HospitalSalesQueryRowMapper;
 import com.chalet.lskpi.mapper.Monthly12DataRowMapper;
 import com.chalet.lskpi.mapper.MonthlyCollectionDataRowMapper;
@@ -516,51 +516,31 @@ public class HospitalDAOImpl implements HospitalDAO {
 	
 	@Override
 	public List<Hospital> getHospitalsByDSMTel(String telephone, String department) throws Exception {
-	    Connection conn = dataBean.getConnection();
-	    if( conn == null ){
-	        logger.info("can not get the connect.");
-	        throw new Exception("can not get the connect when getting hospitals by DSM's telephone");
-	    }
-	    PreparedStatement ps = null ;
-	    ResultSet rs = null;
-	    List<Hospital> dbHospitalList = new ArrayList<Hospital>();
-	    try{
-	        StringBuilder sql = new StringBuilder(" ");
-	        if( LsAttributes.DEPARTMENT_PED.equalsIgnoreCase(department) ){
-	        	sql.append("select case when h.isPedAssessed='1' then concat('* ',h.name) else h.name end hospitalName ");
-	        }else{
-	        	sql.append("select case when h.isResAssessed='1' then concat('* ',h.name) else h.name end hospitalName ");
-	        }
-	        sql.append(" from tbl_userinfo u, tbl_hospital h ");
-	        sql.append(" where u.userCode = h.dsmCode and u.telephone = ? ");
-	        if( LsAttributes.DEPARTMENT_PED.equalsIgnoreCase(department) ){
-	            sql.append(" order by h.isPedAssessed desc, h.name asc");
-	        }else if( LsAttributes.DEPARTMENT_RES.equalsIgnoreCase(department) ){
-	            sql.append(" order by h.isResAssessed desc, h.name asc");
-	        }
-	        ps = conn.prepareStatement(sql.toString());
-	        ps.setString(1,telephone);
-	        rs = ps.executeQuery();
-	        
-	        while( rs.next() ){
-	            Hospital hospital = new Hospital();
-	            hospital.setName(rs.getString("hospitalName"));
-	            dbHospitalList.add(hospital);
-	        }
-	    }catch(Exception e){
-	        logger.error("fail to get the hospital by dsm telephone,",e);
-	    }finally{
-	        if( conn != null ){
-	            conn.close();
-	        }
-	        if( ps != null ){
-	            ps.close();
-	        }
-	        if( rs != null ){
-	            rs.close();
-	        }
-	    }
-	    return dbHospitalList;
+	    
+	    StringBuffer sb = new StringBuffer();
+        sb.append("select h.id,h.code ")
+            .append(", h.city,h.province,h.region,h.rsmRegion,h.saleCode,h.saleName,h.dsmCode ");
+        
+        if( LsAttributes.DEPARTMENT_PED.equalsIgnoreCase(department) ){
+            sb.append(", case when h.isPedAssessed='1' then concat('* ',h.name) else h.name end name ");
+        }else if( LsAttributes.DEPARTMENT_RES.equalsIgnoreCase(department) ){
+            sb.append(", case when h.isResAssessed='1' then concat('* ',h.name) else h.name end name ");
+        }else if( LsAttributes.DEPARTMENT_CHE.equalsIgnoreCase(department) ){
+            sb.append(", case when h.isChestSurgeryAssessed='1' then concat('* ',h.name) else h.name end name");
+        }
+        
+        sb.append(" from tbl_userinfo u, tbl_hospital h ")
+            .append(" where u.userCode = h.dsmCode and u.telephone = ? ");
+        
+        if( LsAttributes.DEPARTMENT_PED.equalsIgnoreCase(department) ){
+            sb.append(" order by h.isPedAssessed desc, h.name asc");
+        }else if( LsAttributes.DEPARTMENT_RES.equalsIgnoreCase(department) ){
+            sb.append(" order by h.isResAssessed desc, h.name asc");
+        }else if( LsAttributes.DEPARTMENT_CHE.equalsIgnoreCase(department) ){
+            sb.append(" order by h.isChestSurgeryAssessed desc, h.name asc");
+        }
+        
+        return dataBean.getJdbcTemplate().query(sb.toString(), new Object[]{telephone}, new HospitalRowMapper());
 	}
 	
 	@Override
@@ -587,55 +567,31 @@ public class HospitalDAOImpl implements HospitalDAO {
 	
 	@Override
 	public List<Hospital> getHospitalsByUserTel(String telephone, String department) throws Exception {
-		Connection conn = dataBean.getConnection();
-		if( conn == null ){
-			logger.info("can not get the connect.");
-			throw new Exception("can not get the connect when getting hospitals by user's telephone");
-		}
-		PreparedStatement ps = null ;
-		ResultSet rs = null;
-		List<Hospital> dbHospitalList = new ArrayList<Hospital>();
-		try{
-		    StringBuilder sql = new StringBuilder(" ");
-		    if( LsAttributes.DEPARTMENT_PED.equalsIgnoreCase(department) ){
-		    	sql.append("select case when h.isPedAssessed='1' then concat('* ',h.name) else h.name end hospitalName ");
-		    }else if( LsAttributes.DEPARTMENT_RES.equalsIgnoreCase(department) ){
-		    	sql.append("select case when h.isResAssessed='1' then concat('* ',h.name) else h.name end hospitalName ");
-		    }else if( LsAttributes.DEPARTMENT_CHE.equalsIgnoreCase(department) ){
-		        sql.append("select case when h.isChestSurgeryAssessed='1' then concat('* ',h.name) else h.name end hospitalName ");
-		    }
-		    sql.append(" from tbl_userinfo u, tbl_hos_user hu, tbl_hospital h ");
-		    sql.append(" where u.userCode = hu.userCode and hu.hosCode = h.code and u.telephone = ? ");
-		    if( LsAttributes.DEPARTMENT_PED.equalsIgnoreCase(department) ){
-		        sql.append(" order by h.isPedAssessed desc, h.name asc");
-		    }else if( LsAttributes.DEPARTMENT_RES.equalsIgnoreCase(department) ){
-		        sql.append(" order by h.isResAssessed desc, h.name asc");
-		    }else if( LsAttributes.DEPARTMENT_CHE.equalsIgnoreCase(department) ){
-                sql.append(" order by h.isChestSurgeryAssessed desc, h.name asc");
-            }
-		    ps = conn.prepareStatement(sql.toString());
-		    ps.setString(1,telephone);
-		    rs = ps.executeQuery();
-		    
-		    while( rs.next() ){
-		        Hospital hospital = new Hospital();
-		        hospital.setName(rs.getString("hospitalName"));
-		        dbHospitalList.add(hospital);
-		    }
-		}catch(Exception e){
-            logger.error("fail to get the hospital by user telephone,",e);
-        }finally{
-            if( conn != null ){
-                conn.close();
-            }
-            if( ps != null ){
-                ps.close();
-            }
-            if( rs != null ){
-                rs.close();
-            }
+	    
+	    StringBuffer sb = new StringBuffer();
+        sb.append("select h.id,h.code ")
+            .append(", h.city,h.province,h.region,h.rsmRegion,h.saleCode,h.saleName,h.dsmCode ");
+        
+        if( LsAttributes.DEPARTMENT_PED.equalsIgnoreCase(department) ){
+            sb.append(", case when h.isPedAssessed='1' then concat('* ',h.name) else h.name end name ");
+        }else if( LsAttributes.DEPARTMENT_RES.equalsIgnoreCase(department) ){
+            sb.append(", case when h.isResAssessed='1' then concat('* ',h.name) else h.name end name ");
+        }else if( LsAttributes.DEPARTMENT_CHE.equalsIgnoreCase(department) ){
+            sb.append(", case when h.isChestSurgeryAssessed='1' then concat('* ',h.name) else h.name end name ");
         }
-		return dbHospitalList;
+        
+        sb.append(" from tbl_userinfo u, tbl_hos_user hu, tbl_hospital h ")
+            .append(" where u.userCode = hu.userCode and hu.hosCode = h.code and u.telephone = ? ");
+        
+        if( LsAttributes.DEPARTMENT_PED.equalsIgnoreCase(department) ){
+            sb.append(" order by h.isPedAssessed desc, h.name asc");
+        }else if( LsAttributes.DEPARTMENT_RES.equalsIgnoreCase(department) ){
+            sb.append(" order by h.isResAssessed desc, h.name asc");
+        }else if( LsAttributes.DEPARTMENT_CHE.equalsIgnoreCase(department) ){
+            sb.append(" order by h.isChestSurgeryAssessed desc, h.name asc");
+        }
+        
+        return dataBean.getJdbcTemplate().query(sb.toString(), new Object[]{telephone}, new HospitalRowMapper());
 	}
 	
 	public UserInfo getPrimarySalesOfHospital(String hospitalCode) throws Exception {
@@ -775,25 +731,6 @@ public class HospitalDAOImpl implements HospitalDAO {
     public void delete() throws Exception {
         dataBean.getJdbcTemplate().update("truncate table tbl_hospital");
     }
-	
-	class HospitalRowMapper implements RowMapper<Hospital>{
-		@Override
-		public Hospital mapRow(ResultSet rs, int i) throws SQLException {
-			Hospital dbHospital = new Hospital();
-			dbHospital.setId(rs.getInt("id"));
-			dbHospital.setCode(rs.getString("code"));
-			dbHospital.setName(rs.getString("name"));
-			dbHospital.setCity(rs.getString("city"));
-			dbHospital.setProvince(rs.getString("province"));
-			dbHospital.setRegion(rs.getString("region"));
-			dbHospital.setRsmRegion(rs.getString("rsmRegion"));
-			dbHospital.setSaleCode(rs.getString("saleCode"));
-			dbHospital.setDsmCode(rs.getString("dsmCode"));
-			dbHospital.setSaleName(rs.getString("saleName"));
-			return dbHospital;
-		}
-		
-	}
 	
 	public DataBean getDataBean() {
 		return dataBean;

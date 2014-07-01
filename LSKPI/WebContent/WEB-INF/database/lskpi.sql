@@ -305,4 +305,4 @@ create table tbl_chestSurgery_data(
 );
 
 alter table tbl_hospital add column isChestSurgeryAssessed varchar(2);
-
+ALTER  TABLE tbl_hospital ADD INDEX INDEX_HOSPITAL_CHEASSESSED (isChestSurgeryAssessed);

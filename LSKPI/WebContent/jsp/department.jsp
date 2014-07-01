@@ -20,6 +20,9 @@
 	            <img alt="" src="<%=basePath%>images/img_bg_ped.png" onclick="javascript:window.location.href='<%=basePath%>pediatrics'" style="cursor: pointer;">
         	</div>
         	<div data-role="fieldcontain" class="department_img_div">
+	            <img alt="" src="<%=basePath%>images/img_bg_ped.png" onclick="javascript:window.location.href='<%=basePath%>chestSurgery'" style="cursor: pointer;">
+        	</div>
+        	<div data-role="fieldcontain" class="department_img_div">
 	            <img alt="" src="<%=basePath%>images/img_bg_mon.png" onclick="javascript:window.location.href='<%=basePath%>collectmonthlydata'" style="cursor: pointer;">
         	</div>
         	<% if( "13813381990".equalsIgnoreCase(currentUserTel) ){ %>
