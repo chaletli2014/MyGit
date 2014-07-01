@@ -7,12 +7,14 @@ import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.chalet.lskpi.dao.HospitalDAO;
 import com.chalet.lskpi.dao.UserDAO;
 
 @Service("uploadService")
+@Transactional(propagation=Propagation.REQUIRED, rollbackFor=Exception.class)
 public class UploadServiceImpl implements UploadService {
 
     @Autowired
@@ -25,7 +27,6 @@ public class UploadServiceImpl implements UploadService {
     
     Logger logger = Logger.getLogger(UploadServiceImpl.class);
 
-    @Transactional(rollbackFor=Exception.class)
     public void uploadAllData(Map<String, List> allInfos) throws Exception {
         try{
             long end = System.currentTimeMillis();

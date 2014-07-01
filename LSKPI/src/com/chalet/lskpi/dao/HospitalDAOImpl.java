@@ -729,7 +729,7 @@ public class HospitalDAOImpl implements HospitalDAO {
 
     @Override
     public void delete() throws Exception {
-        dataBean.getJdbcTemplate().update("truncate table tbl_hospital");
+        dataBean.getJdbcTemplate().update("delete from tbl_hospital");
     }
 	
 	public DataBean getDataBean() {

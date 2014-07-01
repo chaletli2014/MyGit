@@ -201,11 +201,11 @@ public class UserDAOImpl implements UserDAO {
 
 	@Override
 	public void delete() throws Exception {
-		dataBean.getJdbcTemplate().update("truncate table tbl_userinfo");
+		dataBean.getJdbcTemplate().update("delete from tbl_userinfo");
 	}
 
     public void deleteDDI() throws Exception {
-        dataBean.getJdbcTemplate().update("truncate table tbl_ddi_data");
+        dataBean.getJdbcTemplate().update("delete from tbl_ddi_data");
     }
     
     @Override
@@ -235,7 +235,7 @@ public class UserDAOImpl implements UserDAO {
     }
 
     public void deleteHosUsers() throws Exception {
-        dataBean.getJdbcTemplate().update("truncate table tbl_hos_user");
+        dataBean.getJdbcTemplate().update("delete from tbl_hos_user");
     }
 
     public void insertHosUsers(final List<HospitalUserRefer> hosUsers) throws Exception {
