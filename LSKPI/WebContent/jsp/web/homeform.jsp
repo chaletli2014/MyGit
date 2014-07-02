@@ -20,7 +20,11 @@ function submitForm(){
 	}
 }
 function checkForm(){
-	if( !checkIsNotNull( $("#doctor"),$("#salenum"),$("#asthmanum"),$("#ltenum"),$("#lsnum"),$("#efnum"),$("#ftnum"),$("#lttnum") ) ){
+	if( !checkIsNotNull( $("#doctor") ) ){
+		showCustomrizedMessage("医生名称不能为空");
+		return false;
+	}
+	if( !checkIsNotNull( $("#salenum"),$("#asthmanum"),$("#ltenum"),$("#lsnum"),$("#efnum"),$("#ftnum"),$("#lttnum") ) ){
 		showCustomrizedMessage("数据不能为空或者字母");
 		return false;
 	}
