@@ -29,9 +29,8 @@ public class HomeServiceImpl implements HomeService {
     
     public HomeData getHomeDataByDoctorId(String doctorId) throws Exception {
         try{
-            Date beginDate = DateUtils.getTheBeginDateOfCurrentWeek();
-            Date endDate = DateUtils.getGenerateWeeklyReportDate(new Date());
-            endDate = new Date(endDate.getTime() + 1 * 24 * 60 * 60 * 1000);
+            Date beginDate = DateUtils.getHomeCollectionBegionDate(new Date());
+            Date endDate = new Date(beginDate.getTime() + 7 * 24 * 60 * 60 * 1000);
             return homeDAO.getHomeDataByDoctorId(doctorId,beginDate,endDate);
         }catch(EmptyResultDataAccessException erd){
             logger.info("there is no record found.");
@@ -78,9 +77,8 @@ public class HomeServiceImpl implements HomeService {
 
     public List<HomeWeeklyData> getHomeWeeklyDataOfCurrentUser(UserInfo currentUser) throws Exception {
         List<HomeWeeklyData> homeWeeklyData = new ArrayList<HomeWeeklyData>();
-        Date lastWednesday = DateUtils.getGenerateWeeklyReportDate();
-        Date beginDate = new Date(lastWednesday.getTime() - 6* 24 * 60 * 60 * 1000);
-        Date endDate = new Date(lastWednesday.getTime() + 1 * 24 * 60 * 60 * 1000);
+        Date beginDate = DateUtils.getHomeWeeklyReportBegionDate();
+        Date endDate = new Date(beginDate.getTime() + 7 * 24 * 60 * 60 * 1000);
         switch(currentUser.getLevel()){
             case LsAttributes.USER_LEVEL_BM:
                 homeWeeklyData = homeDAO.getHomeWeeklyDataOfRSD(beginDate, endDate);
@@ -103,9 +101,8 @@ public class HomeServiceImpl implements HomeService {
     
     public List<HomeWeeklyData> getHomeWeeklyDataOfLowerUser(UserInfo currentUser) throws Exception {
         List<HomeWeeklyData> homeWeeklyData = new ArrayList<HomeWeeklyData>();
-        Date lastWednesday = DateUtils.getGenerateWeeklyReportDate();
-        Date beginDate = new Date(lastWednesday.getTime() - 6* 24 * 60 * 60 * 1000);
-        Date endDate = new Date(lastWednesday.getTime() + 1 * 24 * 60 * 60 * 1000);
+        Date beginDate = DateUtils.getHomeWeeklyReportBegionDate();
+        Date endDate = new Date(beginDate.getTime() + 7 * 24 * 60 * 60 * 1000);
         switch(currentUser.getLevel()){
             case LsAttributes.USER_LEVEL_BM:
                 break;
@@ -126,9 +123,8 @@ public class HomeServiceImpl implements HomeService {
     
     public HomeWeeklyData getHomeWeeklyDataOfUpperUser(UserInfo currentUser) throws Exception {
         HomeWeeklyData homeWeeklyData = new HomeWeeklyData();
-        Date lastWednesday = DateUtils.getGenerateWeeklyReportDate();
-        Date beginDate = new Date(lastWednesday.getTime() - 6* 24 * 60 * 60 * 1000);
-        Date endDate = new Date(lastWednesday.getTime() + 1 * 24 * 60 * 60 * 1000);
+        Date beginDate = DateUtils.getHomeWeeklyReportBegionDate();
+        Date endDate = new Date(beginDate.getTime() + 7 * 24 * 60 * 60 * 1000);
         switch(currentUser.getLevel()){
             case LsAttributes.USER_LEVEL_BM:
                 homeWeeklyData = homeDAO.getHomeWeeklyDataOfCountory(beginDate, endDate);

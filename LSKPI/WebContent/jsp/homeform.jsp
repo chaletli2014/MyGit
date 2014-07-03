@@ -12,12 +12,8 @@ function loadData(selectedDoctor){
 }
 function submitForm(){
 	if(checkForm()){
-		$.mobile.showPageLoadingMsg('b','数据提交中',false);
-		if( $('.submit_btn') ){
-			$('.submit_btn').removeAttr("onclick");
-		}
-		$('#homeForm').submit();
-	}
+        submitHomeCollection();
+    }
 }
 function checkForm(){
 	if( !checkIsNotNull( $("#doctor") ) ){
@@ -62,27 +58,27 @@ function checkForm(){
 	                <input type="number" name="salenum" id="salenum" value="${existedData.salenum==null?0:existedData.salenum}"/>
 	            </div>
 	            <div data-role="fieldcontain" class="formCollection">
-	                <label for="asthmanum" id="asthmanum_label">哮喘*患者人次</label>
+	                <label for="asthmanum" id="asthmanum_label">哮喘*患者人数</label>
 	                <input type="number" name="asthmanum" id="asthmanum"  value="${existedData.asthmanum==null?0:existedData.asthmanum}"/>
 	            </div>
                	<div data-role="fieldcontain" class="formCollection">
-	                <label for="ltenum" id="ltenum_label">处方≥8天的哮喘持续期病人次</label>
+	                <label for="ltenum" id="ltenum_label">处方≥8天的哮喘持续期病人数</label>
 	                <input type="number" name="ltenum" id="ltenum"  value="${existedData.ltenum==null?0:existedData.ltenum}"/>
 	            </div>
                	<div data-role="fieldcontain" class="formCollection">
-	                <label for="lsnum" id="lsnum_label">持续期病人中推荐使用令舒的人次</label>
+	                <label for="lsnum" id="lsnum_label">持续期病人中推荐使用令舒的人数</label>
 	                <input type="number" name="lsnum" id="lsnum"  value="${existedData.lsnum==null?0:existedData.lsnum}"/>
 	            </div>
                	<div data-role="fieldcontain" class="formCollection">
-	                <label for="efnum" id="efnum_label">8≤DOT<15天，病人次</label>
+	                <label for="efnum" id="efnum_label">8≤DOT<15天，病人数</label>
 	                <input type="number" name="efnum" id="efnum"  value="${existedData.efnum==null?0:existedData.efnum}"/>
 	            </div>
                	<div data-role="fieldcontain" class="formCollection">
-	                <label for="ftnum" id="ftnum_label">15≤DOT<30天，病人次</label>
+	                <label for="ftnum" id="ftnum_label">15≤DOT<30天，病人数</label>
 	                <input type="number" name="ftnum" id="ftnum"  value="${existedData.ftnum==null?0:existedData.ftnum}"/>
 	            </div>
                	<div data-role="fieldcontain" class="formCollection">
-	                <label for="lttnum" id="lttnum_label">DOT≥30天，病人次</label>
+	                <label for="lttnum" id="lttnum_label">DOT≥30天，病人数</label>
 	                <input type="number" name="lttnum" id="lttnum"  value="${existedData.lttnum==null?0:existedData.lttnum}"/>
 	            </div>
 	            
@@ -93,6 +89,22 @@ function checkForm(){
 	            </div>
 	        </form>
         	</div>
+        	<div data-role="popup" id="popupConfirm" data-inline="true" data-position-to="window" data-theme="b" style="max-width:100%;" class="ui-corner-all">
+               <div data-role="header" data-theme="a" class="ui-corner-top">
+                     <h1></h1><a href="#" data-rel="back" data-role="button" data-theme="a" data-icon="delete" data-mini="true" data-iconpos="notext" class="ui-btn-right">Close</a>
+               </div>
+               <div data-role="content" data-theme="d" class="ui-corner-bottom ui-content">
+                 <p style="width:100%"></p>
+                 <div style="text-align: center;">
+                     <a href="javascript:void(0)" id="home_collection_submit" style="display: block;">
+                        <img alt="" src="<%=basePath%>images/button_submit_140.png" style="cursor: pointer;" />
+                     </a>
+                     <a href="javascript:void(0)" id="home_collection_cancel" style="display: block;">
+                        <img alt="" src="<%=basePath%>images/button_cancel_140.png" style="cursor: pointer;" />
+                     </a>
+                 </div>
+               </div>
+             </div>
         </div>
         <jsp:include page="page_footer.jsp">
             <jsp:param value="<%=basePath%>" name="basePath"/>

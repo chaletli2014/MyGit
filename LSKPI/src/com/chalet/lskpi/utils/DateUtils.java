@@ -255,8 +255,35 @@ public class DateUtils {
         return formatter_1.format(endThursDay)+"-"+formatter_1.format(endWenDay);
     }
     
+    public static Date getHomeCollectionBegionDate(Date date){
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(date);
+        int dayInWeek = calendar.get(Calendar.DAY_OF_WEEK);
+        //1 - Sunday 2-Monday
+        Date beginDate = date;
+        if( dayInWeek >= 2 ){
+            beginDate = new Date(date.getTime() - (dayInWeek-2+7) * 24 * 60 * 60 * 1000 );
+        }else {
+            beginDate = new Date(date.getTime() - 13 * 24 * 60 * 60 * 1000);
+        }
+        beginDate = new Date(beginDate.getYear(),beginDate.getMonth(),beginDate.getDate());
+        return beginDate;
+    }
+    
+    public static Date getHomeWeeklyReportBegionDate(){
+        Date date = new Date();
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(date);
+        int dayInWeek = calendar.get(Calendar.DAY_OF_WEEK);
+        //1 - Sunday 2-Monday
+        if( dayInWeek < 5 && dayInWeek >= 2 ){
+            date = new Date(date.getTime() - 7 * 24 * 60 * 60 * 1000 );
+        }
+        
+        return getHomeCollectionBegionDate(date);
+    }
+    
     public static void main(String[] args){
-        System.out.println(getTheBeginDateOfRefreshDate(new Date()));
-        System.out.println(getTheEndDateOfRefreshDate(new Date()));
+        System.out.println(getHomeWeeklyReportBegionDate());
     }
 }

@@ -76,7 +76,7 @@ public class HomeDAOImpl implements HomeDAO {
     public void insert(final HomeData homeData, final String doctorId) throws Exception {
         logger.info("insert home data");
         
-        final String sql = "insert into tbl_home_data values(null,?,?,?,?,?,?,?,?,NOW(),NOW())";
+        final String sql = "insert into tbl_home_data values(null,?,?,?,?,?,?,?,?,date_sub(NOW(),interval 7 day),NOW())";
         KeyHolder keyHolder = new GeneratedKeyHolder();
         dataBean.getJdbcTemplate().update(new PreparedStatementCreator(){
             @Override

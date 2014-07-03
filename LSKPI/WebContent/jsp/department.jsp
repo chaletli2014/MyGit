@@ -14,16 +14,13 @@
         </jsp:include>
         <div data-role="content" data-theme="a">
         	<div data-role="fieldcontain" class="department_img_div">
-	            <img alt="" src="<%=basePath%>images/img_bg_res.png" onclick="javascript:window.location.href='<%=basePath%>respirology'" style="cursor: pointer;">
-        	</div>
-        	<div data-role="fieldcontain" class="department_img_div">
 	            <img alt="" src="<%=basePath%>images/img_bg_ped.png" onclick="javascript:window.location.href='<%=basePath%>pediatrics'" style="cursor: pointer;">
         	</div>
         	<div data-role="fieldcontain" class="department_img_div">
-	            <img alt="" src="<%=basePath%>images/img_bg_ped.png" onclick="javascript:window.location.href='<%=basePath%>chestSurgery'" style="cursor: pointer;">
+	            <img alt="" src="<%=basePath%>images/img_bg_res.png" onclick="javascript:window.location.href='<%=basePath%>respirology'" style="cursor: pointer;">
         	</div>
         	<div data-role="fieldcontain" class="department_img_div">
-	            <img alt="" src="<%=basePath%>images/img_bg_mon.png" onclick="javascript:window.location.href='<%=basePath%>collectmonthlydata'" style="cursor: pointer;">
+	            <img alt="" src="<%=basePath%>images/img_bg_chestSurgery.png" onclick="javascript:window.location.href='<%=basePath%>chestSurgery'" style="cursor: pointer;">
         	</div>
         	<% if( "13813381990".equalsIgnoreCase(currentUserTel) ){ %>
         	<div data-role="fieldcontain" class="department_img_div">
@@ -33,6 +30,9 @@
                 <img alt="" src="<%=basePath%>images/img_bg_doctor.png" onclick="javascript:window.location.href='<%=basePath%>doctormaintenance'" style="cursor: pointer;">
             </div>
             <%} %>
+        	<div data-role="fieldcontain" class="department_img_div">
+	            <img alt="" src="<%=basePath%>images/img_bg_mon.png" onclick="javascript:window.location.href='<%=basePath%>collectmonthlydata'" style="cursor: pointer;">
+        	</div>
         </div>
         <jsp:include page="page_footer.jsp" flush="true">
         	<jsp:param name="backURL" value="index"/>

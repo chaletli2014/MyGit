@@ -9,6 +9,29 @@ function confirm(title, dataId, doctorname) {
     $("#popupConfirm #delete_dr_cancel").unbind("click").click(function() { $("#popupConfirm").popup("close"); });
     $("#popupConfirm").popup("open");
 }
+function submitHomeCollection(){
+	var currentDate = new Date();
+	if( currentDate.getDay() > 3 ){
+	    $("#popupConfirm h1").html("系统信息");
+	    $("#popupConfirm p").html("当前为补录时段，<br/>所填数据会覆盖上周数据，<br/>是否确认？");
+	    $("#popupConfirm #home_collection_submit").unbind("click").click(function() { 
+	        $("#popupConfirm").popup("close");
+			$.mobile.showPageLoadingMsg('b','数据提交中',false);
+			if( $('.submit_btn') ){
+				$('.submit_btn').removeAttr("onclick");
+			}
+			$('#homeForm').submit();
+	    });
+	    $("#popupConfirm #home_collection_cancel").unbind("click").click(function() { $("#popupConfirm").popup("close"); });
+	    $("#popupConfirm").popup("open");
+	}else{
+		$.mobile.showPageLoadingMsg('b','数据提交中',false);
+        if( $('.submit_btn') ){
+            $('.submit_btn').removeAttr("onclick");
+        }
+        $('#homeForm').submit();
+	}
+}
 function showEdit(dataId,doctorname,hospitalName,hospitalCode) {
     $("#popupEdit #editdoctor_notification").html("");
     $("#popupEdit #doctorname").parent().removeClass("ls-error");
