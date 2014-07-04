@@ -26,9 +26,6 @@
         	<div data-role="fieldcontain" class="department_img_div">
                 <img alt="" src="<%=basePath%>images/img_bg_home.png" onclick="javascript:window.location.href='<%=basePath%>collecthomedata'" style="cursor: pointer;">
             </div>
-            <div data-role="fieldcontain" class="department_img_div">
-                <img alt="" src="<%=basePath%>images/img_bg_doctor.png" onclick="javascript:window.location.href='<%=basePath%>doctormaintenance'" style="cursor: pointer;">
-            </div>
             <%} %>
         	<div data-role="fieldcontain" class="department_img_div">
 	            <img alt="" src="<%=basePath%>images/img_bg_mon.png" onclick="javascript:window.location.href='<%=basePath%>collectmonthlydata'" style="cursor: pointer;">

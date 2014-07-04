@@ -40,6 +40,9 @@ function checkForm(){
         	<jsp:param name="basePath" value="<%=basePath%>"/>
         </jsp:include>
         <div data-role="content" data-theme="a">
+        	<div data-role="fieldcontain" class="department_img_div"> 
+                <img alt="" src="<%=basePath%>images/img_bg_doctor_w.png" onclick="javascript:window.location.href='<%=basePath%>doctormaintenance'" style="cursor: pointer;">
+            </div>
         	<div class="roundCorner">
 	        <form id="homeForm" action="docollecthomedata" method="POST" data-ajax="false" class="validate" onsubmit="return checkForm()">
 	        	<input type="hidden" name="dataId" value="${existedData.id}"/>
