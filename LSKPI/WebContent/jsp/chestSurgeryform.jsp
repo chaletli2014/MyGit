@@ -20,7 +20,11 @@ function submitForm(){
 	}
 }
 function checkForm(){
-	if( !checkIsNotNull( $("#hospital"),$("#pnum"),$("#risknum"),$("#whnum"),$("#lsnum") ) ){
+	if( !checkIsNotNull( $("#hospital") ) ){
+		showCustomrizedMessage("医院不能为空");
+		return false;
+	}
+	if( !checkIsNotNull( $("#pnum"),$("#risknum"),$("#whnum"),$("#lsnum") ) ){
 		showCustomrizedMessage("数据不能为空或者字母");
 		return false;
 	}
@@ -32,6 +36,10 @@ function checkForm(){
 	if( !percentValidate($("#oqd"),$("#tqd"),$("#otid"),$("#tbid"),$("#ttid"),$("#thbid"),$("#fbid")) ){
 		return false;
 	}
+	
+    if( !isLsNumAndPNumValid() ){
+        return false;
+    }
 	
 	return true;
 }

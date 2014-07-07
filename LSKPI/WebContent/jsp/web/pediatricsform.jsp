@@ -21,7 +21,11 @@ function submitForm(){
 }
 function checkForm(){
 	//$("#hqd"),$("#hbid"),$("#oqd"),$("#obid"),$("#tqd"),$("#tbid")
-    if( !checkIsNotNull( $("#hospital"),$("#pnum"),$("#whnum"),$("#lsnum") ) ){
+    if( !checkIsNotNull( $("#hospital") ) ){
+        showCustomrizedMessage("医院不能为空");
+        return false;
+    }
+    if( !checkIsNotNull( $("#pnum"),$("#whnum"),$("#lsnum") ) ){
         showCustomrizedMessage("数据不能为空或者字母");
         return false;
     }
