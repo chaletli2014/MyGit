@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.PushbackInputStream;
 import java.text.DecimalFormat;
+import java.text.NumberFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -222,6 +223,16 @@ public class ExcelUtils {
                 throw new Exception("文件格式不正确，无法导入数据");
             }
             //get the data
+            String hospitalCode_tmp = "";
+            int count = 0;
+            NumberFormat nf = NumberFormat.getInstance();
+            //设置是否使用分组
+            nf.setGroupingUsed(false);
+            //设置最大整数位数
+            nf.setMaximumIntegerDigits(4);
+            //设置最小整数位数    
+            nf.setMinimumIntegerDigits(4);
+            
             for( int i = sheet.getFirstRowNum() + 1; i < sheet.getPhysicalNumberOfRows(); i++ ){
                 row = sheet.getRow(i);
                 
@@ -238,10 +249,19 @@ public class ExcelUtils {
                 String salesCode = salesCodeCell.toString();
                 
                 if( null != hospitalCode && !"#N/A".equalsIgnoreCase(hospitalCode) ){
+                	
+                	if( !hospitalCode.equalsIgnoreCase(hospitalCode_tmp) ){
+                    	hospitalCode_tmp = hospitalCode;
+                    	count = 1;
+                    }else{
+                    	count++;
+                    }
+                	
                     Doctor doctor = new Doctor();
                     doctor.setHospitalCode(hospitalCode);
                     doctor.setName(doctorName);
                     doctor.setSalesCode(salesCode);
+                    doctor.setCode(nf.format(count));
                     doctors.add(doctor);
                 }
             }

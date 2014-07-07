@@ -379,7 +379,7 @@ public class UploadController {
             List<String> dataHeaders = new ArrayList<String>();
             dataHeaders.add("目标医院CODE修正");
             dataHeaders.add("目标医生");
-            dataHeaders.add("PSRCODE修正");
+            dataHeaders.add("最新PSR CODE");
             
             long begin = System.currentTimeMillis();
             List<Doctor> doctors = ExcelUtils.getDoctorDataFromFile(loadFile(request), dataHeaders);

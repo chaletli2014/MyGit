@@ -30,6 +30,14 @@
 		loading();
 		$("#uploadBMUserData").submit();
 	}
+	function uploadDoctorData() {
+		if( $("#doctorData") && $("#doctorData").val() == '' ){
+			alert('请选择一个文件进行上传');
+			return false;
+		}
+		loading();
+		$("#uploadDoctorData").submit();
+	}
 	function uploadUserCodeForm() {
 		if( $("#codeFile") && $("#codeFile").val() == '' ){
 			alert('请选择一个文件进行上传');
@@ -390,7 +398,7 @@
 				<div>上传数据--医生列表</div>
 				<div>
 					<form id="uploadDoctorData" action="doUploadDoctorData" method="post" enctype="multipart/form-data" data-ajax="false" accept-charset="UTF-8">
-						<input type="file" name="bMData" id="bMData" /> 
+						<input type="file" name="doctorData" id="doctorData" /> 
 				        <img alt="" src="<%=basePath%>images/button_submit.png" style="cursor: pointer; vertical-align: middle;" onclick="uploadDoctorData()" />
 				        <div id="uploadDoctorResult_div" class="uploadDataResult_div" style="display: none;">
                             <c:if test="${message != null && message != ''}">
