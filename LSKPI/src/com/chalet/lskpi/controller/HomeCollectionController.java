@@ -235,10 +235,10 @@ public class HomeCollectionController extends BaseController{
         logger.info(String.format("edit the doctor data, dataId is %s, relatedSales is %s"
                 , dataId,relatedSales));
         
-        if( null == relatedSales || "".equalsIgnoreCase(relatedSales) ){
-            request.getSession().setAttribute(LsAttributes.COLLECT_HOMEDATA_MESSAGE, LsAttributes.RETURNED_MESSAGE_11);
-            return "redirect:doctormaintenance";
-        }
+//        if( null == relatedSales || "".equalsIgnoreCase(relatedSales) ){
+//            request.getSession().setAttribute(LsAttributes.COLLECT_HOMEDATA_MESSAGE, LsAttributes.RETURNED_MESSAGE_11);
+//            return "redirect:doctormaintenance";
+//        }
         
         try{
             if( defaultRelatedSales.equalsIgnoreCase(relatedSales) ){

@@ -64,13 +64,13 @@ function showRefer(doctorId,doctorname,hospitalName,salesCode) {
 	$("#popupEditRelationship #doctorname").val(doctorname);
 	
 	$("#popupEditRelationship #edit_dr_submit").unbind("click").click(function() { 
-		if( !checkIsNotNull( $("#popupEditRelationship #relatedSales") ) ){
-			$("#popupEditRelationship #editdoctor_notification").html("请选择一个销售");
-		}else{
-			$.mobile.showPageLoadingMsg('b','数据保存中',false);
-			$("#popupEditRelationship").popup("close");
-			$('#popupEditRelationship #doEditDoctorRelationshipForm').submit();
-		}
+//		if( !checkIsNotNull( $("#popupEditRelationship #relatedSales") ) ){
+//			$("#popupEditRelationship #editdoctor_notification").html("请选择一个销售");
+//		}else{
+		$.mobile.showPageLoadingMsg('b','数据保存中',false);
+		$("#popupEditRelationship").popup("close");
+		$('#popupEditRelationship #doEditDoctorRelationshipForm').submit();
+//		}
 	});
 	$("#popupEditRelationship #edit_dr_cancel").unbind("click").click(function() { $("#popupEditRelationship").popup("close"); });
 	$("#popupEditRelationship").popup("open");
