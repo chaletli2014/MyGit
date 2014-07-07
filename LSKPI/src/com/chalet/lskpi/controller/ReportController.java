@@ -34,6 +34,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.chalet.lskpi.model.HomeData;
 import com.chalet.lskpi.model.HomeWeeklyData;
+import com.chalet.lskpi.model.MobileCHEDailyData;
 import com.chalet.lskpi.model.MobilePEDDailyData;
 import com.chalet.lskpi.model.MobileRESDailyData;
 import com.chalet.lskpi.model.MonthlyData;
@@ -45,6 +46,7 @@ import com.chalet.lskpi.model.RespirologyData;
 import com.chalet.lskpi.model.TopAndBottomRSMData;
 import com.chalet.lskpi.model.UserInfo;
 import com.chalet.lskpi.model.WebUserInfo;
+import com.chalet.lskpi.service.ChestSurgeryService;
 import com.chalet.lskpi.service.HomeService;
 import com.chalet.lskpi.service.HospitalService;
 import com.chalet.lskpi.service.PediatricsService;
@@ -84,6 +86,10 @@ public class ReportController extends BaseController{
     @Autowired
     @Qualifier("homeService")
     private HomeService homeService;
+    
+    @Autowired
+    @Qualifier("chestSurgeryService")
+    private ChestSurgeryService chestSurgeryService;
     
     private String populateRecipeTypeValue(String recipeTypeValue){
         String returnValue = recipeTypeValue;
@@ -626,7 +632,7 @@ public class ReportController extends BaseController{
         if( null == currentUser 
         		|| LsAttributes.USER_LEVEL_REP.equalsIgnoreCase(currentUser.getLevel()) ){
         	view.addObject(LsAttributes.JSP_VERIFY_MESSAGE, LsAttributes.RETURNED_MESSAGE_3);
-        	view.setViewName("pedDailyReport");
+        	view.setViewName("index");
         	return view;
         }
         
@@ -701,7 +707,7 @@ public class ReportController extends BaseController{
         if( null == currentUser 
         		|| LsAttributes.USER_LEVEL_REP.equalsIgnoreCase(currentUser.getLevel()) ){
         	view.addObject(LsAttributes.JSP_VERIFY_MESSAGE, LsAttributes.RETURNED_MESSAGE_3);
-        	view.setViewName("resDailyReport");
+        	view.setViewName("index");
         	return view;
         }
         
@@ -760,6 +766,79 @@ public class ReportController extends BaseController{
             view.addObject(LsAttributes.JSP_VERIFY_MESSAGE, LsAttributes.RETURNED_MESSAGE_2);
         }
         view.setViewName("resDailyReport");
+        return view;
+    }
+    
+    @RequestMapping("/chestSurgeryDailyReport")
+    public ModelAndView chestSurgeryDailyReport(HttpServletRequest request){
+        logger.info("daily chest surgery report");
+        ModelAndView view = new LsKPIModelAndView(request);
+        verifyCurrentUser(request,view);
+        
+        UserInfo currentUser = (UserInfo)request.getSession().getAttribute(LsAttributes.CURRENT_OPERATOR_OBJECT);
+        if( null == currentUser 
+                || LsAttributes.USER_LEVEL_REP.equalsIgnoreCase(currentUser.getLevel()) ){
+            view.addObject(LsAttributes.JSP_VERIFY_MESSAGE, LsAttributes.RETURNED_MESSAGE_3);
+            view.setViewName("index");
+            return view;
+        }
+        
+        try{
+            String telephone = (String)request.getSession().getAttribute(LsAttributes.CURRENT_OPERATOR);
+            logger.info("daily chest surgery report, the current user is " + telephone);
+            
+            List<MobileCHEDailyData> mobileCHEData = chestSurgeryService.getDailyCHEData4Mobile(telephone,currentUser);
+            logger.info("get daily chest surgery data for mobile end...");
+            if( !LsAttributes.USER_LEVEL_BM.equalsIgnoreCase(currentUser.getLevel()) ){
+                List<MobileCHEDailyData> mobileCHEChildData = chestSurgeryService.getDailyCHEChildData4Mobile(telephone,currentUser);
+                logger.info("get daily chest surgery child data for mobile end...");
+                view.addObject(LsAttributes.MOBILE_DAILY_REPORT_CHILD_DATA, mobileCHEChildData);
+            }else{
+                MobileCHEDailyData mrd = chestSurgeryService.getDailyCHEParentData4Mobile(telephone, currentUser.getLevel());
+                logger.info("get daily chest surgery parent data for mobile end...");
+                view.addObject(LsAttributes.MOBILE_DAILY_REPORT_PARENT_DATA, mrd);
+                
+                List<MobileCHEDailyData> mobileCHECentralRSMData = chestSurgeryService.getDailyCHEData4MobileByRegionCenter("Central GRA");
+                logger.info("get daily chest surgery data of central RSM end...");
+                List<MobileCHEDailyData> mobileCHEEast1RSMData = chestSurgeryService.getDailyCHEData4MobileByRegionCenter("East1 GRA");
+                logger.info("get daily chest surgery data of east1 RSM end...");
+                List<MobileCHEDailyData> mobileCHEEast2RSMData = chestSurgeryService.getDailyCHEData4MobileByRegionCenter("East2 GRA");
+                logger.info("get daily chest surgery data of east2 RSM end...");
+                List<MobileCHEDailyData> mobileCHENorthRSMData = chestSurgeryService.getDailyCHEData4MobileByRegionCenter("North GRA");
+                logger.info("get daily chest surgery data of north RSM end...");
+                List<MobileCHEDailyData> mobileCHESouthRSMData = chestSurgeryService.getDailyCHEData4MobileByRegionCenter("South GRA");
+                logger.info("get daily chest surgery data of south RSM end...");
+                List<MobileCHEDailyData> mobileCHEWestRSMData = chestSurgeryService.getDailyCHEData4MobileByRegionCenter("West GRA");
+                logger.info("get daily chest surgery data of west RSM end...");
+                
+                view.addObject(LsAttributes.MOBILE_DAILY_REPORT_CENTRAL_DATA, mobileCHECentralRSMData);
+                view.addObject(LsAttributes.MOBILE_DAILY_REPORT_EAST1_DATA, mobileCHEEast1RSMData);
+                view.addObject(LsAttributes.MOBILE_DAILY_REPORT_EAST2_DATA, mobileCHEEast2RSMData);
+                view.addObject(LsAttributes.MOBILE_DAILY_REPORT_NORTH_DATA, mobileCHENorthRSMData);
+                view.addObject(LsAttributes.MOBILE_DAILY_REPORT_SOUTH_DATA, mobileCHESouthRSMData);
+                view.addObject(LsAttributes.MOBILE_DAILY_REPORT_WEST_DATA, mobileCHEWestRSMData);
+                populateDailyReportTitle4AllRSM(view);
+            }
+            
+            view.addObject(LsAttributes.MOBILE_DAILY_REPORT_DATA, mobileCHEData);
+            view.addObject(LsAttributes.CURRENT_OPERATOR_OBJECT,currentUser);
+            
+            //set the top and bottom data
+            if( LsAttributes.USER_LEVEL_BM.equalsIgnoreCase(currentUser.getLevel())
+                    || LsAttributes.USER_LEVEL_RSD.equalsIgnoreCase(currentUser.getLevel())
+                    || LsAttributes.USER_LEVEL_RSM.equalsIgnoreCase(currentUser.getLevel())){
+                TopAndBottomRSMData rsmData = chestSurgeryService.getTopAndBottomRSMData();
+                logger.info("get daily top and bottom rsm data end...");
+                view.addObject("rsmData", rsmData);
+            }
+            
+            populateDailyReportTitle(currentUser,view,LsAttributes.DAILYREPORTTITLE_3);
+            logger.info("populate the title end");
+        }catch(Exception e){
+            logger.error("fail to get the daily chest surgery report data",e);
+            view.addObject(LsAttributes.JSP_VERIFY_MESSAGE, LsAttributes.RETURNED_MESSAGE_2);
+        }
+        view.setViewName("chestSurgeryDailyReport");
         return view;
     }
 

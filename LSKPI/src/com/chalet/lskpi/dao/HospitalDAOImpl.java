@@ -100,6 +100,26 @@ public class HospitalDAOImpl implements HospitalDAO {
         logger.info("insertDoctor,returned id is "+keyHolder.getKey().intValue());
     }
     
+    public void insertDoctors(final List<Doctor> doctors) throws Exception {
+        logger.info(">>HospitalDAOImpl insertDoctors when uploading doctor");
+        String insertSQL = "insert into tbl_doctor values(null,?,?,?,?,now(),now())";
+        dataBean.getJdbcTemplate().batchUpdate(insertSQL, new BatchPreparedStatementSetter() {
+            
+            @Override
+            public void setValues(PreparedStatement ps, int i) throws SQLException {
+                ps.setString(1, doctors.get(i).getName());
+                ps.setString(2, doctors.get(i).getCode());
+                ps.setString(3, doctors.get(i).getHospitalCode());
+                ps.setString(4, doctors.get(i).getSalesCode());
+            }
+            
+            @Override
+            public int getBatchSize() {
+                return doctors.size();
+            }
+        });
+    }
+    
     public void updateDoctorRelationship(int doctorId, String salesCode) throws Exception {
         StringBuffer sql = new StringBuffer("update tbl_doctor set ");
         sql.append("modifydate=NOW()");
@@ -138,6 +158,10 @@ public class HospitalDAOImpl implements HospitalDAO {
     public void deleteDoctor(Doctor doctor) throws Exception {
         String sql = "delete from tbl_doctor where id=?";
         dataBean.getJdbcTemplate().update(sql, new Object[]{doctor.getId()});
+    }
+    
+    public void cleanDoctor() throws Exception {
+        dataBean.getJdbcTemplate().update("delete from tbl_doctor");
     }
 	   
     public List<Hospital> getHospitalsOfHomeCollectionByPSRTel(String telephone) throws Exception {

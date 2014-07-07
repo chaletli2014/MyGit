@@ -14,7 +14,10 @@ import org.springframework.stereotype.Service;
 import com.chalet.lskpi.dao.ChestSurgeryDAO;
 import com.chalet.lskpi.model.ChestSurgeryData;
 import com.chalet.lskpi.model.Hospital;
+import com.chalet.lskpi.model.MobileCHEDailyData;
+import com.chalet.lskpi.model.TopAndBottomRSMData;
 import com.chalet.lskpi.model.UserInfo;
+import com.chalet.lskpi.utils.LsAttributes;
 
 @Service("chestSurgeryService")
 public class ChestSurgeryServiceImpl implements ChestSurgeryService {
@@ -84,7 +87,7 @@ public class ChestSurgeryServiceImpl implements ChestSurgeryService {
         try{
             return chestSurgeryDAO.getChestSurgeryDataById(id);
         }catch(Exception e){
-            logger.error(String.format("fail to get the respirology data by ID - ", id),e);
+            logger.error(String.format("fail to get the chest surgery data by ID - ", id),e);
             return null;
         }
     }
@@ -111,5 +114,97 @@ public class ChestSurgeryServiceImpl implements ChestSurgeryService {
         chestSurgeryDAO.update(chestSurgeryData);
     }
 
-    
+    public MobileCHEDailyData getDailyCHEParentData4Mobile(String telephone, String level) throws Exception {
+        MobileCHEDailyData mcd = new MobileCHEDailyData();
+        
+        switch (level) {
+            case LsAttributes.USER_LEVEL_BM:
+                mcd = chestSurgeryDAO.getDailyCHEData4CountoryMobile();
+                logger.info(String.format("end to get the chest surgery daily data of the countory, current telephone is %s", telephone));
+                mcd.setInRate(mcd.getHosNum()==0?0:(double)mcd.getInNum()/mcd.getHosNum());
+                mcd.setWhRate(mcd.getPatNum()==0?0:(double)mcd.getLsNum()/mcd.getPatNum());
+                break;
+            default:
+                mcd = null;
+                break;
+        }
+        return mcd;
+    }
+
+    public List<MobileCHEDailyData> getDailyCHEData4Mobile(String telephone, UserInfo currentUser) throws Exception {
+        List<MobileCHEDailyData> cheDatas = new ArrayList<MobileCHEDailyData>();
+        if( LsAttributes.USER_LEVEL_DSM.equalsIgnoreCase(currentUser.getLevel()) ){
+            cheDatas = chestSurgeryDAO.getDailyCHEData4DSMMobile(currentUser.getRegion());
+        }else if( LsAttributes.USER_LEVEL_RSM.equalsIgnoreCase(currentUser.getLevel()) ){
+            cheDatas = chestSurgeryDAO.getDailyCHEData4RSMMobile(currentUser.getRegionCenter());
+        }else if( LsAttributes.USER_LEVEL_RSD.equalsIgnoreCase(currentUser.getLevel()) 
+                || LsAttributes.USER_LEVEL_BM.equalsIgnoreCase(currentUser.getLevel())){
+            cheDatas = chestSurgeryDAO.getDailyCHEData4RSDMobile();
+        }
+        logger.info(String.format("end to get the chest surgery daily data...current telephone is %s", telephone));
+        List<MobileCHEDailyData> orderedCheData = new ArrayList<MobileCHEDailyData>();
+        List<MobileCHEDailyData> leftCheData = new ArrayList<MobileCHEDailyData>();
+        
+        for( MobileCHEDailyData cheDailyData : cheDatas ){
+            
+            cheDailyData.setInRate(cheDailyData.getHosNum()==0?0:(double)cheDailyData.getInNum()/cheDailyData.getHosNum());
+            cheDailyData.setWhRate(cheDailyData.getPatNum()==0?0:(double)cheDailyData.getLsNum()/cheDailyData.getPatNum());
+        
+            if( cheDailyData.getHosNum() != 0 ){
+                if( null != currentUser && null != cheDailyData.getUserCode() 
+                        && cheDailyData.getUserCode().equalsIgnoreCase(currentUser.getUserCode()) ){
+                    orderedCheData.add(0,cheDailyData);
+                }else{
+                    leftCheData.add(cheDailyData);
+                }
+            }
+        }
+        
+        if( LsAttributes.USER_LEVEL_BM.equalsIgnoreCase(currentUser.getLevel()) ){
+            orderedCheData.addAll(leftCheData);
+        }else{
+            orderedCheData.addAll(1,leftCheData);
+        }
+        logger.info(String.format("end to populate the chest surgery daily data...current telephone is %s", telephone));
+        return orderedCheData;
+    }
+
+    public List<MobileCHEDailyData> getDailyCHEChildData4Mobile(String telephone, UserInfo currentUser)
+            throws Exception {
+        List<MobileCHEDailyData> cheDatas = new ArrayList<MobileCHEDailyData>();
+        List<MobileCHEDailyData> filteredCheDatas = new ArrayList<MobileCHEDailyData>();
+        if( LsAttributes.USER_LEVEL_DSM.equalsIgnoreCase(currentUser.getLevel()) ){
+            cheDatas = chestSurgeryDAO.getChildDailyCHEData4DSMMobile(currentUser.getUserCode());
+        }else if( LsAttributes.USER_LEVEL_RSM.equalsIgnoreCase(currentUser.getLevel()) ){
+            cheDatas = chestSurgeryDAO.getDailyCHEData4DSMMobile(currentUser.getRegion());
+        }else if( LsAttributes.USER_LEVEL_RSD.equalsIgnoreCase(currentUser.getLevel()) ){
+            cheDatas = chestSurgeryDAO.getDailyCHEData4RSMMobile(currentUser.getRegionCenter());
+        }
+        
+        for( MobileCHEDailyData cheDailyData : cheDatas ){
+            cheDailyData.setInRate(cheDailyData.getHosNum()==0?0:(double)cheDailyData.getInNum()/cheDailyData.getHosNum());
+            cheDailyData.setWhRate(cheDailyData.getPatNum()==0?0:(double)cheDailyData.getLsNum()/cheDailyData.getPatNum());
+        
+            if( cheDailyData.getHosNum() != 0 ){
+                filteredCheDatas.add(cheDailyData);
+            }
+        }
+        
+        return filteredCheDatas;
+    }
+
+    public List<MobileCHEDailyData> getDailyCHEData4MobileByRegionCenter(String regionCenter) throws Exception {
+        List<MobileCHEDailyData> cheDatas = new ArrayList<MobileCHEDailyData>();
+        cheDatas = chestSurgeryDAO.getDailyCHEData4RSMByRegionCenter(regionCenter);
+        
+        for( MobileCHEDailyData cheDailyData : cheDatas ){
+            cheDailyData.setInRate(cheDailyData.getHosNum()==0?0:(double)cheDailyData.getInNum()/cheDailyData.getHosNum());
+            cheDailyData.setWhRate(cheDailyData.getPatNum()==0?0:(double)cheDailyData.getLsNum()/cheDailyData.getPatNum());
+        }
+        return cheDatas;
+    }
+
+    public TopAndBottomRSMData getTopAndBottomRSMData() throws Exception {
+        return chestSurgeryDAO.getTopAndBottomRSMData();
+    }
 }

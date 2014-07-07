@@ -86,17 +86,11 @@ public class LsAttributes {
     public static final String JSP_VERIFY_MESSAGE = "message";
     
     public static final String MESSAGE_AREA_ID = "messageareaid";
-    public static final String VALID_RES_DATA_NUM = "validResDataNum";
-    public static final String INVALID_RES_DATA = "invalidResData";
-    public static final String EXISTS_RES_DATA = "existsResData";
     
-    public static final String VALID_PED_DATA_NUM = "validPedDataNum";
-    public static final String INVALID_PED_DATA = "invalidPedData";
-    public static final String EXISTS_PED_DATA = "existsPedData";
+    public static final String VALID_DATA_NUM = "validDataNum";
+    public static final String INVALID_DATA = "invalidData";
+    public static final String EXISTS_DATA = "existsData";
     
-    public static final String VALID_MONTHLY_DATA_NUM = "validDataNum";
-    public static final String INVALID_MONTHLY_DATA = "invalidData";
-    public static final String EXISTS_MONTHLY_DATA = "existsData";
     
     public static final String MOBILE_DAILY_REPORT_DATA = "mobileDailyReportData";
     public static final String MOBILE_DAILY_REPORT_CHILD_DATA = "mobileDailyReportChildData";
@@ -753,6 +747,34 @@ public class LsAttributes {
             .append(" IFNULL( sum( IFNULL(rd.fbid,0)/100*IFNULL(rd.lsnum,0) ) / sum( IFNULL(rd.lsnum,0) ),0 ) as emgRate ");
     
     public static final StringBuffer SQL_DAILYREPORT_SELECTION_ALIAS_RES
+            = new StringBuffer("")
+            .append(" IFNULL(dailyData.inNum,0) as inNum,  ")
+            .append(" IFNULL(dailyData.pnum,0) as pnum,  ")
+            .append(" IFNULL(dailyData.whnum,0) as whnum,  ")
+            .append(" IFNULL(dailyData.lsnum,0) as lsnum,  ")
+            .append(" IFNULL(dailyData.averageDose,0) as averageDose,  ")
+            .append(" IFNULL(dailyData.omgRate,0) as omgRate,  ")
+            .append(" IFNULL(dailyData.tmgRate,0) as tmgRate,  ")
+            .append(" IFNULL(dailyData.thmgRate,0) as thmgRate,  ")
+            .append(" IFNULL(dailyData.fmgRate,0) as fmgRate, ")
+            .append(" IFNULL(dailyData.smgRate,0) as smgRate,  ")
+            .append(" IFNULL(dailyData.emgRate,0) as emgRate ");
+    
+    public static final StringBuffer SQL_DAILYREPORT_SELECTION_CHE
+            = new StringBuffer("")
+            .append(" count(1) as inNum, ")
+            .append(" IFNULL(sum(cd.pnum),0) as pnum, ")
+            .append(" IFNULL(sum(cd.whnum),0) as whnum, ")
+            .append(" IFNULL(sum(cd.lsnum),0) as lsnum, ")
+            .append(" IFNULL( sum( ( ( 1*IFNULL(cd.oqd,0) + 2*1*IFNULL(cd.tqd,0) + 1*3*IFNULL(cd.otid,0) + 2*2*IFNULL(cd.tbid,0) + 2*3*IFNULL(cd.ttid,0) + 3*2*IFNULL(cd.thbid,0) + 4*2*IFNULL(cd.fbid,0) ) / 100 ) * IFNULL(cd.lsnum,0) ) / IFNULL(sum(cd.lsnum),0),0 ) as averageDose,")
+            .append(" IFNULL( sum( IFNULL(cd.oqd,0)/100*IFNULL(cd.lsnum,0) ) / sum( IFNULL(cd.lsnum,0) ),0 ) as omgRate,")
+            .append(" IFNULL( sum( IFNULL(cd.tqd,0)/100*IFNULL(cd.lsnum,0) ) / sum( IFNULL(cd.lsnum,0) ),0 ) as tmgRate,")
+            .append(" IFNULL( sum( IFNULL(cd.otid,0)/100*IFNULL(cd.lsnum,0) ) / sum( IFNULL(cd.lsnum,0) ),0 ) as thmgRate,")
+            .append(" IFNULL( sum( IFNULL(cd.tbid,0)/100*IFNULL(cd.lsnum,0) ) / sum( IFNULL(cd.lsnum,0) ),0 ) as fmgRate,")
+            .append(" IFNULL( sum( IFNULL(cd.ttid,0)/100*IFNULL(cd.lsnum,0) + IFNULL(cd.thbid,0)/100*IFNULL(cd.lsnum,0) ) / sum( IFNULL(cd.lsnum,0) ),0 ) as smgRate,")
+            .append(" IFNULL( sum( IFNULL(cd.fbid,0)/100*IFNULL(cd.lsnum,0) ) / sum( IFNULL(cd.lsnum,0) ),0 ) as emgRate ");
+    
+    public static final StringBuffer SQL_DAILYREPORT_SELECTION_ALIAS_CHE
             = new StringBuffer("")
             .append(" IFNULL(dailyData.inNum,0) as inNum,  ")
             .append(" IFNULL(dailyData.pnum,0) as pnum,  ")

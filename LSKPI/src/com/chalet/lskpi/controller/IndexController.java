@@ -513,24 +513,24 @@ public class IndexController extends BaseController{
         
         //upload daily res data message
         int validDataMessage = 0;
-        if( null != request.getSession().getAttribute(LsAttributes.VALID_RES_DATA_NUM) ){
-        	validDataMessage = (Integer)request.getSession().getAttribute(LsAttributes.VALID_RES_DATA_NUM);
-        	view.addObject(LsAttributes.VALID_RES_DATA_NUM, validDataMessage);
-        	request.getSession().removeAttribute(LsAttributes.VALID_RES_DATA_NUM);
+        if( null != request.getSession().getAttribute(LsAttributes.VALID_DATA_NUM) ){
+        	validDataMessage = (Integer)request.getSession().getAttribute(LsAttributes.VALID_DATA_NUM);
+        	view.addObject(LsAttributes.VALID_DATA_NUM, validDataMessage);
+        	request.getSession().removeAttribute(LsAttributes.VALID_DATA_NUM);
         }
         
         List<RespirologyData> inValidData = new ArrayList<RespirologyData>();
-        if( null != request.getSession().getAttribute(LsAttributes.INVALID_RES_DATA) ){
-        	inValidData = (List<RespirologyData>)request.getSession().getAttribute(LsAttributes.INVALID_RES_DATA);
-        	view.addObject(LsAttributes.INVALID_RES_DATA, inValidData);
-        	request.getSession().removeAttribute(LsAttributes.INVALID_RES_DATA);
+        if( null != request.getSession().getAttribute(LsAttributes.INVALID_DATA) ){
+        	inValidData = (List<RespirologyData>)request.getSession().getAttribute(LsAttributes.INVALID_DATA);
+        	view.addObject(LsAttributes.INVALID_DATA, inValidData);
+        	request.getSession().removeAttribute(LsAttributes.INVALID_DATA);
         }
         
         List<RespirologyData> existsData = new ArrayList<RespirologyData>();
-        if( null != request.getSession().getAttribute(LsAttributes.EXISTS_RES_DATA) ){
-        	existsData = (List<RespirologyData>)request.getSession().getAttribute(LsAttributes.EXISTS_RES_DATA);
-        	view.addObject(LsAttributes.EXISTS_RES_DATA, existsData);
-        	request.getSession().removeAttribute(LsAttributes.EXISTS_RES_DATA);
+        if( null != request.getSession().getAttribute(LsAttributes.EXISTS_DATA) ){
+        	existsData = (List<RespirologyData>)request.getSession().getAttribute(LsAttributes.EXISTS_DATA);
+        	view.addObject(LsAttributes.EXISTS_DATA, existsData);
+        	request.getSession().removeAttribute(LsAttributes.EXISTS_DATA);
         }
         
         if( null != request.getSession().getAttribute("dataFile") ){

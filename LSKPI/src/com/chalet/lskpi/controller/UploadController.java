@@ -20,6 +20,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.chalet.lskpi.model.DDIData;
+import com.chalet.lskpi.model.Doctor;
 import com.chalet.lskpi.model.Hospital;
 import com.chalet.lskpi.model.MonthlyData;
 import com.chalet.lskpi.model.PediatricsData;
@@ -134,9 +135,9 @@ public class UploadController {
             }
             
             logger.info("refresh the message info firstly");
-            request.getSession().removeAttribute(LsAttributes.INVALID_RES_DATA);
-            request.getSession().removeAttribute(LsAttributes.EXISTS_RES_DATA);
-            request.getSession().removeAttribute(LsAttributes.VALID_RES_DATA_NUM);
+            request.getSession().removeAttribute(LsAttributes.INVALID_DATA);
+            request.getSession().removeAttribute(LsAttributes.EXISTS_DATA);
+            request.getSession().removeAttribute(LsAttributes.VALID_DATA_NUM);
             request.getSession().removeAttribute(LsAttributes.UPLOAD_FILE_MESSAGE);
             logger.info("refresh the message info done.");
             
@@ -195,13 +196,13 @@ public class UploadController {
             	}
             }
             
-            request.getSession().setAttribute(LsAttributes.INVALID_RES_DATA, invalidResData);
-//            request.getSession().setAttribute(LsAttributes.EXISTS_RES_DATA, existsResData);
-            request.getSession().setAttribute(LsAttributes.VALID_RES_DATA_NUM, validNum);
+            request.getSession().setAttribute(LsAttributes.INVALID_DATA, invalidResData);
+//            request.getSession().setAttribute(LsAttributes.EXISTS_DATA, existsResData);
+            request.getSession().setAttribute(LsAttributes.VALID_DATA_NUM, validNum);
 //            request.getSession().setAttribute(LsAttributes.UPLOAD_FILE_MESSAGE, LsAttributes.RETURNED_MESSAGE_0);
         }catch(Exception e){
             logger.error("fail to upload the file,",e);
-            request.getSession().setAttribute(LsAttributes.VALID_RES_DATA_NUM, 0);
+            request.getSession().setAttribute(LsAttributes.VALID_DATA_NUM, 0);
             request.getSession().setAttribute(LsAttributes.UPLOAD_FILE_MESSAGE, (null==e.getMessage()||"".equalsIgnoreCase(e.getMessage()))?LsAttributes.RETURNED_MESSAGE_1:e.getMessage());
         }
         request.getSession().setAttribute(LsAttributes.MESSAGE_AREA_ID, "uploadRESResult_div");
@@ -217,9 +218,9 @@ public class UploadController {
             }
     	    
     	    logger.info("refresh the message info firstly");
-    	    request.getSession().removeAttribute(LsAttributes.INVALID_PED_DATA);
-            request.getSession().removeAttribute(LsAttributes.EXISTS_PED_DATA);
-            request.getSession().removeAttribute(LsAttributes.VALID_PED_DATA_NUM);
+    	    request.getSession().removeAttribute(LsAttributes.INVALID_DATA);
+            request.getSession().removeAttribute(LsAttributes.EXISTS_DATA);
+            request.getSession().removeAttribute(LsAttributes.VALID_DATA_NUM);
             request.getSession().removeAttribute(LsAttributes.UPLOAD_FILE_MESSAGE);
     	    logger.info("refresh the message info done.");
     	    
@@ -278,13 +279,13 @@ public class UploadController {
     			}
     		}
     		
-    		request.getSession().setAttribute(LsAttributes.INVALID_PED_DATA, invalidPedData);
-//    		request.getSession().setAttribute(LsAttributes.EXISTS_PED_DATA, existsPedData);
-    		request.getSession().setAttribute(LsAttributes.VALID_PED_DATA_NUM, validNum);
+    		request.getSession().setAttribute(LsAttributes.INVALID_DATA, invalidPedData);
+//    		request.getSession().setAttribute(LsAttributes.EXISTS_DATA, existsPedData);
+    		request.getSession().setAttribute(LsAttributes.VALID_DATA_NUM, validNum);
 //    		request.getSession().setAttribute(LsAttributes.UPLOAD_FILE_MESSAGE, LsAttributes.RETURNED_MESSAGE_0);
     	}catch(Exception e){
     		logger.error("fail to upload the file,",e);
-    		request.getSession().setAttribute(LsAttributes.VALID_PED_DATA_NUM, 0);
+    		request.getSession().setAttribute(LsAttributes.VALID_DATA_NUM, 0);
     		request.getSession().setAttribute(LsAttributes.UPLOAD_FILE_MESSAGE, (null==e.getMessage()||"".equalsIgnoreCase(e.getMessage()))?LsAttributes.RETURNED_MESSAGE_1:e.getMessage());
     	}
     	request.getSession().setAttribute(LsAttributes.MESSAGE_AREA_ID, "uploadPEDResult_div");
@@ -300,9 +301,9 @@ public class UploadController {
     		}
     		
     		logger.info("refresh the message info firstly");
-    		request.getSession().removeAttribute(LsAttributes.INVALID_PED_DATA);
-    		request.getSession().removeAttribute(LsAttributes.EXISTS_PED_DATA);
-    		request.getSession().removeAttribute(LsAttributes.VALID_PED_DATA_NUM);
+    		request.getSession().removeAttribute(LsAttributes.INVALID_DATA);
+    		request.getSession().removeAttribute(LsAttributes.EXISTS_DATA);
+    		request.getSession().removeAttribute(LsAttributes.VALID_DATA_NUM);
     		request.getSession().removeAttribute(LsAttributes.UPLOAD_FILE_MESSAGE);
     		logger.info("refresh the message info done.");
     		
@@ -348,15 +349,50 @@ public class UploadController {
     			}
     		}
     		
-    		request.getSession().setAttribute(LsAttributes.INVALID_MONTHLY_DATA, invalidData);
-    		request.getSession().setAttribute(LsAttributes.VALID_MONTHLY_DATA_NUM, validNum);
+    		request.getSession().setAttribute(LsAttributes.INVALID_DATA, invalidData);
+    		request.getSession().setAttribute(LsAttributes.VALID_DATA_NUM, validNum);
     	}catch(Exception e){
     		logger.error("fail to upload the file,",e);
-    		request.getSession().setAttribute(LsAttributes.VALID_MONTHLY_DATA_NUM, 0);
+    		request.getSession().setAttribute(LsAttributes.VALID_DATA_NUM, 0);
     		request.getSession().setAttribute(LsAttributes.UPLOAD_FILE_MESSAGE, (null==e.getMessage()||"".equalsIgnoreCase(e.getMessage()))?LsAttributes.RETURNED_MESSAGE_1:e.getMessage());
     	}
     	request.getSession().setAttribute(LsAttributes.MESSAGE_AREA_ID, "uploadMonthlyResult_div");
     	return "redirect:showUploadData";
+    }
+    
+    @RequestMapping("/doUploadDoctorData")
+    public String doUploadDoctorData(HttpServletRequest request){
+        logger.info("upload the doctor data..");
+        try{
+            if( null == request.getSession().getAttribute(LsAttributes.WEB_LOGIN_USER) ){
+                return "redirect:login";
+            }
+            
+            logger.info("refresh the message info firstly");
+            request.getSession().removeAttribute(LsAttributes.INVALID_DATA);
+            request.getSession().removeAttribute(LsAttributes.EXISTS_DATA);
+            request.getSession().removeAttribute(LsAttributes.VALID_DATA_NUM);
+            request.getSession().removeAttribute(LsAttributes.UPLOAD_FILE_MESSAGE);
+            logger.info("refresh the message info done.");
+            
+            
+            List<String> dataHeaders = new ArrayList<String>();
+            dataHeaders.add("目标医院CODE修正");
+            dataHeaders.add("目标医生");
+            dataHeaders.add("PSRCODE修正");
+            
+            long begin = System.currentTimeMillis();
+            List<Doctor> doctors = ExcelUtils.getDoctorDataFromFile(loadFile(request), dataHeaders);
+            long end = System.currentTimeMillis();
+            logger.info("doctor data size is " + doctors.size() + ", spend time " + (end - begin) + " ms");
+            uploadService.uploadDoctorData(doctors);
+            request.getSession().setAttribute(LsAttributes.UPLOAD_FILE_MESSAGE, LsAttributes.RETURNED_MESSAGE_0);
+        }catch(Exception e){
+            logger.error("fail to upload the file,",e);
+            request.getSession().setAttribute(LsAttributes.UPLOAD_FILE_MESSAGE, (null==e.getMessage()||"".equalsIgnoreCase(e.getMessage()))?LsAttributes.RETURNED_MESSAGE_1:e.getMessage());
+        }
+        request.getSession().setAttribute(LsAttributes.MESSAGE_AREA_ID, "uploadDoctorResult_div");
+        return "redirect:showUploadData";
     }
     
     @RequestMapping("/doUploadDDI")

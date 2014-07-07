@@ -12,6 +12,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.chalet.lskpi.dao.HospitalDAO;
 import com.chalet.lskpi.dao.UserDAO;
+import com.chalet.lskpi.model.Doctor;
 
 @Service("uploadService")
 @Transactional(propagation=Propagation.REQUIRED, rollbackFor=Exception.class)
@@ -50,6 +51,20 @@ public class UploadServiceImpl implements UploadService {
         }catch(Exception e){
             logger.error("fail to update the all data,",e);
             throw new Exception("更新层级失败");
+        }
+    }
+
+    public void uploadDoctorData(List<Doctor> doctors) throws Exception {
+        try{
+            long start = System.currentTimeMillis();
+            hospitalDAO.cleanDoctor();
+            hospitalDAO.insertDoctors(doctors);
+            long finish = System.currentTimeMillis();
+            logger.info("time spent to insert the doctors infos into DB is " + (finish-start) + " ms");
+            
+        }catch(Exception e){
+            logger.error("fail to update the doctor data,",e);
+            throw new Exception("更新医生失败");
         }
     }
     

@@ -3,8 +3,10 @@ package com.chalet.lskpi.service;
 import java.util.Date;
 import java.util.List;
 
-import com.chalet.lskpi.model.Hospital;
 import com.chalet.lskpi.model.ChestSurgeryData;
+import com.chalet.lskpi.model.Hospital;
+import com.chalet.lskpi.model.MobileCHEDailyData;
+import com.chalet.lskpi.model.TopAndBottomRSMData;
 import com.chalet.lskpi.model.UserInfo;
 
 public interface ChestSurgeryService {
@@ -16,4 +18,12 @@ public interface ChestSurgeryService {
     public void insert(ChestSurgeryData chestSurgeryData, UserInfo operator, Hospital hospital) throws Exception;
     public void insert(ChestSurgeryData chestSurgeryData) throws Exception;
     public void update(ChestSurgeryData chestSurgeryData, UserInfo operator) throws Exception;
+    
+    public MobileCHEDailyData getDailyCHEParentData4Mobile(String telephone, String level)throws Exception;
+    public List<MobileCHEDailyData> getDailyCHEData4Mobile( String telephone, UserInfo currentUser ) throws Exception;
+    public List<MobileCHEDailyData> getDailyCHEChildData4Mobile( String telephone, UserInfo currentUser ) throws Exception;
+    
+    public List<MobileCHEDailyData> getDailyCHEData4MobileByRegionCenter(String regionCenter) throws Exception;
+    
+    public TopAndBottomRSMData getTopAndBottomRSMData() throws Exception;
 }

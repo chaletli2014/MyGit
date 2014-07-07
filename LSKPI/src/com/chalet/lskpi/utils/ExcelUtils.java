@@ -25,6 +25,7 @@ import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
 import com.chalet.lskpi.model.DDIData;
+import com.chalet.lskpi.model.Doctor;
 import com.chalet.lskpi.model.Hospital;
 import com.chalet.lskpi.model.HospitalUserRefer;
 import com.chalet.lskpi.model.MonthlyData;
@@ -196,6 +197,64 @@ public class ExcelUtils {
         }
     	
     	return userInfos;
+    }
+    
+    public static List<Doctor> getDoctorDataFromFile(String filePath,List<String> headers) throws Exception{
+        List<Doctor> doctors = new ArrayList<Doctor>();
+        FileInputStream is = null;
+        try{
+            is = new FileInputStream(filePath);
+            Workbook book = createCommonWorkbook(is);
+            Sheet sheet = book.getSheetAt(0);
+            
+            int header_count = 0;
+            Map<String, Integer> headerColumn = new HashMap<String, Integer>();
+            
+            Row row = sheet.getRow(sheet.getFirstRowNum());
+            for( int i = row.getFirstCellNum(); i < row.getPhysicalNumberOfCells(); i++ ){
+                if( headers.contains(row.getCell(i).toString()) ){
+                    headerColumn.put(row.getCell(i).toString(), i);
+                    header_count++;
+                }
+            }
+            logger.info("doctor header_count is " + header_count);
+            if( header_count != headers.size() ){
+                throw new Exception("文件格式不正确，无法导入数据");
+            }
+            //get the data
+            for( int i = sheet.getFirstRowNum() + 1; i < sheet.getPhysicalNumberOfRows(); i++ ){
+                row = sheet.getRow(i);
+                
+                Cell hospitalCodeCell = row.getCell(headerColumn.get(headers.get(0)));
+                hospitalCodeCell.setCellType(Cell.CELL_TYPE_STRING);
+                String hospitalCode = hospitalCodeCell.toString();
+                
+                Cell doctorNameCell = row.getCell(headerColumn.get(headers.get(1)));
+                doctorNameCell.setCellType(Cell.CELL_TYPE_STRING);
+                String doctorName = doctorNameCell.toString();
+                
+                Cell salesCodeCell = row.getCell(headerColumn.get(headers.get(2)));
+                salesCodeCell.setCellType(Cell.CELL_TYPE_STRING);
+                String salesCode = salesCodeCell.toString();
+                
+                if( null != hospitalCode && !"#N/A".equalsIgnoreCase(hospitalCode) ){
+                    Doctor doctor = new Doctor();
+                    doctor.setHospitalCode(hospitalCode);
+                    doctor.setName(doctorName);
+                    doctor.setSalesCode(salesCode);
+                    doctors.add(doctor);
+                }
+            }
+        }catch(Exception e){
+            logger.error("fail to get doctors from the excel file.",e);
+            throw new Exception(e.getMessage());
+        }finally{
+            if(null!=is){
+                is.close();
+            }
+        }
+        
+        return doctors;
     }
     
     public static Map<String, List<RespirologyData>> getdailyRESDataFromFile(String filePath,List<String> headers) throws Exception{

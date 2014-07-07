@@ -1,4 +1,4 @@
-package com.chalet.lskpi.utils;
+package com.chalet.lskpi.mapper;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;

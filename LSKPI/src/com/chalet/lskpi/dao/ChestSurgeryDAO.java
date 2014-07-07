@@ -5,6 +5,8 @@ import java.util.List;
 
 import com.chalet.lskpi.model.Hospital;
 import com.chalet.lskpi.model.ChestSurgeryData;
+import com.chalet.lskpi.model.MobileCHEDailyData;
+import com.chalet.lskpi.model.TopAndBottomRSMData;
 import com.chalet.lskpi.model.UserInfo;
 
 public interface ChestSurgeryDAO {
@@ -16,4 +18,14 @@ public interface ChestSurgeryDAO {
     public void insert(ChestSurgeryData chestSurgeryData, UserInfo operator, Hospital hospital) throws Exception;
     public void insert(ChestSurgeryData chestSurgeryData,String dsmCode) throws Exception;
     public void update(ChestSurgeryData chestSurgeryData) throws Exception;
+    
+    public MobileCHEDailyData getDailyCHEData4CountoryMobile()throws Exception;
+    public List<MobileCHEDailyData> getChildDailyCHEData4DSMMobile( String dsmCode ) throws Exception;
+    public List<MobileCHEDailyData> getDailyCHEData4DSMMobile( String region ) throws Exception;
+    public List<MobileCHEDailyData> getDailyCHEData4RSMMobile( String regionCenter ) throws Exception;
+    public List<MobileCHEDailyData> getDailyCHEData4RSDMobile() throws Exception;
+    
+    public TopAndBottomRSMData getTopAndBottomRSMData() throws Exception;
+    
+    public List<MobileCHEDailyData> getDailyCHEData4RSMByRegionCenter(String region) throws Exception;
 }

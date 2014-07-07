@@ -20,6 +20,7 @@ import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Repository;
 
+import com.chalet.lskpi.mapper.TopAndBottomRSMDataRowMapper;
 import com.chalet.lskpi.model.DailyReportData;
 import com.chalet.lskpi.model.Hospital;
 import com.chalet.lskpi.model.MobilePEDDailyData;
@@ -36,7 +37,6 @@ import com.chalet.lskpi.utils.DateUtils;
 import com.chalet.lskpi.utils.LsAttributes;
 import com.chalet.lskpi.utils.ReportProcessDataRowMapper;
 import com.chalet.lskpi.utils.ReportProcessDetailDataRowMapper;
-import com.chalet.lskpi.utils.TopAndBottomRSMDataRowMapper;
 import com.chalet.lskpi.utils.PEDWeeklyRatioDataRowMapper;
 
 /**
