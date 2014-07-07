@@ -27,6 +27,14 @@ function obj1ltobj2(id1, id2){
 	return true;
 }
 
+function isLsNumAndPNumValid(){
+	if( Number($("#lsnum").val()) > Number($("#pnum").val())*1.5 ){
+		showCustomrizedMessage("当日雾化令舒病人数据异常，该数值不能超过总人数的1.5倍");
+        return false;
+	}
+	return true;
+}
+
 function percentValidate(){
 	var argumentLength = arguments.length;
 	var invalidCount = 0;

@@ -118,7 +118,7 @@ function deletedoctor(dataId,doctorname){
         </div>
         <jsp:include page="page_footer.jsp">
             <jsp:param value="<%=basePath%>" name="basePath"/>
-            <jsp:param value="collectData" name="backURL"/>
+            <jsp:param value="collecthomedata" name="backURL"/>
         </jsp:include>
     </div>
 </body>  

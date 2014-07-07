@@ -29,6 +29,10 @@ function checkForm(){
 	if( !isInteger($("#pnum"),$("#whnum"),$("#lsnum"))  ){
         return false;
 	}
+	
+	if( !isLsNumAndPNumValid() ){
+        return false;
+	}
     /*
     if( !obj1ltobj2("pnum","whnum") ){
         return false;
