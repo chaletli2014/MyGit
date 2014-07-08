@@ -101,7 +101,7 @@ public class IndexController extends BaseController{
         String currentUserTel = verifyCurrentUser(request,view);
         UserInfo currentUser = (UserInfo)request.getSession().getAttribute(LsAttributes.CURRENT_OPERATOR_OBJECT);
         logger.info(String.format("current user's telephone is %s, the user in session is %s", currentUserTel,currentUser));
-        if( !super.isCurrentUserValid(currentUser, currentUserTel, view) ){
+        if( !super.isCurrentUserValid(currentUser, currentUserTel, view, false) ){
         	return view;
         }
         
@@ -115,7 +115,7 @@ public class IndexController extends BaseController{
     	String currentUserTel = verifyCurrentUser(request,view);
     	UserInfo currentUser = (UserInfo)request.getSession().getAttribute(LsAttributes.CURRENT_OPERATOR_OBJECT);
     	logger.info(String.format("collect monthly data, current user's telephone is %s, the user in session is %s", currentUserTel,currentUser));
-    	if( !super.isCurrentUserValid(currentUser, currentUserTel, view) ){
+    	if( !super.isCurrentUserValid(currentUser, currentUserTel, view, true) ){
     		return view;
     	}
     	
@@ -166,10 +166,14 @@ public class IndexController extends BaseController{
     	try{
     	    UserInfo operator = (UserInfo)request.getSession(true).getAttribute(LsAttributes.CURRENT_OPERATOR_OBJECT);
         	logger.info(String.format("current user's telephone is %s, the user in session is %s", currentUserTel,operator));
-        	if( null == currentUserTel || "".equalsIgnoreCase(currentUserTel) || null == operator || 
-        			! ( LsAttributes.USER_LEVEL_REP.equalsIgnoreCase(operator.getLevel()) 
-        					|| LsAttributes.USER_LEVEL_DSM.equalsIgnoreCase(operator.getLevel()))){
-        		return "redirect:index";
+        	if( null == currentUserTel || "".equalsIgnoreCase(currentUserTel) || null == operator ){
+        	    request.getSession().setAttribute(LsAttributes.COLLECT_MONTHLYDATA_MESSAGE, LsAttributes.NO_USER_FOUND_WEB);
+        		return "redirect:collectmonthlydata";
+        	}
+        	if(!( LsAttributes.USER_LEVEL_REP.equalsIgnoreCase(operator.getLevel()) 
+        	                || LsAttributes.USER_LEVEL_DSM.equalsIgnoreCase(operator.getLevel()))){
+        	    request.getSession().setAttribute(LsAttributes.COLLECT_MONTHLYDATA_MESSAGE, LsAttributes.RETURNED_MESSAGE_3);
+        	    return "redirect:collectmonthlydata";
         	}
         	
             String dataId = request.getParameter("dataId");
@@ -251,7 +255,7 @@ public class IndexController extends BaseController{
         String operator_telephone = verifyCurrentUser(request,view);
         
         UserInfo currentUser = (UserInfo)request.getSession().getAttribute(LsAttributes.CURRENT_OPERATOR_OBJECT);
-        if( !super.isCurrentUserValid(currentUser, operator_telephone, view) ){
+        if( !super.isCurrentUserValid(currentUser, operator_telephone, view, true) ){
         	return view;
         }
         
@@ -306,10 +310,14 @@ public class IndexController extends BaseController{
     	logger.info("collectRespirology, user from session is " + operator_telephone);
         try{
         	UserInfo currentUser = (UserInfo)request.getSession().getAttribute(LsAttributes.CURRENT_OPERATOR_OBJECT);
-            if( null == operator_telephone || "".equalsIgnoreCase(operator_telephone) || null == currentUser || 
-            		! ( LsAttributes.USER_LEVEL_REP.equalsIgnoreCase(currentUser.getLevel()) 
-            				|| LsAttributes.USER_LEVEL_DSM.equalsIgnoreCase(currentUser.getLevel()))){
-            	return "redirect:index";
+            if( null == operator_telephone || "".equalsIgnoreCase(operator_telephone) || null == currentUser ){
+                request.getSession().setAttribute(LsAttributes.COLLECT_RESPIROLOGY_MESSAGE, LsAttributes.NO_USER_FOUND_WEB);
+            	return "redirect:respirology";
+            }
+            if(! ( LsAttributes.USER_LEVEL_REP.equalsIgnoreCase(currentUser.getLevel()) 
+                            || LsAttributes.USER_LEVEL_DSM.equalsIgnoreCase(currentUser.getLevel()))){
+                request.getSession().setAttribute(LsAttributes.COLLECT_RESPIROLOGY_MESSAGE, LsAttributes.RETURNED_MESSAGE_3);
+                return "redirect:respirology";
             }
         	
             String dataId = request.getParameter("dataId");
@@ -372,7 +380,7 @@ public class IndexController extends BaseController{
         String operator_telephone = verifyCurrentUser(request,view);
         
         UserInfo currentUser = (UserInfo)request.getSession().getAttribute(LsAttributes.CURRENT_OPERATOR_OBJECT);
-        if( !super.isCurrentUserValid(currentUser, operator_telephone, view) ){
+        if( !super.isCurrentUserValid(currentUser, operator_telephone, view, true) ){
         	return view;
         }
         
@@ -427,10 +435,14 @@ public class IndexController extends BaseController{
     	logger.info("collectPediatrics, user = "+operator_telephone);
         try{
         	UserInfo currentUser = (UserInfo)request.getSession().getAttribute(LsAttributes.CURRENT_OPERATOR_OBJECT);
-            if( null == operator_telephone || "".equalsIgnoreCase(operator_telephone) || null == currentUser || 
-            		! ( LsAttributes.USER_LEVEL_REP.equalsIgnoreCase(currentUser.getLevel()) 
-            				|| LsAttributes.USER_LEVEL_DSM.equalsIgnoreCase(currentUser.getLevel()))){
-            	return "redirect:index";
+            if( null == operator_telephone || "".equalsIgnoreCase(operator_telephone) || null == currentUser ){
+                request.getSession().setAttribute(LsAttributes.COLLECT_PEDIATRICS_MESSAGE, LsAttributes.NO_USER_FOUND_WEB);
+            	return "redirect:pediatrics";
+            }
+            if( ! ( LsAttributes.USER_LEVEL_REP.equalsIgnoreCase(currentUser.getLevel()) 
+                            || LsAttributes.USER_LEVEL_DSM.equalsIgnoreCase(currentUser.getLevel()))){
+                request.getSession().setAttribute(LsAttributes.COLLECT_PEDIATRICS_MESSAGE, LsAttributes.RETURNED_MESSAGE_3);
+                return "redirect:pediatrics";
             }
             
             String dataId = request.getParameter("dataId");

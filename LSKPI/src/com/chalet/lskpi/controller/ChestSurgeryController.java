@@ -32,12 +32,12 @@ public class ChestSurgeryController extends BaseController{
     private ChestSurgeryService chestSurgeryService;
 
     @RequestMapping("/chestSurgery")
-    public ModelAndView respirology(HttpServletRequest request){
+    public ModelAndView chestSurgery(HttpServletRequest request){
         ModelAndView view = new LsKPIModelAndView(request);
         String operator_telephone = verifyCurrentUser(request,view);
         
         UserInfo currentUser = (UserInfo)request.getSession().getAttribute(LsAttributes.CURRENT_OPERATOR_OBJECT);
-        if( !super.isCurrentUserValid(currentUser, operator_telephone, view) ){
+        if( !super.isCurrentUserValid(currentUser, operator_telephone, view, true) ){
             return view;
         }
         
@@ -78,10 +78,14 @@ public class ChestSurgeryController extends BaseController{
         logger.info("collectChestSurgery, user from session is " + operator_telephone);
         try{
             UserInfo currentUser = (UserInfo)request.getSession().getAttribute(LsAttributes.CURRENT_OPERATOR_OBJECT);
-            if( null == operator_telephone || "".equalsIgnoreCase(operator_telephone) || null == currentUser || 
-                    ! ( LsAttributes.USER_LEVEL_REP.equalsIgnoreCase(currentUser.getLevel()) 
+            if( null == operator_telephone || "".equalsIgnoreCase(operator_telephone) || null == currentUser ){
+                request.getSession().setAttribute(LsAttributes.COLLECT_CHESTSURGERY_MESSAGE, LsAttributes.NO_USER_FOUND_WEB);
+                return "redirect:chestSurgery";
+            }
+            if( ! ( LsAttributes.USER_LEVEL_REP.equalsIgnoreCase(currentUser.getLevel()) 
                             || LsAttributes.USER_LEVEL_DSM.equalsIgnoreCase(currentUser.getLevel()))){
-                return "redirect:index";
+                request.getSession().setAttribute(LsAttributes.COLLECT_CHESTSURGERY_MESSAGE, LsAttributes.RETURNED_MESSAGE_3);
+                return "redirect:chestSurgery";
             }
             
             String dataId = request.getParameter("dataId");

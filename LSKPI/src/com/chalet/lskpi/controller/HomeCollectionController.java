@@ -43,7 +43,7 @@ public class HomeCollectionController extends BaseController{
         String currentUserTel = verifyCurrentUser(request,view);
         UserInfo currentUser = (UserInfo)request.getSession().getAttribute(LsAttributes.CURRENT_OPERATOR_OBJECT);
         logger.info(String.format("collect home data, current user's telephone is %s", currentUserTel));
-        if( !super.isCurrentUserValid(currentUser, currentUserTel, view) ){
+        if( !super.isCurrentUserValid(currentUser, currentUserTel, view, false) ){
             return view;
         }
         view.setViewName("homecollectionmenu");
@@ -83,8 +83,14 @@ public class HomeCollectionController extends BaseController{
             }
             
             //get the sales under current user.
-            List<UserInfo> salesList = userService.getSalesOfCurrentUser(currentUser);
-            view.addObject("salesList", salesList);
+            if( !LsAttributes.USER_LEVEL_REP.equalsIgnoreCase(currentUser.getLevel()) ){
+                List<UserInfo> salesList = userService.getSalesOfCurrentUser(currentUser);
+                view.addObject("salesList", salesList);
+            }else{
+                List<UserInfo> salesList = new ArrayList<UserInfo>();
+                salesList.add(currentUser);
+                view.addObject("salesList", salesList);
+            }
             
             String message = "";
             if( null != request.getSession().getAttribute(LsAttributes.COLLECT_HOMEDATA_MESSAGE) ){
@@ -327,7 +333,7 @@ public class HomeCollectionController extends BaseController{
         String currentUserTel = verifyCurrentUser(request,view);
         
         UserInfo currentUser = (UserInfo)request.getSession().getAttribute(LsAttributes.CURRENT_OPERATOR_OBJECT);
-        if( !super.isCurrentUserValid(currentUser, currentUserTel, view) ){
+        if( !super.isCurrentUserValid(currentUser, currentUserTel, view, true) ){
             return view;
         }
         
@@ -368,14 +374,18 @@ public class HomeCollectionController extends BaseController{
 
     @RequestMapping("/docollecthomedata")
     public String docollecthomedata(HttpServletRequest request){
-        String operator_telephone = (String)request.getSession(true).getAttribute(LsAttributes.CURRENT_OPERATOR);
-        logger.info("docollecthomedata, user = "+operator_telephone);
+        String currentUserTel = (String)request.getSession(true).getAttribute(LsAttributes.CURRENT_OPERATOR);
+        logger.info("docollecthomedata, user = "+currentUserTel);
         try{
-            UserInfo currentUser = (UserInfo)request.getSession().getAttribute(LsAttributes.CURRENT_OPERATOR_OBJECT);
-            if( null == operator_telephone || "".equalsIgnoreCase(operator_telephone) || null == currentUser || 
-                    ! ( LsAttributes.USER_LEVEL_REP.equalsIgnoreCase(currentUser.getLevel()) 
-                            || LsAttributes.USER_LEVEL_DSM.equalsIgnoreCase(currentUser.getLevel()))){
-                return "redirect:index";
+            UserInfo operator = (UserInfo)request.getSession().getAttribute(LsAttributes.CURRENT_OPERATOR_OBJECT);
+            if( null == currentUserTel || "".equalsIgnoreCase(currentUserTel) || null == operator ){
+                request.getSession().setAttribute(LsAttributes.COLLECT_HOMEDATA_MESSAGE, LsAttributes.NO_USER_FOUND_WEB);
+                return "redirect:collecthomedata";
+            }
+            if(!( LsAttributes.USER_LEVEL_REP.equalsIgnoreCase(operator.getLevel()) 
+                            || LsAttributes.USER_LEVEL_DSM.equalsIgnoreCase(operator.getLevel()))){
+                request.getSession().setAttribute(LsAttributes.COLLECT_HOMEDATA_MESSAGE, LsAttributes.RETURNED_MESSAGE_3);
+                return "redirect:collecthomedata";
             }
             
             String dataId = request.getParameter("dataId");
@@ -390,7 +400,7 @@ public class HomeCollectionController extends BaseController{
             
             HomeData existedData = homeService.getHomeDataByDoctorId(doctorId);
             if( null != existedData ){
-                logger.info(String.format("check the home data again when user %s collecting, the data id is %s", operator_telephone, existedData.getId()));
+                logger.info(String.format("check the home data again when user %s collecting, the data id is %s", currentUserTel, existedData.getId()));
             }
             if( ( null == dataId || "".equalsIgnoreCase(dataId) ) 
                     && null != existedData){

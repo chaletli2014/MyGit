@@ -81,6 +81,8 @@ public interface HospitalDAO {
     
     public List<Doctor> getDoctorsByDsmCode(String dsmCode) throws Exception;
     public List<Doctor> getDoctorsBySalesCode(String salesCode) throws Exception;
+    public List<Doctor> getDoctorsByRegion(String region) throws Exception;
+    public List<Doctor> getDoctorsByRegionCenter(String regionCenter) throws Exception;
     public int getExistedDrNumByHospitalCode( String hospitalCode, String drName ) throws Exception;
     public int getExistedDrNumByHospitalCodeExcludeSelf( long dataId, String hospitalCode, String drName ) throws Exception;
     public int getTotalDrNumOfHospital(String hospitalCode) throws Exception;

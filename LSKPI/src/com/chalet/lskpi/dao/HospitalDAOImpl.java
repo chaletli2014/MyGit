@@ -2,7 +2,6 @@ package com.chalet.lskpi.dao;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
-import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.sql.Timestamp;
@@ -218,6 +217,38 @@ public class HospitalDAOImpl implements HospitalDAO {
         .append(" from tbl_doctor d, tbl_hospital h ")
         .append(" where d.hospitalCode = h.code and h.dsmCode=? ");
         doctors = dataBean.getJdbcTemplate().query(sql.toString(), new Object[]{dsmCode}, new DoctorRowMapper());
+        return doctors;
+    }
+    
+    public List<Doctor> getDoctorsByRegion(String region) throws Exception {
+        List<Doctor> doctors = new ArrayList<Doctor>();
+        StringBuffer sql = new StringBuffer("")
+        .append(" select d.id ")
+        .append(" , d.name as drName ")
+        .append(" , d.code as drCode ")
+        .append(" , h.code as hospitalCode ")
+        .append(" , h.name as hospitalName ")
+        .append(" , case when d.salesCode is null or d.salesCode='' then '#N/A' else d.salesCode end salesCode ")
+        .append(" , case when d.salesCode is null or d.salesCode='' then '#N/A' else (select u.name from tbl_userinfo u where u.userCode=d.salesCode) end salesName ")
+        .append(" from tbl_doctor d, tbl_hospital h ")
+        .append(" where d.hospitalCode = h.code and h.rsmRegion=? ");
+        doctors = dataBean.getJdbcTemplate().query(sql.toString(), new Object[]{region}, new DoctorRowMapper());
+        return doctors;
+    }
+    
+    public List<Doctor> getDoctorsByRegionCenter(String regionCenter) throws Exception {
+        List<Doctor> doctors = new ArrayList<Doctor>();
+        StringBuffer sql = new StringBuffer("")
+        .append(" select d.id ")
+        .append(" , d.name as drName ")
+        .append(" , d.code as drCode ")
+        .append(" , h.code as hospitalCode ")
+        .append(" , h.name as hospitalName ")
+        .append(" , case when d.salesCode is null or d.salesCode='' then '#N/A' else d.salesCode end salesCode ")
+        .append(" , case when d.salesCode is null or d.salesCode='' then '#N/A' else (select u.name from tbl_userinfo u where u.userCode=d.salesCode) end salesName ")
+        .append(" from tbl_doctor d, tbl_hospital h ")
+        .append(" where d.hospitalCode = h.code and h.region=? ");
+        doctors = dataBean.getJdbcTemplate().query(sql.toString(), new Object[]{regionCenter}, new DoctorRowMapper());
         return doctors;
     }
 	

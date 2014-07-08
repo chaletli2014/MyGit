@@ -34,7 +34,7 @@ public class BaseController {
     @Qualifier("userService")
     private UserService userService;
     
-    public boolean isCurrentUserValid(UserInfo currentUser, String currentUserTel, ModelAndView view){
+    public boolean isCurrentUserValid(UserInfo currentUser, String currentUserTel, ModelAndView view, boolean isVerifyUserLevel ){
     	
     	if( null == currentUserTel || "".equalsIgnoreCase(currentUserTel) || null == currentUser ){
     		view.addObject(LsAttributes.JSP_VERIFY_MESSAGE, LsAttributes.NO_USER_FOUND_WEB);
@@ -42,12 +42,14 @@ public class BaseController {
         	return false;
     	}
     	
-    	if(  ! ( LsAttributes.USER_LEVEL_REP.equalsIgnoreCase(currentUser.getLevel()) 
-        				|| LsAttributes.USER_LEVEL_DSM.equalsIgnoreCase(currentUser.getLevel()))){
-        	view.addObject(LsAttributes.JSP_VERIFY_MESSAGE, LsAttributes.RETURNED_MESSAGE_3);
-        	view.setViewName("index");
-        	return false;
-        }
+    	if( isVerifyUserLevel ){
+    	    if(  ! ( LsAttributes.USER_LEVEL_REP.equalsIgnoreCase(currentUser.getLevel()) 
+    	            || LsAttributes.USER_LEVEL_DSM.equalsIgnoreCase(currentUser.getLevel()))){
+    	        view.addObject(LsAttributes.JSP_VERIFY_MESSAGE, LsAttributes.RETURNED_MESSAGE_3);
+    	        view.setViewName("index");
+    	        return false;
+    	    }
+    	}
     	
     	return true;
     }
