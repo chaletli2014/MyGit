@@ -38,6 +38,10 @@
 		loading();
 		$("#downloadHomeData").submit();
 	}
+	function downloadDoctorData(){
+        loading();
+        $("#downloadDoctorData").submit();
+    }
 	function downloadMonthlyData(){
 		
 		if( ( $("#datepicker_monthly") && $("#datepicker_monthly").val() == '' ) || 
@@ -167,6 +171,19 @@
 					</div>
 					</form>
 				</div>
+				<div class="element_block">
+	                <div class="element_title">家庭雾化医生查询</div>
+	                <div>
+	                    <form action="doDownloadDoctorData" id="downloadDoctorData" method="post" enctype="multipart/form-data" data-ajax="false" accept-charset="UTF-8">
+	                     <img alt="" src="<%=basePath%>images/button_submit.png" style="cursor: pointer; vertical-align: middle;" onclick="downloadDoctorData()" />
+	                    </form>
+	                    <c:if test="${doctorDataFile != null}">
+	                        <div id="homeDataFile">
+	                            <a href="<%=basePath%>${doctorDataFile}">${fn:substringAfter(doctorDataFile,'/')}</a>
+	                        </div>
+	                    </c:if>
+	                </div>
+	            </div>
 				<div class="element_block">
 					<div class="element_title">全国DSM日报查询</div>
 					<div>

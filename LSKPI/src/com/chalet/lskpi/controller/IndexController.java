@@ -583,6 +583,10 @@ public class IndexController extends BaseController{
             view.addObject("homeDataFile", request.getSession().getAttribute("homeDataFile"));
             request.getSession().removeAttribute("homeDataFile");
         }
+        if( null != request.getSession().getAttribute("doctorDataFile") ){
+            view.addObject("doctorDataFile", request.getSession().getAttribute("doctorDataFile"));
+            request.getSession().removeAttribute("doctorDataFile");
+        }
         
         if( null != request.getSession().getAttribute("monthlyInRateDataFile") ){
         	view.addObject("monthlyInRateDataFile", request.getSession().getAttribute("monthlyInRateDataFile"));
@@ -690,6 +694,11 @@ public class IndexController extends BaseController{
         if( null != request.getSession().getAttribute("homeDataFile") ){
             view.addObject("homeDataFile", request.getSession().getAttribute("homeDataFile"));
             request.getSession().removeAttribute("homeDataFile");
+        }
+        
+        if( null != request.getSession().getAttribute("doctorDataFile") ){
+            view.addObject("doctorDataFile", request.getSession().getAttribute("doctorDataFile"));
+            request.getSession().removeAttribute("doctorDataFile");
         }
         
         if( null != request.getSession().getAttribute("reportFiles") ){

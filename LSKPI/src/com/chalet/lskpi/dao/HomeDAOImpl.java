@@ -16,9 +16,11 @@ import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Repository;
 
+import com.chalet.lskpi.mapper.ExportDoctorRowMapper;
 import com.chalet.lskpi.mapper.HomeDataExportRowMapper;
 import com.chalet.lskpi.mapper.HomeDataRowMapper;
 import com.chalet.lskpi.mapper.HomeWeeklyDataRowMapper;
+import com.chalet.lskpi.model.ExportDoctor;
 import com.chalet.lskpi.model.HomeData;
 import com.chalet.lskpi.model.HomeWeeklyData;
 import com.chalet.lskpi.utils.DataBean;
@@ -384,5 +386,27 @@ public class HomeDAOImpl implements HomeDAO {
             , new Timestamp(endDate.getTime())
             , new Timestamp(beginDate.getTime())
             , new Timestamp(endDate.getTime())}, new HomeWeeklyDataRowMapper());
+    }
+
+    public List<ExportDoctor> getAllDoctors() throws Exception {
+        StringBuffer sql = new StringBuffer();
+        sql.append(" select h.region, h.rsmRegion  ")
+        .append(" , h.code as hospitalCode, h.name as hospitalName ")
+        .append(" , d.code as doctorCode,  d.name as doctorName ")
+        .append(" , case when h.dsmCode is null then '#N/A' else ( ")
+        .append("       select u.name from tbl_userinfo u ")
+        .append("       where u.region = h.rsmRegion ")
+        .append("       and u.regionCenter = h.region and u.userCode=h.dsmCode and u.level='DSM') ")
+        .append("   end dsmName ")
+        .append(" , case when d.salesCode is null or d.salesCode='' then '#N/A' else ( ")
+        .append("       select u.name from tbl_userinfo u ")
+        .append("       where u.region = h.rsmRegion ")
+        .append("       and u.regionCenter = h.region and u.superior = h.dsmCode and u.userCode=d.salesCode and u.level='REP') ")
+        .append("   end salesName ")
+        .append(" , case when d.salesCode is null or d.salesCode='' then '#N/A' else d.salesCode end salesCode ")
+        .append(" from tbl_doctor d, tbl_hospital h  ")
+        .append(" where d.hospitalCode = h.code  ")
+        .append(" order by h.region, h.rsmRegion, h.code, d.code ");
+        return dataBean.getJdbcTemplate().query(sql.toString(), new ExportDoctorRowMapper());
     }
 }

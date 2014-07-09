@@ -12,6 +12,7 @@ import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
 
 import com.chalet.lskpi.dao.HomeDAO;
+import com.chalet.lskpi.model.ExportDoctor;
 import com.chalet.lskpi.model.HomeData;
 import com.chalet.lskpi.model.HomeWeeklyData;
 import com.chalet.lskpi.model.UserInfo;
@@ -143,6 +144,10 @@ public class HomeServiceImpl implements HomeService {
                 break;
         }
         return homeWeeklyData;
+    }
+
+    public List<ExportDoctor> getAllDoctors() throws Exception {
+        return homeDAO.getAllDoctors();
     }
 
 }

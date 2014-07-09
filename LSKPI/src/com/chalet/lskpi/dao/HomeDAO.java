@@ -3,6 +3,7 @@ package com.chalet.lskpi.dao;
 import java.util.Date;
 import java.util.List;
 
+import com.chalet.lskpi.model.ExportDoctor;
 import com.chalet.lskpi.model.HomeData;
 import com.chalet.lskpi.model.HomeWeeklyData;
 
@@ -23,4 +24,6 @@ public interface HomeDAO {
     public HomeWeeklyData getHomeWeeklyDataOfSingleRSD(String regionCenter, Date beginDate, Date endDate) throws Exception;
     public HomeWeeklyData getHomeWeeklyDataOfSingleRSM(String region, Date beginDate, Date endDate) throws Exception;
     public HomeWeeklyData getHomeWeeklyDataOfSingleDSM(String dsmCode, String region, Date beginDate, Date endDate) throws Exception;
+    
+    public List<ExportDoctor> getAllDoctors() throws Exception;
 }

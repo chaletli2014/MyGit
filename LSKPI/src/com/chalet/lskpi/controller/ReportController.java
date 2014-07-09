@@ -32,6 +32,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.chalet.lskpi.model.ExportDoctor;
 import com.chalet.lskpi.model.HomeData;
 import com.chalet.lskpi.model.HomeWeeklyData;
 import com.chalet.lskpi.model.MobileCHEDailyData;
@@ -369,7 +370,6 @@ public class ReportController extends BaseController{
         }
     }
     
-
     @RequestMapping("/doDownloadHomeData")
     public String doDownloadHomeData(HttpServletRequest request, HttpServletResponse response) throws IOException{
         logger.info("download the home data..");
@@ -597,6 +597,121 @@ public class ReportController extends BaseController{
             }
         }
         request.getSession().setAttribute("homeDataFile", fileName);
+        if( null != fromWeb && "Y".equalsIgnoreCase(fromWeb) ){
+            return "redirect:showWebUploadData";
+        }else{
+            return "redirect:showUploadData";
+        }
+    }
+    @RequestMapping("/doDownloadDoctorData")
+    public String doDownloadDoctorData(HttpServletRequest request, HttpServletResponse response) throws IOException{
+        logger.info("download the doctor data..");
+        FileOutputStream fOut = null;
+        String fileName = null;
+        String fromWeb = request.getParameter("fromWeb");
+        try{
+            List<ExportDoctor> doctorList = homeService.getAllDoctors();
+            
+            File homeDir = new File(request.getRealPath("/") + "homeData/");
+            if( !homeDir.exists() ){
+                homeDir.mkdir();
+            }
+            
+            fileName = new StringBuffer("homeData/家庭雾化KPI医生名单.xls").toString();
+            
+            File tmpFile = new File(request.getRealPath("/") + fileName);
+            if( !tmpFile.exists() ){
+                tmpFile.createNewFile();
+            }
+            
+            fOut = new FileOutputStream(tmpFile);
+            
+            HSSFWorkbook workbook = new HSSFWorkbook();
+            workbook.createSheet("家庭雾化医生名单");
+            HSSFSheet sheet = workbook.getSheetAt(0);
+            int currentRowNum = 0;
+            
+            HSSFFont font = workbook.createFont();
+            font.setColor(HSSFColor.WHITE.index);
+            
+            HSSFCellStyle topStyle=workbook.createCellStyle();
+            topStyle.setAlignment(HSSFCellStyle.ALIGN_CENTER);
+            topStyle.setVerticalAlignment(HSSFCellStyle.VERTICAL_CENTER);
+            topStyle.setBorderLeft(HSSFCellStyle.BORDER_THIN);
+            topStyle.setBorderRight(HSSFCellStyle.BORDER_THIN);
+            topStyle.setLeftBorderColor(HSSFColor.BLACK.index);
+            topStyle.setRightBorderColor(HSSFColor.BLACK.index);
+            topStyle.setFillForegroundColor(HSSFColor.BLUE.index);
+            topStyle.setFillPattern(HSSFCellStyle.SOLID_FOREGROUND);
+            topStyle.setFont(font);
+            
+            HSSFCellStyle top2Style=workbook.createCellStyle();
+            top2Style.setAlignment(HSSFCellStyle.ALIGN_CENTER);
+            top2Style.setVerticalAlignment(HSSFCellStyle.VERTICAL_CENTER);
+            top2Style.setBorderLeft(HSSFCellStyle.BORDER_THIN);
+            top2Style.setBorderRight(HSSFCellStyle.BORDER_THIN);
+            top2Style.setLeftBorderColor(HSSFColor.BLACK.index);
+            top2Style.setRightBorderColor(HSSFColor.BLACK.index);
+            top2Style.setFillForegroundColor(HSSFColor.VIOLET.index);
+            top2Style.setFillPattern(HSSFCellStyle.SOLID_FOREGROUND);
+            top2Style.setFont(font);
+            
+            //build the header
+            HSSFRow row = sheet.createRow(currentRowNum++);
+            row.createCell(0, XSSFCell.CELL_TYPE_STRING).setCellValue("区域");
+            row.createCell(1, XSSFCell.CELL_TYPE_STRING).setCellValue("大区");
+            row.createCell(2, XSSFCell.CELL_TYPE_STRING).setCellValue("DSM");
+            row.createCell(3, XSSFCell.CELL_TYPE_STRING).setCellValue("PSR Code");
+            row.createCell(4, XSSFCell.CELL_TYPE_STRING).setCellValue("PSR");
+            row.getCell(0).setCellStyle(topStyle);
+            row.getCell(1).setCellStyle(topStyle);
+            row.getCell(2).setCellStyle(topStyle);
+            row.getCell(3).setCellStyle(topStyle);
+            row.getCell(4).setCellStyle(topStyle);
+            
+            row.createCell(5, XSSFCell.CELL_TYPE_STRING).setCellValue("目标医院Code");
+            row.createCell(6, XSSFCell.CELL_TYPE_STRING).setCellValue("目标医院名称");
+            row.createCell(7, XSSFCell.CELL_TYPE_STRING).setCellValue("目标医生Code");
+            row.createCell(8, XSSFCell.CELL_TYPE_STRING).setCellValue("目标医生");
+            row.getCell(5).setCellStyle(top2Style);
+            row.getCell(6).setCellStyle(top2Style);
+            row.getCell(7).setCellStyle(top2Style);
+            row.getCell(8).setCellStyle(top2Style);
+            
+            int userColumnWidth = 12;
+            
+            sheet.setColumnWidth(0, userColumnWidth*256);
+            sheet.setColumnWidth(1, userColumnWidth*256);
+            sheet.setColumnWidth(2, userColumnWidth*256);
+            sheet.setColumnWidth(3, userColumnWidth*256);
+            sheet.setColumnWidth(4, userColumnWidth*256);
+            sheet.setColumnWidth(5, userColumnWidth*256);
+            sheet.setColumnWidth(6, 26*256);//hospital name
+            sheet.setColumnWidth(7, 18*256);//doctor code
+            sheet.setColumnWidth(8, userColumnWidth*256);
+            
+            for( ExportDoctor doctor : doctorList ){
+                row = sheet.createRow(currentRowNum++);
+                row.createCell(0, XSSFCell.CELL_TYPE_STRING).setCellValue(doctor.getRegion());
+                row.createCell(1, XSSFCell.CELL_TYPE_STRING).setCellValue(doctor.getRsmRegion());
+                row.createCell(2, XSSFCell.CELL_TYPE_STRING).setCellValue(doctor.getDsmName());
+                row.createCell(3, XSSFCell.CELL_TYPE_STRING).setCellValue(doctor.getSalesCode());
+                row.createCell(4, XSSFCell.CELL_TYPE_STRING).setCellValue(doctor.getSalesName());
+                row.createCell(5, XSSFCell.CELL_TYPE_STRING).setCellValue(doctor.getHospitalCode());
+                row.createCell(6, XSSFCell.CELL_TYPE_STRING).setCellValue(doctor.getHospitalName());
+                row.createCell(7, XSSFCell.CELL_TYPE_STRING).setCellValue(doctor.getDoctorCode());
+                row.createCell(8, XSSFCell.CELL_TYPE_STRING).setCellValue(doctor.getDoctorName());
+            }
+            
+            workbook.write(fOut);
+        }catch(Exception e){
+            logger.error("fail to export the doctor data file,",e);
+        }finally{
+            if( fOut != null ){
+                fOut.close();
+            }
+        }
+        request.getSession().setAttribute("doctorDataFile", fileName);
         if( null != fromWeb && "Y".equalsIgnoreCase(fromWeb) ){
             return "redirect:showWebUploadData";
         }else{

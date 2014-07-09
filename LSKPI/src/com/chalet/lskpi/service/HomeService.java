@@ -3,6 +3,7 @@ package com.chalet.lskpi.service;
 import java.util.Date;
 import java.util.List;
 
+import com.chalet.lskpi.model.ExportDoctor;
 import com.chalet.lskpi.model.HomeData;
 import com.chalet.lskpi.model.HomeWeeklyData;
 import com.chalet.lskpi.model.UserInfo;
@@ -18,4 +19,6 @@ public interface HomeService {
     public List<HomeWeeklyData> getHomeWeeklyDataOfCurrentUser(UserInfo currentUser) throws Exception;
     public List<HomeWeeklyData> getHomeWeeklyDataOfLowerUser(UserInfo currentUser) throws Exception;
     public HomeWeeklyData getHomeWeeklyDataOfUpperUser(UserInfo currentUser) throws Exception;
+    
+    public List<ExportDoctor> getAllDoctors() throws Exception;
 }

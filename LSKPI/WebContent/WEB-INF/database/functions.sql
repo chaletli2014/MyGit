@@ -45,7 +45,7 @@ select * from tbl_userinfo where userCode in (
     group by userCode
     having count(1)>1
 )
-order by userCode;
+order by regionCenter, region, superior, userCode;
 
 select * from tbl_respirology_data 
 where date_format(createdate,'%Y-%m-%d') = date_format('2014-06-16','%Y-%m-%d') 
@@ -1765,3 +1765,25 @@ select pedData.duration,pedData.region,pedData.rsmRegion,resData.inRate as resIn
   and resData.region = pedData.region  
   and resData.rsmRegion = pedData.rsmRegion  
   order by region asc, rsmRegion asc, duration desc ;
+  
+----------------------------------getAllDoctors -----------------------------------------
+select h.region, h.rsmRegion 
+, case when h.dsmCode is null then '#N/A' else (
+    select u.name from tbl_userinfo u 
+    where u.region = h.rsmRegion 
+    and u.regionCenter = h.region 
+    and u.userCode=h.dsmCode 
+    and u.level='DSM') end dsmName 
+, case when d.salesCode is null or d.salesCode='' then '#N/A' else (
+    select u.name from tbl_userinfo u 
+    where u.region = h.rsmRegion 
+    and u.regionCenter = h.region 
+    and u.superior = h.dsmCode 
+    and u.userCode=d.salesCode 
+    and u.level='REP') end salesName
+, case when d.salesCode is null or d.salesCode='' then '#N/A' else d.salesCode end salesCode 
+, h.code as hospitalCode, h.name as hospitalName
+, d.code as doctorCode,  d.name as doctorName 
+from tbl_doctor d, tbl_hospital h 
+where d.hospitalCode = h.code 
+order by h.region, h.rsmRegion, h.code, d.code;
