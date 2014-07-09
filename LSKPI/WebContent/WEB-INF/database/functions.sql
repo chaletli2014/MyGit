@@ -44,7 +44,8 @@ select * from tbl_userinfo where userCode in (
     where userCode != '#N/A'
     group by userCode
     having count(1)>1
-)
+) 
+and level in ('REP','DSM','RSM','RSD') 
 order by regionCenter, region, superior, userCode;
 
 select * from tbl_respirology_data 

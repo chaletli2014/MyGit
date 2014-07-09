@@ -950,11 +950,12 @@ where telephone=?]]></xml-property>
                 </structure>
             </list-property>
             <xml-property name="queryText"><![CDATA[select pdw.duration, 
-pdw.region, 
+h.region, 
 IFNULL(sum(pdw.averageDose*pdw.lsnum)/sum(lsnum),0) as averageDose 
-from tbl_pediatrics_data_weekly pdw 
-where duration <= CONCAT(?, '-',?) 
-group by pdw.duration,pdw.region 
+from tbl_pediatrics_data_weekly pdw, tbl_hospital h 
+where pdw.hospitalCode = h.code 
+and pdw.duration <= CONCAT(?, '-',?) 
+group by pdw.duration,h.region 
 order by pdw.duration desc 
 limit 0,72;]]></xml-property>
             <xml-property name="designerValues"><![CDATA[<?xml version="1.0" encoding="UTF-8"?>
@@ -1145,11 +1146,12 @@ limit 0,72;]]></xml-property>
                 </structure>
             </list-property>
             <xml-property name="queryText"><![CDATA[select pdw.duration, 
-pdw.region, 
+h.region, 
 IFNULL(sum(pdw.lsnum),0) as lsnum 
-from tbl_pediatrics_data_weekly pdw 
-where duration <= CONCAT(?, '-',?) 
-group by pdw.duration,pdw.region 
+from tbl_pediatrics_data_weekly pdw, tbl_hospital h
+where pdw.hospitalCode = h.code 
+and pdw.duration <= CONCAT(?, '-',?) 
+group by pdw.duration,h.region 
 order by pdw.duration desc 
 limit 0,72;]]></xml-property>
             <xml-property name="designerValues"><![CDATA[<?xml version="1.0" encoding="UTF-8"?>
@@ -1340,13 +1342,13 @@ limit 0,72;]]></xml-property>
                 </structure>
             </list-property>
             <xml-property name="queryText"><![CDATA[select pdw.duration, 
-pdw.region, 
+h.region, 
 IFNULL(sum(pdw.lsnum)/sum(pdw.pnum),0) as whRate 
 from tbl_pediatrics_data_weekly pdw, tbl_hospital h 
 where pdw.hospitalCode = h.code 
 and h.dragonType='Core' 
 and pdw.duration <= CONCAT(?, '-',?) 
-group by pdw.duration,pdw.region 
+group by pdw.duration,h.region 
 order by pdw.duration desc 
 limit 0,72;]]></xml-property>
             <xml-property name="designerValues"><![CDATA[<?xml version="1.0" encoding="UTF-8"?>
@@ -1537,11 +1539,12 @@ limit 0,72;]]></xml-property>
                 </structure>
             </list-property>
             <xml-property name="queryText"><![CDATA[select pdw.duration, 
-pdw.region, 
+h.region, 
 IFNULL(sum(pdw.lsnum)/sum(pdw.pnum),0) as whRate 
-from tbl_pediatrics_data_weekly pdw 
-where duration <= CONCAT(?, '-',?) 
-group by pdw.duration,pdw.region 
+from tbl_pediatrics_data_weekly pdw, tbl_hospital h
+where pdw.hospitalCode = h.code 
+and pdw.duration <= CONCAT(?, '-',?) 
+group by pdw.duration,h.region 
 order by pdw.duration desc 
 limit 0,72;]]></xml-property>
             <xml-property name="designerValues"><![CDATA[<?xml version="1.0" encoding="UTF-8"?>
@@ -1732,13 +1735,13 @@ limit 0,72;]]></xml-property>
                 </structure>
             </list-property>
             <xml-property name="queryText"><![CDATA[select pdw.duration, 
-pdw.region, 
+h.region, 
 IFNULL(sum(pdw.lsnum)/sum(pdw.pnum),0) as whRate 
 from tbl_pediatrics_data_weekly pdw, tbl_hospital h 
 where pdw.hospitalCode = h.code 
 and h.dragonType='Emerging' 
-and duration <= CONCAT(?, '-',?) 
-group by pdw.duration,pdw.region 
+and pdw.duration <= CONCAT(?, '-',?) 
+group by pdw.duration,h.region 
 order by pdw.duration desc 
 limit 0,72;]]></xml-property>
             <xml-property name="designerValues"><![CDATA[<?xml version="1.0" encoding="UTF-8"?>
@@ -2248,11 +2251,12 @@ IFNULL(sum(pdw.hmgRate*pdw.lsnum)/sum(pdw.lsnum),0) as hmgRate,
 IFNULL(sum(pdw.omgRate*pdw.lsnum)/sum(pdw.lsnum),0) as omgRate, 
 IFNULL(sum(pdw.tmgRate*pdw.lsnum)/sum(pdw.lsnum),0) as tmgRate, 
 IFNULL(sum(pdw.fmgRate*pdw.lsnum)/sum(pdw.lsnum),0) as fmgRate 
-from tbl_pediatrics_data_weekly pdw, tbl_userinfo u 
-where pdw.region = u.regionCenter 
+from tbl_pediatrics_data_weekly pdw, tbl_userinfo u, tbl_hospital h
+where pdw.hospitalCode = h.code 
+and h.region = u.regionCenter 
 and pdw.duration = CONCAT(?,'-',?) 
 and u.level='RSD'
-group by pdw.region;]]></xml-property>
+group by u.regionCenter;]]></xml-property>
             <xml-property name="designerValues"><![CDATA[<?xml version="1.0" encoding="UTF-8"?>
 <model:DesignValues xmlns:design="http://www.eclipse.org/datatools/connectivity/oda/design" xmlns:model="http://www.eclipse.org/birt/report/model/adapter/odaModel">
   <Version>2.0</Version>
@@ -2411,11 +2415,12 @@ group by pdw.region;]]></xml-property>
                 </structure>
             </list-property>
             <xml-property name="queryText"><![CDATA[select pdw.duration, 
-pdw.region, 
+h.region, 
 IFNULL(sum(pdw.pnum),0) as pnum 
-from tbl_pediatrics_data_weekly pdw 
-where duration <= CONCAT(?, '-',?) 
-group by pdw.duration,pdw.region 
+from tbl_pediatrics_data_weekly pdw, tbl_hospital h
+where pdw.hospitalCode = h.code 
+and pdw.duration <= CONCAT(?, '-',?) 
+group by pdw.duration,h.region 
 order by pdw.duration desc 
 limit 0,72;
 ]]></xml-property>
