@@ -618,11 +618,11 @@ public class IndexController extends BaseController{
             return view;
         }
         
-        if( LsAttributes.USER_LEVEL_REP.equalsIgnoreCase(currentUser.getLevel()) ){
-            view.addObject(LsAttributes.JSP_VERIFY_MESSAGE, LsAttributes.RETURNED_MESSAGE_3);
-            view.setViewName("index");
-            return view;
-        }
+//        if( LsAttributes.USER_LEVEL_REP.equalsIgnoreCase(currentUser.getLevel()) ){
+//            view.addObject(LsAttributes.JSP_VERIFY_MESSAGE, LsAttributes.RETURNED_MESSAGE_3);
+//            view.setViewName("index");
+//            return view;
+//        }
         
         view.setViewName("uploadData");
         initUploadDataUsers(view);
