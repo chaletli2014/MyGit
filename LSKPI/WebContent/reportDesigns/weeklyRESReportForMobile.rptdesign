@@ -1272,15 +1272,16 @@ where telephone=?]]></xml-property>
                 </structure>
             </list-property>
             <xml-property name="queryText"><![CDATA[select rdw.duration, 
-rdw.region, 
+h.region, 
 IFNULL(sum(rdw.lsnum),0) as lsnum 
 from 
 (
 	select * from tbl_respirology_data_weekly 
 	order by duration desc 
 	limit 0,4776 
-) rdw 
-group by rdw.duration,rdw.region 
+) rdw, tbl_hospital h 
+where h.code = rdw.hospitalCode 
+group by rdw.duration,h.region 
 order by rdw.duration desc;]]></xml-property>
             <xml-property name="designerValues"><![CDATA[<?xml version="1.0" encoding="UTF-8"?>
 <model:DesignValues xmlns:design="http://www.eclipse.org/datatools/connectivity/oda/design" xmlns:model="http://www.eclipse.org/birt/report/model/adapter/odaModel">
@@ -1417,15 +1418,16 @@ order by rdw.duration desc;]]></xml-property>
                 </structure>
             </list-property>
             <xml-property name="queryText"><![CDATA[select rdw.duration, 
-rdw.region, 
+h.region, 
 IFNULL(sum(rdw.pnum),0) as pnum 
 from 
 (
 	select * from tbl_respirology_data_weekly 
 	order by duration desc 
 	limit 0,4776 
-) rdw
-group by rdw.duration,rdw.region 
+) rdw, tbl_hospital h 
+where h.code = rdw.hospitalCode 
+group by rdw.duration,h.region 
 order by rdw.duration desc;]]></xml-property>
             <xml-property name="designerValues"><![CDATA[<?xml version="1.0" encoding="UTF-8"?>
 <model:DesignValues xmlns:design="http://www.eclipse.org/datatools/connectivity/oda/design" xmlns:model="http://www.eclipse.org/birt/report/model/adapter/odaModel">
@@ -1884,15 +1886,16 @@ order by rdw.duration desc;]]></xml-property>
                 </structure>
             </list-property>
             <xml-property name="queryText"><![CDATA[select rdw.duration, 
-rdw.region, 
+h.region, 
 IFNULL(sum(rdw.averageDose*rdw.lsnum)/sum(rdw.lsnum),0) as averageDose 
 from 
 (
 	select * from tbl_respirology_data_weekly 
 	order by duration desc 
 	limit 0,4776 
-) rdw  
-group by rdw.duration,rdw.region 
+) rdw, tbl_hospital h 
+where h.code = rdw.hospitalCode 
+group by rdw.duration,h.region 
 order by rdw.duration desc;]]></xml-property>
             <xml-property name="designerValues"><![CDATA[<?xml version="1.0" encoding="UTF-8"?>
 <model:DesignValues xmlns:design="http://www.eclipse.org/datatools/connectivity/oda/design" xmlns:model="http://www.eclipse.org/birt/report/model/adapter/odaModel">
@@ -2036,15 +2039,16 @@ order by rdw.duration desc;]]></xml-property>
                 </structure>
             </list-property>
             <xml-property name="queryText"><![CDATA[select rdw.duration, 
-rdw.region, 
+h.region, 
 IFNULL(sum(rdw.lsnum)/sum(rdw.pnum),0) as whRate 
 from 
 (
 	select * from tbl_respirology_data_weekly 
 	order by duration desc 
 	limit 0,4776 
-) rdw 
-group by rdw.duration,rdw.region 
+) rdw, tbl_hospital h 
+where h.code = rdw.hospitalCode 
+group by rdw.duration,h.region 
 order by rdw.duration desc;]]></xml-property>
             <xml-property name="designerValues"><![CDATA[<?xml version="1.0" encoding="UTF-8"?>
 <model:DesignValues xmlns:design="http://www.eclipse.org/datatools/connectivity/oda/design" xmlns:model="http://www.eclipse.org/birt/report/model/adapter/odaModel">
@@ -2187,7 +2191,7 @@ order by rdw.duration desc;]]></xml-property>
                 </structure>
             </list-property>
             <xml-property name="queryText"><![CDATA[select rdw.duration, 
-rdw.region, 
+h.region, 
 IFNULL(sum(rdw.lsnum)/sum(rdw.pnum),0) as whRate 
 from 
 (
@@ -2195,9 +2199,9 @@ from
 	order by duration desc 
 	limit 0,4776 
 ) rdw, tbl_hospital h 
-where rdw.hospitalName = h.name 
+where h.code = rdw.hospitalCode 
 and h.level!='3'
-group by rdw.duration,rdw.region 
+group by rdw.duration,h.region 
 order by rdw.duration desc;]]></xml-property>
             <xml-property name="designerValues"><![CDATA[<?xml version="1.0" encoding="UTF-8"?>
 <model:DesignValues xmlns:design="http://www.eclipse.org/datatools/connectivity/oda/design" xmlns:model="http://www.eclipse.org/birt/report/model/adapter/odaModel">
@@ -2340,7 +2344,7 @@ order by rdw.duration desc;]]></xml-property>
                 </structure>
             </list-property>
             <xml-property name="queryText"><![CDATA[select rdw.duration, 
-rdw.region, 
+h.region, 
 IFNULL(sum(rdw.lsnum)/sum(rdw.pnum),0) as whRate 
 from 
 (
@@ -2348,9 +2352,9 @@ from
 	order by duration desc 
 	limit 0,4776 
 ) rdw, tbl_hospital h 
-where rdw.hospitalName = h.name 
+where h.code = rdw.hospitalCode 
 and h.level='3'
-group by rdw.duration,rdw.region 
+group by rdw.duration,h.region 
 order by rdw.duration desc;]]></xml-property>
             <xml-property name="designerValues"><![CDATA[<?xml version="1.0" encoding="UTF-8"?>
 <model:DesignValues xmlns:design="http://www.eclipse.org/datatools/connectivity/oda/design" xmlns:model="http://www.eclipse.org/birt/report/model/adapter/odaModel">

@@ -478,15 +478,16 @@ UNION ALL
                 </structure>
             </list-property>
             <xml-property name="queryText"><![CDATA[select pdw.duration, 
-pdw.region, 
+h.region, 
 IFNULL(sum(pdw.pnum),0) as pnum 
 from 
 (
 	select * from tbl_pediatrics_data_weekly 
 	order by duration desc 
 	limit 0,11040 
-) pdw 
-group by pdw.duration,pdw.region 
+) pdw, tbl_hospital h 
+where h.code = pdw.hospitalCode 
+group by pdw.duration,h.region 
 order by pdw.duration desc;]]></xml-property>
             <xml-property name="designerValues"><![CDATA[<?xml version="1.0" encoding="UTF-8"?>
 <model:DesignValues xmlns:design="http://www.eclipse.org/datatools/connectivity/oda/design" xmlns:model="http://www.eclipse.org/birt/report/model/adapter/odaModel">
@@ -1128,15 +1129,16 @@ order by id desc]]></xml-property>
                 </structure>
             </list-property>
             <xml-property name="queryText"><![CDATA[select pdw.duration, 
-pdw.region, 
+h.region, 
 IFNULL(sum(pdw.lsnum),0) as lsnum 
 from 
 (
 	select * from tbl_pediatrics_data_weekly 
 	order by duration desc 
 	limit 0,11040 
-) pdw 
-group by pdw.duration,pdw.region 
+) pdw, tbl_hospital h 
+where h.code = pdw.hospitalCode 
+group by pdw.duration,h.region 
 order by pdw.duration desc;]]></xml-property>
             <xml-property name="designerValues"><![CDATA[<?xml version="1.0" encoding="UTF-8"?>
 <model:DesignValues xmlns:design="http://www.eclipse.org/datatools/connectivity/oda/design" xmlns:model="http://www.eclipse.org/birt/report/model/adapter/odaModel">
@@ -1279,15 +1281,16 @@ order by pdw.duration desc;]]></xml-property>
                 </structure>
             </list-property>
             <xml-property name="queryText"><![CDATA[select pdw.duration, 
-pdw.region, 
+h.region, 
 IFNULL(sum(pdw.lsnum)/sum(pdw.pnum),0) as whRate 
 from 
 (
 	select * from tbl_pediatrics_data_weekly 
 	order by duration desc 
 	limit 0,11040 
-) pdw 
-group by pdw.duration,pdw.region 
+) pdw, tbl_hospital h 
+where h.code = pdw.hospitalCode 
+group by pdw.duration,h.region 
 order by pdw.duration desc;]]></xml-property>
             <xml-property name="designerValues"><![CDATA[<?xml version="1.0" encoding="UTF-8"?>
 <model:DesignValues xmlns:design="http://www.eclipse.org/datatools/connectivity/oda/design" xmlns:model="http://www.eclipse.org/birt/report/model/adapter/odaModel">
@@ -1431,15 +1434,16 @@ order by pdw.duration desc;]]></xml-property>
                 </structure>
             </list-property>
             <xml-property name="queryText"><![CDATA[select pdw.duration, 
-pdw.region, 
+h.region, 
 IFNULL(sum(pdw.averageDose*pdw.lsnum)/sum(lsnum),0) as averageDose 
 from 
 (
 	select * from tbl_pediatrics_data_weekly 
 	order by duration desc 
 	limit 0,11040 
-) pdw
-group by pdw.duration,pdw.region 
+) pdw, tbl_hospital h 
+where h.code = pdw.hospitalCode 
+group by pdw.duration,h.region 
 order by pdw.duration desc;]]></xml-property>
             <xml-property name="designerValues"><![CDATA[<?xml version="1.0" encoding="UTF-8"?>
 <model:DesignValues xmlns:design="http://www.eclipse.org/datatools/connectivity/oda/design" xmlns:model="http://www.eclipse.org/birt/report/model/adapter/odaModel">
@@ -1582,7 +1586,7 @@ order by pdw.duration desc;]]></xml-property>
                 </structure>
             </list-property>
             <xml-property name="queryText"><![CDATA[select pdw.duration, 
-pdw.region, 
+h.region, 
 IFNULL(sum(pdw.lsnum)/sum(pdw.pnum),0) as whRate 
 from 
 (
@@ -1590,9 +1594,9 @@ from
 	order by duration desc 
 	limit 0,11040 
 ) pdw, tbl_hospital h 
-where pdw.hospitalName = h.name 
+where h.code = pdw.hospitalCode 
 and h.dragonType='Emerging'
-group by pdw.duration,pdw.region 
+group by pdw.duration,h.region 
 order by pdw.duration desc;]]></xml-property>
             <xml-property name="designerValues"><![CDATA[<?xml version="1.0" encoding="UTF-8"?>
 <model:DesignValues xmlns:design="http://www.eclipse.org/datatools/connectivity/oda/design" xmlns:model="http://www.eclipse.org/birt/report/model/adapter/odaModel">
@@ -1735,18 +1739,17 @@ order by pdw.duration desc;]]></xml-property>
                 </structure>
             </list-property>
             <xml-property name="queryText"><![CDATA[select pdw.duration, 
-pdw.region, 
+h.region, 
 IFNULL(sum(pdw.lsnum)/sum(pdw.pnum),0) as whRate 
 from 
 (
 	select * from tbl_pediatrics_data_weekly 
 	order by duration desc 
 	limit 0,11040 
-) pdw, 
-tbl_hospital h 
-where pdw.hospitalName = h.name 
+) pdw, tbl_hospital h 
+where h.code = pdw.hospitalCode 
 and h.dragonType='Core'
-group by pdw.duration,pdw.region 
+group by pdw.duration,h.region 
 order by pdw.duration desc;]]></xml-property>
             <xml-property name="designerValues"><![CDATA[<?xml version="1.0" encoding="UTF-8"?>
 <model:DesignValues xmlns:design="http://www.eclipse.org/datatools/connectivity/oda/design" xmlns:model="http://www.eclipse.org/birt/report/model/adapter/odaModel">

@@ -1778,7 +1778,7 @@ from
 	limit 0,4776 
 ) rdw, tbl_hospital h 
 where h.code = rdw.hospitalCode 
-and rdw.region = 'Central GRA'
+and h.region = 'Central GRA'
 group by rdw.duration,h.region,h.rsmRegion
 order by rdw.duration desc;]]></xml-property>
             <xml-property name="designerValues"><![CDATA[<?xml version="1.0" encoding="UTF-8"?>

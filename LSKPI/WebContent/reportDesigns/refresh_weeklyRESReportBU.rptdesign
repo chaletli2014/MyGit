@@ -2324,7 +2324,7 @@ order by rdw.duration desc ]]></xml-property>
                 </structure>
             </list-property>
             <xml-property name="queryText"><![CDATA[select rdw.duration, 
-rdw.region, 
+h.region, 
 IFNULL(sum(rdw.lsnum)/sum(rdw.pnum),0) as whRate 
 from 
 (

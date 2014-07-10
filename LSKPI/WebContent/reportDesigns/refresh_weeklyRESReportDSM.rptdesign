@@ -966,7 +966,7 @@ group by h.rsmRegion, h.dsmCode ]]></xml-property>
                 </structure>
             </list-property>
             <xml-property name="queryText"><![CDATA[select rdw.duration, 
-IFNULL((select name from tbl_userinfo where region = h.rsmRegion and userCode = rdw.dsmCode),'vacant') name,  
+IFNULL((select name from tbl_userinfo u where u.region = h.rsmRegion and u.userCode = h.dsmCode),'vacant') name,  
 IFNULL(sum(rdw.lsnum),0) as lsnum 
 from 
 (
@@ -1590,7 +1590,7 @@ order by rdw.duration desc;]]></xml-property>
                 </structure>
             </list-property>
             <xml-property name="queryText"><![CDATA[select rdw.duration, 
-IFNULL((select name from tbl_userinfo where region = h.rsmRegion and userCode = rdw.dsmCode),'vacant') name,  
+IFNULL((select name from tbl_userinfo u where u.region = h.rsmRegion and u.userCode = h.dsmCode),'vacant') name,  
 IFNULL(sum(rdw.lsnum)/sum(rdw.pnum),0) as whRate 
 from 
 (
