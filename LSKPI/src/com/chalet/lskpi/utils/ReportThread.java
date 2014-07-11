@@ -190,12 +190,13 @@ public class ReportThread extends Thread {
                         String endDate = DateUtils.getTheEndDateOfRefreshDate(refreshDate);
                         logger.info(String.format("start to refresh the pdf weekly report, lastThursday is %s, start date is %s, end date is %s", lastThursday, startDate, endDate));
                         boolean isFirstRefresh = true;
+                        List<String> regionList = userService.getAllRegionName();
                         html.startPlatform();
                         for( UserInfo user : reportUserInfos ){
                             String telephone = user.getTelephone();
                             if( telephone != null && !"#N/A".equalsIgnoreCase(telephone) ){
                                 logger.info(String.format("the mobile is %s",telephone));
-                                ReportUtils.createWeeklyPDFReport(html, user, telephone, startDate, endDate, basePath, contextPath, lastRefreshThursday, user.getEmail(),isFirstRefresh,true);
+                                ReportUtils.createWeeklyPDFReport(html, user, telephone, startDate, endDate, basePath, contextPath, lastRefreshThursday, user.getEmail(),isFirstRefresh,true,regionList);
                                 this.taskTime = System.currentTimeMillis();
                             }else{
                                 logger.error(String.format("the telephone number for the user %s is not found", user.getName()));

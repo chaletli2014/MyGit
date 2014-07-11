@@ -3,7 +3,6 @@
     <property name="createdBy">Eclipse BIRT Designer Version 4.3.1.v201309091055 Build &lt;4.3.1.v20130917-1035></property>
     <property name="units">in</property>
     <property name="iconFile">/templates/blank_report.gif</property>
-    <property name="layoutPreference">fixed layout</property>
     <property name="bidiLayoutOrientation">ltr</property>
     <property name="imageDPI">96</property>
     <parameters>
@@ -13,16 +12,21 @@
             <property name="isRequired">false</property>
             <property name="dataType">string</property>
             <property name="distinct">true</property>
+            <list-property name="selectionList"/>
+            <property name="paramType">simple</property>
+            <property name="concealValue">false</property>
+            <property name="controlType">text-box</property>
+            <structure name="format">
+                <property name="category">Unformatted</property>
+            </structure>
+        </scalar-parameter>
+        <scalar-parameter name="startDate" id="1488">
+            <property name="valueType">static</property>
+            <property name="isRequired">false</property>
+            <property name="dataType">string</property>
+            <property name="distinct">true</property>
             <simple-property-list name="defaultValue">
-                <value type="javascript">var currentDate = new Date();&#13;
-var month = currentDate.getMonth();&#13;
-&#13;
-if( currentDate.getDay() &lt; 3 ){&#13;
-    currentDate.setDate(currentDate.getDate() - ( currentDate.getDay() + 4 ) );&#13;
-}else if( currentDate.getDay() > 3 ){&#13;
-    currentDate.setDate(currentDate.getDate() - ( currentDate.getDay() - 3 ) );&#13;
-}&#13;
-new Date(currentDate.getFullYear(),month,currentDate.getDate());</value>
+                <value type="constant"></value>
             </simple-property-list>
             <list-property name="selectionList"/>
             <property name="paramType">simple</property>
@@ -32,11 +36,14 @@ new Date(currentDate.getFullYear(),month,currentDate.getDate());</value>
                 <property name="category">Unformatted</property>
             </structure>
         </scalar-parameter>
-        <scalar-parameter name="startDate" id="1379">
+        <scalar-parameter name="endDate" id="1489">
             <property name="valueType">static</property>
             <property name="isRequired">false</property>
             <property name="dataType">string</property>
             <property name="distinct">true</property>
+            <simple-property-list name="defaultValue">
+                <value type="constant"></value>
+            </simple-property-list>
             <list-property name="selectionList"/>
             <property name="paramType">simple</property>
             <property name="concealValue">false</property>
@@ -45,7 +52,7 @@ new Date(currentDate.getFullYear(),month,currentDate.getDate());</value>
                 <property name="category">Unformatted</property>
             </structure>
         </scalar-parameter>
-        <scalar-parameter name="endDate" id="1380">
+        <scalar-parameter name="regionCenter" id="1490">
             <property name="valueType">static</property>
             <property name="isRequired">false</property>
             <property name="dataType">string</property>
@@ -85,19 +92,21 @@ new Date(currentDate.getFullYear(),month,currentDate.getDate());</value>
     </data-sources>
     <data-sets>
         <oda-data-set extensionID="org.eclipse.birt.report.data.oda.jdbc.JdbcSelectDataSet" name="hospitalLevelDataSet" id="938">
-            <list-property name="columnHints"/>
-            <list-property name="parameters">
+            <list-property name="columnHints">
                 <structure>
-                    <property name="name">param_1</property>
-                    <property name="paramName">userTel</property>
-                    <property name="nativeName"></property>
-                    <property name="dataType">string</property>
-                    <property name="nativeDataType">-3</property>
-                    <property name="position">1</property>
-                    <property name="isOptional">true</property>
-                    <property name="allowNull">true</property>
-                    <property name="isInput">true</property>
-                    <property name="isOutput">false</property>
+                    <property name="columnName">thNum</property>
+                    <text-property name="displayName">thNum</text-property>
+                    <text-property name="heading">thNum</text-property>
+                </structure>
+                <structure>
+                    <property name="columnName">tNum</property>
+                    <text-property name="displayName">tNum</text-property>
+                    <text-property name="heading">tNum</text-property>
+                </structure>
+                <structure>
+                    <property name="columnName">region</property>
+                    <text-property name="displayName">region</text-property>
+                    <text-property name="heading">region</text-property>
                 </structure>
             </list-property>
             <structure name="cachedMetaData">
@@ -114,7 +123,7 @@ new Date(currentDate.getFullYear(),month,currentDate.getDate());</value>
                     </structure>
                     <structure>
                         <property name="position">3</property>
-                        <property name="name">dsmName</property>
+                        <property name="name">region</property>
                         <property name="dataType">string</property>
                     </structure>
                 </list-property>
@@ -126,62 +135,31 @@ new Date(currentDate.getFullYear(),month,currentDate.getDate());</value>
                     <property name="name">thNum</property>
                     <property name="nativeName">thNum</property>
                     <property name="dataType">decimal</property>
+                    <property name="nativeDataType">-5</property>
                 </structure>
                 <structure>
                     <property name="position">2</property>
                     <property name="name">tNum</property>
                     <property name="nativeName">tNum</property>
                     <property name="dataType">decimal</property>
+                    <property name="nativeDataType">-5</property>
                 </structure>
                 <structure>
                     <property name="position">3</property>
-                    <property name="name">dsmName</property>
-                    <property name="nativeName">dsmName</property>
+                    <property name="name">region</property>
+                    <property name="nativeName">region</property>
                     <property name="dataType">string</property>
+                    <property name="nativeDataType">12</property>
                 </structure>
             </list-property>
-            <xml-property name="queryText"><![CDATA[ select allNum.thNum,allNum.tNum,allNum.dsmName
- from (
-	( select count(1) as thNum, 0 as tNum, dsmCode, dsmName, rsmRegion 
-		from tbl_hospital 
-		where level='3' 
-		and isResAssessed='1' 
-		group by dsmCode 
-	)
-	UNION ALL 
-	( select 0 as thNum, count(1) as tNum,dsmCode, dsmName, rsmRegion 
-		from tbl_hospital 
-		where level!='3' 
-		and isResAssessed='1' 
-		group by dsmCode 
-	)
-) allNum 
- where allNum.rsmRegion = ( select ui.region from tbl_userinfo ui where ui.telephone=?);]]></xml-property>
+            <xml-property name="queryText"><![CDATA[select three.thNum,two.tNum,three.region
+ from 
+( select count(1) as thNum,region from tbl_hospital where level='3' and isResAssessed='1' group by region ) three, 
+( select count(1) as tNum,region from tbl_hospital where level!='3' and isResAssessed='1' group by region) two 
+ where three.region = two.region;]]></xml-property>
             <xml-property name="designerValues"><![CDATA[<?xml version="1.0" encoding="UTF-8"?>
 <model:DesignValues xmlns:design="http://www.eclipse.org/datatools/connectivity/oda/design" xmlns:model="http://www.eclipse.org/birt/report/model/adapter/odaModel">
   <Version>2.0</Version>
-  <DataSetParameters>
-    <parameter>
-      <design:ParameterDefinition>
-        <design:inOutMode>In</design:inOutMode>
-        <design:attributes>
-          <design:identifier>
-            <design:name></design:name>
-            <design:position>1</design:position>
-          </design:identifier>
-          <design:nativeDataTypeCode>-3</design:nativeDataTypeCode>
-          <design:precision>0</design:precision>
-          <design:scale>0</design:scale>
-          <design:nullability>Nullable</design:nullability>
-        </design:attributes>
-        <design:inputAttributes>
-          <design:elementAttributes>
-            <design:optional>true</design:optional>
-          </design:elementAttributes>
-        </design:inputAttributes>
-      </design:ParameterDefinition>
-    </parameter>
-  </DataSetParameters>
   <design:ResultSets derivedMetaData="true">
     <design:resultSetDefinitions>
       <design:resultSetColumns>
@@ -243,6 +221,190 @@ new Date(currentDate.getFullYear(),month,currentDate.getDate());</value>
           </design:attributes>
           <design:usageHints>
             <design:label>region</design:label>
+            <design:formattingHints>
+              <design:displaySize>20</design:displaySize>
+            </design:formattingHints>
+          </design:usageHints>
+        </design:resultColumnDefinitions>
+      </design:resultSetColumns>
+      <design:criteria/>
+    </design:resultSetDefinitions>
+  </design:ResultSets>
+</model:DesignValues>]]></xml-property>
+        </oda-data-set>
+        <oda-data-set extensionID="org.eclipse.birt.report.data.oda.jdbc.JdbcSelectDataSet" name="ddiDataSet" id="707">
+            <property name="nullsOrdering">nulls lowest</property>
+            <list-property name="columnHints">
+                <structure>
+                    <property name="columnName">id</property>
+                    <property name="analysis">measure</property>
+                    <text-property name="displayName">id</text-property>
+                    <text-property name="heading">id</text-property>
+                </structure>
+                <structure>
+                    <property name="columnName">num</property>
+                    <property name="analysis">measure</property>
+                    <text-property name="displayName">num</text-property>
+                    <text-property name="heading">num</text-property>
+                </structure>
+                <structure>
+                    <property name="columnName">region</property>
+                    <property name="analysis">dimension</property>
+                    <text-property name="displayName">region</text-property>
+                    <text-property name="heading">region</text-property>
+                </structure>
+                <structure>
+                    <property name="columnName">duration</property>
+                    <property name="analysis">dimension</property>
+                    <text-property name="displayName">duration</text-property>
+                    <text-property name="heading">duration</text-property>
+                </structure>
+            </list-property>
+            <list-property name="parameters"/>
+            <structure name="cachedMetaData">
+                <list-property name="resultSet">
+                    <structure>
+                        <property name="position">1</property>
+                        <property name="name">id</property>
+                        <property name="dataType">integer</property>
+                    </structure>
+                    <structure>
+                        <property name="position">2</property>
+                        <property name="name">num</property>
+                        <property name="dataType">float</property>
+                    </structure>
+                    <structure>
+                        <property name="position">3</property>
+                        <property name="name">region</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                    <structure>
+                        <property name="position">4</property>
+                        <property name="name">duration</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                </list-property>
+            </structure>
+            <property name="rowFetchLimit">72</property>
+            <property name="dataSource">MySQLSource</property>
+            <list-property name="resultSet">
+                <structure>
+                    <property name="position">1</property>
+                    <property name="name">id</property>
+                    <property name="nativeName">id</property>
+                    <property name="dataType">integer</property>
+                    <property name="nativeDataType">4</property>
+                </structure>
+                <structure>
+                    <property name="position">2</property>
+                    <property name="name">num</property>
+                    <property name="nativeName">num</property>
+                    <property name="dataType">float</property>
+                    <property name="nativeDataType">8</property>
+                </structure>
+                <structure>
+                    <property name="position">3</property>
+                    <property name="name">region</property>
+                    <property name="nativeName">region</property>
+                    <property name="dataType">string</property>
+                    <property name="nativeDataType">12</property>
+                </structure>
+                <structure>
+                    <property name="position">4</property>
+                    <property name="name">duration</property>
+                    <property name="nativeName">duration</property>
+                    <property name="dataType">string</property>
+                    <property name="nativeDataType">12</property>
+                </structure>
+            </list-property>
+            <xml-property name="queryText"><![CDATA[select *
+from tbl_ddi_data 
+order by id desc]]></xml-property>
+            <xml-property name="designerValues"><![CDATA[<?xml version="1.0" encoding="UTF-8"?>
+<model:DesignValues xmlns:design="http://www.eclipse.org/datatools/connectivity/oda/design" xmlns:model="http://www.eclipse.org/birt/report/model/adapter/odaModel">
+  <Version>2.0</Version>
+  <design:ResultSets derivedMetaData="true">
+    <design:resultSetDefinitions>
+      <design:resultSetColumns>
+        <design:resultColumnDefinitions>
+          <design:attributes>
+            <design:identifier>
+              <design:name>id</design:name>
+              <design:position>1</design:position>
+            </design:identifier>
+            <design:nativeDataTypeCode>4</design:nativeDataTypeCode>
+            <design:precision>11</design:precision>
+            <design:scale>0</design:scale>
+            <design:nullability>NotNullable</design:nullability>
+            <design:uiHints>
+              <design:displayName>id</design:displayName>
+            </design:uiHints>
+          </design:attributes>
+          <design:usageHints>
+            <design:label>id</design:label>
+            <design:formattingHints>
+              <design:displaySize>11</design:displaySize>
+            </design:formattingHints>
+          </design:usageHints>
+        </design:resultColumnDefinitions>
+        <design:resultColumnDefinitions>
+          <design:attributes>
+            <design:identifier>
+              <design:name>num</design:name>
+              <design:position>2</design:position>
+            </design:identifier>
+            <design:nativeDataTypeCode>8</design:nativeDataTypeCode>
+            <design:precision>11</design:precision>
+            <design:scale>2</design:scale>
+            <design:nullability>Nullable</design:nullability>
+            <design:uiHints>
+              <design:displayName>num</design:displayName>
+            </design:uiHints>
+          </design:attributes>
+          <design:usageHints>
+            <design:label>num</design:label>
+            <design:formattingHints>
+              <design:displaySize>13</design:displaySize>
+            </design:formattingHints>
+          </design:usageHints>
+        </design:resultColumnDefinitions>
+        <design:resultColumnDefinitions>
+          <design:attributes>
+            <design:identifier>
+              <design:name>region</design:name>
+              <design:position>3</design:position>
+            </design:identifier>
+            <design:nativeDataTypeCode>12</design:nativeDataTypeCode>
+            <design:precision>20</design:precision>
+            <design:scale>0</design:scale>
+            <design:nullability>Nullable</design:nullability>
+            <design:uiHints>
+              <design:displayName>region</design:displayName>
+            </design:uiHints>
+          </design:attributes>
+          <design:usageHints>
+            <design:label>region</design:label>
+            <design:formattingHints>
+              <design:displaySize>20</design:displaySize>
+            </design:formattingHints>
+          </design:usageHints>
+        </design:resultColumnDefinitions>
+        <design:resultColumnDefinitions>
+          <design:attributes>
+            <design:identifier>
+              <design:name>duration</design:name>
+              <design:position>4</design:position>
+            </design:identifier>
+            <design:nativeDataTypeCode>12</design:nativeDataTypeCode>
+            <design:precision>20</design:precision>
+            <design:scale>0</design:scale>
+            <design:nullability>Nullable</design:nullability>
+            <design:uiHints>
+              <design:displayName>duration</design:displayName>
+            </design:uiHints>
+          </design:attributes>
+          <design:usageHints>
+            <design:label>duration</design:label>
             <design:formattingHints>
               <design:displaySize>20</design:displaySize>
             </design:formattingHints>
@@ -460,7 +622,7 @@ where telephone=?]]></xml-property>
   </DataSetParameters>
 </model:DesignValues>]]></xml-property>
         </oda-data-set>
-        <oda-data-set extensionID="org.eclipse.birt.report.data.oda.jdbc.JdbcSelectDataSet" name="dsmRESDataSet" id="1219">
+        <oda-data-set extensionID="org.eclipse.birt.report.data.oda.jdbc.JdbcSelectDataSet" name="rsmCentralRESDataSet" id="1035">
             <property name="nullsOrdering">nulls lowest</property>
             <list-property name="computedColumns">
                 <structure>
@@ -475,7 +637,98 @@ where telephone=?]]></xml-property>
                     </list-property>
                 </structure>
             </list-property>
-            <list-property name="columnHints"/>
+            <list-property name="columnHints">
+                <structure>
+                    <property name="columnName">rsmRegion</property>
+                    <property name="analysis">dimension</property>
+                    <text-property name="displayName">rsmRegion</text-property>
+                    <text-property name="heading">rsmRegion</text-property>
+                </structure>
+                <structure>
+                    <property name="columnName">region</property>
+                    <property name="analysis">dimension</property>
+                    <text-property name="displayName">region</text-property>
+                    <text-property name="heading">region</text-property>
+                </structure>
+                <structure>
+                    <property name="columnName">hosNum</property>
+                    <property name="analysis">measure</property>
+                    <text-property name="displayName">hosNum</text-property>
+                    <text-property name="heading">hosNum</text-property>
+                </structure>
+                <structure>
+                    <property name="columnName">inNum</property>
+                    <property name="analysis">measure</property>
+                    <text-property name="displayName">inNum</text-property>
+                    <text-property name="heading">inNum</text-property>
+                </structure>
+                <structure>
+                    <property name="columnName">pnum</property>
+                    <property name="analysis">measure</property>
+                    <text-property name="displayName">pnum</text-property>
+                    <text-property name="heading">pnum</text-property>
+                </structure>
+                <structure>
+                    <property name="columnName">aenum</property>
+                    <property name="analysis">measure</property>
+                    <text-property name="displayName">aenum</text-property>
+                    <text-property name="heading">aenum</text-property>
+                </structure>
+                <structure>
+                    <property name="columnName">whnum</property>
+                    <property name="analysis">measure</property>
+                    <text-property name="displayName">whnum</text-property>
+                    <text-property name="heading">whnum</text-property>
+                </structure>
+                <structure>
+                    <property name="columnName">lsnum</property>
+                    <property name="analysis">measure</property>
+                    <text-property name="displayName">lsnum</text-property>
+                    <text-property name="heading">lsnum</text-property>
+                </structure>
+                <structure>
+                    <property name="columnName">averageDose</property>
+                    <property name="analysis">measure</property>
+                    <text-property name="displayName">averageDose</text-property>
+                    <text-property name="heading">averageDose</text-property>
+                </structure>
+                <structure>
+                    <property name="columnName">omgRate</property>
+                    <property name="analysis">measure</property>
+                    <text-property name="displayName">omgRate</text-property>
+                    <text-property name="heading">omgRate</text-property>
+                </structure>
+                <structure>
+                    <property name="columnName">tmgRate</property>
+                    <property name="analysis">measure</property>
+                    <text-property name="displayName">tmgRate</text-property>
+                    <text-property name="heading">tmgRate</text-property>
+                </structure>
+                <structure>
+                    <property name="columnName">thmgRate</property>
+                    <property name="analysis">measure</property>
+                    <text-property name="displayName">thmgRate</text-property>
+                    <text-property name="heading">thmgRate</text-property>
+                </structure>
+                <structure>
+                    <property name="columnName">fmgRate</property>
+                    <property name="analysis">measure</property>
+                    <text-property name="displayName">fmgRate</text-property>
+                    <text-property name="heading">fmgRate</text-property>
+                </structure>
+                <structure>
+                    <property name="columnName">smgRate</property>
+                    <property name="analysis">measure</property>
+                    <text-property name="displayName">smgRate</text-property>
+                    <text-property name="heading">smgRate</text-property>
+                </structure>
+                <structure>
+                    <property name="columnName">emgRate</property>
+                    <property name="analysis">measure</property>
+                    <text-property name="displayName">emgRate</text-property>
+                    <text-property name="heading">emgRate</text-property>
+                </structure>
+            </list-property>
             <list-property name="filter">
                 <structure>
                     <property name="operator">gt</property>
@@ -497,9 +750,9 @@ where telephone=?]]></xml-property>
 var month = currentDate.getMonth();&#13;
 &#13;
 if( currentDate.getDay() &lt;= 3 ){&#13;
-    currentDate.setDate(currentDate.getDate() - ( currentDate.getDay() + 4 ) );&#13;
+	currentDate.setDate(currentDate.getDate() - ( currentDate.getDay() + 4 ) );&#13;
 }else if( currentDate.getDay() > 3 ){&#13;
-    currentDate.setDate(currentDate.getDate() - ( currentDate.getDay() - 3 ) );&#13;
+	currentDate.setDate(currentDate.getDate() - ( currentDate.getDay() - 3 ) );&#13;
 }&#13;
 new Date(currentDate.getFullYear(),month,currentDate.getDate());</expression>
                     <property name="isOptional">true</property>
@@ -518,9 +771,9 @@ new Date(currentDate.getFullYear(),month,currentDate.getDate());</expression>
 var month = currentDate.getMonth();&#13;
 &#13;
 if( currentDate.getDay() &lt;= 3 ){&#13;
-    currentDate.setDate(currentDate.getDate() - ( currentDate.getDay() + 4 ) );&#13;
+	currentDate.setDate(currentDate.getDate() - ( currentDate.getDay() + 4 ) );&#13;
 }else if( currentDate.getDay() > 3 ){&#13;
-    currentDate.setDate(currentDate.getDate() - ( currentDate.getDay() - 3 ) );&#13;
+	currentDate.setDate(currentDate.getDate() - ( currentDate.getDay() - 3 ) );&#13;
 }&#13;
 new Date(currentDate.getFullYear(),month,currentDate.getDate());</expression>
                     <property name="isOptional">true</property>
@@ -530,11 +783,20 @@ new Date(currentDate.getFullYear(),month,currentDate.getDate());</expression>
                 </structure>
                 <structure>
                     <property name="name">param_3</property>
-                    <property name="paramName">userTel</property>
+                    <property name="paramName">regionCenter</property>
                     <property name="nativeName"></property>
                     <property name="dataType">string</property>
                     <property name="nativeDataType">-3</property>
                     <property name="position">3</property>
+                    <expression name="defaultValue" type="javascript">var currentDate = new Date();&#13;
+var month = currentDate.getMonth();&#13;
+&#13;
+if( currentDate.getDay() &lt;= 3 ){&#13;
+	currentDate.setDate(currentDate.getDate() - ( currentDate.getDay() + 4 ) );&#13;
+}else if( currentDate.getDay() > 3 ){&#13;
+	currentDate.setDate(currentDate.getDate() - ( currentDate.getDay() - 3 ) );&#13;
+}&#13;
+new Date(currentDate.getFullYear(),month,currentDate.getDate());</expression>
                     <property name="isOptional">true</property>
                     <property name="allowNull">true</property>
                     <property name="isInput">true</property>
@@ -551,9 +813,9 @@ new Date(currentDate.getFullYear(),month,currentDate.getDate());</expression>
 var month = currentDate.getMonth();&#13;
 &#13;
 if( currentDate.getDay() &lt;= 3 ){&#13;
-    currentDate.setDate(currentDate.getDate() - ( currentDate.getDay() + 4 ) );&#13;
+	currentDate.setDate(currentDate.getDate() - ( currentDate.getDay() + 4 ) );&#13;
 }else if( currentDate.getDay() > 3 ){&#13;
-    currentDate.setDate(currentDate.getDate() - ( currentDate.getDay() - 3 ) );&#13;
+	currentDate.setDate(currentDate.getDate() - ( currentDate.getDay() - 3 ) );&#13;
 }&#13;
 new Date(currentDate.getFullYear(),month,currentDate.getDate());</expression>
                     <property name="isOptional">true</property>
@@ -568,15 +830,6 @@ new Date(currentDate.getFullYear(),month,currentDate.getDate());</expression>
                     <property name="dataType">string</property>
                     <property name="nativeDataType">-3</property>
                     <property name="position">5</property>
-                    <expression name="defaultValue" type="javascript">var currentDate = new Date();&#13;
-var month = currentDate.getMonth();&#13;
-&#13;
-if( currentDate.getDay() &lt;= 3 ){&#13;
-    currentDate.setDate(currentDate.getDate() - ( currentDate.getDay() + 4 ) );&#13;
-}else if( currentDate.getDay() > 3 ){&#13;
-    currentDate.setDate(currentDate.getDate() - ( currentDate.getDay() - 3 ) );&#13;
-}&#13;
-new Date(currentDate.getFullYear(),month,currentDate.getDate());</expression>
                     <property name="isOptional">true</property>
                     <property name="allowNull">true</property>
                     <property name="isInput">true</property>
@@ -587,76 +840,81 @@ new Date(currentDate.getFullYear(),month,currentDate.getDate());</expression>
                 <list-property name="resultSet">
                     <structure>
                         <property name="position">1</property>
-                        <property name="name">name</property>
+                        <property name="name">rsmRegion</property>
                         <property name="dataType">string</property>
                     </structure>
                     <structure>
                         <property name="position">2</property>
+                        <property name="name">region</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                    <structure>
+                        <property name="position">3</property>
                         <property name="name">hosNum</property>
                         <property name="dataType">decimal</property>
                     </structure>
                     <structure>
-                        <property name="position">3</property>
+                        <property name="position">4</property>
                         <property name="name">inNum</property>
                         <property name="dataType">decimal</property>
                     </structure>
                     <structure>
-                        <property name="position">4</property>
+                        <property name="position">5</property>
                         <property name="name">pnum</property>
                         <property name="dataType">decimal</property>
                     </structure>
                     <structure>
-                        <property name="position">5</property>
+                        <property name="position">6</property>
                         <property name="name">aenum</property>
                         <property name="dataType">decimal</property>
                     </structure>
                     <structure>
-                        <property name="position">6</property>
+                        <property name="position">7</property>
                         <property name="name">whnum</property>
                         <property name="dataType">decimal</property>
                     </structure>
                     <structure>
-                        <property name="position">7</property>
+                        <property name="position">8</property>
                         <property name="name">lsnum</property>
                         <property name="dataType">decimal</property>
                     </structure>
                     <structure>
-                        <property name="position">8</property>
+                        <property name="position">9</property>
                         <property name="name">averageDose</property>
                         <property name="dataType">decimal</property>
                     </structure>
                     <structure>
-                        <property name="position">9</property>
+                        <property name="position">10</property>
                         <property name="name">omgRate</property>
                         <property name="dataType">decimal</property>
                     </structure>
                     <structure>
-                        <property name="position">10</property>
+                        <property name="position">11</property>
                         <property name="name">tmgRate</property>
                         <property name="dataType">decimal</property>
                     </structure>
                     <structure>
-                        <property name="position">11</property>
+                        <property name="position">12</property>
                         <property name="name">thmgRate</property>
                         <property name="dataType">decimal</property>
                     </structure>
                     <structure>
-                        <property name="position">12</property>
+                        <property name="position">13</property>
                         <property name="name">fmgRate</property>
                         <property name="dataType">decimal</property>
                     </structure>
                     <structure>
-                        <property name="position">13</property>
+                        <property name="position">14</property>
                         <property name="name">smgRate</property>
                         <property name="dataType">decimal</property>
                     </structure>
                     <structure>
-                        <property name="position">14</property>
+                        <property name="position">15</property>
                         <property name="name">emgRate</property>
                         <property name="dataType">decimal</property>
                     </structure>
                     <structure>
-                        <property name="position">15</property>
+                        <property name="position">16</property>
                         <property name="name">numRate</property>
                         <property name="dataType">float</property>
                     </structure>
@@ -666,101 +924,123 @@ new Date(currentDate.getFullYear(),month,currentDate.getDate());</expression>
             <list-property name="resultSet">
                 <structure>
                     <property name="position">1</property>
-                    <property name="name">name</property>
-                    <property name="nativeName">name</property>
+                    <property name="name">rsmRegion</property>
+                    <property name="nativeName">rsmRegion</property>
                     <property name="dataType">string</property>
+                    <property name="nativeDataType">12</property>
                 </structure>
                 <structure>
                     <property name="position">2</property>
-                    <property name="name">hosNum</property>
-                    <property name="nativeName">hosNum</property>
-                    <property name="dataType">decimal</property>
+                    <property name="name">region</property>
+                    <property name="nativeName">region</property>
+                    <property name="dataType">string</property>
+                    <property name="nativeDataType">12</property>
                 </structure>
                 <structure>
                     <property name="position">3</property>
-                    <property name="name">inNum</property>
-                    <property name="nativeName">inNum</property>
+                    <property name="name">hosNum</property>
+                    <property name="nativeName">hosNum</property>
                     <property name="dataType">decimal</property>
+                    <property name="nativeDataType">-5</property>
                 </structure>
                 <structure>
                     <property name="position">4</property>
-                    <property name="name">pnum</property>
-                    <property name="nativeName">pnum</property>
+                    <property name="name">inNum</property>
+                    <property name="nativeName">inNum</property>
                     <property name="dataType">decimal</property>
+                    <property name="nativeDataType">3</property>
                 </structure>
                 <structure>
                     <property name="position">5</property>
-                    <property name="name">aenum</property>
-                    <property name="nativeName">aenum</property>
+                    <property name="name">pnum</property>
+                    <property name="nativeName">pnum</property>
                     <property name="dataType">decimal</property>
+                    <property name="nativeDataType">3</property>
                 </structure>
                 <structure>
                     <property name="position">6</property>
-                    <property name="name">whnum</property>
-                    <property name="nativeName">whnum</property>
+                    <property name="name">aenum</property>
+                    <property name="nativeName">aenum</property>
                     <property name="dataType">decimal</property>
+                    <property name="nativeDataType">3</property>
                 </structure>
                 <structure>
                     <property name="position">7</property>
-                    <property name="name">lsnum</property>
-                    <property name="nativeName">lsnum</property>
+                    <property name="name">whnum</property>
+                    <property name="nativeName">whnum</property>
                     <property name="dataType">decimal</property>
+                    <property name="nativeDataType">3</property>
                 </structure>
                 <structure>
                     <property name="position">8</property>
-                    <property name="name">averageDose</property>
-                    <property name="nativeName">averageDose</property>
+                    <property name="name">lsnum</property>
+                    <property name="nativeName">lsnum</property>
                     <property name="dataType">decimal</property>
+                    <property name="nativeDataType">3</property>
                 </structure>
                 <structure>
                     <property name="position">9</property>
-                    <property name="name">omgRate</property>
-                    <property name="nativeName">omgRate</property>
+                    <property name="name">averageDose</property>
+                    <property name="nativeName">averageDose</property>
                     <property name="dataType">decimal</property>
+                    <property name="nativeDataType">3</property>
                 </structure>
                 <structure>
                     <property name="position">10</property>
-                    <property name="name">tmgRate</property>
-                    <property name="nativeName">tmgRate</property>
+                    <property name="name">omgRate</property>
+                    <property name="nativeName">omgRate</property>
                     <property name="dataType">decimal</property>
+                    <property name="nativeDataType">3</property>
                 </structure>
                 <structure>
                     <property name="position">11</property>
-                    <property name="name">thmgRate</property>
-                    <property name="nativeName">thmgRate</property>
+                    <property name="name">tmgRate</property>
+                    <property name="nativeName">tmgRate</property>
                     <property name="dataType">decimal</property>
+                    <property name="nativeDataType">3</property>
                 </structure>
                 <structure>
                     <property name="position">12</property>
-                    <property name="name">fmgRate</property>
-                    <property name="nativeName">fmgRate</property>
+                    <property name="name">thmgRate</property>
+                    <property name="nativeName">thmgRate</property>
                     <property name="dataType">decimal</property>
+                    <property name="nativeDataType">3</property>
                 </structure>
                 <structure>
                     <property name="position">13</property>
-                    <property name="name">smgRate</property>
-                    <property name="nativeName">smgRate</property>
+                    <property name="name">fmgRate</property>
+                    <property name="nativeName">fmgRate</property>
                     <property name="dataType">decimal</property>
+                    <property name="nativeDataType">3</property>
                 </structure>
                 <structure>
                     <property name="position">14</property>
+                    <property name="name">smgRate</property>
+                    <property name="nativeName">smgRate</property>
+                    <property name="dataType">decimal</property>
+                    <property name="nativeDataType">3</property>
+                </structure>
+                <structure>
+                    <property name="position">15</property>
                     <property name="name">emgRate</property>
                     <property name="nativeName">emgRate</property>
                     <property name="dataType">decimal</property>
+                    <property name="nativeDataType">3</property>
                 </structure>
             </list-property>
             <xml-property name="queryText"><![CDATA[select 
-IFNULL((select name from tbl_userinfo where region = h.rsmRegion and userCode = h.dsmCode),'vacant') name, 
-count(1) as hosNum, 
+h.rsmRegion, 
+h.region, 
+count(1) as hosNum,
 (
     select sum(inNum) from (
-		select least(count(1),3) as inNum, h1.dsmCode, h1.rsmRegion 
-    	from tbl_respirology_data rd, tbl_hospital h1 
-    	where rd.hospitalName = h1.name 
-    	and date_format(rd.createdate,'%Y.%m.%d') between ? and ?  
-		and h1.isResAssessed='1' 
-		group by rd.hospitalName 
-	) inNumTemp where h.dsmCode = inNumTemp.dsmCode and h.rsmRegion = inNumTemp.rsmRegion 
+        select least(count(1),3) as inNum, h1.rsmRegion, rd.hospitalName 
+        from tbl_respirology_data rd, tbl_hospital h1 
+        where rd.hospitalName = h1.name 
+        and date_format(rd.createdate,'%Y.%m.%d') between ? and ?  
+        and h1.isResAssessed='1' group by rd.hospitalName 
+        ) inNumTemp 
+        where inNumTemp.rsmRegion = h.rsmRegion 
 ) inNum,
 IFNULL(sum(rdw.pnum),0) as pnum, 
 IFNULL(sum(rdw.aenum),0) aenum, 
@@ -775,9 +1055,9 @@ IFNULL(sum(rdw.smgRate*rdw.lsnum)/sum(rdw.lsnum),0) as smgRate,
 IFNULL(sum(rdw.emgRate*rdw.lsnum)/sum(rdw.lsnum),0) as emgRate
 from tbl_respirology_data_weekly rdw, tbl_hospital h 
 where h.code = rdw.hospitalCode 
-and h.rsmRegion = ( select region from tbl_userinfo where telephone=?)
+and h.region = ?
 and rdw.duration = CONCAT(?,'-',?) 
-group by h.rsmRegion, h.dsmCode ]]></xml-property>
+group by h.rsmRegion;]]></xml-property>
             <xml-property name="designerValues"><![CDATA[<?xml version="1.0" encoding="UTF-8"?>
 <model:DesignValues xmlns:design="http://www.eclipse.org/datatools/connectivity/oda/design" xmlns:model="http://www.eclipse.org/birt/report/model/adapter/odaModel">
   <Version>2.0</Version>
@@ -885,8 +1165,219 @@ group by h.rsmRegion, h.dsmCode ]]></xml-property>
   </DataSetParameters>
 </model:DesignValues>]]></xml-property>
         </oda-data-set>
-        <oda-data-set extensionID="org.eclipse.birt.report.data.oda.jdbc.JdbcSelectDataSet" name="dsmweeklyLSNumDataSet" id="1221">
-            <list-property name="columnHints"/>
+        <oda-data-set extensionID="org.eclipse.birt.report.data.oda.jdbc.JdbcSelectDataSet" name="centralRSMhospitalLevelDataSet" id="1034">
+            <list-property name="columnHints">
+                <structure>
+                    <property name="columnName">thNum</property>
+                    <property name="analysis">measure</property>
+                    <text-property name="displayName">thNum</text-property>
+                    <text-property name="heading">thNum</text-property>
+                </structure>
+                <structure>
+                    <property name="columnName">tNum</property>
+                    <property name="analysis">measure</property>
+                    <text-property name="displayName">tNum</text-property>
+                    <text-property name="heading">tNum</text-property>
+                </structure>
+                <structure>
+                    <property name="columnName">rsmRegion</property>
+                    <property name="analysis">dimension</property>
+                    <text-property name="displayName">rsmRegion</text-property>
+                    <text-property name="heading">rsmRegion</text-property>
+                </structure>
+            </list-property>
+            <list-property name="parameters">
+                <structure>
+                    <property name="name">param_1</property>
+                    <property name="paramName">regionCenter</property>
+                    <property name="nativeName"></property>
+                    <property name="dataType">string</property>
+                    <property name="nativeDataType">-3</property>
+                    <property name="position">1</property>
+                    <property name="isOptional">true</property>
+                    <property name="allowNull">true</property>
+                    <property name="isInput">true</property>
+                    <property name="isOutput">false</property>
+                </structure>
+            </list-property>
+            <structure name="cachedMetaData">
+                <list-property name="resultSet">
+                    <structure>
+                        <property name="position">1</property>
+                        <property name="name">thNum</property>
+                        <property name="dataType">decimal</property>
+                    </structure>
+                    <structure>
+                        <property name="position">2</property>
+                        <property name="name">tNum</property>
+                        <property name="dataType">decimal</property>
+                    </structure>
+                    <structure>
+                        <property name="position">3</property>
+                        <property name="name">rsmRegion</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                </list-property>
+            </structure>
+            <property name="dataSource">MySQLSource</property>
+            <list-property name="resultSet">
+                <structure>
+                    <property name="position">1</property>
+                    <property name="name">thNum</property>
+                    <property name="nativeName">thNum</property>
+                    <property name="dataType">decimal</property>
+                    <property name="nativeDataType">-5</property>
+                </structure>
+                <structure>
+                    <property name="position">2</property>
+                    <property name="name">tNum</property>
+                    <property name="nativeName">tNum</property>
+                    <property name="dataType">decimal</property>
+                    <property name="nativeDataType">-5</property>
+                </structure>
+                <structure>
+                    <property name="position">3</property>
+                    <property name="name">rsmRegion</property>
+                    <property name="nativeName">rsmRegion</property>
+                    <property name="dataType">string</property>
+                    <property name="nativeDataType">12</property>
+                </structure>
+            </list-property>
+            <xml-property name="queryText"><![CDATA[select three.thNum,two.tNum,three.rsmRegion
+ from 
+( select count(1) as thNum,rsmRegion, region 
+	from tbl_hospital 
+	where level='3' 
+	and isResAssessed='1' 
+	group by rsmRegion 
+) three, 
+( select count(1) as tNum,rsmRegion, region 
+	from tbl_hospital 
+	where level!='3' 
+	and isResAssessed='1' 
+	group by rsmRegion 
+) two 
+ where three.rsmRegion = two.rsmRegion
+ and three.region = ?;]]></xml-property>
+            <xml-property name="designerValues"><![CDATA[<?xml version="1.0" encoding="UTF-8"?>
+<model:DesignValues xmlns:design="http://www.eclipse.org/datatools/connectivity/oda/design" xmlns:model="http://www.eclipse.org/birt/report/model/adapter/odaModel">
+  <Version>2.0</Version>
+  <DataSetParameters>
+    <parameter>
+      <design:ParameterDefinition>
+        <design:inOutMode>In</design:inOutMode>
+        <design:attributes>
+          <design:identifier>
+            <design:name></design:name>
+            <design:position>1</design:position>
+          </design:identifier>
+          <design:nativeDataTypeCode>-3</design:nativeDataTypeCode>
+          <design:precision>0</design:precision>
+          <design:scale>0</design:scale>
+          <design:nullability>Nullable</design:nullability>
+        </design:attributes>
+        <design:inputAttributes>
+          <design:elementAttributes>
+            <design:optional>true</design:optional>
+          </design:elementAttributes>
+        </design:inputAttributes>
+      </design:ParameterDefinition>
+    </parameter>
+  </DataSetParameters>
+  <design:ResultSets derivedMetaData="true">
+    <design:resultSetDefinitions>
+      <design:resultSetColumns>
+        <design:resultColumnDefinitions>
+          <design:attributes>
+            <design:identifier>
+              <design:name>thNum</design:name>
+              <design:position>1</design:position>
+            </design:identifier>
+            <design:nativeDataTypeCode>-5</design:nativeDataTypeCode>
+            <design:precision>21</design:precision>
+            <design:scale>0</design:scale>
+            <design:nullability>NotNullable</design:nullability>
+            <design:uiHints>
+              <design:displayName>thNum</design:displayName>
+            </design:uiHints>
+          </design:attributes>
+          <design:usageHints>
+            <design:label>thNum</design:label>
+            <design:formattingHints>
+              <design:displaySize>21</design:displaySize>
+            </design:formattingHints>
+          </design:usageHints>
+        </design:resultColumnDefinitions>
+        <design:resultColumnDefinitions>
+          <design:attributes>
+            <design:identifier>
+              <design:name>tNum</design:name>
+              <design:position>2</design:position>
+            </design:identifier>
+            <design:nativeDataTypeCode>-5</design:nativeDataTypeCode>
+            <design:precision>21</design:precision>
+            <design:scale>0</design:scale>
+            <design:nullability>NotNullable</design:nullability>
+            <design:uiHints>
+              <design:displayName>tNum</design:displayName>
+            </design:uiHints>
+          </design:attributes>
+          <design:usageHints>
+            <design:label>tNum</design:label>
+            <design:formattingHints>
+              <design:displaySize>21</design:displaySize>
+            </design:formattingHints>
+          </design:usageHints>
+        </design:resultColumnDefinitions>
+        <design:resultColumnDefinitions>
+          <design:attributes>
+            <design:identifier>
+              <design:name>region</design:name>
+              <design:position>3</design:position>
+            </design:identifier>
+            <design:nativeDataTypeCode>12</design:nativeDataTypeCode>
+            <design:precision>20</design:precision>
+            <design:scale>0</design:scale>
+            <design:nullability>Nullable</design:nullability>
+            <design:uiHints>
+              <design:displayName>region</design:displayName>
+            </design:uiHints>
+          </design:attributes>
+          <design:usageHints>
+            <design:label>region</design:label>
+            <design:formattingHints>
+              <design:displaySize>20</design:displaySize>
+            </design:formattingHints>
+          </design:usageHints>
+        </design:resultColumnDefinitions>
+      </design:resultSetColumns>
+      <design:criteria/>
+    </design:resultSetDefinitions>
+  </design:ResultSets>
+</model:DesignValues>]]></xml-property>
+        </oda-data-set>
+        <oda-data-set extensionID="org.eclipse.birt.report.data.oda.jdbc.JdbcSelectDataSet" name="centralRSMweeklyLSNumDataSet" id="1036">
+            <property name="nullsOrdering">nulls lowest</property>
+            <list-property name="columnHints">
+                <structure>
+                    <property name="columnName">duration</property>
+                    <property name="analysis">dimension</property>
+                    <text-property name="displayName">duration</text-property>
+                    <text-property name="heading">duration</text-property>
+                </structure>
+                <structure>
+                    <property name="columnName">rsmRegion</property>
+                    <property name="analysis">dimension</property>
+                    <text-property name="displayName">rsmRegion</text-property>
+                    <text-property name="heading">rsmRegion</text-property>
+                </structure>
+                <structure>
+                    <property name="columnName">lsnum</property>
+                    <property name="analysis">measure</property>
+                    <text-property name="displayName">lsnum</text-property>
+                    <text-property name="heading">lsnum</text-property>
+                </structure>
+            </list-property>
             <list-property name="parameters">
                 <structure>
                     <property name="name">param_1</property>
@@ -914,7 +1405,7 @@ group by h.rsmRegion, h.dsmCode ]]></xml-property>
                 </structure>
                 <structure>
                     <property name="name">param_3</property>
-                    <property name="paramName">userTel</property>
+                    <property name="paramName">regionCenter</property>
                     <property name="nativeName"></property>
                     <property name="dataType">string</property>
                     <property name="nativeDataType">-3</property>
@@ -934,7 +1425,7 @@ group by h.rsmRegion, h.dsmCode ]]></xml-property>
                     </structure>
                     <structure>
                         <property name="position">2</property>
-                        <property name="name">name</property>
+                        <property name="name">rsmRegion</property>
                         <property name="dataType">string</property>
                     </structure>
                     <structure>
@@ -951,22 +1442,25 @@ group by h.rsmRegion, h.dsmCode ]]></xml-property>
                     <property name="name">duration</property>
                     <property name="nativeName">duration</property>
                     <property name="dataType">string</property>
+                    <property name="nativeDataType">12</property>
                 </structure>
                 <structure>
                     <property name="position">2</property>
-                    <property name="name">name</property>
-                    <property name="nativeName">name</property>
+                    <property name="name">rsmRegion</property>
+                    <property name="nativeName">rsmRegion</property>
                     <property name="dataType">string</property>
+                    <property name="nativeDataType">12</property>
                 </structure>
                 <structure>
                     <property name="position">3</property>
                     <property name="name">lsnum</property>
                     <property name="nativeName">lsnum</property>
                     <property name="dataType">decimal</property>
+                    <property name="nativeDataType">3</property>
                 </structure>
             </list-property>
             <xml-property name="queryText"><![CDATA[select rdw.duration, 
-IFNULL((select name from tbl_userinfo u where u.region = h.rsmRegion and u.userCode = h.dsmCode),'vacant') name,  
+h.rsmRegion, 
 IFNULL(sum(rdw.lsnum),0) as lsnum 
 from 
 (
@@ -976,8 +1470,8 @@ from
 	limit 0,4776 
 ) rdw, tbl_hospital h 
 where h.code = rdw.hospitalCode 
-and h.rsmRegion = ( select region from tbl_userinfo where telephone=? )
-group by rdw.duration, h.rsmRegion, h.dsmCode 
+and h.region = ?
+group by rdw.duration,h.region,h.rsmRegion 
 order by rdw.duration desc;]]></xml-property>
             <xml-property name="designerValues"><![CDATA[<?xml version="1.0" encoding="UTF-8"?>
 <model:DesignValues xmlns:design="http://www.eclipse.org/datatools/connectivity/oda/design" xmlns:model="http://www.eclipse.org/birt/report/model/adapter/odaModel">
@@ -1116,9 +1610,28 @@ order by rdw.duration desc;]]></xml-property>
   </design:ResultSets>
 </model:DesignValues>]]></xml-property>
         </oda-data-set>
-        <oda-data-set extensionID="org.eclipse.birt.report.data.oda.jdbc.JdbcSelectDataSet" name="dsmweeklyRESAverageDoseDataSet" id="1222">
+        <oda-data-set extensionID="org.eclipse.birt.report.data.oda.jdbc.JdbcSelectDataSet" name="centralRSMweeklyRESAverageDoseDataSet" id="725">
             <property name="nullsOrdering">nulls lowest</property>
-            <list-property name="columnHints"/>
+            <list-property name="columnHints">
+                <structure>
+                    <property name="columnName">duration</property>
+                    <property name="analysis">dimension</property>
+                    <text-property name="displayName">duration</text-property>
+                    <text-property name="heading">duration</text-property>
+                </structure>
+                <structure>
+                    <property name="columnName">rsmRegion</property>
+                    <property name="analysis">dimension</property>
+                    <text-property name="displayName">rsmRegion</text-property>
+                    <text-property name="heading">rsmRegion</text-property>
+                </structure>
+                <structure>
+                    <property name="columnName">averageDose</property>
+                    <property name="analysis">measure</property>
+                    <text-property name="displayName">averageDose</text-property>
+                    <text-property name="heading">averageDose</text-property>
+                </structure>
+            </list-property>
             <list-property name="parameters">
                 <structure>
                     <property name="name">param_1</property>
@@ -1146,7 +1659,7 @@ order by rdw.duration desc;]]></xml-property>
                 </structure>
                 <structure>
                     <property name="name">param_3</property>
-                    <property name="paramName">userTel</property>
+                    <property name="paramName">regionCenter</property>
                     <property name="nativeName"></property>
                     <property name="dataType">string</property>
                     <property name="nativeDataType">-3</property>
@@ -1166,7 +1679,7 @@ order by rdw.duration desc;]]></xml-property>
                     </structure>
                     <structure>
                         <property name="position">2</property>
-                        <property name="name">name</property>
+                        <property name="name">rsmRegion</property>
                         <property name="dataType">string</property>
                     </structure>
                     <structure>
@@ -1183,22 +1696,25 @@ order by rdw.duration desc;]]></xml-property>
                     <property name="name">duration</property>
                     <property name="nativeName">duration</property>
                     <property name="dataType">string</property>
+                    <property name="nativeDataType">12</property>
                 </structure>
                 <structure>
                     <property name="position">2</property>
-                    <property name="name">name</property>
-                    <property name="nativeName">name</property>
+                    <property name="name">rsmRegion</property>
+                    <property name="nativeName">rsmRegion</property>
                     <property name="dataType">string</property>
+                    <property name="nativeDataType">12</property>
                 </structure>
                 <structure>
                     <property name="position">3</property>
                     <property name="name">averageDose</property>
                     <property name="nativeName">averageDose</property>
                     <property name="dataType">decimal</property>
+                    <property name="nativeDataType">3</property>
                 </structure>
             </list-property>
             <xml-property name="queryText"><![CDATA[select rdw.duration, 
-IFNULL((select name from tbl_userinfo where region = h.rsmRegion and userCode = h.dsmCode),'vacant') name, 
+h.rsmRegion, 
 IFNULL(sum(rdw.averageDose*rdw.lsnum)/sum(rdw.lsnum),0) as averageDose 
 from 
 (
@@ -1208,8 +1724,8 @@ from
 	limit 0,4776 
 ) rdw, tbl_hospital h 
 where h.code = rdw.hospitalCode 
-and h.rsmRegion = ( select region from tbl_userinfo where telephone=? )
-group by rdw.duration, h.rsmRegion, h.dsmCode 
+and h.region = ?
+group by rdw.duration,h.region,h.rsmRegion 
 order by rdw.duration desc;]]></xml-property>
             <xml-property name="designerValues"><![CDATA[<?xml version="1.0" encoding="UTF-8"?>
 <model:DesignValues xmlns:design="http://www.eclipse.org/datatools/connectivity/oda/design" xmlns:model="http://www.eclipse.org/birt/report/model/adapter/odaModel">
@@ -1348,8 +1864,27 @@ order by rdw.duration desc;]]></xml-property>
   </design:ResultSets>
 </model:DesignValues>]]></xml-property>
         </oda-data-set>
-        <oda-data-set extensionID="org.eclipse.birt.report.data.oda.jdbc.JdbcSelectDataSet" name="dsmweeklyRESPNumDataSet" id="1223">
-            <list-property name="columnHints"/>
+        <oda-data-set extensionID="org.eclipse.birt.report.data.oda.jdbc.JdbcSelectDataSet" name="centralRSMweeklyRESPNumDataSet" id="1005">
+            <list-property name="columnHints">
+                <structure>
+                    <property name="columnName">duration</property>
+                    <property name="analysis">dimension</property>
+                    <text-property name="displayName">duration</text-property>
+                    <text-property name="heading">duration</text-property>
+                </structure>
+                <structure>
+                    <property name="columnName">rsmRegion</property>
+                    <property name="analysis">dimension</property>
+                    <text-property name="displayName">rsmRegion</text-property>
+                    <text-property name="heading">rsmRegion</text-property>
+                </structure>
+                <structure>
+                    <property name="columnName">pnum</property>
+                    <property name="analysis">measure</property>
+                    <text-property name="displayName">pnum</text-property>
+                    <text-property name="heading">pnum</text-property>
+                </structure>
+            </list-property>
             <list-property name="parameters">
                 <structure>
                     <property name="name">param_1</property>
@@ -1377,7 +1912,7 @@ order by rdw.duration desc;]]></xml-property>
                 </structure>
                 <structure>
                     <property name="name">param_3</property>
-                    <property name="paramName">userTel</property>
+                    <property name="paramName">regionCenter</property>
                     <property name="nativeName"></property>
                     <property name="dataType">string</property>
                     <property name="nativeDataType">-3</property>
@@ -1397,7 +1932,7 @@ order by rdw.duration desc;]]></xml-property>
                     </structure>
                     <structure>
                         <property name="position">2</property>
-                        <property name="name">name</property>
+                        <property name="name">rsmRegion</property>
                         <property name="dataType">string</property>
                     </structure>
                     <structure>
@@ -1414,22 +1949,25 @@ order by rdw.duration desc;]]></xml-property>
                     <property name="name">duration</property>
                     <property name="nativeName">duration</property>
                     <property name="dataType">string</property>
+                    <property name="nativeDataType">12</property>
                 </structure>
                 <structure>
                     <property name="position">2</property>
-                    <property name="name">name</property>
-                    <property name="nativeName">name</property>
+                    <property name="name">rsmRegion</property>
+                    <property name="nativeName">rsmRegion</property>
                     <property name="dataType">string</property>
+                    <property name="nativeDataType">12</property>
                 </structure>
                 <structure>
                     <property name="position">3</property>
                     <property name="name">pnum</property>
                     <property name="nativeName">pnum</property>
                     <property name="dataType">decimal</property>
+                    <property name="nativeDataType">3</property>
                 </structure>
             </list-property>
             <xml-property name="queryText"><![CDATA[select rdw.duration, 
-IFNULL((select name from tbl_userinfo where region = h.rsmRegion and userCode = h.dsmCode),'vacant') name,  
+h.rsmRegion, 
 IFNULL(sum(rdw.pnum),0) as pnum 
 from 
 (
@@ -1439,8 +1977,8 @@ from
 	limit 0,4776 
 ) rdw, tbl_hospital h 
 where h.code = rdw.hospitalCode 
-and h.rsmRegion = ( select region from tbl_userinfo where telephone=? )
-group by rdw.duration, h.rsmRegion, h.dsmCode  
+and h.region = ?
+group by rdw.duration,h.region,h.rsmRegion 
 order by rdw.duration desc;]]></xml-property>
             <xml-property name="designerValues"><![CDATA[<?xml version="1.0" encoding="UTF-8"?>
 <model:DesignValues xmlns:design="http://www.eclipse.org/datatools/connectivity/oda/design" xmlns:model="http://www.eclipse.org/birt/report/model/adapter/odaModel">
@@ -1509,8 +2047,27 @@ order by rdw.duration desc;]]></xml-property>
   </DataSetParameters>
 </model:DesignValues>]]></xml-property>
         </oda-data-set>
-        <oda-data-set extensionID="org.eclipse.birt.report.data.oda.jdbc.JdbcSelectDataSet" name="dsmweeklyRESWhRateDataSet" id="1224">
-            <list-property name="columnHints"/>
+        <oda-data-set extensionID="org.eclipse.birt.report.data.oda.jdbc.JdbcSelectDataSet" name="centralRSMweeklyRESWhRateDataSet" id="1037">
+            <list-property name="columnHints">
+                <structure>
+                    <property name="columnName">duration</property>
+                    <property name="analysis">dimension</property>
+                    <text-property name="displayName">duration</text-property>
+                    <text-property name="heading">duration</text-property>
+                </structure>
+                <structure>
+                    <property name="columnName">rsmRegion</property>
+                    <property name="analysis">dimension</property>
+                    <text-property name="displayName">rsmRegion</text-property>
+                    <text-property name="heading">rsmRegion</text-property>
+                </structure>
+                <structure>
+                    <property name="columnName">whRate</property>
+                    <property name="analysis">measure</property>
+                    <text-property name="displayName">whRate</text-property>
+                    <text-property name="heading">whRate</text-property>
+                </structure>
+            </list-property>
             <list-property name="parameters">
                 <structure>
                     <property name="name">param_1</property>
@@ -1538,7 +2095,7 @@ order by rdw.duration desc;]]></xml-property>
                 </structure>
                 <structure>
                     <property name="name">param_3</property>
-                    <property name="paramName">userTel</property>
+                    <property name="paramName">regionCenter</property>
                     <property name="nativeName"></property>
                     <property name="dataType">string</property>
                     <property name="nativeDataType">-3</property>
@@ -1558,7 +2115,7 @@ order by rdw.duration desc;]]></xml-property>
                     </structure>
                     <structure>
                         <property name="position">2</property>
-                        <property name="name">name</property>
+                        <property name="name">rsmRegion</property>
                         <property name="dataType">string</property>
                     </structure>
                     <structure>
@@ -1575,22 +2132,25 @@ order by rdw.duration desc;]]></xml-property>
                     <property name="name">duration</property>
                     <property name="nativeName">duration</property>
                     <property name="dataType">string</property>
+                    <property name="nativeDataType">12</property>
                 </structure>
                 <structure>
                     <property name="position">2</property>
-                    <property name="name">name</property>
-                    <property name="nativeName">name</property>
+                    <property name="name">rsmRegion</property>
+                    <property name="nativeName">rsmRegion</property>
                     <property name="dataType">string</property>
+                    <property name="nativeDataType">12</property>
                 </structure>
                 <structure>
                     <property name="position">3</property>
                     <property name="name">whRate</property>
                     <property name="nativeName">whRate</property>
                     <property name="dataType">decimal</property>
+                    <property name="nativeDataType">3</property>
                 </structure>
             </list-property>
             <xml-property name="queryText"><![CDATA[select rdw.duration, 
-IFNULL((select name from tbl_userinfo u where u.region = h.rsmRegion and u.userCode = h.dsmCode),'vacant') name,  
+h.rsmRegion, 
 IFNULL(sum(rdw.lsnum)/sum(rdw.pnum),0) as whRate 
 from 
 (
@@ -1600,8 +2160,8 @@ from
 	limit 0,4776 
 ) rdw, tbl_hospital h 
 where h.code = rdw.hospitalCode 
-and h.rsmRegion = ( select region from tbl_userinfo where telephone=? )
-group by rdw.duration, h.rsmRegion, h.dsmCode 
+and h.region = ?
+group by rdw.duration,h.region,h.rsmRegion
 order by rdw.duration desc;]]></xml-property>
             <xml-property name="designerValues"><![CDATA[<?xml version="1.0" encoding="UTF-8"?>
 <model:DesignValues xmlns:design="http://www.eclipse.org/datatools/connectivity/oda/design" xmlns:model="http://www.eclipse.org/birt/report/model/adapter/odaModel">
@@ -1740,8 +2300,27 @@ order by rdw.duration desc;]]></xml-property>
   </design:ResultSets>
 </model:DesignValues>]]></xml-property>
         </oda-data-set>
-        <oda-data-set extensionID="org.eclipse.birt.report.data.oda.jdbc.JdbcSelectDataSet" name="dsmweeklyRESWhRateL2DataSet" id="1225">
-            <list-property name="columnHints"/>
+        <oda-data-set extensionID="org.eclipse.birt.report.data.oda.jdbc.JdbcSelectDataSet" name="centralRSMweeklyRESWhRateL2DataSet" id="736">
+            <list-property name="columnHints">
+                <structure>
+                    <property name="columnName">duration</property>
+                    <property name="analysis">dimension</property>
+                    <text-property name="displayName">duration</text-property>
+                    <text-property name="heading">duration</text-property>
+                </structure>
+                <structure>
+                    <property name="columnName">rsmRegion</property>
+                    <property name="analysis">dimension</property>
+                    <text-property name="displayName">rsmRegion</text-property>
+                    <text-property name="heading">rsmRegion</text-property>
+                </structure>
+                <structure>
+                    <property name="columnName">whRate</property>
+                    <property name="analysis">measure</property>
+                    <text-property name="displayName">whRate</text-property>
+                    <text-property name="heading">whRate</text-property>
+                </structure>
+            </list-property>
             <list-property name="parameters">
                 <structure>
                     <property name="name">param_1</property>
@@ -1769,7 +2348,7 @@ order by rdw.duration desc;]]></xml-property>
                 </structure>
                 <structure>
                     <property name="name">param_3</property>
-                    <property name="paramName">userTel</property>
+                    <property name="paramName">regionCenter</property>
                     <property name="nativeName"></property>
                     <property name="dataType">string</property>
                     <property name="nativeDataType">-3</property>
@@ -1789,7 +2368,7 @@ order by rdw.duration desc;]]></xml-property>
                     </structure>
                     <structure>
                         <property name="position">2</property>
-                        <property name="name">name</property>
+                        <property name="name">rsmRegion</property>
                         <property name="dataType">string</property>
                     </structure>
                     <structure>
@@ -1806,22 +2385,25 @@ order by rdw.duration desc;]]></xml-property>
                     <property name="name">duration</property>
                     <property name="nativeName">duration</property>
                     <property name="dataType">string</property>
+                    <property name="nativeDataType">12</property>
                 </structure>
                 <structure>
                     <property name="position">2</property>
-                    <property name="name">name</property>
-                    <property name="nativeName">name</property>
+                    <property name="name">rsmRegion</property>
+                    <property name="nativeName">rsmRegion</property>
                     <property name="dataType">string</property>
+                    <property name="nativeDataType">12</property>
                 </structure>
                 <structure>
                     <property name="position">3</property>
                     <property name="name">whRate</property>
                     <property name="nativeName">whRate</property>
                     <property name="dataType">decimal</property>
+                    <property name="nativeDataType">3</property>
                 </structure>
             </list-property>
             <xml-property name="queryText"><![CDATA[select rdw.duration, 
-IFNULL((select name from tbl_userinfo where region = h.rsmRegion and userCode = h.dsmCode),'vacant') name,  
+h.rsmRegion, 
 IFNULL(sum(rdw.lsnum)/sum(rdw.pnum),0) as whRate 
 from 
 (
@@ -1830,10 +2412,10 @@ from
 	order by duration desc 
 	limit 0,4776 
 ) rdw, tbl_hospital h 
-where h.code = rdw.hospitalCode 
+where h.code = rdw.hospitalCode
 and h.level!='3' 
-and h.rsmRegion = ( select region from tbl_userinfo where telephone=? ) 
-group by rdw.duration, h.rsmRegion, h.dsmCode  
+and h.region = ?
+group by rdw.duration,h.region,h.rsmRegion
 order by rdw.duration desc;]]></xml-property>
             <xml-property name="designerValues"><![CDATA[<?xml version="1.0" encoding="UTF-8"?>
 <model:DesignValues xmlns:design="http://www.eclipse.org/datatools/connectivity/oda/design" xmlns:model="http://www.eclipse.org/birt/report/model/adapter/odaModel">
@@ -1972,8 +2554,27 @@ order by rdw.duration desc;]]></xml-property>
   </design:ResultSets>
 </model:DesignValues>]]></xml-property>
         </oda-data-set>
-        <oda-data-set extensionID="org.eclipse.birt.report.data.oda.jdbc.JdbcSelectDataSet" name="dsmweeklyRESWhRateL3DataSet" id="1226">
-            <list-property name="columnHints"/>
+        <oda-data-set extensionID="org.eclipse.birt.report.data.oda.jdbc.JdbcSelectDataSet" name="centralRSMweeklyRESWhRateL3DataSet" id="1038">
+            <list-property name="columnHints">
+                <structure>
+                    <property name="columnName">duration</property>
+                    <property name="analysis">dimension</property>
+                    <text-property name="displayName">duration</text-property>
+                    <text-property name="heading">duration</text-property>
+                </structure>
+                <structure>
+                    <property name="columnName">rsmRegion</property>
+                    <property name="analysis">dimension</property>
+                    <text-property name="displayName">rsmRegion</text-property>
+                    <text-property name="heading">rsmRegion</text-property>
+                </structure>
+                <structure>
+                    <property name="columnName">whRate</property>
+                    <property name="analysis">measure</property>
+                    <text-property name="displayName">whRate</text-property>
+                    <text-property name="heading">whRate</text-property>
+                </structure>
+            </list-property>
             <list-property name="parameters">
                 <structure>
                     <property name="name">param_1</property>
@@ -2001,7 +2602,7 @@ order by rdw.duration desc;]]></xml-property>
                 </structure>
                 <structure>
                     <property name="name">param_3</property>
-                    <property name="paramName">userTel</property>
+                    <property name="paramName">regionCenter</property>
                     <property name="nativeName"></property>
                     <property name="dataType">string</property>
                     <property name="nativeDataType">-3</property>
@@ -2021,7 +2622,7 @@ order by rdw.duration desc;]]></xml-property>
                     </structure>
                     <structure>
                         <property name="position">2</property>
-                        <property name="name">name</property>
+                        <property name="name">rsmRegion</property>
                         <property name="dataType">string</property>
                     </structure>
                     <structure>
@@ -2038,22 +2639,25 @@ order by rdw.duration desc;]]></xml-property>
                     <property name="name">duration</property>
                     <property name="nativeName">duration</property>
                     <property name="dataType">string</property>
+                    <property name="nativeDataType">12</property>
                 </structure>
                 <structure>
                     <property name="position">2</property>
-                    <property name="name">name</property>
-                    <property name="nativeName">name</property>
+                    <property name="name">rsmRegion</property>
+                    <property name="nativeName">rsmRegion</property>
                     <property name="dataType">string</property>
+                    <property name="nativeDataType">12</property>
                 </structure>
                 <structure>
                     <property name="position">3</property>
                     <property name="name">whRate</property>
                     <property name="nativeName">whRate</property>
                     <property name="dataType">decimal</property>
+                    <property name="nativeDataType">3</property>
                 </structure>
             </list-property>
             <xml-property name="queryText"><![CDATA[select rdw.duration, 
-IFNULL((select name from tbl_userinfo where region = h.rsmRegion and userCode = h.dsmCode),'vacant') name,  
+h.rsmRegion, 
 IFNULL(sum(rdw.lsnum)/sum(rdw.pnum),0) as whRate 
 from 
 (
@@ -2064,8 +2668,8 @@ from
 ) rdw, tbl_hospital h 
 where h.code = rdw.hospitalCode 
 and h.level='3'
-and h.rsmRegion = ( select region from tbl_userinfo where telephone=? )
-group by rdw.duration, h.rsmRegion, h.dsmCode  
+and h.region = ?
+group by rdw.duration,h.region,h.rsmRegion
 order by rdw.duration desc;]]></xml-property>
             <xml-property name="designerValues"><![CDATA[<?xml version="1.0" encoding="UTF-8"?>
 <model:DesignValues xmlns:design="http://www.eclipse.org/datatools/connectivity/oda/design" xmlns:model="http://www.eclipse.org/birt/report/model/adapter/odaModel">
@@ -2195,6 +2799,107 @@ order by rdw.duration desc;]]></xml-property>
             <design:label>region</design:label>
             <design:formattingHints>
               <design:displaySize>20</design:displaySize>
+            </design:formattingHints>
+          </design:usageHints>
+        </design:resultColumnDefinitions>
+      </design:resultSetColumns>
+      <design:criteria/>
+    </design:resultSetDefinitions>
+  </design:ResultSets>
+</model:DesignValues>]]></xml-property>
+        </oda-data-set>
+        <oda-data-set extensionID="org.eclipse.birt.report.data.oda.jdbc.JdbcSelectDataSet" name="centralHospitalInfo" id="1354">
+            <list-property name="columnHints">
+                <structure>
+                    <property name="columnName">hosNum</property>
+                    <property name="analysis">measure</property>
+                    <text-property name="displayName">hosNum</text-property>
+                    <text-property name="heading">hosNum</text-property>
+                </structure>
+            </list-property>
+            <list-property name="parameters">
+                <structure>
+                    <property name="name">param_1</property>
+                    <property name="paramName">regionCenter</property>
+                    <property name="nativeName"></property>
+                    <property name="dataType">string</property>
+                    <property name="nativeDataType">-3</property>
+                    <property name="position">1</property>
+                    <property name="isOptional">true</property>
+                    <property name="allowNull">true</property>
+                    <property name="isInput">true</property>
+                    <property name="isOutput">false</property>
+                </structure>
+            </list-property>
+            <structure name="cachedMetaData">
+                <list-property name="resultSet">
+                    <structure>
+                        <property name="position">1</property>
+                        <property name="name">hosNum</property>
+                        <property name="dataType">decimal</property>
+                    </structure>
+                </list-property>
+            </structure>
+            <property name="dataSource">MySQLSource</property>
+            <list-property name="resultSet">
+                <structure>
+                    <property name="position">1</property>
+                    <property name="name">hosNum</property>
+                    <property name="nativeName">hosNum</property>
+                    <property name="dataType">decimal</property>
+                    <property name="nativeDataType">-5</property>
+                </structure>
+            </list-property>
+            <xml-property name="queryText"><![CDATA[select count(1) as hosNum 
+from tbl_hospital 
+where region = ? 
+and isResAssessed='1']]></xml-property>
+            <xml-property name="designerValues"><![CDATA[<?xml version="1.0" encoding="UTF-8"?>
+<model:DesignValues xmlns:design="http://www.eclipse.org/datatools/connectivity/oda/design" xmlns:model="http://www.eclipse.org/birt/report/model/adapter/odaModel">
+  <Version>2.0</Version>
+  <DataSetParameters>
+    <parameter>
+      <design:ParameterDefinition>
+        <design:inOutMode>In</design:inOutMode>
+        <design:attributes>
+          <design:identifier>
+            <design:name></design:name>
+            <design:position>1</design:position>
+          </design:identifier>
+          <design:nativeDataTypeCode>-3</design:nativeDataTypeCode>
+          <design:precision>0</design:precision>
+          <design:scale>0</design:scale>
+          <design:nullability>Nullable</design:nullability>
+        </design:attributes>
+        <design:inputAttributes>
+          <design:elementAttributes>
+            <design:optional>true</design:optional>
+          </design:elementAttributes>
+        </design:inputAttributes>
+      </design:ParameterDefinition>
+    </parameter>
+  </DataSetParameters>
+  <design:ResultSets derivedMetaData="true">
+    <design:resultSetDefinitions>
+      <design:resultSetColumns>
+        <design:resultColumnDefinitions>
+          <design:attributes>
+            <design:identifier>
+              <design:name>hosNum</design:name>
+              <design:position>1</design:position>
+            </design:identifier>
+            <design:nativeDataTypeCode>-5</design:nativeDataTypeCode>
+            <design:precision>21</design:precision>
+            <design:scale>0</design:scale>
+            <design:nullability>NotNullable</design:nullability>
+            <design:uiHints>
+              <design:displayName>hosNum</design:displayName>
+            </design:uiHints>
+          </design:attributes>
+          <design:usageHints>
+            <design:label>hosNum</design:label>
+            <design:formattingHints>
+              <design:displaySize>21</design:displaySize>
             </design:formattingHints>
           </design:usageHints>
         </design:resultColumnDefinitions>
@@ -2242,28 +2947,49 @@ order by rdw.duration desc;]]></xml-property>
     <page-setup>
         <simple-master-page name="Simple MasterPage" id="2">
             <property name="type">custom</property>
-            <property name="height">34in</property>
+            <property name="height">33in</property>
             <property name="width">11in</property>
         </simple-master-page>
     </page-setup>
     <body>
         <grid id="738">
-            <property name="height">0.5833333333333334in</property>
+            <property name="height">0.8333333333333334in</property>
             <property name="width">10.427083333333334in</property>
             <column id="739">
                 <property name="width">10.427083333333334in</property>
             </column>
             <row id="740">
-                <property name="height">0.5833333333333334in</property>
+                <property name="height">0.8333333333333334in</property>
                 <cell id="741">
                     <property name="fontFamily">"Microsoft YaHei UI"</property>
-                    <label id="746">
-                        <property name="fontFamily">"Microsoft YaHei UI"</property>
-                        <property name="fontSize">24pt</property>
-                        <property name="fontWeight">normal</property>
-                        <property name="textAlign">center</property>
-                        <text-property name="text">全国398家呼吸科重点医院每周报告</text-property>
-                    </label>
+                    <table id="1355">
+                        <property name="dataSet">centralHospitalInfo</property>
+                        <list-property name="boundDataColumns">
+                            <structure>
+                                <property name="name">hosNum</property>
+                                <text-property name="displayName">hosNum</text-property>
+                                <expression name="expression" type="javascript">params["regionCenter"].value+' '+dataSetRow["hosNum"]+'家呼吸科重点医院每周报告'</expression>
+                                <property name="dataType">string</property>
+                                <property name="allowExport">true</property>
+                            </structure>
+                        </list-property>
+                        <column id="1364"/>
+                        <detail>
+                            <row id="1359">
+                                <property name="fontFamily">"Microsoft YaHei UI"</property>
+                                <property name="fontSize">24pt</property>
+                                <property name="textAlign">center</property>
+                                <property name="height">0.6145833333333334in</property>
+                                <cell id="1360">
+                                    <data id="1361">
+                                        <property name="fontFamily">"Microsoft YaHei UI"</property>
+                                        <property name="fontSize">24pt</property>
+                                        <property name="resultSetColumn">hosNum</property>
+                                    </data>
+                                </cell>
+                            </row>
+                        </detail>
+                    </table>
                 </cell>
             </row>
         </grid>
@@ -2272,13 +2998,13 @@ order by rdw.duration desc;]]></xml-property>
             <property name="marginTop">2pt</property>
             <property name="marginBottom">2pt</property>
             <property name="textAlign">left</property>
-            <property name="height">1.0520833333333333in</property>
+            <property name="height">0.6979166666666666in</property>
             <property name="width">10.427083333333334in</property>
             <column id="743">
                 <property name="width">10.427083333333334in</property>
             </column>
             <row id="744">
-                <property name="height">1.0520833333333333in</property>
+                <property name="height">0.6979166666666666in</property>
                 <cell id="745">
                     <table id="1020">
                         <property name="fontWeight">bold</property>
@@ -2294,7 +3020,7 @@ order by rdw.duration desc;]]></xml-property>
                             </structure>
                             <structure>
                                 <property name="name">Column Binding</property>
-                                <expression name="expression" type="javascript">'职位：' + dataSetRow["level"]</expression>
+                                <expression name="expression" type="javascript">'职位：市场部'</expression>
                                 <property name="dataType">string</property>
                                 <property name="allowExport">true</property>
                             </structure>
@@ -2302,16 +3028,6 @@ order by rdw.duration desc;]]></xml-property>
                         <column id="1029">
                             <property name="width">7.614583333333333in</property>
                         </column>
-                        <header>
-                            <row id="1021">
-                                <cell id="1022">
-                                    <data id="1026">
-                                        <property name="fontWeight">normal</property>
-                                        <property name="resultSetColumn">name</property>
-                                    </data>
-                                </cell>
-                            </row>
-                        </header>
                         <footer>
                             <row id="1027">
                                 <cell id="1028">
@@ -2335,60 +3051,53 @@ order by rdw.duration desc;]]></xml-property>
                 </cell>
             </row>
         </grid>
-        <grid id="1073">
-            <property name="fontFamily">"Microsoft YaHei UI"</property>
+        <grid id="1297">
+            <property name="height">0.3958333333333333in</property>
+            <column id="1298"/>
+            <row id="1299">
+                <property name="height">0.3958333333333333in</property>
+                <cell id="1300">
+                    <property name="fontFamily">"Microsoft YaHei UI"</property>
+                    <property name="fontSize">14pt</property>
+                    <property name="textAlign">center</property>
+                    <label id="1301">
+                        <property name="fontFamily">"Microsoft YaHei UI"</property>
+                        <property name="fontSize">14pt</property>
+                        <property name="textAlign">center</property>
+                        <text-property name="text">RSM周报数据</text-property>
+                    </label>
+                </cell>
+            </row>
+        </grid>
+        <grid id="1484">
             <property name="textAlign">center</property>
-            <column id="1074"/>
-            <row id="1075">
-                <cell id="1076">
-                    <table id="1078">
-                        <property name="dataSet">userInfoDataSet</property>
+            <property name="height">2.1979166666666665in</property>
+            <property name="width">10.427083333333334in</property>
+            <column id="1485">
+                <property name="width">10.427083333333334in</property>
+            </column>
+            <row id="1486">
+                <property name="height">2.1979166666666665in</property>
+                <cell id="1487">
+                    <property name="fontFamily">"Microsoft YaHei UI"</property>
+                    <table id="1053">
+                        <property name="fontFamily">"Arial"</property>
+                        <property name="pageBreakAfter">avoid</property>
+                        <property name="width">10.21875in</property>
+                        <property name="dataSet">rsmCentralRESDataSet</property>
                         <list-property name="boundDataColumns">
                             <structure>
                                 <property name="name">region</property>
                                 <text-property name="displayName">region</text-property>
-                                <expression name="expression" type="javascript">'所属 [' +dataSetRow["region"]+ '] ' + 'DSM周报数据'</expression>
+                                <expression name="expression" type="javascript">dataSetRow["region"]</expression>
                                 <property name="dataType">string</property>
-                                <property name="allowExport">true</property>
                             </structure>
-                        </list-property>
-                        <column id="1087"/>
-                        <detail>
-                            <row id="1082">
-                                <cell id="1083">
-                                    <data id="1084">
-                                        <property name="fontSize">14pt</property>
-                                        <property name="resultSetColumn">region</property>
-                                    </data>
-                                </cell>
-                            </row>
-                        </detail>
-                    </table>
-                </cell>
-            </row>
-        </grid>
-        <grid id="756">
-            <property name="textAlign">center</property>
-            <property name="height">3.0104166666666665in</property>
-            <property name="width">10.427083333333334in</property>
-            <column id="757">
-                <property name="width">10.427083333333334in</property>
-            </column>
-            <row id="758">
-                <property name="height">3.0104166666666665in</property>
-                <cell id="759">
-                    <property name="fontFamily">"Microsoft YaHei UI"</property>
-                    <table id="1241">
-                        <property name="fontFamily">"Arial"</property>
-                        <property name="pageBreakAfter">avoid</property>
-                        <property name="width">10.21875in</property>
-                        <property name="dataSet">dsmRESDataSet</property>
-                        <list-property name="boundDataColumns">
                             <structure>
                                 <property name="name">hosNum</property>
                                 <text-property name="displayName">hosNum</text-property>
                                 <expression name="expression" type="javascript">dataSetRow["hosNum"]</expression>
-                                <property name="dataType">decimal</property>
+                                <property name="dataType">integer</property>
+                                <property name="allowExport">true</property>
                             </structure>
                             <structure>
                                 <property name="name">inNum</property>
@@ -2400,7 +3109,8 @@ order by rdw.duration desc;]]></xml-property>
                                 <property name="name">pnum</property>
                                 <text-property name="displayName">pnum</text-property>
                                 <expression name="expression" type="javascript">dataSetRow["pnum"]</expression>
-                                <property name="dataType">decimal</property>
+                                <property name="dataType">float</property>
+                                <property name="allowExport">true</property>
                             </structure>
                             <structure>
                                 <property name="name">whnum</property>
@@ -2412,7 +3122,8 @@ order by rdw.duration desc;]]></xml-property>
                                 <property name="name">lsnum</property>
                                 <text-property name="displayName">lsnum</text-property>
                                 <expression name="expression" type="javascript">dataSetRow["lsnum"]</expression>
-                                <property name="dataType">decimal</property>
+                                <property name="dataType">float</property>
+                                <property name="allowExport">true</property>
                             </structure>
                             <structure>
                                 <property name="name">averageDose</property>
@@ -2463,20 +3174,6 @@ order by rdw.duration desc;]]></xml-property>
                                 <property name="dataType">float</property>
                             </structure>
                             <structure>
-                                <property name="name">dsmName</property>
-                                <text-property name="displayName">dsmName</text-property>
-                                <expression name="expression" type="javascript">dataSetRow["name"]</expression>
-                                <property name="dataType">string</property>
-                                <property name="allowExport">true</property>
-                            </structure>
-                            <structure>
-                                <property name="name">dsmHosNum</property>
-                                <text-property name="displayName">dsmHosNum</text-property>
-                                <expression name="expression" type="javascript">dataSetRow["hosNum"]</expression>
-                                <property name="dataType">integer</property>
-                                <property name="allowExport">true</property>
-                            </structure>
-                            <structure>
                                 <property name="name">inRate</property>
                                 <text-property name="displayName">inRate</text-property>
                                 <expression name="expression" type="javascript">if( dataSetRow["inNum"] == 0 || dataSetRow["hosNum"] == 0 ){&#13;
@@ -2491,7 +3188,8 @@ order by rdw.duration desc;]]></xml-property>
                                 <property name="name">aenum</property>
                                 <text-property name="displayName">aenum</text-property>
                                 <expression name="expression" type="javascript">dataSetRow["aenum"]</expression>
-                                <property name="dataType">decimal</property>
+                                <property name="dataType">float</property>
+                                <property name="allowExport">true</property>
                             </structure>
                             <structure>
                                 <property name="name">whRate</property>
@@ -2520,7 +3218,7 @@ order by rdw.duration desc;]]></xml-property>
                             <structure>
                                 <property name="name">inRSMTotal</property>
                                 <text-property name="displayName">inRSMTotal</text-property>
-                                <property name="dataType">integer</property>
+                                <property name="dataType">float</property>
                                 <property name="aggregateFunction">SUM</property>
                                 <list-property name="arguments">
                                     <structure>
@@ -2544,7 +3242,7 @@ order by rdw.duration desc;]]></xml-property>
                             <structure>
                                 <property name="name">pnumRSMTotal</property>
                                 <text-property name="displayName">pnumRSMTotal</text-property>
-                                <property name="dataType">integer</property>
+                                <property name="dataType">float</property>
                                 <property name="aggregateFunction">SUM</property>
                                 <list-property name="arguments">
                                     <structure>
@@ -2557,7 +3255,7 @@ order by rdw.duration desc;]]></xml-property>
                             <structure>
                                 <property name="name">aenumRSMTotal</property>
                                 <text-property name="displayName">aenumRSMTotal</text-property>
-                                <property name="dataType">integer</property>
+                                <property name="dataType">float</property>
                                 <property name="aggregateFunction">SUM</property>
                                 <list-property name="arguments">
                                     <structure>
@@ -2570,7 +3268,7 @@ order by rdw.duration desc;]]></xml-property>
                             <structure>
                                 <property name="name">lsnumRSMTotal</property>
                                 <text-property name="displayName">lsnumRSMTotal</text-property>
-                                <property name="dataType">integer</property>
+                                <property name="dataType">float</property>
                                 <property name="aggregateFunction">SUM</property>
                                 <list-property name="arguments">
                                     <structure>
@@ -2759,65 +3457,72 @@ order by rdw.duration desc;]]></xml-property>
                                 <property name="dataType">float</property>
                                 <property name="allowExport">true</property>
                             </structure>
+                            <structure>
+                                <property name="name">rsmRegion</property>
+                                <text-property name="displayName">rsmRegion</text-property>
+                                <expression name="expression" type="javascript">dataSetRow["rsmRegion"]</expression>
+                                <property name="dataType">string</property>
+                                <property name="allowExport">true</property>
+                            </structure>
                         </list-property>
                         <method name="onPrepare"><![CDATA[count = 0;]]></method>
-                        <column id="1330">
-                            <property name="width">0.8125in</property>
+                        <column id="1466">
+                            <property name="width">1.0416666666666667in</property>
                         </column>
-                        <column id="1331">
+                        <column id="1467">
+                            <property name="textAlign">right</property>
+                            <property name="width">0.5625in</property>
+                        </column>
+                        <column id="1468">
                             <property name="textAlign">right</property>
                             <property name="width">0.65625in</property>
                         </column>
-                        <column id="1332">
+                        <column id="1469">
                             <property name="textAlign">right</property>
-                            <property name="width">0.71875in</property>
+                            <property name="width">0.7916666666666666in</property>
                         </column>
-                        <column id="1333">
+                        <column id="1470">
                             <property name="textAlign">right</property>
-                            <property name="width">0.78125in</property>
+                            <property name="width">0.9895833333333334in</property>
                         </column>
-                        <column id="1334">
-                            <property name="textAlign">right</property>
-                            <property name="width">0.9375in</property>
-                        </column>
-                        <column id="1335">
-                            <property name="textAlign">right</property>
-                            <property name="width">0.75in</property>
-                        </column>
-                        <column id="1336">
-                            <property name="textAlign">right</property>
-                            <property name="width">0.71875in</property>
-                        </column>
-                        <column id="1337">
+                        <column id="1471">
                             <property name="textAlign">right</property>
                             <property name="width">0.7708333333333334in</property>
                         </column>
-                        <column id="1338">
-                            <property name="textAlign">right</property>
-                            <property name="width">0.71875in</property>
-                        </column>
-                        <column id="1339">
-                            <property name="textAlign">right</property>
-                            <property name="width">0.6979166666666666in</property>
-                        </column>
-                        <column id="1340">
-                            <property name="textAlign">right</property>
-                            <property name="width">0.71875in</property>
-                        </column>
-                        <column id="1341">
+                        <column id="1472">
                             <property name="textAlign">right</property>
                             <property name="width">0.6354166666666666in</property>
                         </column>
-                        <column id="1342">
+                        <column id="1473">
+                            <property name="textAlign">right</property>
+                            <property name="width">0.6979166666666666in</property>
+                        </column>
+                        <column id="1474">
+                            <property name="textAlign">right</property>
+                            <property name="width">0.71875in</property>
+                        </column>
+                        <column id="1475">
+                            <property name="textAlign">right</property>
+                            <property name="width">0.6979166666666666in</property>
+                        </column>
+                        <column id="1476">
+                            <property name="textAlign">right</property>
+                            <property name="width">0.71875in</property>
+                        </column>
+                        <column id="1477">
+                            <property name="textAlign">right</property>
+                            <property name="width">0.6354166666666666in</property>
+                        </column>
+                        <column id="1478">
                             <property name="textAlign">right</property>
                             <property name="width">0.6666666666666666in</property>
                         </column>
-                        <column id="1343">
+                        <column id="1479">
                             <property name="textAlign">right</property>
                             <property name="width">0.6354166666666666in</property>
                         </column>
                         <header>
-                            <row id="1242">
+                            <row id="1054">
                                 <property name="backgroundColor">#805897</property>
                                 <property name="fontFamily">"Microsoft YaHei UI"</property>
                                 <property name="fontWeight">bold</property>
@@ -2833,7 +3538,7 @@ order by rdw.duration desc;]]></xml-property>
                                 <property name="borderTopColor">#000000</property>
                                 <property name="borderTopStyle">solid</property>
                                 <property name="borderTopWidth">1px</property>
-                                <cell id="1243">
+                                <cell id="1055">
                                     <property name="fontFamily">"Arial"</property>
                                     <property name="borderBottomColor">#000000</property>
                                     <property name="borderBottomStyle">solid</property>
@@ -2847,13 +3552,14 @@ order by rdw.duration desc;]]></xml-property>
                                     <property name="borderTopColor">#000000</property>
                                     <property name="borderTopStyle">solid</property>
                                     <property name="borderTopWidth">1px</property>
-                                    <label id="1244">
+                                    <property name="textAlign">center</property>
+                                    <label id="1056">
                                         <property name="fontWeight">normal</property>
                                         <property name="color">white</property>
-                                        <text-property name="text">DSM</text-property>
+                                        <text-property name="text">RSM</text-property>
                                     </label>
                                 </cell>
-                                <cell id="1245">
+                                <cell id="1057">
                                     <property name="borderBottomColor">#000000</property>
                                     <property name="borderBottomStyle">solid</property>
                                     <property name="borderBottomWidth">1px</property>
@@ -2867,14 +3573,14 @@ order by rdw.duration desc;]]></xml-property>
                                     <property name="borderTopStyle">solid</property>
                                     <property name="borderTopWidth">1px</property>
                                     <property name="textAlign">center</property>
-                                    <label id="1246">
+                                    <label id="1058">
                                         <property name="fontWeight">normal</property>
                                         <property name="color">white</property>
                                         <property name="textAlign">center</property>
                                         <text-property name="text">医院数</text-property>
                                     </label>
                                 </cell>
-                                <cell id="1247">
+                                <cell id="1059">
                                     <property name="borderBottomColor">#000000</property>
                                     <property name="borderBottomStyle">solid</property>
                                     <property name="borderBottomWidth">1px</property>
@@ -2888,14 +3594,14 @@ order by rdw.duration desc;]]></xml-property>
                                     <property name="borderTopStyle">solid</property>
                                     <property name="borderTopWidth">1px</property>
                                     <property name="textAlign">center</property>
-                                    <label id="1248">
+                                    <label id="1060">
                                         <property name="fontWeight">normal</property>
                                         <property name="color">white</property>
                                         <property name="textAlign">center</property>
                                         <text-property name="text">上报率</text-property>
                                     </label>
                                 </cell>
-                                <cell id="1249">
+                                <cell id="1061">
                                     <property name="borderBottomColor">#000000</property>
                                     <property name="borderBottomStyle">solid</property>
                                     <property name="borderBottomWidth">1px</property>
@@ -2909,14 +3615,14 @@ order by rdw.duration desc;]]></xml-property>
                                     <property name="borderTopStyle">solid</property>
                                     <property name="borderTopWidth">1px</property>
                                     <property name="textAlign">center</property>
-                                    <label id="1250">
+                                    <label id="1062">
                                         <property name="fontWeight">normal</property>
                                         <property name="color">white</property>
                                         <property name="textAlign">center</property>
                                         <text-property name="text">住院病人数</text-property>
                                     </label>
                                 </cell>
-                                <cell id="1251">
+                                <cell id="1063">
                                     <property name="borderBottomColor">#000000</property>
                                     <property name="borderBottomStyle">solid</property>
                                     <property name="borderBottomWidth">1px</property>
@@ -2930,14 +3636,14 @@ order by rdw.duration desc;]]></xml-property>
                                     <property name="borderTopStyle">solid</property>
                                     <property name="borderTopWidth">1px</property>
                                     <property name="textAlign">center</property>
-                                    <label id="1252">
+                                    <label id="1064">
                                         <property name="fontWeight">normal</property>
                                         <property name="color">white</property>
                                         <property name="textAlign">center</property>
                                         <text-property name="text">AECOPD人数</text-property>
                                     </label>
                                 </cell>
-                                <cell id="1253">
+                                <cell id="1065">
                                     <property name="borderBottomColor">#000000</property>
                                     <property name="borderBottomStyle">solid</property>
                                     <property name="borderBottomWidth">1px</property>
@@ -2951,14 +3657,14 @@ order by rdw.duration desc;]]></xml-property>
                                     <property name="borderTopStyle">solid</property>
                                     <property name="borderTopWidth">1px</property>
                                     <property name="textAlign">center</property>
-                                    <label id="1254">
+                                    <label id="1066">
                                         <property name="fontWeight">normal</property>
                                         <property name="color">white</property>
                                         <property name="textAlign">center</property>
                                         <text-property name="text">雾化人数</text-property>
                                     </label>
                                 </cell>
-                                <cell id="1255">
+                                <cell id="1067">
                                     <property name="borderBottomColor">#000000</property>
                                     <property name="borderBottomStyle">solid</property>
                                     <property name="borderBottomWidth">1px</property>
@@ -2972,14 +3678,14 @@ order by rdw.duration desc;]]></xml-property>
                                     <property name="borderTopStyle">solid</property>
                                     <property name="borderTopWidth">1px</property>
                                     <property name="textAlign">center</property>
-                                    <label id="1256">
+                                    <label id="1068">
                                         <property name="fontWeight">normal</property>
                                         <property name="color">white</property>
                                         <property name="textAlign">center</property>
                                         <text-property name="text">雾化率</text-property>
                                     </label>
                                 </cell>
-                                <cell id="1257">
+                                <cell id="1069">
                                     <property name="borderBottomColor">#000000</property>
                                     <property name="borderBottomStyle">solid</property>
                                     <property name="borderBottomWidth">1px</property>
@@ -2993,14 +3699,14 @@ order by rdw.duration desc;]]></xml-property>
                                     <property name="borderTopStyle">solid</property>
                                     <property name="borderTopWidth">1px</property>
                                     <property name="textAlign">center</property>
-                                    <label id="1258">
+                                    <label id="1070">
                                         <property name="fontWeight">normal</property>
                                         <property name="color">white</property>
                                         <property name="textAlign">center</property>
                                         <text-property name="text">平均剂量</text-property>
                                     </label>
                                 </cell>
-                                <cell id="1259">
+                                <cell id="1071">
                                     <property name="borderBottomColor">#000000</property>
                                     <property name="borderBottomStyle">solid</property>
                                     <property name="borderBottomWidth">1px</property>
@@ -3014,14 +3720,14 @@ order by rdw.duration desc;]]></xml-property>
                                     <property name="borderTopStyle">solid</property>
                                     <property name="borderTopWidth">1px</property>
                                     <property name="textAlign">center</property>
-                                    <label id="1260">
+                                    <label id="1072">
                                         <property name="fontWeight">normal</property>
                                         <property name="color">white</property>
                                         <property name="textAlign">center</property>
                                         <text-property name="text">1mg%</text-property>
                                     </label>
                                 </cell>
-                                <cell id="1261">
+                                <cell id="1073">
                                     <property name="borderBottomColor">#000000</property>
                                     <property name="borderBottomStyle">solid</property>
                                     <property name="borderBottomWidth">1px</property>
@@ -3035,14 +3741,14 @@ order by rdw.duration desc;]]></xml-property>
                                     <property name="borderTopStyle">solid</property>
                                     <property name="borderTopWidth">1px</property>
                                     <property name="textAlign">center</property>
-                                    <label id="1262">
+                                    <label id="1074">
                                         <property name="fontWeight">normal</property>
                                         <property name="color">white</property>
                                         <property name="textAlign">center</property>
                                         <text-property name="text">2mg%</text-property>
                                     </label>
                                 </cell>
-                                <cell id="1263">
+                                <cell id="1075">
                                     <property name="borderBottomColor">#000000</property>
                                     <property name="borderBottomStyle">solid</property>
                                     <property name="borderBottomWidth">1px</property>
@@ -3056,14 +3762,14 @@ order by rdw.duration desc;]]></xml-property>
                                     <property name="borderTopStyle">solid</property>
                                     <property name="borderTopWidth">1px</property>
                                     <property name="textAlign">center</property>
-                                    <label id="1264">
+                                    <label id="1076">
                                         <property name="fontWeight">normal</property>
                                         <property name="color">white</property>
                                         <property name="textAlign">center</property>
                                         <text-property name="text">3mg%</text-property>
                                     </label>
                                 </cell>
-                                <cell id="1265">
+                                <cell id="1077">
                                     <property name="borderBottomColor">#000000</property>
                                     <property name="borderBottomStyle">solid</property>
                                     <property name="borderBottomWidth">1px</property>
@@ -3077,14 +3783,14 @@ order by rdw.duration desc;]]></xml-property>
                                     <property name="borderTopStyle">solid</property>
                                     <property name="borderTopWidth">1px</property>
                                     <property name="textAlign">center</property>
-                                    <label id="1266">
+                                    <label id="1078">
                                         <property name="fontWeight">normal</property>
                                         <property name="color">white</property>
                                         <property name="textAlign">center</property>
                                         <text-property name="text">4mg%</text-property>
                                     </label>
                                 </cell>
-                                <cell id="1267">
+                                <cell id="1079">
                                     <property name="borderBottomColor">#000000</property>
                                     <property name="borderBottomStyle">solid</property>
                                     <property name="borderBottomWidth">1px</property>
@@ -3098,14 +3804,14 @@ order by rdw.duration desc;]]></xml-property>
                                     <property name="borderTopStyle">solid</property>
                                     <property name="borderTopWidth">1px</property>
                                     <property name="textAlign">center</property>
-                                    <label id="1268">
+                                    <label id="1080">
                                         <property name="fontWeight">normal</property>
                                         <property name="color">white</property>
                                         <property name="textAlign">center</property>
                                         <text-property name="text">6mg%</text-property>
                                     </label>
                                 </cell>
-                                <cell id="1269">
+                                <cell id="1081">
                                     <property name="borderBottomColor">#000000</property>
                                     <property name="borderBottomStyle">solid</property>
                                     <property name="borderBottomWidth">1px</property>
@@ -3119,7 +3825,7 @@ order by rdw.duration desc;]]></xml-property>
                                     <property name="borderTopStyle">solid</property>
                                     <property name="borderTopWidth">1px</property>
                                     <property name="textAlign">center</property>
-                                    <label id="1270">
+                                    <label id="1082">
                                         <property name="fontWeight">normal</property>
                                         <property name="color">white</property>
                                         <property name="textAlign">center</property>
@@ -3129,8 +3835,14 @@ order by rdw.duration desc;]]></xml-property>
                             </row>
                         </header>
                         <detail>
-                            <row id="1272">
-                                <cell id="1273">
+                            <row id="1187">
+                                <method name="onCreate"><![CDATA[count++;
+if(count % 2 == 0){
+this.getStyle().backgroundColor = "#FFFFFF"; 
+}else{ 
+this.getStyle().backgroundColor = "#C9DCCE"; 
+} ]]></method>
+                                <cell id="1188">
                                     <property name="borderBottomStyle">solid</property>
                                     <property name="borderBottomWidth">thin</property>
                                     <property name="borderLeftStyle">solid</property>
@@ -3139,12 +3851,11 @@ order by rdw.duration desc;]]></xml-property>
                                     <property name="borderRightWidth">thin</property>
                                     <property name="borderTopStyle">solid</property>
                                     <property name="borderTopWidth">thin</property>
-                                    <data id="1274">
-                                        <property name="fontFamily">"Microsoft YaHei UI"</property>
-                                        <property name="resultSetColumn">dsmName</property>
+                                    <data id="1443">
+                                        <property name="resultSetColumn">rsmRegion</property>
                                     </data>
                                 </cell>
-                                <cell id="1275">
+                                <cell id="1190">
                                     <property name="borderBottomStyle">solid</property>
                                     <property name="borderBottomWidth">thin</property>
                                     <property name="borderLeftStyle">solid</property>
@@ -3153,15 +3864,11 @@ order by rdw.duration desc;]]></xml-property>
                                     <property name="borderRightWidth">thin</property>
                                     <property name="borderTopStyle">solid</property>
                                     <property name="borderTopWidth">thin</property>
-                                    <data id="1276">
-                                        <structure name="numberFormat">
-                                            <property name="category">Fixed</property>
-                                            <property name="pattern">#,##0{RoundingMode=HALF_UP}</property>
-                                        </structure>
-                                        <property name="resultSetColumn">dsmHosNum</property>
+                                    <data id="1444">
+                                        <property name="resultSetColumn">hosNum</property>
                                     </data>
                                 </cell>
-                                <cell id="1277">
+                                <cell id="1192">
                                     <property name="borderBottomStyle">solid</property>
                                     <property name="borderBottomWidth">thin</property>
                                     <property name="borderLeftStyle">solid</property>
@@ -3170,7 +3877,7 @@ order by rdw.duration desc;]]></xml-property>
                                     <property name="borderRightWidth">thin</property>
                                     <property name="borderTopStyle">solid</property>
                                     <property name="borderTopWidth">thin</property>
-                                    <data id="1278">
+                                    <data id="1193">
                                         <structure name="numberFormat">
                                             <property name="category">Percent</property>
                                             <property name="pattern">###0.0%{RoundingMode=HALF_UP}</property>
@@ -3178,7 +3885,7 @@ order by rdw.duration desc;]]></xml-property>
                                         <property name="resultSetColumn">inRate</property>
                                     </data>
                                 </cell>
-                                <cell id="1279">
+                                <cell id="1194">
                                     <property name="borderBottomStyle">solid</property>
                                     <property name="borderBottomWidth">thin</property>
                                     <property name="borderLeftStyle">solid</property>
@@ -3187,7 +3894,7 @@ order by rdw.duration desc;]]></xml-property>
                                     <property name="borderRightWidth">thin</property>
                                     <property name="borderTopStyle">solid</property>
                                     <property name="borderTopWidth">thin</property>
-                                    <data id="1280">
+                                    <data id="1195">
                                         <structure name="numberFormat">
                                             <property name="category">Fixed</property>
                                             <property name="pattern">#,##0{RoundingMode=HALF_UP}</property>
@@ -3195,7 +3902,7 @@ order by rdw.duration desc;]]></xml-property>
                                         <property name="resultSetColumn">pnum</property>
                                     </data>
                                 </cell>
-                                <cell id="1281">
+                                <cell id="1196">
                                     <property name="borderBottomStyle">solid</property>
                                     <property name="borderBottomWidth">thin</property>
                                     <property name="borderLeftStyle">solid</property>
@@ -3204,7 +3911,7 @@ order by rdw.duration desc;]]></xml-property>
                                     <property name="borderRightWidth">thin</property>
                                     <property name="borderTopStyle">solid</property>
                                     <property name="borderTopWidth">thin</property>
-                                    <data id="1282">
+                                    <data id="1046">
                                         <structure name="numberFormat">
                                             <property name="category">Fixed</property>
                                             <property name="pattern">#,##0{RoundingMode=HALF_UP}</property>
@@ -3212,7 +3919,7 @@ order by rdw.duration desc;]]></xml-property>
                                         <property name="resultSetColumn">aenum</property>
                                     </data>
                                 </cell>
-                                <cell id="1283">
+                                <cell id="1197">
                                     <property name="borderBottomStyle">solid</property>
                                     <property name="borderBottomWidth">thin</property>
                                     <property name="borderLeftStyle">solid</property>
@@ -3221,7 +3928,7 @@ order by rdw.duration desc;]]></xml-property>
                                     <property name="borderRightWidth">thin</property>
                                     <property name="borderTopStyle">solid</property>
                                     <property name="borderTopWidth">thin</property>
-                                    <data id="1284">
+                                    <data id="1198">
                                         <structure name="numberFormat">
                                             <property name="category">Fixed</property>
                                             <property name="pattern">#,##0{RoundingMode=HALF_UP}</property>
@@ -3229,7 +3936,7 @@ order by rdw.duration desc;]]></xml-property>
                                         <property name="resultSetColumn">lsnum</property>
                                     </data>
                                 </cell>
-                                <cell id="1285">
+                                <cell id="1199">
                                     <property name="borderBottomStyle">solid</property>
                                     <property name="borderBottomWidth">thin</property>
                                     <property name="borderLeftStyle">solid</property>
@@ -3238,7 +3945,7 @@ order by rdw.duration desc;]]></xml-property>
                                     <property name="borderRightWidth">thin</property>
                                     <property name="borderTopStyle">solid</property>
                                     <property name="borderTopWidth">thin</property>
-                                    <data id="1286">
+                                    <data id="1200">
                                         <structure name="numberFormat">
                                             <property name="category">Percent</property>
                                             <property name="pattern">###0.0%{RoundingMode=HALF_UP}</property>
@@ -3246,7 +3953,7 @@ order by rdw.duration desc;]]></xml-property>
                                         <property name="resultSetColumn">whRate</property>
                                     </data>
                                 </cell>
-                                <cell id="1287">
+                                <cell id="1201">
                                     <property name="borderBottomStyle">solid</property>
                                     <property name="borderBottomWidth">thin</property>
                                     <property name="borderLeftStyle">solid</property>
@@ -3255,7 +3962,7 @@ order by rdw.duration desc;]]></xml-property>
                                     <property name="borderRightWidth">thin</property>
                                     <property name="borderTopStyle">solid</property>
                                     <property name="borderTopWidth">thin</property>
-                                    <data id="1288">
+                                    <data id="1202">
                                         <structure name="numberFormat">
                                             <property name="category">Fixed</property>
                                             <property name="pattern">###0.00{RoundingMode=HALF_UP}</property>
@@ -3263,7 +3970,7 @@ order by rdw.duration desc;]]></xml-property>
                                         <property name="resultSetColumn">averageDose</property>
                                     </data>
                                 </cell>
-                                <cell id="1289">
+                                <cell id="1203">
                                     <property name="borderBottomStyle">solid</property>
                                     <property name="borderBottomWidth">thin</property>
                                     <property name="borderLeftStyle">solid</property>
@@ -3272,7 +3979,7 @@ order by rdw.duration desc;]]></xml-property>
                                     <property name="borderRightWidth">thin</property>
                                     <property name="borderTopStyle">solid</property>
                                     <property name="borderTopWidth">thin</property>
-                                    <data id="1290">
+                                    <data id="1204">
                                         <structure name="numberFormat">
                                             <property name="category">Percent</property>
                                             <property name="pattern">###0%{RoundingMode=HALF_UP}</property>
@@ -3280,7 +3987,7 @@ order by rdw.duration desc;]]></xml-property>
                                         <property name="resultSetColumn">omgRate</property>
                                     </data>
                                 </cell>
-                                <cell id="1291">
+                                <cell id="1205">
                                     <property name="borderBottomStyle">solid</property>
                                     <property name="borderBottomWidth">thin</property>
                                     <property name="borderLeftStyle">solid</property>
@@ -3289,7 +3996,7 @@ order by rdw.duration desc;]]></xml-property>
                                     <property name="borderRightWidth">thin</property>
                                     <property name="borderTopStyle">solid</property>
                                     <property name="borderTopWidth">thin</property>
-                                    <data id="1292">
+                                    <data id="1206">
                                         <structure name="numberFormat">
                                             <property name="category">Percent</property>
                                             <property name="pattern">###0%{RoundingMode=HALF_UP}</property>
@@ -3297,7 +4004,7 @@ order by rdw.duration desc;]]></xml-property>
                                         <property name="resultSetColumn">tmgRate</property>
                                     </data>
                                 </cell>
-                                <cell id="1293">
+                                <cell id="1207">
                                     <property name="borderBottomStyle">solid</property>
                                     <property name="borderBottomWidth">thin</property>
                                     <property name="borderLeftStyle">solid</property>
@@ -3306,7 +4013,7 @@ order by rdw.duration desc;]]></xml-property>
                                     <property name="borderRightWidth">thin</property>
                                     <property name="borderTopStyle">solid</property>
                                     <property name="borderTopWidth">thin</property>
-                                    <data id="1294">
+                                    <data id="1208">
                                         <structure name="numberFormat">
                                             <property name="category">Percent</property>
                                             <property name="pattern">###0%{RoundingMode=HALF_UP}</property>
@@ -3314,7 +4021,7 @@ order by rdw.duration desc;]]></xml-property>
                                         <property name="resultSetColumn">thmgRate</property>
                                     </data>
                                 </cell>
-                                <cell id="1295">
+                                <cell id="1209">
                                     <property name="borderBottomStyle">solid</property>
                                     <property name="borderBottomWidth">thin</property>
                                     <property name="borderLeftStyle">solid</property>
@@ -3323,7 +4030,7 @@ order by rdw.duration desc;]]></xml-property>
                                     <property name="borderRightWidth">thin</property>
                                     <property name="borderTopStyle">solid</property>
                                     <property name="borderTopWidth">thin</property>
-                                    <data id="1296">
+                                    <data id="1210">
                                         <structure name="numberFormat">
                                             <property name="category">Percent</property>
                                             <property name="pattern">###0%{RoundingMode=HALF_UP}</property>
@@ -3331,7 +4038,7 @@ order by rdw.duration desc;]]></xml-property>
                                         <property name="resultSetColumn">fmgRate</property>
                                     </data>
                                 </cell>
-                                <cell id="1297">
+                                <cell id="1211">
                                     <property name="borderBottomStyle">solid</property>
                                     <property name="borderBottomWidth">thin</property>
                                     <property name="borderLeftStyle">solid</property>
@@ -3340,7 +4047,7 @@ order by rdw.duration desc;]]></xml-property>
                                     <property name="borderRightWidth">thin</property>
                                     <property name="borderTopStyle">solid</property>
                                     <property name="borderTopWidth">thin</property>
-                                    <data id="1298">
+                                    <data id="1212">
                                         <structure name="numberFormat">
                                             <property name="category">Percent</property>
                                             <property name="pattern">###0%{RoundingMode=HALF_UP}</property>
@@ -3348,7 +4055,7 @@ order by rdw.duration desc;]]></xml-property>
                                         <property name="resultSetColumn">smgRate</property>
                                     </data>
                                 </cell>
-                                <cell id="1299">
+                                <cell id="1213">
                                     <property name="borderBottomStyle">solid</property>
                                     <property name="borderBottomWidth">thin</property>
                                     <property name="borderLeftStyle">solid</property>
@@ -3357,7 +4064,7 @@ order by rdw.duration desc;]]></xml-property>
                                     <property name="borderRightWidth">thin</property>
                                     <property name="borderTopStyle">solid</property>
                                     <property name="borderTopWidth">thin</property>
-                                    <data id="1300">
+                                    <data id="1214">
                                         <structure name="numberFormat">
                                             <property name="category">Percent</property>
                                             <property name="pattern">###0%{RoundingMode=HALF_UP}</property>
@@ -3368,11 +4075,15 @@ order by rdw.duration desc;]]></xml-property>
                             </row>
                         </detail>
                         <footer>
-                            <row id="1301">
-                                <property name="backgroundColor">#C9DCCE</property>
+                            <row id="1215">
+                                <method name="onCreate"><![CDATA[if(count % 2 == 0){
+this.getStyle().backgroundColor = "#C9DCCE"; 
+}else{ 
+this.getStyle().backgroundColor = "#FFFFFF"; 
+} ]]></method>
                                 <property name="verticalAlign">middle</property>
                                 <property name="height">0.2708333333333333in</property>
-                                <cell id="1302">
+                                <cell id="1216">
                                     <property name="fontFamily">"Microsoft YaHei UI"</property>
                                     <property name="borderBottomStyle">solid</property>
                                     <property name="borderBottomWidth">1px</property>
@@ -3382,11 +4093,11 @@ order by rdw.duration desc;]]></xml-property>
                                     <property name="borderRightWidth">1px</property>
                                     <property name="borderTopStyle">solid</property>
                                     <property name="borderTopWidth">2px</property>
-                                    <label id="1303">
+                                    <label id="1218">
                                         <text-property name="text">合计</text-property>
                                     </label>
                                 </cell>
-                                <cell id="1304">
+                                <cell id="1445">
                                     <property name="borderBottomStyle">solid</property>
                                     <property name="borderBottomWidth">1px</property>
                                     <property name="borderLeftStyle">solid</property>
@@ -3395,7 +4106,7 @@ order by rdw.duration desc;]]></xml-property>
                                     <property name="borderRightWidth">1px</property>
                                     <property name="borderTopStyle">solid</property>
                                     <property name="borderTopWidth">2px</property>
-                                    <data id="1305">
+                                    <data id="1446">
                                         <structure name="numberFormat">
                                             <property name="category">Fixed</property>
                                             <property name="pattern">#,##0{RoundingMode=HALF_UP}</property>
@@ -3403,7 +4114,7 @@ order by rdw.duration desc;]]></xml-property>
                                         <property name="resultSetColumn">hosRSMTotal</property>
                                     </data>
                                 </cell>
-                                <cell id="1306">
+                                <cell id="1447">
                                     <property name="borderBottomStyle">solid</property>
                                     <property name="borderBottomWidth">1px</property>
                                     <property name="borderLeftStyle">solid</property>
@@ -3412,7 +4123,7 @@ order by rdw.duration desc;]]></xml-property>
                                     <property name="borderRightWidth">1px</property>
                                     <property name="borderTopStyle">solid</property>
                                     <property name="borderTopWidth">2px</property>
-                                    <data id="1307">
+                                    <data id="1448">
                                         <structure name="numberFormat">
                                             <property name="category">Percent</property>
                                             <property name="pattern">###0.0%{RoundingMode=HALF_UP}</property>
@@ -3420,7 +4131,7 @@ order by rdw.duration desc;]]></xml-property>
                                         <property name="resultSetColumn">inRateRSMTotal</property>
                                     </data>
                                 </cell>
-                                <cell id="1308">
+                                <cell id="1449">
                                     <property name="borderBottomStyle">solid</property>
                                     <property name="borderBottomWidth">1px</property>
                                     <property name="borderLeftStyle">solid</property>
@@ -3429,7 +4140,7 @@ order by rdw.duration desc;]]></xml-property>
                                     <property name="borderRightWidth">1px</property>
                                     <property name="borderTopStyle">solid</property>
                                     <property name="borderTopWidth">2px</property>
-                                    <data id="1309">
+                                    <data id="1450">
                                         <structure name="numberFormat">
                                             <property name="category">Fixed</property>
                                             <property name="pattern">#,##0{RoundingMode=HALF_UP}</property>
@@ -3437,7 +4148,7 @@ order by rdw.duration desc;]]></xml-property>
                                         <property name="resultSetColumn">pnumRSMTotal</property>
                                     </data>
                                 </cell>
-                                <cell id="1310">
+                                <cell id="1451">
                                     <property name="borderBottomStyle">solid</property>
                                     <property name="borderBottomWidth">1px</property>
                                     <property name="borderLeftStyle">solid</property>
@@ -3446,7 +4157,7 @@ order by rdw.duration desc;]]></xml-property>
                                     <property name="borderRightWidth">1px</property>
                                     <property name="borderTopStyle">solid</property>
                                     <property name="borderTopWidth">2px</property>
-                                    <data id="1311">
+                                    <data id="1452">
                                         <structure name="numberFormat">
                                             <property name="category">Fixed</property>
                                             <property name="pattern">#,##0{RoundingMode=HALF_UP}</property>
@@ -3454,7 +4165,7 @@ order by rdw.duration desc;]]></xml-property>
                                         <property name="resultSetColumn">aenumRSMTotal</property>
                                     </data>
                                 </cell>
-                                <cell id="1312">
+                                <cell id="1453">
                                     <property name="borderBottomStyle">solid</property>
                                     <property name="borderBottomWidth">1px</property>
                                     <property name="borderLeftStyle">solid</property>
@@ -3463,7 +4174,7 @@ order by rdw.duration desc;]]></xml-property>
                                     <property name="borderRightWidth">1px</property>
                                     <property name="borderTopStyle">solid</property>
                                     <property name="borderTopWidth">2px</property>
-                                    <data id="1313">
+                                    <data id="1228">
                                         <structure name="numberFormat">
                                             <property name="category">Fixed</property>
                                             <property name="pattern">#,##0{RoundingMode=HALF_UP}</property>
@@ -3471,7 +4182,7 @@ order by rdw.duration desc;]]></xml-property>
                                         <property name="resultSetColumn">lsnumRSMTotal</property>
                                     </data>
                                 </cell>
-                                <cell id="1314">
+                                <cell id="1229">
                                     <property name="borderBottomStyle">solid</property>
                                     <property name="borderBottomWidth">1px</property>
                                     <property name="borderLeftStyle">solid</property>
@@ -3480,7 +4191,7 @@ order by rdw.duration desc;]]></xml-property>
                                     <property name="borderRightWidth">1px</property>
                                     <property name="borderTopStyle">solid</property>
                                     <property name="borderTopWidth">2px</property>
-                                    <data id="1315">
+                                    <data id="1230">
                                         <structure name="numberFormat">
                                             <property name="category">Percent</property>
                                             <property name="pattern">###0.0%{RoundingMode=HALF_UP}</property>
@@ -3488,7 +4199,7 @@ order by rdw.duration desc;]]></xml-property>
                                         <property name="resultSetColumn">whRateRSMTotal</property>
                                     </data>
                                 </cell>
-                                <cell id="1316">
+                                <cell id="1454">
                                     <property name="borderBottomStyle">solid</property>
                                     <property name="borderBottomWidth">1px</property>
                                     <property name="borderLeftStyle">solid</property>
@@ -3497,7 +4208,7 @@ order by rdw.duration desc;]]></xml-property>
                                     <property name="borderRightWidth">1px</property>
                                     <property name="borderTopStyle">solid</property>
                                     <property name="borderTopWidth">2px</property>
-                                    <data id="1317">
+                                    <data id="1455">
                                         <structure name="numberFormat">
                                             <property name="category">Fixed</property>
                                             <property name="pattern">###0.00{RoundingMode=HALF_UP}</property>
@@ -3505,7 +4216,7 @@ order by rdw.duration desc;]]></xml-property>
                                         <property name="resultSetColumn">averageDoseRSMTotal</property>
                                     </data>
                                 </cell>
-                                <cell id="1318">
+                                <cell id="1456">
                                     <property name="borderBottomStyle">solid</property>
                                     <property name="borderBottomWidth">1px</property>
                                     <property name="borderLeftStyle">solid</property>
@@ -3514,7 +4225,7 @@ order by rdw.duration desc;]]></xml-property>
                                     <property name="borderRightWidth">1px</property>
                                     <property name="borderTopStyle">solid</property>
                                     <property name="borderTopWidth">2px</property>
-                                    <data id="1319">
+                                    <data id="1234">
                                         <structure name="numberFormat">
                                             <property name="category">Percent</property>
                                             <property name="pattern">###0%{RoundingMode=HALF_UP}</property>
@@ -3522,7 +4233,7 @@ order by rdw.duration desc;]]></xml-property>
                                         <property name="resultSetColumn">omgRateRSMTotal</property>
                                     </data>
                                 </cell>
-                                <cell id="1320">
+                                <cell id="1235">
                                     <property name="borderBottomStyle">solid</property>
                                     <property name="borderBottomWidth">1px</property>
                                     <property name="borderLeftStyle">solid</property>
@@ -3531,7 +4242,7 @@ order by rdw.duration desc;]]></xml-property>
                                     <property name="borderRightWidth">1px</property>
                                     <property name="borderTopStyle">solid</property>
                                     <property name="borderTopWidth">2px</property>
-                                    <data id="1321">
+                                    <data id="1457">
                                         <structure name="numberFormat">
                                             <property name="category">Percent</property>
                                             <property name="pattern">###0%{RoundingMode=HALF_UP}</property>
@@ -3539,7 +4250,7 @@ order by rdw.duration desc;]]></xml-property>
                                         <property name="resultSetColumn">tmgRateRSMTotal</property>
                                     </data>
                                 </cell>
-                                <cell id="1322">
+                                <cell id="1458">
                                     <property name="borderBottomStyle">solid</property>
                                     <property name="borderBottomWidth">1px</property>
                                     <property name="borderLeftStyle">solid</property>
@@ -3548,7 +4259,7 @@ order by rdw.duration desc;]]></xml-property>
                                     <property name="borderRightWidth">1px</property>
                                     <property name="borderTopStyle">solid</property>
                                     <property name="borderTopWidth">2px</property>
-                                    <data id="1323">
+                                    <data id="1459">
                                         <structure name="numberFormat">
                                             <property name="category">Percent</property>
                                             <property name="pattern">###0%{RoundingMode=HALF_UP}</property>
@@ -3556,7 +4267,7 @@ order by rdw.duration desc;]]></xml-property>
                                         <property name="resultSetColumn">thmgRateRSMTotal</property>
                                     </data>
                                 </cell>
-                                <cell id="1324">
+                                <cell id="1460">
                                     <property name="borderBottomStyle">solid</property>
                                     <property name="borderBottomWidth">1px</property>
                                     <property name="borderLeftStyle">solid</property>
@@ -3565,7 +4276,7 @@ order by rdw.duration desc;]]></xml-property>
                                     <property name="borderRightWidth">1px</property>
                                     <property name="borderTopStyle">solid</property>
                                     <property name="borderTopWidth">2px</property>
-                                    <data id="1325">
+                                    <data id="1461">
                                         <structure name="numberFormat">
                                             <property name="category">Percent</property>
                                             <property name="pattern">###0%{RoundingMode=HALF_UP}</property>
@@ -3573,7 +4284,7 @@ order by rdw.duration desc;]]></xml-property>
                                         <property name="resultSetColumn">fmgRateRSMTotal</property>
                                     </data>
                                 </cell>
-                                <cell id="1326">
+                                <cell id="1462">
                                     <property name="borderBottomStyle">solid</property>
                                     <property name="borderBottomWidth">1px</property>
                                     <property name="borderLeftStyle">solid</property>
@@ -3582,7 +4293,7 @@ order by rdw.duration desc;]]></xml-property>
                                     <property name="borderRightWidth">1px</property>
                                     <property name="borderTopStyle">solid</property>
                                     <property name="borderTopWidth">2px</property>
-                                    <data id="1327">
+                                    <data id="1463">
                                         <structure name="numberFormat">
                                             <property name="category">Percent</property>
                                             <property name="pattern">###0%{RoundingMode=HALF_UP}</property>
@@ -3590,7 +4301,7 @@ order by rdw.duration desc;]]></xml-property>
                                         <property name="resultSetColumn">smgRateRSMTotal</property>
                                     </data>
                                 </cell>
-                                <cell id="1328">
+                                <cell id="1464">
                                     <property name="borderBottomStyle">solid</property>
                                     <property name="borderBottomWidth">1px</property>
                                     <property name="borderLeftStyle">solid</property>
@@ -3599,7 +4310,7 @@ order by rdw.duration desc;]]></xml-property>
                                     <property name="borderRightWidth">1px</property>
                                     <property name="borderTopStyle">solid</property>
                                     <property name="borderTopWidth">2px</property>
-                                    <data id="1329">
+                                    <data id="1465">
                                         <structure name="numberFormat">
                                             <property name="category">Percent</property>
                                             <property name="pattern">###0%{RoundingMode=HALF_UP}</property>
@@ -3628,7 +4339,7 @@ order by rdw.duration desc;]]></xml-property>
                 <cell id="696">
                     <property name="textAlign">center</property>
                     <property name="masterPage">Simple MasterPage</property>
-                    <extended-item extensionName="Chart" id="944">
+                    <extended-item extensionName="Chart" id="1259">
                         <xml-property name="xmlRepresentation"><![CDATA[<model:ChartWithAxes xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:attribute="http://www.birt.eclipse.org/ChartModelAttribute" xmlns:data="http://www.birt.eclipse.org/ChartModelData" xmlns:layout="http://www.birt.eclipse.org/ChartModelLayout" xmlns:model="http://www.birt.eclipse.org/ChartModel" xmlns:type="http://www.birt.eclipse.org/ChartModelType">
   <Version>2.6.1</Version>
   <Type>Bar Chart</Type>
@@ -3667,7 +4378,7 @@ order by rdw.duration desc;]]></xml-property>
         <Caption>
           <Value>L3/L2 医院数量</Value>
           <Font>
-            <Name>Microsoft YaHei UI</Name>
+            <Name>Microsoft YaHei</Name>
             <Size>16.0</Size>
             <Bold>false</Bold>
             <Alignment>
@@ -3804,7 +4515,9 @@ order by rdw.duration desc;]]></xml-property>
       <Text>
         <Value></Value>
         <Font>
-          <Name>Microsoft YaHei UI</Name>
+          <Name>Microsoft YaHei</Name>
+          <Size>10.0</Size>
+          <Bold>false</Bold>
           <Alignment/>
         </Font>
       </Text>
@@ -4243,6 +4956,7 @@ order by rdw.duration desc;]]></xml-property>
             <Caption>
               <Value></Value>
               <Font>
+                <Name>Arial</Name>
                 <Bold>true</Bold>
                 <Alignment/>
               </Font>
@@ -4534,6 +5248,7 @@ order by rdw.duration desc;]]></xml-property>
             <Caption>
               <Value></Value>
               <Font>
+                <Name>Arial</Name>
                 <Bold>true</Bold>
                 <Alignment/>
               </Font>
@@ -4648,6 +5363,9 @@ order by rdw.duration desc;]]></xml-property>
         </Insets>
         <Visible>true</Visible>
       </Label>
+      <FormatSpecifier xsi:type="attribute:JavaNumberFormatSpecifier">
+        <Pattern>##,###</Pattern>
+      </FormatSpecifier>
       <LabelPosition>Left</LabelPosition>
       <MajorGrid>
         <LineAttributes>
@@ -4963,7 +5681,7 @@ order by rdw.duration desc;]]></xml-property>
           <Visible>false</Visible>
         </Label>
         <DataDefinition>
-          <Definition>row[&quot;dsmName&quot;]</Definition>
+          <Definition>row[&quot;rsmRegion&quot;]</Definition>
         </DataDefinition>
         <SeriesIdentifier></SeriesIdentifier>
         <DataPoint>
@@ -4997,7 +5715,7 @@ order by rdw.duration desc;]]></xml-property>
       <Caption>
         <Value></Value>
         <Font>
-          <Name>Microsoft YaHei UI</Name>
+          <Name>Arial</Name>
           <Size>8.0</Size>
           <Bold>false</Bold>
           <Alignment/>
@@ -5108,7 +5826,7 @@ order by rdw.duration desc;]]></xml-property>
                         <property name="inheritColumns">false</property>
                         <property name="height">3.6in</property>
                         <property name="width">5in</property>
-                        <property name="dataSet">hospitalLevelDataSet</property>
+                        <property name="dataSet">centralRSMhospitalLevelDataSet</property>
                         <list-property name="boundDataColumns">
                             <structure>
                                 <property name="name">thNum</property>
@@ -5123,8 +5841,8 @@ order by rdw.duration desc;]]></xml-property>
                                 <property name="allowExport">true</property>
                             </structure>
                             <structure>
-                                <property name="name">dsmName</property>
-                                <expression name="expression" type="javascript">dataSetRow["dsmName"]</expression>
+                                <property name="name">rsmRegion</property>
+                                <expression name="expression" type="javascript">dataSetRow["rsmRegion"]</expression>
                                 <property name="dataType">string</property>
                             </structure>
                         </list-property>
@@ -5143,7 +5861,7 @@ order by rdw.duration desc;]]></xml-property>
                 <property name="height">3.8229166666666665in</property>
                 <cell id="701">
                     <property name="textAlign">center</property>
-                    <extended-item extensionName="Chart" id="1353">
+                    <extended-item extensionName="Chart" id="1260">
                         <xml-property name="xmlRepresentation"><![CDATA[<model:ChartWithAxes xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:attribute="http://www.birt.eclipse.org/ChartModelAttribute" xmlns:data="http://www.birt.eclipse.org/ChartModelData" xmlns:layout="http://www.birt.eclipse.org/ChartModelLayout" xmlns:model="http://www.birt.eclipse.org/ChartModel" xmlns:type="http://www.birt.eclipse.org/ChartModelType">
   <Version>2.6.1</Version>
   <Type>Line Chart</Type>
@@ -5324,7 +6042,8 @@ order by rdw.duration desc;]]></xml-property>
       <Text>
         <Value></Value>
         <Font>
-          <Name>Microsoft YaHei UI</Name>
+          <Name>Arial</Name>
+          <Size>10.0</Size>
           <Alignment/>
         </Font>
       </Text>
@@ -5542,7 +6261,7 @@ order by rdw.duration desc;]]></xml-property>
       <TitlePosition>Left</TitlePosition>
       <SeriesDefinitions>
         <Query>
-          <Definition>row[&quot;name&quot;]</Definition>
+          <Definition>row[&quot;rsmRegion&quot;]</Definition>
           <Grouping>
             <GroupType>Text</GroupType>
           </Grouping>
@@ -5782,7 +6501,6 @@ order by rdw.duration desc;]]></xml-property>
               <AggregateExpression>Sum</AggregateExpression>
             </Grouping>
           </DataDefinition>
-          <SeriesIdentifier>全国</SeriesIdentifier>
           <DataPoint>
             <Components>
               <Type>Orthogonal_Value</Type>
@@ -5919,6 +6637,9 @@ order by rdw.duration desc;]]></xml-property>
         </Insets>
         <Visible>true</Visible>
       </Label>
+      <FormatSpecifier xsi:type="attribute:JavaNumberFormatSpecifier">
+        <Pattern>##,###</Pattern>
+      </FormatSpecifier>
       <LabelPosition>Left</LabelPosition>
       <MajorGrid>
         <LineAttributes>
@@ -6753,7 +7474,7 @@ order by rdw.duration desc;]]></xml-property>
                         <property name="pageBreakAfter">avoid</property>
                         <property name="height">3.6in</property>
                         <property name="width">5in</property>
-                        <property name="dataSet">dsmweeklyRESPNumDataSet</property>
+                        <property name="dataSet">centralRSMweeklyRESPNumDataSet</property>
                         <list-property name="boundDataColumns">
                             <structure>
                                 <property name="name">duration</property>
@@ -6761,8 +7482,8 @@ order by rdw.duration desc;]]></xml-property>
                                 <property name="dataType">string</property>
                             </structure>
                             <structure>
-                                <property name="name">name</property>
-                                <expression name="expression" type="javascript">dataSetRow["name"]</expression>
+                                <property name="name">rsmRegion</property>
+                                <expression name="expression" type="javascript">dataSetRow["rsmRegion"]</expression>
                                 <property name="dataType">string</property>
                             </structure>
                             <structure>
@@ -6788,7 +7509,7 @@ order by rdw.duration desc;]]></xml-property>
                 <property name="height">3.8229166666666665in</property>
                 <cell id="706">
                     <property name="textAlign">center</property>
-                    <extended-item extensionName="Chart" id="1358">
+                    <extended-item extensionName="Chart" id="1261">
                         <xml-property name="xmlRepresentation"><![CDATA[<model:ChartWithAxes xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:attribute="http://www.birt.eclipse.org/ChartModelAttribute" xmlns:data="http://www.birt.eclipse.org/ChartModelData" xmlns:layout="http://www.birt.eclipse.org/ChartModelLayout" xmlns:model="http://www.birt.eclipse.org/ChartModel" xmlns:type="http://www.birt.eclipse.org/ChartModelType">
   <Version>2.6.1</Version>
   <Type>Line Chart</Type>
@@ -6963,7 +7684,7 @@ order by rdw.duration desc;]]></xml-property>
       <Text>
         <Value></Value>
         <Font>
-          <Name>Microsoft YaHei UI</Name>
+          <Name>Arial</Name>
           <Alignment/>
         </Font>
       </Text>
@@ -7176,7 +7897,7 @@ order by rdw.duration desc;]]></xml-property>
       <TitlePosition>Left</TitlePosition>
       <SeriesDefinitions>
         <Query>
-          <Definition>row[&quot;name&quot;]</Definition>
+          <Definition>row[&quot;rsmRegion&quot;]</Definition>
           <Grouping>
             <GroupType>Text</GroupType>
           </Grouping>
@@ -7532,6 +8253,9 @@ order by rdw.duration desc;]]></xml-property>
         </Insets>
         <Visible>true</Visible>
       </Label>
+      <FormatSpecifier xsi:type="attribute:JavaNumberFormatSpecifier">
+        <Pattern>##,###</Pattern>
+      </FormatSpecifier>
       <LabelPosition>Left</LabelPosition>
       <MajorGrid>
         <LineAttributes>
@@ -7978,7 +8702,7 @@ order by rdw.duration desc;]]></xml-property>
                         <property name="pageBreakAfter">avoid</property>
                         <property name="height">3.6in</property>
                         <property name="width">5in</property>
-                        <property name="dataSet">dsmweeklyLSNumDataSet</property>
+                        <property name="dataSet">centralRSMweeklyLSNumDataSet</property>
                         <list-property name="boundDataColumns">
                             <structure>
                                 <property name="name">duration</property>
@@ -7986,8 +8710,8 @@ order by rdw.duration desc;]]></xml-property>
                                 <property name="dataType">string</property>
                             </structure>
                             <structure>
-                                <property name="name">name</property>
-                                <expression name="expression" type="javascript">dataSetRow["name"]</expression>
+                                <property name="name">rsmRegion</property>
+                                <expression name="expression" type="javascript">dataSetRow["rsmRegion"]</expression>
                                 <property name="dataType">string</property>
                             </structure>
                             <structure>
@@ -8012,7 +8736,7 @@ order by rdw.duration desc;]]></xml-property>
                 <property name="height">3.8229166666666665in</property>
                 <cell id="717">
                     <property name="textAlign">center</property>
-                    <extended-item extensionName="Chart" id="1363">
+                    <extended-item extensionName="Chart" id="1262">
                         <xml-property name="xmlRepresentation"><![CDATA[<model:ChartWithAxes xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:attribute="http://www.birt.eclipse.org/ChartModelAttribute" xmlns:data="http://www.birt.eclipse.org/ChartModelData" xmlns:layout="http://www.birt.eclipse.org/ChartModelLayout" xmlns:model="http://www.birt.eclipse.org/ChartModel" xmlns:type="http://www.birt.eclipse.org/ChartModelType">
   <Version>2.6.1</Version>
   <Type>Line Chart</Type>
@@ -8193,7 +8917,7 @@ order by rdw.duration desc;]]></xml-property>
       <Text>
         <Value></Value>
         <Font>
-          <Name>Microsoft YaHei UI</Name>
+          <Name>Arial</Name>
           <Alignment/>
         </Font>
       </Text>
@@ -8408,7 +9132,7 @@ order by rdw.duration desc;]]></xml-property>
       <TitlePosition>Left</TitlePosition>
       <SeriesDefinitions>
         <Query>
-          <Definition>row[&quot;name&quot;]</Definition>
+          <Definition>row[&quot;rsmRegion&quot;]</Definition>
           <Grouping>
             <GroupType>Text</GroupType>
           </Grouping>
@@ -9213,7 +9937,7 @@ order by rdw.duration desc;]]></xml-property>
                         <property name="pageBreakAfter">avoid</property>
                         <property name="height">3.6in</property>
                         <property name="width">5in</property>
-                        <property name="dataSet">dsmweeklyRESWhRateDataSet</property>
+                        <property name="dataSet">centralRSMweeklyRESWhRateDataSet</property>
                         <list-property name="boundDataColumns">
                             <structure>
                                 <property name="name">duration</property>
@@ -9221,8 +9945,8 @@ order by rdw.duration desc;]]></xml-property>
                                 <property name="dataType">string</property>
                             </structure>
                             <structure>
-                                <property name="name">name</property>
-                                <expression name="expression" type="javascript">dataSetRow["name"]</expression>
+                                <property name="name">rsmRegion</property>
+                                <expression name="expression" type="javascript">dataSetRow["rsmRegion"]</expression>
                                 <property name="dataType">string</property>
                             </structure>
                             <structure>
@@ -9247,7 +9971,7 @@ order by rdw.duration desc;]]></xml-property>
                 <property name="height">3.8229166666666665in</property>
                 <cell id="723">
                     <property name="textAlign">center</property>
-                    <extended-item extensionName="Chart" id="1368">
+                    <extended-item extensionName="Chart" id="724">
                         <xml-property name="xmlRepresentation"><![CDATA[<model:ChartWithAxes xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:attribute="http://www.birt.eclipse.org/ChartModelAttribute" xmlns:data="http://www.birt.eclipse.org/ChartModelData" xmlns:layout="http://www.birt.eclipse.org/ChartModelLayout" xmlns:model="http://www.birt.eclipse.org/ChartModel" xmlns:type="http://www.birt.eclipse.org/ChartModelType">
   <Version>2.6.1</Version>
   <Type>Line Chart</Type>
@@ -9422,7 +10146,7 @@ order by rdw.duration desc;]]></xml-property>
       <Text>
         <Value></Value>
         <Font>
-          <Name>Microsoft YaHei UI</Name>
+          <Name>Arial</Name>
           <Alignment/>
         </Font>
       </Text>
@@ -9635,7 +10359,7 @@ order by rdw.duration desc;]]></xml-property>
       <TitlePosition>Left</TitlePosition>
       <SeriesDefinitions>
         <Query>
-          <Definition>row[&quot;name&quot;]</Definition>
+          <Definition>row[&quot;rsmRegion&quot;]</Definition>
           <Grouping>
             <GroupType>Text</GroupType>
           </Grouping>
@@ -10325,7 +11049,6 @@ order by rdw.duration desc;]]></xml-property>
         <Value></Value>
         <Font>
           <Name>Arial</Name>
-          <Size>8.0</Size>
           <Italic>false</Italic>
           <Alignment/>
           <Rotation>75.0</Rotation>
@@ -10438,7 +11161,7 @@ order by rdw.duration desc;]]></xml-property>
                         <property name="pageBreakAfter">avoid</property>
                         <property name="height">3.6in</property>
                         <property name="width">5in</property>
-                        <property name="dataSet">dsmweeklyRESAverageDoseDataSet</property>
+                        <property name="dataSet">centralRSMweeklyRESAverageDoseDataSet</property>
                         <list-property name="boundDataColumns">
                             <structure>
                                 <property name="name">duration</property>
@@ -10446,8 +11169,8 @@ order by rdw.duration desc;]]></xml-property>
                                 <property name="dataType">string</property>
                             </structure>
                             <structure>
-                                <property name="name">name</property>
-                                <expression name="expression" type="javascript">dataSetRow["name"]</expression>
+                                <property name="name">rsmRegion</property>
+                                <expression name="expression" type="javascript">dataSetRow["rsmRegion"]</expression>
                                 <property name="dataType">string</property>
                             </structure>
                             <structure>
@@ -10472,7 +11195,7 @@ order by rdw.duration desc;]]></xml-property>
                 <property name="height">3.8229166666666665in</property>
                 <cell id="729">
                     <property name="textAlign">center</property>
-                    <extended-item extensionName="Chart" id="1373">
+                    <extended-item extensionName="Chart" id="1263">
                         <xml-property name="xmlRepresentation"><![CDATA[<model:ChartWithAxes xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:attribute="http://www.birt.eclipse.org/ChartModelAttribute" xmlns:data="http://www.birt.eclipse.org/ChartModelData" xmlns:layout="http://www.birt.eclipse.org/ChartModelLayout" xmlns:model="http://www.birt.eclipse.org/ChartModel" xmlns:type="http://www.birt.eclipse.org/ChartModelType">
   <Version>2.6.1</Version>
   <Type>Line Chart</Type>
@@ -10647,7 +11370,7 @@ order by rdw.duration desc;]]></xml-property>
       <Text>
         <Value></Value>
         <Font>
-          <Name>Microsoft YaHei UI</Name>
+          <Name>Arial</Name>
           <Alignment/>
         </Font>
       </Text>
@@ -10860,7 +11583,7 @@ order by rdw.duration desc;]]></xml-property>
       <TitlePosition>Left</TitlePosition>
       <SeriesDefinitions>
         <Query>
-          <Definition>row[&quot;name&quot;]</Definition>
+          <Definition>row[&quot;rsmRegion&quot;]</Definition>
           <Grouping>
             <GroupType>Text</GroupType>
           </Grouping>
@@ -11554,7 +12277,6 @@ order by rdw.duration desc;]]></xml-property>
         <Value></Value>
         <Font>
           <Name>Arial</Name>
-          <Size>8.0</Size>
           <Alignment/>
           <Rotation>75.0</Rotation>
         </Font>
@@ -11665,7 +12387,7 @@ order by rdw.duration desc;]]></xml-property>
                         <property name="pageBreakAfter">avoid</property>
                         <property name="height">3.6in</property>
                         <property name="width">5in</property>
-                        <property name="dataSet">dsmweeklyRESWhRateL3DataSet</property>
+                        <property name="dataSet">centralRSMweeklyRESWhRateL3DataSet</property>
                         <list-property name="boundDataColumns">
                             <structure>
                                 <property name="name">duration</property>
@@ -11673,8 +12395,8 @@ order by rdw.duration desc;]]></xml-property>
                                 <property name="dataType">string</property>
                             </structure>
                             <structure>
-                                <property name="name">name</property>
-                                <expression name="expression" type="javascript">dataSetRow["name"]</expression>
+                                <property name="name">rsmRegion</property>
+                                <expression name="expression" type="javascript">dataSetRow["rsmRegion"]</expression>
                                 <property name="dataType">string</property>
                             </structure>
                             <structure>
@@ -11699,7 +12421,7 @@ order by rdw.duration desc;]]></xml-property>
                 <property name="height">3.8229166666666665in</property>
                 <cell id="734">
                     <property name="textAlign">center</property>
-                    <extended-item extensionName="Chart" id="1378">
+                    <extended-item extensionName="Chart" id="735">
                         <xml-property name="xmlRepresentation"><![CDATA[<model:ChartWithAxes xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:attribute="http://www.birt.eclipse.org/ChartModelAttribute" xmlns:data="http://www.birt.eclipse.org/ChartModelData" xmlns:layout="http://www.birt.eclipse.org/ChartModelLayout" xmlns:model="http://www.birt.eclipse.org/ChartModel" xmlns:type="http://www.birt.eclipse.org/ChartModelType">
   <Version>2.6.1</Version>
   <Type>Line Chart</Type>
@@ -11874,7 +12596,7 @@ order by rdw.duration desc;]]></xml-property>
       <Text>
         <Value></Value>
         <Font>
-          <Name>Microsoft YaHei UI</Name>
+          <Name>Arial</Name>
           <Alignment/>
         </Font>
       </Text>
@@ -12087,7 +12809,7 @@ order by rdw.duration desc;]]></xml-property>
       <TitlePosition>Left</TitlePosition>
       <SeriesDefinitions>
         <Query>
-          <Definition>row[&quot;name&quot;]</Definition>
+          <Definition>row[&quot;rsmRegion&quot;]</Definition>
           <Grouping>
             <GroupType>Text</GroupType>
           </Grouping>
@@ -12781,7 +13503,6 @@ order by rdw.duration desc;]]></xml-property>
         <Value></Value>
         <Font>
           <Name>Arial</Name>
-          <Size>8.0</Size>
           <Alignment/>
           <Rotation>75.0</Rotation>
         </Font>
@@ -12891,7 +13612,7 @@ order by rdw.duration desc;]]></xml-property>
                         <property name="pageBreakAfter">avoid</property>
                         <property name="height">3.6in</property>
                         <property name="width">5in</property>
-                        <property name="dataSet">dsmweeklyRESWhRateL2DataSet</property>
+                        <property name="dataSet">centralRSMweeklyRESWhRateL2DataSet</property>
                         <list-property name="boundDataColumns">
                             <structure>
                                 <property name="name">duration</property>
@@ -12899,8 +13620,8 @@ order by rdw.duration desc;]]></xml-property>
                                 <property name="dataType">string</property>
                             </structure>
                             <structure>
-                                <property name="name">name</property>
-                                <expression name="expression" type="javascript">dataSetRow["name"]</expression>
+                                <property name="name">rsmRegion</property>
+                                <expression name="expression" type="javascript">dataSetRow["rsmRegion"]</expression>
                                 <property name="dataType">string</property>
                             </structure>
                             <structure>

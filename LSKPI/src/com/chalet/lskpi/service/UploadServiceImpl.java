@@ -6,13 +6,16 @@ import java.util.Map;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.chalet.lskpi.dao.HospitalDAO;
+import com.chalet.lskpi.dao.PropertyDAO;
 import com.chalet.lskpi.dao.UserDAO;
 import com.chalet.lskpi.model.Doctor;
+import com.chalet.lskpi.model.Property;
 
 @Service("uploadService")
 @Transactional(propagation=Propagation.REQUIRED, rollbackFor=Exception.class)
@@ -25,6 +28,10 @@ public class UploadServiceImpl implements UploadService {
     @Autowired
     @Qualifier("hospitalDAO")
     private HospitalDAO hospitalDAO;
+    
+    @Autowired
+    @Qualifier("propertyDAO")
+    private PropertyDAO propertyDAO;
     
     Logger logger = Logger.getLogger(UploadServiceImpl.class);
 
@@ -48,6 +55,20 @@ public class UploadServiceImpl implements UploadService {
             userDAO.insertHosUsers(allInfos.get("hosUsers"));
             long hosUserFinish = System.currentTimeMillis();
             logger.info("time spent to insert the hospital infos into DB is " + (hosUserFinish - hosFinish) + " ms");
+            
+            List<Property> properties = allInfos.get("regionNames");
+            for( Property property : properties ){
+                try{
+                    propertyDAO.getPropertyValueByName(property.getPropertyName());
+                    
+                    propertyDAO.update(property);
+                }catch(EmptyResultDataAccessException eda){
+                    propertyDAO.insert(property);
+                }
+            }
+            long propertyFinish = System.currentTimeMillis();
+            logger.info("time spent to insert the property infos into DB is " + (propertyFinish - hosUserFinish) + " ms");
+            
         }catch(Exception e){
             logger.error("fail to update the all data,",e);
             throw new Exception("更新层级失败");

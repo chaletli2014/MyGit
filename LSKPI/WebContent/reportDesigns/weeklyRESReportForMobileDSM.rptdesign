@@ -3205,6 +3205,7 @@ where telephone=?]]></xml-property>
         <Visible>false</Visible>
       </Title>
       <TitlePosition>Above</TitlePosition>
+      <Ellipsis>0</Ellipsis>
     </Children>
     <Bounds>
       <Left>0.0</Left>
@@ -4846,6 +4847,7 @@ where telephone=?]]></xml-property>
         <Visible>false</Visible>
       </Title>
       <TitlePosition>Above</TitlePosition>
+      <Ellipsis>0</Ellipsis>
     </Children>
     <Bounds>
       <Left>0.0</Left>
@@ -6078,6 +6080,7 @@ where telephone=?]]></xml-property>
         <Visible>false</Visible>
       </Title>
       <TitlePosition>Above</TitlePosition>
+      <Ellipsis>0</Ellipsis>
     </Children>
     <Bounds>
       <Left>0.0</Left>
@@ -7307,6 +7310,7 @@ where telephone=?]]></xml-property>
         <Visible>false</Visible>
       </Title>
       <TitlePosition>Above</TitlePosition>
+      <Ellipsis>0</Ellipsis>
     </Children>
     <Bounds>
       <Left>0.0</Left>
@@ -8531,6 +8535,7 @@ where telephone=?]]></xml-property>
         <Visible>false</Visible>
       </Title>
       <TitlePosition>Above</TitlePosition>
+      <Ellipsis>0</Ellipsis>
     </Children>
     <Bounds>
       <Left>0.0</Left>
@@ -9758,6 +9763,7 @@ where telephone=?]]></xml-property>
         <Visible>false</Visible>
       </Title>
       <TitlePosition>Above</TitlePosition>
+      <Ellipsis>0</Ellipsis>
     </Children>
     <Bounds>
       <Left>0.0</Left>

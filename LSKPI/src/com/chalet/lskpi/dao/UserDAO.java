@@ -37,4 +37,6 @@ public interface UserDAO {
     public void deleteBMUsers() throws Exception;
     
     public List<UserInfo> getSalesOfCurrentUser(UserInfo currentUser ) throws Exception;
+    
+    public List<String> getAllRegionName() throws Exception;
 }

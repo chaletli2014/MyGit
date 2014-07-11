@@ -47,451 +47,6 @@
         </oda-data-source>
     </data-sources>
     <data-sets>
-        <oda-data-set extensionID="org.eclipse.birt.report.data.oda.jdbc.JdbcSelectDataSet" name="rsdRESDataSet" id="12">
-            <property name="nullsOrdering">nulls lowest</property>
-            <list-property name="computedColumns">
-                <structure>
-                    <property name="name">numRate</property>
-                    <property name="dataType">float</property>
-                    <property name="aggregateFunction">RUNNINGCOUNT</property>
-                    <list-property name="arguments">
-                        <structure>
-                            <property name="name">Expression</property>
-                            <expression name="value">row["inNum"]/row["hosNum"]</expression>
-                        </structure>
-                    </list-property>
-                </structure>
-            </list-property>
-            <list-property name="columnHints">
-                <structure>
-                    <property name="columnName">name</property>
-                    <property name="analysis">dimension</property>
-                    <text-property name="displayName">name</text-property>
-                    <text-property name="heading">name</text-property>
-                </structure>
-                <structure>
-                    <property name="columnName">userCode</property>
-                    <property name="analysis">dimension</property>
-                    <text-property name="displayName">userCode</text-property>
-                    <text-property name="heading">userCode</text-property>
-                </structure>
-                <structure>
-                    <property name="columnName">regionCenter</property>
-                    <property name="analysis">dimension</property>
-                    <text-property name="displayName">regionCenter</text-property>
-                    <text-property name="heading">regionCenter</text-property>
-                </structure>
-                <structure>
-                    <property name="columnName">region</property>
-                    <property name="analysis">dimension</property>
-                    <text-property name="displayName">region</text-property>
-                    <text-property name="heading">region</text-property>
-                </structure>
-                <structure>
-                    <property name="columnName">level</property>
-                    <property name="analysis">dimension</property>
-                    <text-property name="displayName">level</text-property>
-                    <text-property name="heading">level</text-property>
-                </structure>
-                <structure>
-                    <property name="columnName">hosNum</property>
-                    <property name="analysis">measure</property>
-                    <text-property name="displayName">hosNum</text-property>
-                    <text-property name="heading">hosNum</text-property>
-                </structure>
-                <structure>
-                    <property name="columnName">inNum</property>
-                    <property name="analysis">measure</property>
-                    <text-property name="displayName">inNum</text-property>
-                    <text-property name="heading">inNum</text-property>
-                </structure>
-                <structure>
-                    <property name="columnName">pnum</property>
-                    <property name="analysis">measure</property>
-                    <text-property name="displayName">pnum</text-property>
-                    <text-property name="heading">pnum</text-property>
-                </structure>
-                <structure>
-                    <property name="columnName">aenum</property>
-                    <property name="analysis">measure</property>
-                    <text-property name="displayName">aenum</text-property>
-                    <text-property name="heading">aenum</text-property>
-                </structure>
-                <structure>
-                    <property name="columnName">whnum</property>
-                    <property name="analysis">measure</property>
-                    <text-property name="displayName">whnum</text-property>
-                    <text-property name="heading">whnum</text-property>
-                </structure>
-                <structure>
-                    <property name="columnName">lsnum</property>
-                    <property name="analysis">measure</property>
-                    <text-property name="displayName">lsnum</text-property>
-                    <text-property name="heading">lsnum</text-property>
-                </structure>
-                <structure>
-                    <property name="columnName">averageDose</property>
-                    <property name="analysis">measure</property>
-                    <text-property name="displayName">averageDose</text-property>
-                    <text-property name="heading">averageDose</text-property>
-                </structure>
-                <structure>
-                    <property name="columnName">omgRate</property>
-                    <property name="analysis">measure</property>
-                    <text-property name="displayName">omgRate</text-property>
-                    <text-property name="heading">omgRate</text-property>
-                </structure>
-                <structure>
-                    <property name="columnName">tmgRate</property>
-                    <property name="analysis">measure</property>
-                    <text-property name="displayName">tmgRate</text-property>
-                    <text-property name="heading">tmgRate</text-property>
-                </structure>
-                <structure>
-                    <property name="columnName">thmgRate</property>
-                    <property name="analysis">measure</property>
-                    <text-property name="displayName">thmgRate</text-property>
-                    <text-property name="heading">thmgRate</text-property>
-                </structure>
-                <structure>
-                    <property name="columnName">fmgRate</property>
-                    <property name="analysis">measure</property>
-                    <text-property name="displayName">fmgRate</text-property>
-                    <text-property name="heading">fmgRate</text-property>
-                </structure>
-                <structure>
-                    <property name="columnName">smgRate</property>
-                    <property name="analysis">measure</property>
-                    <text-property name="displayName">smgRate</text-property>
-                    <text-property name="heading">smgRate</text-property>
-                </structure>
-                <structure>
-                    <property name="columnName">emgRate</property>
-                    <property name="analysis">measure</property>
-                    <text-property name="displayName">emgRate</text-property>
-                    <text-property name="heading">emgRate</text-property>
-                </structure>
-            </list-property>
-            <list-property name="parameters"/>
-            <structure name="cachedMetaData">
-                <list-property name="resultSet">
-                    <structure>
-                        <property name="position">1</property>
-                        <property name="name">name</property>
-                        <property name="dataType">string</property>
-                    </structure>
-                    <structure>
-                        <property name="position">2</property>
-                        <property name="name">userCode</property>
-                        <property name="dataType">string</property>
-                    </structure>
-                    <structure>
-                        <property name="position">3</property>
-                        <property name="name">regionCenter</property>
-                        <property name="dataType">string</property>
-                    </structure>
-                    <structure>
-                        <property name="position">4</property>
-                        <property name="name">region</property>
-                        <property name="dataType">string</property>
-                    </structure>
-                    <structure>
-                        <property name="position">5</property>
-                        <property name="name">level</property>
-                        <property name="dataType">string</property>
-                    </structure>
-                    <structure>
-                        <property name="position">6</property>
-                        <property name="name">hosNum</property>
-                        <property name="dataType">decimal</property>
-                    </structure>
-                    <structure>
-                        <property name="position">7</property>
-                        <property name="name">inNum</property>
-                        <property name="dataType">decimal</property>
-                    </structure>
-                    <structure>
-                        <property name="position">8</property>
-                        <property name="name">pnum</property>
-                        <property name="dataType">decimal</property>
-                    </structure>
-                    <structure>
-                        <property name="position">9</property>
-                        <property name="name">aenum</property>
-                        <property name="dataType">decimal</property>
-                    </structure>
-                    <structure>
-                        <property name="position">10</property>
-                        <property name="name">whnum</property>
-                        <property name="dataType">decimal</property>
-                    </structure>
-                    <structure>
-                        <property name="position">11</property>
-                        <property name="name">lsnum</property>
-                        <property name="dataType">decimal</property>
-                    </structure>
-                    <structure>
-                        <property name="position">12</property>
-                        <property name="name">averageDose</property>
-                        <property name="dataType">decimal</property>
-                    </structure>
-                    <structure>
-                        <property name="position">13</property>
-                        <property name="name">omgRate</property>
-                        <property name="dataType">decimal</property>
-                    </structure>
-                    <structure>
-                        <property name="position">14</property>
-                        <property name="name">tmgRate</property>
-                        <property name="dataType">decimal</property>
-                    </structure>
-                    <structure>
-                        <property name="position">15</property>
-                        <property name="name">thmgRate</property>
-                        <property name="dataType">decimal</property>
-                    </structure>
-                    <structure>
-                        <property name="position">16</property>
-                        <property name="name">fmgRate</property>
-                        <property name="dataType">decimal</property>
-                    </structure>
-                    <structure>
-                        <property name="position">17</property>
-                        <property name="name">smgRate</property>
-                        <property name="dataType">decimal</property>
-                    </structure>
-                    <structure>
-                        <property name="position">18</property>
-                        <property name="name">emgRate</property>
-                        <property name="dataType">decimal</property>
-                    </structure>
-                    <structure>
-                        <property name="position">19</property>
-                        <property name="name">numRate</property>
-                        <property name="dataType">float</property>
-                    </structure>
-                </list-property>
-            </structure>
-            <property name="dataSource">MySQLSource</property>
-            <list-property name="resultSet">
-                <structure>
-                    <property name="position">1</property>
-                    <property name="name">name</property>
-                    <property name="nativeName">name</property>
-                    <property name="dataType">string</property>
-                    <property name="nativeDataType">12</property>
-                </structure>
-                <structure>
-                    <property name="position">2</property>
-                    <property name="name">userCode</property>
-                    <property name="nativeName">userCode</property>
-                    <property name="dataType">string</property>
-                    <property name="nativeDataType">12</property>
-                </structure>
-                <structure>
-                    <property name="position">3</property>
-                    <property name="name">regionCenter</property>
-                    <property name="nativeName">regionCenter</property>
-                    <property name="dataType">string</property>
-                    <property name="nativeDataType">12</property>
-                </structure>
-                <structure>
-                    <property name="position">4</property>
-                    <property name="name">region</property>
-                    <property name="nativeName">region</property>
-                    <property name="dataType">string</property>
-                    <property name="nativeDataType">12</property>
-                </structure>
-                <structure>
-                    <property name="position">5</property>
-                    <property name="name">level</property>
-                    <property name="nativeName">level</property>
-                    <property name="dataType">string</property>
-                    <property name="nativeDataType">12</property>
-                </structure>
-                <structure>
-                    <property name="position">6</property>
-                    <property name="name">hosNum</property>
-                    <property name="nativeName">hosNum</property>
-                    <property name="dataType">decimal</property>
-                    <property name="nativeDataType">-5</property>
-                </structure>
-                <structure>
-                    <property name="position">7</property>
-                    <property name="name">inNum</property>
-                    <property name="nativeName">inNum</property>
-                    <property name="dataType">decimal</property>
-                    <property name="nativeDataType">3</property>
-                </structure>
-                <structure>
-                    <property name="position">8</property>
-                    <property name="name">pnum</property>
-                    <property name="nativeName">pnum</property>
-                    <property name="dataType">decimal</property>
-                    <property name="nativeDataType">3</property>
-                </structure>
-                <structure>
-                    <property name="position">9</property>
-                    <property name="name">aenum</property>
-                    <property name="nativeName">aenum</property>
-                    <property name="dataType">decimal</property>
-                    <property name="nativeDataType">3</property>
-                </structure>
-                <structure>
-                    <property name="position">10</property>
-                    <property name="name">whnum</property>
-                    <property name="nativeName">whnum</property>
-                    <property name="dataType">decimal</property>
-                    <property name="nativeDataType">3</property>
-                </structure>
-                <structure>
-                    <property name="position">11</property>
-                    <property name="name">lsnum</property>
-                    <property name="nativeName">lsnum</property>
-                    <property name="dataType">decimal</property>
-                    <property name="nativeDataType">3</property>
-                </structure>
-                <structure>
-                    <property name="position">12</property>
-                    <property name="name">averageDose</property>
-                    <property name="nativeName">averageDose</property>
-                    <property name="dataType">decimal</property>
-                    <property name="nativeDataType">3</property>
-                </structure>
-                <structure>
-                    <property name="position">13</property>
-                    <property name="name">omgRate</property>
-                    <property name="nativeName">omgRate</property>
-                    <property name="dataType">decimal</property>
-                    <property name="nativeDataType">3</property>
-                </structure>
-                <structure>
-                    <property name="position">14</property>
-                    <property name="name">tmgRate</property>
-                    <property name="nativeName">tmgRate</property>
-                    <property name="dataType">decimal</property>
-                    <property name="nativeDataType">3</property>
-                </structure>
-                <structure>
-                    <property name="position">15</property>
-                    <property name="name">thmgRate</property>
-                    <property name="nativeName">thmgRate</property>
-                    <property name="dataType">decimal</property>
-                    <property name="nativeDataType">3</property>
-                </structure>
-                <structure>
-                    <property name="position">16</property>
-                    <property name="name">fmgRate</property>
-                    <property name="nativeName">fmgRate</property>
-                    <property name="dataType">decimal</property>
-                    <property name="nativeDataType">3</property>
-                </structure>
-                <structure>
-                    <property name="position">17</property>
-                    <property name="name">smgRate</property>
-                    <property name="nativeName">smgRate</property>
-                    <property name="dataType">decimal</property>
-                    <property name="nativeDataType">3</property>
-                </structure>
-                <structure>
-                    <property name="position">18</property>
-                    <property name="name">emgRate</property>
-                    <property name="nativeName">emgRate</property>
-                    <property name="dataType">decimal</property>
-                    <property name="nativeDataType">3</property>
-                </structure>
-            </list-property>
-            <xml-property name="queryText"><![CDATA[select u.name,u.userCode,u.regionCenter,u.region,u.level, ( 
-    select count(1) from tbl_hospital h where h.region = u.regionCenter and h.isResAssessed='1' 
-) hosNum, (
-	select sum(inNum) from(
-    	select least(count(1),3) as inNum, h1.region, rd.hospitalName
-    	from tbl_respirology_data rd, tbl_hospital h1 
-    	where rd.hospitalName = h1.name 
-    	and rd.createdate between DATE_SUB(CURRENT_DATE, Interval 6 day) and CURRENT_DATE 
-    	and h1.isResAssessed='1' 
-    	group by rd.hospitalName ) inNumTemp 
-    where inNumTemp.region = u.regionCenter 
-) inNum, (
-    select IFNULL(sum(rd.pnum),0) 
-    from tbl_respirology_data rd, tbl_hospital h1 
-    where rd.hospitalName = h1.name 
-    and h1.region = u.regionCenter 
-    and rd.createdate between DATE_SUB(CURRENT_DATE, Interval 6 day) and CURRENT_DATE 
-    and h1.isResAssessed='1' 
-) pnum, (
-    select IFNULL(sum(rd.aenum),0) 
-    from tbl_respirology_data rd, tbl_hospital h1 
-    where rd.hospitalName = h1.name 
-    and h1.region = u.regionCenter 
-    and rd.createdate between DATE_SUB(CURRENT_DATE, Interval 6 day) and CURRENT_DATE 
-    and h1.isResAssessed='1' 
-) aenum, (
-    select IFNULL(sum(rd.whnum),0) 
-    from tbl_respirology_data rd, tbl_hospital h1 
-    where rd.hospitalName = h1.name 
-    and h1.region = u.regionCenter 
-    and rd.createdate between DATE_SUB(CURRENT_DATE, Interval 6 day) and CURRENT_DATE 
-    and h1.isResAssessed='1' 
-) whnum, (
-    select IFNULL(sum(rd.lsnum),0) 
-    from tbl_respirology_data rd, tbl_hospital h1 
-    where rd.hospitalName = h1.name 
-    and h1.region = u.regionCenter 
-    and rd.createdate between DATE_SUB(CURRENT_DATE, Interval 6 day) and CURRENT_DATE 
-    and h1.isResAssessed='1' 
-) lsnum, (
-    select IFNULL( sum( ( ( 1*IFNULL(rd.oqd,0) + 2*1*IFNULL(rd.tqd,0) + 1*3*IFNULL(rd.otid,0) + 2*2*IFNULL(rd.tbid,0) + 2*3*IFNULL(rd.ttid,0) + 3*2*IFNULL(rd.thbid,0) + 4*2*IFNULL(rd.fbid,0) ) / 100 ) * IFNULL(rd.lsnum,0) ) / IFNULL(sum(rd.lsnum),0),0 )
-    from tbl_respirology_data rd, tbl_hospital h1 
-    where rd.hospitalName = h1.name 
-    and h1.region = u.regionCenter 
-    and rd.createdate between DATE_SUB(CURRENT_DATE, Interval 6 day) and CURRENT_DATE 
-    and h1.isResAssessed='1' 
-) averageDose, (
-    select IFNULL( sum( IFNULL(rd.oqd,0)/100*IFNULL(rd.whnum,0) ) / sum( IFNULL(rd.whnum,0) ),0 )
-    from tbl_respirology_data rd, tbl_hospital h1 
-    where rd.hospitalName = h1.name 
-    and h1.region = u.regionCenter 
-    and rd.createdate between DATE_SUB(CURRENT_DATE, Interval 6 day) and CURRENT_DATE 
-    and h1.isResAssessed='1' 
-) omgRate, (
-    select IFNULL( sum( IFNULL(rd.tqd,0)/100*IFNULL(rd.whnum,0) ) / sum( IFNULL(rd.whnum,0) ),0 )
-    from tbl_respirology_data rd, tbl_hospital h1 
-    where rd.hospitalName = h1.name 
-    and h1.region = u.regionCenter 
-    and rd.createdate between DATE_SUB(CURRENT_DATE, Interval 6 day) and CURRENT_DATE 
-    and h1.isResAssessed='1' 
-) tmgRate, (
-    select IFNULL( sum( IFNULL(rd.otid,0)/100*IFNULL(rd.whnum,0) ) / sum( IFNULL(rd.whnum,0) ),0 )
-    from tbl_respirology_data rd, tbl_hospital h1 
-    where rd.hospitalName = h1.name 
-    and h1.region = u.regionCenter 
-    and rd.createdate between DATE_SUB(CURRENT_DATE, Interval 6 day) and CURRENT_DATE 
-    and h1.isResAssessed='1' 
-) thmgRate, (
-    select IFNULL( sum( IFNULL(rd.tbid,0)/100*IFNULL(rd.whnum,0) ) / sum( IFNULL(rd.whnum,0) ),0 )
-    from tbl_respirology_data rd, tbl_hospital h1 
-    where rd.hospitalName = h1.name 
-    and h1.region = u.regionCenter 
-    and rd.createdate between DATE_SUB(CURRENT_DATE, Interval 6 day) and CURRENT_DATE 
-    and h1.isResAssessed='1' 
-) fmgRate, (
-    select IFNULL( sum( IFNULL(rd.ttid,0)/100*IFNULL(rd.whnum,0) + IFNULL(rd.thbid,0)/100*IFNULL(rd.whnum,0) ) / sum( IFNULL(rd.whnum,0) ),0 ) 
-    from tbl_respirology_data rd, tbl_hospital h1 
-    where rd.hospitalName = h1.name 
-    and h1.region = u.regionCenter 
-    and rd.createdate between DATE_SUB(CURRENT_DATE, Interval 6 day) and CURRENT_DATE 
-    and h1.isResAssessed='1' 
-) smgRate, (
-    select IFNULL( sum( IFNULL(rd.fbid,0)/100*IFNULL(rd.whnum,0) ) / sum( IFNULL(rd.whnum,0) ),0 ) 
-    from tbl_respirology_data rd, tbl_hospital h1 
-    where rd.hospitalName = h1.name 
-    and h1.region = u.regionCenter 
-    and rd.createdate between DATE_SUB(CURRENT_DATE, Interval 6 day) and CURRENT_DATE 
-    and h1.isResAssessed='1' 
-) emgRate
-from tbl_userinfo u where u.level='RSD';]]></xml-property>
-        </oda-data-set>
         <oda-data-set extensionID="org.eclipse.birt.report.data.oda.jdbc.JdbcSelectDataSet" name="hospitalLevelDataSet" id="938">
             <list-property name="columnHints">
                 <structure>
@@ -558,15 +113,39 @@ from tbl_userinfo u where u.level='RSD';]]></xml-property>
                 </structure>
             </list-property>
             <xml-property name="queryText"><![CDATA[( 
-	select count(1) as thNum,0 as tNum, region 
-	from tbl_hospital 
+	select count(1) as thNum,
+	0 as tNum, 
+	(	case when 
+		h.region in (
+			select property_name 
+			from tbl_property p	)
+		then (
+			select property_value 
+			from tbl_property 
+			where property_name=h.region)
+		else h.region 
+		end
+	) region 
+	from tbl_hospital h
 	where level='3' 
 	and isResAssessed='1' 
 	group by region ) 
 UNION ALL 
 ( 
-	select 0 as thNum, count(1) as tNum,region 
-	from tbl_hospital 
+	select 0 as thNum, 
+	count(1) as tNum,
+	(	case when 
+		h.region in (
+			select property_name 
+			from tbl_property p	)
+		then (
+			select property_value 
+			from tbl_property 
+			where property_name=h.region)
+		else h.region 
+		end
+	) region 
+	from tbl_hospital h
 	where level!='3' 
 	and isResAssessed='1' 
 	group by region
@@ -1272,7 +851,17 @@ where telephone=?]]></xml-property>
                 </structure>
             </list-property>
             <xml-property name="queryText"><![CDATA[select rdw.duration, 
-h.region, 
+(	case when 
+	h.region in (
+		select property_name 
+		from tbl_property p	)
+	then (
+		select property_value 
+		from tbl_property 
+		where property_name=h.region)
+	else h.region 
+	end
+) region, 
 IFNULL(sum(rdw.lsnum),0) as lsnum 
 from 
 (
@@ -1418,7 +1007,17 @@ order by rdw.duration desc;]]></xml-property>
                 </structure>
             </list-property>
             <xml-property name="queryText"><![CDATA[select rdw.duration, 
-h.region, 
+(	case when 
+	h.region in (
+		select property_name 
+		from tbl_property p	)
+	then (
+		select property_value 
+		from tbl_property 
+		where property_name=h.region)
+	else h.region 
+	end
+) region, 
 IFNULL(sum(rdw.pnum),0) as pnum 
 from 
 (
@@ -1886,7 +1485,17 @@ order by rdw.duration desc;]]></xml-property>
                 </structure>
             </list-property>
             <xml-property name="queryText"><![CDATA[select rdw.duration, 
-h.region, 
+(	case when 
+	h.region in (
+		select property_name 
+		from tbl_property p	)
+	then (
+		select property_value 
+		from tbl_property 
+		where property_name=h.region)
+	else h.region 
+	end
+) region, 
 IFNULL(sum(rdw.averageDose*rdw.lsnum)/sum(rdw.lsnum),0) as averageDose 
 from 
 (
@@ -2039,7 +1648,17 @@ order by rdw.duration desc;]]></xml-property>
                 </structure>
             </list-property>
             <xml-property name="queryText"><![CDATA[select rdw.duration, 
-h.region, 
+(	case when 
+	h.region in (
+		select property_name 
+		from tbl_property p	)
+	then (
+		select property_value 
+		from tbl_property 
+		where property_name=h.region)
+	else h.region 
+	end
+) region, 
 IFNULL(sum(rdw.lsnum)/sum(rdw.pnum),0) as whRate 
 from 
 (
@@ -2191,7 +1810,17 @@ order by rdw.duration desc;]]></xml-property>
                 </structure>
             </list-property>
             <xml-property name="queryText"><![CDATA[select rdw.duration, 
-h.region, 
+(	case when 
+	h.region in (
+		select property_name 
+		from tbl_property p	)
+	then (
+		select property_value 
+		from tbl_property 
+		where property_name=h.region)
+	else h.region 
+	end
+) region, 
 IFNULL(sum(rdw.lsnum)/sum(rdw.pnum),0) as whRate 
 from 
 (
@@ -2344,7 +1973,17 @@ order by rdw.duration desc;]]></xml-property>
                 </structure>
             </list-property>
             <xml-property name="queryText"><![CDATA[select rdw.duration, 
-h.region, 
+(	case when 
+	h.region in (
+		select property_name 
+		from tbl_property p	)
+	then (
+		select property_value 
+		from tbl_property 
+		where property_name=h.region)
+	else h.region 
+	end
+) region, 
 IFNULL(sum(rdw.lsnum)/sum(rdw.pnum),0) as whRate 
 from 
 (
@@ -4850,21 +4489,7 @@ order by rdw.duration desc;]]></xml-property>
           <Visible>false</Visible>
         </Label>
         <DataDefinition>
-          <Definition>if( row[&quot;region&quot;] == 'Central GRA' ){&#xD;
-	'中区'&#xD;
-}else if ( row[&quot;region&quot;] == 'East1 GRA' ){&#xD;
-	'东一区'&#xD;
-}else if ( row[&quot;region&quot;] == 'East2 GRA' ){&#xD;
-	'东二区'&#xD;
-}else if ( row[&quot;region&quot;] == 'North GRA' ){&#xD;
-	'北区'&#xD;
-}else if ( row[&quot;region&quot;] == 'South GRA' ){&#xD;
-	'南区'&#xD;
-}else if( row[&quot;region&quot;] == 'West GRA' ){&#xD;
-	'西区'&#xD;
-}else{&#xD;
-	row[&quot;region&quot;]&#xD;
-}</Definition>
+          <Definition>row[&quot;region&quot;]</Definition>
         </DataDefinition>
         <SeriesIdentifier></SeriesIdentifier>
         <DataPoint>
@@ -4902,7 +4527,7 @@ order by rdw.duration desc;]]></xml-property>
           <Size>8.0</Size>
           <Bold>false</Bold>
           <Alignment/>
-          <Rotation>0.0</Rotation>
+          <Rotation>75.0</Rotation>
         </Font>
       </Caption>
       <Background xsi:type="attribute:ColorDefinition">
@@ -5275,6 +4900,7 @@ order by rdw.duration desc;]]></xml-property>
         <Visible>false</Visible>
       </Title>
       <TitlePosition>Above</TitlePosition>
+      <Ellipsis>0</Ellipsis>
     </Children>
     <Bounds>
       <Left>0.0</Left>
@@ -5440,19 +5066,7 @@ order by rdw.duration desc;]]></xml-property>
       <TitlePosition>Left</TitlePosition>
       <SeriesDefinitions>
         <Query>
-          <Definition>if( row[&quot;region&quot;] == 'Central GRA' ){&#xD;
-	'中区'&#xD;
-}else if( row[&quot;region&quot;] == 'East1 GRA' ){&#xD;
-	'东一区'&#xD;
-}else if( row[&quot;region&quot;] == 'East2 GRA' ){&#xD;
-	'东二区'&#xD;
-}else if( row[&quot;region&quot;] == 'North GRA' ){&#xD;
-	'北区'&#xD;
-}else if( row[&quot;region&quot;] == 'South GRA' ){&#xD;
-	'南区'&#xD;
-}else if( row[&quot;region&quot;] == 'West GRA' ){&#xD;
-	'西区'&#xD;
-}</Definition>
+          <Definition>row[&quot;region&quot;]</Definition>
           <Grouping>
             <GroupType>Text</GroupType>
           </Grouping>
@@ -6927,6 +6541,7 @@ order by rdw.duration desc;]]></xml-property>
         <Visible>false</Visible>
       </Title>
       <TitlePosition>Above</TitlePosition>
+      <Ellipsis>0</Ellipsis>
     </Children>
     <Bounds>
       <Left>0.0</Left>
@@ -7087,19 +6702,7 @@ order by rdw.duration desc;]]></xml-property>
       <TitlePosition>Left</TitlePosition>
       <SeriesDefinitions>
         <Query>
-          <Definition>if( row[&quot;region&quot;] == 'Central GRA' ){&#xD;
-	'中区'&#xD;
-}else if( row[&quot;region&quot;] == 'East1 GRA' ){&#xD;
-	'东一区'&#xD;
-}else if( row[&quot;region&quot;] == 'East2 GRA' ){&#xD;
-	'东二区'&#xD;
-}else if( row[&quot;region&quot;] == 'North GRA' ){&#xD;
-	'北区'&#xD;
-}else if( row[&quot;region&quot;] == 'South GRA' ){&#xD;
-	'南区'&#xD;
-}else if( row[&quot;region&quot;] == 'West GRA' ){&#xD;
-	'西区'&#xD;
-}</Definition>
+          <Definition>row[&quot;region&quot;]</Definition>
           <Grouping>
             <GroupType>Text</GroupType>
           </Grouping>
@@ -8326,19 +7929,7 @@ order by rdw.duration desc;]]></xml-property>
       <TitlePosition>Left</TitlePosition>
       <SeriesDefinitions>
         <Query>
-          <Definition>if( row[&quot;region&quot;] == 'Central GRA' ){&#xD;
-	'中区'&#xD;
-}else if( row[&quot;region&quot;] == 'East1 GRA' ){&#xD;
-	'东一区'&#xD;
-}else if( row[&quot;region&quot;] == 'East2 GRA' ){&#xD;
-	'东二区'&#xD;
-}else if( row[&quot;region&quot;] == 'North GRA' ){&#xD;
-	'北区'&#xD;
-}else if( row[&quot;region&quot;] == 'South GRA' ){&#xD;
-	'南区'&#xD;
-}else if( row[&quot;region&quot;] == 'West GRA' ){&#xD;
-	'西区'&#xD;
-}</Definition>
+          <Definition>row[&quot;region&quot;]</Definition>
           <Grouping>
             <GroupType>Text</GroupType>
           </Grouping>
@@ -9412,6 +9003,7 @@ order by rdw.duration desc;]]></xml-property>
         <Visible>false</Visible>
       </Title>
       <TitlePosition>Above</TitlePosition>
+      <Ellipsis>0</Ellipsis>
     </Children>
     <Bounds>
       <Left>0.0</Left>
@@ -9574,19 +9166,7 @@ order by rdw.duration desc;]]></xml-property>
       <TitlePosition>Left</TitlePosition>
       <SeriesDefinitions>
         <Query>
-          <Definition>if( row[&quot;region&quot;] == 'Central GRA' ){&#xD;
-	'中区'&#xD;
-}else if( row[&quot;region&quot;] == 'East1 GRA' ){&#xD;
-	'东一区'&#xD;
-}else if( row[&quot;region&quot;] == 'East2 GRA' ){&#xD;
-	'东二区'&#xD;
-}else if( row[&quot;region&quot;] == 'North GRA' ){&#xD;
-	'北区'&#xD;
-}else if( row[&quot;region&quot;] == 'South GRA' ){&#xD;
-	'南区'&#xD;
-}else if( row[&quot;region&quot;] == 'West GRA' ){&#xD;
-	'西区'&#xD;
-}</Definition>
+          <Definition>row[&quot;region&quot;]</Definition>
           <Grouping>
             <GroupType>Text</GroupType>
           </Grouping>
@@ -10652,6 +10232,7 @@ order by rdw.duration desc;]]></xml-property>
         <Visible>false</Visible>
       </Title>
       <TitlePosition>Above</TitlePosition>
+      <Ellipsis>0</Ellipsis>
     </Children>
     <Bounds>
       <Left>0.0</Left>
@@ -10812,19 +10393,7 @@ order by rdw.duration desc;]]></xml-property>
       <TitlePosition>Left</TitlePosition>
       <SeriesDefinitions>
         <Query>
-          <Definition>if( row[&quot;region&quot;] == 'Central GRA' ){&#xD;
-	'中区'&#xD;
-}else if( row[&quot;region&quot;] == 'East1 GRA' ){&#xD;
-	'东一区'&#xD;
-}else if( row[&quot;region&quot;] == 'East2 GRA' ){&#xD;
-	'东二区'&#xD;
-}else if( row[&quot;region&quot;] == 'North GRA' ){&#xD;
-	'北区'&#xD;
-}else if( row[&quot;region&quot;] == 'South GRA' ){&#xD;
-	'南区'&#xD;
-}else if( row[&quot;region&quot;] == 'West GRA' ){&#xD;
-	'西区'&#xD;
-}</Definition>
+          <Definition>row[&quot;region&quot;]</Definition>
           <Grouping>
             <GroupType>Text</GroupType>
           </Grouping>
@@ -11887,6 +11456,7 @@ order by rdw.duration desc;]]></xml-property>
         <Visible>false</Visible>
       </Title>
       <TitlePosition>Above</TitlePosition>
+      <Ellipsis>0</Ellipsis>
     </Children>
     <Bounds>
       <Left>0.0</Left>
@@ -12047,19 +11617,7 @@ order by rdw.duration desc;]]></xml-property>
       <TitlePosition>Left</TitlePosition>
       <SeriesDefinitions>
         <Query>
-          <Definition>if( row[&quot;region&quot;] == 'Central GRA' ){&#xD;
-	'中区'&#xD;
-}else if( row[&quot;region&quot;] == 'East1 GRA' ){&#xD;
-	'东一区'&#xD;
-}else if( row[&quot;region&quot;] == 'East2 GRA' ){&#xD;
-	'东二区'&#xD;
-}else if( row[&quot;region&quot;] == 'North GRA' ){&#xD;
-	'北区'&#xD;
-}else if( row[&quot;region&quot;] == 'South GRA' ){&#xD;
-	'南区'&#xD;
-}else if( row[&quot;region&quot;] == 'West GRA' ){&#xD;
-	'西区'&#xD;
-}</Definition>
+          <Definition>row[&quot;region&quot;]</Definition>
           <Grouping>
             <GroupType>Text</GroupType>
           </Grouping>
@@ -13126,6 +12684,7 @@ order by rdw.duration desc;]]></xml-property>
         <Visible>false</Visible>
       </Title>
       <TitlePosition>Above</TitlePosition>
+      <Ellipsis>0</Ellipsis>
     </Children>
     <Bounds>
       <Left>0.0</Left>
@@ -13286,19 +12845,7 @@ order by rdw.duration desc;]]></xml-property>
       <TitlePosition>Left</TitlePosition>
       <SeriesDefinitions>
         <Query>
-          <Definition>if( row[&quot;region&quot;] == 'Central GRA' ){&#xD;
-	'中区'&#xD;
-}else if( row[&quot;region&quot;] == 'East1 GRA' ){&#xD;
-	'东一区'&#xD;
-}else if( row[&quot;region&quot;] == 'East2 GRA' ){&#xD;
-	'东二区'&#xD;
-}else if( row[&quot;region&quot;] == 'North GRA' ){&#xD;
-	'北区'&#xD;
-}else if( row[&quot;region&quot;] == 'South GRA' ){&#xD;
-	'南区'&#xD;
-}else if( row[&quot;region&quot;] == 'West GRA' ){&#xD;
-	'西区'&#xD;
-}</Definition>
+          <Definition>row[&quot;region&quot;]</Definition>
           <Grouping>
             <GroupType>Text</GroupType>
           </Grouping>
@@ -14149,22 +13696,7 @@ order by rdw.duration desc;]]></xml-property>
                 <structure>
                     <property name="name">regionCenter</property>
                     <text-property name="displayName">regionCenter</text-property>
-                    <expression name="expression" type="javascript">var regionCenter = dataSetRow["regionCenter"];&#13;
-&#13;
-if( dataSetRow["regionCenter"] == 'Central GRA' ){&#13;
-	regionCenter = '中区'&#13;
-}else if( dataSetRow["regionCenter"] == 'East1 GRA' ){&#13;
-	regionCenter = '东一区'&#13;
-}else if( dataSetRow["regionCenter"] == 'East2 GRA' ){&#13;
-	regionCenter = '东二区'&#13;
-}else if( dataSetRow["regionCenter"] == 'North GRA' ){&#13;
-	regionCenter = '北区'&#13;
-}else if( dataSetRow["regionCenter"] == 'South GRA' ){&#13;
-	regionCenter = '南区'&#13;
-}else if( dataSetRow["regionCenter"] == 'West GRA' ){&#13;
-	regionCenter = '西区'&#13;
-}&#13;
-'所属 [ ' + regionCenter + '] RSM 周报数据'</expression>
+                    <expression name="expression" type="javascript">'所属 [ ' + dataSetRow["regionCenter"] + '] RSM 周报数据'</expression>
                     <property name="dataType">string</property>
                     <property name="allowExport">true</property>
                 </structure>
@@ -15947,6 +15479,7 @@ if( dataSetRow["regionCenter"] == 'Central GRA' ){&#13;
         <Visible>false</Visible>
       </Title>
       <TitlePosition>Above</TitlePosition>
+      <Ellipsis>0</Ellipsis>
     </Children>
     <Bounds>
       <Left>0.0</Left>
@@ -17588,6 +17121,7 @@ if( dataSetRow["regionCenter"] == 'Central GRA' ){&#13;
         <Visible>false</Visible>
       </Title>
       <TitlePosition>Above</TitlePosition>
+      <Ellipsis>0</Ellipsis>
     </Children>
     <Bounds>
       <Left>0.0</Left>
@@ -18820,6 +18354,7 @@ if( dataSetRow["regionCenter"] == 'Central GRA' ){&#13;
         <Visible>false</Visible>
       </Title>
       <TitlePosition>Above</TitlePosition>
+      <Ellipsis>0</Ellipsis>
     </Children>
     <Bounds>
       <Left>0.0</Left>
@@ -20049,6 +19584,7 @@ if( dataSetRow["regionCenter"] == 'Central GRA' ){&#13;
         <Visible>false</Visible>
       </Title>
       <TitlePosition>Above</TitlePosition>
+      <Ellipsis>0</Ellipsis>
     </Children>
     <Bounds>
       <Left>0.0</Left>
@@ -21273,6 +20809,7 @@ if( dataSetRow["regionCenter"] == 'Central GRA' ){&#13;
         <Visible>false</Visible>
       </Title>
       <TitlePosition>Above</TitlePosition>
+      <Ellipsis>0</Ellipsis>
     </Children>
     <Bounds>
       <Left>0.0</Left>
@@ -22499,6 +22036,7 @@ if( dataSetRow["regionCenter"] == 'Central GRA' ){&#13;
         <Visible>false</Visible>
       </Title>
       <TitlePosition>Above</TitlePosition>
+      <Ellipsis>0</Ellipsis>
     </Children>
     <Bounds>
       <Left>0.0</Left>

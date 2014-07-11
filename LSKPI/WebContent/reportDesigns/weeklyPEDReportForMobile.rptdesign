@@ -113,16 +113,40 @@
                 </structure>
             </list-property>
             <xml-property name="queryText"><![CDATA[( 
-	select 0 as emergingNum, count(1) as coreNum, region 
-	from tbl_hospital 
+	select 0 as emergingNum, 
+	count(1) as coreNum, 
+	(	case when 
+		h.region in (
+			select property_name 
+			from tbl_property p	)
+		then (
+			select property_value 
+			from tbl_property 
+			where property_name=h.region)
+		else h.region 
+		end
+	) region 
+	from tbl_hospital h 
 	where dragonType='Core' 
 	and isPedAssessed='1' 
 	group by region 
 ) 
 UNION ALL 
 ( 
-	select count(1) as emergingNum,0 as coreNum, region 
-	from tbl_hospital 
+	select count(1) as emergingNum,
+	0 as coreNum, 
+	(	case when 
+		h.region in (
+			select property_name 
+			from tbl_property p	)
+		then (
+			select property_value 
+			from tbl_property 
+			where property_name=h.region)
+		else h.region 
+		end
+	) region
+	from tbl_hospital h 
 	where dragonType='Emerging' 
 	and isPedAssessed='1' 
 	group by region
@@ -478,7 +502,17 @@ UNION ALL
                 </structure>
             </list-property>
             <xml-property name="queryText"><![CDATA[select pdw.duration, 
-h.region, 
+(	case when 
+	h.region in (
+		select property_name 
+		from tbl_property p	)
+	then (
+		select property_value 
+		from tbl_property 
+		where property_name=h.region)
+	else h.region 
+	end
+) region, 
 IFNULL(sum(pdw.pnum),0) as pnum 
 from 
 (
@@ -1129,7 +1163,17 @@ order by id desc]]></xml-property>
                 </structure>
             </list-property>
             <xml-property name="queryText"><![CDATA[select pdw.duration, 
-h.region, 
+(	case when 
+	h.region in (
+		select property_name 
+		from tbl_property p	)
+	then (
+		select property_value 
+		from tbl_property 
+		where property_name=h.region)
+	else h.region 
+	end
+) region, 
 IFNULL(sum(pdw.lsnum),0) as lsnum 
 from 
 (
@@ -1281,7 +1325,17 @@ order by pdw.duration desc;]]></xml-property>
                 </structure>
             </list-property>
             <xml-property name="queryText"><![CDATA[select pdw.duration, 
-h.region, 
+(	case when 
+	h.region in (
+		select property_name 
+		from tbl_property p	)
+	then (
+		select property_value 
+		from tbl_property 
+		where property_name=h.region)
+	else h.region 
+	end
+) region, 
 IFNULL(sum(pdw.lsnum)/sum(pdw.pnum),0) as whRate 
 from 
 (
@@ -1434,7 +1488,17 @@ order by pdw.duration desc;]]></xml-property>
                 </structure>
             </list-property>
             <xml-property name="queryText"><![CDATA[select pdw.duration, 
-h.region, 
+(	case when 
+	h.region in (
+		select property_name 
+		from tbl_property p	)
+	then (
+		select property_value 
+		from tbl_property 
+		where property_name=h.region)
+	else h.region 
+	end
+) region, 
 IFNULL(sum(pdw.averageDose*pdw.lsnum)/sum(lsnum),0) as averageDose 
 from 
 (
@@ -1586,7 +1650,17 @@ order by pdw.duration desc;]]></xml-property>
                 </structure>
             </list-property>
             <xml-property name="queryText"><![CDATA[select pdw.duration, 
-h.region, 
+(	case when 
+	h.region in (
+		select property_name 
+		from tbl_property p	)
+	then (
+		select property_value 
+		from tbl_property 
+		where property_name=h.region)
+	else h.region 
+	end
+) region, 
 IFNULL(sum(pdw.lsnum)/sum(pdw.pnum),0) as whRate 
 from 
 (
@@ -1739,7 +1813,17 @@ order by pdw.duration desc;]]></xml-property>
                 </structure>
             </list-property>
             <xml-property name="queryText"><![CDATA[select pdw.duration, 
-h.region, 
+(	case when 
+	h.region in (
+		select property_name 
+		from tbl_property p	)
+	then (
+		select property_value 
+		from tbl_property 
+		where property_name=h.region)
+	else h.region 
+	end
+) region, 
 IFNULL(sum(pdw.lsnum)/sum(pdw.pnum),0) as whRate 
 from 
 (
@@ -5255,7 +5339,7 @@ order by pdw.duration desc]]></xml-property>
           <Size>8.0</Size>
           <Bold>false</Bold>
           <Alignment/>
-          <Rotation>0.0</Rotation>
+          <Rotation>75.0</Rotation>
         </Font>
       </Caption>
       <Background xsi:type="attribute:ColorDefinition">
@@ -5634,6 +5718,7 @@ order by pdw.duration desc]]></xml-property>
         <Visible>false</Visible>
       </Title>
       <TitlePosition>Above</TitlePosition>
+      <Ellipsis>0</Ellipsis>
     </Children>
     <Bounds>
       <Left>0.0</Left>
@@ -5799,19 +5884,7 @@ order by pdw.duration desc]]></xml-property>
       <TitlePosition>Left</TitlePosition>
       <SeriesDefinitions>
         <Query>
-          <Definition>if( row[&quot;region&quot;] == 'Central GRA' ){&#xD;
-	'中区'&#xD;
-}else if( row[&quot;region&quot;] == 'East1 GRA' ){&#xD;
-	'东一区'&#xD;
-}else if( row[&quot;region&quot;] == 'East2 GRA' ){&#xD;
-	'东二区'&#xD;
-}else if( row[&quot;region&quot;] == 'North GRA' ){&#xD;
-	'北区'&#xD;
-}else if( row[&quot;region&quot;] == 'South GRA' ){&#xD;
-	'南区'&#xD;
-}else if( row[&quot;region&quot;] == 'West GRA' ){&#xD;
-	'西区'&#xD;
-}</Definition>
+          <Definition>row[&quot;region&quot;]</Definition>
           <Grouping>
             <GroupType>Text</GroupType>
           </Grouping>
@@ -6894,7 +6967,7 @@ order by pdw.duration desc]]></xml-property>
       </Grouping>
       <Sorting>Ascending</Sorting>
       <SortKey>
-        <Definition>row[&quot;duration&quot;]</Definition>
+        <Definition>row[&quot;duration&quot;].substring(5,11) + row[&quot;duration&quot;].substring(16,21)</Definition>
       </SortKey>
     </SeriesDefinitions>
     <Orientation>Horizontal</Orientation>
@@ -7287,6 +7360,7 @@ order by pdw.duration desc]]></xml-property>
         <Visible>false</Visible>
       </Title>
       <TitlePosition>Above</TitlePosition>
+      <Ellipsis>0</Ellipsis>
     </Children>
     <Bounds>
       <Left>0.0</Left>
@@ -7447,19 +7521,7 @@ order by pdw.duration desc]]></xml-property>
       <TitlePosition>Left</TitlePosition>
       <SeriesDefinitions>
         <Query>
-          <Definition>if( row[&quot;region&quot;] == 'Central GRA' ){&#xD;
-	'中区'&#xD;
-}else if( row[&quot;region&quot;] == 'East1 GRA' ){&#xD;
-	'东一区'&#xD;
-}else if( row[&quot;region&quot;] == 'East2 GRA' ){&#xD;
-	'东二区'&#xD;
-}else if( row[&quot;region&quot;] == 'North GRA' ){&#xD;
-	'北区'&#xD;
-}else if( row[&quot;region&quot;] == 'South GRA' ){&#xD;
-	'南区'&#xD;
-}else if( row[&quot;region&quot;] == 'West GRA' ){&#xD;
-	'西区'&#xD;
-}</Definition>
+          <Definition>row[&quot;region&quot;]</Definition>
           <Grouping>
             <GroupType>Text</GroupType>
           </Grouping>
@@ -8134,7 +8196,7 @@ order by pdw.duration desc]]></xml-property>
       </Grouping>
       <Sorting>Ascending</Sorting>
       <SortKey>
-        <Definition>row[&quot;duration&quot;]</Definition>
+        <Definition>row[&quot;duration&quot;].substring(5,11) + row[&quot;duration&quot;].substring(16,21)</Definition>
       </SortKey>
     </SeriesDefinitions>
     <Orientation>Horizontal</Orientation>
@@ -9772,6 +9834,7 @@ order by pdw.duration desc]]></xml-property>
         <Visible>false</Visible>
       </Title>
       <TitlePosition>Above</TitlePosition>
+      <Ellipsis>0</Ellipsis>
     </Children>
     <Bounds>
       <Left>0.0</Left>
@@ -9934,19 +9997,7 @@ order by pdw.duration desc]]></xml-property>
       <TitlePosition>Left</TitlePosition>
       <SeriesDefinitions>
         <Query>
-          <Definition>if( row[&quot;region&quot;] == 'Central GRA' ){&#xD;
-	'中区'&#xD;
-}else if( row[&quot;region&quot;] == 'East1 GRA' ){&#xD;
-	'东一区'&#xD;
-}else if( row[&quot;region&quot;] == 'East2 GRA' ){&#xD;
-	'东二区'&#xD;
-}else if( row[&quot;region&quot;] == 'North GRA' ){&#xD;
-	'北区'&#xD;
-}else if( row[&quot;region&quot;] == 'South GRA' ){&#xD;
-	'南区'&#xD;
-}else if( row[&quot;region&quot;] == 'West GRA' ){&#xD;
-	'西区'&#xD;
-}</Definition>
+          <Definition>row[&quot;region&quot;]</Definition>
           <Grouping>
             <GroupType>Text</GroupType>
           </Grouping>
@@ -10622,7 +10673,7 @@ order by pdw.duration desc]]></xml-property>
       </Grouping>
       <Sorting>Ascending</Sorting>
       <SortKey>
-        <Definition>row[&quot;duration&quot;]</Definition>
+        <Definition>row[&quot;duration&quot;].substring(5,11) + row[&quot;duration&quot;].substring(16,21)</Definition>
       </SortKey>
     </SeriesDefinitions>
     <Orientation>Horizontal</Orientation>
@@ -11013,6 +11064,7 @@ order by pdw.duration desc]]></xml-property>
         <Visible>false</Visible>
       </Title>
       <TitlePosition>Above</TitlePosition>
+      <Ellipsis>0</Ellipsis>
     </Children>
     <Bounds>
       <Left>0.0</Left>
@@ -11173,19 +11225,7 @@ order by pdw.duration desc]]></xml-property>
       <TitlePosition>Left</TitlePosition>
       <SeriesDefinitions>
         <Query>
-          <Definition>if( row[&quot;region&quot;] == 'Central GRA' ){&#xD;
-	'中区'&#xD;
-}else if( row[&quot;region&quot;] == 'East1 GRA' ){&#xD;
-	'东一区'&#xD;
-}else if( row[&quot;region&quot;] == 'East2 GRA' ){&#xD;
-	'东二区'&#xD;
-}else if( row[&quot;region&quot;] == 'North GRA' ){&#xD;
-	'北区'&#xD;
-}else if( row[&quot;region&quot;] == 'South GRA' ){&#xD;
-	'南区'&#xD;
-}else if( row[&quot;region&quot;] == 'West GRA' ){&#xD;
-	'西区'&#xD;
-}</Definition>
+          <Definition>row[&quot;region&quot;]</Definition>
           <Grouping>
             <GroupType>Text</GroupType>
           </Grouping>
@@ -11855,7 +11895,7 @@ order by pdw.duration desc]]></xml-property>
       </Grouping>
       <Sorting>Ascending</Sorting>
       <SortKey>
-        <Definition>row[&quot;duration&quot;]</Definition>
+        <Definition>row[&quot;duration&quot;].substring(5,11) + row[&quot;duration&quot;].substring(16,21)</Definition>
       </SortKey>
     </SeriesDefinitions>
     <Orientation>Horizontal</Orientation>
@@ -12249,6 +12289,7 @@ order by pdw.duration desc]]></xml-property>
         <Visible>false</Visible>
       </Title>
       <TitlePosition>Above</TitlePosition>
+      <Ellipsis>0</Ellipsis>
     </Children>
     <Bounds>
       <Left>0.0</Left>
@@ -12409,19 +12450,7 @@ order by pdw.duration desc]]></xml-property>
       <TitlePosition>Left</TitlePosition>
       <SeriesDefinitions>
         <Query>
-          <Definition>if( row[&quot;region&quot;] == 'Central GRA' ){&#xD;
-	'中区'&#xD;
-}else if( row[&quot;region&quot;] == 'East1 GRA' ){&#xD;
-	'东一区'&#xD;
-}else if( row[&quot;region&quot;] == 'East2 GRA' ){&#xD;
-	'东二区'&#xD;
-}else if( row[&quot;region&quot;] == 'North GRA' ){&#xD;
-	'北区'&#xD;
-}else if( row[&quot;region&quot;] == 'South GRA' ){&#xD;
-	'南区'&#xD;
-}else if( row[&quot;region&quot;] == 'West GRA' ){&#xD;
-	'西区'&#xD;
-}</Definition>
+          <Definition>row[&quot;region&quot;]</Definition>
           <Grouping>
             <GroupType>Text</GroupType>
           </Grouping>
@@ -13095,7 +13124,7 @@ order by pdw.duration desc]]></xml-property>
       </Grouping>
       <Sorting>Ascending</Sorting>
       <SortKey>
-        <Definition>row[&quot;duration&quot;]</Definition>
+        <Definition>row[&quot;duration&quot;].substring(5,11) + row[&quot;duration&quot;].substring(16,21)</Definition>
       </SortKey>
     </SeriesDefinitions>
     <Orientation>Horizontal</Orientation>
@@ -13487,6 +13516,7 @@ order by pdw.duration desc]]></xml-property>
         <Visible>false</Visible>
       </Title>
       <TitlePosition>Above</TitlePosition>
+      <Ellipsis>0</Ellipsis>
     </Children>
     <Bounds>
       <Left>0.0</Left>
@@ -13647,19 +13677,7 @@ order by pdw.duration desc]]></xml-property>
       <TitlePosition>Left</TitlePosition>
       <SeriesDefinitions>
         <Query>
-          <Definition>if( row[&quot;region&quot;] == 'Central GRA' ){&#xD;
-	'中区'&#xD;
-}else if( row[&quot;region&quot;] == 'East1 GRA' ){&#xD;
-	'东一区'&#xD;
-}else if( row[&quot;region&quot;] == 'East2 GRA' ){&#xD;
-	'东二区'&#xD;
-}else if( row[&quot;region&quot;] == 'North GRA' ){&#xD;
-	'北区'&#xD;
-}else if( row[&quot;region&quot;] == 'South GRA' ){&#xD;
-	'南区'&#xD;
-}else if( row[&quot;region&quot;] == 'West GRA' ){&#xD;
-	'西区'&#xD;
-}</Definition>
+          <Definition>row[&quot;region&quot;]</Definition>
           <Grouping>
             <GroupType>Text</GroupType>
           </Grouping>
@@ -14333,7 +14351,7 @@ order by pdw.duration desc]]></xml-property>
       </Grouping>
       <Sorting>Ascending</Sorting>
       <SortKey>
-        <Definition>row[&quot;duration&quot;]</Definition>
+        <Definition>row[&quot;duration&quot;].substring(5,11) + row[&quot;duration&quot;].substring(16,21)</Definition>
       </SortKey>
     </SeriesDefinitions>
     <Orientation>Horizontal</Orientation>
@@ -14492,22 +14510,7 @@ order by pdw.duration desc]]></xml-property>
                 <structure>
                     <property name="name">regionCenter</property>
                     <text-property name="displayName">regionCenter</text-property>
-                    <expression name="expression" type="javascript">var regionCenter = dataSetRow["regionCenter"];&#13;
-&#13;
-if( dataSetRow["regionCenter"] == 'Central GRA' ){&#13;
-	regionCenter = '中区'&#13;
-}else if( dataSetRow["regionCenter"] == 'East1 GRA' ){&#13;
-	regionCenter = '东一区'&#13;
-}else if( dataSetRow["regionCenter"] == 'East2 GRA' ){&#13;
-	regionCenter = '东二区'&#13;
-}else if( dataSetRow["regionCenter"] == 'North GRA' ){&#13;
-	regionCenter = '北区'&#13;
-}else if( dataSetRow["regionCenter"] == 'South GRA' ){&#13;
-	regionCenter = '南区'&#13;
-}else if( dataSetRow["regionCenter"] == 'West GRA' ){&#13;
-	regionCenter = '西区'&#13;
-}&#13;
-'所属 [ ' + regionCenter + '] RSM 周报数据'</expression>
+                    <expression name="expression" type="javascript">'所属 [ ' + dataSetRow["regionCenter"] + '] RSM 周报数据'</expression>
                     <property name="dataType">string</property>
                     <property name="allowExport">true</property>
                 </structure>
@@ -16734,6 +16737,7 @@ if( dataSetRow["regionCenter"] == 'Central GRA' ){&#13;
         <Visible>false</Visible>
       </Title>
       <TitlePosition>Above</TitlePosition>
+      <Ellipsis>0</Ellipsis>
     </Children>
     <Bounds>
       <Left>0.0</Left>
@@ -18375,6 +18379,7 @@ if( dataSetRow["regionCenter"] == 'Central GRA' ){&#13;
         <Visible>false</Visible>
       </Title>
       <TitlePosition>Above</TitlePosition>
+      <Ellipsis>0</Ellipsis>
     </Children>
     <Bounds>
       <Left>0.0</Left>
@@ -19607,6 +19612,7 @@ if( dataSetRow["regionCenter"] == 'Central GRA' ){&#13;
         <Visible>false</Visible>
       </Title>
       <TitlePosition>Above</TitlePosition>
+      <Ellipsis>0</Ellipsis>
     </Children>
     <Bounds>
       <Left>0.0</Left>
@@ -20836,6 +20842,7 @@ if( dataSetRow["regionCenter"] == 'Central GRA' ){&#13;
         <Visible>false</Visible>
       </Title>
       <TitlePosition>Above</TitlePosition>
+      <Ellipsis>0</Ellipsis>
     </Children>
     <Bounds>
       <Left>0.0</Left>
@@ -22060,6 +22067,7 @@ if( dataSetRow["regionCenter"] == 'Central GRA' ){&#13;
         <Visible>false</Visible>
       </Title>
       <TitlePosition>Above</TitlePosition>
+      <Ellipsis>0</Ellipsis>
     </Children>
     <Bounds>
       <Left>0.0</Left>
@@ -23286,6 +23294,7 @@ if( dataSetRow["regionCenter"] == 'Central GRA' ){&#13;
         <Visible>false</Visible>
       </Title>
       <TitlePosition>Above</TitlePosition>
+      <Ellipsis>0</Ellipsis>
     </Children>
     <Bounds>
       <Left>0.0</Left>

@@ -113,16 +113,40 @@
                 </structure>
             </list-property>
             <xml-property name="queryText"><![CDATA[( 
-	select 0 as emergingNum, count(1) as coreNum, region 
-	from tbl_hospital 
+	select 0 as emergingNum, 
+	count(1) as coreNum, 
+	(	case when 
+		h.region in (
+			select property_name 
+			from tbl_property p	)
+		then (
+			select property_value 
+			from tbl_property 
+			where property_name=h.region)
+		else h.region 
+		end
+	) region 
+	from tbl_hospital h
 	where dragonType='Core' 
 	and isPedAssessed='1' 
 	group by region 
 ) 
 UNION ALL 
 ( 
-	select count(1) as emergingNum,0 as coreNum, region 
-	from tbl_hospital 
+	select count(1) as emergingNum,
+	0 as coreNum, 
+	(	case when 
+		h.region in (
+			select property_name 
+			from tbl_property p	)
+		then (
+			select property_value 
+			from tbl_property 
+			where property_name=h.region)
+		else h.region 
+		end
+	) region 
+	from tbl_hospital h
 	where dragonType='Emerging' 
 	and isPedAssessed='1' 
 	group by region
@@ -868,7 +892,17 @@ where telephone=?]]></xml-property>
                 </structure>
             </list-property>
             <xml-property name="queryText"><![CDATA[select pdw.duration, 
-h.region, 
+(	case when 
+	h.region in (
+		select property_name 
+		from tbl_property p	)
+	then (
+		select property_value 
+		from tbl_property 
+		where property_name=h.region)
+	else h.region 
+	end
+) region, 
 IFNULL(sum(pdw.lsnum),0) as lsnum 
 from 
 (
@@ -1021,7 +1055,17 @@ order by pdw.duration desc;]]></xml-property>
                 </structure>
             </list-property>
             <xml-property name="queryText"><![CDATA[select pdw.duration, 
-h.region, 
+(	case when 
+	h.region in (
+		select property_name 
+		from tbl_property p	)
+	then (
+		select property_value 
+		from tbl_property 
+		where property_name=h.region)
+	else h.region 
+	end
+) region, 
 IFNULL(sum(pdw.averageDose*pdw.lsnum)/sum(lsnum),0) as averageDose 
 from 
 (
@@ -1173,7 +1217,17 @@ order by pdw.duration desc;]]></xml-property>
                 </structure>
             </list-property>
             <xml-property name="queryText"><![CDATA[select pdw.duration, 
-h.region, 
+(	case when 
+	h.region in (
+		select property_name 
+		from tbl_property p	)
+	then (
+		select property_value 
+		from tbl_property 
+		where property_name=h.region)
+	else h.region 
+	end
+) region, 
 IFNULL(sum(pdw.lsnum)/sum(pdw.pnum),0) as whRate 
 from 
 (
@@ -1326,7 +1380,17 @@ order by pdw.duration desc;]]></xml-property>
                 </structure>
             </list-property>
             <xml-property name="queryText"><![CDATA[select pdw.duration, 
-h.region, 
+(	case when 
+	h.region in (
+		select property_name 
+		from tbl_property p	)
+	then (
+		select property_value 
+		from tbl_property 
+		where property_name=h.region)
+	else h.region 
+	end
+) region, 
 IFNULL(sum(pdw.lsnum)/sum(pdw.pnum),0) as whRate 
 from 
 (
@@ -1478,7 +1542,17 @@ order by pdw.duration desc;]]></xml-property>
                 </structure>
             </list-property>
             <xml-property name="queryText"><![CDATA[select pdw.duration, 
-h.region, 
+(	case when 
+	h.region in (
+		select property_name 
+		from tbl_property p	)
+	then (
+		select property_value 
+		from tbl_property 
+		where property_name=h.region)
+	else h.region 
+	end
+) region, 
 IFNULL(sum(pdw.lsnum)/sum(pdw.pnum),0) as whRate 
 from 
 (
@@ -1631,7 +1705,17 @@ order by pdw.duration desc;]]></xml-property>
                 </structure>
             </list-property>
             <xml-property name="queryText"><![CDATA[select pdw.duration, 
-h.region, 
+(	case when 
+	h.region in (
+		select property_name 
+		from tbl_property p	)
+	then (
+		select property_value 
+		from tbl_property 
+		where property_name=h.region)
+	else h.region 
+	end
+) region, 
 IFNULL(sum(pdw.pnum),0) as pnum 
 from 
 (
@@ -8281,19 +8365,7 @@ limit 0,12;]]></xml-property>
       <TitlePosition>Left</TitlePosition>
       <SeriesDefinitions>
         <Query>
-          <Definition>if( row[&quot;region&quot;] == 'Central GRA' ){&#xD;
-	'中区'&#xD;
-}else if( row[&quot;region&quot;] == 'East1 GRA' ){&#xD;
-	'东一区'&#xD;
-}else if( row[&quot;region&quot;] == 'East2 GRA' ){&#xD;
-	'东二区'&#xD;
-}else if( row[&quot;region&quot;] == 'North GRA' ){&#xD;
-	'北区'&#xD;
-}else if( row[&quot;region&quot;] == 'South GRA' ){&#xD;
-	'南区'&#xD;
-}else if( row[&quot;region&quot;] == 'West GRA' ){&#xD;
-	'西区'&#xD;
-}</Definition>
+          <Definition>row[&quot;region&quot;]</Definition>
           <Grouping>
             <GroupType>Text</GroupType>
           </Grouping>
@@ -9929,19 +10001,7 @@ limit 0,12;]]></xml-property>
       <TitlePosition>Left</TitlePosition>
       <SeriesDefinitions>
         <Query>
-          <Definition>if( row[&quot;region&quot;] == 'Central GRA' ){&#xD;
-	'中区'&#xD;
-}else if( row[&quot;region&quot;] == 'East1 GRA' ){&#xD;
-	'东一区'&#xD;
-}else if( row[&quot;region&quot;] == 'East2 GRA' ){&#xD;
-	'东二区'&#xD;
-}else if( row[&quot;region&quot;] == 'North GRA' ){&#xD;
-	'北区'&#xD;
-}else if( row[&quot;region&quot;] == 'South GRA' ){&#xD;
-	'南区'&#xD;
-}else if( row[&quot;region&quot;] == 'West GRA' ){&#xD;
-	'西区'&#xD;
-}</Definition>
+          <Definition>row[&quot;region&quot;]</Definition>
           <Grouping>
             <GroupType>Text</GroupType>
           </Grouping>
@@ -11168,19 +11228,7 @@ limit 0,12;]]></xml-property>
       <TitlePosition>Left</TitlePosition>
       <SeriesDefinitions>
         <Query>
-          <Definition>if( row[&quot;region&quot;] == 'Central GRA' ){&#xD;
-	'中区'&#xD;
-}else if( row[&quot;region&quot;] == 'East1 GRA' ){&#xD;
-	'东一区'&#xD;
-}else if( row[&quot;region&quot;] == 'East2 GRA' ){&#xD;
-	'东二区'&#xD;
-}else if( row[&quot;region&quot;] == 'North GRA' ){&#xD;
-	'北区'&#xD;
-}else if( row[&quot;region&quot;] == 'South GRA' ){&#xD;
-	'南区'&#xD;
-}else if( row[&quot;region&quot;] == 'West GRA' ){&#xD;
-	'西区'&#xD;
-}</Definition>
+          <Definition>row[&quot;region&quot;]</Definition>
           <Grouping>
             <GroupType>Text</GroupType>
           </Grouping>
@@ -12418,19 +12466,7 @@ limit 0,12;]]></xml-property>
       <TitlePosition>Left</TitlePosition>
       <SeriesDefinitions>
         <Query>
-          <Definition>if( row[&quot;region&quot;] == 'Central GRA' ){&#xD;
-	'中区'&#xD;
-}else if( row[&quot;region&quot;] == 'East1 GRA' ){&#xD;
-	'东一区'&#xD;
-}else if( row[&quot;region&quot;] == 'East2 GRA' ){&#xD;
-	'东二区'&#xD;
-}else if( row[&quot;region&quot;] == 'North GRA' ){&#xD;
-	'北区'&#xD;
-}else if( row[&quot;region&quot;] == 'South GRA' ){&#xD;
-	'南区'&#xD;
-}else if( row[&quot;region&quot;] == 'West GRA' ){&#xD;
-	'西区'&#xD;
-}</Definition>
+          <Definition>row[&quot;region&quot;]</Definition>
           <Grouping>
             <GroupType>Text</GroupType>
           </Grouping>
@@ -13658,19 +13694,7 @@ limit 0,12;]]></xml-property>
       <TitlePosition>Left</TitlePosition>
       <SeriesDefinitions>
         <Query>
-          <Definition>if( row[&quot;region&quot;] == 'Central GRA' ){&#xD;
-	'中区'&#xD;
-}else if( row[&quot;region&quot;] == 'East1 GRA' ){&#xD;
-	'东一区'&#xD;
-}else if( row[&quot;region&quot;] == 'East2 GRA' ){&#xD;
-	'东二区'&#xD;
-}else if( row[&quot;region&quot;] == 'North GRA' ){&#xD;
-	'北区'&#xD;
-}else if( row[&quot;region&quot;] == 'South GRA' ){&#xD;
-	'南区'&#xD;
-}else if( row[&quot;region&quot;] == 'West GRA' ){&#xD;
-	'西区'&#xD;
-}</Definition>
+          <Definition>row[&quot;region&quot;]</Definition>
           <Grouping>
             <GroupType>Text</GroupType>
           </Grouping>
@@ -14895,19 +14919,7 @@ limit 0,12;]]></xml-property>
       <TitlePosition>Left</TitlePosition>
       <SeriesDefinitions>
         <Query>
-          <Definition>if( row[&quot;region&quot;] == 'Central GRA' ){&#xD;
-	'中区'&#xD;
-}else if( row[&quot;region&quot;] == 'East1 GRA' ){&#xD;
-	'东一区'&#xD;
-}else if( row[&quot;region&quot;] == 'East2 GRA' ){&#xD;
-	'东二区'&#xD;
-}else if( row[&quot;region&quot;] == 'North GRA' ){&#xD;
-	'北区'&#xD;
-}else if( row[&quot;region&quot;] == 'South GRA' ){&#xD;
-	'南区'&#xD;
-}else if( row[&quot;region&quot;] == 'West GRA' ){&#xD;
-	'西区'&#xD;
-}</Definition>
+          <Definition>row[&quot;region&quot;]</Definition>
           <Grouping>
             <GroupType>Text</GroupType>
           </Grouping>
@@ -16134,19 +16146,7 @@ limit 0,12;]]></xml-property>
       <TitlePosition>Left</TitlePosition>
       <SeriesDefinitions>
         <Query>
-          <Definition>if( row[&quot;region&quot;] == 'Central GRA' ){&#xD;
-	'中区'&#xD;
-}else if( row[&quot;region&quot;] == 'East1 GRA' ){&#xD;
-	'东一区'&#xD;
-}else if( row[&quot;region&quot;] == 'East2 GRA' ){&#xD;
-	'东二区'&#xD;
-}else if( row[&quot;region&quot;] == 'North GRA' ){&#xD;
-	'北区'&#xD;
-}else if( row[&quot;region&quot;] == 'South GRA' ){&#xD;
-	'南区'&#xD;
-}else if( row[&quot;region&quot;] == 'West GRA' ){&#xD;
-	'西区'&#xD;
-}</Definition>
+          <Definition>row[&quot;region&quot;]</Definition>
           <Grouping>
             <GroupType>Text</GroupType>
           </Grouping>
@@ -18761,21 +18761,7 @@ limit 0,12;]]></xml-property>
           <Visible>false</Visible>
         </Label>
         <DataDefinition>
-          <Definition>if( row[&quot;region&quot;] == 'Central GRA' ){&#xD;
-	'中区'&#xD;
-}else if ( row[&quot;region&quot;] == 'East1 GRA' ){&#xD;
-	'东一区'&#xD;
-}else if ( row[&quot;region&quot;] == 'East2 GRA' ){&#xD;
-	'东二区'&#xD;
-}else if ( row[&quot;region&quot;] == 'North GRA' ){&#xD;
-	'北区'&#xD;
-}else if ( row[&quot;region&quot;] == 'South GRA' ){&#xD;
-	'南区'&#xD;
-}else if( row[&quot;region&quot;] == 'West GRA' ){&#xD;
-	'西区'&#xD;
-}else{&#xD;
-	row[&quot;region&quot;]&#xD;
-}</Definition>
+          <Definition>row[&quot;region&quot;]</Definition>
         </DataDefinition>
         <SeriesIdentifier></SeriesIdentifier>
         <DataPoint>

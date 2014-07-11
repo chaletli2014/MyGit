@@ -170,4 +170,8 @@ public class UserServiceImpl implements UserService {
     public List<UserInfo> getSalesOfCurrentUser(UserInfo currentUser) throws Exception {
         return userDAO.getSalesOfCurrentUser(currentUser);
     }
+
+    public List<String> getAllRegionName() throws Exception {
+        return userDAO.getAllRegionName();
+    }
 }

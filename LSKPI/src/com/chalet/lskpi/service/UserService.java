@@ -42,4 +42,6 @@ public interface UserService {
 	
 	public List<UserInfo> getSalesOfCurrentUser(UserInfo currentUser ) throws Exception;
 	
+	public List<String> getAllRegionName() throws Exception;
+	
 }

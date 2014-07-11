@@ -72,6 +72,7 @@ public class UploadController {
             List<String> regionHeaders = new ArrayList<String>();
             regionHeaders.add("BR Name");//user:Region Center / hospital:Region
             regionHeaders.add("DIST NAME");//user:大区  / hospital:rsmRegion
+            regionHeaders.add("BR CNName");//BR Name 的中文名称
             
             List<String> hospitalHeaders = new ArrayList<String>();
             hospitalHeaders.add("Hospital Code");//Sub Institution

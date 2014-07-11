@@ -4581,6 +4581,7 @@ if( dataSetRow["regionCenter"] == 'Central GRA' ){&#13;
         <Visible>false</Visible>
       </Title>
       <TitlePosition>Above</TitlePosition>
+      <Ellipsis>0</Ellipsis>
     </Children>
     <Bounds>
       <Left>0.0</Left>
@@ -6222,6 +6223,7 @@ if( dataSetRow["regionCenter"] == 'Central GRA' ){&#13;
         <Visible>false</Visible>
       </Title>
       <TitlePosition>Above</TitlePosition>
+      <Ellipsis>0</Ellipsis>
     </Children>
     <Bounds>
       <Left>0.0</Left>
@@ -8694,6 +8696,7 @@ if( dataSetRow["regionCenter"] == 'Central GRA' ){&#13;
         <Visible>false</Visible>
       </Title>
       <TitlePosition>Above</TitlePosition>
+      <Ellipsis>0</Ellipsis>
     </Children>
     <Bounds>
       <Left>0.0</Left>
@@ -9923,6 +9926,7 @@ if( dataSetRow["regionCenter"] == 'Central GRA' ){&#13;
         <Visible>false</Visible>
       </Title>
       <TitlePosition>Above</TitlePosition>
+      <Ellipsis>0</Ellipsis>
     </Children>
     <Bounds>
       <Left>0.0</Left>
@@ -11147,6 +11151,7 @@ if( dataSetRow["regionCenter"] == 'Central GRA' ){&#13;
         <Visible>false</Visible>
       </Title>
       <TitlePosition>Above</TitlePosition>
+      <Ellipsis>0</Ellipsis>
     </Children>
     <Bounds>
       <Left>0.0</Left>
@@ -12373,6 +12378,7 @@ if( dataSetRow["regionCenter"] == 'Central GRA' ){&#13;
         <Visible>false</Visible>
       </Title>
       <TitlePosition>Above</TitlePosition>
+      <Ellipsis>0</Ellipsis>
     </Children>
     <Bounds>
       <Left>0.0</Left>
@@ -15152,6 +15158,7 @@ if( dataSetRow["regionCenter"] == 'Central GRA' ){&#13;
         <Visible>false</Visible>
       </Title>
       <TitlePosition>Above</TitlePosition>
+      <Ellipsis>0</Ellipsis>
     </Children>
     <Bounds>
       <Left>0.0</Left>
@@ -16793,6 +16800,7 @@ if( dataSetRow["regionCenter"] == 'Central GRA' ){&#13;
         <Visible>false</Visible>
       </Title>
       <TitlePosition>Above</TitlePosition>
+      <Ellipsis>0</Ellipsis>
     </Children>
     <Bounds>
       <Left>0.0</Left>
@@ -18025,6 +18033,7 @@ if( dataSetRow["regionCenter"] == 'Central GRA' ){&#13;
         <Visible>false</Visible>
       </Title>
       <TitlePosition>Above</TitlePosition>
+      <Ellipsis>0</Ellipsis>
     </Children>
     <Bounds>
       <Left>0.0</Left>
@@ -19254,6 +19263,7 @@ if( dataSetRow["regionCenter"] == 'Central GRA' ){&#13;
         <Visible>false</Visible>
       </Title>
       <TitlePosition>Above</TitlePosition>
+      <Ellipsis>0</Ellipsis>
     </Children>
     <Bounds>
       <Left>0.0</Left>
@@ -20478,6 +20488,7 @@ if( dataSetRow["regionCenter"] == 'Central GRA' ){&#13;
         <Visible>false</Visible>
       </Title>
       <TitlePosition>Above</TitlePosition>
+      <Ellipsis>0</Ellipsis>
     </Children>
     <Bounds>
       <Left>0.0</Left>
@@ -21705,6 +21716,7 @@ if( dataSetRow["regionCenter"] == 'Central GRA' ){&#13;
         <Visible>false</Visible>
       </Title>
       <TitlePosition>Above</TitlePosition>
+      <Ellipsis>0</Ellipsis>
     </Children>
     <Bounds>
       <Left>0.0</Left>

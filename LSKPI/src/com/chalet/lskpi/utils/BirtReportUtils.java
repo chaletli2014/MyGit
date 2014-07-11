@@ -113,7 +113,7 @@ public class BirtReportUtils {
         }  
     }  
     //用于运行报表  
-    public void runRefreshReport(String designPath, String telephone, String startDate, String endDate, String reportFileName, String fileType, String reportImgPath, String baseImgPath){
+    public void runRefreshReport(String designPath, String telephone, String startDate, String endDate, String reportFileName, String fileType, String reportImgPath, String baseImgPath, String region){
         try{
             logger.info(String.format("run the birt refresh report, the file name is %s",reportFileName));
             IReportRunnable design = null;  
@@ -144,6 +144,15 @@ public class BirtReportUtils {
                 Collection parameters = paramTask.getParameterDefns(false);
                 Map paramValues = new HashMap();
                 paramValues.put("endDate", endDate);
+                evaluateParameterValues(parameterMap,parameters,paramValues);
+            }
+            
+            if( null != region ){
+                logger.info(String.format("populdate the param region %s", region));
+                IGetParameterDefinitionTask paramTask = engine.createGetParameterDefinitionTask(design);
+                Collection parameters = paramTask.getParameterDefns(false);
+                Map paramValues = new HashMap();
+                paramValues.put("regionCenter", region);
                 evaluateParameterValues(parameterMap,parameters,paramValues);
             }
             

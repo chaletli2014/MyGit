@@ -311,3 +311,11 @@ ALTER TABLE tbl_respirology_data_weekly ADD INDEX INDEX_RES_WEEKLY_DURATION (dur
 ALTER TABLE tbl_respirology_data_weekly ADD INDEX INDEX_RES_WEEKLY_REGION (region);
 ALTER TABLE tbl_pediatrics_data_weekly ADD INDEX INDEX_PED_WEEKLY_DURATION (duration);
 ALTER TABLE tbl_pediatrics_data_weekly ADD INDEX INDEX_PED_WEEKLY_REGION (region);
+
+
+drop table tbl_property;
+create table tbl_property(
+    id                      int NOT NULL primary key auto_increment,
+    property_name           varchar(2000),
+    property_value          varchar(2000)
+);

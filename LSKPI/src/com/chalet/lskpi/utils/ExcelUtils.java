@@ -31,6 +31,7 @@ import com.chalet.lskpi.model.Hospital;
 import com.chalet.lskpi.model.HospitalUserRefer;
 import com.chalet.lskpi.model.MonthlyData;
 import com.chalet.lskpi.model.PediatricsData;
+import com.chalet.lskpi.model.Property;
 import com.chalet.lskpi.model.RespirologyData;
 import com.chalet.lskpi.model.UserCode;
 import com.chalet.lskpi.model.UserInfo;
@@ -911,6 +912,7 @@ public class ExcelUtils {
             List<String> hospitalCodes = new ArrayList<String>();
             Map<String,Hospital> hospitalMap = new HashMap<String, Hospital>();
             List<HospitalUserRefer> hosUsers = new ArrayList<HospitalUserRefer>();
+            List<Property> regionNameList = new ArrayList<Property>();
             
             for( int i = sheet.getFirstRowNum() + 1; i < sheet.getPhysicalNumberOfRows(); i++ ){
                 row = sheet.getRow(i);
@@ -921,6 +923,9 @@ public class ExcelUtils {
                 //collect region info
                 String brName = row.getCell(regionHeaderColumn.get(regionHeaders.get(0))).toString();
                 String distName = row.getCell(regionHeaderColumn.get(regionHeaders.get(1))).toString();
+                String brCNName = row.getCell(regionHeaderColumn.get(regionHeaders.get(2))).toString();
+                
+                regionNameList.add(new Property(brName,brCNName));
                 
                 // collect hospital info
                 String hospitalCode = row.getCell(hospitalHeaderColumn.get(hospitalHeaders.get(0))).toString();
@@ -1127,6 +1132,7 @@ public class ExcelUtils {
             allInfos.put("hospitals", hospitalInfos);
             allInfos.put("users", userInfos);
             allInfos.put("hosUsers", hosUsers);
+            allInfos.put("regionNames", regionNameList);
             
         }catch(Exception e){
             logger.error("fail to get users from the excel file.",e);

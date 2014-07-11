@@ -1575,7 +1575,9 @@ public class ReportController extends BaseController{
             respirologyService.generateWeeklyRESDataOfHospital(weeklyRefreshDate);
             logger.info("generate the latest weekly data done, start to refresh the weekly pdf report.");
             
-            ReportUtils.refreshWeeklyPDFReport(reportUserInfos, basePath, contextPath, refreshDate);
+            List<String> regionList = userService.getAllRegionName();
+            
+            ReportUtils.refreshWeeklyPDFReport(reportUserInfos, basePath, contextPath, refreshDate, regionList);
         }catch(Exception e){
             logger.error("fail to refresh the weekly pdf report,",e);
         }

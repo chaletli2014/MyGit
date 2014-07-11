@@ -2948,7 +2948,7 @@ and isPedAssessed='1']]></xml-property>
                             <structure>
                                 <property name="name">hosNum</property>
                                 <text-property name="displayName">hosNum</text-property>
-                                <expression name="expression" type="javascript">'中区'+dataSetRow["hosNum"]+'家儿科重点医院每周报告'</expression>
+                                <expression name="expression" type="javascript">params["regionCenter"].value+' '+dataSetRow["hosNum"]+'家儿科重点医院每周报告'</expression>
                                 <property name="dataType">string</property>
                                 <property name="allowExport">true</property>
                             </structure>
@@ -3037,7 +3037,7 @@ and isPedAssessed='1']]></xml-property>
             <row id="1347">
                 <cell id="1348">
                     <label id="1349">
-                        <text-property name="text">所属 [中区] RSM周报数据</text-property>
+                        <text-property name="text">RSM周报数据</text-property>
                     </label>
                 </cell>
             </row>
@@ -6279,6 +6279,7 @@ this.getStyle().backgroundColor = "#FFFFFF";
         <Visible>false</Visible>
       </Title>
       <TitlePosition>Above</TitlePosition>
+      <Ellipsis>0</Ellipsis>
     </Children>
     <Bounds>
       <Left>0.0</Left>
@@ -7920,6 +7921,7 @@ this.getStyle().backgroundColor = "#FFFFFF";
         <Visible>false</Visible>
       </Title>
       <TitlePosition>Above</TitlePosition>
+      <Ellipsis>0</Ellipsis>
     </Children>
     <Bounds>
       <Left>0.0</Left>
@@ -9152,6 +9154,7 @@ this.getStyle().backgroundColor = "#FFFFFF";
         <Visible>false</Visible>
       </Title>
       <TitlePosition>Above</TitlePosition>
+      <Ellipsis>0</Ellipsis>
     </Children>
     <Bounds>
       <Left>0.0</Left>
@@ -10384,6 +10387,7 @@ this.getStyle().backgroundColor = "#FFFFFF";
         <Visible>false</Visible>
       </Title>
       <TitlePosition>Above</TitlePosition>
+      <Ellipsis>0</Ellipsis>
     </Children>
     <Bounds>
       <Left>0.0</Left>
@@ -11608,6 +11612,7 @@ this.getStyle().backgroundColor = "#FFFFFF";
         <Visible>false</Visible>
       </Title>
       <TitlePosition>Above</TitlePosition>
+      <Ellipsis>0</Ellipsis>
     </Children>
     <Bounds>
       <Left>0.0</Left>
@@ -12839,6 +12844,7 @@ this.getStyle().backgroundColor = "#FFFFFF";
         <Visible>false</Visible>
       </Title>
       <TitlePosition>Above</TitlePosition>
+      <Ellipsis>0</Ellipsis>
     </Children>
     <Bounds>
       <Left>0.0</Left>

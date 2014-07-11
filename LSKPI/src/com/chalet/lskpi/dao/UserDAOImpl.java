@@ -279,4 +279,8 @@ public class UserDAOImpl implements UserDAO {
         }
         return dataBean.getJdbcTemplate().query(sql, params, new UserInfoRowMapper());
     }
+
+    public List<String> getAllRegionName() throws Exception {
+        return dataBean.getJdbcTemplate().queryForList("select distinct regionCenter from tbl_userinfo where regionCenter is not null", String.class);
+    }
 }

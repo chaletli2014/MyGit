@@ -4618,22 +4618,7 @@ group by h.rsmRegion;]]></xml-property>
                 <structure>
                     <property name="name">regionCenter</property>
                     <text-property name="displayName">regionCenter</text-property>
-                    <expression name="expression" type="javascript">var regionCenter = dataSetRow["regionCenter"];&#13;
-&#13;
-if( dataSetRow["regionCenter"] == 'Central GRA' ){&#13;
-	regionCenter = '中区'&#13;
-}else if( dataSetRow["regionCenter"] == 'East1 GRA' ){&#13;
-	regionCenter = '东一区'&#13;
-}else if( dataSetRow["regionCenter"] == 'East2 GRA' ){&#13;
-	regionCenter = '东二区'&#13;
-}else if( dataSetRow["regionCenter"] == 'North GRA' ){&#13;
-	regionCenter = '北区'&#13;
-}else if( dataSetRow["regionCenter"] == 'South GRA' ){&#13;
-	regionCenter = '南区'&#13;
-}else if( dataSetRow["regionCenter"] == 'West GRA' ){&#13;
-	regionCenter = '西区'&#13;
-}&#13;
-'所属 [ ' + regionCenter + '] RSM 周报数据'</expression>
+                    <expression name="expression" type="javascript">'所属 [ ' + dataSetRow["regionCenter"] + '] RSM 周报数据'</expression>
                     <property name="dataType">string</property>
                     <property name="allowExport">true</property>
                 </structure>
@@ -7664,6 +7649,7 @@ if( dataSetRow["regionCenter"] == 'Central GRA' ){&#13;
         <Visible>false</Visible>
       </Title>
       <TitlePosition>Above</TitlePosition>
+      <Ellipsis>0</Ellipsis>
     </Children>
     <Bounds>
       <Left>0.0</Left>
@@ -9304,6 +9290,7 @@ if( dataSetRow["regionCenter"] == 'Central GRA' ){&#13;
         <Visible>false</Visible>
       </Title>
       <TitlePosition>Above</TitlePosition>
+      <Ellipsis>0</Ellipsis>
     </Children>
     <Bounds>
       <Left>0.0</Left>
@@ -10536,6 +10523,7 @@ if( dataSetRow["regionCenter"] == 'Central GRA' ){&#13;
         <Visible>false</Visible>
       </Title>
       <TitlePosition>Above</TitlePosition>
+      <Ellipsis>0</Ellipsis>
     </Children>
     <Bounds>
       <Left>0.0</Left>
@@ -13001,6 +12989,7 @@ if( dataSetRow["regionCenter"] == 'Central GRA' ){&#13;
         <Visible>false</Visible>
       </Title>
       <TitlePosition>Above</TitlePosition>
+      <Ellipsis>0</Ellipsis>
     </Children>
     <Bounds>
       <Left>0.0</Left>
@@ -14224,6 +14213,7 @@ if( dataSetRow["regionCenter"] == 'Central GRA' ){&#13;
         <Visible>false</Visible>
       </Title>
       <TitlePosition>Above</TitlePosition>
+      <Ellipsis>0</Ellipsis>
     </Children>
     <Bounds>
       <Left>0.0</Left>
@@ -15449,6 +15439,7 @@ if( dataSetRow["regionCenter"] == 'Central GRA' ){&#13;
         <Visible>false</Visible>
       </Title>
       <TitlePosition>Above</TitlePosition>
+      <Ellipsis>0</Ellipsis>
     </Children>
     <Bounds>
       <Left>0.0</Left>
@@ -19465,6 +19456,7 @@ if( dataSetRow["regionCenter"] == 'Central GRA' ){&#13;
         <Visible>false</Visible>
       </Title>
       <TitlePosition>Above</TitlePosition>
+      <Ellipsis>0</Ellipsis>
     </Children>
     <Bounds>
       <Left>0.0</Left>
@@ -21103,6 +21095,7 @@ if( dataSetRow["regionCenter"] == 'Central GRA' ){&#13;
         <Visible>false</Visible>
       </Title>
       <TitlePosition>Above</TitlePosition>
+      <Ellipsis>0</Ellipsis>
     </Children>
     <Bounds>
       <Left>0.0</Left>
@@ -22332,6 +22325,7 @@ if( dataSetRow["regionCenter"] == 'Central GRA' ){&#13;
         <Visible>false</Visible>
       </Title>
       <TitlePosition>Above</TitlePosition>
+      <Ellipsis>0</Ellipsis>
     </Children>
     <Bounds>
       <Left>0.0</Left>
@@ -23560,6 +23554,7 @@ if( dataSetRow["regionCenter"] == 'Central GRA' ){&#13;
         <Visible>false</Visible>
       </Title>
       <TitlePosition>Above</TitlePosition>
+      <Ellipsis>0</Ellipsis>
     </Children>
     <Bounds>
       <Left>0.0</Left>
@@ -24784,6 +24779,7 @@ if( dataSetRow["regionCenter"] == 'Central GRA' ){&#13;
         <Visible>false</Visible>
       </Title>
       <TitlePosition>Above</TitlePosition>
+      <Ellipsis>0</Ellipsis>
     </Children>
     <Bounds>
       <Left>0.0</Left>
@@ -26010,6 +26006,7 @@ if( dataSetRow["regionCenter"] == 'Central GRA' ){&#13;
         <Visible>false</Visible>
       </Title>
       <TitlePosition>Above</TitlePosition>
+      <Ellipsis>0</Ellipsis>
     </Children>
     <Bounds>
       <Left>0.0</Left>
