@@ -508,21 +508,7 @@ public class IndexController extends BaseController{
         	view.addObject(LsAttributes.WEB_LOGIN_USER, (WebUserInfo)request.getSession(true).getAttribute(LsAttributes.WEB_LOGIN_USER));
         }
         view.setViewName("uploadData");
-        
-        String message = "";
-        if( null != request.getSession().getAttribute(LsAttributes.UPLOAD_FILE_MESSAGE) ){
-            message = (String)request.getSession().getAttribute(LsAttributes.UPLOAD_FILE_MESSAGE);
-            view.addObject(LsAttributes.JSP_VERIFY_MESSAGE, message);
-            request.getSession().removeAttribute(LsAttributes.UPLOAD_FILE_MESSAGE);
-        }
-        
-        String messageareaid = "";
-        if( null != request.getSession().getAttribute(LsAttributes.MESSAGE_AREA_ID) ){
-        	messageareaid = (String)request.getSession().getAttribute(LsAttributes.MESSAGE_AREA_ID);
-        	view.addObject(LsAttributes.MESSAGE_AREA_ID, messageareaid);
-        	request.getSession().removeAttribute(LsAttributes.MESSAGE_AREA_ID);
-        }
-        
+
         //upload daily res data message
         int validDataMessage = 0;
         if( null != request.getSession().getAttribute(LsAttributes.VALID_DATA_NUM) ){
@@ -544,67 +530,9 @@ public class IndexController extends BaseController{
         	view.addObject(LsAttributes.EXISTS_DATA, existsData);
         	request.getSession().removeAttribute(LsAttributes.EXISTS_DATA);
         }
-        
-        if( null != request.getSession().getAttribute("dataFile") ){
-        	view.addObject("dataFile",(String)request.getSession().getAttribute("dataFile"));
-        	request.getSession().removeAttribute("dataFile");
-        }
-        
-        if( null != request.getSession().getAttribute(LsAttributes.WEEKLY_PDF_REPORT_MESSAGE) ){
-            message = (String)request.getSession().getAttribute(LsAttributes.WEEKLY_PDF_REPORT_MESSAGE);
-            view.addObject(LsAttributes.WEEKLY_PDF_REPORT_MESSAGE, message);
-            request.getSession().removeAttribute(LsAttributes.WEEKLY_PDF_REPORT_MESSAGE);
-        }
-        
-        if( null != request.getSession().getAttribute("dsmFileName") ){
-            view.addObject("dsmFileName", request.getSession().getAttribute("dsmFileName"));
-            request.getSession().removeAttribute("dsmFileName");
-        }
-        
-        if( null != request.getSession().getAttribute("dsmDataFile") ){
-            view.addObject("dsmDataFile", request.getSession().getAttribute("dsmDataFile"));
-            request.getSession().removeAttribute("dsmDataFile");
-        }
-        
-        if( null != request.getSession().getAttribute("rsmFileName") ){
-            view.addObject("rsmFileName", request.getSession().getAttribute("rsmFileName"));
-            request.getSession().removeAttribute("rsmFileName");
-        }
-        
-        if( null != request.getSession().getAttribute("rsmDataFile") ){
-            view.addObject("rsmDataFile", request.getSession().getAttribute("rsmDataFile"));
-            request.getSession().removeAttribute("rsmDataFile");
-        }
-        if( null != request.getSession().getAttribute("monthlyDataFile") ){
-            view.addObject("monthlyDataFile", request.getSession().getAttribute("monthlyDataFile"));
-            request.getSession().removeAttribute("monthlyDataFile");
-        }
-        if( null != request.getSession().getAttribute("homeDataFile") ){
-            view.addObject("homeDataFile", request.getSession().getAttribute("homeDataFile"));
-            request.getSession().removeAttribute("homeDataFile");
-        }
-        if( null != request.getSession().getAttribute("doctorDataFile") ){
-            view.addObject("doctorDataFile", request.getSession().getAttribute("doctorDataFile"));
-            request.getSession().removeAttribute("doctorDataFile");
-        }
-        
-        if( null != request.getSession().getAttribute("monthlyInRateDataFile") ){
-        	view.addObject("monthlyInRateDataFile", request.getSession().getAttribute("monthlyInRateDataFile"));
-        	request.getSession().removeAttribute("monthlyInRateDataFile");
-        }
-        if( null != request.getSession().getAttribute("monthlyInRateDataFileName") ){
-        	view.addObject("monthlyInRateDataFileName", request.getSession().getAttribute("monthlyInRateDataFileName"));
-        	request.getSession().removeAttribute("monthlyInRateDataFileName");
-        }
-        
-        if( null != request.getSession().getAttribute("monthlyCollectionDataFile") ){
-        	view.addObject("monthlyCollectionDataFile", request.getSession().getAttribute("monthlyCollectionDataFile"));
-        	request.getSession().removeAttribute("monthlyCollectionDataFile");
-        }
-        if( null != request.getSession().getAttribute("monthlyCollectionDataFileName") ){
-        	view.addObject("monthlyCollectionDataFileName", request.getSession().getAttribute("monthlyCollectionDataFileName"));
-        	request.getSession().removeAttribute("monthlyCollectionDataFileName");
-        }
+
+        this.populateFileInfo(view, request);
+
         return view;
     }
     
@@ -635,70 +563,9 @@ public class IndexController extends BaseController{
         String localPath = request.getRealPath("/");
         initKPISource(view, basePath, localPath);
         
-        String message = "";
-        if( null != request.getSession().getAttribute(LsAttributes.UPLOAD_FILE_MESSAGE) ){
-            message = (String)request.getSession().getAttribute(LsAttributes.UPLOAD_FILE_MESSAGE);
-            view.addObject(LsAttributes.JSP_VERIFY_MESSAGE, message);
-            request.getSession().removeAttribute(LsAttributes.UPLOAD_FILE_MESSAGE);
-        }
-        
-        String messageareaid = "";
-        if( null != request.getSession().getAttribute(LsAttributes.MESSAGE_AREA_ID) ){
-            messageareaid = (String)request.getSession().getAttribute(LsAttributes.MESSAGE_AREA_ID);
-            view.addObject(LsAttributes.MESSAGE_AREA_ID, messageareaid);
-            request.getSession().removeAttribute(LsAttributes.MESSAGE_AREA_ID);
-        }
-        
-        if( null != request.getSession().getAttribute("dataFile") ){
-            view.addObject("dataFile",(String)request.getSession().getAttribute("dataFile"));
-            request.getSession().removeAttribute("dataFile");
-        }
-        
-        if( null != request.getSession().getAttribute(LsAttributes.WEEKLY_PDF_REPORT_MESSAGE) ){
-            message = (String)request.getSession().getAttribute(LsAttributes.WEEKLY_PDF_REPORT_MESSAGE);
-            view.addObject(LsAttributes.WEEKLY_PDF_REPORT_MESSAGE, message);
-            request.getSession().removeAttribute(LsAttributes.WEEKLY_PDF_REPORT_MESSAGE);
-        }
-        
         if( null != request.getSession().getAttribute(LsAttributes.WEEKLY_PDF_REFRESH_MESSAGE) ){
-            message = (String)request.getSession().getAttribute(LsAttributes.WEEKLY_PDF_REFRESH_MESSAGE);
-            view.addObject(LsAttributes.WEEKLY_PDF_REFRESH_MESSAGE, message);
+            view.addObject(LsAttributes.WEEKLY_PDF_REFRESH_MESSAGE, (String)request.getSession().getAttribute(LsAttributes.WEEKLY_PDF_REFRESH_MESSAGE));
             request.getSession().removeAttribute(LsAttributes.WEEKLY_PDF_REFRESH_MESSAGE);
-        }
-        
-        if( null != request.getSession().getAttribute("dsmFileName") ){
-            view.addObject("dsmFileName", request.getSession().getAttribute("dsmFileName"));
-            request.getSession().removeAttribute("dsmFileName");
-        }
-        
-        if( null != request.getSession().getAttribute("dsmDataFile") ){
-            view.addObject("dsmDataFile", request.getSession().getAttribute("dsmDataFile"));
-            request.getSession().removeAttribute("dsmDataFile");
-        }
-        
-        if( null != request.getSession().getAttribute("rsmFileName") ){
-            view.addObject("rsmFileName", request.getSession().getAttribute("rsmFileName"));
-            request.getSession().removeAttribute("rsmFileName");
-        }
-        
-        if( null != request.getSession().getAttribute("rsmDataFile") ){
-            view.addObject("rsmDataFile", request.getSession().getAttribute("rsmDataFile"));
-            request.getSession().removeAttribute("rsmDataFile");
-        }
-        
-        if( null != request.getSession().getAttribute("monthlyDataFile") ){
-            view.addObject("monthlyDataFile", request.getSession().getAttribute("monthlyDataFile"));
-            request.getSession().removeAttribute("monthlyDataFile");
-        }
-        
-        if( null != request.getSession().getAttribute("homeDataFile") ){
-            view.addObject("homeDataFile", request.getSession().getAttribute("homeDataFile"));
-            request.getSession().removeAttribute("homeDataFile");
-        }
-        
-        if( null != request.getSession().getAttribute("doctorDataFile") ){
-            view.addObject("doctorDataFile", request.getSession().getAttribute("doctorDataFile"));
-            request.getSession().removeAttribute("doctorDataFile");
         }
         
         if( null != request.getSession().getAttribute("reportFiles") ){
@@ -706,23 +573,7 @@ public class IndexController extends BaseController{
         	request.getSession().removeAttribute("reportFiles");
         }
 
-        if( null != request.getSession().getAttribute("monthlyInRateDataFile") ){
-        	view.addObject("monthlyInRateDataFile", request.getSession().getAttribute("monthlyInRateDataFile"));
-        	request.getSession().removeAttribute("monthlyInRateDataFile");
-        }
-        if( null != request.getSession().getAttribute("monthlyInRateDataFileName") ){
-        	view.addObject("monthlyInRateDataFileName", request.getSession().getAttribute("monthlyInRateDataFileName"));
-        	request.getSession().removeAttribute("monthlyInRateDataFileName");
-        }
-
-        if( null != request.getSession().getAttribute("monthlyCollectionDataFile") ){
-        	view.addObject("monthlyCollectionDataFile", request.getSession().getAttribute("monthlyCollectionDataFile"));
-        	request.getSession().removeAttribute("monthlyCollectionDataFile");
-        }
-        if( null != request.getSession().getAttribute("monthlyCollectionDataFileName") ){
-        	view.addObject("monthlyCollectionDataFileName", request.getSession().getAttribute("monthlyCollectionDataFileName"));
-        	request.getSession().removeAttribute("monthlyCollectionDataFileName");
-        }
+        this.populateFileInfo(view, request);
         populateQueryParams(view, request);
         
         return view;
@@ -749,6 +600,86 @@ public class IndexController extends BaseController{
     		view.addObject("department", request.getSession().getAttribute("department"));
     		request.getSession().removeAttribute("department");
     	}
+    }
+    
+    private void populateFileInfo(ModelAndView view, HttpServletRequest request){
+        
+        if( null != request.getSession().getAttribute(LsAttributes.UPLOAD_FILE_MESSAGE) ){
+            view.addObject(LsAttributes.JSP_VERIFY_MESSAGE, (String)request.getSession().getAttribute(LsAttributes.UPLOAD_FILE_MESSAGE));
+            request.getSession().removeAttribute(LsAttributes.UPLOAD_FILE_MESSAGE);
+        }
+        if( null != request.getSession().getAttribute(LsAttributes.MESSAGE_AREA_ID) ){
+        	view.addObject(LsAttributes.MESSAGE_AREA_ID, (String)request.getSession().getAttribute(LsAttributes.MESSAGE_AREA_ID));
+        	request.getSession().removeAttribute(LsAttributes.MESSAGE_AREA_ID);
+        }
+        
+    	if( null != request.getSession().getAttribute("dataFile") ){
+        	view.addObject("dataFile",(String)request.getSession().getAttribute("dataFile"));
+        	request.getSession().removeAttribute("dataFile");
+        }
+    	
+        if( null != request.getSession().getAttribute(LsAttributes.WEEKLY_PDF_REPORT_MESSAGE) ){
+            view.addObject(LsAttributes.WEEKLY_PDF_REPORT_MESSAGE, (String)request.getSession().getAttribute(LsAttributes.WEEKLY_PDF_REPORT_MESSAGE));
+            request.getSession().removeAttribute(LsAttributes.WEEKLY_PDF_REPORT_MESSAGE);
+        }
+        
+        if( null != request.getSession().getAttribute("dsmFileName") ){
+            view.addObject("dsmFileName", request.getSession().getAttribute("dsmFileName"));
+            request.getSession().removeAttribute("dsmFileName");
+        }
+        
+        if( null != request.getSession().getAttribute("dsmDataFile") ){
+            view.addObject("dsmDataFile", request.getSession().getAttribute("dsmDataFile"));
+            request.getSession().removeAttribute("dsmDataFile");
+        }
+        
+        if( null != request.getSession().getAttribute("rsmFileName") ){
+            view.addObject("rsmFileName", request.getSession().getAttribute("rsmFileName"));
+            request.getSession().removeAttribute("rsmFileName");
+        }
+        
+        if( null != request.getSession().getAttribute("rsmDataFile") ){
+            view.addObject("rsmDataFile", request.getSession().getAttribute("rsmDataFile"));
+            request.getSession().removeAttribute("rsmDataFile");
+        }
+        if( null != request.getSession().getAttribute("monthlyDataFile") ){
+            view.addObject("monthlyDataFile", request.getSession().getAttribute("monthlyDataFile"));
+            request.getSession().removeAttribute("monthlyDataFile");
+        }
+        if( null != request.getSession().getAttribute("homeDataFile") ){
+            view.addObject("homeDataFile", request.getSession().getAttribute("homeDataFile"));
+            request.getSession().removeAttribute("homeDataFile");
+        }
+        if( null != request.getSession().getAttribute("doctorDataFile") ){
+            view.addObject("doctorDataFile", request.getSession().getAttribute("doctorDataFile"));
+            request.getSession().removeAttribute("doctorDataFile");
+        }
+        if( null != request.getSession().getAttribute("monthlyInRateDataFile") ){
+        	view.addObject("monthlyInRateDataFile", request.getSession().getAttribute("monthlyInRateDataFile"));
+        	request.getSession().removeAttribute("monthlyInRateDataFile");
+        }
+        if( null != request.getSession().getAttribute("monthlyInRateDataFileName") ){
+        	view.addObject("monthlyInRateDataFileName", request.getSession().getAttribute("monthlyInRateDataFileName"));
+        	request.getSession().removeAttribute("monthlyInRateDataFileName");
+        }
+        
+        if( null != request.getSession().getAttribute("monthlyCollectionDataFile") ){
+        	view.addObject("monthlyCollectionDataFile", request.getSession().getAttribute("monthlyCollectionDataFile"));
+        	request.getSession().removeAttribute("monthlyCollectionDataFile");
+        }
+        if( null != request.getSession().getAttribute("monthlyCollectionDataFileName") ){
+        	view.addObject("monthlyCollectionDataFileName", request.getSession().getAttribute("monthlyCollectionDataFileName"));
+        	request.getSession().removeAttribute("monthlyCollectionDataFileName");
+        }
+        if( null != request.getSession().getAttribute("resMonthDataFile") ){
+        	view.addObject("resMonthDataFile", request.getSession().getAttribute("resMonthDataFile"));
+        	request.getSession().removeAttribute("resMonthDataFile");
+        }
+        if( null != request.getSession().getAttribute("resMonthDataFileName") ){
+        	view.addObject("resMonthDataFileName", request.getSession().getAttribute("resMonthDataFileName"));
+        	request.getSession().removeAttribute("resMonthDataFileName");
+        }
+
     }
     
     private void initUploadDataUsers(ModelAndView view){

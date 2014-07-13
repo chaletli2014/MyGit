@@ -139,6 +139,10 @@
 		loading();
 		$("#downloadMonthlyCollectionData").submit();
 	}
+	function downloadResMonthData(){
+		loading();
+		$("#downloadResMonthData").submit();
+	}
 	function downloadAllDSMData(){
 		
 		if( ( $("#datepicker_allDSM") && $("#datepicker_allDSM").val() == '' ) ){
@@ -372,6 +376,19 @@
 					<c:if test="${monthlyCollectionDataFile != null}">
 						<div id="monthlyCollectionDataFile">
 							<a href="${monthlyCollectionDataFile}">${monthlyCollectionDataFileName}</a>
+						</div>
+					</c:if>
+				</div>
+			</div>
+			<div class="element_block">
+				<div class="element_title">每月袋数采集统计表</div>
+				<div>
+					<form action="doDownloadResMonthData" id="downloadResMonthData" method="post" enctype="multipart/form-data" data-ajax="false" accept-charset="UTF-8">
+						<img alt="" src="<%=basePath%>images/button_submit.png" style="cursor: pointer; vertical-align: middle;" onclick="downloadResMonthData()" />
+					</form>
+					<c:if test="${resMonthDataFile != null}">
+						<div>
+							<a href="${resMonthDataFile}">${resMonthDataFileName}</a>
 						</div>
 					</c:if>
 				</div>
