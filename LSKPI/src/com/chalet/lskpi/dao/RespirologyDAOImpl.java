@@ -20,6 +20,7 @@ import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Repository;
 
+import com.chalet.lskpi.mapper.RespirologyMobileRowMapper;
 import com.chalet.lskpi.mapper.TopAndBottomRSMDataRowMapper;
 import com.chalet.lskpi.model.DailyReportData;
 import com.chalet.lskpi.model.Hospital;
@@ -736,6 +737,7 @@ public class RespirologyDAOImpl implements RespirologyDAO {
         Timestamp paramDate = new Timestamp(DateUtils.populateParamDate(date).getTime());
         
         mobileRESDailySQL.append("select ui.region as name, ui.userCode,")
+        .append(" (select property_value from tbl_property where property_name=ui.regionCenter ) as regionCenterCN, ")
         .append(" ( select count(1) from tbl_hospital h where h.rsmRegion = ui.region and h.isResAssessed='1' ) hosNum, ")
         .append(LsAttributes.SQL_DAILYREPORT_SELECTION_ALIAS_RES)
         .append(" from ( ")
@@ -764,6 +766,7 @@ public class RespirologyDAOImpl implements RespirologyDAO {
         Timestamp paramDate = new Timestamp(DateUtils.populateParamDate(date).getTime());
         
         mobileRESDailySQL.append("select '全国' as name,null as userCode,")
+            .append(" '' as regionCenterCN, ")
             .append(" ( select count(1) from tbl_hospital h where h.isResAssessed='1' ) hosNum,")
             .append(LsAttributes.SQL_DAILYREPORT_SELECTION_RES)
             .append(" from ( ")
@@ -783,6 +786,7 @@ public class RespirologyDAOImpl implements RespirologyDAO {
         Timestamp paramDate = new Timestamp(DateUtils.populateParamDate(date).getTime());
 		
         mobileRESDailySQL.append("select ui.name, ui.userCode,")
+        .append(" (select property_value from tbl_property where property_name=ui.regionCenter ) as regionCenterCN, ")
         .append(" ( select count(1) from tbl_hospital h where h.dsmCode = ui.userCode and h.rsmRegion = ui.region and h.isResAssessed='1' ) hosNum, ")
         .append(LsAttributes.SQL_DAILYREPORT_SELECTION_ALIAS_RES)
         .append(" from ( ")
@@ -812,6 +816,7 @@ public class RespirologyDAOImpl implements RespirologyDAO {
         Timestamp paramDate = new Timestamp(DateUtils.populateParamDate(date).getTime());
 		
         mobileRESDailySQL.append("select ui.region as name, ui.userCode,")
+        .append(" (select property_value from tbl_property where property_name=ui.regionCenter ) as regionCenterCN, ")
         .append(" ( select count(1) from tbl_hospital h where h.rsmRegion = ui.region and h.isResAssessed='1' ) hosNum, ")
         .append(LsAttributes.SQL_DAILYREPORT_SELECTION_ALIAS_RES)
         .append(" from ( ")
@@ -840,7 +845,8 @@ public class RespirologyDAOImpl implements RespirologyDAO {
 		Date date = new Date();
         Timestamp paramDate = new Timestamp(DateUtils.populateParamDate(date).getTime());
 		
-        mobileRESDailySQL.append("select ui.regionCenter as name, ui.userCode,")
+        mobileRESDailySQL.append("select ( select distinct property_value from tbl_property where property_name = ui.regionCenter ) as name, ui.userCode,")
+        .append(" (select property_value from tbl_property where property_name=ui.regionCenter ) as regionCenterCN, ")
         .append(" ( select count(1) from tbl_hospital h where h.region = ui.regionCenter and h.isResAssessed='1' ) hosNum, ")
         .append(LsAttributes.SQL_DAILYREPORT_SELECTION_ALIAS_RES)
         .append(" from ( ")
@@ -868,6 +874,7 @@ public class RespirologyDAOImpl implements RespirologyDAO {
 	    Timestamp paramDate = new Timestamp(DateUtils.populateParamDate(date).getTime());
 	    
 	    mobileRESDailySQL.append("select ui.name, ui.userCode,")
+	    .append(" (select property_value from tbl_property where property_name=ui.regionCenter ) as regionCenterCN, ")
         .append(" ( select count(1) from tbl_hospital h where h.saleCode = ui.userCode and h.rsmRegion = ui.region and h.dsmCode = ui.superior and h.isResAssessed='1' ) hosNum, ")
         .append(LsAttributes.SQL_DAILYREPORT_SELECTION_ALIAS_RES)
         .append(" from ( ")
@@ -1098,43 +1105,6 @@ public class RespirologyDAOImpl implements RespirologyDAO {
         }
         
     }
-    
-    class RespirologyMobileRowMapper implements RowMapper<MobileRESDailyData>{
-	    
-	    public MobileRESDailyData mapRow(ResultSet rs, int arg1) throws SQLException {
-	    	MobileRESDailyData mobileRESDailyData = new MobileRESDailyData();
-	        String userName = rs.getString("name");
-	        if( LsAttributes.BR_NAME_CENTRAL.equalsIgnoreCase(userName) ){
-	        	userName = LsAttributes.BR_NAME_CENTRAL_ZH;
-	        }else if( LsAttributes.BR_NAME_EAST1.equalsIgnoreCase(userName) ){
-	        	userName = LsAttributes.BR_NAME_EAST1_ZH;
-	        }else if( LsAttributes.BR_NAME_EAST2.equalsIgnoreCase(userName) ){
-	        	userName = LsAttributes.BR_NAME_EAST2_ZH;
-	        }else if( LsAttributes.BR_NAME_NORTH.equalsIgnoreCase(userName) ){
-	        	userName = LsAttributes.BR_NAME_NORTH_ZH;
-	        }else if( LsAttributes.BR_NAME_SOUTH.equalsIgnoreCase(userName) ){
-	        	userName = LsAttributes.BR_NAME_SOUTH_ZH;
-	        }else if( LsAttributes.BR_NAME_WEST.equalsIgnoreCase(userName) ){
-	        	userName = LsAttributes.BR_NAME_WEST_ZH;
-	        }
-	        
-	        mobileRESDailyData.setUserName(userName);
-	        mobileRESDailyData.setUserCode(rs.getString("userCode"));
-	        mobileRESDailyData.setHosNum(rs.getInt("hosNum"));
-	        mobileRESDailyData.setInNum(rs.getInt("inNum"));
-	        mobileRESDailyData.setPatNum(rs.getInt("pNum"));
-	        mobileRESDailyData.setWhNum(rs.getInt("whNum"));
-	        mobileRESDailyData.setLsNum(rs.getInt("lsNum"));
-	        mobileRESDailyData.setAverageDose(rs.getDouble("averageDose"));
-	        mobileRESDailyData.setOmgRate(rs.getDouble("omgRate"));
-	        mobileRESDailyData.setTmgRate(rs.getDouble("tmgRate"));
-	        mobileRESDailyData.setThmgRate(rs.getDouble("thmgRate"));
-	        mobileRESDailyData.setFmgRate(rs.getDouble("fmgRate"));
-	        mobileRESDailyData.setSmgRate(rs.getDouble("smgRate"));
-	        mobileRESDailyData.setEmgRate(rs.getDouble("emgRate"));
-	        return mobileRESDailyData;
-	    }
-	}
     
     public DataBean getDataBean() {
         return dataBean;

@@ -6,7 +6,6 @@ import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -770,25 +769,15 @@ public class ReportController extends BaseController{
                 logger.info("get daily ped parent data for mobile end...");
                 view.addObject(LsAttributes.MOBILE_DAILY_REPORT_PARENT_DATA, mpd);
                 
-                List<MobilePEDDailyData> mobilePEDCentralRSMData = pediatricsService.getDailyPEDData4MobileByRegion("Central GRA");
-                logger.info("get daily ped parent data of central RSM end...");
-                List<MobilePEDDailyData> mobilePEDEast1RSMData = pediatricsService.getDailyPEDData4MobileByRegion("East1 GRA");
-                logger.info("get daily ped parent data of east1 RSM end...");
-                List<MobilePEDDailyData> mobilePEDEast2RSMData = pediatricsService.getDailyPEDData4MobileByRegion("East2 GRA");
-                logger.info("get daily ped parent data of east2 RSM end...");
-                List<MobilePEDDailyData> mobilePEDNorthRSMData = pediatricsService.getDailyPEDData4MobileByRegion("North GRA");
-                logger.info("get daily ped parent data of north RSM end...");
-                List<MobilePEDDailyData> mobilePEDSouthRSMData = pediatricsService.getDailyPEDData4MobileByRegion("South GRA");
-                logger.info("get daily ped parent data of south RSM end...");
-                List<MobilePEDDailyData> mobilePEDWestRSMData = pediatricsService.getDailyPEDData4MobileByRegion("West GRA");
-                logger.info("get daily ped parent data of west RSM end...");
+                List<String> allRegionCenters = userService.getAllRegionName();
+                List<List<MobilePEDDailyData>> allRSMMobilePEDData = new ArrayList<List<MobilePEDDailyData>>();
+                for( String regionCenter : allRegionCenters ){
+                    List<MobilePEDDailyData> mobilePEDRSMData = pediatricsService.getDailyPEDData4MobileByRegion(regionCenter);
+                    logger.info(String.format("get daily ped data of %s RSM end...", regionCenter));
+                    allRSMMobilePEDData.add(mobilePEDRSMData);
+                }
                 
-                view.addObject(LsAttributes.MOBILE_DAILY_REPORT_CENTRAL_DATA, mobilePEDCentralRSMData);
-                view.addObject(LsAttributes.MOBILE_DAILY_REPORT_EAST1_DATA, mobilePEDEast1RSMData);
-                view.addObject(LsAttributes.MOBILE_DAILY_REPORT_EAST2_DATA, mobilePEDEast2RSMData);
-                view.addObject(LsAttributes.MOBILE_DAILY_REPORT_NORTH_DATA, mobilePEDNorthRSMData);
-                view.addObject(LsAttributes.MOBILE_DAILY_REPORT_SOUTH_DATA, mobilePEDSouthRSMData);
-                view.addObject(LsAttributes.MOBILE_DAILY_REPORT_WEST_DATA, mobilePEDWestRSMData);
+                view.addObject(LsAttributes.MOBILE_DAILY_REPORT_ALL_RSM_DATA, allRSMMobilePEDData);
                 populateDailyReportTitle4AllRSM(view);
                 logger.info("populate the title for all rsm end...");
             }
@@ -844,25 +833,16 @@ public class ReportController extends BaseController{
                 logger.info("get daily res parent data for mobile end...");
                 view.addObject(LsAttributes.MOBILE_DAILY_REPORT_PARENT_DATA, mrd);
                 
-                List<MobileRESDailyData> mobileRESCentralRSMData = respirologyService.getDailyRESData4MobileByRegion("Central GRA");
-                logger.info("get daily res parent data of central RSM end...");
-                List<MobileRESDailyData> mobileRESEast1RSMData = respirologyService.getDailyRESData4MobileByRegion("East1 GRA");
-                logger.info("get daily res parent data of east1 RSM end...");
-                List<MobileRESDailyData> mobileRESEast2RSMData = respirologyService.getDailyRESData4MobileByRegion("East2 GRA");
-                logger.info("get daily res parent data of east2 RSM end...");
-                List<MobileRESDailyData> mobileRESNorthRSMData = respirologyService.getDailyRESData4MobileByRegion("North GRA");
-                logger.info("get daily res parent data of north RSM end...");
-                List<MobileRESDailyData> mobileRESSouthRSMData = respirologyService.getDailyRESData4MobileByRegion("South GRA");
-                logger.info("get daily res parent data of south RSM end...");
-                List<MobileRESDailyData> mobileRESWestRSMData = respirologyService.getDailyRESData4MobileByRegion("West GRA");
-                logger.info("get daily res parent data of west RSM end...");
+                List<String> allRegionCenters = userService.getAllRegionName();
+                List<List<MobileRESDailyData>> mobileRESAllRSMData = new ArrayList<List<MobileRESDailyData>>();
                 
-                view.addObject(LsAttributes.MOBILE_DAILY_REPORT_CENTRAL_DATA, mobileRESCentralRSMData);
-                view.addObject(LsAttributes.MOBILE_DAILY_REPORT_EAST1_DATA, mobileRESEast1RSMData);
-                view.addObject(LsAttributes.MOBILE_DAILY_REPORT_EAST2_DATA, mobileRESEast2RSMData);
-                view.addObject(LsAttributes.MOBILE_DAILY_REPORT_NORTH_DATA, mobileRESNorthRSMData);
-                view.addObject(LsAttributes.MOBILE_DAILY_REPORT_SOUTH_DATA, mobileRESSouthRSMData);
-                view.addObject(LsAttributes.MOBILE_DAILY_REPORT_WEST_DATA, mobileRESWestRSMData);
+                for( String regionCenter : allRegionCenters ){
+                    List<MobileRESDailyData> mobileRESRSMData = respirologyService.getDailyRESData4MobileByRegion(regionCenter);
+                    logger.info(String.format("get daily res data of %s RSM end...", regionCenter));
+                    mobileRESAllRSMData.add(mobileRESRSMData);
+                }
+                
+                view.addObject(LsAttributes.MOBILE_DAILY_REPORT_ALL_RSM_DATA, mobileRESAllRSMData);
                 populateDailyReportTitle4AllRSM(view);
             }
             

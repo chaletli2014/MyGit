@@ -22,6 +22,7 @@ public class UserInfo {
 	private String email;
 	
 	private String realLevel;
+	private String regionCenterCN;
 	
 	public int getId() {
 		return id;
@@ -106,5 +107,11 @@ public class UserInfo {
     }
     public void setRealLevel(String realLevel) {
         this.realLevel = realLevel;
+    }
+    public String getRegionCenterCN() {
+        return regionCenterCN;
+    }
+    public void setRegionCenterCN(String regionCenterCN) {
+        this.regionCenterCN = regionCenterCN;
     }
 }

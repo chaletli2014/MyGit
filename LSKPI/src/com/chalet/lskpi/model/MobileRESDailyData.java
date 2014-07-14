@@ -25,6 +25,8 @@ public class MobileRESDailyData {
     private double inRate;
     private double whRate;
     
+    private String regionCenterCN;
+    
     public String getUserName() {
         return userName;
     }
@@ -135,4 +137,10 @@ public class MobileRESDailyData {
 	public void setEmgRate(double emgRate) {
 		this.emgRate = emgRate;
 	}
+    public String getRegionCenterCN() {
+        return regionCenterCN;
+    }
+    public void setRegionCenterCN(String regionCenterCN) {
+        this.regionCenterCN = regionCenterCN;
+    }
 }

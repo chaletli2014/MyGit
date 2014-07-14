@@ -101,6 +101,7 @@ public class LsAttributes {
     public static final String MOBILE_DAILY_REPORT_NORTH_DATA = "mobileDailyReportNorthData";
     public static final String MOBILE_DAILY_REPORT_SOUTH_DATA = "mobileDailyReportSouthData";
     public static final String MOBILE_DAILY_REPORT_WEST_DATA = "mobileDailyReportWestData";
+    public static final String MOBILE_DAILY_REPORT_ALL_RSM_DATA = "mobileDailyReportAllRSMData";
     
     public static final String USER_LEVEL_REP = "REP";
     public static final String USER_LEVEL_DSM = "DSM";

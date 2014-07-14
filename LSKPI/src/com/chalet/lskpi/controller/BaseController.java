@@ -127,7 +127,7 @@ public class BaseController {
                   break;
               case LsAttributes.USER_LEVEL_RSM:
                   selfTitle.append(LsAttributes.DAILYREPORTTITLE_1)
-                  .append(StringUtils.getTheZHValueOfRegionCenter(currentUser.getRegionCenter()))
+                  .append(currentUser.getRegionCenterCN())
                   .append(LsAttributes.DAILYREPORTTITLE_2)
                   .append(LsAttributes.USER_LEVEL_RSM)
                   .append(LsAttributes.DAILYREPORTTITLE_SPLIT_1);
@@ -164,7 +164,7 @@ public class BaseController {
                   selfTitle.append(LsAttributes.DAILYREPORTTITLE_SPLIT_2).append(datatype);
                   
                   childTitle.append(LsAttributes.DAILYREPORTTITLE_1)
-                  .append(StringUtils.getTheZHValueOfRegionCenter(currentUser.getRegionCenter()))
+                  .append(currentUser.getRegionCenterCN())
                   .append(LsAttributes.DAILYREPORTTITLE_2)
                   .append(LsAttributes.USER_LEVEL_RSM)
                   .append(LsAttributes.DAILYREPORTTITLE_SPLIT_1);
@@ -209,7 +209,7 @@ public class BaseController {
     		break;
     	case LsAttributes.USER_LEVEL_RSM:
     		monthlyDataTitle.append(LsAttributes.DAILYREPORTTITLE_1)
-    		.append(StringUtils.getTheZHValueOfRegionCenter(currentUser.getRegionCenter()))
+    		.append(currentUser.getRegionCenterCN())
     		.append(LsAttributes.DAILYREPORTTITLE_2)
 //    		.append(LsAttributes.USER_LEVEL_RSM)
     		.append(" ")
@@ -223,7 +223,7 @@ public class BaseController {
     		.append(LsAttributes.DAILYREPORTTITLE_2)
 //    		.append(LsAttributes.USER_LEVEL_RSD)
     		.append(" ")
-    		.append(StringUtils.getTheZHValueOfRegionCenter(currentUser.getRegionCenter()))
+    		.append(currentUser.getRegionCenterCN())
     		.append(" ")
     		.append(datatype);
     		break;
@@ -263,7 +263,7 @@ public class BaseController {
                 break;
             case LsAttributes.USER_LEVEL_RSM:
                 homeDataTitle.append(LsAttributes.DAILYREPORTTITLE_1)
-                .append(StringUtils.getTheZHValueOfRegionCenter(currentUser.getRegionCenter()))
+                .append(currentUser.getRegionCenterCN())
                 .append(LsAttributes.DAILYREPORTTITLE_2)
                 .append(LsAttributes.USER_LEVEL_RSM)
                 .append(" ")
@@ -285,7 +285,7 @@ public class BaseController {
                 .append(datatype);
                 
                 childTitle.append(LsAttributes.DAILYREPORTTITLE_1)
-                .append(StringUtils.getTheZHValueOfRegionCenter(currentUser.getRegionCenter()))
+                .append(currentUser.getRegionCenterCN())
                 .append(LsAttributes.DAILYREPORTTITLE_2)
                 .append(LsAttributes.USER_LEVEL_RSM)
                 .append(" ")
@@ -357,70 +357,13 @@ public class BaseController {
     }
     
     public void populateDailyReportTitle4AllRSM(ModelAndView view){
-    	StringBuffer centralTitle = new StringBuffer();
-    	centralTitle.append(LsAttributes.DAILYREPORTTITLE_1)
-        .append(StringUtils.getTheZHValueOfRegionCenter(LsAttributes.BR_NAME_CENTRAL))
-        .append(LsAttributes.DAILYREPORTTITLE_2)
+    	StringBuffer titleSuffix = new StringBuffer();
+    	titleSuffix.append(LsAttributes.DAILYREPORTTITLE_2)
         .append(LsAttributes.USER_LEVEL_RSM)
         .append(LsAttributes.DAILYREPORTTITLE_SPLIT_1)
         .append(DateUtils.getYesterDayForDailyReportTitle())
         .append(LsAttributes.DAILYREPORTTITLE_SPLIT_2).append(LsAttributes.DAILYREPORTTITLE_3);
         
-        view.addObject("centralTitle", centralTitle.toString());
-        
-        StringBuffer east1Title = new StringBuffer();
-        east1Title.append(LsAttributes.DAILYREPORTTITLE_1)
-        .append(StringUtils.getTheZHValueOfRegionCenter(LsAttributes.BR_NAME_EAST1))
-        .append(LsAttributes.DAILYREPORTTITLE_2)
-        .append(LsAttributes.USER_LEVEL_RSM)
-        .append(LsAttributes.DAILYREPORTTITLE_SPLIT_1)
-        .append(DateUtils.getYesterDayForDailyReportTitle())
-        .append(LsAttributes.DAILYREPORTTITLE_SPLIT_2).append(LsAttributes.DAILYREPORTTITLE_3);
-        
-        view.addObject("east1Title", east1Title.toString());
-        
-        StringBuffer east2Title = new StringBuffer();
-        east2Title.append(LsAttributes.DAILYREPORTTITLE_1)
-        .append(StringUtils.getTheZHValueOfRegionCenter(LsAttributes.BR_NAME_EAST2))
-        .append(LsAttributes.DAILYREPORTTITLE_2)
-        .append(LsAttributes.USER_LEVEL_RSM)
-        .append(LsAttributes.DAILYREPORTTITLE_SPLIT_1)
-        .append(DateUtils.getYesterDayForDailyReportTitle())
-        .append(LsAttributes.DAILYREPORTTITLE_SPLIT_2).append(LsAttributes.DAILYREPORTTITLE_3);
-        
-        view.addObject("east2Title", east2Title.toString());
-        
-        StringBuffer northTitle = new StringBuffer();
-        northTitle.append(LsAttributes.DAILYREPORTTITLE_1)
-        .append(StringUtils.getTheZHValueOfRegionCenter(LsAttributes.BR_NAME_NORTH))
-        .append(LsAttributes.DAILYREPORTTITLE_2)
-        .append(LsAttributes.USER_LEVEL_RSM)
-        .append(LsAttributes.DAILYREPORTTITLE_SPLIT_1)
-        .append(DateUtils.getYesterDayForDailyReportTitle())
-        .append(LsAttributes.DAILYREPORTTITLE_SPLIT_2).append(LsAttributes.DAILYREPORTTITLE_3);
-        
-        view.addObject("northTitle", northTitle.toString());
-        
-        StringBuffer southTitle = new StringBuffer();
-        southTitle.append(LsAttributes.DAILYREPORTTITLE_1)
-        .append(StringUtils.getTheZHValueOfRegionCenter(LsAttributes.BR_NAME_SOUTH))
-        .append(LsAttributes.DAILYREPORTTITLE_2)
-        .append(LsAttributes.USER_LEVEL_RSM)
-        .append(LsAttributes.DAILYREPORTTITLE_SPLIT_1)
-        .append(DateUtils.getYesterDayForDailyReportTitle())
-        .append(LsAttributes.DAILYREPORTTITLE_SPLIT_2).append(LsAttributes.DAILYREPORTTITLE_3);
-        
-        view.addObject("southTitle", southTitle.toString());
-        
-        StringBuffer westTitle = new StringBuffer();
-        westTitle.append(LsAttributes.DAILYREPORTTITLE_1)
-        .append(StringUtils.getTheZHValueOfRegionCenter(LsAttributes.BR_NAME_WEST))
-        .append(LsAttributes.DAILYREPORTTITLE_2)
-        .append(LsAttributes.USER_LEVEL_RSM)
-        .append(LsAttributes.DAILYREPORTTITLE_SPLIT_1)
-        .append(DateUtils.getYesterDayForDailyReportTitle())
-        .append(LsAttributes.DAILYREPORTTITLE_SPLIT_2).append(LsAttributes.DAILYREPORTTITLE_3);
-        
-        view.addObject("westTitle", westTitle.toString());
+        view.addObject("titleSuffix", titleSuffix.toString());
     }
 }

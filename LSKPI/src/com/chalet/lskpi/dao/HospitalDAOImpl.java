@@ -332,7 +332,7 @@ public class HospitalDAOImpl implements HospitalDAO {
 	public List<MonthlyRatioData> getMonthlyDataOfREPByDSMCode(String dsmCode) throws Exception {
 		StringBuffer sb = new StringBuffer();
 		sb.append(LsAttributes.SQL_MONTHLY_RATIO_SELECT)
-		.append(", lastMonthData.saleName, '' as dsmName, lastMonthData.rsmRegion, lastMonthData.region ")
+		.append(", lastMonthData.saleName, '' as dsmName, lastMonthData.rsmRegion, ( select distinct property_value from tbl_property where property_name = lastMonthData.region ) as region")
 		.append("from (")
 		.append(LsAttributes.SQL_MONTHLY_RATIO_LASTMONTH_SELECT_REP)
 		.append(") lastMonthData ")
@@ -346,7 +346,7 @@ public class HospitalDAOImpl implements HospitalDAO {
 	public List<MonthlyRatioData> getMonthlyDataOfDSMByRsmRegion(String rsmRegion) throws Exception {
 	    StringBuffer sb = new StringBuffer();
 	    sb.append(LsAttributes.SQL_MONTHLY_RATIO_SELECT)
-	        .append(", '' as saleName, lastMonthData.dsmName, lastMonthData.rsmRegion, lastMonthData.region ")
+	        .append(", '' as saleName, lastMonthData.dsmName, lastMonthData.rsmRegion, ( select distinct property_value from tbl_property where property_name = lastMonthData.region ) as region")
 	        .append("from (")
 	        .append(LsAttributes.SQL_MONTHLY_RATIO_LASTMONTH_SELECT_DSM)
 	        .append(") lastMonthData ")
@@ -359,7 +359,7 @@ public class HospitalDAOImpl implements HospitalDAO {
 	public MonthlyRatioData getMonthlyDataOfSingleRsm(String rsmRegion) throws Exception{
 	    StringBuffer sb = new StringBuffer();
         sb.append(LsAttributes.SQL_MONTHLY_RATIO_SELECT)
-            .append(", '' as saleName, '' as dsmName, lastMonthData.rsmRegion, lastMonthData.region ")
+            .append(", '' as saleName, '' as dsmName, lastMonthData.rsmRegion, ( select distinct property_value from tbl_property where property_name = lastMonthData.region ) as region")
             .append("from (")
             .append(LsAttributes.SQL_MONTHLY_RATIO_LASTMONTH_SELECT_BELONG_RSM)
             .append(") lastMonthData ")
@@ -372,7 +372,7 @@ public class HospitalDAOImpl implements HospitalDAO {
     public List<MonthlyRatioData> getMonthlyDataOfRSMByRegion(String region) throws Exception {
         StringBuffer sb = new StringBuffer();
         sb.append(LsAttributes.SQL_MONTHLY_RATIO_SELECT)
-            .append(", '' as saleName, '' as dsmName, lastMonthData.rsmRegion, lastMonthData.region ")
+            .append(", '' as saleName, '' as dsmName, lastMonthData.rsmRegion, ( select distinct property_value from tbl_property where property_name = lastMonthData.region ) as region")
             .append("from (")
             .append(LsAttributes.SQL_MONTHLY_RATIO_LASTMONTH_SELECT_RSM)
             .append(") lastMonthData ")
@@ -384,7 +384,7 @@ public class HospitalDAOImpl implements HospitalDAO {
     public MonthlyRatioData getMonthlyDataOfSingleRsd(String region) throws Exception{
         StringBuffer sb = new StringBuffer();
         sb.append(LsAttributes.SQL_MONTHLY_RATIO_SELECT)
-            .append(", '' as saleName, '' as dsmName, '' as rsmRegion, lastMonthData.region ")
+            .append(", '' as saleName, '' as dsmName, '' as rsmRegion, ( select distinct property_value from tbl_property where property_name = lastMonthData.region ) as region")
             .append("from (")
             .append(LsAttributes.SQL_MONTHLY_RATIO_LASTMONTH_SELECT_BELONG_RSD)
             .append(") lastMonthData ")
@@ -397,13 +397,14 @@ public class HospitalDAOImpl implements HospitalDAO {
     public List<MonthlyRatioData> getMonthlyDataOfRSD() throws Exception {
     	StringBuffer sb = new StringBuffer();
         sb.append(LsAttributes.SQL_MONTHLY_RATIO_SELECT)
-            .append(", '' as saleName, '' as dsmName, '' as rsmRegion, lastMonthData.region ")
+            .append(", '' as saleName, '' as dsmName, '' as rsmRegion, ( select distinct property_value from tbl_property where property_name = lastMonthData.region ) as region ")
             .append("from (")
             .append(LsAttributes.SQL_MONTHLY_RATIO_LASTMONTH_SELECT_RSD)
             .append(") lastMonthData ")
             .append("inner join ( ")
             .append(LsAttributes.SQL_MONTHLY_RATIO_LAST2MONTH_SELECT_RSD)
-            .append(") last2MonthData on lastMonthData.region = last2MonthData.region");
+            .append(") last2MonthData on lastMonthData.region = last2MonthData.region ")
+            .append(" order by region ");
         return dataBean.getJdbcTemplate().query(sb.toString(), new MonthlyRatioDataRowMapper());
     }
     public MonthlyRatioData getMonthlyDataOfCountory() throws Exception{
@@ -653,7 +654,7 @@ public class HospitalDAOImpl implements HospitalDAO {
 	
 	public UserInfo getPrimarySalesOfHospital(String hospitalCode) throws Exception {
 	    UserInfo primarySales = new UserInfo();
-        String sql = "select ui.* from tbl_hospital h, tbl_userinfo ui where h.code = ? and h.saleCode = ui.userCode and h.dsmCode = ui.superior";
+        String sql = "select ui.*, (select distinct property_value from tbl_property where property_name=ui.regionCenter) as regionCenterCN from tbl_hospital h, tbl_userinfo ui where h.code = ? and h.saleCode = ui.userCode and h.dsmCode = ui.superior";
         primarySales = dataBean.getJdbcTemplate().queryForObject(sql, new Object[]{hospitalCode}, new UserInfoRowMapper());
         return primarySales;
 	}

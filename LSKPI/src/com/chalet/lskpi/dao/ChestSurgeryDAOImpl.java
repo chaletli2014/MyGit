@@ -263,7 +263,7 @@ public class ChestSurgeryDAOImpl implements ChestSurgeryDAO {
         Timestamp startDate = new Timestamp(date.getTime());
         Timestamp endDate = new Timestamp(new Date(date.getTime() + 1* 24 * 60 * 60 * 1000).getTime());
         
-        mobileCHEDailySQL.append("select ui.regionCenter as name, ui.userCode,")
+        mobileCHEDailySQL.append("select ( select distinct property_value from tbl_property where property_name = ui.regionCenter ) as name, ui.userCode,")
         .append(" ( select count(1) from tbl_hospital h where h.region = ui.regionCenter and h.isChestSurgeryAssessed='1' ) hosNum, ")
         .append(LsAttributes.SQL_DAILYREPORT_SELECTION_ALIAS_CHE)
         .append(" from ( ")

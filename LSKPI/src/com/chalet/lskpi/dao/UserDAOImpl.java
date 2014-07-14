@@ -43,22 +43,22 @@ public class UserDAOImpl implements UserDAO {
 		switch(currentUser.getLevel()){
 			case LsAttributes.USER_LEVEL_DSM:
 				if( LsAttributes.DEPARTMENT_RES.equalsIgnoreCase(department) ){
-					sql = "select * from tbl_userinfo where level='REP' and superior = ? and userCode in (select distinct saleCode from tbl_respirology_data_weekly) and userCode !='"+LsAttributes.VACANT_USER_CODE+"'";
+					sql = "select *, (select distinct property_value from tbl_property where property_name=regionCenter) as regionCenterCN from tbl_userinfo where level='REP' and superior = ? and userCode in (select distinct saleCode from tbl_respirology_data_weekly) and userCode !='"+LsAttributes.VACANT_USER_CODE+"'";
 				}else{
-					sql = "select * from tbl_userinfo where level='REP' and superior = ? and userCode in (select distinct saleCode from tbl_pediatrics_data_weekly) and userCode !='"+LsAttributes.VACANT_USER_CODE+"'";
+					sql = "select *, (select distinct property_value from tbl_property where property_name=regionCenter) as regionCenterCN from tbl_userinfo where level='REP' and superior = ? and userCode in (select distinct saleCode from tbl_pediatrics_data_weekly) and userCode !='"+LsAttributes.VACANT_USER_CODE+"'";
 				}
 				params = new Object[]{currentUser.getUserCode()};
 				break;
 			case LsAttributes.USER_LEVEL_RSM:
-				sql = "select * from tbl_userinfo where level='DSM' and region = ? and userCode !='"+LsAttributes.VACANT_USER_CODE+"'";
+				sql = "select *, (select distinct property_value from tbl_property where property_name=regionCenter) as regionCenterCN from tbl_userinfo where level='DSM' and region = ? and userCode !='"+LsAttributes.VACANT_USER_CODE+"'";
 				params = new Object[]{currentUser.getRegion()};
 				break;
 			case LsAttributes.USER_LEVEL_RSD:
-				sql = "select * from tbl_userinfo where level='RSM' and regionCenter = ? and userCode !='"+LsAttributes.VACANT_USER_CODE+"'";
+				sql = "select *, (select distinct property_value from tbl_property where property_name=regionCenter) as regionCenterCN from tbl_userinfo where level='RSM' and regionCenter = ? and userCode !='"+LsAttributes.VACANT_USER_CODE+"'";
 				params = new Object[]{currentUser.getRegionCenter()};
 				break;
 			case LsAttributes.USER_LEVEL_BM:
-				sql = "select * from tbl_userinfo where level='RSM' and userCode !='"+LsAttributes.VACANT_USER_CODE+"'";
+				sql = "select *, (select distinct property_value from tbl_property where property_name=regionCenter) as regionCenterCN from tbl_userinfo where level='RSM' and userCode !='"+LsAttributes.VACANT_USER_CODE+"'";
 				params = new Object[]{};
 				break;
 		}
@@ -71,15 +71,15 @@ public class UserDAOImpl implements UserDAO {
 		Object[] params = null;
 		switch(currentUser.getLevel()){
 		case LsAttributes.USER_LEVEL_RSM:
-			sql = "select * from tbl_userinfo where level='DSM' and region = ? and userCode !='"+LsAttributes.VACANT_USER_CODE+"'";
+			sql = "select *, (select distinct property_value from tbl_property where property_name=regionCenter) as regionCenterCN from tbl_userinfo where level='DSM' and region = ? and userCode !='"+LsAttributes.VACANT_USER_CODE+"'";
 			params = new Object[]{currentUser.getRegion()};
 			break;
 		case LsAttributes.USER_LEVEL_RSD:
-			sql = "select * from tbl_userinfo where level='RSM' and regionCenter = ? and userCode !='"+LsAttributes.VACANT_USER_CODE+"'";
+			sql = "select *, (select distinct property_value from tbl_property where property_name=regionCenter) as regionCenterCN from tbl_userinfo where level='RSM' and regionCenter = ? and userCode !='"+LsAttributes.VACANT_USER_CODE+"'";
 			params = new Object[]{currentUser.getRegionCenter()};
 			break;
 		case LsAttributes.USER_LEVEL_BM:
-			sql = "select * from tbl_userinfo where level='RSD'";
+			sql = "select *, (select distinct property_value from tbl_property where property_name=regionCenter) as regionCenterCN from tbl_userinfo where level='RSD'";
 			params = new Object[]{};
 			break;
 		}
@@ -89,7 +89,7 @@ public class UserDAOImpl implements UserDAO {
 	@Override
 	public UserInfo getUserInfoByTel(String telephone) throws Exception {
 		UserInfo userInfo = new UserInfo();
-		String sql = "select * from tbl_userinfo where telephone = ?";
+		String sql = "select *, (select distinct property_value from tbl_property where property_name=regionCenter) as regionCenterCN from tbl_userinfo where telephone = ?";
 		userInfo = dataBean.getJdbcTemplate().queryForObject(sql, new Object[]{telephone}, new UserInfoRowMapper());
 		return userInfo;
 	}
@@ -97,7 +97,7 @@ public class UserDAOImpl implements UserDAO {
 	@Override
 	public UserInfo getUserInfoByUserCode(String userCode) throws Exception {
 	    UserInfo userInfo = new UserInfo();
-	    String sql = "select * from tbl_userinfo where userCode = ?";
+	    String sql = "select *, (select distinct property_value from tbl_property where property_name=regionCenter) as regionCenterCN from tbl_userinfo where userCode = ?";
 	    logger.info("get user info by user code - " + userCode);
 	    userInfo = dataBean.getJdbcTemplate().queryForObject(sql, new Object[]{userCode}, new UserInfoRowMapper());
 	    return userInfo;
@@ -106,7 +106,7 @@ public class UserDAOImpl implements UserDAO {
 	@Override
 	public UserInfo getUserInfoByRegion(String region) throws Exception {
 		UserInfo userInfo = new UserInfo();
-		String sql = "select * from tbl_userinfo where region = ? and level='RSM' ";
+		String sql = "select *, (select distinct property_value from tbl_property where property_name=regionCenter) as regionCenterCN from tbl_userinfo where region = ? and level='RSM' ";
 		logger.info("get user info by region - " + region);
 		userInfo = dataBean.getJdbcTemplate().queryForObject(sql, new Object[]{region}, new UserInfoRowMapper());
 		return userInfo;
@@ -115,7 +115,7 @@ public class UserDAOImpl implements UserDAO {
 	@Override
 	public UserInfo getUserInfoByRegionCenter(String regionCenter) throws Exception {
 		UserInfo userInfo = new UserInfo();
-		String sql = "select * from tbl_userinfo where regionCenter = ? and level='RSD' ";
+		String sql = "select *, (select distinct property_value from tbl_property where property_name=regionCenter) as regionCenterCN from tbl_userinfo where regionCenter = ? and level='RSD' ";
 		logger.info(String.format("get user info by regionCenter - %s", regionCenter));
 		userInfo = dataBean.getJdbcTemplate().queryForObject(sql, new Object[]{regionCenter}, new UserInfoRowMapper());
 		return userInfo;
@@ -124,9 +124,9 @@ public class UserDAOImpl implements UserDAO {
 	public List<UserInfo> getUserInfoByLevel(String level) throws Exception {
 		String sql = "";
 		if( null != level && LsAttributes.USER_LEVEL_BM.equalsIgnoreCase(level) ){
-			sql = "select * from tbl_userinfo where level not in ('REP','DSM','RSM','RSD')";
+			sql = "select *, (select distinct property_value from tbl_property where property_name=regionCenter) as regionCenterCN from tbl_userinfo where level not in ('REP','DSM','RSM','RSD')";
 		}else{
-			sql = "select * from tbl_userinfo where level = '"+level+"' order by regionCenter, region";
+			sql = "select *, (select distinct property_value from tbl_property where property_name=regionCenter) as regionCenterCN from tbl_userinfo where level = '"+level+"' order by regionCenter, region";
 		}
 		return dataBean.getJdbcTemplate().query(sql, new UserInfoRowMapper());
 	}
@@ -261,19 +261,19 @@ public class UserDAOImpl implements UserDAO {
         Object[] params = null;
         switch(currentUser.getLevel()){
             case LsAttributes.USER_LEVEL_DSM:
-                sql = "select * from tbl_userinfo where level='REP' and superior = ? and userCode !='"+LsAttributes.VACANT_USER_CODE+"'";
+                sql = "select *, (select distinct property_value from tbl_property where property_name=regionCenter) as regionCenterCN from tbl_userinfo where level='REP' and superior = ? and userCode !='"+LsAttributes.VACANT_USER_CODE+"'";
                 params = new Object[]{currentUser.getUserCode()};
                 break;
             case LsAttributes.USER_LEVEL_RSM:
-                sql = "select * from tbl_userinfo where level='REP' and region = ? and userCode !='"+LsAttributes.VACANT_USER_CODE+"'";
+                sql = "select *, (select distinct property_value from tbl_property where property_name=regionCenter) as regionCenterCN from tbl_userinfo where level='REP' and region = ? and userCode !='"+LsAttributes.VACANT_USER_CODE+"'";
                 params = new Object[]{currentUser.getRegion()};
                 break;
             case LsAttributes.USER_LEVEL_RSD:
-                sql = "select * from tbl_userinfo where level='REP' and regionCenter = ? and userCode !='"+LsAttributes.VACANT_USER_CODE+"'";
+                sql = "select *, (select distinct property_value from tbl_property where property_name=regionCenter) as regionCenterCN from tbl_userinfo where level='REP' and regionCenter = ? and userCode !='"+LsAttributes.VACANT_USER_CODE+"'";
                 params = new Object[]{currentUser.getRegionCenter()};
                 break;
             case LsAttributes.USER_LEVEL_BM:
-                sql = "select * from tbl_userinfo where level='REP' and userCode !='"+LsAttributes.VACANT_USER_CODE+"'";
+                sql = "select *, (select distinct property_value from tbl_property where property_name=regionCenter) as regionCenterCN from tbl_userinfo where level='REP' and userCode !='"+LsAttributes.VACANT_USER_CODE+"'";
                 params = new Object[]{};
                 break;
         }

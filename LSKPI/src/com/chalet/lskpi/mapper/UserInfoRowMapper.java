@@ -31,6 +31,7 @@ public class UserInfoRowMapper implements RowMapper<UserInfo>{
         dbUser.setSuperior(rs.getString("superior"));
         dbUser.setUserCode(rs.getString("userCode"));
         dbUser.setEmail(rs.getString("email"));
+        dbUser.setRegionCenterCN(rs.getString("regionCenterCN"));
         return dbUser;
     }
     

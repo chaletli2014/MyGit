@@ -20,6 +20,7 @@ import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Repository;
 
+import com.chalet.lskpi.mapper.PediatricsMobileRowMapper;
 import com.chalet.lskpi.mapper.TopAndBottomRSMDataRowMapper;
 import com.chalet.lskpi.model.DailyReportData;
 import com.chalet.lskpi.model.Hospital;
@@ -35,9 +36,9 @@ import com.chalet.lskpi.utils.DailyReportDataRowMapper;
 import com.chalet.lskpi.utils.DataBean;
 import com.chalet.lskpi.utils.DateUtils;
 import com.chalet.lskpi.utils.LsAttributes;
+import com.chalet.lskpi.utils.PEDWeeklyRatioDataRowMapper;
 import com.chalet.lskpi.utils.ReportProcessDataRowMapper;
 import com.chalet.lskpi.utils.ReportProcessDetailDataRowMapper;
-import com.chalet.lskpi.utils.PEDWeeklyRatioDataRowMapper;
 
 /**
  * @author Chalet
@@ -677,6 +678,7 @@ public class PediatricsDAOImpl implements PediatricsDAO {
         Timestamp paramDate = new Timestamp(DateUtils.populateParamDate(date).getTime());
         
         mobilePEDDailySQL.append("select ui.region as name, ui.userCode,")
+        .append(" (select property_value from tbl_property where property_name=ui.regionCenter ) as regionCenterCN, ")
         .append(" ( select count(1) from tbl_hospital h where h.rsmRegion = ui.region and h.isPedAssessed='1' ) hosNum, ")
         .append(LsAttributes.SQL_DAILYREPORT_SELECTION_ALIAS_PED)
         .append(" from ( ")
@@ -705,6 +707,7 @@ public class PediatricsDAOImpl implements PediatricsDAO {
         Timestamp paramDate = new Timestamp(DateUtils.populateParamDate(date).getTime());
         
         mobilePEDDailySQL.append("select '全国' as name,null as userCode,")
+            .append(" '' as regionCenterCN, ")
             .append(" (select count(1) from tbl_hospital h where h.isPedAssessed='1' ) hosNum, ")
             .append(LsAttributes.SQL_DAILYREPORT_SELECTION_PED)
             .append(" from ( ")
@@ -723,6 +726,7 @@ public class PediatricsDAOImpl implements PediatricsDAO {
 	    Timestamp paramDate = new Timestamp(DateUtils.populateParamDate(date).getTime());
 	    
 	    mobilePEDDailySQL.append("select ui.name, ui.userCode,")
+	    .append(" (select property_value from tbl_property where property_name=ui.regionCenter ) as regionCenterCN, ")
         .append(" ( select count(1) from tbl_hospital h where h.dsmCode = ui.userCode and h.rsmRegion = ui.region and h.isPedAssessed='1' ) hosNum, ")
         .append(LsAttributes.SQL_DAILYREPORT_SELECTION_ALIAS_PED)
         .append(" from ( ")
@@ -752,6 +756,7 @@ public class PediatricsDAOImpl implements PediatricsDAO {
         Timestamp paramDate = new Timestamp(DateUtils.populateParamDate(date).getTime());
 		
         mobilePEDDailySQL.append("select ui.region as name, ui.userCode,")
+        .append(" (select property_value from tbl_property where property_name=ui.regionCenter ) as regionCenterCN, ")
         .append(" ( select count(1) from tbl_hospital h where h.rsmRegion = ui.region and h.isPedAssessed='1' ) hosNum, ")
         .append(LsAttributes.SQL_DAILYREPORT_SELECTION_ALIAS_PED)
         .append(" from ( ")
@@ -780,8 +785,9 @@ public class PediatricsDAOImpl implements PediatricsDAO {
         Date date = new Date();
         Timestamp paramDate = new Timestamp(DateUtils.populateParamDate(date).getTime());
 		
-	    mobilePEDDailySQL.append("select ui.regionCenter as name,ui.userCode,")
-    	    .append(" ( select count(1) from tbl_hospital h where h.region = ui.regionCenter and h.isPedAssessed='1' ) hosNum, ")
+	    mobilePEDDailySQL.append("select ( select distinct property_value from tbl_property where property_name = ui.regionCenter ) as name,ui.userCode,")
+	        .append(" (select property_value from tbl_property where property_name=ui.regionCenter ) as regionCenterCN, ")
+	        .append(" ( select count(1) from tbl_hospital h where h.region = ui.regionCenter and h.isPedAssessed='1' ) hosNum, ")
     	    .append(LsAttributes.SQL_DAILYREPORT_SELECTION_ALIAS_PED)
     	    .append(" from ( ")
     	    .append(" select u.regionCenter as name, u.userCode,")
@@ -807,6 +813,7 @@ public class PediatricsDAOImpl implements PediatricsDAO {
 	    Timestamp paramDate = new Timestamp(DateUtils.populateParamDate(date).getTime());
 	    
 	    mobilePEDDailySQL.append("select ui.name,ui.userCode,")
+	    .append(" (select property_value from tbl_property where property_name=ui.regionCenter ) as regionCenterCN, ")
 	    .append(" ( select count(1) from tbl_hospital h where h.saleCode = ui.userCode and h.rsmRegion = ui.region and h.dsmCode = ui.superior and h.isPedAssessed='1') hosNum, ")
 	    .append(LsAttributes.SQL_DAILYREPORT_SELECTION_ALIAS_PED)
 	    .append(" from ( ")
@@ -1031,41 +1038,6 @@ public class PediatricsDAOImpl implements PediatricsDAO {
         }
         
     }
-	
-	class PediatricsMobileRowMapper implements RowMapper<MobilePEDDailyData>{
-	    
-	    public MobilePEDDailyData mapRow(ResultSet rs, int arg1) throws SQLException {
-	        MobilePEDDailyData mobilePEDDailyData = new MobilePEDDailyData();
-	        String userName = rs.getString("name");
-	        if( LsAttributes.BR_NAME_CENTRAL.equalsIgnoreCase(userName) ){
-	        	userName = LsAttributes.BR_NAME_CENTRAL_ZH;
-	        }else if( LsAttributes.BR_NAME_EAST1.equalsIgnoreCase(userName) ){
-	        	userName = LsAttributes.BR_NAME_EAST1_ZH;
-	        }else if( LsAttributes.BR_NAME_EAST2.equalsIgnoreCase(userName) ){
-	        	userName = LsAttributes.BR_NAME_EAST2_ZH;
-	        }else if( LsAttributes.BR_NAME_NORTH.equalsIgnoreCase(userName) ){
-	        	userName = LsAttributes.BR_NAME_NORTH_ZH;
-	        }else if( LsAttributes.BR_NAME_SOUTH.equalsIgnoreCase(userName) ){
-	        	userName = LsAttributes.BR_NAME_SOUTH_ZH;
-	        }else if( LsAttributes.BR_NAME_WEST.equalsIgnoreCase(userName) ){
-	        	userName = LsAttributes.BR_NAME_WEST_ZH;
-	        }
-	        
-	        mobilePEDDailyData.setUserName(userName);
-	        mobilePEDDailyData.setUserCode(rs.getString("userCode"));
-	        mobilePEDDailyData.setHosNum(rs.getInt("hosNum"));
-	        mobilePEDDailyData.setInNum(rs.getInt("inNum"));
-	        mobilePEDDailyData.setPatNum(rs.getInt("pNum"));
-	        mobilePEDDailyData.setWhNum(rs.getInt("whNum"));
-	        mobilePEDDailyData.setLsNum(rs.getInt("lsNum"));
-	        mobilePEDDailyData.setAverageDose(rs.getDouble("averageDose"));
-	        mobilePEDDailyData.setHmgRate(rs.getDouble("hmgRate"));
-	        mobilePEDDailyData.setOmgRate(rs.getDouble("omgRate"));
-	        mobilePEDDailyData.setTmgRate(rs.getDouble("tmgRate"));
-	        mobilePEDDailyData.setFmgRate(rs.getDouble("fmgRate"));
-	        return mobilePEDDailyData;
-	    }
-	}
 	
 	public DataBean getDataBean() {
         return dataBean;
