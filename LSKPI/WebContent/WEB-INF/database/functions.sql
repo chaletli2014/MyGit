@@ -1081,43 +1081,59 @@ limit 0,12
 , ROUND(IFNULL(lastMonthData.pedEmernum/lastMonthData.totalnum - last2MonthData.pedEmernum/last2MonthData.totalnum,0),2) as pedemernumrateratio 
 , ROUND(IFNULL(lastMonthData.pedroomnum/lastMonthData.totalnum - last2MonthData.pedroomnum/last2MonthData.totalnum,0),2) as pedroomnumrateratio 
 , ROUND(IFNULL(lastMonthData.resnum/lastMonthData.totalnum - last2MonthData.resnum/last2MonthData.totalnum,0),2) as resnumrateratio 
-, ROUND(IFNULL(lastMonthData.othernum/lastMonthData.totalnum - last2MonthData.othernum/last2MonthData.totalnum,0),2) as othernumrateratio
+, ROUND(IFNULL(lastMonthData.othernum/lastMonthData.totalnum - last2MonthData.othernum/last2MonthData.totalnum,0),2) as othernumrateratio 
+, IFNULL(lastMonthData.totalnum,0) as totalnum 
+, ROUND(IFNULL((lastMonthData.totalnum - last2MonthData.totalnum)/last2MonthData.totalnum,0),2) as totalnumratio 
+, IFNULL(lastMonthData.innum,0) as innum 
+, ROUND(IFNULL((lastMonthData.innum-last2MonthData.innum)/last2MonthData.innum,0),2) as innumratio 
+, IFNULL(lastMonthData.hosnum,0) as hosnum 
+, ROUND(IFNULL((lastMonthData.hosnum-last2MonthData.hosnum)/last2MonthData.hosnum,0),2) as hosnumratio 
+, ROUND(IFNULL(lastMonthData.innum,0)/IFNULL(lastMonthData.hosnum,0),2) as inrate 
+, ROUND(IFNULL(lastMonthData.innum/lastMonthData.hosnum - last2MonthData.innum/last2MonthData.hosnum,0),2) as inrateratio 
 , '' as saleName, '' as dsmName, '' as rsmRegion, lastMonthData.region 
 from (
-	select lastMonth.pedEmernum ,lastMonth.pedroomnum ,lastMonth.resnum 
-		,lastMonth.othernum ,lastMonth.totalnum , u.region as rsmRegion , u.regionCenter as region 
-	    from (
-	       select rsmRegion 
-	       , region 
-	       , sum(pedEmernum) as pedEmernum 
-	       , sum(pedroomnum) as pedroomnum 
-	       , sum(resnum) as resnum 
-	       , sum(other) as othernum 
-	       , sum(pedEmernum)+sum(pedroomnum)+sum(resnum)+sum(other) as totalnum 
-	       from tbl_month_data md 
-	       where (YEAR(createdate)+MONTH(createdate)) = YEAR(DATE_SUB(now(), INTERVAL 1 MONTH))+MONTH(DATE_SUB(now(), INTERVAL 1 MONTH)) 
-	       group by region 
-	   ) lastMonth 
-	   right join tbl_userinfo u on u.regionCenter = lastMonth.region 
-	   where u.level='RSD' 
+    select lastMonth.pedEmernum ,lastMonth.pedroomnum ,lastMonth.resnum ,lastMonth.othernum ,lastMonth.totalnum 
+    , lastMonth.innum as innum 
+    , (select count(1) from tbl_hospital h where h.region = u.regionCenter and h.isMonthlyAssessed='1') as hosnum 
+    , u.region as rsmRegion , u.regionCenter as region 
+        from (
+           select h.rsmRegion 
+           , h.region 
+           , sum(pedEmernum) as pedEmernum 
+           , sum(pedroomnum) as pedroomnum 
+           , sum(resnum) as resnum 
+           , sum(other) as othernum 
+           , sum(pedEmernum)+sum(pedroomnum)+sum(resnum)+sum(other) as totalnum 
+           , count(1) as innum 
+           from tbl_month_data md, tbl_hospital h 
+            where md.countMonth = DATE_FORMAT(DATE_SUB(now(), INTERVAL 1 MONTH),'%Y-%m') 
+           and md.hospitalCode = h.code and h.isMonthlyAssessed='1' 
+           group by h.region 
+       ) lastMonth 
+       right join tbl_userinfo u on u.regionCenter = lastMonth.region 
+       where u.level='RSD' 
 ) lastMonthData 
 inner join ( 
-	select last2Month.pedEmernum ,last2Month.pedroomnum ,last2Month.resnum 
-		,last2Month.othernum ,last2Month.totalnum , u.region as rsmRegion , u.regionCenter as region 
-	    from (
-	       select rsmRegion 
-	       , region 
-	       , sum(pedEmernum) as pedEmernum 
-	       , sum(pedroomnum) as pedroomnum 
-	       , sum(resnum) as resnum 
-	       , sum(other) as othernum 
-	       , sum(pedEmernum)+sum(pedroomnum)+sum(resnum)+sum(other) as totalnum 
-	       from tbl_month_data md 
-	       where (YEAR(createdate)+MONTH(createdate)) = YEAR(DATE_SUB(now(), INTERVAL 2 MONTH))+MONTH(DATE_SUB(now(), INTERVAL 2 MONTH)) 
-	       group by region 
-	   ) last2Month 
-	   right join tbl_userinfo u on u.regionCenter = last2Month.region 
-	   where u.level='RSD' 
+    select last2Month.pedEmernum ,last2Month.pedroomnum ,last2Month.resnum ,last2Month.othernum ,last2Month.totalnum 
+    , last2Month.innum as innum 
+    , (select count(1) from tbl_hospital h where h.region = u.regionCenter and h.isMonthlyAssessed='1') as hosnum 
+    , u.region as rsmRegion , u.regionCenter as region 
+        from (
+           select h.rsmRegion 
+           , h.region 
+           , sum(pedEmernum) as pedEmernum 
+           , sum(pedroomnum) as pedroomnum 
+           , sum(resnum) as resnum 
+           , sum(other) as othernum 
+           , sum(pedEmernum)+sum(pedroomnum)+sum(resnum)+sum(other) as totalnum 
+           , count(1) as innum 
+           from tbl_month_data md, tbl_hospital h 
+            where md.countMonth = DATE_FORMAT(DATE_SUB(now(), INTERVAL 2 MONTH),'%Y-%m') 
+           and md.hospitalCode = h.code and h.isMonthlyAssessed='1' 
+           group by h.region 
+       ) last2Month 
+       right join tbl_userinfo u on u.regionCenter = last2Month.region 
+       where u.level='RSD' 
 ) last2MonthData on lastMonthData.region = last2MonthData.region;
 
 --------getMonthlyDataOfRSMByRegion---------
@@ -1788,3 +1804,84 @@ select h.region, h.rsmRegion
 from tbl_doctor d, tbl_hospital h 
 where d.hospitalCode = h.code 
 order by h.region, h.rsmRegion, h.code, d.code;
+
+----------------------------------------------------------------------------------------------
+
+
+insert into tbl_chestSurgery_data_weekly 
+select 
+null,
+CONCAT(DATE_FORMAT(DATE_SUB('2014-04-24', Interval 7 day),'%Y.%m.%d'), '-',DATE_FORMAT(DATE_SUB('2014-04-24', Interval 1 day),'%Y.%m.%d')) as duration, 
+h.name,
+h.code,
+cd_data.inNum,
+cd_data.pnum,
+cd_data.whnum,
+cd_data.risknum,
+cd_data.lsnum,
+cd_data.averageDose,
+cd_data.omgRate,
+cd_data.tmgRate,
+cd_data.thmgRate,
+cd_data.fmgRate,
+cd_data.smgRate,
+cd_data.emgRate,
+month(DATE_SUB('2014-04-24', Interval 7 day)),
+now() 
+from (
+SELECT 
+    h.code, 
+    count_hos.inNum,
+    (sum(cd.pnum)/count_hos.inNum)*5 as pnum,
+    (sum(cd.risknum)/count_hos.inNum)*5 as risknum,
+    (sum(cd.whnum)/count_hos.inNum)*5 as whnum,
+    (sum(cd.lsnum)/count_hos.inNum)*5 as lsnum,
+    IFNULL( 
+                sum( 
+                    ( 
+                        ( 1*IFNULL(cd.oqd,0) 
+                        + 2*1*IFNULL(cd.tqd,0) 
+                        + 1*3*IFNULL(cd.otid,0) 
+                        + 2*2*IFNULL(cd.tbid,0) 
+                        + 2*3*IFNULL(cd.ttid,0) 
+                        + 3*2*IFNULL(cd.thbid,0) 
+                        + 4*2*IFNULL(cd.fbid,0) 
+                        ) / 100  
+                    ) * IFNULL(cd.lsnum,0) 
+                ) / IFNULL(sum(cd.lsnum),0)
+            ,0 ) averageDose, 
+    IFNULL(
+        sum(IFNULL(cd.oqd,0)*cd.lsnum/100)/sum(cd.lsnum),0
+    ) omgRate,
+    IFNULL(
+        sum(IFNULL(cd.tqd,0)*cd.lsnum/100)/sum(cd.lsnum),0
+    ) tmgRate,
+    IFNULL(
+        sum(IFNULL(cd.otid,0)*cd.lsnum/100)/sum(cd.lsnum),0
+    ) thmgRate,
+    IFNULL(
+        sum(IFNULL(cd.tbid,0)*cd.lsnum/100)/sum(cd.lsnum),0
+    ) fmgRate, 
+    IFNULL(
+        sum((IFNULL(cd.ttid,0)*cd.lsnum + IFNULL(cd.thbid,0)*cd.lsnum)/100)/sum(cd.lsnum),0
+    ) smgRate, 
+    IFNULL(
+        sum(IFNULL(cd.fbid,0)*cd.lsnum/100)/sum(cd.lsnum),0
+    ) emgRate 
+    FROM tbl_chestSurgery_data cd, tbl_hospital h, 
+    (
+        select count(1) as inNum, h.code 
+        from tbl_chestSurgery_data cd, tbl_hospital h
+        WHERE cd.createdate between DATE_SUB('2014-04-24', Interval 7 day) and '2014-04-24' 
+        and cd.hospitalCode = h.code 
+        and h.isChestSurgeryAssessed='1' 
+        GROUP BY h.code
+    ) count_hos 
+    WHERE cd.createdate between DATE_SUB('2014-04-24', Interval 7 day) and '2014-04-24' 
+    and cd.hospitalCode = h.code 
+    and h.code = count_hos.code
+    and h.isChestSurgeryAssessed='1' 
+    GROUP BY h.code
+) cd_data 
+right join tbl_hospital h on cd_data.code = h.code 
+where h.isChestSurgeryAssessed='1';

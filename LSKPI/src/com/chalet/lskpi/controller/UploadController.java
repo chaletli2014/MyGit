@@ -19,6 +19,7 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import com.chalet.lskpi.model.ChestSurgeryData;
 import com.chalet.lskpi.model.DDIData;
 import com.chalet.lskpi.model.Doctor;
 import com.chalet.lskpi.model.Hospital;
@@ -27,6 +28,7 @@ import com.chalet.lskpi.model.PediatricsData;
 import com.chalet.lskpi.model.RespirologyData;
 import com.chalet.lskpi.model.UserCode;
 import com.chalet.lskpi.model.UserInfo;
+import com.chalet.lskpi.service.ChestSurgeryService;
 import com.chalet.lskpi.service.HospitalService;
 import com.chalet.lskpi.service.PediatricsService;
 import com.chalet.lskpi.service.RespirologyService;
@@ -59,6 +61,10 @@ public class UploadController {
     private RespirologyService respirologyService;
     
     @Autowired
+    @Qualifier("chestSurgeryService")
+    private ChestSurgeryService chestSurgeryService;
+    
+    @Autowired
     @Qualifier("pediatricsService")
     private PediatricsService pediatricsService;
     
@@ -85,6 +91,7 @@ public class UploadController {
             hospitalHeaders.add("是否在儿科名单中（在=1，不在=0）");
             hospitalHeaders.add("是否为月报袋数统计中（在=1，不在=0）");
             hospitalHeaders.add("是否在胸外科名单中（在=1，不在=0）");
+            hospitalHeaders.add("是否在胸外科Top 100名单中（在=1，不在=0）");
             
             List<String> repHeaders = new ArrayList<String>();
             repHeaders.add("Rep Code");
@@ -207,6 +214,81 @@ public class UploadController {
             request.getSession().setAttribute(LsAttributes.UPLOAD_FILE_MESSAGE, (null==e.getMessage()||"".equalsIgnoreCase(e.getMessage()))?LsAttributes.RETURNED_MESSAGE_1:e.getMessage());
         }
         request.getSession().setAttribute(LsAttributes.MESSAGE_AREA_ID, "uploadRESResult_div");
+        return "redirect:showUploadData";
+    }
+    
+    @RequestMapping("/doUploaddailyCHEData")
+    public String doUploaddailyCHEData(HttpServletRequest request){
+        logger.info("upload the daily chest surgery data..");
+        try{
+            if( null == request.getSession().getAttribute(LsAttributes.WEB_LOGIN_USER) ){
+                return "redirect:login";
+            }
+            
+            logger.info("refresh the message info firstly");
+            request.getSession().removeAttribute(LsAttributes.INVALID_DATA);
+            request.getSession().removeAttribute(LsAttributes.EXISTS_DATA);
+            request.getSession().removeAttribute(LsAttributes.VALID_DATA_NUM);
+            request.getSession().removeAttribute(LsAttributes.UPLOAD_FILE_MESSAGE);
+            logger.info("refresh the message info done.");
+            
+            List<String> dataHeaders = new ArrayList<String>();
+            dataHeaders.add("录入日期");
+            dataHeaders.add("医院编号");
+            dataHeaders.add("医院名称");
+            dataHeaders.add("当日病房病人人数");
+            dataHeaders.add("当日病房内合并COPD或哮喘的手术病人数");
+            dataHeaders.add("当日雾化病人数");
+            dataHeaders.add("当日雾化令舒病人数");
+            dataHeaders.add("1mg QD");
+            dataHeaders.add("2mg QD");
+            dataHeaders.add("1mg TID");
+            dataHeaders.add("2mg BID");
+            dataHeaders.add("2mg TID");
+            dataHeaders.add("3mg BID");
+            dataHeaders.add("4mg BID");
+            
+            long begin = System.currentTimeMillis();
+            Map<String,List<ChestSurgeryData>> cheDatas = ExcelUtils.getdailyCHEDataFromFile(loadFile(request), dataHeaders);
+            
+            List<ChestSurgeryData> validData = cheDatas.get("validData");
+            List<ChestSurgeryData> invalidData = cheDatas.get("invalidData");
+            long end = System.currentTimeMillis();
+            logger.info("valid ResData size is " + validData.size() + ", invalid ResData size is "+invalidData.size()+", spend time " + (end - begin) + " ms");
+            
+            int validNum = validData.size();
+            for( ChestSurgeryData data : validData ){
+                try{
+                    ChestSurgeryData chestSurgeryData = chestSurgeryService.getChestSurgeryDataByHospitalAndDate(data.getHospitalCode(), data.getCreatedate());
+                    if( chestSurgeryData != null ){
+                        if( chestSurgeryData.getDataId() != 0 ){
+                            logger.info("upload chest surgery data, the data for " + data.getHospitalName() + "|" + data.getCreatedate() + ", is already exists, then update it which id is " + chestSurgeryData.getDataId());
+                            data.setDataId(chestSurgeryData.getDataId());
+                            chestSurgeryService.update(data, null);
+                        }else{
+                            logger.error(String.format("the res data of %s is invalid", data.getHospitalName()));
+                            validNum--;
+                            invalidData.add(data);
+                        }
+                    }else{
+                        logger.info("insert the new data of chest surgery");
+                        chestSurgeryService.insert(data);
+                    }
+                }catch(Exception e){
+                    logger.error("fail to insert the data of hospital " + data.getHospitalName() ,e);
+                    validNum--;
+                    invalidData.add(data);
+                }
+            }
+            
+            request.getSession().setAttribute(LsAttributes.INVALID_DATA, invalidData);
+            request.getSession().setAttribute(LsAttributes.VALID_DATA_NUM, validNum);
+        }catch(Exception e){
+            logger.error("fail to upload the file,",e);
+            request.getSession().setAttribute(LsAttributes.VALID_DATA_NUM, 0);
+            request.getSession().setAttribute(LsAttributes.UPLOAD_FILE_MESSAGE, (null==e.getMessage()||"".equalsIgnoreCase(e.getMessage()))?LsAttributes.RETURNED_MESSAGE_1:e.getMessage());
+        }
+        request.getSession().setAttribute(LsAttributes.MESSAGE_AREA_ID, "uploadCHEResult_div");
         return "redirect:showUploadData";
     }
     

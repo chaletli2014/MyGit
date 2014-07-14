@@ -319,3 +319,27 @@ create table tbl_property(
     property_name           varchar(2000),
     property_value          varchar(2000)
 );
+
+alter table tbl_hospital add column isTop100 varchar(2);
+
+drop table tbl_chestSurgery_data_weekly;
+create table tbl_chestSurgery_data_weekly(
+    id              int NOT NULL primary key auto_increment,
+    duration        varchar(30),
+    hospitalName    varchar(100),
+    hospitalCode    varchar(20),
+    innum           int,
+    pnum            DECIMAL(11,6),
+    risknum         DECIMAL(11,6),
+    whnum           DECIMAL(11,6),
+    lsnum           DECIMAL(11,6),
+    averageDose     DECIMAL(11,6),
+    omgRate         DECIMAL(11,6),
+    tmgRate         DECIMAL(11,6),
+    thmgRate        DECIMAL(11,6),
+    fmgRate         DECIMAL(11,6),
+    smgRate         DECIMAL(11,6),
+    emgRate         DECIMAL(11,6),
+    monthNum        int,
+    updatedate      datetime
+);

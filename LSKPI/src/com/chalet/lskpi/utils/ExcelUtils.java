@@ -25,6 +25,7 @@ import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
+import com.chalet.lskpi.model.ChestSurgeryData;
 import com.chalet.lskpi.model.DDIData;
 import com.chalet.lskpi.model.Doctor;
 import com.chalet.lskpi.model.Hospital;
@@ -342,9 +343,7 @@ public class ExcelUtils {
     				lsnumCell.setCellType(Cell.CELL_TYPE_STRING);
     				String lsnum = lsnumCell.toString();
                     
-                    if( Integer.parseInt(pnum) < Integer.parseInt(aenum)
-                            || Integer.parseInt(pnum) < Integer.parseInt(whnum)
-                            || Integer.parseInt(pnum) < Integer.parseInt(lsnum) ){
+                    if( Integer.parseInt(pnum)*1.5 < Integer.parseInt(lsnum) ){
                         isValidData = false;
                     }
                     
@@ -405,7 +404,7 @@ public class ExcelUtils {
                         logger.error("ignore the parse of double format for fbid",e);
                     }
                     
-                    if( (oqd + tqd + otid + tbid + ttid + thbid + fbid) != 100.0 ){
+                    if( (oqd + tqd + otid + tbid + ttid + thbid + fbid) != 100.0 && Integer.parseInt(lsnum) > 0 ){
                         isValidData = false;
                     }
                     
@@ -455,6 +454,161 @@ public class ExcelUtils {
         }
         
         return allResData;
+    }
+    
+    public static Map<String, List<ChestSurgeryData>> getdailyCHEDataFromFile(String filePath,List<String> headers) throws Exception{
+        List<ChestSurgeryData> datas = new ArrayList<ChestSurgeryData>();
+        List<ChestSurgeryData> invalidDatas = new ArrayList<ChestSurgeryData>();
+        Map<String, List<ChestSurgeryData>> allData = new HashMap<String, List<ChestSurgeryData>>();
+        InputStream is = null;
+        try{
+            is = new FileInputStream(filePath);
+            Workbook book = createCommonWorkbook(is);
+            Sheet sheet = book.getSheetAt(0);
+            
+            int header_count = 0;
+            Map<String, Integer> headerColumn = new HashMap<String, Integer>();
+            
+            Row row = sheet.getRow(sheet.getFirstRowNum());
+            if( row == null ){
+                throw new Exception("文件格式不正确，无法导入数据");
+            }
+            for( int i = row.getFirstCellNum(); i < row.getPhysicalNumberOfCells(); i++ ){
+                if( headers.contains(row.getCell(i).toString()) ){
+                    headerColumn.put(row.getCell(i).toString(), i);
+                    header_count++;
+                }
+            }
+            logger.info("header_count is " + header_count + ", should be " + headers.size());
+            if( header_count != headers.size() ){
+                throw new Exception("文件格式不正确，无法导入数据");
+            }
+            //get the data
+            for( int i = sheet.getFirstRowNum() + 1; i < sheet.getPhysicalNumberOfRows(); i++ ){
+                ChestSurgeryData data = new ChestSurgeryData();
+                boolean isValidData = true;
+                try{
+                    row = sheet.getRow(i);
+                    String hosCode = row.getCell(headerColumn.get(headers.get(1))).toString();
+                    data.setHospitalCode(hosCode);
+                    
+                    String hosName = row.getCell(headerColumn.get(headers.get(2))).toString();
+                    data.setHospitalName(hosName);
+                    
+                    Date createdate = null;
+                    if(  Cell.CELL_TYPE_NUMERIC == row.getCell(headerColumn.get(headers.get(0))).getCellType() ){
+                        createdate = row.getCell(headerColumn.get(headers.get(0))).getDateCellValue();
+                    }else{
+                        String dateStr = row.getCell(headerColumn.get(headers.get(0))).toString();
+                        SimpleDateFormat sf = new SimpleDateFormat("yyyy/MM/dd");
+                        createdate = sf.parse(dateStr);
+                    }
+                    
+                    Cell pnumCell = row.getCell(headerColumn.get(headers.get(3)));
+                    pnumCell.setCellType(Cell.CELL_TYPE_STRING);
+                    String pnum = pnumCell.toString();
+                    
+                    Cell aenumCell = row.getCell(headerColumn.get(headers.get(4)));
+                    aenumCell.setCellType(Cell.CELL_TYPE_STRING);
+                    String aenum = aenumCell.toString();
+                    
+                    Cell whnumCell = row.getCell(headerColumn.get(headers.get(5)));
+                    whnumCell.setCellType(Cell.CELL_TYPE_STRING);
+                    String whnum = whnumCell.toString();
+                    
+                    Cell lsnumCell = row.getCell(headerColumn.get(headers.get(6)));
+                    lsnumCell.setCellType(Cell.CELL_TYPE_STRING);
+                    String lsnum = lsnumCell.toString();
+                    
+                    if( Integer.parseInt(pnum)*1.5 < Integer.parseInt(lsnum) ){
+                        isValidData = false;
+                    }
+                    
+                    double oqd = 0;
+                    double tqd = 0;
+                    double otid = 0;
+                    double tbid = 0;
+                    double ttid = 0;
+                    double thbid = 0;
+                    double fbid = 0;
+                    
+                    try{
+                        oqd = Double.parseDouble(row.getCell(headerColumn.get(headers.get(7))).toString());
+                    }catch(Exception e){
+                        logger.error("ignore the parse of double format for oqd",e);
+                    }
+                    try{
+                        tqd = Double.parseDouble(row.getCell(headerColumn.get(headers.get(8))).toString());
+                    }catch(Exception e){
+                        logger.error("ignore the parse of double format for tqd",e);
+                    }
+                    try{
+                        otid = Double.parseDouble(row.getCell(headerColumn.get(headers.get(9))).toString());
+                    }catch(Exception e){
+                        logger.error("ignore the parse of double format for otid",e);
+                    }
+                    try{
+                        tbid = Double.parseDouble(row.getCell(headerColumn.get(headers.get(10))).toString());
+                    }catch(Exception e){
+                        logger.error("ignore the parse of double format for tbid",e);
+                    }
+                    try{
+                        ttid = Double.parseDouble(row.getCell(headerColumn.get(headers.get(11))).toString());
+                    }catch(Exception e){
+                        logger.error("ignore the parse of double format for ttid",e);
+                    }
+                    try{
+                        thbid = Double.parseDouble(row.getCell(headerColumn.get(headers.get(12))).toString());
+                    }catch(Exception e){
+                        logger.error("ignore the parse of double format for thid",e);
+                    }
+                    try{
+                        fbid = Double.parseDouble(row.getCell(headerColumn.get(headers.get(13))).toString());
+                    }catch(Exception e){
+                        logger.error("ignore the parse of double format for fbid",e);
+                    }
+                    
+                    if( (oqd + tqd + otid + tbid + ttid + thbid + fbid) != 100.0 && Integer.parseInt(lsnum) > 0 ){
+                        isValidData = false;
+                    }
+                    
+                    if( null != hosName && !"".equalsIgnoreCase(hosName) && isValidData ){
+                        data.setPnum(Integer.parseInt(pnum));
+                        data.setRisknum(Integer.parseInt(aenum));
+                        data.setWhnum(Integer.parseInt(whnum));
+                        data.setLsnum(Integer.parseInt(lsnum));
+                        data.setOqd(oqd);
+                        data.setTqd(tqd);
+                        data.setOtid(otid);
+                        data.setTbid(tbid);
+                        data.setTtid(ttid);
+                        data.setThbid(thbid);
+                        data.setFbid(fbid);
+                        data.setCreatedate(createdate);
+                        
+                        datas.add(data);
+                    }else{
+                        invalidDatas.add(data);
+                    }
+                }catch(Exception e){
+                    logger.error("fail to parse the chest surgery data",e);
+                    invalidDatas.add(data);
+                }
+            }
+            
+            allData.put("validData", datas);
+            allData.put("invalidData", invalidDatas);
+            
+        }catch(Exception e){
+            logger.error("fail to get the daily res data from the excel file.",e);
+            throw new Exception(e.getMessage());
+        }finally{
+            if(null!=is){
+                is.close();
+            }
+        }
+        
+        return allData;
     }
     
     public static Map<String, List<PediatricsData>> getdailyPEDDataFromFile(String filePath,List<String> headers) throws Exception{
@@ -520,7 +674,7 @@ public class ExcelUtils {
     				lsnumCell.setCellType(Cell.CELL_TYPE_STRING);
     				String lsnum = lsnumCell.toString();
     				
-    				if( Integer.parseInt(pnum) < Integer.parseInt(whnum) || Integer.parseInt(pnum) < Integer.parseInt(lsnum) ){
+    				if( Integer.parseInt(pnum)*1.5 < Integer.parseInt(lsnum) ){
     				    isValidData = false;
     				}
     				
@@ -578,7 +732,7 @@ public class ExcelUtils {
     				
     				recipeType = populateRecipeTypeValue(recipeType);
     				
-    				if( (hqd + hbid + oqd + obid + tqd + tbid) != 100.0  ){
+    				if( (hqd + hbid + oqd + obid + tqd + tbid) != 100.0 && Integer.parseInt(lsnum) > 0 ){
     				    isValidData = false;
     				}
     				
@@ -955,6 +1109,10 @@ public class ExcelUtils {
                 isChestSurgeryAssessedCell.setCellType(Cell.CELL_TYPE_STRING);
                 String isChestSurgeryAssessed = isChestSurgeryAssessedCell.toString();
                 
+                Cell isTop100Cell = row.getCell(hospitalHeaderColumn.get(hospitalHeaders.get(10)));
+                isTop100Cell.setCellType(Cell.CELL_TYPE_STRING);
+                String isTop100 = isTop100Cell.toString();
+                
                 //collect rep info
                 Cell repCodeCell = row.getCell(repHeaderColumn.get(repHeaders.get(0)));
                 repCodeCell.setCellType(Cell.CELL_TYPE_STRING);
@@ -1038,6 +1196,7 @@ public class ExcelUtils {
                     hospital.setIsPedAssessed(isPedAssessed);
                     hospital.setIsMonthlyAssessed(isMonthlyAssessed);
                     hospital.setIsChestSurgeryAssessed(isChestSurgeryAssessed);
+                    hospital.setIsTop100(isTop100);
                     
                     hospitalMap.put(hospitalCode, hospital);
                     hospitalCodes.add(hospitalCode);

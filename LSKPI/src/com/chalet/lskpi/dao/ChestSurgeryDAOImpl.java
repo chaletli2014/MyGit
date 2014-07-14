@@ -42,7 +42,7 @@ public class ChestSurgeryDAOImpl implements ChestSurgeryDAO {
         StringBuffer sql = new StringBuffer("");
         sql.append(" select cd.* ")
         .append(" , h.code as hospitalCode, h.name as hospitalName, h.dsmName, h.saleCode as salesCode")
-        .append(" , (select name from tbl_userinfo u where u.userCode = h.saleCode and u.level='REP') as salesName ")
+        .append(" , (select name from tbl_userinfo u where u.region = h.rsmRegion and u.superior = h.dsmCode and u.userCode = h.saleCode and u.level='REP') as salesName ")
         .append(" , h.region, h.rsmRegion ")
         .append(" from tbl_chestSurgery_data cd, tbl_hospital h ")
         .append(" where cd.hospitalCode=? ")
@@ -55,7 +55,7 @@ public class ChestSurgeryDAOImpl implements ChestSurgeryDAO {
         StringBuffer sql = new StringBuffer("");
         sql.append(" select cd.* ")
         .append(" , h.code as hospitalCode, h.name as hospitalName, h.dsmName, h.saleCode as salesCode ")
-        .append(" , (select name from tbl_userinfo u where u.userCode = h.saleCode and u.level='REP') as salesName ")
+        .append(" , (select name from tbl_userinfo u where u.region = h.rsmRegion and u.superior = h.dsmCode and u.userCode = h.saleCode and u.level='REP') as salesName ")
         .append(" , h.region, h.rsmRegion ")
         .append(" from tbl_chestSurgery_data cd, tbl_hospital h ")
         .append(" where cd.createdate between ? and ? ")
@@ -68,7 +68,7 @@ public class ChestSurgeryDAOImpl implements ChestSurgeryDAO {
         StringBuffer sql = new StringBuffer("");
         sql.append(" select cd.* ")
         .append(" , h.code as hospitalCode, h.name as hospitalName, h.dsmName, h.saleCode as salesCode ")
-        .append(" , (select name from tbl_userinfo u where u.userCode = h.saleCode and u.level='REP') as salesName ")
+        .append(" , (select name from tbl_userinfo u where u.region = h.rsmRegion and u.superior = h.dsmCode and u.userCode = h.saleCode and u.level='REP') as salesName ")
         .append(" , h.region, h.rsmRegion ")
         .append(" from tbl_chestSurgery_data cd, tbl_hospital h ")
         .append(" where cd.hospitalCode = ? ")
@@ -82,7 +82,7 @@ public class ChestSurgeryDAOImpl implements ChestSurgeryDAO {
         StringBuffer sql = new StringBuffer("");
         sql.append(" select cd.* ")
         .append(" , h.code as hospitalCode, h.name as hospitalName, h.dsmName, h.saleCode as salesCode ")
-        .append(" , (select name from tbl_userinfo u where u.userCode = h.saleCode and u.level='REP') as salesName ")
+        .append(" , (select name from tbl_userinfo u where u.region = h.rsmRegion and u.superior = h.dsmCode and u.userCode = h.saleCode and u.level='REP') as salesName ")
         .append(" , h.region, h.rsmRegion ")
         .append(" from tbl_chestSurgery_data cd, tbl_hospital h ")
         .append(" where cd.id = ? ")
@@ -129,17 +129,18 @@ public class ChestSurgeryDAOImpl implements ChestSurgeryDAO {
                     Connection connection) throws SQLException {
                 PreparedStatement ps = connection.prepareStatement(sql,Statement.RETURN_GENERATED_KEYS);
                 ps.setTimestamp(1, new Timestamp(chestSurgeryData.getCreatedate().getTime()));
-                ps.setInt(2, chestSurgeryData.getPnum());
-                ps.setInt(3, chestSurgeryData.getRisknum());
-                ps.setInt(4, chestSurgeryData.getWhnum());
-                ps.setInt(5, chestSurgeryData.getLsnum());
-                ps.setDouble(6, chestSurgeryData.getOqd());
-                ps.setDouble(7, chestSurgeryData.getTqd());
-                ps.setDouble(8, chestSurgeryData.getOtid());
-                ps.setDouble(9, chestSurgeryData.getTbid());
-                ps.setDouble(10, chestSurgeryData.getTtid());
-                ps.setDouble(11, chestSurgeryData.getThbid());
-                ps.setDouble(12, chestSurgeryData.getFbid());
+                ps.setString(2, chestSurgeryData.getHospitalCode());
+                ps.setInt(3, chestSurgeryData.getPnum());
+                ps.setInt(4, chestSurgeryData.getRisknum());
+                ps.setInt(5, chestSurgeryData.getWhnum());
+                ps.setInt(6, chestSurgeryData.getLsnum());
+                ps.setDouble(7, chestSurgeryData.getOqd());
+                ps.setDouble(8, chestSurgeryData.getTqd());
+                ps.setDouble(9, chestSurgeryData.getOtid());
+                ps.setDouble(10, chestSurgeryData.getTbid());
+                ps.setDouble(11, chestSurgeryData.getTtid());
+                ps.setDouble(12, chestSurgeryData.getThbid());
+                ps.setDouble(13, chestSurgeryData.getFbid());
                 return ps;
             }
         }, keyHolder);

@@ -14,6 +14,22 @@
 		loading();
 		$("#uploaddailyRESDataForm").submit();
 	}
+    function uploaddailyPEDDataForm() {
+        if( $("#pedDailyData") && $("#pedDailyData").val() == '' ){
+            alert('请选择一个文件进行上传');
+            return false;
+        }
+        loading();
+        $("#uploaddailyPEDDataForm").submit();
+    }
+    function uploaddailyCHEDataForm() {
+        if( $("#cheDailyData") && $("#cheDailyData").val() == '' ){
+            alert('请选择一个文件进行上传');
+            return false;
+        }
+        loading();
+        $("#uploaddailyCHEDataForm").submit();
+    }
 	function uploadAllDataForm() {
 		if( $("#allData") && $("#allData").val() == '' ){
 			alert('请选择一个文件进行上传');
@@ -45,14 +61,6 @@
 		}
 		loading();
 		$("#uploadUserCodeForm").submit();
-	}
-	function uploaddailyPEDDataForm() {
-		if( $("#pedDailyData") && $("#pedDailyData").val() == '' ){
-			alert('请选择一个文件进行上传');
-			return false;
-		}
-		loading();
-		$("#uploaddailyPEDDataForm").submit();
 	}
 	function uploadMonthlyData() {
 		if( $("#monthlyData") && $("#monthlyData").val() == '' ){
@@ -486,17 +494,17 @@
 						<img alt="" src="<%=basePath%>images/button_submit.png" style="cursor: pointer; vertical-align: middle;" onclick="uploaddailyRESDataForm()" />
 						<div id="uploadRESResult_div" class="uploadDataResult_div" style="display: none;">
 							<div>
-								<span class="upload_success_title">上传成功：</span>${validResDataNum} <span>条</span>
+								<span class="upload_success_title">上传成功：</span>${validDataNum} <span>条</span>
 							</div>
 							<c:if test="${message != null && message != ''}">
 								<div>
 									<div><span class="upload_failure_title">上传失败：</span>${message}</div>
 								</div>
 							</c:if>
-							<c:if test="${! empty invalidResData}">
+							<c:if test="${! empty invalidData}">
 								<div>
-									<div><span class="upload_failure_title">上传失败：</span>${fn:length(invalidResData)} 条。 以下医院的数据错误：</div>
-									<c:forEach items="${invalidResData}" var="invalidRes">
+									<div><span class="upload_failure_title">上传失败：</span>${fn:length(invalidData)} 条。 以下医院的数据错误：</div>
+									<c:forEach items="${invalidData}" var="invalidRes">
 										<div>${invalidRes.hospitalName}</div>
 									</c:forEach>
 								</div>
@@ -524,17 +532,17 @@
 					</form>
 					<div id="uploadPEDResult_div" class="uploadDataResult_div" style="display: none;">
 						<div>
-							<span class="upload_success_title">上传成功：</span>${validPedDataNum} <span>条</span>
+							<span class="upload_success_title">上传成功：</span>${validDataNum} <span>条</span>
 						</div>
 						<c:if test="${message != null && message != ''}">
 							<div>
 								<div><span class="upload_failure_title">上传失败：</span>${message}</div>
 							</div>
 						</c:if>
-						<c:if test="${! empty invalidPedData}">
+						<c:if test="${! empty invalidData}">
 							<div>
-								<div><span class="upload_failure_title">上传失败：</span>${fn:length(invalidPedData)} 条。 以下医院的数据错误：</div>
-								<c:forEach items="${invalidPedData}" var="invalidPed">
+								<div><span class="upload_failure_title">上传失败：</span>${fn:length(invalidData)} 条。 以下医院的数据错误：</div>
+								<c:forEach items="${invalidData}" var="invalidPed">
 									<div>${invalidPed.hospitalName}</div>
 								</c:forEach>
 							</div>
@@ -549,6 +557,33 @@
 							</div>
 						</c:if>
 						--%>
+					</div>
+				</div>
+			</div>
+			<div class="element_block">
+				<div>上传数据--胸外科每日数据</div>
+				<div>
+					<form id="uploaddailyCHEDataForm" action="doUploaddailyCHEData" method="post" enctype="multipart/form-data" accept-charset="UTF-8">
+						<input type="file" name="cheDailyData" id="cheDailyData" /> 
+						<img alt="" src="<%=basePath%>images/button_submit.png" style="cursor: pointer; vertical-align: middle;" onclick="uploaddailyCHEDataForm()" />
+					</form>
+					<div id="uploadCHEResult_div" class="uploadDataResult_div" style="display: none;">
+						<div>
+							<span class="upload_success_title">上传成功：</span>${validDataNum} <span>条</span>
+						</div>
+						<c:if test="${message != null && message != ''}">
+							<div>
+								<div><span class="upload_failure_title">上传失败：</span>${message}</div>
+							</div>
+						</c:if>
+						<c:if test="${! empty invalidData}">
+							<div>
+								<div><span class="upload_failure_title">上传失败：</span>${fn:length(invalidData)} 条。 以下医院的数据错误：</div>
+								<c:forEach items="${invalidData}" var="invalidChe">
+									<div>${invalidChe.hospitalName}</div>
+								</c:forEach>
+							</div>
+						</c:if>
 					</div>
 				</div>
 			</div>

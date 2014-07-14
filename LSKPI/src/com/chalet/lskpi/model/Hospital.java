@@ -20,6 +20,7 @@ public class Hospital {
     private String isPedAssessed;
     private String isMonthlyAssessed;
     private String isChestSurgeryAssessed;
+    private String isTop100;//是否在胸外科Top 100名单中（在=1，不在=0）
     
     public int getId() {
         return id;
@@ -122,5 +123,11 @@ public class Hospital {
     }
     public void setIsChestSurgeryAssessed(String isChestSurgeryAssessed) {
         this.isChestSurgeryAssessed = isChestSurgeryAssessed;
+    }
+    public String getIsTop100() {
+        return isTop100;
+    }
+    public void setIsTop100(String isTop100) {
+        this.isTop100 = isTop100;
     }
 }

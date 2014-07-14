@@ -50,9 +50,11 @@ public class ReportUtils {
         String fileSubName = StringUtils.getFileSubName(user);
         String pedFileNamePre = basePath + "weeklyReport/"+lastThursday+"/儿科周报-"+fileSubName+"-"+lastThursday;
         String resFileNamePre = basePath + "weeklyReport/"+lastThursday+"/呼吸科周报-"+fileSubName+"-"+lastThursday;
+        String cheFileNamePre = basePath + "weeklyReport/"+lastThursday+"/胸外科周报-"+fileSubName+"-"+lastThursday;
         
         String weeklyPDFPEDReportFileName = pedFileNamePre+".pdf";
         String weeklyPDFRESReportFileName = resFileNamePre+".pdf";
+        String weeklyPDFCHEReportFileName = cheFileNamePre+".pdf";
         
         switch(userLevel){
             case LsAttributes.USER_LEVEL_RSD:
@@ -70,7 +72,7 @@ public class ReportUtils {
             	}else{
             		logger.info(String.format(LOG_MESSAGE, fileSubName));
             	}
-                
+            	
                 break;
             case LsAttributes.USER_LEVEL_RSM:
               //RSM
@@ -149,6 +151,13 @@ public class ReportUtils {
                     logger.info("the ped weekly report for BU is done.");
                 }else{
                     logger.info("The ped weekly report for BU is already generated, no need to do again.");
+                }
+                
+                if( !new File(weeklyPDFCHEReportFileName).exists() || (isFirstRefresh && !checkFileExists)  ){
+                    html.runRefreshReport( basePath + "reportDesigns/refresh_weeklyCHEReportBU.rptdesign",telephone,startDate,endDate,weeklyPDFCHEReportFileName,"pdf","","","");
+                    logger.info("the chest surgery weekly report for BU is done.");
+                }else{
+                    logger.info("The chest surgery weekly report for BU is already generated, no need to do again.");
                 }
                 break;
             default:
