@@ -78,7 +78,7 @@ public class HomeDAOImpl implements HomeDAO {
     public void insert(final HomeData homeData, final String doctorId) throws Exception {
         logger.info("insert home data");
         
-        final String sql = "insert into tbl_home_data values(null,?,?,?,?,?,?,?,?,date_sub(NOW(),interval 7 day),NOW())";
+        final String sql = "insert into tbl_home_data values(null,?,?,?,?,?,?,?,?,date_sub(NOW(),interval 7 day),NOW(),?)";
         KeyHolder keyHolder = new GeneratedKeyHolder();
         dataBean.getJdbcTemplate().update(new PreparedStatementCreator(){
             @Override
@@ -93,6 +93,7 @@ public class HomeDAOImpl implements HomeDAO {
                 ps.setInt(6, homeData.getEfnum());
                 ps.setInt(7, homeData.getFtnum());
                 ps.setInt(8, homeData.getLttnum());
+                ps.setString(9, homeData.getHospitalCode());
                 return ps;
             }
         }, keyHolder);
@@ -177,8 +178,7 @@ public class HomeDAOImpl implements HomeDAO {
         .append(LsAttributes.SQL_HOME_WEEKLY_DATA_SUB_SELECTION)
         .append(", h.dsmCode ")
         .append(LsAttributes.SQL_HOME_WEEKLY_DATA_SUB_3_FROM)
-        .append(" where ( hd.doctorId in ( select d.id from tbl_doctor d where d.hospitalCode = h.code )")
-        .append("   or hd.doctorId in ( select dh.doctorId from tbl_doctor_history dh where dh.hospitalCode = h.code ) )")
+        .append(" where hd.hospitalCode = h.code ")
         .append(" and h.rsmRegion = ? ")
         .append(" and hd.createdate between ? and ? ") 
         .append(" group by h.region, h.rsmRegion, h.dsmCode ")
@@ -212,8 +212,7 @@ public class HomeDAOImpl implements HomeDAO {
         .append(LsAttributes.SQL_HOME_WEEKLY_DATA_SUB_SELECTION)
         .append(", h.dsmCode ")
         .append(LsAttributes.SQL_HOME_WEEKLY_DATA_SUB_3_FROM)
-        .append(" where ( hd.doctorId in ( select d.id from tbl_doctor d where d.hospitalCode = h.code )")
-        .append("   or hd.doctorId in ( select dh.doctorId from tbl_doctor_history dh where dh.hospitalCode = h.code ) )")
+        .append(" where hd.hospitalCode = h.code ")
         .append(" and h.dsmCode = ? ")
         .append(" and h.rsmRegion = ? ")
         .append(" and hd.createdate between ? and ? ") 
@@ -250,8 +249,7 @@ public class HomeDAOImpl implements HomeDAO {
         .append(LsAttributes.SQL_HOME_WEEKLY_DATA_SUB_SELECTION)
         .append(", h.rsmRegion")
         .append(LsAttributes.SQL_HOME_WEEKLY_DATA_SUB_3_FROM)
-        .append(" where ( hd.doctorId in ( select d.id from tbl_doctor d where d.hospitalCode = h.code )")
-        .append("   or hd.doctorId in ( select dh.doctorId from tbl_doctor_history dh where dh.hospitalCode = h.code ) )")
+        .append(" where hd.hospitalCode = h.code ")
         .append(" and h.region = ? ")
         .append(" and hd.createdate between ? and ? ") 
         .append(" group by h.region, h.rsmRegion ")
@@ -285,8 +283,7 @@ public class HomeDAOImpl implements HomeDAO {
         .append(LsAttributes.SQL_HOME_WEEKLY_DATA_SUB_SELECTION)
         .append(", h.rsmRegion")
         .append(LsAttributes.SQL_HOME_WEEKLY_DATA_SUB_3_FROM)
-        .append(" where ( hd.doctorId in ( select d.id from tbl_doctor d where d.hospitalCode = h.code )")
-        .append("   or hd.doctorId in ( select dh.doctorId from tbl_doctor_history dh where dh.hospitalCode = h.code ) )")
+        .append(" where hd.hospitalCode = h.code ")
         .append(" and h.rsmRegion = ? ")
         .append(" and hd.createdate between ? and ? ") 
         .append(" group by h.region, h.rsmRegion ")
@@ -320,8 +317,7 @@ public class HomeDAOImpl implements HomeDAO {
         .append(LsAttributes.SQL_HOME_WEEKLY_DATA_SUB_SELECTION)
         .append(", h.region")
         .append(LsAttributes.SQL_HOME_WEEKLY_DATA_SUB_3_FROM)
-        .append(" where ( hd.doctorId in ( select d.id from tbl_doctor d where d.hospitalCode = h.code )")
-        .append("   or hd.doctorId in ( select dh.doctorId from tbl_doctor_history dh where dh.hospitalCode = h.code ) )")
+        .append(" where hd.hospitalCode = h.code ")
         .append(" and hd.createdate between ? and ? ") 
         .append(" group by h.region ")
         .append(") homeData")
@@ -352,8 +348,7 @@ public class HomeDAOImpl implements HomeDAO {
         .append(LsAttributes.SQL_HOME_WEEKLY_DATA_SUB_SELECTION)
         .append(", h.region")
         .append(LsAttributes.SQL_HOME_WEEKLY_DATA_SUB_3_FROM)
-        .append(" where ( hd.doctorId in ( select d.id from tbl_doctor d where d.hospitalCode = h.code )")
-        .append("   or hd.doctorId in ( select dh.doctorId from tbl_doctor_history dh where dh.hospitalCode = h.code ) )")
+        .append(" where hd.hospitalCode = h.code ")
         .append(" and hd.createdate between ? and ? ") 
         .append(" and h.region = ? ")
         .append(" group by h.region ")

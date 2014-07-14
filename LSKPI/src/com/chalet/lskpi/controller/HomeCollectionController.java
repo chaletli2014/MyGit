@@ -398,6 +398,8 @@ public class HomeCollectionController extends BaseController{
             
             logger.info(String.format("doing the data persistence, dataId is %s, doctorId is %s", dataId,doctorId));
             
+            Doctor dr = hospitalService.getDoctorById(Integer.parseInt(doctorId));
+            
             HomeData existedData = homeService.getHomeDataByDoctorId(doctorId);
             if( null != existedData ){
                 logger.info(String.format("check the home data again when user %s collecting, the data id is %s", currentUserTel, existedData.getId()));
@@ -411,6 +413,7 @@ public class HomeCollectionController extends BaseController{
             //new data
             if( null == dataId || "".equalsIgnoreCase(dataId) ){
                 HomeData homeData = new HomeData();
+                homeData.setHospitalCode(dr.getHospitalCode());
                 populateHomeData(request, homeData);
                 
                 logger.info("insert the data of home");

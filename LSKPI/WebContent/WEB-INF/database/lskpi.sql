@@ -263,27 +263,18 @@ create table tbl_home_data(
     createdate      datetime,
     updatedate      datetime
 );
-
-drop table tbl_home_data_weekly;
-create table tbl_home_data_weekly(
-    id              int NOT NULL primary key auto_increment,
-    duration        varchar(30),
-    doctorId        int,
-    /*newdrnum        DECIMAL(11,6), 上周新增医生数*/
-    /*totaldrnum      DECIMAL(11,6), 总目标医生数*/
-    newwhnum        DECIMAL(11,6), /*上周家庭雾化新病人次量*/
-    curerate        DECIMAL(11,6), /*持续期治疗率*/
-    lsnum           DECIMAL(11,6), /*推荐使用令舒的人次*/
-    lsrate          DECIMAL(11,6), /*持续期令舒比例*/
-    reachrate       DECIMAL(11,6), /*家庭雾化疗程达标率*/
-    createdate      datetime,
-    updatedate      datetime
-);
+ALTER TABLE tbl_home_data add column hospitalCode varchar(20);
 ALTER  TABLE tbl_home_data ADD INDEX INDEX_HOME_DOCTORID (doctorId);
 ALTER  TABLE tbl_home_data ADD INDEX INDEX_HOME_CREATEDATE (createdate);
 ALTER  TABLE tbl_doctor ADD INDEX INDEX_DOCTOR_HOSPITALCODE (hospitalCode);
 
+update tbl_home_data hd, tbl_doctor d 
+set hd.hospitalCode = d.hospitalCode 
+where d.id = hd.doctorId;
 
+update tbl_home_data hd, tbl_doctor_history dh 
+set hd.hospitalCode = dh.hospitalCode 
+where dh.doctorId = hd.doctorId;
 
 drop table tbl_chestSurgery_data;
 create table tbl_chestSurgery_data(

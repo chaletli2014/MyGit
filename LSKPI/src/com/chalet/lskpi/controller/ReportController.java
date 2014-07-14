@@ -978,12 +978,15 @@ public class ReportController extends BaseController{
         try{
             List<HomeWeeklyData> homeWeeklyDataList = homeService.getHomeWeeklyDataOfCurrentUser(currentUser);
             view.addObject("homeWeeklyDataList", homeWeeklyDataList);
+            logger.info(String.format("end to get the home weekly data of user %s", currentUser.getTelephone()));
             
             List<HomeWeeklyData> lowerHomeWeeklyDataList = homeService.getHomeWeeklyDataOfLowerUser(currentUser);
             view.addObject("lowerHomeWeeklyDataList", lowerHomeWeeklyDataList);
+            logger.info(String.format("end to get the lower home weekly data of user %s", currentUser.getTelephone()));
             
             HomeWeeklyData upperHomeWeeklyData = homeService.getHomeWeeklyDataOfUpperUser(currentUser);
             view.addObject("upperHomeWeeklyData", upperHomeWeeklyData);
+            logger.info(String.format("end to get the upper home weekly data of user %s", currentUser.getTelephone()));
             
             view.addObject("currentUser", currentUser);
             String dsmName = "";

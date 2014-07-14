@@ -73,4 +73,5 @@ public interface HospitalService {
 	public void updateDoctor(Doctor doctor) throws Exception;
 	public void deleteDoctor(Doctor doctor) throws Exception;
 	public void updateDoctorRelationship(int doctorId, String salesCode) throws Exception;
+	public Doctor getDoctorById(int doctorId) throws Exception;
 }

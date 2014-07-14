@@ -785,6 +785,18 @@ public class HospitalDAOImpl implements HospitalDAO {
         .append("   ) chooseMonth ");
         return dataBean.getJdbcTemplate().queryForObject(sb.toString(), new Object[]{chooseDate}, new MonthlyCollectionDataRowMapper());
 	}
+	
+	@Override
+	public Doctor getDoctorById(int doctorId) throws Exception {
+		StringBuffer sb = new StringBuffer("");
+		sb.append("select d.id, d.name as drName, d.code as drCode, d.hospitalCode,")
+		.append(" h.name as hospitalName, ")
+		.append(" d.salesCode, ")
+		.append(" ( select distinct name from tbl_userinfo u where u.userCode = d.salesCode and u.superior = h.dsmCode and u.region = h.rsmRegion ) as salesName")
+		.append(" from tbl_doctor d, tbl_hospital h ")
+		.append(" where d.hospitalCode = h.code and d.id=? ");
+		return dataBean.getJdbcTemplate().queryForObject(sb.toString(), new Object[]{doctorId},new DoctorRowMapper());
+	}
 
     @Override
     public void delete() throws Exception {

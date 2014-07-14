@@ -361,4 +361,17 @@ public class HospitalServiceImpl implements HospitalService {
 			throws Exception {
 		return hospitalDAO.getMonthlyCollectionSumData(chooseDate);
 	}
+
+	@Override
+	public Doctor getDoctorById(int doctorId) throws Exception {
+		try{
+			return hospitalDAO.getDoctorById(doctorId);
+		}catch(EmptyResultDataAccessException erd){
+            logger.info(String.format("there is no doctor found. whose id is %s", doctorId));
+            return null;
+        } catch(Exception e){
+            logger.error("fail to get the doctor by doctorId - " + doctorId,e);
+            return null;
+        }
+	}
 }

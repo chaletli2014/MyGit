@@ -93,4 +93,5 @@ public interface HospitalDAO {
     public void insertDoctors(List<Doctor> doctors) throws Exception;
     public void backupDoctor(Doctor doctor) throws Exception;
     public void updateDoctorRelationship(int doctorId, String salesCode) throws Exception;
+    public Doctor getDoctorById(int doctorId) throws Exception;
 }
