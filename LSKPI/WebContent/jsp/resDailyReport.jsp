@@ -50,204 +50,41 @@
 	            </table>
             </div>
             <c:if test="${operatorObj!= null && operatorObj.level=='BM'}">
-            	<div class="roundCorner" style="padding:4px;">
-				<div class="dailyReport_table_Title">${centralTitle}</div>
-				<table class="mobileReport_table">
-					<tr class="mobileReport_table_header">
-						<td width="20%">姓名</td>
-						<td width="16%">上报率</td>
-						<td width="16%">雾化率</td>
-						<td width="16%">平均剂量</td>
-						<td width="16%">住院人数</td>
-						<td width="16%">雾化人数</td>
-					</tr>
-					<c:forEach items="${mobileDailyReportCentralData}" var="reportData" varStatus="status">
-						<tr	class="mobileReport_table_body <c:if test="${status.count%2==0}">mobileReport_tr_even</c:if>">
-							<td>${reportData.userName}</td>
-							<td class="report_data_number">
-								<fmt:formatNumber type="percent" value="${reportData.inRate}" pattern="#0%" />
-							</td>
-							<td class="report_data_number">
-								<fmt:formatNumber type="percent" value="${reportData.whRate}" pattern="#0%" />
-							</td>
-							<td class="report_data_number">
-								<fmt:formatNumber type="percent" value="${reportData.averageDose}" pattern="#0.00" />
-							</td>
-							<td class="report_data_number">
-								<fmt:formatNumber value="${reportData.patNum}" pattern="#,###" />
-							</td>
-							<td class="report_data_number">
-								<fmt:formatNumber value="${reportData.lsNum}" pattern="#,###" />
-							</td>
-						</tr>
-					</c:forEach>
-				</table>
-			</div>
-            <div class="roundCorner" style="padding:4px;">
-				<div class="dailyReport_table_Title">${east1Title}</div>
-				<table class="mobileReport_table">
-					<tr class="mobileReport_table_header">
-						<td width="20%">姓名</td>
-						<td width="16%">上报率</td>
-						<td width="16%">雾化率</td>
-						<td width="16%">平均剂量</td>
-						<td width="16%">住院人数</td>
-						<td width="16%">雾化人数</td>
-					</tr>
-					<c:forEach items="${mobileDailyReportEast1Data}" var="reportData" varStatus="status">
-						<tr	class="mobileReport_table_body <c:if test="${status.count%2==0}">mobileReport_tr_even</c:if>">
-							<td>${reportData.userName}</td>
-							<td class="report_data_number">
-								<fmt:formatNumber type="percent" value="${reportData.inRate}" pattern="#0%" />
-							</td>
-							<td class="report_data_number">
-								<fmt:formatNumber type="percent" value="${reportData.whRate}" pattern="#0%" />
-							</td>
-							<td class="report_data_number">
-								<fmt:formatNumber type="percent" value="${reportData.averageDose}" pattern="#0.00" />
-							</td>
-							<td class="report_data_number">
-								<fmt:formatNumber value="${reportData.patNum}" pattern="#,###" />
-							</td>
-							<td class="report_data_number">
-								<fmt:formatNumber value="${reportData.lsNum}" pattern="#,###" />
-							</td>
-						</tr>
-					</c:forEach>
-				</table>
-			</div>
-            <div class="roundCorner" style="padding:4px;">
-				<div class="dailyReport_table_Title">${east2Title}</div>
-				<table class="mobileReport_table">
-					<tr class="mobileReport_table_header">
-						<td width="20%">姓名</td>
-						<td width="16%">上报率</td>
-						<td width="16%">雾化率</td>
-						<td width="16%">平均剂量</td>
-						<td width="16%">住院人数</td>
-						<td width="16%">雾化人数</td>
-					</tr>
-					<c:forEach items="${mobileDailyReportEast2Data}" var="reportData" varStatus="status">
-						<tr	class="mobileReport_table_body <c:if test="${status.count%2==0}">mobileReport_tr_even</c:if>">
-							<td>${reportData.userName}</td>
-							<td class="report_data_number">
-								<fmt:formatNumber type="percent" value="${reportData.inRate}" pattern="#0%" />
-							</td>
-							<td class="report_data_number">
-								<fmt:formatNumber type="percent" value="${reportData.whRate}" pattern="#0%" />
-							</td>
-							<td class="report_data_number">
-								<fmt:formatNumber type="percent" value="${reportData.averageDose}" pattern="#0.00" />
-							</td>
-							<td class="report_data_number">
-								<fmt:formatNumber value="${reportData.patNum}" pattern="#,###" />
-							</td>
-							<td class="report_data_number">
-								<fmt:formatNumber value="${reportData.lsNum}" pattern="#,###" />
-							</td>
-						</tr>
-					</c:forEach>
-				</table>
-			</div>
-            <div class="roundCorner" style="padding:4px;">
-				<div class="dailyReport_table_Title">${northTitle}</div>
-				<table class="mobileReport_table">
-					<tr class="mobileReport_table_header">
-						<td width="20%">姓名</td>
-						<td width="16%">上报率</td>
-						<td width="16%">雾化率</td>
-						<td width="16%">平均剂量</td>
-						<td width="16%">住院人数</td>
-						<td width="16%">雾化人数</td>
-					</tr>
-					<c:forEach items="${mobileDailyReportNorthData}" var="reportData" varStatus="status">
-						<tr	class="mobileReport_table_body <c:if test="${status.count%2==0}">mobileReport_tr_even</c:if>">
-							<td>${reportData.userName}</td>
-							<td class="report_data_number">
-								<fmt:formatNumber type="percent" value="${reportData.inRate}" pattern="#0%" />
-							</td>
-							<td class="report_data_number">
-								<fmt:formatNumber type="percent" value="${reportData.whRate}" pattern="#0%" />
-							</td>
-							<td class="report_data_number">
-								<fmt:formatNumber type="percent" value="${reportData.averageDose}" pattern="#0.00" />
-							</td>
-							<td class="report_data_number">
-								<fmt:formatNumber value="${reportData.patNum}" pattern="#,###" />
-							</td>
-							<td class="report_data_number">
-								<fmt:formatNumber value="${reportData.lsNum}" pattern="#,###" />
-							</td>
-						</tr>
-					</c:forEach>
-				</table>
-			</div>
-            <div class="roundCorner" style="padding:4px;">
-				<div class="dailyReport_table_Title">${southTitle}</div>
-				<table class="mobileReport_table">
-					<tr class="mobileReport_table_header">
-						<td width="20%">姓名</td>
-						<td width="16%">上报率</td>
-						<td width="16%">雾化率</td>
-						<td width="16%">平均剂量</td>
-						<td width="16%">住院人数</td>
-						<td width="16%">雾化人数</td>
-					</tr>
-					<c:forEach items="${mobileDailyReportSouthData}" var="reportData" varStatus="status">
-						<tr	class="mobileReport_table_body <c:if test="${status.count%2==0}">mobileReport_tr_even</c:if>">
-							<td>${reportData.userName}</td>
-							<td class="report_data_number">
-								<fmt:formatNumber type="percent" value="${reportData.inRate}" pattern="#0%" />
-							</td>
-							<td class="report_data_number">
-								<fmt:formatNumber type="percent" value="${reportData.whRate}" pattern="#0%" />
-							</td>
-							<td class="report_data_number">
-								<fmt:formatNumber type="percent" value="${reportData.averageDose}" pattern="#0.00" />
-							</td>
-							<td class="report_data_number">
-								<fmt:formatNumber value="${reportData.patNum}" pattern="#,###" />
-							</td>
-							<td class="report_data_number">
-								<fmt:formatNumber value="${reportData.lsNum}" pattern="#,###" />
-							</td>
-						</tr>
-					</c:forEach>
-				</table>
-			</div>
-            <div class="roundCorner" style="padding:4px;">
-				<div class="dailyReport_table_Title">${westTitle}</div>
-				<table class="mobileReport_table">
-					<tr class="mobileReport_table_header">
-						<td width="20%">姓名</td>
-						<td width="16%">上报率</td>
-						<td width="16%">雾化率</td>
-						<td width="16%">平均剂量</td>
-						<td width="16%">住院人数</td>
-						<td width="16%">雾化人数</td>
-					</tr>
-					<c:forEach items="${mobileDailyReportWestData}" var="reportData" varStatus="status">
-						<tr	class="mobileReport_table_body <c:if test="${status.count%2==0}">mobileReport_tr_even</c:if>">
-							<td>${reportData.userName}</td>
-							<td class="report_data_number">
-								<fmt:formatNumber type="percent" value="${reportData.inRate}" pattern="#0%" />
-							</td>
-							<td class="report_data_number">
-								<fmt:formatNumber type="percent" value="${reportData.whRate}" pattern="#0%" />
-							</td>
-							<td class="report_data_number">
-								<fmt:formatNumber type="percent" value="${reportData.averageDose}" pattern="#0.00" />
-							</td>
-							<td class="report_data_number">
-								<fmt:formatNumber value="${reportData.patNum}" pattern="#,###" />
-							</td>
-							<td class="report_data_number">
-								<fmt:formatNumber value="${reportData.lsNum}" pattern="#,###" />
-							</td>
-						</tr>
-					</c:forEach>
-				</table>
-			</div>
+            	<c:forEach items="${mobileDailyReportAllRSMData}" var="rsmReportData">
+                <div class="roundCorner" style="padding: 4px;">
+                <div class="dailyReport_table_Title">所属[${rsmReportData[0].regionCenterCN}${titleSuffix}</div>
+                <table class="mobileReport_table">
+                    <tr class="mobileReport_table_header">
+                        <td width="20%">姓名</td>
+                        <td width="16%">上报率</td>
+                        <td width="16%">雾化率</td>
+                        <td width="16%">平均剂量</td>
+                        <td width="16%">住院人数</td>
+                        <td width="16%">雾化人数</td>
+                    </tr>
+                    <c:forEach items="${rsmReportData}" var="reportData" varStatus="status">
+                        <tr class="mobileReport_table_body <c:if test="${status.count%2==0}">mobileReport_tr_even</c:if>">
+                            <td>${reportData.userName}</td>
+                            <td class="report_data_number">
+                                <fmt:formatNumber type="percent" value="${reportData.inRate}" pattern="#0%" />
+                            </td>
+                            <td class="report_data_number">
+                                <fmt:formatNumber type="percent" value="${reportData.whRate}" pattern="#0%" />
+                            </td>
+                            <td class="report_data_number">
+                                <fmt:formatNumber type="percent" value="${reportData.averageDose}" pattern="#0.00" />
+                            </td>
+                            <td class="report_data_number">
+                                <fmt:formatNumber value="${reportData.patNum}" pattern="#,###" />
+                            </td>
+                            <td class="report_data_number">
+                                <fmt:formatNumber value="${reportData.lsNum}" pattern="#,###" />
+                            </td>
+                        </tr>
+                    </c:forEach>
+                </table>
+                </div>
+                </c:forEach>
             </c:if>
             <c:if test="${mobileDailyReportChildData!= null && fn:length(mobileDailyReportChildData) > 0}">
 	            <div class="roundCorner" style="padding:4px;">
