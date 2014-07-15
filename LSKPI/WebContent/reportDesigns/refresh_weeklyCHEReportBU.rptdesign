@@ -5457,6 +5457,9 @@ group by h.rsmRegion;]]></xml-property>
             </row>
         </grid>
         <grid id="1292">
+            <structure name="toc">
+                <expression name="expressionValue" type="javascript">"全国周报"</expression>
+            </structure>
             <column id="1293"/>
             <row id="1294">
                 <cell id="1295">
@@ -5467,6 +5470,8 @@ group by h.rsmRegion;]]></xml-property>
                         <property name="fontFamily">"Microsoft YaHei UI"</property>
                         <property name="fontSize">14pt</property>
                         <property name="textAlign">center</property>
+                        <expression name="bookmark" type="javascript">'Whole Countory'</expression>
+                        <property name="bookmarkDisplayName">Whole Countory</property>
                         <text-property name="text">所属 [全国] RSD周报数据</text-property>
                     </label>
                 </cell>
@@ -6389,10 +6394,7 @@ group by h.rsmRegion;]]></xml-property>
                         </header>
                         <group id="417">
                             <property name="groupName">TopGroup</property>
-                            <expression name="keyExpr" type="javascript">row["regionCenter"]</expression>
-                            <structure name="toc">
-                                <expression name="expressionValue" type="javascript">row["regionCenter"]</expression>
-                            </structure>
+                            <expression name="keyExpr" type="javascript">row["regionCenter"]</expression>                            
                             <property name="hideDetail">false</property>
                             <header>
                                 <row id="418">
@@ -6419,6 +6421,7 @@ this.getStyle().backgroundColor = "#C9DCCE";
                                         <property name="borderTopWidth">1px</property>
                                         <data id="438">
                                             <property name="fontFamily">"Microsoft YaHei UI"</property>
+                                            <structure name="toc"/>
                                             <property name="resultSetColumn">regionCenter</property>
                                         </data>
                                     </cell>
@@ -6661,10 +6664,7 @@ this.getStyle().backgroundColor = "#C9DCCE";
                         </group>
                         <group id="439">
                             <property name="groupName">RSM</property>
-                            <expression name="keyExpr" type="javascript">row["region"]</expression>
-                            <structure name="toc">
-                                <expression name="expressionValue" type="javascript">row["region"]</expression>
-                            </structure>
+                            <expression name="keyExpr" type="javascript">row["region"]</expression>                            
                             <property name="hideDetail">false</property>
                         </group>
                         <footer>
@@ -21375,6 +21375,9 @@ this.getStyle().backgroundColor = "#FFFFFF";
                                 <property name="allowExport">true</property>
                             </structure>
                         </list-property>
+                        <structure name="toc">
+                            <expression name="expressionValue" type="javascript">"中区周报"</expression>
+                        </structure>
                         <column id="2205"/>
                         <detail>
                             <row id="2200">
@@ -21384,6 +21387,8 @@ this.getStyle().backgroundColor = "#FFFFFF";
                                 <property name="height">0.71875in</property>
                                 <cell id="2201">
                                     <data id="2202">
+                                        <expression name="bookmark" type="javascript">"Central weekly report"</expression>
+                                        <property name="bookmarkDisplayName">Central weekly report</property>
                                         <property name="resultSetColumn">hosNum</property>
                                     </data>
                                 </cell>
