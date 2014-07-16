@@ -335,11 +335,51 @@ create table tbl_chestSurgery_data_weekly(
     updatedate      datetime
 );
 
-ALTER  TABLE tbl_respirology_data_weekly ADD column countMonth varchar(2);
-ALTER  TABLE tbl_respirology_data_weekly ADD column countYear  varchar(4);
+ALTER  TABLE tbl_respirology_data_weekly ADD column date_YYYY int;
+ALTER  TABLE tbl_respirology_data_weekly ADD column date_MM int;
 
 update tbl_respirology_data_weekly 
-set countMonth = ( month() )
+set date_YYYY = year(left(duration,10));
+update tbl_respirology_data_weekly 
+set date_MM = month(left(duration,10));
 
-ALTER  TABLE tbl_pediatrics_data_weekly ADD column countMonth varchar(2);
-ALTER  TABLE tbl_pediatrics_data_weekly ADD column countYear  varchar(4);
+ALTER TABLE tbl_respirology_data_weekly DROP COLUMN date_YYYYMM;
+
+
+ALTER TABLE tbl_respirology_data_weekly ADD INDEX INDEX_RES_WEEKLY_YYYY(date_YYYY);
+ALTER TABLE tbl_respirology_data_weekly ADD INDEX INDEX_RES_WEEKLY_MM(date_MM);
+
+
+select h.rsmRegion
+,date_MM
+,date_YYYY
+,sum(pnum) as pnum
+,sum(lsnum) as lsnum
+,sum(aenum) as aenum
+,IFNULL(sum(least(innum,3))/(count(1)*3),0) as inRate
+,IFNULL(sum(rdw.lsnum)/sum(rdw.pnum),0) as whRate
+,IFNULL(sum(rdw.averageDose*rdw.lsnum)/sum(rdw.lsnum),0) as averageDose
+,(  
+    select temp2.weekNum 
+    from (
+        select count(1) as weekNum,date_YYYY,date_MM
+        from(
+            select distinct rdw2.date_YYYY
+            ,rdw2.date_MM
+            ,rdw2.duration
+            from tbl_respirology_data_weekly rdw2, tbl_hospital h2
+            where rdw2.hospitalCode = h2.code 
+            and rdw2.date_YYYY > 2013
+            and rdw2.date_MM > 3
+        ) temp 
+        group by temp.date_YYYY,temp.date_MM
+    ) temp2 
+    where rdw.date_YYYY = temp2.date_YYYY 
+    and rdw.date_MM = temp2.date_MM 
+) as weeklyCount 
+from tbl_respirology_data_weekly rdw, tbl_hospital h
+where h.code = rdw.hospitalCode 
+and rdw.date_YYYY > 2013
+and rdw.date_MM > 3
+and rdw.date_MM < month(now())
+group by date_YYYY,date_MM,h.rsmRegion;
