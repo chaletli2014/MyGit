@@ -1885,3 +1885,67 @@ SELECT
 ) cd_data 
 right join tbl_hospital h on cd_data.code = h.code 
 where h.isChestSurgeryAssessed='1';
+
+----------------------------getLowerWeeklyRESData4REPMobile-------------------------------
+select lastweekdata.pnum 
+ , ROUND((lastweekdata.pnum - last2weekdata.pnum) / last2weekdata.pnum,2) as pnumRatio 
+ , lastweekdata.lsnum 
+ , ROUND((lastweekdata.lsnum - last2weekdata.lsnum) / last2weekdata.lsnum,2) as lsnumRatio 
+ , lastweekdata.inRate 
+ , ROUND((lastweekdata.inRate - last2weekdata.inRate),2) as inRateRatio 
+ , lastweekdata.whRate 
+ , ROUND((lastweekdata.whRate - last2weekdata.whRate),2) as whRateRatio 
+ , lastweekdata.averageDose 
+ , ROUND((lastweekdata.averageDose - last2weekdata.averageDose ) / last2weekdata.averageDose,2) as averageDoseRatio 
+ , lastweekdata.omgRate as omgRate 
+ , ROUND((lastweekdata.omgRate - last2weekdata.omgRate ),2) as omgRateRatio 
+ , lastweekdata.tmgRate as tmgRate 
+ , ROUND((lastweekdata.tmgRate - last2weekdata.tmgRate ),2) as tmgRateRatio 
+ , lastweekdata.thmgRate as thmgRate 
+ , ROUND((lastweekdata.thmgRate - last2weekdata.thmgRate ),2) as thmgRateRatio 
+ , lastweekdata.fmgRate as fmgRate 
+ , ROUND((lastweekdata.fmgRate - last2weekdata.fmgRate ),2) as fmgRateRatio 
+ , lastweekdata.smgRate as smgRate 
+ , ROUND((lastweekdata.smgRate - last2weekdata.smgRate ),2) as smgRateRatio 
+ , lastweekdata.emgRate as emgRate 
+ , ROUND((lastweekdata.emgRate - last2weekdata.emgRate ),2) as emgRateRatio 
+ , lastweekdata.saleCode as userCode 
+ , IFNULL((select u.name from tbl_userinfo u where u.userCode = lastweekdata.saleCode and u.superior = lastweekdata.dsmCode and u.level='REP'),'vacant') as name 
+ from ( 
+   select h.dsmCode, h.saleCode, 
+    IFNULL(sum(lastweek.pnum),0) as pnum, 
+    IFNULL(sum(lastweek.lsnum),0) as lsnum, 
+    IFNULL(sum(lastweek.lsnum),0) / IFNULL(sum(lastweek.pnum),0) as whRate, 
+    IFNULL(sum(least(lastweek.innum,3)),0) / (count(1)*3) as inRate, 
+    IFNULL(sum(lastweek.averageDose*lastweek.lsnum)/sum(lastweek.lsnum),0) as averageDose, 
+    IFNULL(sum(lastweek.omgRate*lastweek.lsnum)/sum(lastweek.lsnum),0) as omgRate, 
+    IFNULL(sum(lastweek.tmgRate*lastweek.lsnum)/sum(lastweek.lsnum),0) as tmgRate, 
+    IFNULL(sum(lastweek.thmgRate*lastweek.lsnum)/sum(lastweek.lsnum),0) as thmgRate, 
+    IFNULL(sum(lastweek.fmgRate*lastweek.lsnum)/sum(lastweek.lsnum),0) as fmgRate, 
+    IFNULL(sum(lastweek.smgRate*lastweek.lsnum)/sum(lastweek.lsnum),0) as smgRate, 
+    IFNULL(sum(lastweek.emgRate*lastweek.lsnum)/sum(lastweek.lsnum),0) as emgRate 
+    from ( select * from tbl_respirology_data_weekly order by duration desc limit 0,398 ) lastweek, tbl_hospital h 
+   where lastweek.hospitalCode = h.code ;
+    group by h.dsmCode, h.saleCode 
+ )lastweekdata, 
+( 
+    select h.dsmCode, h.saleCode, 
+    IFNULL(sum(last2week.pnum),0) as pnum, 
+    IFNULL(sum(last2week.lsnum),0) as lsnum, 
+    IFNULL(sum(last2week.lsnum),0) / IFNULL(sum(last2week.pnum),0) as whRate, 
+    IFNULL(sum(least(last2week.innum,3)),0) / (count(1)*3) as inRate, 
+    IFNULL(sum(last2week.averageDose*last2week.lsnum)/sum(last2week.lsnum),0) as averageDose, 
+    IFNULL(sum(last2week.omgRate*last2week.lsnum)/sum(last2week.lsnum),0) as omgRate, 
+    IFNULL(sum(last2week.tmgRate*last2week.lsnum)/sum(last2week.lsnum),0) as tmgRate, 
+    IFNULL(sum(last2week.thmgRate*last2week.lsnum)/sum(last2week.lsnum),0) as thmgRate, 
+    IFNULL(sum(last2week.fmgRate*last2week.lsnum)/sum(last2week.lsnum),0) as fmgRate, 
+    IFNULL(sum(last2week.smgRate*last2week.lsnum)/sum(last2week.lsnum),0) as smgRate, 
+    IFNULL(sum(last2week.emgRate*last2week.lsnum)/sum(last2week.lsnum),0) as emgRate 
+    from ( select * from tbl_respirology_data_weekly order by duration desc limit 398,398 ) last2week, tbl_hospital h 
+   where last2week.hospitalCode = h.code ;
+    group by h.dsmCode, h.saleCode 
+) last2weekdata 
+where lastweekdata.dsmCode = last2weekdata.dsmCode 
+and lastweekdata.saleCode = last2weekdata.saleCode 
+and lastweekdata.saleCode = ?
+and lastweekdata.dsmCode = ?;

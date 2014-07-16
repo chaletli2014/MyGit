@@ -334,3 +334,12 @@ create table tbl_chestSurgery_data_weekly(
     monthNum        int,
     updatedate      datetime
 );
+
+ALTER  TABLE tbl_respirology_data_weekly ADD column countMonth varchar(2);
+ALTER  TABLE tbl_respirology_data_weekly ADD column countYear  varchar(4);
+
+update tbl_respirology_data_weekly 
+set countMonth = ( month() )
+
+ALTER  TABLE tbl_pediatrics_data_weekly ADD column countMonth varchar(2);
+ALTER  TABLE tbl_pediatrics_data_weekly ADD column countYear  varchar(4);
