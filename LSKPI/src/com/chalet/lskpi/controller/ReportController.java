@@ -605,6 +605,241 @@ public class ReportController extends BaseController{
             return "redirect:showUploadData";
         }
     }
+    
+    @RequestMapping("/doDownloadWeeklyHomeData")
+    public String doDownloadWeeklyHomeData(HttpServletRequest request, HttpServletResponse response) throws IOException{
+    	logger.info("download the home weekly data..");
+    	FileOutputStream fOut = null;
+    	String fileName = null;
+    	String fromWeb = request.getParameter("fromWeb");
+    	try{
+    		String chooseDate = request.getParameter("chooseDate");
+    		String chooseDate_end = request.getParameter("chooseDate_end");
+    		
+    		SimpleDateFormat exportdateformat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
+    		if( null == chooseDate || "".equalsIgnoreCase(chooseDate) || null == chooseDate_end || "".equalsIgnoreCase(chooseDate_end) ){
+    			logger.error(String.format("the choose date is %s, the choose end date is %s", chooseDate,chooseDate_end));
+    		}else{
+    			SimpleDateFormat simpledateformat = new SimpleDateFormat("yyyy-MM-dd");
+    			Date chooseDate_d = simpledateformat.parse(chooseDate);
+    			Date chooseDate_end_d = simpledateformat.parse(chooseDate_end);
+    			
+    			logger.info(String.format("begin to get the home data from %s to %s", chooseDate,chooseDate_end));
+    			List<HomeData> homeDataList = homeService.getHomeDataByDate(chooseDate_d, chooseDate_end_d);
+    			
+    			File homeDir = new File(request.getRealPath("/") + "homeData/");
+    			if( !homeDir.exists() ){
+    				homeDir.mkdir();
+    			}
+    			
+    			fileName = new StringBuffer("homeData/家庭雾化原始数据-")
+    			.append(simpledateformat.format(chooseDate_d))
+    			.append("-")
+    			.append(simpledateformat.format(chooseDate_end_d))
+    			.append(".xls")
+    			.toString();
+    			
+    			File tmpFile = new File(request.getRealPath("/") + fileName);
+    			if( !tmpFile.exists() ){
+    				tmpFile.createNewFile();
+    			}
+    			
+    			fOut = new FileOutputStream(tmpFile);
+    			
+    			HSSFWorkbook workbook = new HSSFWorkbook();
+    			workbook.createSheet("家庭雾化数据");
+    			HSSFSheet sheet = workbook.getSheetAt(0);
+    			int currentRowNum = 0;
+    			
+    			HSSFCellStyle topStyle=workbook.createCellStyle();
+    			topStyle.setAlignment(HSSFCellStyle.ALIGN_CENTER);
+    			topStyle.setVerticalAlignment(HSSFCellStyle.VERTICAL_CENTER);
+    			topStyle.setBorderLeft(HSSFCellStyle.BORDER_THIN);
+    			topStyle.setBorderRight(HSSFCellStyle.BORDER_THIN);
+    			topStyle.setLeftBorderColor(HSSFColor.BLACK.index);
+    			topStyle.setRightBorderColor(HSSFColor.BLACK.index);
+    			
+    			HSSFCellStyle top2Style=workbook.createCellStyle();
+    			top2Style.setAlignment(HSSFCellStyle.ALIGN_LEFT);
+    			top2Style.setVerticalAlignment(HSSFCellStyle.VERTICAL_CENTER);
+    			top2Style.setBorderLeft(HSSFCellStyle.BORDER_THIN);
+    			top2Style.setBorderRight(HSSFCellStyle.BORDER_THIN);
+    			top2Style.setLeftBorderColor(HSSFColor.BLACK.index);
+    			top2Style.setRightBorderColor(HSSFColor.BLACK.index);
+    			
+    			//build the header
+    			HSSFRow row = sheet.createRow(currentRowNum++);
+    			row.createCell(0, XSSFCell.CELL_TYPE_STRING).setCellValue("");
+    			
+    			row.createCell(1, XSSFCell.CELL_TYPE_STRING).setCellValue("区域信息");
+    			row.createCell(2, XSSFCell.CELL_TYPE_STRING).setCellValue("");
+    			row.createCell(3, XSSFCell.CELL_TYPE_STRING).setCellValue("");
+    			row.createCell(4, XSSFCell.CELL_TYPE_STRING).setCellValue("");
+    			sheet.addMergedRegion(new Region(0, (short)1, 0, (short)4));
+    			row.getCell(1).setCellStyle(topStyle);
+    			
+    			row.createCell(5, XSSFCell.CELL_TYPE_STRING).setCellValue("医生信息");
+    			row.createCell(6, XSSFCell.CELL_TYPE_STRING).setCellValue("");
+    			row.createCell(7, XSSFCell.CELL_TYPE_STRING).setCellValue("");
+    			sheet.addMergedRegion(new Region(0, (short)5, 0, (short)7));
+    			row.getCell(5).setCellStyle(topStyle);
+    			
+    			row.createCell(8, XSSFCell.CELL_TYPE_STRING).setCellValue("");
+    			
+    			row.createCell(9, XSSFCell.CELL_TYPE_STRING).setCellValue("持续期治疗");
+    			row.createCell(10, XSSFCell.CELL_TYPE_STRING).setCellValue("");
+    			row.createCell(11, XSSFCell.CELL_TYPE_STRING).setCellValue("");
+    			sheet.addMergedRegion(new Region(0, (short)9, 0, (short)11));
+    			row.getCell(9).setCellStyle(topStyle);
+    			
+    			row.createCell(12, XSSFCell.CELL_TYPE_STRING).setCellValue("持续期令舒治疗天数（DOT)");
+    			row.createCell(13, XSSFCell.CELL_TYPE_STRING).setCellValue("");
+    			row.createCell(14, XSSFCell.CELL_TYPE_STRING).setCellValue("");
+    			sheet.addMergedRegion(new Region(0, (short)12, 0, (short)14));
+    			row.getCell(12).setCellStyle(topStyle);
+    			
+    			row = sheet.createRow(currentRowNum++);
+    			
+    			HSSFCell dateCell = row.createCell(0, XSSFCell.CELL_TYPE_STRING);
+    			dateCell.setCellValue("录入日期");
+    			dateCell.setCellStyle(top2Style);
+    			
+    			HSSFCell rsdCell = row.createCell(1, XSSFCell.CELL_TYPE_STRING);
+    			rsdCell.setCellValue("RSD");
+    			rsdCell.setCellStyle(top2Style);
+    			
+    			HSSFCell rsmCell = row.createCell(2, XSSFCell.CELL_TYPE_STRING);
+    			rsmCell.setCellValue("RSM");
+    			rsmCell.setCellStyle(top2Style);
+    			
+    			HSSFCell dsmCell = row.createCell(3, XSSFCell.CELL_TYPE_STRING);
+    			dsmCell.setCellValue("DSM");
+    			dsmCell.setCellStyle(top2Style);
+    			
+    			HSSFCell psrCell = row.createCell(4, XSSFCell.CELL_TYPE_STRING);
+    			psrCell.setCellValue("PSR");
+    			psrCell.setCellStyle(top2Style);
+    			
+    			HSSFCell hosCodeCell = row.createCell(5, XSSFCell.CELL_TYPE_STRING);
+    			hosCodeCell.setCellValue("目标医院CODE");
+    			hosCodeCell.setCellStyle(top2Style);
+    			
+    			HSSFCell hosNameCell = row.createCell(6, XSSFCell.CELL_TYPE_STRING);
+    			hosNameCell.setCellValue("目标医院名称");
+    			hosNameCell.setCellStyle(top2Style);
+    			
+    			HSSFCell drNameCell = row.createCell(7, XSSFCell.CELL_TYPE_STRING);
+    			drNameCell.setCellValue("目标医生");
+    			drNameCell.setCellStyle(top2Style);
+    			
+    			HSSFCell saleNumCell = row.createCell(8, XSSFCell.CELL_TYPE_STRING);
+    			saleNumCell.setCellValue("卖/赠泵数量");
+    			saleNumCell.setCellStyle(top2Style);
+    			
+    			HSSFCell num1Cell = row.createCell(9, XSSFCell.CELL_TYPE_STRING);
+    			num1Cell.setCellValue("哮喘*患者人次");
+    			num1Cell.setCellStyle(top2Style);
+    			
+    			HSSFCell num2Cell = row.createCell(10, XSSFCell.CELL_TYPE_STRING);
+    			num2Cell.setCellValue("处方>=8天的哮喘持续期病人次");
+    			num2Cell.setCellStyle(top2Style);
+    			
+    			HSSFCell num3Cell = row.createCell(11, XSSFCell.CELL_TYPE_STRING);
+    			num3Cell.setCellValue("持续期病人中推荐使用令舒的人次");
+    			num3Cell.setCellStyle(top2Style);
+    			
+    			HSSFCell num4Cell = row.createCell(12, XSSFCell.CELL_TYPE_STRING);
+    			num4Cell.setCellValue("8<=DOT<15天，病人次");
+    			num4Cell.setCellStyle(top2Style);
+    			
+    			HSSFCell num5Cell = row.createCell(13, XSSFCell.CELL_TYPE_STRING);
+    			num5Cell.setCellValue("15<=DOT<30天，病人次");
+    			num5Cell.setCellStyle(top2Style);
+    			
+    			HSSFCell num6Cell = row.createCell(14, XSSFCell.CELL_TYPE_STRING);
+    			num6Cell.setCellValue("DOT>=30天,病人次");
+    			num6Cell.setCellStyle(top2Style);
+    			
+    			int dateColumnWidth = 15;
+    			int userColumnWidth = 12;
+    			int hosColumnWidth = 14;
+    			int numColumnWidth = 14;
+    			
+    			sheet.setColumnWidth(0, dateColumnWidth*256);
+    			sheet.setColumnWidth(1, userColumnWidth*256);
+    			sheet.setColumnWidth(2, userColumnWidth*256);
+    			sheet.setColumnWidth(3, userColumnWidth*256);
+    			sheet.setColumnWidth(4, userColumnWidth*256);
+    			sheet.setColumnWidth(5, hosColumnWidth*256);
+    			sheet.setColumnWidth(6, 18*256);//hospital name
+    			sheet.setColumnWidth(7, hosColumnWidth*256);
+    			sheet.setColumnWidth(8, numColumnWidth*256);
+    			sheet.setColumnWidth(9, numColumnWidth*256);
+    			sheet.setColumnWidth(10, numColumnWidth*256);
+    			sheet.setColumnWidth(11, numColumnWidth*256);
+    			sheet.setColumnWidth(12, numColumnWidth*256);
+    			sheet.setColumnWidth(13, numColumnWidth*256);
+    			sheet.setColumnWidth(14, numColumnWidth*256);
+    			
+    			HSSFCellStyle numberCellStyle = workbook.createCellStyle();
+    			numberCellStyle.setDataFormat(HSSFDataFormat.getBuiltinFormat("#,##0"));
+    			
+    			for( HomeData homeData : homeDataList ){
+    				row = sheet.createRow(currentRowNum++);
+    				row.createCell(0, XSSFCell.CELL_TYPE_NUMERIC).setCellValue(exportdateformat.format(homeData.getCreateDate()));
+    				row.createCell(1, XSSFCell.CELL_TYPE_STRING).setCellValue(homeData.getRegion());
+    				row.createCell(2, XSSFCell.CELL_TYPE_STRING).setCellValue(homeData.getRsmRegion());
+    				row.createCell(3, XSSFCell.CELL_TYPE_STRING).setCellValue(homeData.getDsmName());
+    				row.createCell(4, XSSFCell.CELL_TYPE_STRING).setCellValue(homeData.getSalesName());
+    				row.createCell(5, XSSFCell.CELL_TYPE_STRING).setCellValue(homeData.getHospitalCode());
+    				row.createCell(6, XSSFCell.CELL_TYPE_STRING).setCellValue(homeData.getHospitalName());
+    				row.createCell(7, XSSFCell.CELL_TYPE_STRING).setCellValue(homeData.getDrName());
+    				
+    				HSSFCell value1Cell = row.createCell(8, XSSFCell.CELL_TYPE_NUMERIC);
+    				value1Cell.setCellValue(homeData.getSalenum());
+    				value1Cell.setCellStyle(numberCellStyle);
+    				
+    				HSSFCell value2Cell = row.createCell(9, XSSFCell.CELL_TYPE_NUMERIC);
+    				value2Cell.setCellValue(homeData.getAsthmanum());
+    				value2Cell.setCellStyle(numberCellStyle);
+    				
+    				HSSFCell value3Cell = row.createCell(10, XSSFCell.CELL_TYPE_NUMERIC);
+    				value3Cell.setCellValue(homeData.getLtenum());
+    				value3Cell.setCellStyle(numberCellStyle);
+    				
+    				HSSFCell value4Cell = row.createCell(11, XSSFCell.CELL_TYPE_NUMERIC);
+    				value4Cell.setCellValue(homeData.getLsnum());
+    				value4Cell.setCellStyle(numberCellStyle);
+    				
+    				HSSFCell value5Cell = row.createCell(12, XSSFCell.CELL_TYPE_NUMERIC);
+    				value5Cell.setCellValue(homeData.getEfnum());
+    				value5Cell.setCellStyle(numberCellStyle);
+    				
+    				HSSFCell value6Cell = row.createCell(13, XSSFCell.CELL_TYPE_NUMERIC);
+    				value6Cell.setCellValue(homeData.getFtnum());
+    				value6Cell.setCellStyle(numberCellStyle);
+    				
+    				HSSFCell value7Cell = row.createCell(14, XSSFCell.CELL_TYPE_NUMERIC);
+    				value7Cell.setCellValue(homeData.getLttnum());
+    				value7Cell.setCellStyle(numberCellStyle);
+    			}
+    			workbook.write(fOut);
+    		}
+    	}catch(Exception e){
+    		logger.error("fail to export the home data file,",e);
+    	}finally{
+    		if( fOut != null ){
+    			fOut.close();
+    		}
+    	}
+    	request.getSession().setAttribute("homeDataFile", fileName);
+    	if( null != fromWeb && "Y".equalsIgnoreCase(fromWeb) ){
+    		return "redirect:showWebUploadData";
+    	}else{
+    		return "redirect:showUploadData";
+    	}
+    }
+    
     @RequestMapping("/doDownloadDoctorData")
     public String doDownloadDoctorData(HttpServletRequest request, HttpServletResponse response) throws IOException{
         logger.info("download the doctor data..");
@@ -978,6 +1213,20 @@ public class ReportController extends BaseController{
             HomeWeeklyData upperHomeWeeklyData = homeService.getHomeWeeklyDataOfUpperUser(currentUser);
             view.addObject("upperHomeWeeklyData", upperHomeWeeklyData);
             logger.info(String.format("end to get the upper home weekly data of user %s", currentUser.getTelephone()));
+            
+            if( LsAttributes.USER_LEVEL_BM.equalsIgnoreCase(currentUser.getLevel()) ){
+            	List<String> allRegionCenters = userService.getAllRegionName();
+                List<List<HomeWeeklyData>> allRSMData = new ArrayList<List<HomeWeeklyData>>();
+                
+                for( String regionCenter : allRegionCenters ){
+                    List<HomeWeeklyData> rsmData = homeService.getWeeklyDataByRegion(regionCenter);
+                    logger.info(String.format("get weekly home data of %s RSM end...", regionCenter));
+                    allRSMData.add(rsmData);
+                }
+                
+                view.addObject("allRSMHomeWeeklyData", allRSMData);
+                populateHomeWeeklyReportTitle4AllRSM(view);
+            }
             
             view.addObject("currentUser", currentUser);
             String dsmName = "";

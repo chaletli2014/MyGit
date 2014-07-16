@@ -34,6 +34,8 @@ public class HomeWeeklyData {
      * “DOT>=30天,病人次”统加/“持续期病人中推荐使用令舒的人次”统加
      */
     private double reachRate;
+    
+    private String regionCenterCN;
 
     public int getTotalDrNum() {
         return totalDrNum;
@@ -127,4 +129,12 @@ public class HomeWeeklyData {
     public void setUserName(String userName) {
         this.userName = userName;
     }
+
+	public String getRegionCenterCN() {
+		return regionCenterCN;
+	}
+
+	public void setRegionCenterCN(String regionCenterCN) {
+		this.regionCenterCN = regionCenterCN;
+	}
 }

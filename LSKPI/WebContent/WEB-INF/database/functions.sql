@@ -1949,3 +1949,5 @@ where lastweekdata.dsmCode = last2weekdata.dsmCode
 and lastweekdata.saleCode = last2weekdata.saleCode 
 and lastweekdata.saleCode = ?
 and lastweekdata.dsmCode = ?;
+
+--------------------------------------------getHomeWeeklyDataOfRSD-------------------------

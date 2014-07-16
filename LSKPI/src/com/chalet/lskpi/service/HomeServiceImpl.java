@@ -150,4 +150,14 @@ public class HomeServiceImpl implements HomeService {
         return homeDAO.getAllDoctors();
     }
 
+	@Override
+	public List<HomeWeeklyData> getWeeklyDataByRegion(String regionCenter)
+			throws Exception {
+		List<HomeWeeklyData> rsmHomeWeeklyData = new ArrayList<HomeWeeklyData>();
+        Date beginDate = DateUtils.getHomeWeeklyReportBegionDate();
+        Date endDate = new Date(beginDate.getTime() + 7 * 24 * 60 * 60 * 1000);
+        rsmHomeWeeklyData = homeDAO.getHomeWeeklyDataOfRSM(regionCenter,beginDate, endDate);
+		return rsmHomeWeeklyData;
+	}
+
 }

@@ -271,16 +271,19 @@ public class DateUtils {
     }
     
     public static Date getHomeWeeklyReportBegionDate(){
-        Date date = new Date();
-        Calendar calendar = Calendar.getInstance();
-        calendar.setTime(date);
-        int dayInWeek = calendar.get(Calendar.DAY_OF_WEEK);
-        //1 - Sunday 2-Monday
-        if( dayInWeek < 5 && dayInWeek >= 2 ){
-            date = new Date(date.getTime() - 7 * 24 * 60 * 60 * 1000 );
-        }
-        
-        return getHomeCollectionBegionDate(date);
+        return getHomeWeeklyReportBegionDate(new Date());
+    }
+    
+    public static Date getHomeWeeklyReportBegionDate(Date reportDate){
+    	Calendar calendar = Calendar.getInstance();
+    	calendar.setTime(reportDate);
+    	int dayInWeek = calendar.get(Calendar.DAY_OF_WEEK);
+    	//1 - Sunday 2-Monday
+    	if( dayInWeek < 5 && dayInWeek >= 2 ){
+    		reportDate = new Date(reportDate.getTime() - 7 * 24 * 60 * 60 * 1000 );
+    	}
+    	
+    	return getHomeCollectionBegionDate(reportDate);
     }
     
     public static void main(String[] args){

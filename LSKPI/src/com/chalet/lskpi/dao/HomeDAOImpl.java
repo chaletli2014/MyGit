@@ -126,6 +126,7 @@ public class HomeDAOImpl implements HomeDAO {
         StringBuffer sql = new StringBuffer();
         sql.append(LsAttributes.SQL_HOME_WEEKLY_DATA_SELECTION)
         .append(", ui.name ")
+        .append(", '' as regionCenterCN ")
         .append(", ( select count(1) from tbl_doctor d2 ")
         .append("   where d2.salesCode = ui.userCode ")
         .append("   and d2.createdate between ? and ? ")
@@ -164,6 +165,7 @@ public class HomeDAOImpl implements HomeDAO {
         StringBuffer sql = new StringBuffer();
         sql.append(LsAttributes.SQL_HOME_WEEKLY_DATA_SELECTION)
         .append(", ui.name ")
+        .append(", '' as regionCenterCN ")
         .append(", ( select count(1) from tbl_doctor d2, tbl_hospital h2 ")
         .append("   where d2.hospitalCode = h2.code ")
         .append("   and h2.dsmCode = ui.userCode ")
@@ -198,6 +200,7 @@ public class HomeDAOImpl implements HomeDAO {
         StringBuffer sql = new StringBuffer();
         sql.append(LsAttributes.SQL_HOME_WEEKLY_DATA_SELECTION)
         .append(", ui.name ")
+        .append(", '' as regionCenterCN ")
         .append(", ( select count(1) from tbl_doctor d2, tbl_hospital h2 ")
         .append("   where d2.hospitalCode = h2.code ")
         .append("   and h2.dsmCode = ui.userCode ")
@@ -235,6 +238,7 @@ public class HomeDAOImpl implements HomeDAO {
         StringBuffer sql = new StringBuffer();
         sql.append(LsAttributes.SQL_HOME_WEEKLY_DATA_SELECTION)
         .append(", ui.region as name ")
+        .append(", (select distinct property_value from tbl_property where property_name=ui.regionCenter ) as regionCenterCN ")
         .append(", ( select count(1) from tbl_doctor d2, tbl_hospital h2 ")
         .append("   where d2.hospitalCode = h2.code ")
         .append("   and h2.rsmRegion = ui.region ")
@@ -269,6 +273,7 @@ public class HomeDAOImpl implements HomeDAO {
         StringBuffer sql = new StringBuffer();
         sql.append(LsAttributes.SQL_HOME_WEEKLY_DATA_SELECTION)
         .append(", ui.region as name ")
+        .append(", '' as regionCenterCN ")
         .append(", ( select count(1) from tbl_doctor d2, tbl_hospital h2 ")
         .append("   where d2.hospitalCode = h2.code ")
         .append("   and h2.rsmRegion = ui.region ")
@@ -302,7 +307,8 @@ public class HomeDAOImpl implements HomeDAO {
     public List<HomeWeeklyData> getHomeWeeklyDataOfRSD(Date beginDate, Date endDate) throws Exception {
         StringBuffer sql = new StringBuffer();
         sql.append(LsAttributes.SQL_HOME_WEEKLY_DATA_SELECTION)
-        .append(", ui.regionCenter as name ")
+        .append(", (select distinct property_value from tbl_property where property_name=ui.regionCenter ) as name ")
+        .append(", '' as regionCenterCN ")
         .append(", ( select count(1) from tbl_doctor d2, tbl_hospital h2 ")
         .append("   where d2.hospitalCode = h2.code ")
         .append("   and h2.region = ui.regionCenter ")
@@ -333,7 +339,8 @@ public class HomeDAOImpl implements HomeDAO {
     public HomeWeeklyData getHomeWeeklyDataOfSingleRSD(String regionCenter, Date beginDate, Date endDate) throws Exception {
         StringBuffer sql = new StringBuffer();
         sql.append(LsAttributes.SQL_HOME_WEEKLY_DATA_SELECTION)
-        .append(", ui.regionCenter as name ")
+        .append(", (select property_value from tbl_property where property_name=ui.regionCenter ) as name ")
+        .append(", '' as regionCenterCN ")
         .append(", ( select count(1) from tbl_doctor d2, tbl_hospital h2 ")
         .append("   where d2.hospitalCode = h2.code ")
         .append("   and h2.region = ui.regionCenter ")
@@ -368,6 +375,7 @@ public class HomeDAOImpl implements HomeDAO {
         StringBuffer sql = new StringBuffer();
         sql.append(LsAttributes.SQL_HOME_WEEKLY_DATA_SUB_SELECTION)
         .append(", '全国' as name ")
+        .append(", '' as regionCenterCN ")
         .append(", ( select count(1) from tbl_doctor d2 ")
         .append("   where d2.createdate between ? and ? ")
         .append("   ) as newDrNum")

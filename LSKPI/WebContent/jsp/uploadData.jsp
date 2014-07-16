@@ -110,6 +110,22 @@
         loading();
         $("#downloadHomeData").submit();
     }
+    function downloadHomeWeeklyData(){
+       
+       if( $("#weeklyhome_datepicker") && $("#weeklyhome_datepicker").val() == '' || 
+               $("#weeklyhome_datepicker_end") && $("#weeklyhome_datepicker_end").val() == '' ){
+           alert('请选择起止日期');
+           return false;
+       }
+       
+       if( compareDate($("#weeklyhome_datepicker").val(),$("#weeklyhome_datepicker_end").val()) ){
+           alert('开始日期不能大于截止日期');
+           return false;
+       }
+       
+       loading();
+       $("#downloadWeeklyHomeData").submit();
+    }
     function downloadDoctorData(){
         loading();
         $("#downloadDoctorData").submit();
@@ -227,6 +243,20 @@
                     <c:if test="${homeDataFile != null}">
                         <div id="homeDataFile">
                             <a href="<%=basePath%>${homeDataFile}">${fn:substringAfter(homeDataFile,'/')}</a>
+                        </div>
+                    </c:if>
+                </div>
+            </div>
+			<div class="element_block">
+                <div class="element_title">家庭雾化周报查询</div>
+                <div>
+	                <form action="doDownloadWeeklyHomeData" id="downloadWeeklyHomeData" method="post" enctype="multipart/form-data" data-ajax="false" accept-charset="UTF-8">
+	                                                            选择日期：<input id="weeklyhome_datepicker" type="text" name="chooseDate" class="ls_datepicker" readonly="readonly"/> - <input id="weeklyhome_datepicker_end" type="text" name="chooseDate_end" class="ls_datepicker" readonly="readonly"/>
+	                 <img alt="" src="<%=basePath%>images/button_submit.png" style="cursor: pointer; vertical-align: middle;" onclick="downloadHomeData()" />
+	                </form>
+                    <c:if test="${weeklyHomeDataFile != null}">
+                        <div id="homeDataFile">
+                            <a href="<%=basePath%>${weeklyHomeDataFile}">${fn:substringAfter(weeklyHomeDataFile,'/')}</a>
                         </div>
                     </c:if>
                 </div>

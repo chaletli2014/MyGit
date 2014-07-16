@@ -366,4 +366,13 @@ public class BaseController {
         
         view.addObject("titleSuffix", titleSuffix.toString());
     }
+    
+    public void populateHomeWeeklyReportTitle4AllRSM(ModelAndView view){
+    	StringBuffer titleSuffix = new StringBuffer();
+    	titleSuffix.append(LsAttributes.DAILYREPORTTITLE_2)
+    	.append(LsAttributes.USER_LEVEL_RSM)
+    	.append(LsAttributes.HOMEWEEKLYREPORTTITLE);
+    	
+    	view.addObject("titleSuffix", titleSuffix.toString());
+    }
 }
