@@ -188,6 +188,7 @@ public class ChestSurgeryDAOImpl implements ChestSurgeryDAO {
         Timestamp endDate = new Timestamp(new Date(date.getTime() + 1* 24 * 60 * 60 * 1000).getTime());
         
         mobileCHEDailySQL.append("select '全国' as name,null as userCode,")
+            .append(" '' as regionCenterCN, ")
             .append(" ( select count(1) from tbl_hospital h where h.isChestSurgeryAssessed='1' ) hosNum,")
             .append(LsAttributes.SQL_DAILYREPORT_SELECTION_CHE)
             .append(" from ( ")
@@ -207,6 +208,7 @@ public class ChestSurgeryDAOImpl implements ChestSurgeryDAO {
         Timestamp endDate = new Timestamp(new Date(date.getTime() + 1* 24 * 60 * 60 * 1000).getTime());
         
         mobileCHEDailySQL.append("select ui.name, ui.userCode,")
+        .append(" (select property_value from tbl_property where property_name=ui.regionCenter ) as regionCenterCN, ")
         .append(" ( select count(1) from tbl_hospital h where h.dsmCode = ui.userCode and h.rsmRegion = ui.region and h.isChestSurgeryAssessed='1' ) hosNum, ")
         .append(LsAttributes.SQL_DAILYREPORT_SELECTION_ALIAS_CHE)
         .append(" from ( ")
@@ -236,6 +238,7 @@ public class ChestSurgeryDAOImpl implements ChestSurgeryDAO {
         Timestamp endDate = new Timestamp(new Date(date.getTime() + 1* 24 * 60 * 60 * 1000).getTime());
         
         mobileCHEDailySQL.append("select ui.region as name, ui.userCode,")
+        .append(" (select property_value from tbl_property where property_name=ui.regionCenter ) as regionCenterCN, ")
         .append(" ( select count(1) from tbl_hospital h where h.rsmRegion = ui.region and h.isChestSurgeryAssessed='1' ) hosNum, ")
         .append(LsAttributes.SQL_DAILYREPORT_SELECTION_ALIAS_CHE)
         .append(" from ( ")
@@ -266,6 +269,7 @@ public class ChestSurgeryDAOImpl implements ChestSurgeryDAO {
         
         mobileCHEDailySQL.append("select ( select distinct property_value from tbl_property where property_name = ui.regionCenter ) as name, ui.userCode,")
         .append(" ( select count(1) from tbl_hospital h where h.region = ui.regionCenter and h.isChestSurgeryAssessed='1' ) hosNum, ")
+        .append(" (select property_value from tbl_property where property_name=ui.regionCenter ) as regionCenterCN, ")
         .append(LsAttributes.SQL_DAILYREPORT_SELECTION_ALIAS_CHE)
         .append(" from ( ")
         .append(" select u.regionCenter as name,u.userCode,")
@@ -292,6 +296,7 @@ public class ChestSurgeryDAOImpl implements ChestSurgeryDAO {
         Timestamp endDate = new Timestamp(new Date(date.getTime() + 1* 24 * 60 * 60 * 1000).getTime());
         
         mobileCHEDailySQL.append("select ui.name, ui.userCode,")
+        .append(" (select property_value from tbl_property where property_name=ui.regionCenter ) as regionCenterCN, ")
         .append(" ( select count(1) from tbl_hospital h where h.saleCode = ui.userCode and h.rsmRegion = ui.region and h.dsmCode = ui.superior and h.isChestSurgeryAssessed='1' ) hosNum, ")
         .append(LsAttributes.SQL_DAILYREPORT_SELECTION_ALIAS_CHE)
         .append(" from ( ")
@@ -480,6 +485,7 @@ public class ChestSurgeryDAOImpl implements ChestSurgeryDAO {
         Timestamp endDate = new Timestamp(new Date(date.getTime() + 1* 24 * 60 * 60 * 1000).getTime());
         
         mobileCHEDailySQL.append("select ui.region as name, ui.userCode,")
+        .append(" (select property_value from tbl_property where property_name=ui.regionCenter ) as regionCenterCN, ")
         .append(" ( select count(1) from tbl_hospital h where h.rsmRegion = ui.region and h.isChestSurgeryAssessed='1' ) hosNum, ")
         .append(LsAttributes.SQL_DAILYREPORT_SELECTION_ALIAS_CHE)
         .append(" from ( ")

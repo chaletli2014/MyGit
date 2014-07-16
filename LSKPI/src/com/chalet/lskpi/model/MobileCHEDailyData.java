@@ -22,6 +22,8 @@ public class MobileCHEDailyData {
     private double inRate;
     private double whRate;
     
+    private String regionCenterCN;
+    
     public String getUserName() {
         return userName;
     }
@@ -120,4 +122,10 @@ public class MobileCHEDailyData {
 	public void setEmgRate(double emgRate) {
 		this.emgRate = emgRate;
 	}
+    public String getRegionCenterCN() {
+        return regionCenterCN;
+    }
+    public void setRegionCenterCN(String regionCenterCN) {
+        this.regionCenterCN = regionCenterCN;
+    }
 }

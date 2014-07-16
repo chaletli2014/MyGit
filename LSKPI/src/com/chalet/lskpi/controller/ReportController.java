@@ -896,25 +896,16 @@ public class ReportController extends BaseController{
                 logger.info("get daily chest surgery parent data for mobile end...");
                 view.addObject(LsAttributes.MOBILE_DAILY_REPORT_PARENT_DATA, mrd);
                 
-                List<MobileCHEDailyData> mobileCHECentralRSMData = chestSurgeryService.getDailyCHEData4MobileByRegionCenter("Central GRA");
-                logger.info("get daily chest surgery data of central RSM end...");
-                List<MobileCHEDailyData> mobileCHEEast1RSMData = chestSurgeryService.getDailyCHEData4MobileByRegionCenter("East1 GRA");
-                logger.info("get daily chest surgery data of east1 RSM end...");
-                List<MobileCHEDailyData> mobileCHEEast2RSMData = chestSurgeryService.getDailyCHEData4MobileByRegionCenter("East2 GRA");
-                logger.info("get daily chest surgery data of east2 RSM end...");
-                List<MobileCHEDailyData> mobileCHENorthRSMData = chestSurgeryService.getDailyCHEData4MobileByRegionCenter("North GRA");
-                logger.info("get daily chest surgery data of north RSM end...");
-                List<MobileCHEDailyData> mobileCHESouthRSMData = chestSurgeryService.getDailyCHEData4MobileByRegionCenter("South GRA");
-                logger.info("get daily chest surgery data of south RSM end...");
-                List<MobileCHEDailyData> mobileCHEWestRSMData = chestSurgeryService.getDailyCHEData4MobileByRegionCenter("West GRA");
-                logger.info("get daily chest surgery data of west RSM end...");
+                List<String> allRegionCenters = userService.getAllRegionName();
+                List<List<MobileCHEDailyData>> mobileAllRSMData = new ArrayList<List<MobileCHEDailyData>>();
                 
-                view.addObject(LsAttributes.MOBILE_DAILY_REPORT_CENTRAL_DATA, mobileCHECentralRSMData);
-                view.addObject(LsAttributes.MOBILE_DAILY_REPORT_EAST1_DATA, mobileCHEEast1RSMData);
-                view.addObject(LsAttributes.MOBILE_DAILY_REPORT_EAST2_DATA, mobileCHEEast2RSMData);
-                view.addObject(LsAttributes.MOBILE_DAILY_REPORT_NORTH_DATA, mobileCHENorthRSMData);
-                view.addObject(LsAttributes.MOBILE_DAILY_REPORT_SOUTH_DATA, mobileCHESouthRSMData);
-                view.addObject(LsAttributes.MOBILE_DAILY_REPORT_WEST_DATA, mobileCHEWestRSMData);
+                for( String regionCenter : allRegionCenters ){
+                    List<MobileCHEDailyData> mobileRSMData = chestSurgeryService.getDailyCHEData4MobileByRegionCenter(regionCenter);
+                    logger.info(String.format("get daily chest surgery data of %s RSM end...", regionCenter));
+                    mobileAllRSMData.add(mobileRSMData);
+                }
+                
+                view.addObject(LsAttributes.MOBILE_DAILY_REPORT_ALL_RSM_DATA, mobileAllRSMData);
                 populateDailyReportTitle4AllRSM(view);
             }
             
