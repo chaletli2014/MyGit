@@ -491,12 +491,10 @@ public class UploadController {
     		logger.info("refresh the message info done.");
     		
     		List<String> dataHeaders = new ArrayList<String>();
-    		dataHeaders.add("Central GRA");
-    		dataHeaders.add("East1 GRA");
-    		dataHeaders.add("East2 GRA");
-    		dataHeaders.add("North GRA");
-    		dataHeaders.add("South GRA");
-    		dataHeaders.add("West GRA");
+    		List<String> regions = userService.getAllRegionName();
+    		for( String regionCenter : regions ){
+    		    dataHeaders.add(regionCenter);
+    		}
     		
     		long begin = System.currentTimeMillis();
     		List<DDIData> ddiDatas = ExcelUtils.getDDIDataFromFile(loadFile(request), dataHeaders);
@@ -505,7 +503,7 @@ public class UploadController {
     		logger.info("delete old data");
     		userService.deleteDDI();
     		
-			logger.info("insert the data of pediatrics");
+			logger.info("insert the data of ddi");
 			userService.insertDDI(ddiDatas);
 			
     	}catch(Exception e){

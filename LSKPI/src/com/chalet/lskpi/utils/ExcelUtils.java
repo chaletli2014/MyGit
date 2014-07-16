@@ -909,66 +909,17 @@ public class ExcelUtils {
     				durationCell.setCellType(Cell.CELL_TYPE_STRING);
     				String duration = durationCell.toString();
     				
-    				Cell centralNumCell = row.getCell(headerColumn.get(headers.get(0)));
-    				centralNumCell.setCellType(Cell.CELL_TYPE_STRING);
-    				String centralNum = centralNumCell.toString();
-    				
-    				Cell e1NumCell = row.getCell(headerColumn.get(headers.get(1)));
-    				e1NumCell.setCellType(Cell.CELL_TYPE_STRING);
-    				String e1Num = e1NumCell.toString();
-    				
-    				Cell e2NumCell = row.getCell(headerColumn.get(headers.get(2)));
-    				e2NumCell.setCellType(Cell.CELL_TYPE_STRING);
-    				String e2Num = e2NumCell.toString();
-    				
-    				Cell northNumCell = row.getCell(headerColumn.get(headers.get(3)));
-    				northNumCell.setCellType(Cell.CELL_TYPE_STRING);
-    				String northNum = northNumCell.toString();
-    				
-    				Cell southNumCell = row.getCell(headerColumn.get(headers.get(4)));
-    				southNumCell.setCellType(Cell.CELL_TYPE_STRING);
-    				String southNum = southNumCell.toString();
-    				
-    				Cell westNumCell = row.getCell(headerColumn.get(headers.get(5)));
-    				westNumCell.setCellType(Cell.CELL_TYPE_STRING);
-    				String westNum = westNumCell.toString();
-    				
-    				DDIData ddiData1 = new DDIData();
-    				ddiData1.setDuration(duration);
-    				ddiData1.setNum(Double.parseDouble(centralNum));
-    				ddiData1.setRegion("Central GRA");
-    				
-    				DDIData ddiData2 = new DDIData();
-    				ddiData2.setDuration(duration);
-    				ddiData2.setNum(Double.parseDouble(e1Num));
-    				ddiData2.setRegion("East1 GRA");
-    				
-    				DDIData ddiData3 = new DDIData();
-    				ddiData3.setDuration(duration);
-    				ddiData3.setNum(Double.parseDouble(e2Num));
-    				ddiData3.setRegion("East2 GRA");
-    				
-    				DDIData ddiData4 = new DDIData();
-    				ddiData4.setDuration(duration);
-    				ddiData4.setNum(Double.parseDouble(northNum));
-    				ddiData4.setRegion("North GRA");
-    				
-    				DDIData ddiData5 = new DDIData();
-    				ddiData5.setDuration(duration);
-    				ddiData5.setNum(Double.parseDouble(southNum));
-    				ddiData5.setRegion("South GRA");
-    				
-    				DDIData ddiData6 = new DDIData();
-    				ddiData6.setDuration(duration);
-    				ddiData6.setNum(Double.parseDouble(westNum));
-    				ddiData6.setRegion("West GRA");
-    					
-    				ddiDatas.add(ddiData1);
-    				ddiDatas.add(ddiData2);
-    				ddiDatas.add(ddiData3);
-    				ddiDatas.add(ddiData4);
-    				ddiDatas.add(ddiData5);
-    				ddiDatas.add(ddiData6);
+    				for( int j = 0; j < headers.size(); j++ ){
+    				    Cell numCell = row.getCell(headerColumn.get(headers.get(j)));
+    				    numCell.setCellType(Cell.CELL_TYPE_STRING);
+    				    String num = numCell.toString();
+    				    
+    				    DDIData ddiData = new DDIData();
+    				    ddiData.setDuration(duration);
+    				    ddiData.setNum(Double.parseDouble(num));
+    				    ddiData.setRegion(headers.get(j));
+    				    ddiDatas.add(ddiData);
+    				}
     			}catch(Exception e){
     				logger.error("fail to parse the ddi data",e);
     			}
