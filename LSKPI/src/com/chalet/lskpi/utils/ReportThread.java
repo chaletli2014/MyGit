@@ -323,7 +323,8 @@ public class ReportThread extends Thread {
                                     logger.info(String.format("the level of the current user %s is %s,no need to send the report", user.getTelephone(),user.getRealLevel()));
                                 }
                                 if( 1 == email_send_flag ){
-                                    sendWeeklyReport2User(user.getEmail(), user, lastThursday, user.getTelephone());
+                                    List<String> allRegions = userService.getAllRegionName();
+                                    sendWeeklyReport2User(user.getEmail(), user, lastThursday, user.getTelephone(),allRegions);
                                     logger.info(String.format("the weekly report email is sent to user %s, level is %s", user.getTelephone(),user.getRealLevel()));
                                 }else{
                                     logger.info(String.format("the email send flag is %s, no need to send the weekly email",email_send_flag));
@@ -371,7 +372,7 @@ public class ReportThread extends Thread {
         }
     }
     
-    private void sendWeeklyReport2User( String email, UserInfo user, String lastThursday, String telephone){
+    private void sendWeeklyReport2User( String email, UserInfo user, String lastThursday, String telephone, List<String> allRegions){
         String userLevel = user.getLevel();
         String fileSubName = StringUtils.getFileSubName(user);
         
@@ -381,41 +382,26 @@ public class ReportThread extends Thread {
         String weeklyPDFPEDReportFileName = pedFileNamePre+".pdf";
         String weeklyPDFRESReportFileName = resFileNamePre+".pdf";
         
-        String weeklyPDFPEDReportFileName_central = pedFileNamePre+"_central.pdf";
-        String weeklyPDFPEDReportFileName_east1 = pedFileNamePre+"_east1.pdf";
-        String weeklyPDFPEDReportFileName_east2 = pedFileNamePre+"_east2.pdf";
-        String weeklyPDFPEDReportFileName_north = pedFileNamePre+"_north.pdf";
-        String weeklyPDFPEDReportFileName_south = pedFileNamePre+"_south.pdf";
-        String weeklyPDFPEDReportFileName_west = pedFileNamePre+"_west.pdf";
-        
-        String weeklyPDFRESReportFileName_central = resFileNamePre+"_central.pdf";
-        String weeklyPDFRESReportFileName_east1 = resFileNamePre+"_east1.pdf";
-        String weeklyPDFRESReportFileName_east2 = resFileNamePre+"_east2.pdf";
-        String weeklyPDFRESReportFileName_north = resFileNamePre+"_north.pdf";
-        String weeklyPDFRESReportFileName_south = resFileNamePre+"_south.pdf";
-        String weeklyPDFRESReportFileName_west = resFileNamePre+"_west.pdf";
+        List<String> weeklyPDFPEDReportFileNameList = new ArrayList<String>();
+        List<String> weeklyPDFRESReportFileNameList = new ArrayList<String>();
+        for( String regionCenter : allRegions ){
+            weeklyPDFPEDReportFileNameList.add(pedFileNamePre+"_"+regionCenter+".pdf");
+        }
+        for( String regionCenter : allRegions ){
+            weeklyPDFRESReportFileNameList.add(resFileNamePre+"_"+regionCenter+".pdf");
+        }
         
         StringBuffer weeklyPDFSubject = new StringBuffer(" - ").append(userLevel).append(" 周报推送");
         try{
             List<String> filePaths = new ArrayList<String>();
             filePaths.add(weeklyPDFPEDReportFileName);
             if(LsAttributes.USER_LEVEL_BM.equalsIgnoreCase(user.getLevel())){
-                filePaths.add(weeklyPDFPEDReportFileName_central);
-                filePaths.add(weeklyPDFPEDReportFileName_east1);
-                filePaths.add(weeklyPDFPEDReportFileName_east2);
-                filePaths.add(weeklyPDFPEDReportFileName_north);
-                filePaths.add(weeklyPDFPEDReportFileName_south);
-                filePaths.add(weeklyPDFPEDReportFileName_west);
+                filePaths.addAll(weeklyPDFPEDReportFileNameList);
             }
             
             filePaths.add(weeklyPDFRESReportFileName);
             if(LsAttributes.USER_LEVEL_BM.equalsIgnoreCase(user.getLevel())){
-                filePaths.add(weeklyPDFRESReportFileName_central);
-                filePaths.add(weeklyPDFRESReportFileName_east1);
-                filePaths.add(weeklyPDFRESReportFileName_east2);
-                filePaths.add(weeklyPDFRESReportFileName_north);
-                filePaths.add(weeklyPDFRESReportFileName_south);
-                filePaths.add(weeklyPDFRESReportFileName_west);
+                filePaths.addAll(weeklyPDFRESReportFileNameList);
             }
             EmailUtils.sendMessage(filePaths,email,weeklyPDFSubject.toString(),"");
         }catch(Exception e){
@@ -724,193 +710,6 @@ public class ReportThread extends Thread {
                     logger.info("the web weekly html RES report to BU Head is done.");
                 }else{
                     logger.info("The web weekly html res report for BU Head is already generated, no need to do again.");
-                }
-                break;
-            default:
-                logger.info(String.format("the level of the user is %s, no need to generate the report", userLevel));
-                break;
-        }
-    }
-    private void createWeeklyPDFReport(BirtReportUtils html, UserInfo user,String telephone, String basePath, String contextPath, int email_send_flag, String lastThursday, String email) throws Exception{
-        String userLevel = user.getLevel();
-        String fileSubName = StringUtils.getFileSubName(user);
-        String pedFileNamePre = basePath + "weeklyReport/"+lastThursday+"/儿科周报-"+fileSubName+"-"+lastThursday;
-        String resFileNamePre = basePath + "weeklyReport/"+lastThursday+"/呼吸科周报-"+fileSubName+"-"+lastThursday;
-        
-        String weeklyPDFPEDReportFileName = pedFileNamePre+".pdf";
-        String weeklyPDFRESReportFileName = resFileNamePre+".pdf";
-        
-        switch(userLevel){
-            case LsAttributes.USER_LEVEL_RSD:
-              //RSD
-                if( !new File(weeklyPDFPEDReportFileName).exists() ){
-                    html.runReport( basePath + "reportDesigns/weeklyPEDReport.rptdesign",telephone,"","",weeklyPDFPEDReportFileName,"pdf","","");
-                    logger.info("the weekly report for RSD is done.");
-                }else{
-                    logger.info("The weekly report for RSD is already generated, no need to do again.");
-                }
-                
-                if( !new File(weeklyPDFRESReportFileName).exists() ){
-                    html.runReport( basePath + "reportDesigns/weeklyRESReport.rptdesign",telephone,"","",weeklyPDFRESReportFileName,"pdf","","");
-                    logger.info("the weekly res report for RSD is done.");
-                }else{
-                    logger.info("The weekly report for RSD is already generated, no need to do again.");
-                }
-                
-                break;
-            case LsAttributes.USER_LEVEL_RSM:
-              //RSM
-                if( !new File(weeklyPDFPEDReportFileName).exists() ){
-                    html.runReport( basePath + "reportDesigns/weeklyPEDReportRSM.rptdesign",telephone,"","",weeklyPDFPEDReportFileName,"pdf","","");
-                    logger.info("the weekly report for RSM is done.");
-                }else{
-                    logger.info("The weekly report for RSM is already generated, no need to do again.");
-                }
-                
-                if( !new File(weeklyPDFRESReportFileName).exists() ){
-                    html.runReport( basePath + "reportDesigns/weeklyRESReportRSM.rptdesign",telephone,"","",weeklyPDFRESReportFileName,"pdf","","");
-                    logger.info("the weekly res report for RSM is done.");
-                }else{
-                    logger.info("The weekly report for RSM is already generated, no need to do again.");
-                }
-                
-                break;
-            case LsAttributes.USER_LEVEL_DSM:
-              //DSM
-                if( !new File(weeklyPDFPEDReportFileName).exists() ){
-                    html.runReport( basePath + "reportDesigns/weeklyPEDReportDSM.rptdesign",telephone,"","",weeklyPDFPEDReportFileName,"pdf","","");
-                    logger.info("the weekly report for DSM is done.");
-                }else{
-                    logger.info("The weekly report for DSM is already generated, no need to do again.");
-                }
-                
-                if( !new File(weeklyPDFRESReportFileName).exists() ){
-                    html.runReport( basePath + "reportDesigns/weeklyRESReportDSM.rptdesign",telephone,"","",weeklyPDFRESReportFileName,"pdf","","");
-                    logger.info("the weekly res report for DSM is done.");
-                }else{
-                    logger.info("The weekly report for DSM is already generated, no need to do again.");
-                }
-                
-                break;
-            case LsAttributes.USER_LEVEL_REP:
-              //REP
-                if( !new File(weeklyPDFPEDReportFileName).exists() ){
-                    html.runReport( basePath + "reportDesigns/weeklyPEDReportREP.rptdesign",telephone,"","",weeklyPDFPEDReportFileName,"pdf","","");
-                    logger.info("the weekly report for REP is done.");
-                }else{
-                    logger.info("The weekly report for REP is already generated, no need to do again.");
-                }
-                
-                if( !new File(weeklyPDFRESReportFileName).exists() ){
-                    html.runReport( basePath + "reportDesigns/weeklyRESReportREP.rptdesign",telephone,"","",weeklyPDFRESReportFileName,"pdf","","");
-                    logger.info("the weekly res report for REP is done.");
-                }else{
-                    logger.info("The weekly report for REP is already generated, no need to do again.");
-                }
-                
-                break;
-            case LsAttributes.USER_LEVEL_BM:
-                String weeklyPDFPEDReportFileName_central = pedFileNamePre+"_central.pdf";
-                String weeklyPDFPEDReportFileName_east1 = pedFileNamePre+"_east1.pdf";
-                String weeklyPDFPEDReportFileName_east2 = pedFileNamePre+"_east2.pdf";
-                String weeklyPDFPEDReportFileName_north = pedFileNamePre+"_north.pdf";
-                String weeklyPDFPEDReportFileName_south = pedFileNamePre+"_south.pdf";
-                String weeklyPDFPEDReportFileName_west = pedFileNamePre+"_west.pdf";
-                
-                String weeklyPDFRESReportFileName_central = resFileNamePre+"_central.pdf";
-                String weeklyPDFRESReportFileName_east1 = resFileNamePre+"_east1.pdf";
-                String weeklyPDFRESReportFileName_east2 = resFileNamePre+"_east2.pdf";
-                String weeklyPDFRESReportFileName_north = resFileNamePre+"_north.pdf";
-                String weeklyPDFRESReportFileName_south = resFileNamePre+"_south.pdf";
-                String weeklyPDFRESReportFileName_west = resFileNamePre+"_west.pdf";
-                
-                if( !new File(weeklyPDFPEDReportFileName_central).exists() ){
-                    html.runReport( basePath + "reportDesigns/weeklyPEDReportBUCentral.rptdesign",telephone,"","",weeklyPDFPEDReportFileName_central,"pdf","","");
-                    logger.info("the ped weekly report for BU Central is done.");
-                }else{
-                    logger.info("The ped weekly report for BU Central is already generated, no need to do again.");
-                }
-                if( !new File(weeklyPDFPEDReportFileName_east1).exists() ){
-                    html.runReport( basePath + "reportDesigns/weeklyPEDReportBUEast1.rptdesign",telephone,"","",weeklyPDFPEDReportFileName_east1,"pdf","","");
-                    logger.info("the ped weekly report for BU east1 is done.");
-                }else{
-                    logger.info("The ped weekly report for BU east1 is already generated, no need to do again.");
-                }
-                if( !new File(weeklyPDFPEDReportFileName_east2).exists() ){
-                    html.runReport( basePath + "reportDesigns/weeklyPEDReportBUEast2.rptdesign",telephone,"","",weeklyPDFPEDReportFileName_east2,"pdf","","");
-                    logger.info("the ped weekly report for BU east2 is done.");
-                }else{
-                    logger.info("The ped weekly report for BU east2 is already generated, no need to do again.");
-                }
-                if( !new File(weeklyPDFPEDReportFileName_north).exists() ){
-                    html.runReport( basePath + "reportDesigns/weeklyPEDReportBUNorth.rptdesign",telephone,"","",weeklyPDFPEDReportFileName_north,"pdf","","");
-                    logger.info("the ped weekly report for BU north is done.");
-                }else{
-                    logger.info("The ped weekly report for BU north is already generated, no need to do again.");
-                }
-                if( !new File(weeklyPDFPEDReportFileName_south).exists() ){
-                    html.runReport( basePath + "reportDesigns/weeklyPEDReportBUSouth.rptdesign",telephone,"","",weeklyPDFPEDReportFileName_south,"pdf","","");
-                    logger.info("the ped weekly report for BU south is done.");
-                }else{
-                    logger.info("The ped weekly report for BU south is already generated, no need to do again.");
-                }
-                if( !new File(weeklyPDFPEDReportFileName_west).exists() ){
-                    html.runReport( basePath + "reportDesigns/weeklyPEDReportBUWest.rptdesign",telephone,"","",weeklyPDFPEDReportFileName_west,"pdf","","");
-                    logger.info("the ped weekly report for BU west is done.");
-                }else{
-                    logger.info("The ped weekly report for BU west is already generated, no need to do again.");
-                }
-                
-                if( !new File(weeklyPDFRESReportFileName_central).exists() ){
-                    html.runReport( basePath + "reportDesigns/weeklyRESReportBUCentral.rptdesign",telephone,"","",weeklyPDFRESReportFileName_central,"pdf","","");
-                    logger.info("the res weekly res report for BU Central is done.");
-                }else{
-                    logger.info("The res weekly res report for BU Central is already generated, no need to do again.");
-                }
-                if( !new File(weeklyPDFRESReportFileName_east1).exists() ){
-                    html.runReport( basePath + "reportDesigns/weeklyRESReportBUEast1.rptdesign",telephone,"","",weeklyPDFRESReportFileName_east1,"pdf","","");
-                    logger.info("the res weekly report for BU east1 is done.");
-                }else{
-                    logger.info("The res weekly report for BU east1 is already generated, no need to do again.");
-                }
-                if( !new File(weeklyPDFRESReportFileName_east2).exists() ){
-                    html.runReport( basePath + "reportDesigns/weeklyRESReportBUEast2.rptdesign",telephone,"","",weeklyPDFRESReportFileName_east2,"pdf","","");
-                    logger.info("the res weekly report for BU east2 is done.");
-                }else{
-                    logger.info("The res weekly report for BU east2 is already generated, no need to do again.");
-                }
-                if( !new File(weeklyPDFRESReportFileName_north).exists() ){
-                    html.runReport( basePath + "reportDesigns/weeklyRESReportBUNorth.rptdesign",telephone,"","",weeklyPDFRESReportFileName_north,"pdf","","");
-                    logger.info("the res weekly report for BU north is done.");
-                }else{
-                    logger.info("The res weekly report for BU north is already generated, no need to do again.");
-                }
-                if( !new File(weeklyPDFRESReportFileName_south).exists() ){
-                    html.runReport( basePath + "reportDesigns/weeklyRESReportBUSouth.rptdesign",telephone,"","",weeklyPDFRESReportFileName_south,"pdf","","");
-                    logger.info("the res weekly report for BU south is done.");
-                }else{
-                    logger.info("The res weekly report for BU south is already generated, no need to do again.");
-                }
-                if( !new File(weeklyPDFRESReportFileName_west).exists() ){
-                    html.runReport( basePath + "reportDesigns/weeklyRESReportBUWest.rptdesign",telephone,"","",weeklyPDFRESReportFileName_west,"pdf","","");
-                    logger.info("the res weekly report for BU west is done.");
-                }else{
-                    logger.info("The res weekly report for BU west is already generated, no need to do again.");
-                }
-                
-                
-                if( !new File(weeklyPDFRESReportFileName).exists() ){
-                    html.runReport( basePath + "reportDesigns/weeklyRESReportBU.rptdesign",telephone,"","",weeklyPDFRESReportFileName,"pdf","","");
-                    logger.info("the res weekly res report for BU is done.");
-                }else{
-                    logger.info("The res weekly report for BU is already generated, no need to do again.");
-                }
-                
-                if( !new File(weeklyPDFPEDReportFileName).exists() ){
-                    html.runReport( basePath + "reportDesigns/weeklyPEDReportBU.rptdesign",telephone,"","",weeklyPDFPEDReportFileName,"pdf","","");
-                    logger.info("the ped weekly report for BU is done.");
-                }else{
-                    logger.info("The ped weekly report for BU is already generated, no need to do again.");
                 }
                 break;
             default:
