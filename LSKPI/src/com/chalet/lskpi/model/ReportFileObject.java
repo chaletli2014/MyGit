@@ -10,6 +10,9 @@ public class ReportFileObject {
 	private String filePath;
 	private String fileName;
 	
+	private String folderName_en;
+	private String folderName_cn;
+	
 	public String getFilePath() {
 		return filePath;
 	}
@@ -22,4 +25,16 @@ public class ReportFileObject {
 	public void setFileName(String fileName) {
 		this.fileName = fileName;
 	}
+    public String getFolderName_en() {
+        return folderName_en;
+    }
+    public void setFolderName_en(String folderName_en) {
+        this.folderName_en = folderName_en;
+    }
+    public String getFolderName_cn() {
+        return folderName_cn;
+    }
+    public void setFolderName_cn(String folderName_cn) {
+        this.folderName_cn = folderName_cn;
+    }
 }

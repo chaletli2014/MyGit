@@ -376,58 +376,20 @@
 			</c:if>
 			<div class="element_block">
 			 <div class="element_title">KPI资料下载</div>
-			     <div>博雾资料</div>
-			     <c:if test="${bowuList != null}">
-                    <div>
-                        <select id="bowu" onchange="showDownloadFile('bowufile',this.id)">
-                            <option value="">--请选择下载资料--</option>
-                        <c:forEach items="${bowuList}" var="fileObj">
-                            <option value="${fileObj.filePath}">${fileObj.fileName}</option>
-                        </c:forEach>
-                        </select>
-                        <span id="bowufile"></span>
-                    </div>
+			     <c:if test="${allSourceFileList != null}">
+			     <c:forEach items="${allSourceFileList}" var="sourceFile">
+				     <div>${sourceFile[0].folderName_cn}</div>
+	                    <div>
+	                        <select id="${sourceFile[0].folderName_en}" onchange="showDownloadFile('${sourceFile[0].folderName_en}file',this.id)">
+	                            <option value="">--请选择下载资料--</option>
+	                        <c:forEach items="${sourceFile}" var="fileObj">
+	                            <option value="${fileObj.filePath}">${fileObj.fileName}</option>
+	                        </c:forEach>
+	                        </select>
+	                        <span id="${sourceFile[0].folderName_en}file"></span>
+	                    </div>
+			     </c:forEach>
                  </c:if>
-			     <div>儿科资料</div>
-			     <c:if test="${pedList != null}">
-                    <div>
-                        <select id="ped" onchange="showDownloadFile('pedfile',this.id)">
-                            <option value="">--请选择下载资料--</option>
-                        <c:forEach items="${pedList}" var="fileObj">
-                            <a href="${fileObj.filePath}" target="_blank">${fileObj.fileName}</a>
-                            <option value="${fileObj.filePath}">${fileObj.fileName}</option>
-                        </c:forEach>
-                        </select>
-                        <span id="pedfile"></span>
-                    </div>
-                 </c:if>
-			     <div>呼吸科资料</div>
-			     <c:if test="${resList != null}">
-                    <div>
-                        <select id="res" onchange="showDownloadFile('resfile',this.id)">
-                            <option value="">--请选择下载资料--</option>
-                        <c:forEach items="${resList}" var="fileObj">
-                            <a href="${fileObj.filePath}" target="_blank">${fileObj.fileName}</a>
-                            <option value="${fileObj.filePath}">${fileObj.fileName}</option>
-                        </c:forEach>
-                        </select>
-                        <span id="resfile"></span>
-                    </div>
-                 </c:if>
-			     <div>外科资料</div>
-			     <c:if test="${surgeryList != null}">
-                    <div>
-                        <select id="surgery" onchange="showDownloadFile('surgeryfile',this.id)">
-                            <option value="">--请选择下载资料--</option>
-                        <c:forEach items="${surgeryList}" var="fileObj">
-                            <a href="${fileObj.filePath}" target="_blank">${fileObj.fileName}</a>
-                            <option value="${fileObj.filePath}">${fileObj.fileName}</option>
-                        </c:forEach>
-                        </select>
-                        <span id="surgeryfile"></span>
-                    </div>
-                 </c:if>
-			     
 			</div>
 		</div>
 		<div style="background:#1C7DBE;">

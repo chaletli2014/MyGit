@@ -701,10 +701,13 @@ public class IndexController extends BaseController{
     }
     
     private void initKPISource(ModelAndView view, String basePath, String localPath){
+        List<List<ReportFileObject>> allSourceFileList = new ArrayList<List<ReportFileObject>>();
+        
     	List<ReportFileObject> bowuList = new ArrayList<ReportFileObject>();
     	List<ReportFileObject> pedList = new ArrayList<ReportFileObject>();
     	List<ReportFileObject> resList = new ArrayList<ReportFileObject>();
     	List<ReportFileObject> surgeryList = new ArrayList<ReportFileObject>();
+    	List<ReportFileObject> systemDescList = new ArrayList<ReportFileObject>();
     	
     	StringBuffer bowulocalFile = new StringBuffer(localPath);
         StringBuffer bowuremoteFile = new StringBuffer(basePath);
@@ -721,11 +724,42 @@ public class IndexController extends BaseController{
         StringBuffer surgerylocalFile = new StringBuffer(localPath);
         StringBuffer surgeryremoteFile = new StringBuffer(basePath);
         readFiles(surgerylocalFile.append("KPISource/surgery/").toString(),surgeryremoteFile.append("KPISource/surgery/").toString(),surgeryList);
+        
+        StringBuffer systemDesclocalFile = new StringBuffer(localPath);
+        StringBuffer systemDescremoteFile = new StringBuffer(basePath);
+        readFiles(systemDesclocalFile.append("KPISource/systemDesc/").toString(),systemDescremoteFile.append("KPISource/systemDesc/").toString(),systemDescList);
     	
-    	view.addObject("bowuList", bowuList);
-    	view.addObject("pedList", pedList);
-    	view.addObject("resList", resList);
-    	view.addObject("surgeryList", surgeryList);
+        if( null != bowuList && bowuList.size() > 0){
+            bowuList.get(0).setFolderName_en("bowu");
+            bowuList.get(0).setFolderName_cn("博雾资料");
+            allSourceFileList.add(bowuList);
+        }
+        
+        if( null != pedList && pedList.size() > 0){
+            pedList.get(0).setFolderName_en("ped");
+            pedList.get(0).setFolderName_cn("儿科资料");
+            allSourceFileList.add(pedList);
+        }
+        
+        if( null != resList && resList.size() > 0){
+            resList.get(0).setFolderName_en("res");
+            resList.get(0).setFolderName_cn("呼吸科资料");
+            allSourceFileList.add(resList);
+        }
+        
+        if( null != surgeryList && surgeryList.size() > 0){
+            surgeryList.get(0).setFolderName_en("surgery");
+            surgeryList.get(0).setFolderName_cn("外科资料");
+            allSourceFileList.add(surgeryList);
+        }
+        
+        if( null != systemDescList && systemDescList.size() > 0){
+            systemDescList.get(0).setFolderName_en("systemDesc");
+            systemDescList.get(0).setFolderName_cn("KPI系统说明");
+            allSourceFileList.add(systemDescList);
+        }
+        
+        view.addObject("allSourceFileList", allSourceFileList);
     }
     
     private void readFiles(String localfilepath, String remotefilepath, List<ReportFileObject> fileList){
