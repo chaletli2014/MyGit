@@ -22,4 +22,6 @@ public interface HomeService {
     
     public List<ExportDoctor> getAllDoctors() throws Exception;
     public List<HomeWeeklyData> getWeeklyDataByRegion(String regionCenter) throws Exception;
+    public List<HomeWeeklyData> getWeeklyDataByRegion(String regionCenter, Date beginDate) throws Exception;
+    
 }

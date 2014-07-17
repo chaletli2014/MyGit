@@ -38,6 +38,15 @@
 		loading();
 		$("#downloadHomeData").submit();
 	}
+	function downloadWeeklyHomeData(){
+       if( $("#weeklyhome_datepicker") && $("#weeklyhome_datepicker").val() == '' ){
+           alert('请选择日期');
+           return false;
+       }
+       
+       loading();
+       $("#downloadWeeklyHomeData").submit();
+    }
 	function downloadDoctorData(){
         loading();
         $("#downloadDoctorData").submit();
@@ -171,6 +180,20 @@
 					</div>
 					</form>
 				</div>
+				<div class="element_block">
+                <div class="element_title">家庭雾化周报查询</div>
+	                <div>
+	                    <form action="doDownloadWeeklyHomeData" id="downloadWeeklyHomeData" method="post" enctype="multipart/form-data" data-ajax="false" accept-charset="UTF-8">
+	                                                                选择日期：<input id="weeklyhome_datepicker" type="text" name="chooseDate" class="ls_datepicker" readonly="readonly"/>
+	                     <img alt="" src="<%=basePath%>images/button_submit.png" style="cursor: pointer; vertical-align: middle;" onclick="downloadWeeklyHomeData()" />
+	                    </form>
+	                    <c:if test="${weeklyHomeDataFile != null}">
+	                        <div id="homeDataFile">
+	                            <a href="<%=basePath%>${weeklyHomeDataFile}">${fn:substringAfter(weeklyHomeDataFile,'/')}</a>
+	                        </div>
+	                    </c:if>
+	                </div>
+	            </div>
 				<div class="element_block">
 	                <div class="element_title">家庭雾化医生查询</div>
 	                <div>

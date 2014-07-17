@@ -270,6 +270,21 @@ public class DateUtils {
         return beginDate;
     }
     
+    public static Date getExportHomeWeeklyBegionDate(Date date){
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(date);
+        int dayInWeek = calendar.get(Calendar.DAY_OF_WEEK);
+        //1 - Sunday 2-Monday
+        Date beginDate = date;
+        if( dayInWeek >= 2 ){
+            beginDate = new Date(date.getTime() - (dayInWeek-2) * 24 * 60 * 60 * 1000 );
+        }else {
+            beginDate = new Date(date.getTime() - 6 * 24 * 60 * 60 * 1000);
+        }
+        beginDate = new Date(beginDate.getYear(),beginDate.getMonth(),beginDate.getDate());
+        return beginDate;
+    }
+    
     public static Date getHomeWeeklyReportBegionDate(){
         return getHomeWeeklyReportBegionDate(new Date());
     }
