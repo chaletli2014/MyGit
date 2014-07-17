@@ -179,7 +179,7 @@
 		loading();
  		$("#downloadDailyRSMReport").submit();
 	}
-	function downloadWeeklyData(){
+	function downloadWeeklyData(eventtype){
 		if( 'download' == eventtype && $("#datepicker_weekly") && $("#datepicker_weekly").val() == '' ){
             alert('请选择日期');
             return false;
