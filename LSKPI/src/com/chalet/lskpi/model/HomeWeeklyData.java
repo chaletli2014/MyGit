@@ -36,6 +36,8 @@ public class HomeWeeklyData {
     private double reachRate;
     
     private String regionCenterCN;
+    
+    private int reportNum;
 
     public int getTotalDrNum() {
         return totalDrNum;
@@ -136,5 +138,13 @@ public class HomeWeeklyData {
 
 	public void setRegionCenterCN(String regionCenterCN) {
 		this.regionCenterCN = regionCenterCN;
+	}
+
+	public int getReportNum() {
+		return reportNum;
+	}
+
+	public void setReportNum(int reportNum) {
+		this.reportNum = reportNum;
 	}
 }

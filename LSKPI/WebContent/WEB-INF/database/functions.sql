@@ -1950,4 +1950,5 @@ and lastweekdata.saleCode = last2weekdata.saleCode
 and lastweekdata.saleCode = ?
 and lastweekdata.dsmCode = ?;
 
---------------------------------------------getHomeWeeklyDataOfRSD-------------------------
+--------------------------------------------getHomeWeeklyDataOfRSM-------------------------
+

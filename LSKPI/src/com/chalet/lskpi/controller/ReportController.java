@@ -768,16 +768,18 @@ public class ReportController extends BaseController{
     			
     			row.createCell(1, XSSFCell.CELL_TYPE_STRING).setCellValue("医生情况");
     			row.createCell(2, XSSFCell.CELL_TYPE_STRING).setCellValue("");
-    			sheet.addMergedRegion(new Region(0, (short)1, 0, (short)2));
+    			row.createCell(3, XSSFCell.CELL_TYPE_STRING).setCellValue("");
+    			row.createCell(4, XSSFCell.CELL_TYPE_STRING).setCellValue("");
+    			sheet.addMergedRegion(new Region(0, (short)1, 0, (short)4));
     			row.getCell(1).setCellStyle(topStyle);
     			
-    			row.createCell(3, XSSFCell.CELL_TYPE_STRING).setCellValue("处方情况");
-    			row.createCell(4, XSSFCell.CELL_TYPE_STRING).setCellValue("");
-    			row.createCell(5, XSSFCell.CELL_TYPE_STRING).setCellValue("");
+    			row.createCell(5, XSSFCell.CELL_TYPE_STRING).setCellValue("处方情况");
     			row.createCell(6, XSSFCell.CELL_TYPE_STRING).setCellValue("");
     			row.createCell(7, XSSFCell.CELL_TYPE_STRING).setCellValue("");
-    			sheet.addMergedRegion(new Region(0, (short)3, 0, (short)7));
-    			row.getCell(3).setCellStyle(topStyle);
+    			row.createCell(8, XSSFCell.CELL_TYPE_STRING).setCellValue("");
+    			row.createCell(9, XSSFCell.CELL_TYPE_STRING).setCellValue("");
+    			sheet.addMergedRegion(new Region(0, (short)5, 0, (short)9));
+    			row.getCell(5).setCellStyle(topStyle);
     			
     			row = sheet.createRow(currentRowNum++);
     			
@@ -793,23 +795,31 @@ public class ReportController extends BaseController{
     			rsmCell.setCellValue("上周新增医生数");
     			rsmCell.setCellStyle(top2Style);
     			
-    			HSSFCell dsmCell = row.createCell(3, XSSFCell.CELL_TYPE_STRING);
+    			HSSFCell reportNumCell = row.createCell(3, XSSFCell.CELL_TYPE_STRING);
+    			reportNumCell.setCellValue("上周上报医生数");
+    			reportNumCell.setCellStyle(top2Style);
+    			
+    			HSSFCell inRateCell = row.createCell(4, XSSFCell.CELL_TYPE_STRING);
+    			inRateCell.setCellValue("上报率");
+    			inRateCell.setCellStyle(top2Style);
+    			
+    			HSSFCell dsmCell = row.createCell(5, XSSFCell.CELL_TYPE_STRING);
     			dsmCell.setCellValue("上周家庭雾化新病人次量");
     			dsmCell.setCellStyle(top2Style);
     			
-    			HSSFCell psrCell = row.createCell(4, XSSFCell.CELL_TYPE_STRING);
+    			HSSFCell psrCell = row.createCell(6, XSSFCell.CELL_TYPE_STRING);
     			psrCell.setCellValue("持续期治疗率");
     			psrCell.setCellStyle(top2Style);
     			
-    			HSSFCell hosCodeCell = row.createCell(5, XSSFCell.CELL_TYPE_STRING);
+    			HSSFCell hosCodeCell = row.createCell(7, XSSFCell.CELL_TYPE_STRING);
     			hosCodeCell.setCellValue("推荐使用令舒的人次");
     			hosCodeCell.setCellStyle(top2Style);
     			
-    			HSSFCell hosNameCell = row.createCell(6, XSSFCell.CELL_TYPE_STRING);
+    			HSSFCell hosNameCell = row.createCell(8, XSSFCell.CELL_TYPE_STRING);
     			hosNameCell.setCellValue("持续期令舒比例");
     			hosNameCell.setCellStyle(top2Style);
     			
-    			HSSFCell drNameCell = row.createCell(7, XSSFCell.CELL_TYPE_STRING);
+    			HSSFCell drNameCell = row.createCell(9, XSSFCell.CELL_TYPE_STRING);
     			drNameCell.setCellValue("家庭雾化疗程达标率（DOT>=30天）");
     			drNameCell.setCellStyle(top2Style);
     			
@@ -823,6 +833,8 @@ public class ReportController extends BaseController{
     			sheet.setColumnWidth(5, dateColumnWidth*256);
     			sheet.setColumnWidth(6, dateColumnWidth*256);
     			sheet.setColumnWidth(7, dateColumnWidth*256);
+    			sheet.setColumnWidth(8, dateColumnWidth*256);
+    			sheet.setColumnWidth(9, dateColumnWidth*256);
     			
     			HSSFCellStyle numberCellStyle = workbook.createCellStyle();
     			numberCellStyle.setDataFormat(HSSFDataFormat.getBuiltinFormat("#,##0"));
@@ -853,23 +865,31 @@ public class ReportController extends BaseController{
                     value3Cell.setCellValue(rsmDate.getNewDrNum());
                     value3Cell.setCellStyle(numberCellStyle);
                     
-                    HSSFCell value4Cell = row.createCell(3, XSSFCell.CELL_TYPE_NUMERIC);
+                    HSSFCell reportValueCell = row.createCell(3, XSSFCell.CELL_TYPE_NUMERIC);
+                    reportValueCell.setCellValue(rsmDate.getReportNum());
+                    reportValueCell.setCellStyle(numberCellStyle);
+                    
+                    HSSFCell inRateValueCell = row.createCell(4, XSSFCell.CELL_TYPE_NUMERIC);
+                    inRateValueCell.setCellValue((double)rsmDate.getReportNum()/(double)rsmDate.getTotalDrNum());
+                    inRateValueCell.setCellStyle(percentCellStyle);
+                    
+                    HSSFCell value4Cell = row.createCell(5, XSSFCell.CELL_TYPE_NUMERIC);
                     value4Cell.setCellValue(rsmDate.getNewWhNum());
                     value4Cell.setCellStyle(numberCellStyle);
                     
-                    HSSFCell value5Cell = row.createCell(4, XSSFCell.CELL_TYPE_NUMERIC);
+                    HSSFCell value5Cell = row.createCell(6, XSSFCell.CELL_TYPE_NUMERIC);
                     value5Cell.setCellValue(rsmDate.getCureRate());
                     value5Cell.setCellStyle(percentCellStyle);
                     
-                    HSSFCell value6Cell = row.createCell(5, XSSFCell.CELL_TYPE_NUMERIC);
+                    HSSFCell value6Cell = row.createCell(7, XSSFCell.CELL_TYPE_NUMERIC);
                     value6Cell.setCellValue(rsmDate.getLsnum());
                     value6Cell.setCellStyle(numberCellStyle);
                     
-                    HSSFCell value7Cell = row.createCell(6, XSSFCell.CELL_TYPE_NUMERIC);
+                    HSSFCell value7Cell = row.createCell(8, XSSFCell.CELL_TYPE_NUMERIC);
                     value7Cell.setCellValue(rsmDate.getLsRate());
                     value7Cell.setCellStyle(percentCellStyle);
                     
-                    HSSFCell value8Cell = row.createCell(7, XSSFCell.CELL_TYPE_NUMERIC);
+                    HSSFCell value8Cell = row.createCell(9, XSSFCell.CELL_TYPE_NUMERIC);
                     value8Cell.setCellValue(rsmDate.getReachRate());
                     value8Cell.setCellStyle(percentCellStyle);
     			}
