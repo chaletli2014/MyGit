@@ -624,6 +624,7 @@ public class ReportController extends BaseController{
     			logger.info(String.format("begin to get the weekly home data from %s", chooseDate));
     			
     			Date reportBeginDate = DateUtils.getExportHomeWeeklyBegionDate(chooseDate_d);
+    			Date reportEndDate = new Date(reportBeginDate.getTime() + 7 * 24 * 60 * 60 * 1000);
     			
     			List<String> allRegionCenters = userService.getAllRegionName();
                 List<HomeWeeklyData> allRSMData = new ArrayList<HomeWeeklyData>();
@@ -640,7 +641,9 @@ public class ReportController extends BaseController{
     			}
     			
     			fileName = new StringBuffer("homeData/家庭雾化周报-")
-    			.append(simpledateformat.format(chooseDate_d))
+    			.append(simpledateformat.format(reportBeginDate))
+    			.append("-")
+    			.append(simpledateformat.format(reportEndDate))
     			.append(".xls")
     			.toString();
     			
