@@ -184,6 +184,7 @@
                 <div class="element_title">家庭雾化周报查询</div>
 	                <div>
 	                    <form action="doDownloadWeeklyHomeData" id="downloadWeeklyHomeData" method="post" enctype="multipart/form-data" data-ajax="false" accept-charset="UTF-8">
+	                   <input type="hidden" name="fromWeb" value="Y">                                            
 	                                                                选择日期：<input id="weeklyhome_datepicker" type="text" name="chooseDate" class="ls_datepicker" readonly="readonly"/>
 	                     <img alt="" src="<%=basePath%>images/button_submit.png" style="cursor: pointer; vertical-align: middle;" onclick="downloadWeeklyHomeData()" />
 	                    </form>
@@ -198,6 +199,7 @@
 	                <div class="element_title">家庭雾化医生查询</div>
 	                <div>
 	                    <form action="doDownloadDoctorData" id="downloadDoctorData" method="post" enctype="multipart/form-data" data-ajax="false" accept-charset="UTF-8">
+	                     <input type="hidden" name="fromWeb" value="Y">
 	                     <img alt="" src="<%=basePath%>images/button_submit.png" style="cursor: pointer; vertical-align: middle;" onclick="downloadDoctorData()" />
 	                    </form>
 	                    <c:if test="${doctorDataFile != null}">
