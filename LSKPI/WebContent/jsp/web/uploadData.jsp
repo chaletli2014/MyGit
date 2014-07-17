@@ -154,6 +154,7 @@
 							选择科室：<select name="department">
 										<option value="1">呼吸科</option>
 										<option value="2">儿科</option>
+										<option value="3">胸外科</option>
 								</select> 
 							<br/>
 							<img alt="" src="<%=basePath%>images/button_submit.png" style="cursor: pointer; vertical-align: middle;" onclick="downloadDailyData()" />

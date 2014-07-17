@@ -33,6 +33,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.chalet.lskpi.model.ChestSurgeryData;
 import com.chalet.lskpi.model.ExportDoctor;
 import com.chalet.lskpi.model.HomeData;
 import com.chalet.lskpi.model.HomeWeeklyData;
@@ -118,7 +119,7 @@ public class ReportController extends BaseController{
     
     @RequestMapping("/doDownloadDailyData")
     public String doDownloadDailyData(HttpServletRequest request, HttpServletResponse response) throws IOException{
-    	logger.info("download the daily res data..");
+    	logger.info("download the daily data..");
     	FileOutputStream fOut = null;
     	String fileName = null;
     	String fromWeb = request.getParameter("fromWeb");
@@ -135,7 +136,7 @@ public class ReportController extends BaseController{
             	Date chooseDate_end_d = simpledateformat.parse(chooseDate_end);
             	
             	String department = request.getParameter("department");
-            	logger.info(String.format("begin to get the res data of department %s, from %s to %s", department,chooseDate,chooseDate_end));
+            	logger.info(String.format("begin to get the data of department %s, from %s to %s", department,chooseDate,chooseDate_end));
             	if( "1".equalsIgnoreCase(department) ){
             		List<RespirologyData> dbResData = respirologyService.getRespirologyDataByDate(chooseDate_d,chooseDate_end_d);
             		
@@ -143,7 +144,11 @@ public class ReportController extends BaseController{
             		if( !resDir.exists() ){
             			resDir.mkdir();
             		}
-            		fileName = "dailyResReport/呼吸科原始数据-"+simpledateformat.format(chooseDate_d) + ".xls";
+            		fileName = new StringBuffer("dailyPedReport/呼吸科原始数据-")
+                    .append(simpledateformat.format(chooseDate_d))
+                    .append("-")
+                    .append(simpledateformat.format(chooseDate_end_d))
+                    .append(".xls").toString();
             		File tmpFile = new File(request.getRealPath("/") + fileName);
             		if( !tmpFile.exists() ){
             			tmpFile.createNewFile();
@@ -152,7 +157,7 @@ public class ReportController extends BaseController{
             		fOut = new FileOutputStream(tmpFile);
             		
             		HSSFWorkbook workbook = new HSSFWorkbook();
-            		workbook.createSheet("日报");
+            		workbook.createSheet("原始数据");
                     HSSFSheet sheet = workbook.getSheetAt(0);
                     int currentRowNum = 0;
                     
@@ -213,7 +218,11 @@ public class ReportController extends BaseController{
             		if( !pedDir.exists() ){
             			pedDir.mkdir();
             		}
-            		fileName = "dailyPedReport/儿科原始数据-"+simpledateformat.format(chooseDate_d) + ".xls";
+            		fileName = new StringBuffer("dailyPedReport/儿科原始数据-")
+                            .append(simpledateformat.format(chooseDate_d))
+                            .append("-")
+                            .append(simpledateformat.format(chooseDate_end_d))
+                            .append(".xls").toString();
             		File tmpFile = new File(request.getRealPath("/") + fileName);
             		if( !tmpFile.exists() ){
             			tmpFile.createNewFile();
@@ -222,7 +231,7 @@ public class ReportController extends BaseController{
             		fOut = new FileOutputStream(tmpFile);
             		
             		HSSFWorkbook workbook = new HSSFWorkbook();
-            		workbook.createSheet("日报");
+            		workbook.createSheet("原始数据");
                     HSSFSheet sheet = workbook.getSheetAt(0);
                     int currentRowNum = 0;
                     
@@ -269,6 +278,77 @@ public class ReportController extends BaseController{
                         row.createCell(16, XSSFCell.CELL_TYPE_NUMERIC).setCellValue(pedData.getTqd());
                         row.createCell(17, XSSFCell.CELL_TYPE_NUMERIC).setCellValue(pedData.getTbid());
                         row.createCell(18, XSSFCell.CELL_TYPE_STRING).setCellValue(populateRecipeTypeValue(pedData.getRecipeType()));
+                    }
+                    workbook.write(fOut);
+            	}else if( "3".equalsIgnoreCase(department) ){
+            	    List<ChestSurgeryData> dbChestSurgeryData = chestSurgeryService.getChestSurgeryDataByDate(chooseDate_d,chooseDate_end_d);
+            	    
+            	    File cheDir = new File(request.getRealPath("/") + "dailyCheReport/");
+                    if( !cheDir.exists() ){
+                        cheDir.mkdir();
+                    }
+                    fileName = new StringBuffer("dailyCheReport/胸外科原始数据-")
+                            .append(simpledateformat.format(chooseDate_d))
+                            .append("-")
+                            .append(simpledateformat.format(chooseDate_end_d))
+                            .append(".xls").toString();
+                    File tmpFile = new File(request.getRealPath("/") + fileName);
+                    if( !tmpFile.exists() ){
+                        tmpFile.createNewFile();
+                    }
+                    
+                    fOut = new FileOutputStream(tmpFile);
+                    
+                    HSSFWorkbook workbook = new HSSFWorkbook();
+                    workbook.createSheet("原始数据");
+                    HSSFSheet sheet = workbook.getSheetAt(0);
+                    int currentRowNum = 0;
+                    
+                    //build the header
+                    HSSFRow row = sheet.createRow(currentRowNum++);
+                    row.createCell(0, XSSFCell.CELL_TYPE_STRING).setCellValue("编号");
+                    row.createCell(1, XSSFCell.CELL_TYPE_STRING).setCellValue("录入日期");
+                    row.createCell(2, XSSFCell.CELL_TYPE_STRING).setCellValue("医院编号");
+                    row.createCell(3, XSSFCell.CELL_TYPE_STRING).setCellValue("医院名称");
+                    row.createCell(4, XSSFCell.CELL_TYPE_STRING).setCellValue("当日病房病人人数");
+                    row.createCell(5, XSSFCell.CELL_TYPE_STRING).setCellValue("当日病房内合并COPD或哮喘的手术病人数");
+                    row.createCell(6, XSSFCell.CELL_TYPE_STRING).setCellValue("当日雾化人数");
+                    row.createCell(7, XSSFCell.CELL_TYPE_STRING).setCellValue("当日雾化令舒病人数");
+                    row.createCell(8, XSSFCell.CELL_TYPE_STRING).setCellValue("所属Region");
+                    row.createCell(9, XSSFCell.CELL_TYPE_STRING).setCellValue("所属RSM Region");
+                    row.createCell(10, XSSFCell.CELL_TYPE_STRING).setCellValue("所属DSM");
+                    row.createCell(11, XSSFCell.CELL_TYPE_STRING).setCellValue("销售代表Code");
+                    row.createCell(12, XSSFCell.CELL_TYPE_STRING).setCellValue("销售代表姓名");
+                    row.createCell(13, XSSFCell.CELL_TYPE_STRING).setCellValue("1mg QD");
+                    row.createCell(14, XSSFCell.CELL_TYPE_STRING).setCellValue("2mg QD");
+                    row.createCell(15, XSSFCell.CELL_TYPE_STRING).setCellValue("1mg TID");
+                    row.createCell(16, XSSFCell.CELL_TYPE_STRING).setCellValue("2mg BID");
+                    row.createCell(17, XSSFCell.CELL_TYPE_STRING).setCellValue("2mg TID");
+                    row.createCell(18, XSSFCell.CELL_TYPE_STRING).setCellValue("3mg BID");
+                    row.createCell(19, XSSFCell.CELL_TYPE_STRING).setCellValue("4mg BID");
+                    
+                    for( ChestSurgeryData cheData : dbChestSurgeryData ){
+                        row = sheet.createRow(currentRowNum++);
+                        row.createCell(0, XSSFCell.CELL_TYPE_NUMERIC).setCellValue(currentRowNum-1);
+                        row.createCell(1, XSSFCell.CELL_TYPE_STRING).setCellValue(exportdateformat.format(cheData.getCreatedate()));
+                        row.createCell(2, XSSFCell.CELL_TYPE_STRING).setCellValue(cheData.getHospitalCode());
+                        row.createCell(3, XSSFCell.CELL_TYPE_STRING).setCellValue(cheData.getHospitalName());
+                        row.createCell(4, XSSFCell.CELL_TYPE_NUMERIC).setCellValue(cheData.getPnum());
+                        row.createCell(5, XSSFCell.CELL_TYPE_NUMERIC).setCellValue(cheData.getRisknum());
+                        row.createCell(6, XSSFCell.CELL_TYPE_NUMERIC).setCellValue(cheData.getWhnum());
+                        row.createCell(7, XSSFCell.CELL_TYPE_NUMERIC).setCellValue(cheData.getLsnum());
+                        row.createCell(8, XSSFCell.CELL_TYPE_STRING).setCellValue(cheData.getRegion());
+                        row.createCell(9, XSSFCell.CELL_TYPE_STRING).setCellValue(cheData.getRsmRegion());
+                        row.createCell(10, XSSFCell.CELL_TYPE_STRING).setCellValue(cheData.getDsmName());
+                        row.createCell(11, XSSFCell.CELL_TYPE_STRING).setCellValue(cheData.getSalesCode());
+                        row.createCell(12, XSSFCell.CELL_TYPE_STRING).setCellValue(cheData.getSalesName());
+                        row.createCell(13, XSSFCell.CELL_TYPE_NUMERIC).setCellValue(cheData.getOqd());
+                        row.createCell(14, XSSFCell.CELL_TYPE_NUMERIC).setCellValue(cheData.getTqd());
+                        row.createCell(15, XSSFCell.CELL_TYPE_NUMERIC).setCellValue(cheData.getOtid());
+                        row.createCell(16, XSSFCell.CELL_TYPE_NUMERIC).setCellValue(cheData.getTbid());
+                        row.createCell(17, XSSFCell.CELL_TYPE_NUMERIC).setCellValue(cheData.getTtid());
+                        row.createCell(18, XSSFCell.CELL_TYPE_NUMERIC).setCellValue(cheData.getThbid());
+                        row.createCell(19, XSSFCell.CELL_TYPE_NUMERIC).setCellValue(cheData.getFbid());
                     }
                     workbook.write(fOut);
             	}
