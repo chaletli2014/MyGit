@@ -737,7 +737,7 @@ public class RespirologyDAOImpl implements RespirologyDAO {
         Timestamp paramDate = new Timestamp(DateUtils.populateParamDate(date).getTime());
         
         mobileRESDailySQL.append("select ui.region as name, ui.userCode,")
-        .append(" (select property_value from tbl_property where property_name=ui.regionCenter ) as regionCenterCN, ")
+        .append(" (select distinct property_value from tbl_property where property_name=ui.regionCenter ) as regionCenterCN, ")
         .append(" ( select count(1) from tbl_hospital h where h.rsmRegion = ui.region and h.isResAssessed='1' ) hosNum, ")
         .append(LsAttributes.SQL_DAILYREPORT_SELECTION_ALIAS_RES)
         .append(" from ( ")
@@ -786,7 +786,7 @@ public class RespirologyDAOImpl implements RespirologyDAO {
         Timestamp paramDate = new Timestamp(DateUtils.populateParamDate(date).getTime());
 		
         mobileRESDailySQL.append("select ui.name, ui.userCode,")
-        .append(" (select property_value from tbl_property where property_name=ui.regionCenter ) as regionCenterCN, ")
+        .append(" (select distinct property_value from tbl_property where property_name=ui.regionCenter ) as regionCenterCN, ")
         .append(" ( select count(1) from tbl_hospital h where h.dsmCode = ui.userCode and h.rsmRegion = ui.region and h.isResAssessed='1' ) hosNum, ")
         .append(LsAttributes.SQL_DAILYREPORT_SELECTION_ALIAS_RES)
         .append(" from ( ")
@@ -816,7 +816,7 @@ public class RespirologyDAOImpl implements RespirologyDAO {
         Timestamp paramDate = new Timestamp(DateUtils.populateParamDate(date).getTime());
 		
         mobileRESDailySQL.append("select ui.region as name, ui.userCode,")
-        .append(" (select property_value from tbl_property where property_name=ui.regionCenter ) as regionCenterCN, ")
+        .append(" (select distinct property_value from tbl_property where property_name=ui.regionCenter ) as regionCenterCN, ")
         .append(" ( select count(1) from tbl_hospital h where h.rsmRegion = ui.region and h.isResAssessed='1' ) hosNum, ")
         .append(LsAttributes.SQL_DAILYREPORT_SELECTION_ALIAS_RES)
         .append(" from ( ")
@@ -846,7 +846,7 @@ public class RespirologyDAOImpl implements RespirologyDAO {
         Timestamp paramDate = new Timestamp(DateUtils.populateParamDate(date).getTime());
 		
         mobileRESDailySQL.append("select ( select distinct property_value from tbl_property where property_name = ui.regionCenter ) as name, ui.userCode,")
-        .append(" (select property_value from tbl_property where property_name=ui.regionCenter ) as regionCenterCN, ")
+        .append(" (select distinct property_value from tbl_property where property_name=ui.regionCenter ) as regionCenterCN, ")
         .append(" ( select count(1) from tbl_hospital h where h.region = ui.regionCenter and h.isResAssessed='1' ) hosNum, ")
         .append(LsAttributes.SQL_DAILYREPORT_SELECTION_ALIAS_RES)
         .append(" from ( ")
@@ -874,7 +874,7 @@ public class RespirologyDAOImpl implements RespirologyDAO {
 	    Timestamp paramDate = new Timestamp(DateUtils.populateParamDate(date).getTime());
 	    
 	    mobileRESDailySQL.append("select ui.name, ui.userCode,")
-	    .append(" (select property_value from tbl_property where property_name=ui.regionCenter ) as regionCenterCN, ")
+	    .append(" (select distinct property_value from tbl_property where property_name=ui.regionCenter ) as regionCenterCN, ")
         .append(" ( select count(1) from tbl_hospital h where h.saleCode = ui.userCode and h.rsmRegion = ui.region and h.dsmCode = ui.superior and h.isResAssessed='1' ) hosNum, ")
         .append(LsAttributes.SQL_DAILYREPORT_SELECTION_ALIAS_RES)
         .append(" from ( ")
