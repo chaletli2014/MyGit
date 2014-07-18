@@ -2,7 +2,11 @@ package com.chalet.lskpi.service;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.LinkedHashMap;
+import java.util.LinkedHashSet;
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,6 +23,8 @@ import com.chalet.lskpi.model.RateElement;
 import com.chalet.lskpi.model.ReportProcessData;
 import com.chalet.lskpi.model.ReportProcessDataDetail;
 import com.chalet.lskpi.model.RespirologyData;
+import com.chalet.lskpi.model.RespirologyExportData;
+import com.chalet.lskpi.model.RespirologyMonthDBData;
 import com.chalet.lskpi.model.TopAndBottomRSMData;
 import com.chalet.lskpi.model.UserInfo;
 import com.chalet.lskpi.model.WeeklyRatioData;
@@ -770,5 +776,63 @@ public class RespirologyServiceImpl implements RespirologyService {
         int count = respirologyDAO.getLastWeeklyRESData();
         logger.info("the last week res data size is " + count);
         return count>0;
+    }
+
+    public List<RespirologyExportData> getResMonthExportData() throws Exception {
+        List<RespirologyExportData> exportData = new ArrayList<RespirologyExportData>();
+        List<RespirologyMonthDBData> monthDBData = respirologyDAO.getRESMonthDBData();
+        
+        Set<String> allRSM = new LinkedHashSet<String>();
+        for( RespirologyMonthDBData resData : monthDBData ){
+            allRSM.add(resData.getRsmRegion());
+        }
+        
+        Map<String, Double> pNumMap = new LinkedHashMap<String, Double>();
+        Map<String, Double> lsNumMap = new LinkedHashMap<String, Double>();
+        Map<String, Double> whRateMap = new LinkedHashMap<String, Double>();
+        Map<String, Double> inRateMap = new LinkedHashMap<String, Double>();
+        Map<String, Double> aeNumMap = new LinkedHashMap<String, Double>();
+        Map<String, Double> averageDoseMap = new LinkedHashMap<String, Double>();
+        Map<String, Double> whDaysMap = new LinkedHashMap<String, Double>();
+        
+        for( String rsmRegion : allRSM ){
+            RespirologyExportData rsmData = new RespirologyExportData();
+            pNumMap = new LinkedHashMap<String, Double>();
+            lsNumMap = new LinkedHashMap<String, Double>();
+            aeNumMap = new LinkedHashMap<String, Double>();
+            inRateMap = new LinkedHashMap<String, Double>();
+            whRateMap = new LinkedHashMap<String, Double>();
+            averageDoseMap = new LinkedHashMap<String, Double>();
+            whDaysMap = new LinkedHashMap<String, Double>();
+            
+            rsmData.setRsmRegion(rsmRegion);
+            
+            for( RespirologyMonthDBData resData : monthDBData ){
+                if( resData.getRsmRegion().equalsIgnoreCase(rsmRegion) ){
+                    
+                    rsmData.setRsmName(resData.getRsmName());
+                    
+                    pNumMap.put(resData.getDataYear()+"-"+resData.getDataMonth(), resData.getPnum()/resData.getWeeklyCount());
+                    lsNumMap.put(resData.getDataYear()+"-"+resData.getDataMonth(), resData.getLsnum()/resData.getWeeklyCount());
+                    aeNumMap.put(resData.getDataYear()+"-"+resData.getDataMonth(), resData.getAenum()/resData.getWeeklyCount());
+                    inRateMap.put(resData.getDataYear()+"-"+resData.getDataMonth(), resData.getInRate());
+                    whRateMap.put(resData.getDataYear()+"-"+resData.getDataMonth(), resData.getWhRate());
+                    averageDoseMap.put(resData.getDataYear()+"-"+resData.getDataMonth(), resData.getAverageDose());
+                    whDaysMap.put(resData.getDataYear()+"-"+resData.getDataMonth(), 1.0);
+                }
+            }
+            
+            rsmData.setpNumMap(pNumMap);
+            rsmData.setLsNumMap(lsNumMap);
+            rsmData.setAeNumMap(aeNumMap);
+            rsmData.setInRateMap(inRateMap);
+            rsmData.setWhRateMap(whRateMap);
+            rsmData.setAverageDoseMap(averageDoseMap);
+            rsmData.setWhDaysMap(whDaysMap);
+            
+            exportData.add(rsmData);
+        }
+        
+        return exportData;
     }
 }

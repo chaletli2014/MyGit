@@ -2467,7 +2467,6 @@ public class ReportController extends BaseController{
     	}
     }
     
-
     @RequestMapping("/doDownloadResMonthData")
     public String doDownloadResMonthData(HttpServletRequest request, HttpServletResponse response) throws IOException{
         logger.info("download the res month data..");
@@ -2476,8 +2475,6 @@ public class ReportController extends BaseController{
         String fromWeb = request.getParameter("fromWeb");
         try{
             
-                SimpleDateFormat simpledateformat = new SimpleDateFormat("yyyy-MM-dd");
-                
                 File resMonthData = new File(request.getRealPath("/") + "resMonthData/");
                 if( !resMonthData.exists() ){
                     resMonthData.mkdir();
@@ -2493,7 +2490,8 @@ public class ReportController extends BaseController{
                 fOut = new FileOutputStream(tmpFile);
                 
                 HSSFWorkbook workbook = new HSSFWorkbook();
-                workbook.createSheet("呼吸科上报数据汇总");
+                
+                workbook.createSheet("分析总表");
                 HSSFSheet sheet = workbook.getSheetAt(0);
                 int currentRowNum = 0;
                 
@@ -2513,105 +2511,48 @@ public class ReportController extends BaseController{
                 top2Style.setLeftBorderColor(HSSFColor.BLACK.index);
                 top2Style.setRightBorderColor(HSSFColor.BLACK.index);
                 
+                
+                HSSFCellStyle numberCellStyle = workbook.createCellStyle();
+                numberCellStyle.setDataFormat(HSSFDataFormat.getBuiltinFormat("#,##0"));
+                
+                HSSFCellStyle percentCellStyle = workbook.createCellStyle();
+                percentCellStyle.setDataFormat(HSSFDataFormat.getBuiltinFormat("0%"));
+                
+                HSSFCellStyle averageDoseCellStyle = workbook.createCellStyle();
+                averageDoseCellStyle.setDataFormat(HSSFDataFormat.getBuiltinFormat("0.00"));
+                
                 //build the header
                 HSSFRow row = sheet.createRow(currentRowNum++);
                 
-                List<RespirologyExportData> resExportData = new ArrayList<RespirologyExportData>();
-                
-                RespirologyExportData test = new RespirologyExportData();
-                test.setRsmName("张小伟");
-                test.setRsmRegion("BJ RE Core");
-                
-                Map<String, Double> testMap = new LinkedHashMap<String, Double>();
-                testMap.put("4月", 1471D);
-                testMap.put("5月", 1465D);
-                testMap.put("6月", 1287D);
-                testMap.put("4月到5月", 0D);
-                testMap.put("5月到6月", -0.12);
-                test.setLsNumMap(testMap);
-                
-                testMap = new LinkedHashMap<String, Double>();
-                testMap.put("4月", 0.31);
-                testMap.put("5月", 0.31);
-                testMap.put("6月", 0.26);
-                testMap.put("4月到5月", 0D);
-                testMap.put("5月到6月", -0.05);
-                test.setWhRateMap(testMap);
-                
-                testMap = new LinkedHashMap<String, Double>();
-                testMap.put("4月", 2.1);
-                testMap.put("5月", 2.5);
-                testMap.put("6月", 2.1);
-                test.setWhDaysMap(testMap);
-
-                testMap = new LinkedHashMap<String, Double>();
-                testMap.put("4月", 0.996);
-                testMap.put("5月", 0.994);
-                testMap.put("6月", 1.00);
-                testMap.put("4月到5月", -0.002);
-                testMap.put("5月到6月", 0.006);
-                test.setInRateMap(testMap);
-                
-                resExportData.add(test);
+                List<RespirologyExportData> resExportData = respirologyService.getResMonthExportData();
                 
                 if( null != resExportData && resExportData.size() > 0 ){
                 	
                 	int columnCount = 0;
-                	row.createCell(columnCount++, XSSFCell.CELL_TYPE_STRING).setCellValue("呼吸科指标");
-                	row.createCell(columnCount++, XSSFCell.CELL_TYPE_STRING).setCellValue("");
-                	sheet.addMergedRegion(new Region(0, (short)0, 0, (short)1));
-                	row.getCell(0).setCellStyle(topStyle);
+                	int i = 0;
                 	
                 	RespirologyExportData resData = resExportData.get(0);
+                	
+                	Map<String, Double> pNumMap = resData.getpNumMap();
+                	Iterator<String> pNumIte = pNumMap.keySet().iterator();
                 	
                 	Map<String, Double> lsNumMap = resData.getLsNumMap();
                 	Iterator<String> lsNumIte = lsNumMap.keySet().iterator();
                 	
-                	Map<String, Double> whRateMap = resData.getWhRateMap();
-                	Iterator<String> whRateIte = whRateMap.keySet().iterator();
-                	
-                	Map<String, Double> whDaysMap = resData.getWhDaysMap();
-                	Iterator<String> whDaysIte = whDaysMap.keySet().iterator();
+                	Map<String, Double> aeNumMap = resData.getAeNumMap();
+                	Iterator<String> aeNumIte = aeNumMap.keySet().iterator();
                 	
                 	Map<String, Double> inRateMap = resData.getInRateMap();
                 	Iterator<String> inRateIte = inRateMap.keySet().iterator();
                 	
-                	int i = 0;
-                	while( lsNumIte.hasNext() ){
-                		lsNumIte.next();
-                		row.createCell(columnCount+i, XSSFCell.CELL_TYPE_STRING).setCellValue("雾化令舒人数(周平均)");
-                		i++;
-                	}
-                	columnCount += lsNumMap.size();
+                	Map<String, Double> whRateMap = resData.getWhRateMap();
+                	Iterator<String> whRateIte = whRateMap.keySet().iterator();
                 	
-                	i = 0;
-                	while( whRateIte.hasNext() ){
-                		whRateIte.next();
-                		row.createCell(columnCount+i, XSSFCell.CELL_TYPE_STRING).setCellValue("雾化率");
-                		i++;
-                	}
-                	columnCount += whRateMap.size();
+                	Map<String, Double> averageDoseMap = resData.getAverageDoseMap();
+                	Iterator<String> averageDoseIte = averageDoseMap.keySet().iterator();
                 	
-                	i = 0;
-                	Iterator<String> daysIte = whDaysMap.keySet().iterator();
-                	while( daysIte.hasNext() ){
-                		daysIte.next();
-                		row.createCell(columnCount+i, XSSFCell.CELL_TYPE_STRING).setCellValue("雾化天数");
-                		i++;
-                	}
-                	columnCount += whDaysMap.size();
-                	
-                	i = 0;
-                	while( inRateIte.hasNext() ){
-                		inRateIte.next();
-                		row.createCell(columnCount+i, XSSFCell.CELL_TYPE_STRING).setCellValue("上报率");
-                		i++;
-                	}
-                	columnCount += inRateMap.size();
-                	
-                	
-                	row = sheet.createRow(currentRowNum++);
-                	columnCount = 0;
+                	Map<String, Double> whDaysMap = resData.getWhDaysMap();
+                	Iterator<String> whDaysIte = whDaysMap.keySet().iterator();
                 	
                 	HSSFCell rsmRegionTitleCell = row.createCell(columnCount++, XSSFCell.CELL_TYPE_STRING);
                 	rsmRegionTitleCell.setCellValue("区域");
@@ -2622,43 +2563,67 @@ public class ReportController extends BaseController{
                 	rsmNameTitleCell.setCellStyle(top2Style);
                 	
                 	i = 0;
+                	pNumIte = pNumMap.keySet().iterator();
+                	while( pNumIte.hasNext() ){
+                	    String monthName = pNumIte.next();
+                	    row.createCell(columnCount+i, XSSFCell.CELL_TYPE_STRING).setCellValue(monthName+"周平均呼吸科住院人数");
+                	    i++;
+                	}
+                	columnCount += pNumMap.size();
+                	
+                	i = 0;
                 	lsNumIte = lsNumMap.keySet().iterator();
                 	while( lsNumIte.hasNext() ){
-                		String monthName = lsNumIte.next();
-                		row.createCell(columnCount+i, XSSFCell.CELL_TYPE_STRING).setCellValue(monthName);
-                		i++;
+                	    String monthName = lsNumIte.next();
+                	    row.createCell(columnCount+i, XSSFCell.CELL_TYPE_STRING).setCellValue(monthName+"周平均呼吸科雾化令舒人数");
+                	    i++;
                 	}
                 	columnCount += lsNumMap.size();
+                	
+                	i = 0;
+                	aeNumIte = aeNumMap.keySet().iterator();
+                	while( aeNumIte.hasNext() ){
+                	    String monthName = aeNumIte.next();
+                	    row.createCell(columnCount+i, XSSFCell.CELL_TYPE_STRING).setCellValue(monthName+"周平均AECOPD人数");
+                	    i++;
+                	}
+                	columnCount += aeNumMap.size();
+                    
+                    i = 0;
+                    inRateIte = inRateMap.keySet().iterator();
+                    while( inRateIte.hasNext() ){
+                        String monthName = inRateIte.next();
+                        row.createCell(columnCount+i, XSSFCell.CELL_TYPE_STRING).setCellValue(monthName+"上报率");
+                        i++;
+                    }
+                    columnCount += inRateMap.size();
                 	
                 	i = 0;
                 	whRateIte = whRateMap.keySet().iterator();
                 	while( whRateIte.hasNext() ){
                 		String monthName = whRateIte.next();
-                		row.createCell(columnCount+i, XSSFCell.CELL_TYPE_STRING).setCellValue(monthName);
+                		row.createCell(columnCount+i, XSSFCell.CELL_TYPE_STRING).setCellValue(monthName+"雾化率");
                 		i++;
                 	}
                 	columnCount += whRateMap.size();
                 	
                 	i = 0;
+                	averageDoseIte = averageDoseMap.keySet().iterator();
+                	while( averageDoseIte.hasNext() ){
+                	    String monthName = averageDoseIte.next();
+                	    row.createCell(columnCount+i, XSSFCell.CELL_TYPE_STRING).setCellValue(monthName+"平均剂量");
+                	    i++;
+                	}
+                	columnCount += averageDoseMap.size();
+                	
+                	i = 0;
                 	whDaysIte = whDaysMap.keySet().iterator();
                 	while( whDaysIte.hasNext() ){
                 		String monthName = whDaysIte.next();
-                		row.createCell(columnCount+i, XSSFCell.CELL_TYPE_STRING).setCellValue(monthName);
+                		row.createCell(columnCount+i, XSSFCell.CELL_TYPE_STRING).setCellValue(monthName+"天数");
                 		i++;
                 	}
                 	columnCount += whDaysMap.size();
-                	
-                	i = 0;
-                	inRateIte = inRateMap.keySet().iterator();
-                	while( inRateIte.hasNext() ){
-                		String monthName = inRateIte.next();
-                		row.createCell(columnCount+i, XSSFCell.CELL_TYPE_STRING).setCellValue(monthName);
-                		i++;
-                	}
-                	columnCount += inRateMap.size();
-                	
-                	HSSFCellStyle numberCellStyle = workbook.createCellStyle();
-                	numberCellStyle.setDataFormat(HSSFDataFormat.getBuiltinFormat("#,##0"));
                 	
                 	for( RespirologyExportData res : resExportData ){
                 		
@@ -2673,31 +2638,87 @@ public class ReportController extends BaseController{
                     	rsmNameValueCell.setCellValue(res.getRsmName());
                     	rsmNameValueCell.setCellStyle(top2Style);
                     	
+                    	pNumMap = res.getpNumMap();
+                    	pNumIte = pNumMap.keySet().iterator();
+                    	
                     	lsNumMap = res.getLsNumMap();
                     	lsNumIte = lsNumMap.keySet().iterator();
-                    	whRateMap = res.getWhRateMap();
-                    	whRateIte = whRateMap.keySet().iterator();
-                    	whDaysMap = res.getWhDaysMap();
-                    	whDaysIte = whDaysMap.keySet().iterator();
+                    	
+                    	aeNumMap = res.getAeNumMap();
+                    	aeNumIte = aeNumMap.keySet().iterator();
+                    	
                     	inRateMap = res.getInRateMap();
                     	inRateIte = inRateMap.keySet().iterator();
                     	
+                    	whRateMap = res.getWhRateMap();
+                    	whRateIte = whRateMap.keySet().iterator();
+                    	
+                    	averageDoseMap = res.getAverageDoseMap();
+                    	averageDoseIte = averageDoseMap.keySet().iterator();
+                    	
+                    	whDaysMap = res.getWhDaysMap();
+                    	whDaysIte = whDaysMap.keySet().iterator();
+                    	
                     	i = 0;
                     	String columnName;
+                    	while( pNumIte.hasNext() ){
+                    	    columnName = pNumIte.next();
+                    	    HSSFCell pNumValueCell = row.createCell(columnCount+i, XSSFCell.CELL_TYPE_NUMERIC);
+                    	    pNumValueCell.setCellValue(pNumMap.get(columnName));
+                    	    pNumValueCell.setCellStyle(numberCellStyle);
+                    	    i++;
+                    	}
+                    	columnCount += pNumMap.size();
+                    	
+                    	i = 0;
                     	while( lsNumIte.hasNext() ){
                     		columnName = lsNumIte.next();
-                    		row.createCell(columnCount+i, XSSFCell.CELL_TYPE_NUMERIC).setCellValue(lsNumMap.get(columnName));
+                    		HSSFCell lsNumValueCell = row.createCell(columnCount+i, XSSFCell.CELL_TYPE_NUMERIC);
+                    		lsNumValueCell.setCellValue(lsNumMap.get(columnName));
+                    		lsNumValueCell.setCellStyle(numberCellStyle);
                     		i++;
                     	}
                     	columnCount += lsNumMap.size();
                     	
                     	i = 0;
+                    	while( aeNumIte.hasNext() ){
+                    	    columnName = aeNumIte.next();
+                    	    HSSFCell aeNumValueCell = row.createCell(columnCount+i, XSSFCell.CELL_TYPE_NUMERIC);
+                    	    aeNumValueCell.setCellValue(aeNumMap.get(columnName));
+                    	    aeNumValueCell.setCellStyle(numberCellStyle);
+                    	    i++;
+                    	}
+                    	columnCount += aeNumMap.size();
+                        
+                        i = 0;
+                        while( inRateIte.hasNext() ){
+                            columnName = inRateIte.next();
+                            HSSFCell inRateValueCell = row.createCell(columnCount+i, XSSFCell.CELL_TYPE_NUMERIC);
+                            inRateValueCell.setCellValue(inRateMap.get(columnName));
+                            inRateValueCell.setCellStyle(percentCellStyle);
+                            i++;
+                        }
+                        columnCount += inRateMap.size();
+                        
+                    	i = 0;
                     	while( whRateIte.hasNext() ){
                     		columnName = whRateIte.next();
-                    		row.createCell(columnCount+i, XSSFCell.CELL_TYPE_NUMERIC).setCellValue(whRateMap.get(columnName));
+                    		HSSFCell whRateValueCell = row.createCell(columnCount+i, XSSFCell.CELL_TYPE_NUMERIC);
+                    		whRateValueCell.setCellValue(whRateMap.get(columnName));
+                    		whRateValueCell.setCellStyle(percentCellStyle);
                     		i++;
                     	}
                     	columnCount += whRateMap.size();
+                    	
+                    	i = 0;
+                    	while( averageDoseIte.hasNext() ){
+                    	    columnName = averageDoseIte.next();
+                    	    HSSFCell averageDoseValueCell = row.createCell(columnCount+i, XSSFCell.CELL_TYPE_NUMERIC);
+                    	    averageDoseValueCell.setCellValue(averageDoseMap.get(columnName));
+                    	    averageDoseValueCell.setCellStyle(averageDoseCellStyle);
+                    	    i++;
+                    	}
+                    	columnCount += averageDoseMap.size();
                     	
                     	i = 0;
                     	while( whDaysIte.hasNext() ){
@@ -2706,15 +2727,182 @@ public class ReportController extends BaseController{
                     		i++;
                     	}
                     	columnCount += whDaysMap.size();
-                    	
-                    	i = 0;
-                    	while( inRateIte.hasNext() ){
-                    		columnName = inRateIte.next();
-                    		row.createCell(columnCount+i, XSSFCell.CELL_TYPE_NUMERIC).setCellValue(inRateMap.get(columnName));
-                    		i++;
-                    	}
-                    	columnCount += inRateMap.size();
+
                 	}
+                }
+                
+                
+                workbook.createSheet("令舒呼吸科周报");
+                sheet = workbook.getSheetAt(1);
+                currentRowNum = 0;
+                
+                //build the header
+                row = sheet.createRow(currentRowNum++);
+                
+                if( null != resExportData && resExportData.size() > 0 ){
+                    
+                    int columnCount = 0;
+                    row.createCell(columnCount++, XSSFCell.CELL_TYPE_STRING).setCellValue("呼吸科指标");
+                    row.createCell(columnCount++, XSSFCell.CELL_TYPE_STRING).setCellValue("");
+                    sheet.addMergedRegion(new Region(0, (short)0, 0, (short)1));
+                    row.getCell(0).setCellStyle(topStyle);
+                    
+                    RespirologyExportData resData = resExportData.get(0);
+                    
+                    Map<String, Double> lsNumMap = resData.getLsNumMap();
+                    Iterator<String> lsNumIte = lsNumMap.keySet().iterator();
+                    
+                    Map<String, Double> whRateMap = resData.getWhRateMap();
+                    Iterator<String> whRateIte = whRateMap.keySet().iterator();
+                    
+                    Map<String, Double> whDaysMap = resData.getWhDaysMap();
+                    Iterator<String> whDaysIte = whDaysMap.keySet().iterator();
+                    
+                    Map<String, Double> inRateMap = resData.getInRateMap();
+                    Iterator<String> inRateIte = inRateMap.keySet().iterator();
+                    
+                    int i = 0;
+                    while( lsNumIte.hasNext() ){
+                        lsNumIte.next();
+                        row.createCell(columnCount+i, XSSFCell.CELL_TYPE_STRING).setCellValue("雾化令舒人数(周平均)");
+                        i++;
+                    }
+                    columnCount += lsNumMap.size();
+                    
+                    i = 0;
+                    while( whRateIte.hasNext() ){
+                        whRateIte.next();
+                        row.createCell(columnCount+i, XSSFCell.CELL_TYPE_STRING).setCellValue("雾化率");
+                        i++;
+                    }
+                    columnCount += whRateMap.size();
+                    
+                    i = 0;
+                    Iterator<String> daysIte = whDaysMap.keySet().iterator();
+                    while( daysIte.hasNext() ){
+                        daysIte.next();
+                        row.createCell(columnCount+i, XSSFCell.CELL_TYPE_STRING).setCellValue("雾化天数");
+                        i++;
+                    }
+                    columnCount += whDaysMap.size();
+                    
+                    i = 0;
+                    while( inRateIte.hasNext() ){
+                        inRateIte.next();
+                        row.createCell(columnCount+i, XSSFCell.CELL_TYPE_STRING).setCellValue("上报率");
+                        i++;
+                    }
+                    columnCount += inRateMap.size();
+                    
+                    
+                    row = sheet.createRow(currentRowNum++);
+                    columnCount = 0;
+                    
+                    HSSFCell rsmRegionTitleCell = row.createCell(columnCount++, XSSFCell.CELL_TYPE_STRING);
+                    rsmRegionTitleCell.setCellValue("区域");
+                    rsmRegionTitleCell.setCellStyle(top2Style);
+                    
+                    HSSFCell rsmNameTitleCell = row.createCell(columnCount++, XSSFCell.CELL_TYPE_STRING);
+                    rsmNameTitleCell.setCellValue("RSM");
+                    rsmNameTitleCell.setCellStyle(top2Style);
+                    
+                    i = 0;
+                    lsNumIte = lsNumMap.keySet().iterator();
+                    while( lsNumIte.hasNext() ){
+                        String monthName = lsNumIte.next();
+                        row.createCell(columnCount+i, XSSFCell.CELL_TYPE_STRING).setCellValue(monthName);
+                        i++;
+                    }
+                    columnCount += lsNumMap.size();
+                    
+                    i = 0;
+                    whRateIte = whRateMap.keySet().iterator();
+                    while( whRateIte.hasNext() ){
+                        String monthName = whRateIte.next();
+                        row.createCell(columnCount+i, XSSFCell.CELL_TYPE_STRING).setCellValue(monthName);
+                        i++;
+                    }
+                    columnCount += whRateMap.size();
+                    
+                    i = 0;
+                    whDaysIte = whDaysMap.keySet().iterator();
+                    while( whDaysIte.hasNext() ){
+                        String monthName = whDaysIte.next();
+                        row.createCell(columnCount+i, XSSFCell.CELL_TYPE_STRING).setCellValue(monthName);
+                        i++;
+                    }
+                    columnCount += whDaysMap.size();
+                    
+                    i = 0;
+                    inRateIte = inRateMap.keySet().iterator();
+                    while( inRateIte.hasNext() ){
+                        String monthName = inRateIte.next();
+                        row.createCell(columnCount+i, XSSFCell.CELL_TYPE_STRING).setCellValue(monthName);
+                        i++;
+                    }
+                    columnCount += inRateMap.size();
+                    
+                    for( RespirologyExportData res : resExportData ){
+                        
+                        row = sheet.createRow(currentRowNum++);
+                        columnCount = 0;
+                        
+                        HSSFCell rsmRegionValueCell = row.createCell(columnCount++, XSSFCell.CELL_TYPE_STRING);
+                        rsmRegionValueCell.setCellValue(res.getRsmRegion());
+                        rsmRegionValueCell.setCellStyle(top2Style);
+                        
+                        HSSFCell rsmNameValueCell = row.createCell(columnCount++, XSSFCell.CELL_TYPE_STRING);
+                        rsmNameValueCell.setCellValue(res.getRsmName());
+                        rsmNameValueCell.setCellStyle(top2Style);
+                        
+                        lsNumMap = res.getLsNumMap();
+                        lsNumIte = lsNumMap.keySet().iterator();
+                        whRateMap = res.getWhRateMap();
+                        whRateIte = whRateMap.keySet().iterator();
+                        whDaysMap = res.getWhDaysMap();
+                        whDaysIte = whDaysMap.keySet().iterator();
+                        inRateMap = res.getInRateMap();
+                        inRateIte = inRateMap.keySet().iterator();
+                        
+                        i = 0;
+                        String columnName;
+                        while( lsNumIte.hasNext() ){
+                            columnName = lsNumIte.next();
+                            HSSFCell lsNumValueCell = row.createCell(columnCount+i, XSSFCell.CELL_TYPE_NUMERIC);
+                            lsNumValueCell.setCellValue(lsNumMap.get(columnName));
+                            lsNumValueCell.setCellStyle(numberCellStyle);
+                            i++;
+                        }
+                        columnCount += lsNumMap.size();
+                        
+                        i = 0;
+                        while( whRateIte.hasNext() ){
+                            columnName = whRateIte.next();
+                            HSSFCell whRateValueCell = row.createCell(columnCount+i, XSSFCell.CELL_TYPE_NUMERIC);
+                            whRateValueCell.setCellValue(whRateMap.get(columnName));
+                            whRateValueCell.setCellStyle(percentCellStyle);
+                            i++;
+                        }
+                        columnCount += whRateMap.size();
+                        
+                        i = 0;
+                        while( whDaysIte.hasNext() ){
+                            columnName = whDaysIte.next();
+                            row.createCell(columnCount+i, XSSFCell.CELL_TYPE_NUMERIC).setCellValue(whDaysMap.get(columnName));
+                            i++;
+                        }
+                        columnCount += whDaysMap.size();
+                        
+                        i = 0;
+                        while( inRateIte.hasNext() ){
+                            columnName = inRateIte.next();
+                            HSSFCell inRateValueCell = row.createCell(columnCount+i, XSSFCell.CELL_TYPE_NUMERIC);
+                            inRateValueCell.setCellValue(inRateMap.get(columnName));
+                            inRateValueCell.setCellStyle(percentCellStyle);
+                            i++;
+                        }
+                        columnCount += inRateMap.size();
+                    }
                 }
                 
                 workbook.write(fOut);

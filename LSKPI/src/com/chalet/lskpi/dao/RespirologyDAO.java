@@ -9,6 +9,7 @@ import com.chalet.lskpi.model.MobileRESDailyData;
 import com.chalet.lskpi.model.ReportProcessData;
 import com.chalet.lskpi.model.ReportProcessDataDetail;
 import com.chalet.lskpi.model.RespirologyData;
+import com.chalet.lskpi.model.RespirologyMonthDBData;
 import com.chalet.lskpi.model.TopAndBottomRSMData;
 import com.chalet.lskpi.model.UserCode;
 import com.chalet.lskpi.model.UserInfo;
@@ -76,4 +77,6 @@ public interface RespirologyDAO {
     public void updateRESUserCodes(List<UserCode> userCodes) throws Exception;
     
     public List<MobileRESDailyData> getDailyRESData4RSMByRegion(String region) throws Exception;
+    
+    public List<RespirologyMonthDBData> getRESMonthDBData() throws Exception;
 }

@@ -21,6 +21,7 @@ import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Repository;
 
 import com.chalet.lskpi.mapper.RespirologyMobileRowMapper;
+import com.chalet.lskpi.mapper.RespirologyMonthDataRowMapper;
 import com.chalet.lskpi.mapper.TopAndBottomRSMDataRowMapper;
 import com.chalet.lskpi.model.DailyReportData;
 import com.chalet.lskpi.model.Hospital;
@@ -28,6 +29,7 @@ import com.chalet.lskpi.model.MobileRESDailyData;
 import com.chalet.lskpi.model.ReportProcessData;
 import com.chalet.lskpi.model.ReportProcessDataDetail;
 import com.chalet.lskpi.model.RespirologyData;
+import com.chalet.lskpi.model.RespirologyMonthDBData;
 import com.chalet.lskpi.model.TopAndBottomRSMData;
 import com.chalet.lskpi.model.UserCode;
 import com.chalet.lskpi.model.UserInfo;
@@ -1075,6 +1077,41 @@ public class RespirologyDAOImpl implements RespirologyDAO {
 	    
 		dataBean.getJdbcTemplate().update(sql.toString(), paramList.toArray());
 	}
+	
+	public List<RespirologyMonthDBData> getRESMonthDBData() throws Exception {
+        StringBuffer resMonthSQL = new StringBuffer();
+        resMonthSQL.append(" select h.rsmRegion ")
+        .append(" ,(select distinct name from tbl_userinfo u where u.regionCenter = h.region and u.region = h.rsmRegion and u.level='RSM') as rsmName ")
+        .append(" ,date_MM ")
+        .append(" ,date_YYYY ")
+        .append(" ,sum(pnum) as pnum ")
+        .append(" ,sum(lsnum) as lsnum ")
+        .append(" ,sum(aenum) as aenum ")
+        .append(" ,IFNULL(sum(least(innum,3))/(count(1)*3),0) as inRate ")
+        .append(" ,IFNULL(sum(rdw.lsnum)/sum(rdw.pnum),0) as whRate ")
+        .append(" ,IFNULL(sum(rdw.averageDose*rdw.lsnum)/sum(rdw.lsnum),0) as averageDose ")
+        .append(" ,(  ")
+        .append("   select temp2.weekNum ")
+        .append("   from (")
+        .append("       select count(1) as weekNum,date_YYYY,date_MM ")
+        .append("       from (")
+        .append("           select distinct rdw2.date_YYYY,rdw2.date_MM,rdw2.duration ")
+        .append("           from tbl_respirology_data_weekly rdw2, tbl_hospital h2 ")
+        .append("           where rdw2.hospitalCode = h2.code ")
+        .append("           and ( (rdw2.date_YYYY > 2013 and rdw2.date_MM > 3)  or ( rdw2.date_YYYY > 2014 )) ")
+        .append("       ) temp ")
+        .append("       group by temp.date_YYYY,temp.date_MM ")
+        .append("   ) temp2 ")
+        .append("   where rdw.date_YYYY = temp2.date_YYYY and rdw.date_MM = temp2.date_MM ")
+        .append(") as weeklyCount ")
+        .append(" from tbl_respirology_data_weekly rdw, tbl_hospital h ")
+        .append(" where h.code = rdw.hospitalCode ")
+        .append(" and ( (rdw.date_YYYY > 2013 and rdw.date_MM > 3)  or ( rdw.date_YYYY > 2014 )) ")
+        .append(" and rdw.duration < '2014.07.03-2014.07.09' ")
+        .append(" group by date_YYYY,date_MM,h.rsmRegion ")
+        .append(" order by h.rsmRegion, date_YYYY, date_MM");
+       return dataBean.getJdbcTemplate().query(resMonthSQL.toString(),new RespirologyMonthDataRowMapper());
+    }
     
     class RespirologyRowMapper implements RowMapper<RespirologyData>{
 

@@ -8,6 +8,7 @@ import com.chalet.lskpi.model.MobileRESDailyData;
 import com.chalet.lskpi.model.ReportProcessData;
 import com.chalet.lskpi.model.ReportProcessDataDetail;
 import com.chalet.lskpi.model.RespirologyData;
+import com.chalet.lskpi.model.RespirologyExportData;
 import com.chalet.lskpi.model.TopAndBottomRSMData;
 import com.chalet.lskpi.model.UserInfo;
 import com.chalet.lskpi.model.WeeklyRatioData;
@@ -61,4 +62,6 @@ public interface RespirologyService {
     public boolean hasLastWeeklyRESData() throws Exception;
     
     public List<MobileRESDailyData> getDailyRESData4MobileByRegion(String region) throws Exception;
+    
+    public List<RespirologyExportData> getResMonthExportData() throws Exception;
 }
