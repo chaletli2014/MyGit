@@ -16,6 +16,7 @@ public class RespirologyMonthDataRowMapper implements RowMapper<RespirologyMonth
         monthData.setRsmName(rs.getString("rsmName"));
         monthData.setDataMonth(rs.getString("date_MM"));
         monthData.setDataYear(rs.getString("date_YYYY"));
+        monthData.setDuration(rs.getString("duration"));
         monthData.setPnum(rs.getDouble("pnum"));
         monthData.setLsnum(rs.getDouble("lsnum"));
         monthData.setAenum(rs.getDouble("aenum"));

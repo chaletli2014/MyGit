@@ -2,6 +2,7 @@ package com.chalet.lskpi.service;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.LinkedHashSet;
 import java.util.List;
@@ -32,6 +33,7 @@ import com.chalet.lskpi.service.PediatricsServiceImpl.DailyReportDataAverageComp
 import com.chalet.lskpi.service.PediatricsServiceImpl.DailyReportDataInRateComparator;
 import com.chalet.lskpi.service.PediatricsServiceImpl.DailyReportDataWhRateComparator;
 import com.chalet.lskpi.service.PediatricsServiceImpl.RateElementComparator;
+import com.chalet.lskpi.utils.DateUtils;
 import com.chalet.lskpi.utils.LsAttributes;
 
 /**
@@ -779,8 +781,30 @@ public class RespirologyServiceImpl implements RespirologyService {
     }
 
     public List<RespirologyExportData> getResMonthExportData() throws Exception {
+    	Date today = new Date();
+    	String beginDuration = DateUtils.getMonthInRateBeginDuration(today);
+    	String endDuration = DateUtils.getMonthInRateEndDuration(today);
+    	logger.info(String.format("get res month export data, in this month, beginDuration is %s,endDuration is %s ", beginDuration,endDuration));
+    	
+    	String latestDurationInDB = respirologyDAO.getLatestDuration();
+    	int beginCompare = latestDurationInDB.compareTo(beginDuration);
+    	int endCompare = latestDurationInDB.compareTo(endDuration);
+    	logger.info(String.format("beginCompare is %s, endCompare is %s", beginCompare,endCompare));
+    	
+    	String lastMonthDuration = beginDuration;
+    	String lastWeekDuration = "";
+    	//DB里最新的duration在本月的开始和结束之间
+    	if( beginCompare >= 0 && endCompare < 0 ){
+    		lastWeekDuration = beginDuration;
+    	}
+    	
+    	List<RespirologyMonthDBData> monthDBData = respirologyDAO.getRESMonthReportDBData(lastMonthDuration);
+    	List<RespirologyMonthDBData> monthWeeklyDBData = new ArrayList<RespirologyMonthDBData>();
+    	if( null != lastWeekDuration && !"".equalsIgnoreCase(lastWeekDuration) ){
+    		monthWeeklyDBData = respirologyDAO.getRESMonthReportWeeklyDBData(lastWeekDuration);
+    	}
+    	
         List<RespirologyExportData> exportData = new ArrayList<RespirologyExportData>();
-        List<RespirologyMonthDBData> monthDBData = respirologyDAO.getRESMonthDBData();
         
         Set<String> allRSM = new LinkedHashSet<String>();
         for( RespirologyMonthDBData resData : monthDBData ){
@@ -812,15 +836,45 @@ public class RespirologyServiceImpl implements RespirologyService {
                     
                     rsmData.setRsmName(resData.getRsmName());
                     
-                    pNumMap.put(resData.getDataYear()+"-"+resData.getDataMonth(), resData.getPnum()/resData.getWeeklyCount());
-                    lsNumMap.put(resData.getDataYear()+"-"+resData.getDataMonth(), resData.getLsnum()/resData.getWeeklyCount());
-                    aeNumMap.put(resData.getDataYear()+"-"+resData.getDataMonth(), resData.getAenum()/resData.getWeeklyCount());
-                    inRateMap.put(resData.getDataYear()+"-"+resData.getDataMonth(), resData.getInRate());
-                    whRateMap.put(resData.getDataYear()+"-"+resData.getDataMonth(), resData.getWhRate());
-                    averageDoseMap.put(resData.getDataYear()+"-"+resData.getDataMonth(), resData.getAverageDose());
-                    whDaysMap.put(resData.getDataYear()+"-"+resData.getDataMonth(), 1.0);
+                    pNumMap.put(resData.getDataYear()+"年"+resData.getDataMonth()+"月", resData.getPnum()/resData.getWeeklyCount());
+                    lsNumMap.put(resData.getDataYear()+"年"+resData.getDataMonth()+"月", resData.getLsnum()/resData.getWeeklyCount());
+                    aeNumMap.put(resData.getDataYear()+"年"+resData.getDataMonth()+"月", resData.getAenum()/resData.getWeeklyCount());
+                    inRateMap.put(resData.getDataYear()+"年"+resData.getDataMonth()+"月", resData.getInRate());
+                    whRateMap.put(resData.getDataYear()+"年"+resData.getDataMonth()+"月", resData.getWhRate());
+                    averageDoseMap.put(resData.getDataYear()+"年"+resData.getDataMonth()+"月", resData.getAverageDose());
+                    whDaysMap.put(resData.getDataYear()+"年"+resData.getDataMonth()+"月", 1.0);
                 }
             }
+            
+            if( null != monthWeeklyDBData && monthWeeklyDBData.size() > 0 ){
+            	for( RespirologyMonthDBData resData : monthWeeklyDBData ){
+                    if( resData.getRsmRegion().equalsIgnoreCase(rsmRegion) ){
+                        rsmData.setRsmName(resData.getRsmName());
+                        
+                        pNumMap.put(resData.getDuration().substring(5, 11)+resData.getDuration().substring(16), resData.getPnum());
+                        lsNumMap.put(resData.getDuration().substring(5, 11)+resData.getDuration().substring(16), resData.getLsnum());
+                        aeNumMap.put(resData.getDuration().substring(5, 11)+resData.getDuration().substring(16), resData.getAenum());
+                        inRateMap.put(resData.getDuration().substring(5, 11)+resData.getDuration().substring(16), resData.getInRate());
+                        whRateMap.put(resData.getDuration().substring(5, 11)+resData.getDuration().substring(16), resData.getWhRate());
+                        averageDoseMap.put(resData.getDuration().substring(5, 11)+resData.getDuration().substring(16), resData.getAverageDose());
+                    }
+                }
+            }
+            
+            List<String> durations = new ArrayList<String>(inRateMap.keySet());
+            List<Double> values = new ArrayList<Double>(inRateMap.values());
+            inRateMap.put(durations.get(durations.size()-3)+"到"+durations.get(durations.size()-2), values.get(values.size()-2)-values.get(values.size()-3));
+            inRateMap.put(durations.get(durations.size()-2)+"到"+durations.get(durations.size()-1), values.get(values.size()-1)-values.get(values.size()-2));
+            
+            durations = new ArrayList<String>(whRateMap.keySet());
+            values = new ArrayList<Double>(whRateMap.values());
+            whRateMap.put(durations.get(durations.size()-3)+"到"+durations.get(durations.size()-2), values.get(values.size()-2)-values.get(values.size()-3));
+            whRateMap.put(durations.get(durations.size()-2)+"到"+durations.get(durations.size()-1), values.get(values.size()-1)-values.get(values.size()-2));
+            
+            durations = new ArrayList<String>(lsNumMap.keySet());
+            values = new ArrayList<Double>(lsNumMap.values());
+            lsNumMap.put(durations.get(durations.size()-3)+"到"+durations.get(durations.size()-2), (values.get(values.size()-2)-values.get(values.size()-3))/values.get(values.size()-3));
+            lsNumMap.put(durations.get(durations.size()-2)+"到"+durations.get(durations.size()-1), (values.get(values.size()-1)-values.get(values.size()-2))/values.get(values.size()-2));
             
             rsmData.setpNumMap(pNumMap);
             rsmData.setLsNumMap(lsNumMap);

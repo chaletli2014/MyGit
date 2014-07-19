@@ -2665,7 +2665,7 @@ public class ReportController extends BaseController{
                     	    columnName = pNumIte.next();
                     	    HSSFCell pNumValueCell = row.createCell(columnCount+i, XSSFCell.CELL_TYPE_NUMERIC);
                     	    pNumValueCell.setCellValue(pNumMap.get(columnName));
-                    	    pNumValueCell.setCellStyle(numberCellStyle);
+                	    	pNumValueCell.setCellStyle(numberCellStyle);
                     	    i++;
                     	}
                     	columnCount += pNumMap.size();
@@ -2675,7 +2675,11 @@ public class ReportController extends BaseController{
                     		columnName = lsNumIte.next();
                     		HSSFCell lsNumValueCell = row.createCell(columnCount+i, XSSFCell.CELL_TYPE_NUMERIC);
                     		lsNumValueCell.setCellValue(lsNumMap.get(columnName));
-                    		lsNumValueCell.setCellStyle(numberCellStyle);
+                    		if( i == lsNumMap.size()-2 || i == lsNumMap.size()-1 ){
+                    			lsNumValueCell.setCellStyle(percentCellStyle);
+                    	    }else{
+                    	    	lsNumValueCell.setCellStyle(numberCellStyle);
+                    	    }
                     		i++;
                     	}
                     	columnCount += lsNumMap.size();
@@ -2870,7 +2874,11 @@ public class ReportController extends BaseController{
                             columnName = lsNumIte.next();
                             HSSFCell lsNumValueCell = row.createCell(columnCount+i, XSSFCell.CELL_TYPE_NUMERIC);
                             lsNumValueCell.setCellValue(lsNumMap.get(columnName));
-                            lsNumValueCell.setCellStyle(numberCellStyle);
+                            if( i == lsNumMap.size()-2 || i == lsNumMap.size()-1 ){
+                    			lsNumValueCell.setCellStyle(percentCellStyle);
+                    	    }else{
+                    	    	lsNumValueCell.setCellStyle(numberCellStyle);
+                    	    }
                             i++;
                         }
                         columnCount += lsNumMap.size();

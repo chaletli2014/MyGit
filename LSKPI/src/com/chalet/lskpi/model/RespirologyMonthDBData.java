@@ -6,6 +6,7 @@ public class RespirologyMonthDBData {
     private String rsmName;
     private String dataMonth;
     private String dataYear;
+    private String duration;
     private double pnum;
     private double lsnum;
     private double aenum;
@@ -80,4 +81,10 @@ public class RespirologyMonthDBData {
     public void setRsmName(String rsmName) {
         this.rsmName = rsmName;
     }
+	public String getDuration() {
+		return duration;
+	}
+	public void setDuration(String duration) {
+		this.duration = duration;
+	}
 }
