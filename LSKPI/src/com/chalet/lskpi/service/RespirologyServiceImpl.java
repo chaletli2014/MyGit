@@ -842,7 +842,7 @@ public class RespirologyServiceImpl implements RespirologyService {
                     inRateMap.put(resData.getDataYear()+"年"+resData.getDataMonth()+"月", resData.getInRate());
                     whRateMap.put(resData.getDataYear()+"年"+resData.getDataMonth()+"月", resData.getWhRate());
                     averageDoseMap.put(resData.getDataYear()+"年"+resData.getDataMonth()+"月", resData.getAverageDose());
-                    whDaysMap.put(resData.getDataYear()+"年"+resData.getDataMonth()+"月", 1.0);
+                    whDaysMap.put(resData.getDataYear()+"年"+resData.getDataMonth()+"月", resData.getWhDays());
                 }
             }
             

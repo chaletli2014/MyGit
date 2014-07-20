@@ -14,6 +14,7 @@ public class RespirologyMonthDBData {
     private double whRate;
     private double averageDose;
     private int weeklyCount;
+    private double whDays;
     
     public String getRsmRegion() {
         return rsmRegion;
@@ -86,5 +87,11 @@ public class RespirologyMonthDBData {
 	}
 	public void setDuration(String duration) {
 		this.duration = duration;
+	}
+	public double getWhDays() {
+		return whDays;
+	}
+	public void setWhDays(double whDays) {
+		this.whDays = whDays;
 	}
 }

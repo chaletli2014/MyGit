@@ -24,6 +24,7 @@ public class RespirologyMonthDataRowMapper implements RowMapper<RespirologyMonth
         monthData.setWhRate(rs.getDouble("whRate"));
         monthData.setAverageDose(rs.getDouble("averageDose"));
         monthData.setWeeklyCount(rs.getInt("weeklyCount"));
+        monthData.setWhDays(((rs.getDouble("resMonthNum")/rs.getInt("weeklyCount"))*5)/rs.getDouble("averageDose")/(rs.getDouble("lsnum")/rs.getInt("weeklyCount")));
         return monthData;
     }
 
