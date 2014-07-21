@@ -15,6 +15,8 @@ import com.chalet.lskpi.dao.ChestSurgeryDAO;
 import com.chalet.lskpi.model.ChestSurgeryData;
 import com.chalet.lskpi.model.Hospital;
 import com.chalet.lskpi.model.MobileCHEDailyData;
+import com.chalet.lskpi.model.ReportProcessData;
+import com.chalet.lskpi.model.ReportProcessDataDetail;
 import com.chalet.lskpi.model.TopAndBottomRSMData;
 import com.chalet.lskpi.model.UserInfo;
 import com.chalet.lskpi.utils.LsAttributes;
@@ -206,5 +208,78 @@ public class ChestSurgeryServiceImpl implements ChestSurgeryService {
 
     public TopAndBottomRSMData getTopAndBottomRSMData() throws Exception {
         return chestSurgeryDAO.getTopAndBottomRSMData();
+    }
+    
+
+    public ReportProcessData getSalesSelfReportProcessData(String telephone) throws Exception {
+        try{
+            return chestSurgeryDAO.getSalesSelfReportProcessData(telephone);
+        }catch(EmptyResultDataAccessException erd){
+            logger.info("there is no record found.");
+            return new ReportProcessData();
+        } catch(Exception e){
+            logger.error(String.format("fail to get the REP report process data by telephone - %s" , telephone),e);
+            return new ReportProcessData();
+        }
+    }
+    
+    public List<ReportProcessDataDetail> getSalesSelfReportProcessDetailData(String telephone) throws Exception {
+        try{
+            return chestSurgeryDAO.getSalesSelfReportProcessDetailData(telephone);
+        }catch(EmptyResultDataAccessException erd){
+            logger.info(String.format("there is no detail record found by the telephone - %s", telephone));
+            return new ArrayList<ReportProcessDataDetail>();
+        } catch(Exception e){
+            logger.error(String.format("fail to get the sales report process detail data by telephone - %s" , telephone),e);
+            return new ArrayList<ReportProcessDataDetail>();
+        }
+    }
+    
+    public ReportProcessData getDSMSelfReportProcessData(String telephone) throws Exception {
+        try{
+            return chestSurgeryDAO.getDSMSelfReportProcessData(telephone);
+        }catch(EmptyResultDataAccessException erd){
+            logger.info(String.format("there is no record found by the telephone - %s", telephone));
+            return new ReportProcessData();
+        } catch(Exception e){
+            logger.error(String.format("fail to get the DSM report process data by telephone - %s" , telephone),e);
+            return new ReportProcessData();
+        }
+    }
+
+    public List<ReportProcessDataDetail> getDSMSelfReportProcessDetailData(String telephone) throws Exception {
+        try{
+            return chestSurgeryDAO.getDSMSelfReportProcessDetailData(telephone);
+        }catch(EmptyResultDataAccessException erd){
+            logger.info(String.format("there is no detail record found by the telephone - %s", telephone));
+            return new ArrayList<ReportProcessDataDetail>();
+        } catch(Exception e){
+            logger.error(String.format("fail to get the DSM report process detail data by telephone - %s" , telephone),e);
+            return new ArrayList<ReportProcessDataDetail>();
+        }
+    }
+    
+    public ReportProcessData getRSMSelfReportProcessData(String telephone) throws Exception {
+    	try{
+    		return chestSurgeryDAO.getRSMSelfReportProcessData(telephone);
+    	}catch(EmptyResultDataAccessException erd){
+    		logger.info(String.format("there is no record found by the telephone - %s", telephone));
+    		return new ReportProcessData();
+    	} catch(Exception e){
+    		logger.error(String.format("fail to get the RSM report process data by telephone - %s" , telephone),e);
+    		return new ReportProcessData();
+    	}
+    }
+    
+    public List<ReportProcessDataDetail> getRSMSelfReportProcessDetailData(String telephone) throws Exception {
+    	try{
+    		return chestSurgeryDAO.getRSMSelfReportProcessDetailData(telephone);
+    	}catch(EmptyResultDataAccessException erd){
+    		logger.info(String.format("there is no detail record found by the telephone - %s", telephone));
+    		return new ArrayList<ReportProcessDataDetail>();
+    	} catch(Exception e){
+    		logger.error(String.format("fail to get the RSM report process detail data by telephone - %s" , telephone),e);
+    		return new ArrayList<ReportProcessDataDetail>();
+    	}
     }
 }

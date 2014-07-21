@@ -6,6 +6,8 @@ import java.util.List;
 import com.chalet.lskpi.model.Hospital;
 import com.chalet.lskpi.model.ChestSurgeryData;
 import com.chalet.lskpi.model.MobileCHEDailyData;
+import com.chalet.lskpi.model.ReportProcessData;
+import com.chalet.lskpi.model.ReportProcessDataDetail;
 import com.chalet.lskpi.model.TopAndBottomRSMData;
 import com.chalet.lskpi.model.UserInfo;
 
@@ -28,4 +30,13 @@ public interface ChestSurgeryDAO {
     public TopAndBottomRSMData getTopAndBottomRSMData() throws Exception;
     
     public List<MobileCHEDailyData> getDailyCHEData4RSMByRegionCenter(String region) throws Exception;
+    
+    public ReportProcessData getSalesSelfReportProcessData(String telephone) throws Exception;
+	public List<ReportProcessDataDetail> getSalesSelfReportProcessDetailData(String telephone) throws Exception;
+	
+	public ReportProcessData getDSMSelfReportProcessData(String telephone) throws Exception;
+	public List<ReportProcessDataDetail> getDSMSelfReportProcessDetailData(String telephone) throws Exception;
+	
+	public ReportProcessData getRSMSelfReportProcessData(String telephone) throws Exception;
+	public List<ReportProcessDataDetail> getRSMSelfReportProcessDetailData(String telephone) throws Exception;
 }

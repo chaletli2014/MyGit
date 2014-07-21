@@ -31,6 +31,7 @@ import com.chalet.lskpi.model.ReportProcessData;
 import com.chalet.lskpi.model.ReportProcessDataDetail;
 import com.chalet.lskpi.model.UserInfo;
 import com.chalet.lskpi.model.WeeklyRatioData;
+import com.chalet.lskpi.service.ChestSurgeryService;
 import com.chalet.lskpi.service.HospitalService;
 import com.chalet.lskpi.service.PediatricsService;
 import com.chalet.lskpi.service.RespirologyService;
@@ -58,6 +59,10 @@ public class DataQueryController extends BaseController{
     @Autowired
     @Qualifier("pediatricsService")
     private PediatricsService pediatricsService;
+    
+    @Autowired
+    @Qualifier("chestSurgeryService")
+    private ChestSurgeryService chestSurgeryService;
     
     @Autowired
     @Qualifier("userService")
@@ -160,6 +165,71 @@ public class DataQueryController extends BaseController{
         
         view.setViewName("reportProcessRES");
         return view;
+    }
+    
+    @RequestMapping("/cheprocess")
+    public ModelAndView cheprocess(HttpServletRequest request){
+    	ModelAndView view = new LsKPIModelAndView(request);
+    	String currentUserTel = verifyCurrentUser(request,view);
+    	UserInfo currentUser = (UserInfo)request.getSession().getAttribute(LsAttributes.CURRENT_OPERATOR_OBJECT);
+    	logger.info(String.format("che report process, current user's telephone is %s, the user in session is %s", currentUserTel,currentUser));
+    	if( null == currentUserTel || "".equalsIgnoreCase(currentUserTel) || null == currentUser ){
+    		view.addObject(LsAttributes.JSP_VERIFY_MESSAGE, LsAttributes.NO_USER_FOUND_WEB);
+    		view.setViewName("index");
+    		return view;
+    	} 
+    	if( ! ( LsAttributes.USER_LEVEL_REP.equalsIgnoreCase(currentUser.getLevel()) 
+    					|| LsAttributes.USER_LEVEL_DSM.equalsIgnoreCase(currentUser.getLevel())
+    					|| LsAttributes.USER_LEVEL_RSM.equalsIgnoreCase(currentUser.getLevel()) ) ){
+    		view.addObject(LsAttributes.JSP_VERIFY_MESSAGE, LsAttributes.RETURNED_MESSAGE_3);
+    		view.setViewName("index");
+    		return view;
+    	}
+    	
+    	ReportProcessData processData = new ReportProcessData();
+    	try{
+    		if( LsAttributes.USER_LEVEL_REP.equalsIgnoreCase(currentUser.getLevel()) ){
+    			processData = chestSurgeryService.getSalesSelfReportProcessData(currentUserTel);
+    		}else if( LsAttributes.USER_LEVEL_DSM.equalsIgnoreCase(currentUser.getLevel()) ){
+    			processData = chestSurgeryService.getDSMSelfReportProcessData(currentUserTel);
+    		}else if( LsAttributes.USER_LEVEL_RSM.equalsIgnoreCase(currentUser.getLevel()) ){
+    			logger.info(String.format("start to get rsm self chest surgery process, user tel is %s", currentUser.getTelephone()));
+    			processData = chestSurgeryService.getRSMSelfReportProcessData(currentUserTel);
+    			List<ReportProcessData> dsmProcessDataList = new ArrayList<ReportProcessData>();
+    			logger.info(String.format("start to get dsm chest surgery process of current rsm, user tel is %s", currentUser.getTelephone()));
+    			List<UserInfo> dsms = userService.getLowerUserOfCurrentUser(currentUser, null);
+    			for( UserInfo user : dsms ){
+    				ReportProcessData dsmProcessData = chestSurgeryService.getDSMSelfReportProcessData(user.getTelephone());
+    				dsmProcessData.setName(user.getName());
+    				dsmProcessDataList.add(dsmProcessData);
+    			}
+    			logger.info(String.format("end to get dsm chest surgery process of current rsm, user tel is %s", currentUser.getTelephone()));
+    			view.addObject(LsAttributes.DATAQUERY_PROCESS_CHILD_DATA, dsmProcessDataList);
+    		}
+    		view.addObject(LsAttributes.DATAQUERY_PROCESS_DATA, processData);
+    		view.addObject("currentUser", currentUser);
+    	}catch(Exception e){
+    		logger.error("fail to get the chest surgery process data,",e);
+    		view.addObject(LsAttributes.JSP_VERIFY_MESSAGE, LsAttributes.RETURNED_MESSAGE_2);
+    	}
+    	
+    	List<ReportProcessDataDetail> processDataDetail = new ArrayList<ReportProcessDataDetail>();
+    	try{
+    		if( LsAttributes.USER_LEVEL_REP.equalsIgnoreCase(currentUser.getLevel()) ){
+    			processDataDetail = chestSurgeryService.getSalesSelfReportProcessDetailData(currentUserTel);
+    		}else if( LsAttributes.USER_LEVEL_DSM.equalsIgnoreCase(currentUser.getLevel()) ){
+    			processDataDetail = chestSurgeryService.getDSMSelfReportProcessDetailData(currentUserTel);
+    		}else if( LsAttributes.USER_LEVEL_RSM.equalsIgnoreCase(currentUser.getLevel()) ){
+    			processDataDetail = chestSurgeryService.getRSMSelfReportProcessDetailData(currentUserTel);
+    		}
+    		view.addObject(LsAttributes.DATAQUERY_PROCESS_DATA_DETAIL, processDataDetail);
+    	}catch(Exception e){
+    		logger.error("fail to get the chest surgery process data,",e);
+    		view.addObject(LsAttributes.JSP_VERIFY_MESSAGE, LsAttributes.RETURNED_MESSAGE_2);
+    	}
+    	
+    	view.setViewName("reportProcessCHE");
+    	return view;
     }
     
     @RequestMapping("/pedprocess")

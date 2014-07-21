@@ -23,11 +23,15 @@ import com.chalet.lskpi.mapper.TopAndBottomRSMDataRowMapper;
 import com.chalet.lskpi.model.ChestSurgeryData;
 import com.chalet.lskpi.model.Hospital;
 import com.chalet.lskpi.model.MobileCHEDailyData;
+import com.chalet.lskpi.model.ReportProcessData;
+import com.chalet.lskpi.model.ReportProcessDataDetail;
 import com.chalet.lskpi.model.TopAndBottomRSMData;
 import com.chalet.lskpi.model.UserInfo;
 import com.chalet.lskpi.utils.DataBean;
 import com.chalet.lskpi.utils.DateUtils;
 import com.chalet.lskpi.utils.LsAttributes;
+import com.chalet.lskpi.utils.ReportProcessDataRowMapper;
+import com.chalet.lskpi.utils.ReportProcessDetailDataRowMapper;
 
 @Repository("chestSurgeryDAO")
 public class ChestSurgeryDAOImpl implements ChestSurgeryDAO {
@@ -505,5 +509,147 @@ public class ChestSurgeryDAOImpl implements ChestSurgeryDAO {
         .append(" order by ui.region ");
         return dataBean.getJdbcTemplate().query(mobileCHEDailySQL.toString(), new Object[]{startDate,endDate,regionCenter,regionCenter},new ChestSurgeryMobileRowMapper());
     }
+
+	@Override
+	public ReportProcessData getSalesSelfReportProcessData(String telephone) throws Exception {
+	    StringBuffer sb = new StringBuffer("");
+	    sb.append("select count(1) as hosNum, ")
+	    .append("( select IFNULL(sum(inNum),0) as validInNum from ( ")
+	    .append("		select least(count(1),3) as inNum, h1.code as hosCode, h1.dsmCode, h1.rsmRegion ")
+	    .append("		from tbl_chestSurgery_data cd, tbl_hospital h1 ")
+	    .append("		where cd.hospitalCode = h1.code ")
+	    .append("		and cd.createdate between ? and DATE_ADD(?, Interval 7 day) ")
+	    .append("		and h1.isChestSurgeryAssessed='1' ")
+	    .append("		group by cd.hospitalCode ")
+	    .append("	) inNumTemp, tbl_hos_user hu ")
+	    .append("	where u.region = inNumTemp.rsmRegion ")
+	    .append("	and hu.hosCode = inNumTemp.hosCode ")
+	    .append("	and hu.userCode = u.userCode ")
+	    .append("	and u.superior = inNumTemp.dsmCode ")
+	    .append(") as validInNum ")
+	    .append("from tbl_userinfo u, tbl_hospital h, tbl_hos_user hu ")
+	    .append("where h.dsmCode = u.superior ")
+	    .append("and h.rsmRegion = u.region ")
+	    .append("and h.code = hu.hosCode ")
+	    .append("and hu.userCode = u.userCode ")
+	    .append("and h.isChestSurgeryAssessed='1' ")
+	    .append("and telephone = ? ");
+	    
+	    Date startDate = DateUtils.getTheBeginDateOfCurrentWeek();
+	    return dataBean.getJdbcTemplate().queryForObject(sb.toString(), new Object[]{new Timestamp(startDate.getTime()),new Timestamp(startDate.getTime()),telephone}, new ReportProcessDataRowMapper());
+	}
+
+	public List<ReportProcessDataDetail> getSalesSelfReportProcessDetailData(String telephone) throws Exception {
+	    StringBuffer sb = new StringBuffer("");
+	    sb.append("select h.name as hospitalName, ")
+	    .append("( select IFNULL( ")
+	    .append("       ( select count(1) ")
+	    .append("       from tbl_chestSurgery_data cd ")
+	    .append("       where cd.hospitalCode = h.code ")
+	    .append("       and cd.createdate between ? and DATE_ADD(?, Interval 7 day) ")
+	    .append("       group by cd.hospitalCode ")
+	    .append("   ),0) ) as inNum, ")
+	    .append("( select distinct ui.name from tbl_userinfo ui where ui.userCode = h.saleCode and ui.superior = h.dsmCode and ui.region = h.rsmRegion and ui.level='REP' ) as salesName, ")
+	    .append(" h.isChestSurgeryAssessed as isAssessed ")
+	    .append("from tbl_userinfo u, tbl_hospital h, tbl_hos_user hu ")
+	    .append("where hu.userCode = u.userCode ")
+	    .append("and hu.hosCode = h.code ")
+	    .append("and h.dsmCode = u.superior ")
+	    .append("and h.rsmRegion = u.region ")
+	    .append("and telephone = ? ");
+	    
+	    Timestamp startDate = new Timestamp(DateUtils.getTheBeginDateOfCurrentWeek().getTime());
+	    return dataBean.getJdbcTemplate().query(sb.toString(), new Object[]{startDate,startDate,telephone}, new ReportProcessDetailDataRowMapper());
+	}
+	
+    public List<ReportProcessDataDetail> getDSMSelfReportProcessDetailData(String telephone) throws Exception {
+        StringBuffer sb = new StringBuffer("");
+        sb.append("select h.name as hospitalName, ")
+        .append("( select IFNULL( ")
+        .append("       ( select count(1) ")
+        .append("       from tbl_chestSurgery_data cd ")
+        .append("       where cd.hospitalCode = h.code ")
+        .append("       and cd.createdate between ? and DATE_ADD(?, Interval 7 day) ")
+        .append("       group by cd.hospitalCode ")
+        .append("   ),0) ) as inNum, ")
+        .append("( select distinct ui.name from tbl_userinfo ui where ui.userCode = h.saleCode and ui.superior = h.dsmCode and ui.region = h.rsmRegion and ui.level='REP' ) as salesName, ")
+        .append(" h.isChestSurgeryAssessed as isAssessed ")
+        .append("from tbl_userinfo u, tbl_hospital h ")
+        .append("where h.dsmCode = u.userCode ")
+        .append("and h.rsmRegion = u.region ")
+        .append("and telephone = ? ");
+        
+        Timestamp startDate = new Timestamp(DateUtils.getTheBeginDateOfCurrentWeek().getTime());
+        return dataBean.getJdbcTemplate().query(sb.toString(), new Object[]{startDate,startDate,telephone}, new ReportProcessDetailDataRowMapper());
+    }
+	
+	@Override
+	public ReportProcessData getDSMSelfReportProcessData(String telephone) throws Exception {
+	    StringBuffer sb = new StringBuffer("");
+	    sb.append("select count(1) as hosNum, ")
+	    .append("( select IFNULL(sum(inNum),0) as validInNum from ( ")
+	    .append("		select least(count(1),3) as inNum, h1.dsmCode, h1.rsmRegion ")
+	    .append("		from tbl_chestSurgery_data cd, tbl_hospital h1 ")
+	    .append("		where cd.hospitalCode = h1.code ")
+	    .append("		and cd.createdate between ? and DATE_ADD(?, Interval 7 day) ")
+	    .append("		and h1.isChestSurgeryAssessed='1' ")
+	    .append("		group by cd.hospitalCode ")
+	    .append("	) inNumTemp ")
+	    .append("	where u.region = inNumTemp.rsmRegion ")
+	    .append("	and u.userCode = inNumTemp.dsmCode ")
+	    .append(") as validInNum ")
+	    .append("from tbl_userinfo u, tbl_hospital h ")
+	    .append("where h.dsmCode = u.userCode ")
+	    .append("and h.rsmRegion = u.region ")
+	    .append("and h.isChestSurgeryAssessed='1' ")
+	    .append("and telephone = ? ");
+	    
+	    Date startDate = DateUtils.getTheBeginDateOfCurrentWeek();
+	    return dataBean.getJdbcTemplate().queryForObject(sb.toString(), new Object[]{new Timestamp(startDate.getTime()),new Timestamp(startDate.getTime()),telephone}, new ReportProcessDataRowMapper());
+	}
+	
+	public List<ReportProcessDataDetail> getRSMSelfReportProcessDetailData(String telephone) throws Exception {
+		StringBuffer sb = new StringBuffer("");
+		sb.append("select h.name as hospitalName, ")
+		.append("( select IFNULL( ")
+		.append("       ( select count(1) ")
+		.append("       from tbl_chestSurgery_data cd ")
+		.append("       where cd.hospitalCode = h.code ")
+		.append("       and cd.createdate between ? and DATE_ADD(?, Interval 7 day) ")
+		.append("       group by cd.hospitalCode ")
+		.append("   ),0) ) as inNum, ")
+		.append("( select distinct ui.name from tbl_userinfo ui where ui.userCode = h.saleCode and ui.superior = h.dsmCode and ui.region = h.rsmRegion and ui.level='REP' ) as salesName, ")
+		.append(" h.isChestSurgeryAssessed as isAssessed ")
+		.append("from tbl_userinfo u, tbl_hospital h ")
+		.append("where h.rsmRegion = u.region ")
+		.append("and h.isChestSurgeryAssessed = '1' ")
+		.append("and telephone = ? ");
+		
+		Timestamp startDate = new Timestamp(DateUtils.getTheBeginDateOfCurrentWeek().getTime());
+		return dataBean.getJdbcTemplate().query(sb.toString(), new Object[]{startDate,startDate,telephone}, new ReportProcessDetailDataRowMapper());
+	}
+	
+	@Override
+	public ReportProcessData getRSMSelfReportProcessData(String telephone) throws Exception {
+		StringBuffer sb = new StringBuffer("");
+		sb.append("select count(1) as hosNum, ")
+		.append("( select IFNULL(sum(inNum),0) as validInNum from ( ")
+		.append("		select least(count(1),3) as inNum, h1.dsmCode, h1.rsmRegion ")
+		.append("		from tbl_chestSurgery_data cd, tbl_hospital h1 ")
+		.append("		where cd.hospitalCode = h1.code ")
+		.append("		and cd.createdate between ? and DATE_ADD(?, Interval 7 day) ")
+		.append("		and h1.isChestSurgeryAssessed='1' ")
+		.append("		group by cd.hospitalCode ")
+		.append("	) inNumTemp ")
+		.append("	where u.region = inNumTemp.rsmRegion ")
+		.append(") as validInNum ")
+		.append("from tbl_userinfo u, tbl_hospital h ")
+		.append("where h.rsmRegion = u.region ")
+		.append("and h.isChestSurgeryAssessed='1' ")
+		.append("and telephone = ? ");
+		
+		Date startDate = DateUtils.getTheBeginDateOfCurrentWeek();
+		return dataBean.getJdbcTemplate().queryForObject(sb.toString(), new Object[]{new Timestamp(startDate.getTime()),new Timestamp(startDate.getTime()),telephone}, new ReportProcessDataRowMapper());
+	}
 
 }
