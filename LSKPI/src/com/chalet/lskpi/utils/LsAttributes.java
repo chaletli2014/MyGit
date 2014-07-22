@@ -165,6 +165,10 @@ public class LsAttributes {
     
     public static final String COLLECT_HOMEDATA_DATAID = "dataId";
     
+    public static final int ASSESSED_HOS_NUM_PED = 920;
+    public static final int ASSESSED_HOS_NUM_RES = 398;
+    public static final int ASSESSED_HOS_NUM_CHE = 304;
+    
     public static final StringBuffer SQL_WEEKLY_PED_RATIO_DATA_SELECT_PED 
     	= new StringBuffer("select lastweekdata.pnum ")
     	    .append(" , ROUND((lastweekdata.pnum - last2weekdata.pnum) / last2weekdata.pnum,2) as pnumRatio ")
@@ -195,7 +199,7 @@ public class LsAttributes {
 				    .append("	IFNULL(sum(lastweek.omgRate*lastweek.lsnum)/sum(lastweek.lsnum),0) as omgRate, ")
 				    .append("	IFNULL(sum(lastweek.tmgRate*lastweek.lsnum)/sum(lastweek.lsnum),0) as tmgRate, ")
 				    .append("	IFNULL(sum(lastweek.fmgRate*lastweek.lsnum)/sum(lastweek.lsnum),0) as fmgRate ")
-				    .append("	from ( select * from tbl_pediatrics_data_weekly order by duration desc limit 0,920 ) lastweek, tbl_hospital h ")
+				    .append("	from ( select * from tbl_pediatrics_data_weekly order by duration desc limit 0,").append(ASSESSED_HOS_NUM_PED).append(") lastweek, tbl_hospital h ")
 				    .append("   where lastweek.hospitalCode = h.code ");
     
     public static final StringBuffer SQL_WEEKLY_PED_RATIO_DATA_LAST2WEEK_SELECT_PED 
@@ -208,7 +212,7 @@ public class LsAttributes {
 				    .append("	IFNULL(sum(last2week.omgRate*last2week.lsnum)/sum(last2week.lsnum),0) as omgRate, ")
 				    .append("	IFNULL(sum(last2week.tmgRate*last2week.lsnum)/sum(last2week.lsnum),0) as tmgRate, ")
 				    .append("	IFNULL(sum(last2week.fmgRate*last2week.lsnum)/sum(last2week.lsnum),0) as fmgRate ")
-				    .append("	from ( select * from tbl_pediatrics_data_weekly order by duration desc limit 920,920 ) last2week, tbl_hospital h ")
+				    .append("	from ( select * from tbl_pediatrics_data_weekly order by duration desc limit ").append(ASSESSED_HOS_NUM_PED).append(",").append(ASSESSED_HOS_NUM_PED).append(") last2week, tbl_hospital h ")
 				    .append("   where last2week.hospitalCode = h.code ");
     
     public static final StringBuffer SQL_HOSPITAL_WEEKLY_PED_RATIO_DATA_LASTWEEK_SELECT_PED 
@@ -221,7 +225,7 @@ public class LsAttributes {
                     .append("	IFNULL(lastweek.omgRate,0) as omgRate, ")
                     .append("	IFNULL(lastweek.tmgRate,0) as tmgRate, ")
                     .append("	IFNULL(lastweek.fmgRate,0) as fmgRate ")
-                    .append("	from ( select * from tbl_pediatrics_data_weekly order by duration desc limit 0,920 ) lastweek ");
+                    .append("	from ( select * from tbl_pediatrics_data_weekly order by duration desc limit 0,").append(ASSESSED_HOS_NUM_PED).append(" ) lastweek ");
     
     public static final StringBuffer SQL_HOSPITAL_WEEKLY_PED_RATIO_DATA_LAST2WEEK_SELECT_PED 
         = new StringBuffer("	IFNULL(last2week.pnum,0) as pnum, ")
@@ -233,7 +237,7 @@ public class LsAttributes {
                     .append("	IFNULL(last2week.omgRate,0) as omgRate, ")
                     .append("	IFNULL(last2week.tmgRate,0) as tmgRate, ")
                     .append("	IFNULL(last2week.fmgRate,0) as fmgRate ")
-                    .append("	from ( select * from tbl_pediatrics_data_weekly order by duration desc limit 920,920 ) last2week ");
+                    .append("	from ( select * from tbl_pediatrics_data_weekly order by duration desc limit ").append(ASSESSED_HOS_NUM_PED).append(",").append(ASSESSED_HOS_NUM_PED).append(" ) last2week ");
     
     public static final StringBuffer SQL_WEEKLY_PED_RATIO_DATA_SELECT_RES 
 		    = new StringBuffer("select lastweekdata.pnum ")
@@ -271,7 +275,7 @@ public class LsAttributes {
 				    .append("	IFNULL(sum(lastweek.fmgRate*lastweek.lsnum)/sum(lastweek.lsnum),0) as fmgRate, ")
 				    .append("	IFNULL(sum(lastweek.smgRate*lastweek.lsnum)/sum(lastweek.lsnum),0) as smgRate, ")
 				    .append("	IFNULL(sum(lastweek.emgRate*lastweek.lsnum)/sum(lastweek.lsnum),0) as emgRate ")
-				    .append("	from ( select * from tbl_respirology_data_weekly order by duration desc limit 0,398 ) lastweek, tbl_hospital h ")
+				    .append("	from ( select * from tbl_respirology_data_weekly order by duration desc limit 0,").append(ASSESSED_HOS_NUM_RES).append(" ) lastweek, tbl_hospital h ")
 				    .append("   where lastweek.hospitalCode = h.code ");
     public static final StringBuffer SQL_WEEKLY_PED_RATIO_DATA_LAST2WEEK_SELECT_RES 
 		    = new StringBuffer("	IFNULL(sum(last2week.pnum),0) as pnum, ")
@@ -285,8 +289,37 @@ public class LsAttributes {
 				    .append("	IFNULL(sum(last2week.fmgRate*last2week.lsnum)/sum(last2week.lsnum),0) as fmgRate, ")
 				    .append("	IFNULL(sum(last2week.smgRate*last2week.lsnum)/sum(last2week.lsnum),0) as smgRate, ")
 				    .append("	IFNULL(sum(last2week.emgRate*last2week.lsnum)/sum(last2week.lsnum),0) as emgRate ")
-				    .append("	from ( select * from tbl_respirology_data_weekly order by duration desc limit 398,398 ) last2week, tbl_hospital h ")
+				    .append("	from ( select * from tbl_respirology_data_weekly order by duration desc limit ").append(ASSESSED_HOS_NUM_RES).append(",").append(ASSESSED_HOS_NUM_RES).append(") last2week, tbl_hospital h ")
 				    .append("   where last2week.hospitalCode = h.code ");
+    
+    public static final StringBuffer SQL_WEEKLY_PED_RATIO_DATA_LASTWEEK_SELECT_CHE 
+            = new StringBuffer(" 	IFNULL(sum(lastweek.pnum),0) as pnum, ")
+            .append("	IFNULL(sum(lastweek.lsnum),0) as lsnum, ")
+            .append("	IFNULL(sum(lastweek.lsnum),0) / IFNULL(sum(lastweek.pnum),0) as whRate, ")
+            .append("	IFNULL(sum(least(lastweek.innum,3)),0) / (count(1)*3) as inRate, ")
+            .append("	IFNULL(sum(lastweek.averageDose*lastweek.lsnum)/sum(lastweek.lsnum),0) as averageDose, ")
+            .append("	IFNULL(sum(lastweek.omgRate*lastweek.lsnum)/sum(lastweek.lsnum),0) as omgRate, ")
+            .append("	IFNULL(sum(lastweek.tmgRate*lastweek.lsnum)/sum(lastweek.lsnum),0) as tmgRate, ")
+            .append("	IFNULL(sum(lastweek.thmgRate*lastweek.lsnum)/sum(lastweek.lsnum),0) as thmgRate, ")
+            .append("	IFNULL(sum(lastweek.fmgRate*lastweek.lsnum)/sum(lastweek.lsnum),0) as fmgRate, ")
+            .append("	IFNULL(sum(lastweek.smgRate*lastweek.lsnum)/sum(lastweek.lsnum),0) as smgRate, ")
+            .append("	IFNULL(sum(lastweek.emgRate*lastweek.lsnum)/sum(lastweek.lsnum),0) as emgRate ")
+            .append("	from ( select * from tbl_chestSurgery_data_weekly order by duration desc limit 0,").append(ASSESSED_HOS_NUM_CHE).append(" ) lastweek, tbl_hospital h ")
+            .append("   where lastweek.hospitalCode = h.code ");
+    public static final StringBuffer SQL_WEEKLY_PED_RATIO_DATA_LAST2WEEK_SELECT_CHE 
+            = new StringBuffer("	IFNULL(sum(last2week.pnum),0) as pnum, ")
+            .append("	IFNULL(sum(last2week.lsnum),0) as lsnum, ")
+            .append("	IFNULL(sum(last2week.lsnum),0) / IFNULL(sum(last2week.pnum),0) as whRate, ")
+            .append("	IFNULL(sum(least(last2week.innum,3)),0) / (count(1)*3) as inRate, ")
+            .append("	IFNULL(sum(last2week.averageDose*last2week.lsnum)/sum(last2week.lsnum),0) as averageDose, ")
+            .append("	IFNULL(sum(last2week.omgRate*last2week.lsnum)/sum(last2week.lsnum),0) as omgRate, ")
+            .append("	IFNULL(sum(last2week.tmgRate*last2week.lsnum)/sum(last2week.lsnum),0) as tmgRate, ")
+            .append("	IFNULL(sum(last2week.thmgRate*last2week.lsnum)/sum(last2week.lsnum),0) as thmgRate, ")
+            .append("	IFNULL(sum(last2week.fmgRate*last2week.lsnum)/sum(last2week.lsnum),0) as fmgRate, ")
+            .append("	IFNULL(sum(last2week.smgRate*last2week.lsnum)/sum(last2week.lsnum),0) as smgRate, ")
+            .append("	IFNULL(sum(last2week.emgRate*last2week.lsnum)/sum(last2week.lsnum),0) as emgRate ")
+            .append("	from ( select * from tbl_chestSurgery_data_weekly order by duration desc limit ").append(ASSESSED_HOS_NUM_CHE).append(",").append(ASSESSED_HOS_NUM_CHE).append(") last2week, tbl_hospital h ")
+            .append("   where last2week.hospitalCode = h.code ");
     
     public static final StringBuffer SQL_HOSPITAL_WEEKLY_PED_RATIO_DATA_LASTWEEK_SELECT_RES 
             = new StringBuffer(" 	IFNULL(lastweek.pnum,0) as pnum, ")
@@ -300,7 +333,7 @@ public class LsAttributes {
                     .append("	IFNULL(lastweek.fmgRate,0) as fmgRate, ")
                     .append("	IFNULL(lastweek.smgRate,0) as smgRate, ")
                     .append("	IFNULL(lastweek.emgRate,0) as emgRate ")
-                    .append("	from ( select * from tbl_respirology_data_weekly order by duration desc limit 0,398 ) lastweek ");
+                    .append("	from ( select * from tbl_respirology_data_weekly order by duration desc limit 0,").append(ASSESSED_HOS_NUM_RES).append(") lastweek ");
     
     public static final StringBuffer SQL_HOSPITAL_WEEKLY_PED_RATIO_DATA_LAST2WEEK_SELECT_RES 
             = new StringBuffer("	IFNULL(last2week.pnum,0) as pnum, ")
@@ -314,7 +347,35 @@ public class LsAttributes {
                     .append("	IFNULL(last2week.fmgRate,0) as fmgRate, ")
                     .append("	IFNULL(last2week.smgRate,0) as smgRate, ")
                     .append("	IFNULL(last2week.emgRate,0) as emgRate ")
-                    .append("	from ( select * from tbl_respirology_data_weekly order by duration desc limit 398,398 ) last2week ");
+                    .append("	from ( select * from tbl_respirology_data_weekly order by duration desc limit ").append(ASSESSED_HOS_NUM_RES).append(",").append(ASSESSED_HOS_NUM_RES).append(") last2week ");
+    
+    public static final StringBuffer SQL_HOSPITAL_WEEKLY_PED_RATIO_DATA_LASTWEEK_SELECT_CHE 
+            = new StringBuffer(" 	IFNULL(lastweek.pnum,0) as pnum, ")
+            .append("	IFNULL(lastweek.lsnum,0) as lsnum, ")
+            .append("	IFNULL(IFNULL(lastweek.lsnum,0) / IFNULL(lastweek.pnum,0),0) as whRate, ")
+            .append("	IFNULL(least(lastweek.innum,3),0) / 3 as inRate, ")
+            .append("	IFNULL(lastweek.averageDose,0) as averageDose, ")
+            .append("	IFNULL(lastweek.omgRate,0) as omgRate, ")
+            .append("	IFNULL(lastweek.tmgRate,0) as tmgRate, ")
+            .append("	IFNULL(lastweek.thmgRate,0) as thmgRate, ")
+            .append("	IFNULL(lastweek.fmgRate,0) as fmgRate, ")
+            .append("	IFNULL(lastweek.smgRate,0) as smgRate, ")
+            .append("	IFNULL(lastweek.emgRate,0) as emgRate ")
+            .append("	from ( select * from tbl_chestSurgery_data_weekly order by duration desc limit 0,").append(ASSESSED_HOS_NUM_CHE).append(") lastweek ");
+    
+    public static final StringBuffer SQL_HOSPITAL_WEEKLY_PED_RATIO_DATA_LAST2WEEK_SELECT_CHE 
+            = new StringBuffer("	IFNULL(last2week.pnum,0) as pnum, ")
+            .append("	IFNULL(last2week.lsnum,0) as lsnum, ")
+            .append("	IFNULL(IFNULL(last2week.lsnum,0) / IFNULL(last2week.pnum,0),0) as whRate, ")
+            .append("	IFNULL(least(last2week.innum,3),0) / 3 as inRate, ")
+            .append("	IFNULL(last2week.averageDose,0) as averageDose, ")
+            .append("	IFNULL(last2week.omgRate,0) as omgRate, ")
+            .append("	IFNULL(last2week.tmgRate,0) as tmgRate, ")
+            .append("	IFNULL(last2week.thmgRate,0) as thmgRate, ")
+            .append("	IFNULL(last2week.fmgRate,0) as fmgRate, ")
+            .append("	IFNULL(last2week.smgRate,0) as smgRate, ")
+            .append("	IFNULL(last2week.emgRate,0) as emgRate ")
+            .append("	from ( select * from tbl_chestSurgery_data_weekly order by duration desc limit ").append(ASSESSED_HOS_NUM_CHE).append(",").append(ASSESSED_HOS_NUM_CHE).append(") last2week ");
     
     public static final StringBuffer SQL_MONTHLY_RATIO_SELECT
             = new StringBuffer( "select IFNULL(lastMonthData.pedEmernum,0) as pedEmernum " )
@@ -686,28 +747,28 @@ public class LsAttributes {
             .append("   IFNULL(lastweek.lsnum,0) as lsnum, ")
             .append("   ROUND(IFNULL(lastweek.lsnum,0) / IFNULL(lastweek.pnum,0),2) as whRate, ")
             .append("   IFNULL(lastweek.averageDose,0) as averageDose ")
-            .append("   from ( select * from tbl_pediatrics_data_weekly order by duration desc limit 0,920 ) lastweek ");
+            .append("   from ( select * from tbl_pediatrics_data_weekly order by duration desc limit 0,").append(ASSESSED_HOS_NUM_PED).append(") lastweek ");
 
     public static final StringBuffer SQL_WEEKLY_HOS_SALES_DATA_LAST2WEEK_SELECT_PED 
         = new StringBuffer("    IFNULL(last2week.pnum,0) as pnum, ")
             .append("   IFNULL(last2week.lsnum,0) as lsnum, ")
             .append("   ROUND(IFNULL(last2week.lsnum,0) / IFNULL(last2week.pnum,0),2) as whRate, ")
             .append("   IFNULL(last2week.averageDose,0) as averageDose ")
-            .append("   from ( select * from tbl_pediatrics_data_weekly order by duration desc limit 920,920 ) last2week ");
+            .append("   from ( select * from tbl_pediatrics_data_weekly order by duration desc limit ").append(ASSESSED_HOS_NUM_PED).append(",").append(ASSESSED_HOS_NUM_PED).append(") last2week ");
     
     public static final StringBuffer SQL_WEEKLY_HOS_SALES_DATA_LASTWEEK_SELECT_RES 
         = new StringBuffer("    IFNULL(lastweek.pnum,0) as pnum, ")
             .append("   IFNULL(lastweek.lsnum,0) as lsnum, ")
             .append("   ROUND(IFNULL(lastweek.lsnum,0) / IFNULL(lastweek.pnum,0),2) as whRate, ")
             .append("   IFNULL(lastweek.averageDose,0) as averageDose ")
-            .append("   from ( select * from tbl_respirology_data_weekly order by duration desc limit 0,398 ) lastweek ");
+            .append("   from ( select * from tbl_respirology_data_weekly order by duration desc limit 0,").append(ASSESSED_HOS_NUM_RES).append(" ) lastweek ");
     
     public static final StringBuffer SQL_WEEKLY_HOS_SALES_DATA_LAST2WEEK_SELECT_RES 
         = new StringBuffer("    IFNULL(last2week.pnum,0) as pnum, ")
             .append("   IFNULL(last2week.lsnum,0) as lsnum, ")
             .append("   ROUND(IFNULL(last2week.lsnum,0) / IFNULL(last2week.pnum,0),2) as whRate, ")
             .append("   IFNULL(last2week.averageDose,0) as averageDose ")
-            .append("   from ( select * from tbl_respirology_data_weekly order by duration desc limit 398,398 ) last2week ");
+            .append("   from ( select * from tbl_respirology_data_weekly order by duration desc limit ").append(ASSESSED_HOS_NUM_RES).append(",").append(ASSESSED_HOS_NUM_RES).append(") last2week ");
     
     public static final StringBuffer SQL_DAILYREPORT_SELECTION_PED
         = new StringBuffer("")

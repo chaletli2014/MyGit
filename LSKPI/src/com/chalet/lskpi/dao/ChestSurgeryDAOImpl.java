@@ -27,9 +27,11 @@ import com.chalet.lskpi.model.ReportProcessData;
 import com.chalet.lskpi.model.ReportProcessDataDetail;
 import com.chalet.lskpi.model.TopAndBottomRSMData;
 import com.chalet.lskpi.model.UserInfo;
+import com.chalet.lskpi.model.WeeklyRatioData;
 import com.chalet.lskpi.utils.DataBean;
 import com.chalet.lskpi.utils.DateUtils;
 import com.chalet.lskpi.utils.LsAttributes;
+import com.chalet.lskpi.utils.RESWeeklyRatioDataRowMapper;
 import com.chalet.lskpi.utils.ReportProcessDataRowMapper;
 import com.chalet.lskpi.utils.ReportProcessDetailDataRowMapper;
 
@@ -651,5 +653,171 @@ public class ChestSurgeryDAOImpl implements ChestSurgeryDAO {
 		Date startDate = DateUtils.getTheBeginDateOfCurrentWeek();
 		return dataBean.getJdbcTemplate().queryForObject(sb.toString(), new Object[]{new Timestamp(startDate.getTime()),new Timestamp(startDate.getTime()),telephone}, new ReportProcessDataRowMapper());
 	}
+	
+
+    public WeeklyRatioData getHospitalWeeklyData4Mobile(String hospitalCode) throws Exception {
+        StringBuffer mobileWeeklySQL = new StringBuffer();
+        mobileWeeklySQL.append(LsAttributes.SQL_WEEKLY_PED_RATIO_DATA_SELECT_RES)
+        .append(" , '' as userCode ")
+        .append(" , lastweekdata.hospitalName as name ")
+        .append(" from ( ")
+        .append("   select hospitalCode, hospitalName, ")
+        .append(LsAttributes.SQL_HOSPITAL_WEEKLY_PED_RATIO_DATA_LASTWEEK_SELECT_CHE)
+        .append("   where hospitalCode=? ")
+        .append(") lastweekdata, ")
+        .append("( ")
+        .append("   select hospitalCode, hospitalName, ")
+        .append(LsAttributes.SQL_HOSPITAL_WEEKLY_PED_RATIO_DATA_LAST2WEEK_SELECT_CHE)
+        .append("   where hospitalCode=? ")
+        .append(") last2weekdata ");
+        return dataBean.getJdbcTemplate().queryForObject(mobileWeeklySQL.toString(),new Object[]{hospitalCode,hospitalCode},new RESWeeklyRatioDataRowMapper());
+    }
+    
+    @Override
+    public WeeklyRatioData getLowerWeeklyData4REPMobile(UserInfo currentUser,String lowerUserCode)
+            throws Exception {
+        StringBuffer mobileWeeklySQL = new StringBuffer();
+        mobileWeeklySQL.append(LsAttributes.SQL_WEEKLY_PED_RATIO_DATA_SELECT_RES)
+        .append(" , lastweekdata.saleCode as userCode ")
+        .append(" , IFNULL((select u.name from tbl_userinfo u where u.userCode = lastweekdata.saleCode and u.superior = lastweekdata.dsmCode and u.level='REP'),'vacant') as name ")
+        .append(" from ( ")
+        .append("   select h.dsmCode, h.saleCode, ")
+        .append(LsAttributes.SQL_WEEKLY_PED_RATIO_DATA_LASTWEEK_SELECT_CHE)
+        .append("   group by h.dsmCode, h.saleCode ")
+        .append(") lastweekdata, ")
+        .append("( ")
+        .append("   select h.dsmCode, h.saleCode, ")
+        .append(LsAttributes.SQL_WEEKLY_PED_RATIO_DATA_LAST2WEEK_SELECT_CHE)
+        .append("   group by h.dsmCode, h.saleCode ")
+        .append(") last2weekdata ")
+        .append("where lastweekdata.dsmCode = last2weekdata.dsmCode ")
+        .append("and lastweekdata.saleCode = last2weekdata.saleCode ")
+        .append("and lastweekdata.saleCode = ?")
+        .append("and lastweekdata.dsmCode = ?");
+        return dataBean.getJdbcTemplate().queryForObject(mobileWeeklySQL.toString(),new Object[]{lowerUserCode,currentUser.getUserCode()},new RESWeeklyRatioDataRowMapper());
+    }
+
+    @Override
+    public WeeklyRatioData getLowerWeeklyData4DSMMobile(UserInfo currentUser,String lowerUserCode)
+            throws Exception {
+        StringBuffer mobileWeeklySQL = new StringBuffer();
+        mobileWeeklySQL.append(LsAttributes.SQL_WEEKLY_PED_RATIO_DATA_SELECT_RES)
+        .append(" , lastweekdata.dsmCode as userCode ")
+        .append(" , IFNULL((select u.name from tbl_userinfo u where u.userCode = lastweekdata.dsmCode and u.region = lastweekdata.rsmRegion and u.level='DSM' ),'vacant') as name ")
+        .append(" from ( ")
+        .append("   select h.dsmCode, h.rsmRegion, ")
+        .append(LsAttributes.SQL_WEEKLY_PED_RATIO_DATA_LASTWEEK_SELECT_CHE)
+        .append("   group by h.rsmRegion, h.dsmCode ")
+        .append(") lastweekdata, ")
+        .append("( ")
+        .append("   select h.dsmCode, h.rsmRegion, ")
+        .append(LsAttributes.SQL_WEEKLY_PED_RATIO_DATA_LAST2WEEK_SELECT_CHE)
+        .append("   group by h.rsmRegion, h.dsmCode ")
+        .append(") last2weekdata ")
+        .append("where lastweekdata.dsmCode = last2weekdata.dsmCode ")
+        .append("and lastweekdata.rsmRegion = last2weekdata.rsmRegion ")
+        .append("and lastweekdata.dsmCode = ?")
+        .append("and lastweekdata.rsmRegion = ?");
+        return dataBean.getJdbcTemplate().queryForObject(mobileWeeklySQL.toString(),new Object[]{lowerUserCode,currentUser.getRegion()},new RESWeeklyRatioDataRowMapper());
+    }
+
+    @Override
+    public WeeklyRatioData getLowerWeeklyData4RSMMobile(UserInfo currentUser,String lowerUserCode)
+            throws Exception {
+        StringBuffer mobileWeeklySQL = new StringBuffer();
+        mobileWeeklySQL.append(LsAttributes.SQL_WEEKLY_PED_RATIO_DATA_SELECT_RES)
+        .append(" , lastweekdata.rsmRegion as userCode ")
+        .append(" , IFNULL((select u.name from tbl_userinfo u where u.level='RSM' and u.region = lastweekdata.rsmRegion ),'vacant') as name ")
+        .append(" from ( ")
+        .append("   select h.region, h.rsmRegion, ")
+        .append(LsAttributes.SQL_WEEKLY_PED_RATIO_DATA_LASTWEEK_SELECT_CHE)
+        .append("   group by h.region, h.rsmRegion ")
+        .append(") lastweekdata, ")
+        .append("( ")
+        .append("   select h.region, h.rsmRegion, ")
+        .append(LsAttributes.SQL_WEEKLY_PED_RATIO_DATA_LAST2WEEK_SELECT_CHE)
+        .append("   group by h.region, h.rsmRegion ")
+        .append(") last2weekdata ")
+        .append("where lastweekdata.region = last2weekdata.region ")
+        .append("and lastweekdata.rsmRegion = last2weekdata.rsmRegion ")
+        .append("and lastweekdata.rsmRegion = (select region from tbl_userinfo where userCode=?)");
+        return dataBean.getJdbcTemplate().queryForObject(mobileWeeklySQL.toString(),new Object[]{lowerUserCode},new RESWeeklyRatioDataRowMapper());
+    }
+
+    public List<WeeklyRatioData> getWeeklyData4DSMMobile(String telephone) throws Exception {
+        StringBuffer mobileWeeklySQL = new StringBuffer();
+        mobileWeeklySQL.append(LsAttributes.SQL_WEEKLY_PED_RATIO_DATA_SELECT_RES)
+        .append(" , lastweekdata.dsmCode as userCode , lastweekdata.rsmRegion ")
+        .append(" , IFNULL((select u.name from tbl_userinfo u where u.userCode = lastweekdata.dsmCode and u.region = lastweekdata.rsmRegion and u.level='DSM' ),'vacant') as name ")
+        .append(" from ( ")
+        .append("   select h.dsmCode, h.rsmRegion, ")
+        .append(LsAttributes.SQL_WEEKLY_PED_RATIO_DATA_LASTWEEK_SELECT_CHE)
+        .append("   group by h.rsmRegion, h.dsmCode ")
+        .append(") lastweekdata, ")
+        .append("( ")
+        .append("   select h.dsmCode, h.rsmRegion, ")
+        .append(LsAttributes.SQL_WEEKLY_PED_RATIO_DATA_LAST2WEEK_SELECT_CHE)
+        .append("   group by h.rsmRegion, h.dsmCode ")
+        .append(") last2weekdata ")
+        .append("where lastweekdata.dsmCode = last2weekdata.dsmCode ")
+        .append("and lastweekdata.rsmRegion = last2weekdata.rsmRegion ")
+        .append("and lastweekdata.rsmRegion = (select region from tbl_userinfo where telephone=?)");
+        return dataBean.getJdbcTemplate().query(mobileWeeklySQL.toString(),new Object[]{telephone},new RESWeeklyRatioDataRowMapper());
+    }
+
+    public List<WeeklyRatioData> getWeeklyData4RSMMobile(String telephone) throws Exception {
+        StringBuffer mobileWeeklySQL = new StringBuffer();
+        mobileWeeklySQL.append(LsAttributes.SQL_WEEKLY_PED_RATIO_DATA_SELECT_RES)
+        .append(" , lastweekdata.rsmRegion as userCode, lastweekdata.region ")
+        .append(" , IFNULL((select u.name from tbl_userinfo u where u.level='RSM' and u.region = lastweekdata.rsmRegion ),'vacant') as name ")
+        .append(" from ( ")
+        .append("   select h.rsmRegion, h.region, ")
+        .append(LsAttributes.SQL_WEEKLY_PED_RATIO_DATA_LASTWEEK_SELECT_CHE)
+        .append("   group by h.rsmRegion")
+        .append(") lastweekdata, ")
+        .append("( ")
+        .append("   select h.rsmRegion, h.region, ")
+        .append(LsAttributes.SQL_WEEKLY_PED_RATIO_DATA_LAST2WEEK_SELECT_CHE)
+        .append("   group by h.rsmRegion")
+        .append(") last2weekdata ")
+        .append("where lastweekdata.rsmRegion = last2weekdata.rsmRegion ")
+        .append("and lastweekdata.region = (select regionCenter from tbl_userinfo where telephone=?)");
+       return dataBean.getJdbcTemplate().query(mobileWeeklySQL.toString(),new Object[]{telephone},new RESWeeklyRatioDataRowMapper());
+    }
+
+    public List<WeeklyRatioData> getWeeklyData4RSDMobile() throws Exception {
+        StringBuffer mobileWeeklySQL = new StringBuffer();
+        mobileWeeklySQL.append(LsAttributes.SQL_WEEKLY_PED_RATIO_DATA_SELECT_RES)
+        .append(" , lastweekdata.region as userCode")
+        .append(" , lastweekdata.region as name")
+        .append(" from ( ")
+        .append("   select h.region, ")
+        .append(LsAttributes.SQL_WEEKLY_PED_RATIO_DATA_LASTWEEK_SELECT_CHE)
+        .append("   group by h.region")
+        .append(") lastweekdata, ")
+        .append("( ")
+        .append("   select h.region , ")
+        .append(LsAttributes.SQL_WEEKLY_PED_RATIO_DATA_LAST2WEEK_SELECT_CHE)
+        .append("   group by h.region")
+        .append(") last2weekdata ")
+        .append("where lastweekdata.region = last2weekdata.region ");
+       return dataBean.getJdbcTemplate().query(mobileWeeklySQL.toString(),new RESWeeklyRatioDataRowMapper());
+    }
+    
+    public WeeklyRatioData getHospitalWeeklyData4Mobile() throws Exception {
+        StringBuffer mobileWeeklySQL = new StringBuffer();
+        mobileWeeklySQL.append(LsAttributes.SQL_WEEKLY_PED_RATIO_DATA_SELECT_RES)
+        .append(" , '' as userCode")
+        .append(" , '' as name ")
+        .append(" from ( ")
+        .append("   select ")
+        .append(LsAttributes.SQL_WEEKLY_PED_RATIO_DATA_LASTWEEK_SELECT_CHE)
+        .append(") lastweekdata, ")
+        .append("( ")
+        .append("   select ")
+        .append(LsAttributes.SQL_WEEKLY_PED_RATIO_DATA_LAST2WEEK_SELECT_CHE)
+        .append(") last2weekdata ");
+        return dataBean.getJdbcTemplate().queryForObject(mobileWeeklySQL.toString(),new RESWeeklyRatioDataRowMapper());
+    }
 
 }

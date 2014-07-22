@@ -15,10 +15,13 @@ import com.chalet.lskpi.dao.ChestSurgeryDAO;
 import com.chalet.lskpi.model.ChestSurgeryData;
 import com.chalet.lskpi.model.Hospital;
 import com.chalet.lskpi.model.MobileCHEDailyData;
+import com.chalet.lskpi.model.RateElement;
 import com.chalet.lskpi.model.ReportProcessData;
 import com.chalet.lskpi.model.ReportProcessDataDetail;
 import com.chalet.lskpi.model.TopAndBottomRSMData;
 import com.chalet.lskpi.model.UserInfo;
+import com.chalet.lskpi.model.WeeklyRatioData;
+import com.chalet.lskpi.service.PediatricsServiceImpl.RateElementComparator;
 import com.chalet.lskpi.utils.LsAttributes;
 
 @Service("chestSurgeryService")
@@ -281,5 +284,266 @@ public class ChestSurgeryServiceImpl implements ChestSurgeryService {
     		logger.error(String.format("fail to get the RSM report process detail data by telephone - %s" , telephone),e);
     		return new ArrayList<ReportProcessDataDetail>();
     	}
+    }
+    
+    @Override
+    public List<WeeklyRatioData> getWeeklyData4Mobile(UserInfo currentUser) throws Exception {
+        List<WeeklyRatioData> resDatas = new ArrayList<WeeklyRatioData>();
+        if( LsAttributes.USER_LEVEL_DSM.equalsIgnoreCase(currentUser.getLevel()) ){
+            resDatas = chestSurgeryDAO.getWeeklyData4DSMMobile(currentUser.getTelephone());
+        }else if( LsAttributes.USER_LEVEL_RSM.equalsIgnoreCase(currentUser.getLevel()) ){
+            resDatas = chestSurgeryDAO.getWeeklyData4RSMMobile(currentUser.getTelephone());
+        }else if( LsAttributes.USER_LEVEL_RSD.equalsIgnoreCase(currentUser.getLevel()) 
+                || LsAttributes.USER_LEVEL_BM.equalsIgnoreCase(currentUser.getLevel())){
+            resDatas = chestSurgeryDAO.getWeeklyData4RSDMobile();
+        }
+        
+        List<WeeklyRatioData> orderedResData = new ArrayList<WeeklyRatioData>();
+        List<WeeklyRatioData> leftResData = new ArrayList<WeeklyRatioData>();
+        
+        for( WeeklyRatioData resWeeklyData : resDatas ){
+            List<RateElement> rates = new ArrayList<RateElement>();
+            RateElement re1 = new RateElement("res");
+            re1.setRateType(1);
+            re1.setRateNum(resWeeklyData.getOmgRate());
+            re1.setRateRatio(resWeeklyData.getOmgRateRatio());
+            
+            RateElement re2 = new RateElement("res");
+            re2.setRateType(2);
+            re2.setRateNum(resWeeklyData.getTmgRate());
+            re2.setRateRatio(resWeeklyData.getTmgRateRatio());
+            
+            RateElement re3 = new RateElement("res");
+            re3.setRateType(3);
+            re3.setRateNum(resWeeklyData.getThmgRate());
+            re3.setRateRatio(resWeeklyData.getThmgRateRatio());
+            
+            RateElement re4 = new RateElement("res");
+            re4.setRateType(4);
+            re4.setRateNum(resWeeklyData.getFmgRate());
+            re4.setRateRatio(resWeeklyData.getFmgRateRatio());
+            
+            RateElement re6 = new RateElement("res");
+            re6.setRateType(6);
+            re6.setRateNum(resWeeklyData.getSmgRate());
+            re6.setRateRatio(resWeeklyData.getSmgRateRatio());
+            
+            RateElement re8 = new RateElement("res");
+            re8.setRateType(8);
+            re8.setRateNum(resWeeklyData.getEmgRate());
+            re8.setRateRatio(resWeeklyData.getEmgRateRatio());
+            
+            rates.add(re1);
+            rates.add(re2);
+            rates.add(re3);
+            rates.add(re4);
+            rates.add(re6);
+            rates.add(re8);
+            
+            java.util.Collections.sort(rates, new RateElementComparator());
+            
+            resWeeklyData.setFirstRate(rates.get(0));
+            resWeeklyData.setSecondRate(rates.get(1));
+        
+            boolean isSelf = false;
+            if( null != currentUser && null != resWeeklyData.getUserCode() ){
+                if( LsAttributes.USER_LEVEL_DSM.equalsIgnoreCase(currentUser.getLevel())
+                        && resWeeklyData.getUserCode().equalsIgnoreCase(currentUser.getUserCode())){
+                    isSelf = true;
+                }
+                if( LsAttributes.USER_LEVEL_RSM.equalsIgnoreCase(currentUser.getLevel())
+                        && resWeeklyData.getUserCode().equalsIgnoreCase(currentUser.getRegion())){
+                    isSelf = true;
+                }
+                if( LsAttributes.USER_LEVEL_RSD.equalsIgnoreCase(currentUser.getLevel())
+                        && resWeeklyData.getUserCode().equalsIgnoreCase(currentUser.getRegionCenter())){
+                    isSelf = true;
+                }
+            }
+            
+            if( isSelf ){
+                orderedResData.add(0,resWeeklyData);
+            }else{
+                leftResData.add(resWeeklyData);
+            }
+        }
+        if( LsAttributes.USER_LEVEL_BM.equalsIgnoreCase(currentUser.getLevel()) ){
+            orderedResData.addAll(leftResData);
+        }else{
+            orderedResData.addAll(1,leftResData);
+        }
+        
+        return orderedResData;
+    }
+
+    @Override
+    public WeeklyRatioData getLowerWeeklyData4Mobile(UserInfo currentUser, String lowerUserCode) throws Exception {
+        WeeklyRatioData resData = new WeeklyRatioData();
+        try{
+            if( LsAttributes.USER_LEVEL_DSM.equalsIgnoreCase(currentUser.getLevel()) ){
+                resData = chestSurgeryDAO.getLowerWeeklyData4REPMobile(currentUser,lowerUserCode);
+            }else if( LsAttributes.USER_LEVEL_RSM.equalsIgnoreCase(currentUser.getLevel()) ){
+                resData = chestSurgeryDAO.getLowerWeeklyData4DSMMobile(currentUser,lowerUserCode);
+            }else if( LsAttributes.USER_LEVEL_RSD.equalsIgnoreCase(currentUser.getLevel()) 
+                    || LsAttributes.USER_LEVEL_BM.equalsIgnoreCase(currentUser.getLevel())){
+                resData = chestSurgeryDAO.getLowerWeeklyData4RSMMobile(currentUser,lowerUserCode);
+            }
+            
+            List<RateElement> rates = new ArrayList<RateElement>();
+            RateElement re1 = new RateElement("res");
+            re1.setRateType(1);
+            re1.setRateNum(resData.getOmgRate());
+            re1.setRateRatio(resData.getOmgRateRatio());
+            
+            RateElement re2 = new RateElement("res");
+            re2.setRateType(2);
+            re2.setRateNum(resData.getTmgRate());
+            re2.setRateRatio(resData.getTmgRateRatio());
+            
+            RateElement re3 = new RateElement("res");
+            re3.setRateType(3);
+            re3.setRateNum(resData.getThmgRate());
+            re3.setRateRatio(resData.getThmgRateRatio());
+            
+            RateElement re4 = new RateElement("res");
+            re4.setRateType(4);
+            re4.setRateNum(resData.getFmgRate());
+            re4.setRateRatio(resData.getFmgRateRatio());
+            
+            RateElement re6 = new RateElement("res");
+            re6.setRateType(6);
+            re6.setRateNum(resData.getSmgRate());
+            re6.setRateRatio(resData.getSmgRateRatio());
+            
+            RateElement re8 = new RateElement("res");
+            re8.setRateType(8);
+            re8.setRateNum(resData.getEmgRate());
+            re8.setRateRatio(resData.getEmgRateRatio());
+            
+            rates.add(re1);
+            rates.add(re2);
+            rates.add(re3);
+            rates.add(re4);
+            rates.add(re6);
+            rates.add(re8);
+            
+            java.util.Collections.sort(rates, new RateElementComparator());
+            
+            resData.setFirstRate(rates.get(0));
+            resData.setSecondRate(rates.get(1));
+        }catch(Exception e){
+            logger.error("fail to get the lower weekly res data,",e);
+        }
+        return resData;
+    }
+    
+    public WeeklyRatioData getHospitalWeeklyData4Mobile(String hospitalCode) throws Exception {
+        WeeklyRatioData hospitalData = new WeeklyRatioData();
+        try{
+            hospitalData = chestSurgeryDAO.getHospitalWeeklyData4Mobile(hospitalCode);
+            
+            List<RateElement> rates = new ArrayList<RateElement>();
+            RateElement re1 = new RateElement("res");
+            re1.setRateType(1);
+            re1.setRateNum(hospitalData.getOmgRate());
+            re1.setRateRatio(hospitalData.getOmgRateRatio());
+            
+            RateElement re2 = new RateElement("res");
+            re2.setRateType(2);
+            re2.setRateNum(hospitalData.getTmgRate());
+            re2.setRateRatio(hospitalData.getTmgRateRatio());
+            
+            RateElement re3 = new RateElement("res");
+            re3.setRateType(3);
+            re3.setRateNum(hospitalData.getThmgRate());
+            re3.setRateRatio(hospitalData.getThmgRateRatio());
+            
+            RateElement re4 = new RateElement("res");
+            re4.setRateType(4);
+            re4.setRateNum(hospitalData.getFmgRate());
+            re4.setRateRatio(hospitalData.getFmgRateRatio());
+            
+            RateElement re6 = new RateElement("res");
+            re6.setRateType(6);
+            re6.setRateNum(hospitalData.getSmgRate());
+            re6.setRateRatio(hospitalData.getSmgRateRatio());
+            
+            RateElement re8 = new RateElement("res");
+            re8.setRateType(8);
+            re8.setRateNum(hospitalData.getEmgRate());
+            re8.setRateRatio(hospitalData.getEmgRateRatio());
+            
+            rates.add(re1);
+            rates.add(re2);
+            rates.add(re3);
+            rates.add(re4);
+            rates.add(re6);
+            rates.add(re8);
+            
+            java.util.Collections.sort(rates, new RateElementComparator());
+            
+            hospitalData.setFirstRate(rates.get(0));
+            hospitalData.setSecondRate(rates.get(1));
+        }catch(EmptyResultDataAccessException e){
+            logger.info(String.format("there is no record found by the hospitalCode %s", hospitalCode));
+        }catch(Exception e){
+            logger.error("fail to get the hospital weekly ratio data,",e);
+        }
+        return hospitalData;
+    }
+    
+    public WeeklyRatioData getWeeklyCountoryData4Mobile() throws Exception {
+        WeeklyRatioData weeklyRatioData = new WeeklyRatioData();
+        try{
+            weeklyRatioData = chestSurgeryDAO.getHospitalWeeklyData4Mobile();
+            
+            List<RateElement> rates = new ArrayList<RateElement>();
+            RateElement re1 = new RateElement("res");
+            re1.setRateType(1);
+            re1.setRateNum(weeklyRatioData.getOmgRate());
+            re1.setRateRatio(weeklyRatioData.getOmgRateRatio());
+            
+            RateElement re2 = new RateElement("res");
+            re2.setRateType(2);
+            re2.setRateNum(weeklyRatioData.getTmgRate());
+            re2.setRateRatio(weeklyRatioData.getTmgRateRatio());
+            
+            RateElement re3 = new RateElement("res");
+            re3.setRateType(3);
+            re3.setRateNum(weeklyRatioData.getThmgRate());
+            re3.setRateRatio(weeklyRatioData.getThmgRateRatio());
+            
+            RateElement re4 = new RateElement("res");
+            re4.setRateType(4);
+            re4.setRateNum(weeklyRatioData.getFmgRate());
+            re4.setRateRatio(weeklyRatioData.getFmgRateRatio());
+            
+            RateElement re6 = new RateElement("res");
+            re6.setRateType(6);
+            re6.setRateNum(weeklyRatioData.getSmgRate());
+            re6.setRateRatio(weeklyRatioData.getSmgRateRatio());
+            
+            RateElement re8 = new RateElement("res");
+            re8.setRateType(8);
+            re8.setRateNum(weeklyRatioData.getEmgRate());
+            re8.setRateRatio(weeklyRatioData.getEmgRateRatio());
+            
+            rates.add(re1);
+            rates.add(re2);
+            rates.add(re3);
+            rates.add(re4);
+            rates.add(re6);
+            rates.add(re8);
+            
+            java.util.Collections.sort(rates, new RateElementComparator());
+            
+            weeklyRatioData.setFirstRate(rates.get(0));
+            weeklyRatioData.setSecondRate(rates.get(1));
+        }catch(EmptyResultDataAccessException e){
+            logger.info(String.format("there is no record found by the countory"));
+        }catch(Exception e){
+            logger.error("fail to get the countory weekly ratio data,",e);
+        }
+        return weeklyRatioData;
     }
 }

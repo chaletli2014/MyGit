@@ -25,6 +25,9 @@ function showReportPage(pageURL){
         	<div data-role="fieldcontain" class="department_img_div">
 	            <img alt="" src="<%=basePath%>images/img_bg_ped_weekly.png" onclick="showReportPage('<%=basePath%>ratioLastweekPed')" style="cursor: pointer;">
         	</div>
+        	<div data-role="fieldcontain" class="department_img_div">
+	            <img alt="" src="<%=basePath%>images/img_bg_chestSurgery_weekly.png" onclick="showReportPage('<%=basePath%>ratioLastweekChe')" style="cursor: pointer;">
+        	</div>
         </div>
         <jsp:include page="page_footer.jsp" flush="true">
         	<jsp:param name="backURL" value="dataQuery"/>

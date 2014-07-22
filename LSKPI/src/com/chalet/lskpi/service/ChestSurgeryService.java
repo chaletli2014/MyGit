@@ -10,6 +10,7 @@ import com.chalet.lskpi.model.ReportProcessData;
 import com.chalet.lskpi.model.ReportProcessDataDetail;
 import com.chalet.lskpi.model.TopAndBottomRSMData;
 import com.chalet.lskpi.model.UserInfo;
+import com.chalet.lskpi.model.WeeklyRatioData;
 
 public interface ChestSurgeryService {
 
@@ -38,4 +39,10 @@ public interface ChestSurgeryService {
 	
 	public ReportProcessData getRSMSelfReportProcessData(String telephone) throws Exception;
 	public List<ReportProcessDataDetail> getRSMSelfReportProcessDetailData(String telephone) throws Exception;
+	
+	
+	public List<WeeklyRatioData> getWeeklyData4Mobile( UserInfo currentUser ) throws Exception;
+    public WeeklyRatioData getWeeklyCountoryData4Mobile() throws Exception;
+    public WeeklyRatioData getHospitalWeeklyData4Mobile( String hospitalCode ) throws Exception;
+    public WeeklyRatioData getLowerWeeklyData4Mobile( UserInfo currentUser, String lowerUserCode ) throws Exception;
 }

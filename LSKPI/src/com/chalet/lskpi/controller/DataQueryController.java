@@ -511,6 +511,47 @@ public class DataQueryController extends BaseController{
         return view;
     }
     
+    @RequestMapping("/ratioLastweekChe")
+    public ModelAndView ratioLastweekChe(HttpServletRequest request){
+        ModelAndView view = new LsKPIModelAndView(request);
+        String currentUserTel = verifyCurrentUser(request,view);
+        UserInfo currentUser = (UserInfo)request.getSession().getAttribute(LsAttributes.CURRENT_OPERATOR_OBJECT);
+        logger.info(String.format("current user's telephone is %s, the user in session is %s", currentUserTel,currentUser));
+        if( null == currentUserTel || "".equalsIgnoreCase(currentUserTel) || null == currentUser ){
+            view.addObject(LsAttributes.JSP_VERIFY_MESSAGE, LsAttributes.NO_USER_FOUND);
+            view.setViewName("index");
+            return view;
+        }
+        
+        if( LsAttributes.USER_LEVEL_REP.equalsIgnoreCase(currentUser.getLevel()) ){
+            view.addObject(LsAttributes.JSP_VERIFY_MESSAGE, LsAttributes.RETURNED_MESSAGE_3);
+            view.setViewName("index");
+            return view;
+        }
+        
+        try{
+            List<WeeklyRatioData> mobileRESWeeklyRatioData = chestSurgeryService.getWeeklyData4Mobile(currentUser);
+            view.addObject(LsAttributes.WEEKLY_RATIO_DATA, mobileRESWeeklyRatioData);
+            logger.info("get weekly ratio chest surgery data for mobile end...");
+            
+            List<UserInfo> lowerUsers = userService.getLowerUserOfCurrentUser(currentUser,LsAttributes.DEPARTMENT_RES);
+            view.addObject(LsAttributes.CURRENT_USER_LOWER_USERS, lowerUsers);
+            logger.info("get lower users of current user end...");
+            
+            if( LsAttributes.USER_LEVEL_BM.equalsIgnoreCase(currentUser.getLevel()) ){
+                WeeklyRatioData countoryRatioData = chestSurgeryService.getWeeklyCountoryData4Mobile();
+                view.addObject("countoryRatioData", countoryRatioData);
+            }
+            
+            populateDailyReportTitle(currentUser, view, LsAttributes.DAILYREPORTTITLE_3_2);
+        }catch(Exception e){
+            logger.error("fail to get the weekly chest surgery ratio report data",e);
+            view.addObject(LsAttributes.JSP_VERIFY_MESSAGE, LsAttributes.RETURNED_MESSAGE_2);
+        }
+        view.setViewName("ratioLastweekCHE");
+        return view;
+    }
+    
     @RequestMapping("/showLowerPEDReport")
     public ModelAndView showLowerPEDReport(HttpServletRequest request){
     	logger.info("show lower PED report");
@@ -659,6 +700,81 @@ public class DataQueryController extends BaseController{
     	
     	view.setViewName("lowerRESReport");
     	return view;
+    }
+    
+    @RequestMapping("/showLowerCHEReport")
+    public ModelAndView showLowerCHEReport(HttpServletRequest request){
+        logger.info("show lower CHE report");
+        ModelAndView view = new LsKPIModelAndView(request);
+        String currentUserTel = verifyCurrentUser(request,view);
+        UserInfo currentUser = (UserInfo)request.getSession().getAttribute(LsAttributes.CURRENT_OPERATOR_OBJECT);
+        
+        logger.info(String.format("lower CHE report: current user's telephone is %s, the user in session is %s", currentUserTel,currentUser));
+        
+        if( null == currentUserTel || "".equalsIgnoreCase(currentUserTel) || null == currentUser 
+                || LsAttributes.USER_LEVEL_REP.equalsIgnoreCase(currentUser.getLevel())){
+            view.addObject(LsAttributes.JSP_VERIFY_MESSAGE, LsAttributes.RETURNED_MESSAGE_3);
+            view.setViewName("index");
+            return view;
+        }
+        
+        try{
+            String lowerUserCode = request.getParameter("lowUser");
+            logger.info(String.format("get the lower chest surgery report which user code is %s", lowerUserCode));
+            WeeklyRatioData lowerRatio = chestSurgeryService.getLowerWeeklyData4Mobile(currentUser, lowerUserCode);
+            view.addObject(LsAttributes.WEEKLY_RATIO_DATA, lowerRatio);
+            logger.info("get lower weekly ratio chest surgery data for mobile end...");
+            
+            String lowerUserLevel = "";
+            if( LsAttributes.USER_LEVEL_DSM.equalsIgnoreCase(currentUser.getLevel()) ){
+                lowerUserLevel = "REP";
+            }else if( LsAttributes.USER_LEVEL_RSM.equalsIgnoreCase(currentUser.getLevel()) ){
+                lowerUserLevel = "DSM";
+            }else if( LsAttributes.USER_LEVEL_RSD.equalsIgnoreCase(currentUser.getLevel()) 
+                    || LsAttributes.USER_LEVEL_BM.equalsIgnoreCase(currentUser.getLevel())){
+                lowerUserLevel = "RSM";
+            }
+            
+            String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+request.getContextPath()+"/";
+            String localPath = request.getRealPath("/");
+            StringBuffer localReportFile = new StringBuffer(localPath);
+            StringBuffer remoteReportFile = new StringBuffer(basePath);
+            
+            String directory = BrowserUtils.getDirectory(request.getHeader("User-Agent"),"lowerWeeklyReport");
+            
+            remoteReportFile.append(directory).append(DateUtils.getLastThursDay()).append("/")
+            .append("lowerWeeklyCHEReport-")
+            .append(lowerUserLevel)
+            .append("-")
+            .append(lowerUserCode)
+            .append("-")
+            .append(DateUtils.getLastThursDay())
+            .append(".html");
+            
+            localReportFile.append(directory).append(DateUtils.getLastThursDay()).append("/")
+            .append("lowerWeeklyCHEReport-")
+            .append(lowerUserLevel)
+            .append("-")
+            .append(lowerUserCode)
+            .append("-")
+            .append(DateUtils.getLastThursDay())
+            .append(".html");
+            
+            File reportfile = new File(localReportFile.toString());
+            if( reportfile.exists() ){
+                view.addObject("cheReportFile", remoteReportFile.toString());
+            }else{
+                view.addObject("cheReportFile", basePath+"jsp/weeklyReport_404.html");
+            }
+            
+            populateDailyReportTitle(currentUser, view, LsAttributes.DAILYREPORTTITLE_3_2);
+        }catch(Exception e){
+            logger.error("fail to get the lower weekly chest surgery ratio report data",e);
+            view.addObject(LsAttributes.JSP_VERIFY_MESSAGE, LsAttributes.RETURNED_MESSAGE_2);
+        }
+        
+        view.setViewName("lowerCHEReport");
+        return view;
     }
     
     @RequestMapping("/hospitalQuery")
