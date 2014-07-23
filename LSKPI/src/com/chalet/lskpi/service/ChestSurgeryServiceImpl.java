@@ -301,76 +301,78 @@ public class ChestSurgeryServiceImpl implements ChestSurgeryService {
         List<WeeklyRatioData> orderedResData = new ArrayList<WeeklyRatioData>();
         List<WeeklyRatioData> leftResData = new ArrayList<WeeklyRatioData>();
         
-        for( WeeklyRatioData resWeeklyData : resDatas ){
-            List<RateElement> rates = new ArrayList<RateElement>();
-            RateElement re1 = new RateElement("res");
-            re1.setRateType(1);
-            re1.setRateNum(resWeeklyData.getOmgRate());
-            re1.setRateRatio(resWeeklyData.getOmgRateRatio());
-            
-            RateElement re2 = new RateElement("res");
-            re2.setRateType(2);
-            re2.setRateNum(resWeeklyData.getTmgRate());
-            re2.setRateRatio(resWeeklyData.getTmgRateRatio());
-            
-            RateElement re3 = new RateElement("res");
-            re3.setRateType(3);
-            re3.setRateNum(resWeeklyData.getThmgRate());
-            re3.setRateRatio(resWeeklyData.getThmgRateRatio());
-            
-            RateElement re4 = new RateElement("res");
-            re4.setRateType(4);
-            re4.setRateNum(resWeeklyData.getFmgRate());
-            re4.setRateRatio(resWeeklyData.getFmgRateRatio());
-            
-            RateElement re6 = new RateElement("res");
-            re6.setRateType(6);
-            re6.setRateNum(resWeeklyData.getSmgRate());
-            re6.setRateRatio(resWeeklyData.getSmgRateRatio());
-            
-            RateElement re8 = new RateElement("res");
-            re8.setRateType(8);
-            re8.setRateNum(resWeeklyData.getEmgRate());
-            re8.setRateRatio(resWeeklyData.getEmgRateRatio());
-            
-            rates.add(re1);
-            rates.add(re2);
-            rates.add(re3);
-            rates.add(re4);
-            rates.add(re6);
-            rates.add(re8);
-            
-            java.util.Collections.sort(rates, new RateElementComparator());
-            
-            resWeeklyData.setFirstRate(rates.get(0));
-            resWeeklyData.setSecondRate(rates.get(1));
-        
-            boolean isSelf = false;
-            if( null != currentUser && null != resWeeklyData.getUserCode() ){
-                if( LsAttributes.USER_LEVEL_DSM.equalsIgnoreCase(currentUser.getLevel())
-                        && resWeeklyData.getUserCode().equalsIgnoreCase(currentUser.getUserCode())){
-                    isSelf = true;
-                }
-                if( LsAttributes.USER_LEVEL_RSM.equalsIgnoreCase(currentUser.getLevel())
-                        && resWeeklyData.getUserCode().equalsIgnoreCase(currentUser.getRegion())){
-                    isSelf = true;
-                }
-                if( LsAttributes.USER_LEVEL_RSD.equalsIgnoreCase(currentUser.getLevel())
-                        && resWeeklyData.getUserCode().equalsIgnoreCase(currentUser.getRegionCenter())){
-                    isSelf = true;
-                }
-            }
-            
-            if( isSelf ){
-                orderedResData.add(0,resWeeklyData);
-            }else{
-                leftResData.add(resWeeklyData);
-            }
-        }
-        if( LsAttributes.USER_LEVEL_BM.equalsIgnoreCase(currentUser.getLevel()) ){
-            orderedResData.addAll(leftResData);
-        }else{
-            orderedResData.addAll(1,leftResData);
+        if( null != resDatas && resDatas.size() > 0 ){
+        	for( WeeklyRatioData resWeeklyData : resDatas ){
+        		List<RateElement> rates = new ArrayList<RateElement>();
+        		RateElement re1 = new RateElement("res");
+        		re1.setRateType(1);
+        		re1.setRateNum(resWeeklyData.getOmgRate());
+        		re1.setRateRatio(resWeeklyData.getOmgRateRatio());
+        		
+        		RateElement re2 = new RateElement("res");
+        		re2.setRateType(2);
+        		re2.setRateNum(resWeeklyData.getTmgRate());
+        		re2.setRateRatio(resWeeklyData.getTmgRateRatio());
+        		
+        		RateElement re3 = new RateElement("res");
+        		re3.setRateType(3);
+        		re3.setRateNum(resWeeklyData.getThmgRate());
+        		re3.setRateRatio(resWeeklyData.getThmgRateRatio());
+        		
+        		RateElement re4 = new RateElement("res");
+        		re4.setRateType(4);
+        		re4.setRateNum(resWeeklyData.getFmgRate());
+        		re4.setRateRatio(resWeeklyData.getFmgRateRatio());
+        		
+        		RateElement re6 = new RateElement("res");
+        		re6.setRateType(6);
+        		re6.setRateNum(resWeeklyData.getSmgRate());
+        		re6.setRateRatio(resWeeklyData.getSmgRateRatio());
+        		
+        		RateElement re8 = new RateElement("res");
+        		re8.setRateType(8);
+        		re8.setRateNum(resWeeklyData.getEmgRate());
+        		re8.setRateRatio(resWeeklyData.getEmgRateRatio());
+        		
+        		rates.add(re1);
+        		rates.add(re2);
+        		rates.add(re3);
+        		rates.add(re4);
+        		rates.add(re6);
+        		rates.add(re8);
+        		
+        		java.util.Collections.sort(rates, new RateElementComparator());
+        		
+        		resWeeklyData.setFirstRate(rates.get(0));
+        		resWeeklyData.setSecondRate(rates.get(1));
+        		
+        		boolean isSelf = false;
+        		if( null != currentUser && null != resWeeklyData.getUserCode() ){
+        			if( LsAttributes.USER_LEVEL_DSM.equalsIgnoreCase(currentUser.getLevel())
+        					&& resWeeklyData.getUserCode().equalsIgnoreCase(currentUser.getUserCode())){
+        				isSelf = true;
+        			}
+        			if( LsAttributes.USER_LEVEL_RSM.equalsIgnoreCase(currentUser.getLevel())
+        					&& resWeeklyData.getUserCode().equalsIgnoreCase(currentUser.getRegion())){
+        				isSelf = true;
+        			}
+        			if( LsAttributes.USER_LEVEL_RSD.equalsIgnoreCase(currentUser.getLevel())
+        					&& resWeeklyData.getUserCode().equalsIgnoreCase(currentUser.getRegionCenter())){
+        				isSelf = true;
+        			}
+        		}
+        		
+        		if( isSelf ){
+        			orderedResData.add(0,resWeeklyData);
+        		}else{
+        			leftResData.add(resWeeklyData);
+        		}
+        	}
+        	if( LsAttributes.USER_LEVEL_BM.equalsIgnoreCase(currentUser.getLevel()) ){
+        		orderedResData.addAll(leftResData);
+        	}else{
+        		orderedResData.addAll(1,leftResData);
+        	}
         }
         
         return orderedResData;

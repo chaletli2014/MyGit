@@ -1962,11 +1962,14 @@ public class ReportController extends BaseController{
             logger.info(String.format("PED:the number of rows affected is %s", rowNumP));
             int rowNumR = respirologyService.removeOldWeeklyRESData(duration);
             logger.info(String.format("RES:the number of rows affected is %s", rowNumR));
+            int rowNumC = chestSurgeryService.removeOldWeeklyData(duration);
+            logger.info(String.format("CHE:the number of rows affected is %s", rowNumC));
             logger.info(String.format("remove old weekly data done, start to generate the weekly data, the refresh date is %s", refreshDate));
             
             Date weeklyRefreshDate = DateUtils.getGenerateWeeklyReportDate(refreshDate);
             pediatricsService.generateWeeklyPEDDataOfHospital(weeklyRefreshDate);
             respirologyService.generateWeeklyRESDataOfHospital(weeklyRefreshDate);
+            chestSurgeryService.generateWeeklyDataOfHospital(weeklyRefreshDate);
             logger.info("generate the latest weekly data done, start to refresh the weekly pdf report.");
             
             List<String> regionList = userService.getAllRegionName();
