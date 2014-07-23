@@ -819,5 +819,90 @@ public class ChestSurgeryDAOImpl implements ChestSurgeryDAO {
         .append(") last2weekdata ");
         return dataBean.getJdbcTemplate().queryForObject(mobileWeeklySQL.toString(),new RESWeeklyRatioDataRowMapper());
     }
+    
+
+    @Override
+    public void generateWeeklyDataOfHospital() throws Exception {
+        Date lastweekDay = DateUtils.getGenerateWeeklyReportDate();
+        this.generateWeeklyDataOfHospital(lastweekDay);
+    }
+    
+    @Override
+    public int removeOldWeeklyData(String duration) throws Exception{
+        String sql = "delete from tbl_chestSurgery_data_weekly where duration=?";
+        return dataBean.getJdbcTemplate().update(sql, new Object[] { duration });
+    }
+    
+    @Override
+    public void generateWeeklyDataOfHospital(Date refreshDate) throws Exception {
+        Timestamp lastweekDay = new Timestamp(refreshDate.getTime());
+        StringBuffer sb = new StringBuffer();
+        
+        sb.append("insert into tbl_chestSurgery_data_weekly ")
+            .append("select ")
+            .append("null,")
+            .append(" CONCAT(DATE_FORMAT(DATE_SUB(?, Interval 6 day),'%Y.%m.%d'), '-',DATE_FORMAT(?,'%Y.%m.%d')) as duration, ")
+            .append("h.name, ")
+            .append("h.code, ")
+            .append("cd_data.innum, ")
+            .append("cd_data.pnum, ")
+            .append("cd_data.risknum, ")
+            .append("cd_data.whnum, ")
+            .append("cd_data.lsnum, ")
+            .append("cd_data.averageDose, ")
+            .append("cd_data.omgRate, ")
+            .append("cd_data.tmgRate, ")
+            .append("cd_data.thmgRate, ")
+            .append("cd_data.fmgRate, ")
+            .append("cd_data.smgRate, ")
+            .append("cd_data.emgRate, ")
+            .append("now(),  ")
+            .append("Year(DATE_SUB(?, Interval 6 day)),  ")
+            .append("Month(DATE_SUB(?, Interval 6 day))  ")
+            .append("from ( ")
+            .append("   SELECT ")
+            .append("   h.code, ")
+            .append("   count_hos.inNum, ")
+            .append("   (sum(cd.pnum)/count_hos.inNum)*5 as pnum, ")
+            .append("   (sum(cd.risknum)/count_hos.inNum)*5 as risknum, ")
+            .append("   (sum(cd.whnum)/count_hos.inNum)*5 as whnum, ")
+            .append("   (sum(cd.lsnum)/count_hos.inNum)*5 as lsnum, ")
+            .append("   IFNULL( ")
+            .append("       sum( ")
+            .append("           ( ( 1*IFNULL(cd.oqd,0) + 2*1*IFNULL(cd.tqd,0) + 1*3*IFNULL(cd.otid,0) + 2*2*IFNULL(cd.tbid,0) + 2*3*IFNULL(cd.ttid,0) + 3*2*IFNULL(cd.thbid,0) + 4*2*IFNULL(cd.fbid,0) ) / 100 )* IFNULL(cd.lsnum,0) ")
+            .append("       ) / IFNULL(sum(cd.lsnum),0) ,0 ) averageDose, ")
+            .append("   IFNULL( sum(IFNULL(cd.oqd,0)*cd.lsnum/100)/sum(cd.lsnum),0 ) omgRate, ")
+            .append("   IFNULL( sum(IFNULL(cd.tqd,0)*cd.lsnum/100)/sum(cd.lsnum),0 ) tmgRate, ")
+            .append("   IFNULL( sum(IFNULL(cd.otid,0)*cd.lsnum/100)/sum(cd.lsnum),0 ) thmgRate, ")
+            .append("   IFNULL( sum(IFNULL(cd.tbid,0)*cd.lsnum/100)/sum(cd.lsnum),0 ) fmgRate, ")
+            .append("   IFNULL( sum((IFNULL(cd.ttid,0)*cd.lsnum + IFNULL(cd.thbid,0)*cd.lsnum)/100)/sum(cd.lsnum),0 ) smgRate, ")
+            .append("   IFNULL( sum(IFNULL(cd.fbid,0)*cd.lsnum/100)/sum(cd.lsnum),0 ) emgRate ")
+            .append("   FROM tbl_chestSurgery_data cd, tbl_hospital h, ")
+            .append("   (   ")
+            .append("       select count(1) as inNum, h.code ")
+            .append("       from tbl_chestSurgery_data cd, tbl_hospital h ")
+            .append("       WHERE cd.createdate between DATE_SUB(?, Interval 6 day) and DATE_ADD(?, Interval 1 day) ")
+            .append("       and cd.hospitalCode = h.code ")
+            .append("       and h.isChestSurgeryAssessed='1' ")
+            .append("       GROUP BY h.code ")
+            .append("   ) count_hos ")
+            .append("   WHERE cd.createdate between DATE_SUB(?, Interval 6 day) and DATE_ADD(?, Interval 1 day) ")
+            .append("   and cd.hospitalCode = h.code ")
+            .append("   and h.code = count_hos.code")
+            .append("   and h.isChestSurgeryAssessed='1' ")
+            .append("   GROUP BY h.code ")
+            .append(") cd_data ")
+            .append("right join tbl_hospital h on cd_data.code = h.code ")
+            .append("where h.isChestSurgeryAssessed='1'");
+        int result = dataBean.getJdbcTemplate().update(sb.toString(), new Object[]{lastweekDay,lastweekDay,lastweekDay,lastweekDay,lastweekDay,lastweekDay,lastweekDay,lastweekDay});
+        logger.info(String.format("finish to generate the chest surgery weekly data, the result is %s", result));
+    }
+    
+    public int getLastWeeklyData() throws Exception {
+        Timestamp lastThursDay = new Timestamp(DateUtils.getGenerateWeeklyReportDate().getTime());
+        StringBuffer sb = new StringBuffer();
+        sb.append(" select count(1) from tbl_chestSurgery_data_weekly where duration = CONCAT(DATE_FORMAT(DATE_SUB(?, Interval 6 day),'%Y.%m.%d'), '-',DATE_FORMAT(?,'%Y.%m.%d'))");
+        return dataBean.getJdbcTemplate().queryForInt(sb.toString(), lastThursDay,lastThursDay);
+    }
 
 }

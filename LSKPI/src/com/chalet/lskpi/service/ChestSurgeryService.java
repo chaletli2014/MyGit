@@ -45,4 +45,9 @@ public interface ChestSurgeryService {
     public WeeklyRatioData getWeeklyCountoryData4Mobile() throws Exception;
     public WeeklyRatioData getHospitalWeeklyData4Mobile( String hospitalCode ) throws Exception;
     public WeeklyRatioData getLowerWeeklyData4Mobile( UserInfo currentUser, String lowerUserCode ) throws Exception;
+    
+    public int removeOldWeeklyData(String duration) throws Exception;
+    public void generateWeeklyDataOfHospital() throws Exception;
+    public void generateWeeklyDataOfHospital(Date refreshDate) throws Exception;
+    public boolean hasLastWeeklyData() throws Exception;
 }

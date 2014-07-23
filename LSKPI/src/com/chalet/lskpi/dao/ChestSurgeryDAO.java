@@ -52,4 +52,10 @@ public interface ChestSurgeryDAO {
     
     public WeeklyRatioData getHospitalWeeklyData4Mobile( String hospitalCode ) throws Exception;
     public WeeklyRatioData getHospitalWeeklyData4Mobile() throws Exception;
+    
+    
+    public int removeOldWeeklyData(String duration) throws Exception;
+    public void generateWeeklyDataOfHospital() throws Exception;
+    public void generateWeeklyDataOfHospital(Date refreshDate) throws Exception;
+    public int getLastWeeklyData() throws Exception;
 }

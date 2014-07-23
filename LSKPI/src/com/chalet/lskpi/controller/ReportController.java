@@ -1406,23 +1406,40 @@ public class ReportController extends BaseController{
         
         String directory = BrowserUtils.getDirectory(request.getHeader("User-Agent"),"weeklyHTMLReport");
         
-        remotepedReportFile.append(directory).append(DateUtils.getLastThursDay()).append("/")
-        .append("weeklyPEDReport-")
-        .append(currentUser.getLevel())
-        .append("-")
-        .append(currentUserTel)
-        .append("-")
-        .append(DateUtils.getLastThursDay())
-        .append(".html");
+        if( LsAttributes.USER_LEVEL_BM.equalsIgnoreCase(currentUser.getLevel()) ){
+            remotepedReportFile.append(directory).append(DateUtils.getLastThursDay()).append("/")
+            .append("weeklyPEDReport-")
+            .append(currentUser.getLevel())
+            .append("-")
+            .append(DateUtils.getLastThursDay())
+            .append(".html");
+            
+            localpedReportFile.append(directory).append(DateUtils.getLastThursDay()).append("/")
+            .append("weeklyPEDReport-")
+            .append(currentUser.getLevel())
+            .append("-")
+            .append(DateUtils.getLastThursDay())
+            .append(".html");
+        }else{
+            remotepedReportFile.append(directory).append(DateUtils.getLastThursDay()).append("/")
+            .append("weeklyPEDReport-")
+            .append(currentUser.getLevel())
+            .append("-")
+            .append(currentUserTel)
+            .append("-")
+            .append(DateUtils.getLastThursDay())
+            .append(".html");
+            
+            localpedReportFile.append(directory).append(DateUtils.getLastThursDay()).append("/")
+            .append("weeklyPEDReport-")
+            .append(currentUser.getLevel())
+            .append("-")
+            .append(currentUserTel)
+            .append("-")
+            .append(DateUtils.getLastThursDay())
+            .append(".html");
+        }
         
-        localpedReportFile.append(directory).append(DateUtils.getLastThursDay()).append("/")
-	        .append("weeklyPEDReport-")
-	        .append(currentUser.getLevel())
-	        .append("-")
-	        .append(currentUserTel)
-	        .append("-")
-	        .append(DateUtils.getLastThursDay())
-	        .append(".html");
         logger.info("pedreport = "+localpedReportFile.toString());
         File reportfile = new File(localpedReportFile.toString());
         if( reportfile.exists() ){
@@ -1461,23 +1478,40 @@ public class ReportController extends BaseController{
         
         String directory = BrowserUtils.getDirectory(request.getHeader("User-Agent"),"weeklyHTMLReport");
         
-        remoteResReportFile.append(directory).append(DateUtils.getLastThursDay()).append("/")
-        .append("weeklyRESReport-")
-        .append(currentUser.getLevel())
-        .append("-")
-        .append(currentUserTel)
-        .append("-")
-        .append(DateUtils.getLastThursDay())
-        .append(".html");
+        if( LsAttributes.USER_LEVEL_BM.equalsIgnoreCase(currentUser.getLevel()) ){
+            remoteResReportFile.append(directory).append(DateUtils.getLastThursDay()).append("/")
+            .append("weeklyRESReport-")
+            .append(currentUser.getLevel())
+            .append("-")
+            .append(DateUtils.getLastThursDay())
+            .append(".html");
+            
+            localResReportFile.append(directory).append(DateUtils.getLastThursDay()).append("/")
+            .append("weeklyRESReport-")
+            .append(currentUser.getLevel())
+            .append("-")
+            .append(DateUtils.getLastThursDay())
+            .append(".html");
+        }else{
+            remoteResReportFile.append(directory).append(DateUtils.getLastThursDay()).append("/")
+            .append("weeklyRESReport-")
+            .append(currentUser.getLevel())
+            .append("-")
+            .append(currentUserTel)
+            .append("-")
+            .append(DateUtils.getLastThursDay())
+            .append(".html");
+            
+            localResReportFile.append(directory).append(DateUtils.getLastThursDay()).append("/")
+            .append("weeklyRESReport-")
+            .append(currentUser.getLevel())
+            .append("-")
+            .append(currentUserTel)
+            .append("-")
+            .append(DateUtils.getLastThursDay())
+            .append(".html");
+        }
         
-        localResReportFile.append(directory).append(DateUtils.getLastThursDay()).append("/")
-	        .append("weeklyRESReport-")
-	        .append(currentUser.getLevel())
-	        .append("-")
-	        .append(currentUserTel)
-	        .append("-")
-	        .append(DateUtils.getLastThursDay())
-	        .append(".html");
         
         logger.info("localResReportFile = "+localResReportFile.toString());
         logger.info("remoteResReportFile = "+localResReportFile.toString());
@@ -1492,7 +1526,74 @@ public class ReportController extends BaseController{
         return view;
     }
     
-    
+    @RequestMapping("/cheWeeklyreport")
+    public ModelAndView cheWeeklyreport(HttpServletRequest request){
+        logger.info("weekly chest surgery report");
+        ModelAndView view = new LsKPIModelAndView(request);
+        String currentUserTel = verifyCurrentUser(request,view);
+        
+        UserInfo currentUser = (UserInfo)request.getSession().getAttribute(LsAttributes.CURRENT_OPERATOR_OBJECT);
+        if( null == currentUserTel || "".equalsIgnoreCase(currentUserTel) || null == currentUser ){
+            view.addObject(LsAttributes.JSP_VERIFY_MESSAGE, LsAttributes.NO_USER_FOUND_WEB);
+            view.setViewName("weeklyReportDepartment");
+            return view;
+        }
+        if( LsAttributes.USER_LEVEL_REP.equalsIgnoreCase(currentUser.getLevel()) ){
+            view.addObject(LsAttributes.JSP_VERIFY_MESSAGE, LsAttributes.RETURNED_MESSAGE_3);
+            view.setViewName("weeklyReportDepartment");
+            return view;
+        }
+        
+        String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+request.getContextPath()+"/";
+        String localPath = request.getRealPath("/");
+        StringBuffer localReportFile = new StringBuffer(localPath);
+        StringBuffer remoteReportFile = new StringBuffer(basePath);
+        
+        String directory = BrowserUtils.getDirectory(request.getHeader("User-Agent"),"weeklyHTMLReport");
+        
+        if( LsAttributes.USER_LEVEL_BM.equalsIgnoreCase(currentUser.getLevel()) ){
+            remoteReportFile.append(directory).append(DateUtils.getLastThursDay()).append("/")
+            .append("weeklyCHEReport-")
+            .append(currentUser.getLevel())
+            .append("-")
+            .append(DateUtils.getLastThursDay())
+            .append(".html");
+            
+            localReportFile.append(directory).append(DateUtils.getLastThursDay()).append("/")
+            .append("weeklyCHEReport-")
+            .append(currentUser.getLevel())
+            .append("-")
+            .append(DateUtils.getLastThursDay())
+            .append(".html");
+        }else{
+            remoteReportFile.append(directory).append(DateUtils.getLastThursDay()).append("/")
+            .append("weeklyCHEReport-")
+            .append(currentUser.getLevel())
+            .append("-")
+            .append(currentUserTel)
+            .append("-")
+            .append(DateUtils.getLastThursDay())
+            .append(".html");
+            
+            localReportFile.append(directory).append(DateUtils.getLastThursDay()).append("/")
+            .append("weeklyCHEReport-")
+            .append(currentUser.getLevel())
+            .append("-")
+            .append(currentUserTel)
+            .append("-")
+            .append(DateUtils.getLastThursDay())
+            .append(".html");
+        }
+        
+        File reportfile = new File(localReportFile.toString());
+        if( reportfile.exists() ){
+            view.addObject("reportFile", remoteReportFile.toString());
+        }else{
+            view.addObject("reportFile", basePath+"jsp/weeklyReport_404.html");
+        }
+        view.setViewName("cheWeeklyReport");
+        return view;
+    }
     
     @RequestMapping("/doDownloadDailyDSMReport")
     public String doDownloadDailyDSMReport(HttpServletRequest request){

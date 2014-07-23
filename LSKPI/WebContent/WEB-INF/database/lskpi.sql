@@ -331,8 +331,9 @@ create table tbl_chestSurgery_data_weekly(
     fmgRate         DECIMAL(11,6),
     smgRate         DECIMAL(11,6),
     emgRate         DECIMAL(11,6),
-    monthNum        int,
-    updatedate      datetime
+    updatedate      datetime,
+    date_YYYY       int,
+    date_MM         int
 );
 
 ALTER  TABLE tbl_respirology_data_weekly ADD column date_YYYY int;

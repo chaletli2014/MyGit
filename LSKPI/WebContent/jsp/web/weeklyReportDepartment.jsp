@@ -25,11 +25,9 @@ function showNextPage(pageURL){
         	<div data-role="fieldcontain" class="department_img_div">
 	            <img alt="" src="<%=basePath%>images/img_bg_ped_weekly_w.png" onclick="showNextPage('<%=basePath%>pedWeeklyreport')" style="cursor: pointer;">
         	</div>
-        	<%--
         	<div data-role="fieldcontain" class="department_img_div">
-                <img alt="" src="<%=basePath%>images/img_bg_chestSurgery_weekly_w.png" onclick="showNextPage('<%=basePath%>chesetSurgeryWeeklyreport')" style="cursor: pointer;">
+                <img alt="" src="<%=basePath%>images/img_bg_chestSurgery_weekly_w.png" onclick="showNextPage('<%=basePath%>cheWeeklyreport')" style="cursor: pointer;">
             </div>
-        	 --%>
         	<div data-role="fieldcontain" class="department_img_div">
 	            <img alt="" src="<%=basePath%>images/img_bg_monthly_report_w.png" onclick="showNextPage('<%=basePath%>monthlyDataReport')" style="cursor: pointer;">
         	</div>
