@@ -863,7 +863,6 @@ public class LsAttributes {
             = new StringBuffer("")
             .append(" select ")
             .append(" homeData.newWhNum")
-            .append(" , homeData.newWhNum")
             .append(" , homeData.cureRate ")
             .append(" , homeData.lsnum ")
             .append(" , homeData.lsRate ")

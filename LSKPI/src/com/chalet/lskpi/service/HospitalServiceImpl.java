@@ -51,7 +51,7 @@ public class HospitalServiceImpl implements HospitalService {
 	
 	
 	public int getTotalDrNumOfHospital(String hospitalCode) throws Exception {
-		return hospitalDAO.getTotalDrNumOfHospital(hospitalCode);
+		return hospitalDAO.getTotalDrNumOfHospital(hospitalCode)+hospitalDAO.getTotalRemovedDrNumOfHospital(hospitalCode);
 	}
 	
 	public int getExistedDrNumByHospitalCode(String hospitalCode, String drName) throws Exception {

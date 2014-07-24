@@ -1950,5 +1950,37 @@ and lastweekdata.saleCode = last2weekdata.saleCode
 and lastweekdata.saleCode = ?
 and lastweekdata.dsmCode = ?;
 
---------------------------------------------getDoctorsBySalesCode-------------------------
+--------------------------------------------getHomeWeeklyDataOfRSM-------------------------
 
+ select homeData.newWhNum 
+ , homeData.cureRate  
+ , homeData.lsnum  
+ , homeData.lsRate  
+ , homeData.reachRate 
+ , ui.region as name 
+ , homeData.reportNum 
+ , (select distinct property_value from tbl_property where property_name=ui.regionCenter ) as regionCenterCN 
+ , (    select count(1) 
+        from tbl_doctor d2, tbl_hospital h2    
+        where d2.hospitalCode = h2.code    
+        and h2.rsmRegion = ui.region    
+        and d2.createdate between '2014-07-14' and '2014-07-21'    
+    ) as newDrNum
+, (   select count(1) 
+        from tbl_doctor d2, tbl_hospital h2    
+        where d2.hospitalCode = h2.code    
+        and h2.rsmRegion = ui.region    
+    ) as totalDrNum 
+from (  
+    select sum(hd.salenum) as newWhNum  
+    , sum(hd.ltenum)/sum(hd.asthmanum) as cureRate  
+    , sum(hd.lsnum) as lsnum  , sum(hd.lsnum)/sum(hd.asthmanum) as lsRate  
+    , sum(hd.lttnum)/sum(hd.lsnum) as reachRate 
+    , h.rsmRegion, count(1) as reportNum  
+    from tbl_home_data hd, tbl_hospital h  
+    where hd.hospitalCode = h.code  and h.region = 'North2 GRA'  
+    and hd.createdate between '2014-07-14' and '2014-07-21'  
+    group by h.region, h.rsmRegion 
+) homeData 
+right join tbl_userinfo ui on ui.region = homeData.rsmRegion  
+where ui.regionCenter = 'North2 GRA' and ui.level='RSM';

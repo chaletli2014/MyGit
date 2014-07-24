@@ -63,6 +63,14 @@ public class HospitalDAOImpl implements HospitalDAO {
         return dataBean.getJdbcTemplate().queryForInt(sql.toString(), new Object[]{hospitalCode});
     }
 	
+	public int getTotalRemovedDrNumOfHospital(String hospitalCode) throws Exception {
+	    StringBuffer sql = new StringBuffer("")
+	    .append(" select count(1) ")
+	    .append(" from tbl_doctor_history ")
+	    .append(" where hospitalCode=?");
+	    return dataBean.getJdbcTemplate().queryForInt(sql.toString(), new Object[]{hospitalCode});
+	}
+	
 	public int getExistedDrNumByHospitalCode(String hospitalCode, String drName) throws Exception {
 	    StringBuffer sql = new StringBuffer("")
 	    .append(" select count(1) ")
