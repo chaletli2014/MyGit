@@ -73,6 +73,13 @@ public class ReportUtils {
             		logger.info(String.format(LOG_MESSAGE, fileSubName));
             	}
             	
+            	if( !new File(weeklyPDFCHEReportFileName).exists() || ( !checkFileExists && new File(weeklyPDFCHEReportFileName).exists()) ){
+            	    html.runRefreshReport( basePath + "reportDesigns/refresh_weeklyCHEReportRSD.rptdesign",telephone,startDate,endDate,weeklyPDFCHEReportFileName,"pdf","","","");
+            	    logger.info("the weekly chest surgery report for RSD is done.");
+            	}else{
+            	    logger.info(String.format(LOG_MESSAGE, fileSubName));
+            	}
+            	
                 break;
             case LsAttributes.USER_LEVEL_RSM:
               //RSM
@@ -89,6 +96,13 @@ public class ReportUtils {
             	}else{
             		logger.info(String.format(LOG_MESSAGE, fileSubName));
             	}
+            	
+                if( !new File(weeklyPDFCHEReportFileName).exists() || ( !checkFileExists && new File(weeklyPDFCHEReportFileName).exists()) ){
+                    html.runRefreshReport( basePath + "reportDesigns/refresh_weeklyCHEReportRSM.rptdesign",telephone,startDate,endDate,weeklyPDFCHEReportFileName,"pdf","","","");
+                    logger.info("the weekly chest surgery report for RSM is done.");
+                }else{
+                    logger.info(String.format(LOG_MESSAGE, fileSubName));
+                }
                 break;
             case LsAttributes.USER_LEVEL_DSM:
               //DSM
@@ -105,6 +119,13 @@ public class ReportUtils {
             	}else{
             		logger.info(String.format(LOG_MESSAGE, fileSubName));
             	}
+            	
+            	if( !new File(weeklyPDFCHEReportFileName).exists() || ( !checkFileExists && new File(weeklyPDFCHEReportFileName).exists()) ){
+                    html.runRefreshReport( basePath + "reportDesigns/refresh_weeklyCHEReportDSM.rptdesign",telephone,startDate,endDate,weeklyPDFCHEReportFileName,"pdf","","","");
+                    logger.info("the weekly chest surgery report for DSM is done.");
+                }else{
+                    logger.info(String.format(LOG_MESSAGE, fileSubName));
+                }
                 break;
             case LsAttributes.USER_LEVEL_REP:
               //REP

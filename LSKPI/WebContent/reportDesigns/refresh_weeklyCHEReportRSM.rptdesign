@@ -3896,7 +3896,7 @@ order by cdw.duration desc]]></xml-property>
                         <property name="fontSize">24pt</property>
                         <property name="fontWeight">normal</property>
                         <property name="textAlign">center</property>
-                        <text-property name="text">全国398家呼吸科重点医院每周报告</text-property>
+                        <text-property name="text">全国304家胸外科重点医院每周报告</text-property>
                     </label>
                 </cell>
             </row>

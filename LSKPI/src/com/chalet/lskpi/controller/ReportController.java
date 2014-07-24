@@ -1822,21 +1822,27 @@ public class ReportController extends BaseController{
                 
                 if( "1".equalsIgnoreCase(department) ){
                     populateWeeklyReportFile(remoteWeeklyReportFile, weeklyReportFile2Download, localWeeklyReportFile, chooseDate_d, "呼吸科周报-DSM-", dsm.getName());
-                }else{
+                }else if( "2".equalsIgnoreCase(department) ){
                     populateWeeklyReportFile(remoteWeeklyReportFile, weeklyReportFile2Download, localWeeklyReportFile, chooseDate_d, "儿科周报-DSM-", dsm.getName());
+                }else{
+                    populateWeeklyReportFile(remoteWeeklyReportFile, weeklyReportFile2Download, localWeeklyReportFile, chooseDate_d, "胸外科周报-DSM-", dsm.getName());
                 }
 			}else if( null != selectedRSM && !"".equalsIgnoreCase(selectedRSM) ){
 			    
 			    if( "1".equalsIgnoreCase(department) ){
 			        populateWeeklyReportFile(remoteWeeklyReportFile, weeklyReportFile2Download, localWeeklyReportFile, chooseDate_d, "呼吸科周报-RSM-", selectedRSM);
-                }else{
+                }else if( "2".equalsIgnoreCase(department) ){
                     populateWeeklyReportFile(remoteWeeklyReportFile, weeklyReportFile2Download, localWeeklyReportFile, chooseDate_d, "儿科周报-RSM-", selectedRSM);
+                }else{
+                    populateWeeklyReportFile(remoteWeeklyReportFile, weeklyReportFile2Download, localWeeklyReportFile, chooseDate_d, "胸外科周报-RSM-", selectedRSM);
                 }
 			}else if( null != selectedRSD && !"0".equalsIgnoreCase(selectedRSD) ){
 			    if( "1".equalsIgnoreCase(department) ){
 			        populateWeeklyReportFile(remoteWeeklyReportFile, weeklyReportFile2Download, localWeeklyReportFile, chooseDate_d, "呼吸科周报-RSD-", selectedRSD);
-                }else{
+                }else if( "2".equalsIgnoreCase(department) ){
                     populateWeeklyReportFile(remoteWeeklyReportFile, weeklyReportFile2Download, localWeeklyReportFile, chooseDate_d, "儿科周报-RSD-", selectedRSD);
+                }else{
+                    populateWeeklyReportFile(remoteWeeklyReportFile, weeklyReportFile2Download, localWeeklyReportFile, chooseDate_d, "胸外科周报-RSD-", selectedRSD);
                 }
 			}else{
 			  //the whole country is selected.
@@ -1849,11 +1855,13 @@ public class ReportController extends BaseController{
 			            for( String reigonCenter : allRegions ){
 			                populateWeeklyReportAttachedFiles(filePaths,reportFiles, localPath, basePath, chooseDate_d, weeklyReportFile2Download, localWeeklyReportFile, remoteWeeklyReportFile, "呼吸科周报", "_"+reigonCenter);
 			            }
-			        }else{
+			        }else if( "2".equalsIgnoreCase(department) ){
                         populateWeeklyReportAttachedFiles(filePaths,reportFiles, localPath, basePath, chooseDate_d, weeklyReportFile2Download, localWeeklyReportFile, remoteWeeklyReportFile, "儿科周报", "");
                         for( String reigonCenter : allRegions ){
                             populateWeeklyReportAttachedFiles(filePaths,reportFiles, localPath, basePath, chooseDate_d, weeklyReportFile2Download, localWeeklyReportFile, remoteWeeklyReportFile, "儿科周报", "_"+reigonCenter);
                         }
+			        }else{
+			            populateWeeklyReportAttachedFiles(filePaths,reportFiles, localPath, basePath, chooseDate_d, weeklyReportFile2Download, localWeeklyReportFile, remoteWeeklyReportFile, "胸外科周报", "");
 			        }
 			    }catch(Exception e){
 			        logger.error("fail to generate the daily report to export, no file is found");
