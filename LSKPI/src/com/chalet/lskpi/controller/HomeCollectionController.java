@@ -11,6 +11,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.chalet.lskpi.exception.CustomrizedExceptioin;
 import com.chalet.lskpi.model.Doctor;
 import com.chalet.lskpi.model.HomeData;
 import com.chalet.lskpi.model.Hospital;
@@ -306,6 +307,9 @@ public class HomeCollectionController extends BaseController{
             
             hospitalService.deleteDoctor(doctor);
             logger.info(String.format("user %s delete doctor successfully!", currentUserTel));
+        }catch(CustomrizedExceptioin ce){
+            logger.error("fail to delete doctor,"+ce.getMessage());
+            request.getSession().setAttribute(LsAttributes.COLLECT_HOMEDATA_MESSAGE, ce.getMessage());
         }catch(Exception e){
             logger.error("fail to delete doctor,"+e.getMessage());
             request.getSession().setAttribute(LsAttributes.COLLECT_HOMEDATA_MESSAGE, LsAttributes.RETURNED_MESSAGE_1);

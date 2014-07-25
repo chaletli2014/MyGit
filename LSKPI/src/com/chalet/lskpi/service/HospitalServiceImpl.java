@@ -17,8 +17,10 @@ import org.springframework.dao.IncorrectResultSizeDataAccessException;
 import org.springframework.stereotype.Service;
 
 import com.chalet.lskpi.comparator.HospitalSalesDataComparator;
+import com.chalet.lskpi.dao.DoctorDAO;
 import com.chalet.lskpi.dao.HospitalDAO;
 import com.chalet.lskpi.dao.UserDAO;
+import com.chalet.lskpi.exception.CustomrizedExceptioin;
 import com.chalet.lskpi.model.Doctor;
 import com.chalet.lskpi.model.Hospital;
 import com.chalet.lskpi.model.HospitalSalesQueryObj;
@@ -28,6 +30,7 @@ import com.chalet.lskpi.model.MonthlyData;
 import com.chalet.lskpi.model.MonthlyInRateData;
 import com.chalet.lskpi.model.MonthlyRatioData;
 import com.chalet.lskpi.model.UserInfo;
+import com.chalet.lskpi.utils.DateUtils;
 import com.chalet.lskpi.utils.LsAttributes;
 
 /**
@@ -47,49 +50,61 @@ public class HospitalServiceImpl implements HospitalService {
 	@Qualifier("userDAO")
 	private UserDAO userDAO;
 	
+	@Autowired
+	@Qualifier("doctorDAO")
+	private DoctorDAO doctorDAO;
+	
 	private Logger logger = Logger.getLogger(HospitalServiceImpl.class);
 	
 	
 	public int getTotalDrNumOfHospital(String hospitalCode) throws Exception {
-		return hospitalDAO.getTotalDrNumOfHospital(hospitalCode)+hospitalDAO.getTotalRemovedDrNumOfHospital(hospitalCode);
+		return doctorDAO.getTotalDrNumOfHospital(hospitalCode)+doctorDAO.getTotalRemovedDrNumOfHospital(hospitalCode);
 	}
 	
 	public int getExistedDrNumByHospitalCode(String hospitalCode, String drName) throws Exception {
-	    return hospitalDAO.getExistedDrNumByHospitalCode(hospitalCode,drName);
+	    return doctorDAO.getExistedDrNumByHospitalCode(hospitalCode,drName);
 	}
 
     public int getExistedDrNumByHospitalCodeExcludeSelf(long dataId, String hospitalCode, String drName) throws Exception {
-        return hospitalDAO.getExistedDrNumByHospitalCodeExcludeSelf(dataId, hospitalCode, drName);
+        return doctorDAO.getExistedDrNumByHospitalCodeExcludeSelf(dataId, hospitalCode, drName);
     }
 
     public void insertDoctor(Doctor doctor) throws Exception {
-        hospitalDAO.insertDoctor(doctor);
+        doctorDAO.insertDoctor(doctor);
     }
     
     public void updateDoctorRelationship(int doctorId, String salesCode) throws Exception {
-        hospitalDAO.updateDoctorRelationship(doctorId, salesCode);
+        doctorDAO.updateDoctorRelationship(doctorId, salesCode);
     }
 
     public void updateDoctor(Doctor doctor) throws Exception {
-        hospitalDAO.updateDoctor(doctor);
+        doctorDAO.updateDoctor(doctor);
     }
 
     public void deleteDoctor(Doctor doctor) throws Exception {
-        logger.info(String.format("start to delete doctor, backup doctor firstly, doctorId is %s", doctor.getId()));
-        hospitalDAO.backupDoctor(doctor);
-        logger.info("start to delete the doctor");
-        hospitalDAO.deleteDoctor(doctor);
-        logger.info("delete done.");
+        Date beginDate = DateUtils.getHomeCollectionBegionDate(new Date());
+        Date endDate = new Date(beginDate.getTime() + 7 * 24 * 60 * 60 * 1000);
+        boolean drHasData = doctorDAO.drHasLastWeekData(doctor.getId(), beginDate,endDate);
+        if( drHasData ){
+            logger.warn(String.format("doctor %s has data in last week, could not be deleted",doctor.getId()));
+            throw new CustomrizedExceptioin("该医生已经填入上周数据，本周不能立即删除");
+        }else{
+            logger.info(String.format("start to delete doctor, backup doctor firstly, doctorId is %s", doctor.getId()));
+            doctorDAO.backupDoctor(doctor);
+            logger.info("start to delete the doctor");
+            doctorDAO.deleteDoctor(doctor);
+            logger.info("delete done.");
+        }
     }
 	
 	public List<Doctor> getDoctorsOfCurrentUser( UserInfo currentUser ) throws Exception{
 	    List<Doctor> doctors = new ArrayList<Doctor>();
 	    switch(currentUser.getLevel()){
 	        case LsAttributes.USER_LEVEL_DSM:
-	            doctors =  hospitalDAO.getDoctorsByDsmCode(currentUser.getUserCode());
+	            doctors =  doctorDAO.getDoctorsByDsmCode(currentUser.getUserCode());
 	            break;
 	        case LsAttributes.USER_LEVEL_REP:
-	            doctors = hospitalDAO.getDoctorsBySalesCode(currentUser.getUserCode());
+	            doctors = doctorDAO.getDoctorsBySalesCode(currentUser.getUserCode());
 	            break;
 	    }
 	    return doctors;
@@ -365,7 +380,7 @@ public class HospitalServiceImpl implements HospitalService {
 	@Override
 	public Doctor getDoctorById(int doctorId) throws Exception {
 		try{
-			return hospitalDAO.getDoctorById(doctorId);
+			return doctorDAO.getDoctorById(doctorId);
 		}catch(EmptyResultDataAccessException erd){
             logger.info(String.format("there is no doctor found. whose id is %s", doctorId));
             return null;

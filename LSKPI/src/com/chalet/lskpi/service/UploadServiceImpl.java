@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.chalet.lskpi.dao.DoctorDAO;
 import com.chalet.lskpi.dao.HospitalDAO;
 import com.chalet.lskpi.dao.PropertyDAO;
 import com.chalet.lskpi.dao.UserDAO;
@@ -28,6 +29,10 @@ public class UploadServiceImpl implements UploadService {
     @Autowired
     @Qualifier("hospitalDAO")
     private HospitalDAO hospitalDAO;
+    
+    @Autowired
+    @Qualifier("doctorDAO")
+    private DoctorDAO doctorDAO;
     
     @Autowired
     @Qualifier("propertyDAO")
@@ -78,8 +83,8 @@ public class UploadServiceImpl implements UploadService {
     public void uploadDoctorData(List<Doctor> doctors) throws Exception {
         try{
             long start = System.currentTimeMillis();
-            hospitalDAO.cleanDoctor();
-            hospitalDAO.insertDoctors(doctors);
+            doctorDAO.cleanDoctor();
+            doctorDAO.insertDoctors(doctors);
             long finish = System.currentTimeMillis();
             logger.info("time spent to insert the doctors infos into DB is " + (finish-start) + " ms");
             
