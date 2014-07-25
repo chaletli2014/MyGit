@@ -23,7 +23,9 @@ import com.chalet.lskpi.mapper.HomeWeeklyDataRowMapper;
 import com.chalet.lskpi.model.ExportDoctor;
 import com.chalet.lskpi.model.HomeData;
 import com.chalet.lskpi.model.HomeWeeklyData;
+import com.chalet.lskpi.model.ReportProcessData;
 import com.chalet.lskpi.utils.DataBean;
+import com.chalet.lskpi.utils.DateUtils;
 import com.chalet.lskpi.utils.LsAttributes;
 
 @Repository("homeDAO")
@@ -426,5 +428,103 @@ public class HomeDAOImpl implements HomeDAO {
         .append(" where d.hospitalCode = h.code  ")
         .append(" order by h.region, h.rsmRegion, h.code, d.code ");
         return dataBean.getJdbcTemplate().query(sql.toString(), new ExportDoctorRowMapper());
+    }
+
+    public ReportProcessData getSalesSelfReportProcess(String telephone) throws Exception {
+        StringBuffer drNumSQL = new StringBuffer("");
+        drNumSQL.append("select count(1) as drNum ")
+        .append(" from tbl_userinfo u, tbl_doctor d ")
+        .append(" where d.salesCode = u.userCode ")
+        .append(" and u.telephone = ? ");
+        
+        int drNum = dataBean.getJdbcTemplate().queryForInt(drNumSQL.toString(), telephone);
+        
+        Date startDate = DateUtils.getHomeCollectionBegionDate(new Date());
+        Date endDate = new Date(startDate.getTime() + 7 * 24 * 60 * 60 * 1000);
+        StringBuffer inNumSQL = new StringBuffer("");
+        inNumSQL.append("select count(1) as hosNum ")
+        .append(" from tbl_userinfo u, tbl_doctor d, tbl_home_data hd ")
+        .append(" where d.salesCode = u.userCode ")
+        .append(" and hd.doctorId = d.id ")
+        .append(" and hd.createdate between ? and ? ")
+        .append(" and u.telephone = ? ");
+        
+        int inNum = dataBean.getJdbcTemplate().queryForInt(inNumSQL.toString(), new Object[]{new Timestamp(startDate.getTime()),new Timestamp(endDate.getTime()),telephone});
+        
+        ReportProcessData homeProcess = new ReportProcessData();
+        homeProcess.setHosNum(drNum);
+        homeProcess.setValidInNum(inNum);
+        if( drNum == 0 ){
+            homeProcess.setCurrentInRate(0);
+        }else{
+            homeProcess.setCurrentInRate((double)inNum/(double)drNum);
+        }
+        return homeProcess;
+    }
+
+    public ReportProcessData getDSMSelfReportProcess(String telephone) throws Exception {
+        StringBuffer drNumSQL = new StringBuffer("");
+        drNumSQL.append("select count(1) as drNum ")
+        .append(" from tbl_userinfo u, tbl_hospital h, tbl_doctor d ")
+        .append(" where h.dsmCode = u.userCode ")
+        .append(" and d.hospitalCode = h.code ")
+        .append(" and u.telephone = ? ");
+        
+        int drNum = dataBean.getJdbcTemplate().queryForInt(drNumSQL.toString(), telephone);
+        
+        Date startDate = DateUtils.getHomeCollectionBegionDate(new Date());
+        Date endDate = new Date(startDate.getTime() + 7 * 24 * 60 * 60 * 1000);
+        StringBuffer inNumSQL = new StringBuffer("");
+        inNumSQL.append("select count(1) as hosNum ")
+        .append(" from tbl_userinfo u, tbl_hospital h, tbl_home_data hd ")
+        .append(" where h.dsmCode = u.userCode ")
+        .append(" and hd.hospitalCode = h.code ")
+        .append(" and hd.createdate between ? and ? ")
+        .append(" and u.telephone = ? ");
+        
+        int inNum = dataBean.getJdbcTemplate().queryForInt(inNumSQL.toString(), new Object[]{new Timestamp(startDate.getTime()),new Timestamp(endDate.getTime()),telephone});
+        
+        ReportProcessData homeProcess = new ReportProcessData();
+        homeProcess.setHosNum(drNum);
+        homeProcess.setValidInNum(inNum);
+        if( drNum == 0 ){
+            homeProcess.setCurrentInRate(0);
+        }else{
+            homeProcess.setCurrentInRate((double)inNum/(double)drNum);
+        }
+        return homeProcess;
+    }
+
+    public ReportProcessData getRSMSelfReportProcess(String telephone) throws Exception {
+        StringBuffer drNumSQL = new StringBuffer("");
+        drNumSQL.append("select count(1) as drNum ")
+        .append(" from tbl_userinfo u, tbl_hospital h, tbl_doctor d ")
+        .append(" where h.rsmRegion = u.region ")
+        .append(" and d.hospitalCode = h.code ")
+        .append(" and u.telephone = ? ");
+        
+        int drNum = dataBean.getJdbcTemplate().queryForInt(drNumSQL.toString(), telephone);
+        
+        Date startDate = DateUtils.getHomeCollectionBegionDate(new Date());
+        Date endDate = new Date(startDate.getTime() + 7 * 24 * 60 * 60 * 1000);
+        StringBuffer inNumSQL = new StringBuffer("");
+        inNumSQL.append("select count(1) as hosNum ")
+        .append(" from tbl_userinfo u, tbl_hospital h, tbl_home_data hd ")
+        .append(" where h.rsmRegion = u.region ")
+        .append(" and hd.hospitalCode = h.code ")
+        .append(" and hd.createdate between ? and ? ")
+        .append(" and u.telephone = ? ");
+        
+        int inNum = dataBean.getJdbcTemplate().queryForInt(inNumSQL.toString(), new Object[]{new Timestamp(startDate.getTime()),new Timestamp(endDate.getTime()),telephone});
+        
+        ReportProcessData homeProcess = new ReportProcessData();
+        homeProcess.setHosNum(drNum);
+        homeProcess.setValidInNum(inNum);
+        if( drNum == 0 ){
+            homeProcess.setCurrentInRate(0);
+        }else{
+            homeProcess.setCurrentInRate((double)inNum/(double)drNum);
+        }
+        return homeProcess;
     }
 }

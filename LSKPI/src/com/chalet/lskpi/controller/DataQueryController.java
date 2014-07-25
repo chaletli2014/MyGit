@@ -32,6 +32,7 @@ import com.chalet.lskpi.model.ReportProcessDataDetail;
 import com.chalet.lskpi.model.UserInfo;
 import com.chalet.lskpi.model.WeeklyRatioData;
 import com.chalet.lskpi.service.ChestSurgeryService;
+import com.chalet.lskpi.service.HomeService;
 import com.chalet.lskpi.service.HospitalService;
 import com.chalet.lskpi.service.PediatricsService;
 import com.chalet.lskpi.service.RespirologyService;
@@ -71,6 +72,10 @@ public class DataQueryController extends BaseController{
     @Autowired
     @Qualifier("hospitalService")
     private HospitalService hospitalService;
+    
+    @Autowired
+    @Qualifier("homeService")
+    private HomeService homeService;
 	
     @RequestMapping("/dataQuery")
     public ModelAndView dataQuery(HttpServletRequest request){
@@ -291,6 +296,59 @@ public class DataQueryController extends BaseController{
         }
         
         view.setViewName("reportProcessPED");
+        return view;
+    }
+    
+    @RequestMapping("/homeprocess")
+    public ModelAndView homeprocess(HttpServletRequest request){
+        ModelAndView view = new LsKPIModelAndView(request);
+        String currentUserTel = verifyCurrentUser(request,view);
+        UserInfo currentUser = (UserInfo)request.getSession().getAttribute(LsAttributes.CURRENT_OPERATOR_OBJECT);
+        logger.info(String.format("home report process, current user's telephone is %s, the user in session is %s", currentUserTel,currentUser));
+        
+        if( null == currentUserTel || "".equalsIgnoreCase(currentUserTel) || null == currentUser ){
+            view.addObject(LsAttributes.JSP_VERIFY_MESSAGE, LsAttributes.NO_USER_FOUND_WEB);
+            view.setViewName("index");
+            return view;
+        }
+        
+        if( ! ( LsAttributes.USER_LEVEL_REP.equalsIgnoreCase(currentUser.getLevel()) 
+                        || LsAttributes.USER_LEVEL_DSM.equalsIgnoreCase(currentUser.getLevel())
+                        || LsAttributes.USER_LEVEL_RSM.equalsIgnoreCase(currentUser.getLevel()) ) ){
+            view.addObject(LsAttributes.JSP_VERIFY_MESSAGE, LsAttributes.RETURNED_MESSAGE_3);
+            view.setViewName("index");
+            return view;
+        }
+        
+        ReportProcessData processData = new ReportProcessData();
+        try{
+            if( LsAttributes.USER_LEVEL_REP.equalsIgnoreCase(currentUser.getLevel()) ){
+                processData = homeService.getSalesSelfReportProcess(currentUserTel);
+            }else if( LsAttributes.USER_LEVEL_DSM.equalsIgnoreCase(currentUser.getLevel()) ){
+                processData = homeService.getDSMSelfReportProcess(currentUserTel);
+            }else if( LsAttributes.USER_LEVEL_RSM.equalsIgnoreCase(currentUser.getLevel()) ){
+                logger.info(String.format("start to get rsm self ped process, user tel is %s", currentUser.getTelephone()));
+                processData = homeService.getRSMSelfReportProcess(currentUserTel);
+                
+                List<ReportProcessData> dsmProcessDataList = new ArrayList<ReportProcessData>();
+                logger.info(String.format("start to get dsm ped process of current rsm, user tel is %s", currentUser.getTelephone()));
+                List<UserInfo> dsms = userService.getLowerUserOfCurrentUser(currentUser, null);
+                for( UserInfo user : dsms ){
+                    ReportProcessData dsmProcessData = homeService.getDSMSelfReportProcess(user.getTelephone());
+                    dsmProcessData.setName(user.getName());
+                    dsmProcessDataList.add(dsmProcessData);
+                }
+                logger.info(String.format("end to get dsm home process of current rsm, user tel is %s", currentUser.getTelephone()));
+                view.addObject(LsAttributes.DATAQUERY_PROCESS_CHILD_DATA, dsmProcessDataList);
+            }
+            view.addObject(LsAttributes.DATAQUERY_PROCESS_DATA, processData);
+            view.addObject("currentUser", currentUser);
+        }catch(Exception e){
+            logger.error("fail to get the home process data,",e);
+            view.addObject(LsAttributes.JSP_VERIFY_MESSAGE, LsAttributes.RETURNED_MESSAGE_2);
+        }
+        
+        view.setViewName("reportProcessHome");
         return view;
     }
     

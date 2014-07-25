@@ -6,6 +6,7 @@ import java.util.List;
 import com.chalet.lskpi.model.ExportDoctor;
 import com.chalet.lskpi.model.HomeData;
 import com.chalet.lskpi.model.HomeWeeklyData;
+import com.chalet.lskpi.model.ReportProcessData;
 
 public interface HomeDAO {
 
@@ -26,4 +27,9 @@ public interface HomeDAO {
     public HomeWeeklyData getHomeWeeklyDataOfSingleDSM(String dsmCode, String region, Date beginDate, Date endDate) throws Exception;
     
     public List<ExportDoctor> getAllDoctors() throws Exception;
+    
+    
+    public ReportProcessData getSalesSelfReportProcess(String telephone) throws Exception;
+    public ReportProcessData getDSMSelfReportProcess(String telephone) throws Exception;
+    public ReportProcessData getRSMSelfReportProcess(String telephone) throws Exception;
 }

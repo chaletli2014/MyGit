@@ -873,7 +873,7 @@ public class LsAttributes {
             .append(" select sum(hd.salenum) as newWhNum ")
             .append(" , sum(hd.ltenum)/sum(hd.asthmanum) as cureRate ")
             .append(" , sum(hd.lsnum) as lsnum ")
-            .append(" , sum(hd.lsnum)/sum(hd.asthmanum) as lsRate ")
+            .append(" , sum(hd.lsnum)/sum(hd.ltenum) as lsRate ")
             .append(" , sum(hd.lttnum)/sum(hd.lsnum) as reachRate ");
     
     public static final StringBuffer SQL_HOME_WEEKLY_DATA_SUB_FROM

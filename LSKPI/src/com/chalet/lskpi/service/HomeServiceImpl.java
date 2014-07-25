@@ -15,6 +15,8 @@ import com.chalet.lskpi.dao.HomeDAO;
 import com.chalet.lskpi.model.ExportDoctor;
 import com.chalet.lskpi.model.HomeData;
 import com.chalet.lskpi.model.HomeWeeklyData;
+import com.chalet.lskpi.model.ReportProcessData;
+import com.chalet.lskpi.model.ReportProcessDataDetail;
 import com.chalet.lskpi.model.UserInfo;
 import com.chalet.lskpi.utils.DateUtils;
 import com.chalet.lskpi.utils.LsAttributes;
@@ -172,4 +174,39 @@ public class HomeServiceImpl implements HomeService {
 	    return rsmHomeWeeklyData;
 	}
 
+    public ReportProcessData getSalesSelfReportProcess(String telephone) throws Exception {
+        try{
+            return homeDAO.getSalesSelfReportProcess(telephone);
+        }catch(EmptyResultDataAccessException erd){
+            logger.info("there is no record found.");
+            return new ReportProcessData();
+        } catch(Exception e){
+            logger.error(String.format("fail to get the home report process data by telephone - %s" , telephone),e);
+            return new ReportProcessData();
+        }
+    }
+
+    public ReportProcessData getDSMSelfReportProcess(String telephone) throws Exception {
+        try{
+            return homeDAO.getDSMSelfReportProcess(telephone);
+        }catch(EmptyResultDataAccessException erd){
+            logger.info(String.format("there is no record found by the telephone - %s", telephone));
+            return new ReportProcessData();
+        } catch(Exception e){
+            logger.error(String.format("fail to get the DSM report home process data by telephone - %s" , telephone),e);
+            return new ReportProcessData();
+        }
+    }
+
+    public ReportProcessData getRSMSelfReportProcess(String telephone) throws Exception {
+        try{
+            return homeDAO.getRSMSelfReportProcess(telephone);
+        }catch(EmptyResultDataAccessException erd){
+            logger.info(String.format("there is no record found by the telephone - %s", telephone));
+            return new ReportProcessData();
+        } catch(Exception e){
+            logger.error(String.format("fail to get the RSM report process data by telephone - %s" , telephone),e);
+            return new ReportProcessData();
+        }
+    }
 }
