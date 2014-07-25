@@ -46,7 +46,7 @@ public class HomeDAOImpl implements HomeDAO {
     
     public List<HomeData> getHomeDataByDate(Date beginDate, Date endDate) throws Exception {
         StringBuffer sql = new StringBuffer();
-        sql.append(" select hd.id, hd.createdate, h.region, h.rsmRegion, h.code as hospitalCode, h.name as hospitalName, d.name as drName ")
+        sql.append(" select hd.id, hd.createdate, h.region, h.rsmRegion, h.code as hospitalCode, h.name as hospitalName, d.name as drName, d.id as doctorId ")
         .append(" , hd.salenum, hd.asthmanum, hd.ltenum, hd.lsnum, hd.efnum, hd.ftnum, hd.lttnum ")
         .append(" , IFNULL((select distinct name from tbl_userinfo u where u.region = h.rsmRegion and u.userCode = h.dsmCode and u.level='DSM' ),'vacant') as dsmName ")
         .append(" , IFNULL((select distinct name from tbl_userinfo u where u.region = h.rsmRegion and u.superior = h.dsmCode and u.userCode = d.salesCode and u.level='REP' and d.salesCode is not null ),'vacant') as salesName ")
@@ -55,7 +55,7 @@ public class HomeDAOImpl implements HomeDAO {
         .append(" and d.hospitalCode = h.code ")
         .append(" and hd.createdate between ? and ? ")
         .append(" union all ")
-        .append(" select hd.id, hd.createdate, h.region, h.rsmRegion, h.code as hospitalCode, h.name as hospitalName, dh.drName ")
+        .append(" select hd.id, hd.createdate, h.region, h.rsmRegion, h.code as hospitalCode, h.name as hospitalName, dh.drName, dh.doctorId ")
         .append(" , hd.salenum, hd.asthmanum, hd.ltenum, hd.lsnum, hd.efnum, hd.ftnum, hd.lttnum ")
         .append(" , IFNULL((select distinct name from tbl_userinfo u where u.region = h.rsmRegion and u.userCode = h.dsmCode and u.level='DSM' ),'vacant') as dsmName ")
         .append(" , IFNULL((select distinct name from tbl_userinfo u where u.region = h.rsmRegion and u.superior = h.dsmCode and u.userCode = dh.salesCode and u.level='REP' and dh.salesCode is not null ),'vacant') as salesName ")
@@ -410,7 +410,7 @@ public class HomeDAOImpl implements HomeDAO {
         StringBuffer sql = new StringBuffer();
         sql.append(" select h.region, h.rsmRegion  ")
         .append(" , h.code as hospitalCode, h.name as hospitalName ")
-        .append(" , d.code as doctorCode,  d.name as doctorName ")
+        .append(" , d.code as doctorCode,  d.name as doctorName, d.id ")
         .append(" , case when h.dsmCode is null then '#N/A' else ( ")
         .append("       select u.name from tbl_userinfo u ")
         .append("       where u.region = h.rsmRegion ")

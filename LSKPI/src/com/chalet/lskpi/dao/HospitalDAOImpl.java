@@ -90,7 +90,7 @@ public class HospitalDAOImpl implements HospitalDAO {
     public void insertDoctor(final Doctor doctor) throws Exception {
         logger.info(">>HospitalDAOImpl insertDoctor");
         
-        final String sql = "insert into tbl_doctor values(null,?,LPAD(?,4,'0'),?,?,NOW(),NOW())";
+        final String sql = "insert into tbl_doctor values(null,?,LPAD(?,4,'0'),?,?,date_sub(NOW(),interval 7 day),NOW())";
         KeyHolder keyHolder = new GeneratedKeyHolder();
         dataBean.getJdbcTemplate().update(new PreparedStatementCreator(){
             @Override
@@ -109,7 +109,7 @@ public class HospitalDAOImpl implements HospitalDAO {
     
     public void insertDoctors(final List<Doctor> doctors) throws Exception {
         logger.info(">>HospitalDAOImpl insertDoctors when uploading doctor");
-        String insertSQL = "insert into tbl_doctor values(null,?,?,?,?,now(),now())";
+        String insertSQL = "insert into tbl_doctor values(null,?,?,?,?,date_sub(NOW(),interval 7 day),now())";
         dataBean.getJdbcTemplate().batchUpdate(insertSQL, new BatchPreparedStatementSetter() {
             
             @Override

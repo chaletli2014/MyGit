@@ -21,6 +21,7 @@ public class ExportDoctorRowMapper implements RowMapper<ExportDoctor> {
         dr.setHospitalName(rs.getString("hospitalName"));
         dr.setDoctorCode(rs.getString("hospitalCode")+rs.getString("doctorCode"));
         dr.setDoctorName(rs.getString("doctorName"));
+        dr.setId(rs.getInt("id"));
         return dr;
     }
 

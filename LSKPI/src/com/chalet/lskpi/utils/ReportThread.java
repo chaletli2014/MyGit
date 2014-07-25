@@ -572,12 +572,13 @@ public class ReportThread extends Thread {
                 }else{
                     logger.info("The weekly html ped report for RSD is already generated, no need to do again.");
                 }
-                
-                if( !new File(weeklyHtmlRESReportFileName).exists() ){
-                    html.runReport( basePath + "reportDesigns/weeklyRESReportForMobile.rptdesign",telephone,"","",weeklyHtmlRESReportFileName,"html",basePath+"/reportImages",contextPath+"/reportImages");
-                    logger.info("the weekly html RES report to RSD is done.");
-                }else{
-                    logger.info("The weekly html res report for RSD is already generated, no need to do again.");
+                if( 1 == Integer.parseInt(CustomizedProperty.getContextProperty("generate_res_weekly_report", "0")) ){
+                	if( !new File(weeklyHtmlRESReportFileName).exists() ){
+                		html.runReport( basePath + "reportDesigns/weeklyRESReportForMobile.rptdesign",telephone,"","",weeklyHtmlRESReportFileName,"html",basePath+"/reportImages",contextPath+"/reportImages");
+                		logger.info("the weekly html RES report to RSD is done.");
+                	}else{
+                		logger.info("The weekly html res report for RSD is already generated, no need to do again.");
+                	}
                 }
                 
                 if( !new File(weeklyHtmlCHEReportFileName).exists() ){
@@ -596,11 +597,13 @@ public class ReportThread extends Thread {
                     logger.info("The weekly html ped report for RSM is already generated, no need to do again.");
                 }
                 
-                if( !new File(weeklyHtmlRESReportFileName).exists() ){
-                    html.runReport( basePath + "reportDesigns/weeklyRESReportForMobileRSM.rptdesign",telephone,"","",weeklyHtmlRESReportFileName,"html",basePath+"/reportImages",contextPath+"/reportImages");
-                    logger.info("the weekly html RES report to RSM is done.");
-                }else{
-                    logger.info("The weekly html res report for RSM is already generated, no need to do again.");
+                if( 1 == Integer.parseInt(CustomizedProperty.getContextProperty("generate_res_weekly_report", "0")) ){
+                	if( !new File(weeklyHtmlRESReportFileName).exists() ){
+                		html.runReport( basePath + "reportDesigns/weeklyRESReportForMobileRSM.rptdesign",telephone,"","",weeklyHtmlRESReportFileName,"html",basePath+"/reportImages",contextPath+"/reportImages");
+                		logger.info("the weekly html RES report to RSM is done.");
+                	}else{
+                		logger.info("The weekly html res report for RSM is already generated, no need to do again.");
+                	}
                 }
                 
                 if( !new File(weeklyHtmlCHEReportFileName).exists() ){
@@ -618,12 +621,13 @@ public class ReportThread extends Thread {
                 }else{
                     logger.info("The weekly html ped report for DSM is already generated, no need to do again.");
                 }
-                
-                if( !new File(weeklyHtmlRESReportFileName).exists() ){
-                    html.runReport( basePath + "reportDesigns/weeklyRESReportForMobileDSM.rptdesign",telephone,"","",weeklyHtmlRESReportFileName,"html",basePath+"/reportImages",contextPath+"/reportImages");
-                    logger.info("the weekly html RES report to DSM is done.");
-                }else{
-                    logger.info("The weekly html res report for DSM is already generated, no need to do again.");
+                if( 1 == Integer.parseInt(CustomizedProperty.getContextProperty("generate_res_weekly_report", "0")) ){
+                	if( !new File(weeklyHtmlRESReportFileName).exists() ){
+                		html.runReport( basePath + "reportDesigns/weeklyRESReportForMobileDSM.rptdesign",telephone,"","",weeklyHtmlRESReportFileName,"html",basePath+"/reportImages",contextPath+"/reportImages");
+                		logger.info("the weekly html RES report to DSM is done.");
+                	}else{
+                		logger.info("The weekly html res report for DSM is already generated, no need to do again.");
+                	}
                 }
                 
                 if( !new File(weeklyHtmlCHEReportFileName).exists() ){
@@ -656,11 +660,13 @@ public class ReportThread extends Thread {
                     logger.info("The weekly html ped report for BU Head is already generated, no need to do again.");
                 }
                 
-                if( !new File(weeklyHtmlRESBUReportFileName).exists() ){
-                    html.runReport( basePath + "reportDesigns/weeklyRESReportForMobileBU.rptdesign",telephone,"","",weeklyHtmlRESBUReportFileName,"html",basePath+"/reportImages",contextPath+"/reportImages");
-                    logger.info("the weekly html RES report to BU Head is done.");
-                }else{
-                    logger.info("The weekly html res report for BU Head is already generated, no need to do again.");
+                if( 1 == Integer.parseInt(CustomizedProperty.getContextProperty("generate_res_weekly_report", "0")) ){
+                	if( !new File(weeklyHtmlRESBUReportFileName).exists() ){
+                		html.runReport( basePath + "reportDesigns/weeklyRESReportForMobileBU.rptdesign",telephone,"","",weeklyHtmlRESBUReportFileName,"html",basePath+"/reportImages",contextPath+"/reportImages");
+                		logger.info("the weekly html RES report to BU Head is done.");
+                	}else{
+                		logger.info("The weekly html res report for BU Head is already generated, no need to do again.");
+                	}
                 }
 
                 if( !new File(weeklyHtmlCHEBUReportFileName).exists() ){
@@ -695,11 +701,13 @@ public class ReportThread extends Thread {
                     logger.info("The web weekly html ped report for RSD is already generated, no need to do again.");
                 }
                 
-                if( !new File(weeklyHtmlRESReportFileName).exists() ){
-                    html.runReport( basePath + "reportDesigns/weeklyRESReportForWeb.rptdesign",telephone,"","",weeklyHtmlRESReportFileName,"html",basePath+"/reportImages",contextPath+"/reportImages");
-                    logger.info("the web weekly html RES report to RSD is done.");
-                }else{
-                    logger.info("The web weekly html res report for RSD is already generated, no need to do again.");
+                if( 1 == Integer.parseInt(CustomizedProperty.getContextProperty("generate_res_weekly_report", "0")) ){
+                	if( !new File(weeklyHtmlRESReportFileName).exists() ){
+                		html.runReport( basePath + "reportDesigns/weeklyRESReportForWeb.rptdesign",telephone,"","",weeklyHtmlRESReportFileName,"html",basePath+"/reportImages",contextPath+"/reportImages");
+                		logger.info("the web weekly html RES report to RSD is done.");
+                	}else{
+                		logger.info("The web weekly html res report for RSD is already generated, no need to do again.");
+                	}
                 }
                 
                 if( !new File(weeklyHtmlCHEReportFileName).exists() ){
@@ -718,11 +726,13 @@ public class ReportThread extends Thread {
                     logger.info("The web weekly html ped report for RSM is already generated, no need to do again.");
                 }
                 
-                if( !new File(weeklyHtmlRESReportFileName).exists() ){
-                    html.runReport( basePath + "reportDesigns/weeklyRESReportForWebRSM.rptdesign",telephone,"","",weeklyHtmlRESReportFileName,"html",basePath+"/reportImages",contextPath+"/reportImages");
-                    logger.info("the web weekly html RES report to RSM is done.");
-                }else{
-                    logger.info("The web weekly html res report for RSM is already generated, no need to do again.");
+                if( 1 == Integer.parseInt(CustomizedProperty.getContextProperty("generate_res_weekly_report", "0")) ){
+                	if( !new File(weeklyHtmlRESReportFileName).exists() ){
+                		html.runReport( basePath + "reportDesigns/weeklyRESReportForWebRSM.rptdesign",telephone,"","",weeklyHtmlRESReportFileName,"html",basePath+"/reportImages",contextPath+"/reportImages");
+                		logger.info("the web weekly html RES report to RSM is done.");
+                	}else{
+                		logger.info("The web weekly html res report for RSM is already generated, no need to do again.");
+                	}
                 }
 
                 if( !new File(weeklyHtmlCHEReportFileName).exists() ){
@@ -741,11 +751,13 @@ public class ReportThread extends Thread {
                     logger.info("The web weekly html ped report for DSM is already generated, no need to do again.");
                 }
                 
-                if( !new File(weeklyHtmlRESReportFileName).exists() ){
-                    html.runReport( basePath + "reportDesigns/weeklyRESReportForWebDSM.rptdesign",telephone,"","",weeklyHtmlRESReportFileName,"html",basePath+"/reportImages",contextPath+"/reportImages");
-                    logger.info("the web weekly html RES report to DSM is done.");
-                }else{
-                    logger.info("The web weekly html res report for DSM is already generated, no need to do again.");
+                if( 1 == Integer.parseInt(CustomizedProperty.getContextProperty("generate_res_weekly_report", "0")) ){
+                	if( !new File(weeklyHtmlRESReportFileName).exists() ){
+                		html.runReport( basePath + "reportDesigns/weeklyRESReportForWebDSM.rptdesign",telephone,"","",weeklyHtmlRESReportFileName,"html",basePath+"/reportImages",contextPath+"/reportImages");
+                		logger.info("the web weekly html RES report to DSM is done.");
+                	}else{
+                		logger.info("The web weekly html res report for DSM is already generated, no need to do again.");
+                	}
                 }
 
                 if( !new File(weeklyHtmlCHEReportFileName).exists() ){
@@ -778,11 +790,13 @@ public class ReportThread extends Thread {
                     logger.info("The web weekly html ped report for BU Head is already generated, no need to do again.");
                 }
                 
-                if( !new File(weeklyHtmlRESBUReportFileName).exists() ){
-                    html.runReport( basePath + "reportDesigns/weeklyRESReportForWebBU.rptdesign",telephone,"","",weeklyHtmlRESBUReportFileName,"html",basePath+"/reportImages",contextPath+"/reportImages");
-                    logger.info("the web weekly html RES report to BU Head is done.");
-                }else{
-                    logger.info("The web weekly html res report for BU Head is already generated, no need to do again.");
+                if( 1 == Integer.parseInt(CustomizedProperty.getContextProperty("generate_res_weekly_report", "0")) ){
+                	if( !new File(weeklyHtmlRESBUReportFileName).exists() ){
+                		html.runReport( basePath + "reportDesigns/weeklyRESReportForWebBU.rptdesign",telephone,"","",weeklyHtmlRESBUReportFileName,"html",basePath+"/reportImages",contextPath+"/reportImages");
+                		logger.info("the web weekly html RES report to BU Head is done.");
+                	}else{
+                		logger.info("The web weekly html res report for BU Head is already generated, no need to do again.");
+                	}
                 }
 
                 if( !new File(weeklyHtmlCHEBUReportFileName).exists() ){
@@ -812,11 +826,13 @@ public class ReportThread extends Thread {
                     logger.info("The lower weekly html ped report for RSM is already generated, no need to do again.");
                 }
                 
-                if( !new File(weeklyHtmlRESReportFileName).exists() ){
-                    html.runReport( basePath + "reportDesigns/weeklyRESReportForSingleRSM.rptdesign","",userCode,"",weeklyHtmlRESReportFileName,"html",basePath+"/reportImages",contextPath+"/reportImages");
-                    logger.info("the lower weekly html RES report to RSM is done.");
-                }else{
-                    logger.info("The lower weekly html res report for RSM is already generated, no need to do again.");
+                if( 1 == Integer.parseInt(CustomizedProperty.getContextProperty("generate_res_weekly_report", "0")) ){
+                	if( !new File(weeklyHtmlRESReportFileName).exists() ){
+                		html.runReport( basePath + "reportDesigns/weeklyRESReportForSingleRSM.rptdesign","",userCode,"",weeklyHtmlRESReportFileName,"html",basePath+"/reportImages",contextPath+"/reportImages");
+                		logger.info("the lower weekly html RES report to RSM is done.");
+                	}else{
+                		logger.info("The lower weekly html res report for RSM is already generated, no need to do again.");
+                	}
                 }
                 
                 if( !new File(weeklyHtmlCHEReportFileName).exists() ){
@@ -835,11 +851,13 @@ public class ReportThread extends Thread {
                     logger.info("The lower weekly html ped report for DSM is already generated, no need to do again.");
                 }
                 
-                if( !new File(weeklyHtmlRESReportFileName).exists() ){
-                    html.runReport( basePath + "reportDesigns/weeklyRESReportForSingleDSM.rptdesign","",userCode,"",weeklyHtmlRESReportFileName,"html",basePath+"/reportImages",contextPath+"/reportImages");
-                    logger.info("the lower weekly html RES report to DSM is done.");
-                }else{
-                    logger.info("The lower weekly html res report for DSM is already generated, no need to do again.");
+                if( 1 == Integer.parseInt(CustomizedProperty.getContextProperty("generate_res_weekly_report", "0")) ){
+                	if( !new File(weeklyHtmlRESReportFileName).exists() ){
+                		html.runReport( basePath + "reportDesigns/weeklyRESReportForSingleDSM.rptdesign","",userCode,"",weeklyHtmlRESReportFileName,"html",basePath+"/reportImages",contextPath+"/reportImages");
+                		logger.info("the lower weekly html RES report to DSM is done.");
+                	}else{
+                		logger.info("The lower weekly html res report for DSM is already generated, no need to do again.");
+                	}
                 }
 
                 if( !new File(weeklyHtmlCHEReportFileName).exists() ){
@@ -857,11 +875,13 @@ public class ReportThread extends Thread {
                     logger.info("The lower weekly html ped report for REP is already generated, no need to do again.");
                 }
                 
-                if( !new File(weeklyHtmlRESReportFileName).exists() ){
-                    html.runReport( basePath + "reportDesigns/weeklyRESReportForSingleREP.rptdesign","",userCode,"",weeklyHtmlRESReportFileName,"html",basePath+"/reportImages",contextPath+"/reportImages");
-                    logger.info("the lower weekly html RES report to REP is done.");
-                }else{
-                    logger.info("The lower weekly html res report for REP is already generated, no need to do again.");
+                if( 1 == Integer.parseInt(CustomizedProperty.getContextProperty("generate_res_weekly_report", "0")) ){
+                	if( !new File(weeklyHtmlRESReportFileName).exists() ){
+                		html.runReport( basePath + "reportDesigns/weeklyRESReportForSingleREP.rptdesign","",userCode,"",weeklyHtmlRESReportFileName,"html",basePath+"/reportImages",contextPath+"/reportImages");
+                		logger.info("the lower weekly html RES report to REP is done.");
+                	}else{
+                		logger.info("The lower weekly html res report for REP is already generated, no need to do again.");
+                	}
                 }
 
                 if( !new File(weeklyHtmlCHEReportFileName).exists() ){
@@ -892,11 +912,13 @@ public class ReportThread extends Thread {
                     logger.info("The Web lower weekly html ped report for RSM is already generated, no need to do again.");
                 }
                 
-                if( !new File(weeklyHtmlRESReportFileName).exists() ){
-                    html.runReport( basePath + "reportDesigns/weeklyRESReportForWebSingleRSM.rptdesign","",userCode,"",weeklyHtmlRESReportFileName,"html",basePath+"/reportImages",contextPath+"/reportImages");
-                    logger.info("the Web lower weekly html RES report to RSM is done.");
-                }else{
-                    logger.info("The Web lower weekly html res report for RSM is already generated, no need to do again.");
+                if( 1 == Integer.parseInt(CustomizedProperty.getContextProperty("generate_res_weekly_report", "0")) ){
+                	if( !new File(weeklyHtmlRESReportFileName).exists() ){
+                		html.runReport( basePath + "reportDesigns/weeklyRESReportForWebSingleRSM.rptdesign","",userCode,"",weeklyHtmlRESReportFileName,"html",basePath+"/reportImages",contextPath+"/reportImages");
+                		logger.info("the Web lower weekly html RES report to RSM is done.");
+                	}else{
+                		logger.info("The Web lower weekly html res report for RSM is already generated, no need to do again.");
+                	}
                 }
                 
                 if( !new File(weeklyHtmlCHEReportFileName).exists() ){
@@ -915,11 +937,13 @@ public class ReportThread extends Thread {
                     logger.info("The Web lower weekly html ped report for DSM is already generated, no need to do again.");
                 }
                 
-                if( !new File(weeklyHtmlRESReportFileName).exists() ){
-                    html.runReport( basePath + "reportDesigns/weeklyRESReportForWebSingleDSM.rptdesign","",userCode,"",weeklyHtmlRESReportFileName,"html",basePath+"/reportImages",contextPath+"/reportImages");
-                    logger.info("the Web lower weekly html RES report to DSM is done.");
-                }else{
-                    logger.info("The Web lower weekly html res report for DSM is already generated, no need to do again.");
+                if( 1 == Integer.parseInt(CustomizedProperty.getContextProperty("generate_res_weekly_report", "0")) ){
+                	if( !new File(weeklyHtmlRESReportFileName).exists() ){
+                		html.runReport( basePath + "reportDesigns/weeklyRESReportForWebSingleDSM.rptdesign","",userCode,"",weeklyHtmlRESReportFileName,"html",basePath+"/reportImages",contextPath+"/reportImages");
+                		logger.info("the Web lower weekly html RES report to DSM is done.");
+                	}else{
+                		logger.info("The Web lower weekly html res report for DSM is already generated, no need to do again.");
+                	}
                 }
 
                 if( !new File(weeklyHtmlCHEReportFileName).exists() ){
@@ -937,11 +961,13 @@ public class ReportThread extends Thread {
                     logger.info("The Web lower weekly html ped report for REP is already generated, no need to do again.");
                 }
                 
-                if( !new File(weeklyHtmlRESReportFileName).exists() ){
-                    html.runReport( basePath + "reportDesigns/weeklyRESReportForWebSingleREP.rptdesign","",userCode,"",weeklyHtmlRESReportFileName,"html",basePath+"/reportImages",contextPath+"/reportImages");
-                    logger.info("the Web lower weekly html RES report to REP is done.");
-                }else{
-                    logger.info("The Web lower weekly html res report for REP is already generated, no need to do again.");
+                if( 1 == Integer.parseInt(CustomizedProperty.getContextProperty("generate_res_weekly_report", "0")) ){
+                	if( !new File(weeklyHtmlRESReportFileName).exists() ){
+                		html.runReport( basePath + "reportDesigns/weeklyRESReportForWebSingleREP.rptdesign","",userCode,"",weeklyHtmlRESReportFileName,"html",basePath+"/reportImages",contextPath+"/reportImages");
+                		logger.info("the Web lower weekly html RES report to REP is done.");
+                	}else{
+                		logger.info("The Web lower weekly html res report for REP is already generated, no need to do again.");
+                	}
                 }
 
                 if( !new File(weeklyHtmlCHEReportFileName).exists() ){

@@ -11,6 +11,7 @@ public class ExportDoctor {
     private String hospitalCode;
     private String doctorName;
     private String doctorCode;
+    private int id;
     
     public String getRegion() {
         return region;
@@ -66,4 +67,10 @@ public class ExportDoctor {
     public void setDoctorCode(String doctorCode) {
         this.doctorCode = doctorCode;
     }
+	public int getId() {
+		return id;
+	}
+	public void setId(int id) {
+		this.id = id;
+	}
 }

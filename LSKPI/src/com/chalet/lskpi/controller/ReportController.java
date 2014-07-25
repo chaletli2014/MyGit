@@ -527,22 +527,23 @@ public class ReportController extends BaseController{
                 row.createCell(5, XSSFCell.CELL_TYPE_STRING).setCellValue("医生信息");
                 row.createCell(6, XSSFCell.CELL_TYPE_STRING).setCellValue("");
                 row.createCell(7, XSSFCell.CELL_TYPE_STRING).setCellValue("");
-                sheet.addMergedRegion(new Region(0, (short)5, 0, (short)7));
+                row.createCell(8, XSSFCell.CELL_TYPE_STRING).setCellValue("");
+                sheet.addMergedRegion(new Region(0, (short)5, 0, (short)8));
                 row.getCell(5).setCellStyle(topStyle);
                 
-                row.createCell(8, XSSFCell.CELL_TYPE_STRING).setCellValue("");
+                row.createCell(9, XSSFCell.CELL_TYPE_STRING).setCellValue("");
                 
-                row.createCell(9, XSSFCell.CELL_TYPE_STRING).setCellValue("持续期治疗");
-                row.createCell(10, XSSFCell.CELL_TYPE_STRING).setCellValue("");
+                row.createCell(10, XSSFCell.CELL_TYPE_STRING).setCellValue("持续期治疗");
                 row.createCell(11, XSSFCell.CELL_TYPE_STRING).setCellValue("");
-                sheet.addMergedRegion(new Region(0, (short)9, 0, (short)11));
-                row.getCell(9).setCellStyle(topStyle);
+                row.createCell(12, XSSFCell.CELL_TYPE_STRING).setCellValue("");
+                sheet.addMergedRegion(new Region(0, (short)10, 0, (short)12));
+                row.getCell(10).setCellStyle(topStyle);
                 
-                row.createCell(12, XSSFCell.CELL_TYPE_STRING).setCellValue("持续期令舒治疗天数（DOT)");
-                row.createCell(13, XSSFCell.CELL_TYPE_STRING).setCellValue("");
+                row.createCell(13, XSSFCell.CELL_TYPE_STRING).setCellValue("持续期令舒治疗天数（DOT)");
                 row.createCell(14, XSSFCell.CELL_TYPE_STRING).setCellValue("");
-                sheet.addMergedRegion(new Region(0, (short)12, 0, (short)14));
-                row.getCell(12).setCellStyle(topStyle);
+                row.createCell(15, XSSFCell.CELL_TYPE_STRING).setCellValue("");
+                sheet.addMergedRegion(new Region(0, (short)13, 0, (short)15));
+                row.getCell(13).setCellStyle(topStyle);
                 
                 row = sheet.createRow(currentRowNum++);
                 
@@ -578,31 +579,35 @@ public class ReportController extends BaseController{
                 drNameCell.setCellValue("目标医生");
                 drNameCell.setCellStyle(top2Style);
                 
-                HSSFCell saleNumCell = row.createCell(8, XSSFCell.CELL_TYPE_STRING);
+                HSSFCell drIdCell = row.createCell(8, XSSFCell.CELL_TYPE_STRING);
+                drIdCell.setCellValue("目标医生ID");
+                drIdCell.setCellStyle(top2Style);
+                
+                HSSFCell saleNumCell = row.createCell(9, XSSFCell.CELL_TYPE_STRING);
                 saleNumCell.setCellValue("卖/赠泵数量");
                 saleNumCell.setCellStyle(top2Style);
                 
-                HSSFCell num1Cell = row.createCell(9, XSSFCell.CELL_TYPE_STRING);
+                HSSFCell num1Cell = row.createCell(10, XSSFCell.CELL_TYPE_STRING);
                 num1Cell.setCellValue("哮喘*患者人次");
                 num1Cell.setCellStyle(top2Style);
                 
-                HSSFCell num2Cell = row.createCell(10, XSSFCell.CELL_TYPE_STRING);
+                HSSFCell num2Cell = row.createCell(11, XSSFCell.CELL_TYPE_STRING);
                 num2Cell.setCellValue("处方>=8天的哮喘持续期病人次");
                 num2Cell.setCellStyle(top2Style);
                 
-                HSSFCell num3Cell = row.createCell(11, XSSFCell.CELL_TYPE_STRING);
+                HSSFCell num3Cell = row.createCell(12, XSSFCell.CELL_TYPE_STRING);
                 num3Cell.setCellValue("持续期病人中推荐使用令舒的人次");
                 num3Cell.setCellStyle(top2Style);
                 
-                HSSFCell num4Cell = row.createCell(12, XSSFCell.CELL_TYPE_STRING);
+                HSSFCell num4Cell = row.createCell(13, XSSFCell.CELL_TYPE_STRING);
                 num4Cell.setCellValue("8<=DOT<15天，病人次");
                 num4Cell.setCellStyle(top2Style);
                 
-                HSSFCell num5Cell = row.createCell(13, XSSFCell.CELL_TYPE_STRING);
+                HSSFCell num5Cell = row.createCell(14, XSSFCell.CELL_TYPE_STRING);
                 num5Cell.setCellValue("15<=DOT<30天，病人次");
                 num5Cell.setCellStyle(top2Style);
                 
-                HSSFCell num6Cell = row.createCell(14, XSSFCell.CELL_TYPE_STRING);
+                HSSFCell num6Cell = row.createCell(15, XSSFCell.CELL_TYPE_STRING);
                 num6Cell.setCellValue("DOT>=30天,病人次");
                 num6Cell.setCellStyle(top2Style);
                 
@@ -626,6 +631,7 @@ public class ReportController extends BaseController{
                 sheet.setColumnWidth(12, numColumnWidth*256);
                 sheet.setColumnWidth(13, numColumnWidth*256);
                 sheet.setColumnWidth(14, numColumnWidth*256);
+                sheet.setColumnWidth(15, numColumnWidth*256);
                 
                 HSSFCellStyle numberCellStyle = workbook.createCellStyle();
                 numberCellStyle.setDataFormat(HSSFDataFormat.getBuiltinFormat("#,##0"));
@@ -640,32 +646,33 @@ public class ReportController extends BaseController{
                     row.createCell(5, XSSFCell.CELL_TYPE_STRING).setCellValue(homeData.getHospitalCode());
                     row.createCell(6, XSSFCell.CELL_TYPE_STRING).setCellValue(homeData.getHospitalName());
                     row.createCell(7, XSSFCell.CELL_TYPE_STRING).setCellValue(homeData.getDrName());
+                    row.createCell(8, XSSFCell.CELL_TYPE_STRING).setCellValue(homeData.getDoctorId());
                     
-                    HSSFCell value1Cell = row.createCell(8, XSSFCell.CELL_TYPE_NUMERIC);
+                    HSSFCell value1Cell = row.createCell(9, XSSFCell.CELL_TYPE_NUMERIC);
                     value1Cell.setCellValue(homeData.getSalenum());
                     value1Cell.setCellStyle(numberCellStyle);
                     
-                    HSSFCell value2Cell = row.createCell(9, XSSFCell.CELL_TYPE_NUMERIC);
+                    HSSFCell value2Cell = row.createCell(10, XSSFCell.CELL_TYPE_NUMERIC);
                     value2Cell.setCellValue(homeData.getAsthmanum());
                     value2Cell.setCellStyle(numberCellStyle);
                     
-                    HSSFCell value3Cell = row.createCell(10, XSSFCell.CELL_TYPE_NUMERIC);
+                    HSSFCell value3Cell = row.createCell(11, XSSFCell.CELL_TYPE_NUMERIC);
                     value3Cell.setCellValue(homeData.getLtenum());
                     value3Cell.setCellStyle(numberCellStyle);
                     
-                    HSSFCell value4Cell = row.createCell(11, XSSFCell.CELL_TYPE_NUMERIC);
+                    HSSFCell value4Cell = row.createCell(12, XSSFCell.CELL_TYPE_NUMERIC);
                     value4Cell.setCellValue(homeData.getLsnum());
                     value4Cell.setCellStyle(numberCellStyle);
                     
-                    HSSFCell value5Cell = row.createCell(12, XSSFCell.CELL_TYPE_NUMERIC);
+                    HSSFCell value5Cell = row.createCell(13, XSSFCell.CELL_TYPE_NUMERIC);
                     value5Cell.setCellValue(homeData.getEfnum());
                     value5Cell.setCellStyle(numberCellStyle);
                     
-                    HSSFCell value6Cell = row.createCell(13, XSSFCell.CELL_TYPE_NUMERIC);
+                    HSSFCell value6Cell = row.createCell(14, XSSFCell.CELL_TYPE_NUMERIC);
                     value6Cell.setCellValue(homeData.getFtnum());
                     value6Cell.setCellStyle(numberCellStyle);
                     
-                    HSSFCell value7Cell = row.createCell(14, XSSFCell.CELL_TYPE_NUMERIC);
+                    HSSFCell value7Cell = row.createCell(15, XSSFCell.CELL_TYPE_NUMERIC);
                     value7Cell.setCellValue(homeData.getLttnum());
                     value7Cell.setCellStyle(numberCellStyle);
                 }
@@ -980,11 +987,13 @@ public class ReportController extends BaseController{
             row.createCell(5, XSSFCell.CELL_TYPE_STRING).setCellValue("目标医院Code");
             row.createCell(6, XSSFCell.CELL_TYPE_STRING).setCellValue("目标医院名称");
             row.createCell(7, XSSFCell.CELL_TYPE_STRING).setCellValue("目标医生Code");
-            row.createCell(8, XSSFCell.CELL_TYPE_STRING).setCellValue("目标医生");
+            row.createCell(8, XSSFCell.CELL_TYPE_STRING).setCellValue("目标医生ID");
+            row.createCell(9, XSSFCell.CELL_TYPE_STRING).setCellValue("目标医生");
             row.getCell(5).setCellStyle(top2Style);
             row.getCell(6).setCellStyle(top2Style);
             row.getCell(7).setCellStyle(top2Style);
             row.getCell(8).setCellStyle(top2Style);
+            row.getCell(9).setCellStyle(top2Style);
             
             int userColumnWidth = 12;
             
@@ -997,6 +1006,7 @@ public class ReportController extends BaseController{
             sheet.setColumnWidth(6, 26*256);//hospital name
             sheet.setColumnWidth(7, 18*256);//doctor code
             sheet.setColumnWidth(8, userColumnWidth*256);
+            sheet.setColumnWidth(9, userColumnWidth*256);
             
             for( ExportDoctor doctor : doctorList ){
                 row = sheet.createRow(currentRowNum++);
@@ -1008,7 +1018,8 @@ public class ReportController extends BaseController{
                 row.createCell(5, XSSFCell.CELL_TYPE_STRING).setCellValue(doctor.getHospitalCode());
                 row.createCell(6, XSSFCell.CELL_TYPE_STRING).setCellValue(doctor.getHospitalName());
                 row.createCell(7, XSSFCell.CELL_TYPE_STRING).setCellValue(doctor.getDoctorCode());
-                row.createCell(8, XSSFCell.CELL_TYPE_STRING).setCellValue(doctor.getDoctorName());
+                row.createCell(8, XSSFCell.CELL_TYPE_STRING).setCellValue(doctor.getId());
+                row.createCell(9, XSSFCell.CELL_TYPE_STRING).setCellValue(doctor.getDoctorName());
             }
             
             workbook.write(fOut);

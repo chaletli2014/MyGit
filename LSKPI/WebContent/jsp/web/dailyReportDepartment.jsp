@@ -19,9 +19,11 @@ function showDailyReportPage(pageURL){
         	<jsp:param name="basePath" value="<%=basePath%>"/>
         </jsp:include>
         <div data-role="content" data-theme="a">
+        <%--
         	<div data-role="fieldcontain" class="department_img_div">
 	            <img alt="" src="<%=basePath%>images/img_bg_res_daily_w.png" onclick="showDailyReportPage('<%=basePath%>resdailyreport')" style="cursor: pointer;">
         	</div>
+         --%>
         	<div data-role="fieldcontain" class="department_img_div">
 	            <img alt="" src="<%=basePath%>images/img_bg_ped_daily_w.png" onclick="showDailyReportPage('<%=basePath%>peddailyreport')" style="cursor: pointer;">
         	</div>

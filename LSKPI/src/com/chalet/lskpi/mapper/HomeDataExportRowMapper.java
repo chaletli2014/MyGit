@@ -20,6 +20,7 @@ public class HomeDataExportRowMapper implements RowMapper<HomeData> {
         homeData.setHospitalCode(rs.getString("hospitalCode"));
         homeData.setHospitalName(rs.getString("hospitalName"));
         homeData.setDrName(rs.getString("drName"));
+        homeData.setDoctorId(rs.getInt("doctorId"));
         homeData.setSalenum(rs.getInt("salenum"));
         homeData.setAsthmanum(rs.getInt("asthmanum"));
         homeData.setLtenum(rs.getInt("ltenum"));
