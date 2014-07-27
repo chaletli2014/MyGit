@@ -389,4 +389,18 @@ public class HospitalServiceImpl implements HospitalService {
             return null;
         }
 	}
+	
+	public boolean hasLastWeeklyData() throws Exception {
+        int count = hospitalDAO.getLastWeeklyData();
+        logger.info("the last week hospital data size is " + count);
+        return count>0;
+    }
+	
+	public void generateWeeklyDataOfHospital() throws Exception {
+		hospitalDAO.generateWeeklyDataOfHospital();
+    }
+    
+    public void generateWeeklyDataOfHospital(Date refreshDate) throws Exception {
+    	hospitalDAO.generateWeeklyDataOfHospital(refreshDate);
+    }
 }

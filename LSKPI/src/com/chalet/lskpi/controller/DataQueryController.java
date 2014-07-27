@@ -1084,9 +1084,11 @@ public class DataQueryController extends BaseController{
             
             WeeklyRatioData pedWeeklyRatioData = pediatricsService.getHospitalWeeklyPEDData4Mobile(hospitalCode);
             WeeklyRatioData resWeeklyRatioData = respirologyService.getHospitalWeeklyRESData4Mobile(hospitalCode);
+            WeeklyRatioData cheWeeklyRatioData = chestSurgeryService.getHospitalWeeklyData4Mobile(hospitalCode);
             
             view.addObject("pedRatioData", pedWeeklyRatioData);
             view.addObject("resRatioData", resWeeklyRatioData);
+            view.addObject("cheRatioData", cheWeeklyRatioData);
             view.addObject("hospitalKeyword", hospitalKeyword);
             view.addObject("selectedHospitalName", hospitalService.getHospitalByCode(hospitalCode).getName());
             

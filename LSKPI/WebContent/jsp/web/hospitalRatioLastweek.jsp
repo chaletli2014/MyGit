@@ -111,6 +111,54 @@
 				   </tr>
 	            </table>
             </div>
+            <div class="roundCorner" style="padding:4px;">
+                <div class="dailyReport_table_Title">胸外科数据环比</div>
+	            <table class="mobileReport_table">
+	               <tr class="mobileReport_table_header">
+                       <td width="20%">上报率</td>
+                       <td width="20%">雾化率</td>
+                       <td width="20%">平均剂量</td>
+                       <td width="20%">住院人数</td>
+                       <td width="20%">雾化人数</td>
+	               </tr>
+	               <tr class="mobileReport_table_body">
+	                   <td class="report_data_number"><fmt:formatNumber type="percent" value="${cheRatioData.inRate}" pattern="#0%"/></td>
+	                   <td class="report_data_number"><fmt:formatNumber type="percent" value="${cheRatioData.whRate}" pattern="#0%"/></td>
+	                   <td class="report_data_number"><fmt:formatNumber type="percent" value="${cheRatioData.averageDose}" pattern="#0.00"/></td>
+	                   <td class="report_data_number">${cheRatioData.pnum}</td>
+	                   <td class="report_data_number">${cheRatioData.lsnum}</td>
+	               </tr>
+	               <tr class="mobileReport_table_body">
+	               		<td class="<c:if test="${cheRatioData.inRateRatio>0}">ratio_up</c:if><c:if test="${cheRatioData.inRateRatio<0}">ratio_down</c:if>" rowspan="2">
+	               			<span class="narrow_font">
+		               			<c:if test="${cheRatioData.inRateRatio>0}">+</c:if>
+		               			<c:if test="${cheRatioData.inRateRatio<0}">-</c:if>
+	               			</span>
+	               			<fmt:formatNumber type="percent" value="${cheRatioData.inRateRatio<0?-cheRatioData.inRateRatio:cheRatioData.inRateRatio}" pattern="#0%"/>
+	               		</td>
+				    	<td class="<c:if test="${cheRatioData.whRateRatio>0}">ratio_up</c:if><c:if test="${cheRatioData.whRateRatio<0}">ratio_down</c:if>" rowspan="2">
+				    		<span class="narrow_font">
+					    		<c:if test="${cheRatioData.whRateRatio>0}">+</c:if>
+		               			<c:if test="${cheRatioData.whRateRatio<0}">-</c:if>
+	               			</span>
+				    		<fmt:formatNumber type="percent" value="${cheRatioData.whRateRatio<0?-cheRatioData.whRateRatio:cheRatioData.whRateRatio}" pattern="#0%"/>
+				    	</td>
+				    	<td class="<c:if test="${cheRatioData.averageDoseRatio>0}">ratio_up</c:if><c:if test="${cheRatioData.averageDoseRatio<0}">ratio_down</c:if>" rowspan="2">
+				    		<span class="narrow_font">
+					    		<c:if test="${cheRatioData.averageDoseRatio>0}">+</c:if>
+		               			<c:if test="${cheRatioData.averageDoseRatio<0}">-</c:if>
+	               			</span>
+				    		<fmt:formatNumber type="percent" value="${cheRatioData.averageDoseRatio<0?-cheRatioData.averageDoseRatio:cheRatioData.averageDoseRatio}" pattern="#0%"/>
+				    	</td>
+				   		<td class="<c:if test="${cheRatioData.patNumRatio>0}">ratio_up_noimg</c:if><c:if test="${cheRatioData.patNumRatio<0}">ratio_down_noimg</c:if>">
+				   			<fmt:formatNumber type="percent" value="${cheRatioData.patNumRatio<0?-cheRatioData.patNumRatio:cheRatioData.patNumRatio}" pattern="#0%"/>
+				   		</td>
+				   		<td class="<c:if test="${cheRatioData.lsNumRatio>0}">ratio_up_noimg</c:if><c:if test="${cheRatioData.lsNumRatio<0}">ratio_down_noimg</c:if>">
+				   			<fmt:formatNumber type="percent" value="${cheRatioData.lsNumRatio<0?-cheRatioData.lsNumRatio:cheRatioData.lsNumRatio}" pattern="#0%"/>
+				   		</td>
+				   </tr>
+	            </table>
+            </div>
         </div>
         <iframe src="${hospitalReportFile}" id="iframepage" scrolling="no" width="100%" onload="javascript:dyniframesize('iframepage');"></iframe>
         <jsp:include page="page_footer.jsp">

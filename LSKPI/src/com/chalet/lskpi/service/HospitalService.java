@@ -74,4 +74,8 @@ public interface HospitalService {
 	public void deleteDoctor(Doctor doctor) throws Exception;
 	public void updateDoctorRelationship(int doctorId, String salesCode) throws Exception;
 	public Doctor getDoctorById(int doctorId) throws Exception;
+	
+	public boolean hasLastWeeklyData() throws Exception;
+	public void generateWeeklyDataOfHospital() throws Exception;
+	public void generateWeeklyDataOfHospital(Date refreshDate) throws Exception;
 }

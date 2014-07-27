@@ -19,7 +19,6 @@ import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Repository;
 
-import com.chalet.lskpi.mapper.DoctorRowMapper;
 import com.chalet.lskpi.mapper.HospitalRowMapper;
 import com.chalet.lskpi.mapper.HospitalSalesQueryRowMapper;
 import com.chalet.lskpi.mapper.Monthly12DataRowMapper;
@@ -28,7 +27,6 @@ import com.chalet.lskpi.mapper.MonthlyDataRowMapper;
 import com.chalet.lskpi.mapper.MonthlyInRateDataRowMapper;
 import com.chalet.lskpi.mapper.MonthlyRatioDataRowMapper;
 import com.chalet.lskpi.mapper.UserInfoRowMapper;
-import com.chalet.lskpi.model.Doctor;
 import com.chalet.lskpi.model.Hospital;
 import com.chalet.lskpi.model.HospitalSalesQueryObj;
 import com.chalet.lskpi.model.HospitalSalesQueryParam;
@@ -38,6 +36,7 @@ import com.chalet.lskpi.model.MonthlyInRateData;
 import com.chalet.lskpi.model.MonthlyRatioData;
 import com.chalet.lskpi.model.UserInfo;
 import com.chalet.lskpi.utils.DataBean;
+import com.chalet.lskpi.utils.DateUtils;
 import com.chalet.lskpi.utils.LsAttributes;
 
 /**
@@ -499,7 +498,7 @@ public class HospitalDAOImpl implements HospitalDAO {
             .append(LsAttributes.SQL_WEEKLY_HOS_SALES_DATA_LAST2WEEK_SELECT_RES)
             .append(") last2weekdata ")
             .append(" where lastweekdata.hospitalCode = last2weekdata.hospitalCode ");
-	    }else{
+	    }else if( "2".equalsIgnoreCase(queryParam.getDepartment()) ){
 	        hosSalesSQL.append(LsAttributes.SQL_WEEKLY_HOS_SALES_DATA)
 	        .append(" from ( ")
 	        .append("   select hospitalCode, ( select name from tbl_hospital where code = hospitalCode ) as hospitalName, ")
@@ -508,6 +507,17 @@ public class HospitalDAOImpl implements HospitalDAO {
 	        .append("( ")
 	        .append("   select hospitalCode, ")
 	        .append(LsAttributes.SQL_WEEKLY_HOS_SALES_DATA_LAST2WEEK_SELECT_PED)
+	        .append(") last2weekdata ")
+	        .append("where lastweekdata.hospitalCode = last2weekdata.hospitalCode ");
+	    }else if( "3".equalsIgnoreCase(queryParam.getDepartment()) ){
+	        hosSalesSQL.append(LsAttributes.SQL_WEEKLY_HOS_SALES_DATA)
+	        .append(" from ( ")
+	        .append("   select hospitalCode, ( select name from tbl_hospital where code = hospitalCode ) as hospitalName, ")
+	        .append(LsAttributes.SQL_WEEKLY_HOS_SALES_DATA_LASTWEEK_SELECT_CHE)
+	        .append(") lastweekdata, ")
+	        .append("( ")
+	        .append("   select hospitalCode, ")
+	        .append(LsAttributes.SQL_WEEKLY_HOS_SALES_DATA_LAST2WEEK_SELECT_CHE)
 	        .append(") last2weekdata ")
 	        .append("where lastweekdata.hospitalCode = last2weekdata.hospitalCode ");
 	    }
@@ -616,6 +626,45 @@ public class HospitalDAOImpl implements HospitalDAO {
     public void delete() throws Exception {
         dataBean.getJdbcTemplate().update("delete from tbl_hospital");
     }
+    
+	public int getLastWeeklyData() throws Exception {
+        Timestamp lastThursDay = new Timestamp(DateUtils.getGenerateWeeklyReportDate().getTime());
+        StringBuffer sb = new StringBuffer();
+        sb.append(" select count(1) from tbl_hospital_data_weekly where duration = CONCAT(DATE_FORMAT(DATE_SUB(?, Interval 6 day),'%Y.%m.%d'), '-',DATE_FORMAT(?,'%Y.%m.%d'))");
+        return dataBean.getJdbcTemplate().queryForInt(sb.toString(), lastThursDay,lastThursDay);
+    }
+    
+    @Override
+    public void generateWeeklyDataOfHospital() throws Exception {
+        Date lastweekDay = DateUtils.getGenerateWeeklyReportDate();
+        this.generateWeeklyDataOfHospital(lastweekDay);
+    }
+    
+    @Override
+    public int removeOldWeeklyHosData(String duration) throws Exception{
+        String sql = "delete from tbl_hospital_data_weekly where duration=?";
+        return dataBean.getJdbcTemplate().update(sql, new Object[] { duration });
+    }
+	
+	@Override
+	public void generateWeeklyDataOfHospital(Date refreshDate) throws Exception {
+	    Timestamp lastweekDay = new Timestamp(refreshDate.getTime());
+        StringBuffer sb = new StringBuffer();
+        
+        sb.append("insert into tbl_hosptial_data_weekly(id,duration,hospitalCode,pedPNum,pedLsNum,pedAverageDose,updatedate) ")
+            .append(" select ")
+            .append(" null,")
+            .append(" CONCAT(DATE_FORMAT(DATE_SUB(?, Interval 6 day),'%Y.%m.%d'), '-',DATE_FORMAT(?,'%Y.%m.%d')) as duration, ")
+            .append(" h.code, ")
+            .append(" pdw.pnum, ")
+            .append(" pdw.lsnum, ")
+            .append(" pdw.averageDose, ")
+            .append(" now()  ")
+            .append(" from tbl_pediatrics_data_weekly pdw ")
+            .append(" where pdw.duration = CONCAT(DATE_FORMAT(DATE_SUB(?, Interval 6 day),'%Y.%m.%d'), '-',DATE_FORMAT(?,'%Y.%m.%d')) ");
+        int result = dataBean.getJdbcTemplate().update(sb.toString(), new Object[]{lastweekDay,lastweekDay,lastweekDay,lastweekDay});
+        logger.info(String.format("finish to generate the hospital weekly data of ped, the result is %s", result));
+	}
 	
 	public DataBean getDataBean() {
 		return dataBean;

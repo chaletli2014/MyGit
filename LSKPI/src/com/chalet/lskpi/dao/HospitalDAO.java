@@ -3,7 +3,6 @@ package com.chalet.lskpi.dao;
 import java.util.Date;
 import java.util.List;
 
-import com.chalet.lskpi.model.Doctor;
 import com.chalet.lskpi.model.Hospital;
 import com.chalet.lskpi.model.HospitalSalesQueryObj;
 import com.chalet.lskpi.model.HospitalSalesQueryParam;
@@ -78,4 +77,9 @@ public interface HospitalDAO {
     
     public List<Hospital> getHospitalsOfHomeCollectionByPSRTel(String telephone) throws Exception;
     public List<Hospital> getHospitalsOfHomeCollectionByDSMTel(String telephone) throws Exception;
+    
+    public int removeOldWeeklyHosData(String duration) throws Exception;
+	public void generateWeeklyDataOfHospital() throws Exception;
+	public void generateWeeklyDataOfHospital(Date refreshDate) throws Exception;
+	public int getLastWeeklyData() throws Exception;
 }

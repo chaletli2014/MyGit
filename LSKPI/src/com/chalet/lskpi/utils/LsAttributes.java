@@ -770,6 +770,20 @@ public class LsAttributes {
             .append("   IFNULL(last2week.averageDose,0) as averageDose ")
             .append("   from ( select * from tbl_respirology_data_weekly order by duration desc limit ").append(ASSESSED_HOS_NUM_RES).append(",").append(ASSESSED_HOS_NUM_RES).append(") last2week ");
     
+    public static final StringBuffer SQL_WEEKLY_HOS_SALES_DATA_LASTWEEK_SELECT_CHE 
+    = new StringBuffer("    IFNULL(lastweek.pnum,0) as pnum, ")
+    .append("   IFNULL(lastweek.lsnum,0) as lsnum, ")
+    .append("   ROUND(IFNULL(lastweek.lsnum,0) / IFNULL(lastweek.pnum,0),2) as whRate, ")
+    .append("   IFNULL(lastweek.averageDose,0) as averageDose ")
+    .append("   from ( select * from tbl_chestSurgery_data_weekly order by duration desc limit 0,").append(ASSESSED_HOS_NUM_CHE).append(" ) lastweek ");
+    
+    public static final StringBuffer SQL_WEEKLY_HOS_SALES_DATA_LAST2WEEK_SELECT_CHE 
+    = new StringBuffer("    IFNULL(last2week.pnum,0) as pnum, ")
+    .append("   IFNULL(last2week.lsnum,0) as lsnum, ")
+    .append("   ROUND(IFNULL(last2week.lsnum,0) / IFNULL(last2week.pnum,0),2) as whRate, ")
+    .append("   IFNULL(last2week.averageDose,0) as averageDose ")
+    .append("   from ( select * from tbl_chestSurgery_data_weekly order by duration desc limit ").append(ASSESSED_HOS_NUM_CHE).append(",").append(ASSESSED_HOS_NUM_CHE).append(") last2week ");
+    
     public static final StringBuffer SQL_DAILYREPORT_SELECTION_PED
         = new StringBuffer("")
             .append(" count(1) as inNum, ")

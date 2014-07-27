@@ -64,8 +64,9 @@ function downloadHosSalesData(orderParam,orderType,order,department){
 	            <div data-role="fieldcontain">
 	               <label for="department" class="select">科室：</label>
 	                <select name="department" id="department">
-	                   <option value="1" <c:if test="${department=='1'}">selected</c:if>>呼吸科</option>
-	                      <option value="2" <c:if test="${department=='2'}">selected</c:if>>儿科</option>
+	                   	<option value="1" <c:if test="${department=='1'}">selected</c:if>>呼吸科</option>
+                    	<option value="2" <c:if test="${department=='2'}">selected</c:if>>儿科</option>
+	                    <option value="3" <c:if test="${department=='3'}">selected</c:if>>胸外科</option>
 	                </select>
 	            </div>
 	            <div data-role="fieldcontain" align="center">
