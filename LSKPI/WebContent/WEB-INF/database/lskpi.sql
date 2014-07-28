@@ -355,6 +355,7 @@ create table tbl_hospital_data_weekly(
     id              int NOT NULL primary key auto_increment,
     duration        varchar(30),
     hospitalCode    varchar(20),
+    updatedate      datetime,
     pedPNum         DECIMAL(11,6) default 0,
     pedLsNum        DECIMAL(11,6) default 0,
     pedAverageDose  DECIMAL(11,6) default 0,
@@ -363,7 +364,22 @@ create table tbl_hospital_data_weekly(
     resAverageDose  DECIMAL(11,6) default 0,
     chePNum         DECIMAL(11,6) default 0,
     cheLsNum        DECIMAL(11,6) default 0,
-    cheAverageDose  DECIMAL(11,6) default 0,
-    updatedate      datetime
+    cheAverageDose  DECIMAL(11,6) default 0
 );
 ALTER TABLE tbl_hospital_data_weekly ADD INDEX INDEX_HOSPITAL_WEEKLY_CODE(hospitalCode);
+
+/*
+ * 1.每周一凌晨0点开始备份上上周的医生中间表，统计有哪些医生
+ * 2.在用户通过界面关联医生销售时，本中间表要同步更新销售ID
+ * 
+ * */
+drop table tbl_doctor_weekly;
+create table tbl_doctor_weekly(
+    id              int NOT NULL primary key auto_increment,
+    duration        varchar(30),
+    doctorId        int,
+    doctorName      varchar(255),
+    salesCode       varchar(20),
+    hospitalCode    varchar(20),
+    doctorCreateDT  datetime
+);
