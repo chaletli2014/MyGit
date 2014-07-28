@@ -41,11 +41,31 @@ order by telephone;
 
 select * from tbl_userinfo where userCode in (
     select distinct userCode from tbl_userinfo 
-    where userCode != '#N/A'
+    where userCode != '#N/A' 
+    and userCode != '2000003' 
+    and userCode != '2000002'
     group by userCode
     having count(1)>1
 ) 
 and level in ('REP','DSM','RSM','RSD') 
+order by regionCenter, region, superior, userCode;
+
+select * from tbl_userinfo where superior in (
+    select distinct superior from tbl_userinfo 
+    where userCode = '2000003'
+    group by region, superior
+    having count(1)>1
+) 
+and userCode = '2000003'
+order by regionCenter, region, superior, userCode;
+
+select * from tbl_userinfo where region in (
+    select distinct userCode from tbl_userinfo 
+    where userCode = '2000002'
+    group by region 
+    having count(1)>1
+) 
+and userCode = '2000002' 
 order by regionCenter, region, superior, userCode;
 
 select * from tbl_respirology_data 
