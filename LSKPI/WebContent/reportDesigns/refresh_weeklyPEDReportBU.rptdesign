@@ -588,7 +588,7 @@ emerging.emergingNum,
             <xml-property name="queryText"><![CDATA[select *
 from tbl_ddi_data 
 order by id desc 
-limit 0,72 ]]></xml-property>
+limit 0,84 ]]></xml-property>
             <xml-property name="designerValues"><![CDATA[<?xml version="1.0" encoding="UTF-8"?>
 <model:DesignValues xmlns:design="http://www.eclipse.org/datatools/connectivity/oda/design" xmlns:model="http://www.eclipse.org/birt/report/model/adapter/odaModel">
   <Version>2.0</Version>
@@ -1001,7 +1001,7 @@ where pdw.hospitalCode = h.code
 and pdw.duration <= CONCAT(?, '-',?) 
 group by pdw.duration,h.region 
 order by pdw.duration desc 
-limit 0,72;]]></xml-property>
+limit 0,84;]]></xml-property>
             <xml-property name="designerValues"><![CDATA[<?xml version="1.0" encoding="UTF-8"?>
 <model:DesignValues xmlns:design="http://www.eclipse.org/datatools/connectivity/oda/design" xmlns:model="http://www.eclipse.org/birt/report/model/adapter/odaModel">
   <Version>2.0</Version>
@@ -1229,7 +1229,7 @@ where pdw.hospitalCode = h.code
 and pdw.duration <= CONCAT(?, '-',?) 
 group by pdw.duration,h.region 
 order by pdw.duration desc 
-limit 0,72;]]></xml-property>
+limit 0,84;]]></xml-property>
             <xml-property name="designerValues"><![CDATA[<?xml version="1.0" encoding="UTF-8"?>
 <model:DesignValues xmlns:design="http://www.eclipse.org/datatools/connectivity/oda/design" xmlns:model="http://www.eclipse.org/birt/report/model/adapter/odaModel">
   <Version>2.0</Version>
@@ -1458,7 +1458,7 @@ and h.dragonType='Core'
 and pdw.duration <= CONCAT(?, '-',?) 
 group by pdw.duration,h.region 
 order by pdw.duration desc 
-limit 0,72;]]></xml-property>
+limit 0,84;]]></xml-property>
             <xml-property name="designerValues"><![CDATA[<?xml version="1.0" encoding="UTF-8"?>
 <model:DesignValues xmlns:design="http://www.eclipse.org/datatools/connectivity/oda/design" xmlns:model="http://www.eclipse.org/birt/report/model/adapter/odaModel">
   <Version>2.0</Version>
@@ -1686,7 +1686,7 @@ where pdw.hospitalCode = h.code
 and pdw.duration <= CONCAT(?, '-',?) 
 group by pdw.duration,h.region 
 order by pdw.duration desc 
-limit 0,72;]]></xml-property>
+limit 0,84;]]></xml-property>
             <xml-property name="designerValues"><![CDATA[<?xml version="1.0" encoding="UTF-8"?>
 <model:DesignValues xmlns:design="http://www.eclipse.org/datatools/connectivity/oda/design" xmlns:model="http://www.eclipse.org/birt/report/model/adapter/odaModel">
   <Version>2.0</Version>
@@ -1915,7 +1915,7 @@ and h.dragonType='Emerging'
 and pdw.duration <= CONCAT(?, '-',?) 
 group by pdw.duration,h.region 
 order by pdw.duration desc 
-limit 0,72;]]></xml-property>
+limit 0,84;]]></xml-property>
             <xml-property name="designerValues"><![CDATA[<?xml version="1.0" encoding="UTF-8"?>
 <model:DesignValues xmlns:design="http://www.eclipse.org/datatools/connectivity/oda/design" xmlns:model="http://www.eclipse.org/birt/report/model/adapter/odaModel">
   <Version>2.0</Version>
@@ -2637,7 +2637,7 @@ where pdw.hospitalCode = h.code
 and pdw.duration <= CONCAT(?, '-',?)  
 group by pdw.duration,h.region 
 order by pdw.duration desc 
-limit 0,72]]></xml-property>
+limit 0,84]]></xml-property>
             <xml-property name="designerValues"><![CDATA[<?xml version="1.0" encoding="UTF-8"?>
 <model:DesignValues xmlns:design="http://www.eclipse.org/datatools/connectivity/oda/design" xmlns:model="http://www.eclipse.org/birt/report/model/adapter/odaModel">
   <Version>2.0</Version>
