@@ -30,8 +30,8 @@
 		            <table class="mobileReport_table">
 		               <tr class="mobileReport_table_header">
 	                       <td width="15%">DSM姓名</td>
-	                       <td width="15%">负责医院数</td>
-	                       <td width="15%">有效上报次数</td>
+	                       <td width="15%">负责医生数</td>
+	                       <td width="15%">上报次数</td>
 	                       <td width="15%">当前上报率</td>
 		               </tr>
 		               <c:forEach items="${processChildData}" var="processData" varStatus="status">
