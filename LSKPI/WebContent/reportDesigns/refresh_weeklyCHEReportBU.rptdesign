@@ -15157,13 +15157,13 @@ and h.isTop100 = '1';]]></xml-property>
         </grid>
         <grid id="756">
             <property name="textAlign">center</property>
-            <property name="height">2.5104166666666665in</property>
+            <property name="height">3.0833333333333335in</property>
             <property name="width">10.427083333333334in</property>
             <column id="757">
                 <property name="width">10.427083333333334in</property>
             </column>
             <row id="758">
-                <property name="height">2.5104166666666665in</property>
+                <property name="height">3.0833333333333335in</property>
                 <cell id="759">
                     <property name="fontFamily">"Microsoft YaHei UI"</property>
                     <table id="237">
@@ -16590,9 +16590,7 @@ this.getStyle().backgroundColor = "#FFFFFF";
                             </row>
                         </footer>
                     </table>
-                    <table id="3414">
-                        <property name="fontFamily">"Arial"</property>
-                        <property name="pageBreakAfter">avoid</property>
+                    <table id="3755">
                         <property name="width">10.270833333333334in</property>
                         <property name="dataSet">top100CHEDataSet</property>
                         <list-property name="boundDataColumns">
@@ -16600,78 +16598,83 @@ this.getStyle().backgroundColor = "#FFFFFF";
                                 <property name="name">hosNum</property>
                                 <text-property name="displayName">hosNum</text-property>
                                 <expression name="expression" type="javascript">dataSetRow["hosNum"]</expression>
-                                <property name="dataType">decimal</property>
+                                <property name="dataType">float</property>
+                                <property name="allowExport">true</property>
                             </structure>
                             <structure>
                                 <property name="name">inNum</property>
                                 <text-property name="displayName">inNum</text-property>
-                                <expression name="expression" type="javascript">dataSetRow["inNum"]</expression>
-                                <property name="dataType">decimal</property>
+                                <expression name="expression" type="javascript">dataSetRow["inNum"]/(dataSetRow["hosNum"]*3)</expression>
+                                <property name="dataType">float</property>
+                                <property name="allowExport">true</property>
                             </structure>
                             <structure>
                                 <property name="name">pnum</property>
                                 <text-property name="displayName">pnum</text-property>
                                 <expression name="expression" type="javascript">dataSetRow["pnum"]</expression>
-                                <property name="dataType">decimal</property>
+                                <property name="dataType">float</property>
+                                <property name="allowExport">true</property>
                             </structure>
                             <structure>
                                 <property name="name">risknum</property>
                                 <text-property name="displayName">risknum</text-property>
                                 <expression name="expression" type="javascript">dataSetRow["risknum"]</expression>
-                                <property name="dataType">decimal</property>
+                                <property name="dataType">float</property>
+                                <property name="allowExport">true</property>
                             </structure>
                             <structure>
                                 <property name="name">lsnum</property>
                                 <text-property name="displayName">lsnum</text-property>
                                 <expression name="expression" type="javascript">dataSetRow["lsnum"]</expression>
-                                <property name="dataType">decimal</property>
+                                <property name="dataType">float</property>
+                                <property name="allowExport">true</property>
                             </structure>
                             <structure>
                                 <property name="name">averageDose</property>
                                 <text-property name="displayName">averageDose</text-property>
                                 <expression name="expression" type="javascript">dataSetRow["averageDose"]</expression>
-                                <property name="dataType">decimal</property>
+                                <property name="dataType">float</property>
+                                <property name="allowExport">true</property>
                             </structure>
                             <structure>
                                 <property name="name">omgRate</property>
                                 <text-property name="displayName">omgRate</text-property>
                                 <expression name="expression" type="javascript">dataSetRow["omgRate"]</expression>
-                                <property name="dataType">decimal</property>
+                                <property name="dataType">float</property>
+                                <property name="allowExport">true</property>
                             </structure>
                             <structure>
                                 <property name="name">tmgRate</property>
                                 <text-property name="displayName">tmgRate</text-property>
                                 <expression name="expression" type="javascript">dataSetRow["tmgRate"]</expression>
-                                <property name="dataType">decimal</property>
+                                <property name="dataType">float</property>
+                                <property name="allowExport">true</property>
                             </structure>
                             <structure>
                                 <property name="name">thmgRate</property>
                                 <text-property name="displayName">thmgRate</text-property>
                                 <expression name="expression" type="javascript">dataSetRow["thmgRate"]</expression>
-                                <property name="dataType">decimal</property>
+                                <property name="dataType">float</property>
+                                <property name="allowExport">true</property>
                             </structure>
                             <structure>
                                 <property name="name">fmgRate</property>
                                 <text-property name="displayName">fmgRate</text-property>
                                 <expression name="expression" type="javascript">dataSetRow["fmgRate"]</expression>
-                                <property name="dataType">decimal</property>
+                                <property name="dataType">float</property>
+                                <property name="allowExport">true</property>
                             </structure>
                             <structure>
                                 <property name="name">smgRate</property>
                                 <text-property name="displayName">smgRate</text-property>
                                 <expression name="expression" type="javascript">dataSetRow["smgRate"]</expression>
-                                <property name="dataType">decimal</property>
+                                <property name="dataType">float</property>
+                                <property name="allowExport">true</property>
                             </structure>
                             <structure>
                                 <property name="name">emgRate</property>
                                 <text-property name="displayName">emgRate</text-property>
                                 <expression name="expression" type="javascript">dataSetRow["emgRate"]</expression>
-                                <property name="dataType">decimal</property>
-                            </structure>
-                            <structure>
-                                <property name="name">top100InRate</property>
-                                <text-property name="displayName">top100InRate</text-property>
-                                <expression name="expression" type="javascript">dataSetRow["inNum"]/dataSetRow["hosNum"]*3</expression>
                                 <property name="dataType">float</property>
                                 <property name="allowExport">true</property>
                             </structure>
@@ -16682,262 +16685,198 @@ this.getStyle().backgroundColor = "#FFFFFF";
                                 <property name="dataType">float</property>
                                 <property name="allowExport">true</property>
                             </structure>
+                            <structure>
+                                <property name="name">top100InRate</property>
+                                <text-property name="displayName">top100InRate</text-property>
+                                <expression name="expression" type="javascript">dataSetRow["inNum"]/(dataSetRow["hosNum"]*3)</expression>
+                                <property name="dataType">float</property>
+                                <property name="allowExport">true</property>
+                            </structure>
                         </list-property>
-                        <method name="onPrepare"><![CDATA[count = 0;]]></method>
-                        <column id="3504">
-                            <property name="width">0.8645833333333334in</property>
+                        <column id="3833">
+                            <property name="width">0.8125in</property>
                         </column>
-                        <column id="3505">
-                            <property name="textAlign">right</property>
-                            <property name="width">0.625in</property>
-                        </column>
-                        <column id="3506">
-                            <property name="textAlign">right</property>
-                            <property name="width">0.6145833333333334in</property>
-                        </column>
-                        <column id="3507">
-                            <property name="textAlign">right</property>
-                            <property name="width">0.8645833333333334in</property>
-                        </column>
-                        <column id="3508">
-                            <property name="textAlign">right</property>
-                            <property name="width">1.4583333333333333in</property>
-                        </column>
-                        <column id="3509">
-                            <property name="textAlign">right</property>
-                            <property name="width">0.6875in</property>
-                        </column>
-                        <column id="3510">
-                            <property name="textAlign">right</property>
-                            <property name="width">0.5833333333333334in</property>
-                        </column>
-                        <column id="3511">
-                            <property name="textAlign">right</property>
-                            <property name="width">0.7708333333333334in</property>
-                        </column>
-                        <column id="3512">
-                            <property name="textAlign">right</property>
+                        <column id="3819">
                             <property name="width">0.6666666666666666in</property>
                         </column>
-                        <column id="3513">
-                            <property name="textAlign">right</property>
+                        <column id="3820">
                             <property name="width">0.625in</property>
                         </column>
-                        <column id="3514">
-                            <property name="textAlign">right</property>
-                            <property name="width">0.6145833333333334in</property>
+                        <column id="3821">
+                            <property name="width">0.8541666666666666in</property>
                         </column>
-                        <column id="3515">
-                            <property name="textAlign">right</property>
+                        <column id="3822">
+                            <property name="width">1.4479166666666667in</property>
+                        </column>
+                        <column id="3823">
+                            <property name="width">0.6979166666666666in</property>
+                        </column>
+                        <column id="3838">
+                            <property name="width">0.5833333333333334in</property>
+                        </column>
+                        <column id="3824">
+                            <property name="width">0.7708333333333334in</property>
+                        </column>
+                        <column id="3825">
+                            <property name="width">0.65625in</property>
+                        </column>
+                        <column id="3826">
+                            <property name="width">0.6354166666666666in</property>
+                        </column>
+                        <column id="3827">
+                            <property name="width">0.6041666666666666in</property>
+                        </column>
+                        <column id="3828">
+                            <property name="width">0.6354166666666666in</property>
+                        </column>
+                        <column id="3829">
+                            <property name="width">0.6354166666666666in</property>
+                        </column>
+                        <column id="3830">
                             <property name="width">0.625in</property>
-                        </column>
-                        <column id="3516">
-                            <property name="textAlign">right</property>
-                            <property name="width">0.6354166666666666in</property>
-                        </column>
-                        <column id="3517">
-                            <property name="textAlign">right</property>
-                            <property name="width">0.6354166666666666in</property>
                         </column>
                         <header>
-                            <row id="3415">
+                            <row id="3756">
                                 <property name="backgroundColor">#805897</property>
-                                <property name="fontFamily">"Microsoft YaHei UI"</property>
-                                <property name="fontWeight">bold</property>
-                                <property name="borderBottomColor">#000000</property>
-                                <property name="borderBottomStyle">solid</property>
-                                <property name="borderBottomWidth">1px</property>
-                                <property name="borderLeftColor">#000000</property>
-                                <property name="borderLeftStyle">solid</property>
-                                <property name="borderLeftWidth">1px</property>
-                                <property name="borderRightColor">#000000</property>
-                                <property name="borderRightStyle">solid</property>
-                                <property name="borderRightWidth">1px</property>
-                                <property name="borderTopColor">#000000</property>
-                                <property name="borderTopStyle">solid</property>
-                                <property name="borderTopWidth">1px</property>
-                                <cell id="3416">
-                                    <property name="borderBottomColor">#000000</property>
+                                <property name="height">0.2916666666666667in</property>
+                                <cell id="3831">
                                     <property name="borderBottomStyle">solid</property>
-                                    <property name="borderBottomWidth">1px</property>
-                                    <property name="borderLeftColor">#000000</property>
+                                    <property name="borderBottomWidth">thin</property>
                                     <property name="borderLeftStyle">solid</property>
-                                    <property name="borderLeftWidth">1px</property>
-                                    <property name="borderRightColor">#000000</property>
+                                    <property name="borderLeftWidth">thin</property>
                                     <property name="borderRightStyle">solid</property>
-                                    <property name="borderRightWidth">1px</property>
-                                    <property name="borderTopColor">#000000</property>
+                                    <property name="borderRightWidth">thin</property>
                                     <property name="borderTopStyle">solid</property>
-                                    <property name="borderTopWidth">1px</property>
-                                    <text id="3519">
+                                    <property name="borderTopWidth">thin</property>
+                                    <text id="3834">
                                         <property name="fontWeight">normal</property>
                                         <property name="color">white</property>
                                         <property name="contentType">auto</property>
                                         <text-property name="content"><![CDATA[Top100]]></text-property>
                                     </text>
                                 </cell>
-                                <cell id="3418">
-                                    <property name="borderBottomColor">#000000</property>
+                                <cell id="3757">
                                     <property name="borderBottomStyle">solid</property>
-                                    <property name="borderBottomWidth">1px</property>
-                                    <property name="borderLeftColor">#000000</property>
+                                    <property name="borderBottomWidth">thin</property>
                                     <property name="borderLeftStyle">solid</property>
-                                    <property name="borderLeftWidth">1px</property>
-                                    <property name="borderRightColor">#000000</property>
+                                    <property name="borderLeftWidth">thin</property>
                                     <property name="borderRightStyle">solid</property>
-                                    <property name="borderRightWidth">1px</property>
-                                    <property name="borderTopColor">#000000</property>
+                                    <property name="borderRightWidth">thin</property>
                                     <property name="borderTopStyle">solid</property>
-                                    <property name="borderTopWidth">1px</property>
-                                    <property name="textAlign">center</property>
-                                    <label id="3419">
+                                    <property name="borderTopWidth">thin</property>
+                                    <label id="3839">
                                         <property name="fontWeight">normal</property>
                                         <property name="color">white</property>
                                         <property name="textAlign">center</property>
                                         <text-property name="text">医院数</text-property>
                                     </label>
                                 </cell>
-                                <cell id="3420">
-                                    <property name="borderBottomColor">#000000</property>
+                                <cell id="3759">
                                     <property name="borderBottomStyle">solid</property>
-                                    <property name="borderBottomWidth">1px</property>
-                                    <property name="borderLeftColor">#000000</property>
+                                    <property name="borderBottomWidth">thin</property>
                                     <property name="borderLeftStyle">solid</property>
-                                    <property name="borderLeftWidth">1px</property>
-                                    <property name="borderRightColor">#000000</property>
+                                    <property name="borderLeftWidth">thin</property>
                                     <property name="borderRightStyle">solid</property>
-                                    <property name="borderRightWidth">1px</property>
-                                    <property name="borderTopColor">#000000</property>
+                                    <property name="borderRightWidth">thin</property>
                                     <property name="borderTopStyle">solid</property>
-                                    <property name="borderTopWidth">1px</property>
-                                    <property name="textAlign">center</property>
-                                    <label id="3421">
+                                    <property name="borderTopWidth">thin</property>
+                                    <label id="3840">
                                         <property name="fontWeight">normal</property>
                                         <property name="color">white</property>
                                         <property name="textAlign">center</property>
                                         <text-property name="text">上报率</text-property>
                                     </label>
                                 </cell>
-                                <cell id="3422">
-                                    <property name="borderBottomColor">#000000</property>
+                                <cell id="3761">
                                     <property name="borderBottomStyle">solid</property>
-                                    <property name="borderBottomWidth">1px</property>
-                                    <property name="borderLeftColor">#000000</property>
+                                    <property name="borderBottomWidth">thin</property>
                                     <property name="borderLeftStyle">solid</property>
-                                    <property name="borderLeftWidth">1px</property>
-                                    <property name="borderRightColor">#000000</property>
+                                    <property name="borderLeftWidth">thin</property>
                                     <property name="borderRightStyle">solid</property>
-                                    <property name="borderRightWidth">1px</property>
-                                    <property name="borderTopColor">#000000</property>
+                                    <property name="borderRightWidth">thin</property>
                                     <property name="borderTopStyle">solid</property>
-                                    <property name="borderTopWidth">1px</property>
-                                    <property name="textAlign">center</property>
-                                    <label id="3423">
+                                    <property name="borderTopWidth">thin</property>
+                                    <label id="3841">
                                         <property name="fontWeight">normal</property>
                                         <property name="color">white</property>
                                         <property name="textAlign">center</property>
                                         <text-property name="text">住院病人数</text-property>
                                     </label>
                                 </cell>
-                                <cell id="3424">
-                                    <property name="borderBottomColor">#000000</property>
+                                <cell id="3763">
                                     <property name="borderBottomStyle">solid</property>
-                                    <property name="borderBottomWidth">1px</property>
-                                    <property name="borderLeftColor">#000000</property>
+                                    <property name="borderBottomWidth">thin</property>
                                     <property name="borderLeftStyle">solid</property>
-                                    <property name="borderLeftWidth">1px</property>
-                                    <property name="borderRightColor">#000000</property>
+                                    <property name="borderLeftWidth">thin</property>
                                     <property name="borderRightStyle">solid</property>
-                                    <property name="borderRightWidth">1px</property>
-                                    <property name="borderTopColor">#000000</property>
+                                    <property name="borderRightWidth">thin</property>
                                     <property name="borderTopStyle">solid</property>
-                                    <property name="borderTopWidth">1px</property>
-                                    <property name="textAlign">center</property>
-                                    <label id="3425">
+                                    <property name="borderTopWidth">thin</property>
+                                    <label id="3842">
                                         <property name="fontWeight">normal</property>
                                         <property name="color">white</property>
                                         <property name="textAlign">center</property>
                                         <text-property name="text">合并COPD或哮喘人数</text-property>
                                     </label>
                                 </cell>
-                                <cell id="3426">
-                                    <property name="borderBottomColor">#000000</property>
+                                <cell id="3765">
                                     <property name="borderBottomStyle">solid</property>
-                                    <property name="borderBottomWidth">1px</property>
-                                    <property name="borderLeftColor">#000000</property>
+                                    <property name="borderBottomWidth">thin</property>
                                     <property name="borderLeftStyle">solid</property>
-                                    <property name="borderLeftWidth">1px</property>
-                                    <property name="borderRightColor">#000000</property>
+                                    <property name="borderLeftWidth">thin</property>
                                     <property name="borderRightStyle">solid</property>
-                                    <property name="borderRightWidth">1px</property>
-                                    <property name="borderTopColor">#000000</property>
+                                    <property name="borderRightWidth">thin</property>
                                     <property name="borderTopStyle">solid</property>
-                                    <property name="borderTopWidth">1px</property>
-                                    <property name="textAlign">center</property>
-                                    <label id="3427">
+                                    <property name="borderTopWidth">thin</property>
+                                    <label id="3843">
                                         <property name="fontWeight">normal</property>
                                         <property name="color">white</property>
                                         <property name="textAlign">center</property>
                                         <text-property name="text">雾化人数</text-property>
                                     </label>
                                 </cell>
-                                <cell id="3428">
-                                    <property name="borderBottomColor">#000000</property>
+                                <cell id="3836">
                                     <property name="borderBottomStyle">solid</property>
-                                    <property name="borderBottomWidth">1px</property>
-                                    <property name="borderLeftColor">#000000</property>
+                                    <property name="borderBottomWidth">thin</property>
                                     <property name="borderLeftStyle">solid</property>
-                                    <property name="borderLeftWidth">1px</property>
-                                    <property name="borderRightColor">#000000</property>
+                                    <property name="borderLeftWidth">thin</property>
                                     <property name="borderRightStyle">solid</property>
-                                    <property name="borderRightWidth">1px</property>
-                                    <property name="borderTopColor">#000000</property>
+                                    <property name="borderRightWidth">thin</property>
                                     <property name="borderTopStyle">solid</property>
-                                    <property name="borderTopWidth">1px</property>
-                                    <property name="textAlign">center</property>
-                                    <label id="3429">
+                                    <property name="borderTopWidth">thin</property>
+                                    <label id="3844">
                                         <property name="fontWeight">normal</property>
                                         <property name="color">white</property>
                                         <property name="textAlign">center</property>
                                         <text-property name="text">雾化率</text-property>
                                     </label>
                                 </cell>
-                                <cell id="3430">
-                                    <property name="borderBottomColor">#000000</property>
+                                <cell id="3767">
                                     <property name="borderBottomStyle">solid</property>
-                                    <property name="borderBottomWidth">1px</property>
-                                    <property name="borderLeftColor">#000000</property>
+                                    <property name="borderBottomWidth">thin</property>
                                     <property name="borderLeftStyle">solid</property>
-                                    <property name="borderLeftWidth">1px</property>
-                                    <property name="borderRightColor">#000000</property>
+                                    <property name="borderLeftWidth">thin</property>
                                     <property name="borderRightStyle">solid</property>
-                                    <property name="borderRightWidth">1px</property>
-                                    <property name="borderTopColor">#000000</property>
+                                    <property name="borderRightWidth">thin</property>
                                     <property name="borderTopStyle">solid</property>
-                                    <property name="borderTopWidth">1px</property>
-                                    <property name="textAlign">center</property>
-                                    <label id="3431">
+                                    <property name="borderTopWidth">thin</property>
+                                    <label id="3846">
                                         <property name="fontWeight">normal</property>
                                         <property name="color">white</property>
                                         <property name="textAlign">center</property>
                                         <text-property name="text">平均剂量</text-property>
                                     </label>
                                 </cell>
-                                <cell id="3432">
-                                    <property name="borderBottomColor">#000000</property>
+                                <cell id="3769">
                                     <property name="borderBottomStyle">solid</property>
-                                    <property name="borderBottomWidth">1px</property>
-                                    <property name="borderLeftColor">#000000</property>
+                                    <property name="borderBottomWidth">thin</property>
                                     <property name="borderLeftStyle">solid</property>
-                                    <property name="borderLeftWidth">1px</property>
-                                    <property name="borderRightColor">#000000</property>
+                                    <property name="borderLeftWidth">thin</property>
                                     <property name="borderRightStyle">solid</property>
-                                    <property name="borderRightWidth">1px</property>
-                                    <property name="borderTopColor">#000000</property>
+                                    <property name="borderRightWidth">thin</property>
                                     <property name="borderTopStyle">solid</property>
-                                    <property name="borderTopWidth">1px</property>
-                                    <property name="textAlign">center</property>
-                                    <label id="3433">
+                                    <property name="borderTopWidth">thin</property>
+                                    <label id="3848">
                                         <property name="fontFamily">"Arial"</property>
                                         <property name="fontWeight">normal</property>
                                         <property name="color">white</property>
@@ -16945,21 +16884,16 @@ this.getStyle().backgroundColor = "#FFFFFF";
                                         <text-property name="text">1mg%</text-property>
                                     </label>
                                 </cell>
-                                <cell id="3434">
-                                    <property name="borderBottomColor">#000000</property>
+                                <cell id="3771">
                                     <property name="borderBottomStyle">solid</property>
-                                    <property name="borderBottomWidth">1px</property>
-                                    <property name="borderLeftColor">#000000</property>
+                                    <property name="borderBottomWidth">thin</property>
                                     <property name="borderLeftStyle">solid</property>
-                                    <property name="borderLeftWidth">1px</property>
-                                    <property name="borderRightColor">#000000</property>
+                                    <property name="borderLeftWidth">thin</property>
                                     <property name="borderRightStyle">solid</property>
-                                    <property name="borderRightWidth">1px</property>
-                                    <property name="borderTopColor">#000000</property>
+                                    <property name="borderRightWidth">thin</property>
                                     <property name="borderTopStyle">solid</property>
-                                    <property name="borderTopWidth">1px</property>
-                                    <property name="textAlign">center</property>
-                                    <label id="3435">
+                                    <property name="borderTopWidth">thin</property>
+                                    <label id="3849">
                                         <property name="fontFamily">"Arial"</property>
                                         <property name="fontWeight">normal</property>
                                         <property name="color">white</property>
@@ -16967,21 +16901,16 @@ this.getStyle().backgroundColor = "#FFFFFF";
                                         <text-property name="text">2mg%</text-property>
                                     </label>
                                 </cell>
-                                <cell id="3436">
-                                    <property name="borderBottomColor">#000000</property>
+                                <cell id="3773">
                                     <property name="borderBottomStyle">solid</property>
-                                    <property name="borderBottomWidth">1px</property>
-                                    <property name="borderLeftColor">#000000</property>
+                                    <property name="borderBottomWidth">thin</property>
                                     <property name="borderLeftStyle">solid</property>
-                                    <property name="borderLeftWidth">1px</property>
-                                    <property name="borderRightColor">#000000</property>
+                                    <property name="borderLeftWidth">thin</property>
                                     <property name="borderRightStyle">solid</property>
-                                    <property name="borderRightWidth">1px</property>
-                                    <property name="borderTopColor">#000000</property>
+                                    <property name="borderRightWidth">thin</property>
                                     <property name="borderTopStyle">solid</property>
-                                    <property name="borderTopWidth">1px</property>
-                                    <property name="textAlign">center</property>
-                                    <label id="3437">
+                                    <property name="borderTopWidth">thin</property>
+                                    <label id="3850">
                                         <property name="fontFamily">"Arial"</property>
                                         <property name="fontWeight">normal</property>
                                         <property name="color">white</property>
@@ -16989,21 +16918,16 @@ this.getStyle().backgroundColor = "#FFFFFF";
                                         <text-property name="text">3mg%</text-property>
                                     </label>
                                 </cell>
-                                <cell id="3438">
-                                    <property name="borderBottomColor">#000000</property>
+                                <cell id="3775">
                                     <property name="borderBottomStyle">solid</property>
-                                    <property name="borderBottomWidth">1px</property>
-                                    <property name="borderLeftColor">#000000</property>
+                                    <property name="borderBottomWidth">thin</property>
                                     <property name="borderLeftStyle">solid</property>
-                                    <property name="borderLeftWidth">1px</property>
-                                    <property name="borderRightColor">#000000</property>
+                                    <property name="borderLeftWidth">thin</property>
                                     <property name="borderRightStyle">solid</property>
-                                    <property name="borderRightWidth">1px</property>
-                                    <property name="borderTopColor">#000000</property>
+                                    <property name="borderRightWidth">thin</property>
                                     <property name="borderTopStyle">solid</property>
-                                    <property name="borderTopWidth">1px</property>
-                                    <property name="textAlign">center</property>
-                                    <label id="3439">
+                                    <property name="borderTopWidth">thin</property>
+                                    <label id="3851">
                                         <property name="fontFamily">"Arial"</property>
                                         <property name="fontWeight">normal</property>
                                         <property name="color">white</property>
@@ -17011,21 +16935,16 @@ this.getStyle().backgroundColor = "#FFFFFF";
                                         <text-property name="text">4mg%</text-property>
                                     </label>
                                 </cell>
-                                <cell id="3440">
-                                    <property name="borderBottomColor">#000000</property>
+                                <cell id="3777">
                                     <property name="borderBottomStyle">solid</property>
-                                    <property name="borderBottomWidth">1px</property>
-                                    <property name="borderLeftColor">#000000</property>
+                                    <property name="borderBottomWidth">thin</property>
                                     <property name="borderLeftStyle">solid</property>
-                                    <property name="borderLeftWidth">1px</property>
-                                    <property name="borderRightColor">#000000</property>
+                                    <property name="borderLeftWidth">thin</property>
                                     <property name="borderRightStyle">solid</property>
-                                    <property name="borderRightWidth">1px</property>
-                                    <property name="borderTopColor">#000000</property>
+                                    <property name="borderRightWidth">thin</property>
                                     <property name="borderTopStyle">solid</property>
-                                    <property name="borderTopWidth">1px</property>
-                                    <property name="textAlign">center</property>
-                                    <label id="3441">
+                                    <property name="borderTopWidth">thin</property>
+                                    <label id="3852">
                                         <property name="fontFamily">"Arial"</property>
                                         <property name="fontWeight">normal</property>
                                         <property name="color">white</property>
@@ -17033,21 +16952,16 @@ this.getStyle().backgroundColor = "#FFFFFF";
                                         <text-property name="text">6mg%</text-property>
                                     </label>
                                 </cell>
-                                <cell id="3442">
-                                    <property name="borderBottomColor">#000000</property>
+                                <cell id="3779">
                                     <property name="borderBottomStyle">solid</property>
-                                    <property name="borderBottomWidth">1px</property>
-                                    <property name="borderLeftColor">#000000</property>
+                                    <property name="borderBottomWidth">thin</property>
                                     <property name="borderLeftStyle">solid</property>
-                                    <property name="borderLeftWidth">1px</property>
-                                    <property name="borderRightColor">#000000</property>
+                                    <property name="borderLeftWidth">thin</property>
                                     <property name="borderRightStyle">solid</property>
-                                    <property name="borderRightWidth">1px</property>
-                                    <property name="borderTopColor">#000000</property>
+                                    <property name="borderRightWidth">thin</property>
                                     <property name="borderTopStyle">solid</property>
-                                    <property name="borderTopWidth">1px</property>
-                                    <property name="textAlign">center</property>
-                                    <label id="3443">
+                                    <property name="borderTopWidth">thin</property>
+                                    <label id="3853">
                                         <property name="fontFamily">"Arial"</property>
                                         <property name="fontWeight">normal</property>
                                         <property name="color">white</property>
@@ -17057,27 +16971,10 @@ this.getStyle().backgroundColor = "#FFFFFF";
                                 </cell>
                             </row>
                         </header>
-                        <group id="3444">
-                            <property name="groupName">TopGroup</property>
-                            <expression name="keyExpr" type="javascript">row["regionCenter"]</expression>
-                            <property name="hideDetail">false</property>
-                        </group>
-                        <group id="3474">
-                            <property name="groupName">RSM</property>
-                            <expression name="keyExpr" type="javascript">row["region"]</expression>
-                            <property name="hideDetail">false</property>
-                        </group>
                         <detail>
-                            <row id="3525">
-                                <property name="borderBottomStyle">solid</property>
-                                <property name="borderBottomWidth">thin</property>
-                                <property name="borderLeftStyle">solid</property>
-                                <property name="borderLeftWidth">thin</property>
-                                <property name="borderRightStyle">solid</property>
-                                <property name="borderRightWidth">thin</property>
-                                <property name="borderTopStyle">solid</property>
-                                <property name="borderTopWidth">thin</property>
-                                <cell id="3526">
+                            <row id="3781">
+                                <property name="height">0.2708333333333333in</property>
+                                <cell id="3832">
                                     <property name="borderBottomStyle">solid</property>
                                     <property name="borderBottomWidth">thin</property>
                                     <property name="borderLeftStyle">solid</property>
@@ -17086,8 +16983,11 @@ this.getStyle().backgroundColor = "#FFFFFF";
                                     <property name="borderRightWidth">thin</property>
                                     <property name="borderTopStyle">solid</property>
                                     <property name="borderTopWidth">thin</property>
+                                    <label id="3835">
+                                        <text-property name="text">合计</text-property>
+                                    </label>
                                 </cell>
-                                <cell id="3527">
+                                <cell id="3782">
                                     <property name="borderBottomStyle">solid</property>
                                     <property name="borderBottomWidth">thin</property>
                                     <property name="borderLeftStyle">solid</property>
@@ -17096,11 +16996,16 @@ this.getStyle().backgroundColor = "#FFFFFF";
                                     <property name="borderRightWidth">thin</property>
                                     <property name="borderTopStyle">solid</property>
                                     <property name="borderTopWidth">thin</property>
-                                    <data id="3540">
+                                    <property name="textAlign">right</property>
+                                    <data id="3783">
+                                        <structure name="numberFormat">
+                                            <property name="category">Fixed</property>
+                                            <property name="pattern">#,##0{RoundingMode=HALF_UP}</property>
+                                        </structure>
                                         <property name="resultSetColumn">hosNum</property>
                                     </data>
                                 </cell>
-                                <cell id="3528">
+                                <cell id="3784">
                                     <property name="borderBottomStyle">solid</property>
                                     <property name="borderBottomWidth">thin</property>
                                     <property name="borderLeftStyle">solid</property>
@@ -17109,7 +17014,8 @@ this.getStyle().backgroundColor = "#FFFFFF";
                                     <property name="borderRightWidth">thin</property>
                                     <property name="borderTopStyle">solid</property>
                                     <property name="borderTopWidth">thin</property>
-                                    <data id="3520">
+                                    <property name="textAlign">right</property>
+                                    <data id="3854">
                                         <structure name="numberFormat">
                                             <property name="category">Percent</property>
                                             <property name="pattern">###0.0%{RoundingMode=HALF_UP}</property>
@@ -17117,7 +17023,7 @@ this.getStyle().backgroundColor = "#FFFFFF";
                                         <property name="resultSetColumn">top100InRate</property>
                                     </data>
                                 </cell>
-                                <cell id="3529">
+                                <cell id="3786">
                                     <property name="borderBottomStyle">solid</property>
                                     <property name="borderBottomWidth">thin</property>
                                     <property name="borderLeftStyle">solid</property>
@@ -17126,7 +17032,8 @@ this.getStyle().backgroundColor = "#FFFFFF";
                                     <property name="borderRightWidth">thin</property>
                                     <property name="borderTopStyle">solid</property>
                                     <property name="borderTopWidth">thin</property>
-                                    <data id="3453">
+                                    <property name="textAlign">right</property>
+                                    <data id="3787">
                                         <structure name="numberFormat">
                                             <property name="category">Fixed</property>
                                             <property name="pattern">#,##0{RoundingMode=HALF_UP}</property>
@@ -17134,7 +17041,7 @@ this.getStyle().backgroundColor = "#FFFFFF";
                                         <property name="resultSetColumn">pnum</property>
                                     </data>
                                 </cell>
-                                <cell id="3530">
+                                <cell id="3788">
                                     <property name="borderBottomStyle">solid</property>
                                     <property name="borderBottomWidth">thin</property>
                                     <property name="borderLeftStyle">solid</property>
@@ -17143,7 +17050,8 @@ this.getStyle().backgroundColor = "#FFFFFF";
                                     <property name="borderRightWidth">thin</property>
                                     <property name="borderTopStyle">solid</property>
                                     <property name="borderTopWidth">thin</property>
-                                    <data id="3455">
+                                    <property name="textAlign">right</property>
+                                    <data id="3789">
                                         <structure name="numberFormat">
                                             <property name="category">Fixed</property>
                                             <property name="pattern">#,##0{RoundingMode=HALF_UP}</property>
@@ -17151,7 +17059,7 @@ this.getStyle().backgroundColor = "#FFFFFF";
                                         <property name="resultSetColumn">risknum</property>
                                     </data>
                                 </cell>
-                                <cell id="3531">
+                                <cell id="3790">
                                     <property name="borderBottomStyle">solid</property>
                                     <property name="borderBottomWidth">thin</property>
                                     <property name="borderLeftStyle">solid</property>
@@ -17160,7 +17068,8 @@ this.getStyle().backgroundColor = "#FFFFFF";
                                     <property name="borderRightWidth">thin</property>
                                     <property name="borderTopStyle">solid</property>
                                     <property name="borderTopWidth">thin</property>
-                                    <data id="3457">
+                                    <property name="textAlign">right</property>
+                                    <data id="3791">
                                         <structure name="numberFormat">
                                             <property name="category">Fixed</property>
                                             <property name="pattern">#,##0{RoundingMode=HALF_UP}</property>
@@ -17168,7 +17077,7 @@ this.getStyle().backgroundColor = "#FFFFFF";
                                         <property name="resultSetColumn">lsnum</property>
                                     </data>
                                 </cell>
-                                <cell id="3532">
+                                <cell id="3837">
                                     <property name="borderBottomStyle">solid</property>
                                     <property name="borderBottomWidth">thin</property>
                                     <property name="borderLeftStyle">solid</property>
@@ -17177,7 +17086,8 @@ this.getStyle().backgroundColor = "#FFFFFF";
                                     <property name="borderRightWidth">thin</property>
                                     <property name="borderTopStyle">solid</property>
                                     <property name="borderTopWidth">thin</property>
-                                    <data id="3459">
+                                    <property name="textAlign">right</property>
+                                    <data id="3845">
                                         <structure name="numberFormat">
                                             <property name="category">Percent</property>
                                             <property name="pattern">###0.0%{RoundingMode=HALF_UP}</property>
@@ -17185,7 +17095,7 @@ this.getStyle().backgroundColor = "#FFFFFF";
                                         <property name="resultSetColumn">top100WhRate</property>
                                     </data>
                                 </cell>
-                                <cell id="3533">
+                                <cell id="3792">
                                     <property name="borderBottomStyle">solid</property>
                                     <property name="borderBottomWidth">thin</property>
                                     <property name="borderLeftStyle">solid</property>
@@ -17194,7 +17104,8 @@ this.getStyle().backgroundColor = "#FFFFFF";
                                     <property name="borderRightWidth">thin</property>
                                     <property name="borderTopStyle">solid</property>
                                     <property name="borderTopWidth">thin</property>
-                                    <data id="3461">
+                                    <property name="textAlign">right</property>
+                                    <data id="3793">
                                         <structure name="numberFormat">
                                             <property name="category">Fixed</property>
                                             <property name="pattern">###0.00{RoundingMode=HALF_UP}</property>
@@ -17202,7 +17113,7 @@ this.getStyle().backgroundColor = "#FFFFFF";
                                         <property name="resultSetColumn">averageDose</property>
                                     </data>
                                 </cell>
-                                <cell id="3534">
+                                <cell id="3794">
                                     <property name="borderBottomStyle">solid</property>
                                     <property name="borderBottomWidth">thin</property>
                                     <property name="borderLeftStyle">solid</property>
@@ -17211,7 +17122,8 @@ this.getStyle().backgroundColor = "#FFFFFF";
                                     <property name="borderRightWidth">thin</property>
                                     <property name="borderTopStyle">solid</property>
                                     <property name="borderTopWidth">thin</property>
-                                    <data id="3463">
+                                    <property name="textAlign">right</property>
+                                    <data id="3795">
                                         <structure name="numberFormat">
                                             <property name="category">Percent</property>
                                             <property name="pattern">###0%{RoundingMode=HALF_UP}</property>
@@ -17219,7 +17131,7 @@ this.getStyle().backgroundColor = "#FFFFFF";
                                         <property name="resultSetColumn">omgRate</property>
                                     </data>
                                 </cell>
-                                <cell id="3535">
+                                <cell id="3796">
                                     <property name="borderBottomStyle">solid</property>
                                     <property name="borderBottomWidth">thin</property>
                                     <property name="borderLeftStyle">solid</property>
@@ -17228,7 +17140,8 @@ this.getStyle().backgroundColor = "#FFFFFF";
                                     <property name="borderRightWidth">thin</property>
                                     <property name="borderTopStyle">solid</property>
                                     <property name="borderTopWidth">thin</property>
-                                    <data id="3465">
+                                    <property name="textAlign">right</property>
+                                    <data id="3797">
                                         <structure name="numberFormat">
                                             <property name="category">Percent</property>
                                             <property name="pattern">###0%{RoundingMode=HALF_UP}</property>
@@ -17236,7 +17149,7 @@ this.getStyle().backgroundColor = "#FFFFFF";
                                         <property name="resultSetColumn">tmgRate</property>
                                     </data>
                                 </cell>
-                                <cell id="3536">
+                                <cell id="3798">
                                     <property name="borderBottomStyle">solid</property>
                                     <property name="borderBottomWidth">thin</property>
                                     <property name="borderLeftStyle">solid</property>
@@ -17245,7 +17158,8 @@ this.getStyle().backgroundColor = "#FFFFFF";
                                     <property name="borderRightWidth">thin</property>
                                     <property name="borderTopStyle">solid</property>
                                     <property name="borderTopWidth">thin</property>
-                                    <data id="3467">
+                                    <property name="textAlign">right</property>
+                                    <data id="3799">
                                         <structure name="numberFormat">
                                             <property name="category">Percent</property>
                                             <property name="pattern">###0%{RoundingMode=HALF_UP}</property>
@@ -17253,7 +17167,7 @@ this.getStyle().backgroundColor = "#FFFFFF";
                                         <property name="resultSetColumn">thmgRate</property>
                                     </data>
                                 </cell>
-                                <cell id="3537">
+                                <cell id="3800">
                                     <property name="borderBottomStyle">solid</property>
                                     <property name="borderBottomWidth">thin</property>
                                     <property name="borderLeftStyle">solid</property>
@@ -17262,7 +17176,8 @@ this.getStyle().backgroundColor = "#FFFFFF";
                                     <property name="borderRightWidth">thin</property>
                                     <property name="borderTopStyle">solid</property>
                                     <property name="borderTopWidth">thin</property>
-                                    <data id="3469">
+                                    <property name="textAlign">right</property>
+                                    <data id="3801">
                                         <structure name="numberFormat">
                                             <property name="category">Percent</property>
                                             <property name="pattern">###0%{RoundingMode=HALF_UP}</property>
@@ -17270,7 +17185,7 @@ this.getStyle().backgroundColor = "#FFFFFF";
                                         <property name="resultSetColumn">fmgRate</property>
                                     </data>
                                 </cell>
-                                <cell id="3538">
+                                <cell id="3802">
                                     <property name="borderBottomStyle">solid</property>
                                     <property name="borderBottomWidth">thin</property>
                                     <property name="borderLeftStyle">solid</property>
@@ -17279,7 +17194,8 @@ this.getStyle().backgroundColor = "#FFFFFF";
                                     <property name="borderRightWidth">thin</property>
                                     <property name="borderTopStyle">solid</property>
                                     <property name="borderTopWidth">thin</property>
-                                    <data id="3471">
+                                    <property name="textAlign">right</property>
+                                    <data id="3803">
                                         <structure name="numberFormat">
                                             <property name="category">Percent</property>
                                             <property name="pattern">###0%{RoundingMode=HALF_UP}</property>
@@ -17287,7 +17203,7 @@ this.getStyle().backgroundColor = "#FFFFFF";
                                         <property name="resultSetColumn">smgRate</property>
                                     </data>
                                 </cell>
-                                <cell id="3539">
+                                <cell id="3804">
                                     <property name="borderBottomStyle">solid</property>
                                     <property name="borderBottomWidth">thin</property>
                                     <property name="borderLeftStyle">solid</property>
@@ -17296,106 +17212,17 @@ this.getStyle().backgroundColor = "#FFFFFF";
                                     <property name="borderRightWidth">thin</property>
                                     <property name="borderTopStyle">solid</property>
                                     <property name="borderTopWidth">thin</property>
-                                    <data id="3473">
+                                    <property name="textAlign">right</property>
+                                    <data id="3805">
                                         <structure name="numberFormat">
-                                            <property name="category">Percent</property>
-                                            <property name="pattern">###0%{RoundingMode=HALF_UP}</property>
+                                            <property name="category">Fixed</property>
+                                            <property name="pattern">###0{RoundingMode=HALF_UP}</property>
                                         </structure>
                                         <property name="resultSetColumn">emgRate</property>
                                     </data>
                                 </cell>
                             </row>
                         </detail>
-                        <footer>
-                            <row id="3541">
-                                <cell id="3542">
-                                    <property name="borderBottomStyle">solid</property>
-                                    <property name="borderBottomWidth">thin</property>
-                                    <property name="borderLeftStyle">solid</property>
-                                    <property name="borderLeftWidth">thin</property>
-                                    <property name="borderRightStyle">solid</property>
-                                    <property name="borderRightWidth">thin</property>
-                                    <property name="borderTopStyle">solid</property>
-                                    <property name="borderTopWidth">thin</property>
-                                    <label id="3571">
-                                        <text-property name="text">合计</text-property>
-                                    </label>
-                                </cell>
-                                <cell id="3543">
-                                    <property name="borderBottomStyle">solid</property>
-                                    <property name="borderBottomWidth">thin</property>
-                                    <property name="borderLeftStyle">solid</property>
-                                    <property name="borderLeftWidth">thin</property>
-                                    <property name="borderRightStyle">solid</property>
-                                    <property name="borderRightWidth">thin</property>
-                                    <property name="borderTopStyle">solid</property>
-                                    <property name="borderTopWidth">thin</property>
-                                    <data id="3572">
-                                        <property name="resultSetColumn">hosNum</property>
-                                    </data>
-                                </cell>
-                                <cell id="3544">
-                                    <label id="3558">
-                                        <text-property name="text">1</text-property>
-                                    </label>
-                                </cell>
-                                <cell id="3545">
-                                    <label id="3559">
-                                        <text-property name="text">1</text-property>
-                                    </label>
-                                </cell>
-                                <cell id="3546">
-                                    <label id="3562">
-                                        <text-property name="text">1</text-property>
-                                    </label>
-                                </cell>
-                                <cell id="3547">
-                                    <label id="3561">
-                                        <text-property name="text">1</text-property>
-                                    </label>
-                                </cell>
-                                <cell id="3548">
-                                    <label id="3563">
-                                        <text-property name="text">1</text-property>
-                                    </label>
-                                </cell>
-                                <cell id="3549">
-                                    <label id="3564">
-                                        <text-property name="text">1</text-property>
-                                    </label>
-                                </cell>
-                                <cell id="3550">
-                                    <label id="3565">
-                                        <text-property name="text">1</text-property>
-                                    </label>
-                                </cell>
-                                <cell id="3551">
-                                    <label id="3566">
-                                        <text-property name="text">1</text-property>
-                                    </label>
-                                </cell>
-                                <cell id="3552">
-                                    <label id="3567">
-                                        <text-property name="text">1</text-property>
-                                    </label>
-                                </cell>
-                                <cell id="3553">
-                                    <label id="3568">
-                                        <text-property name="text">1</text-property>
-                                    </label>
-                                </cell>
-                                <cell id="3554">
-                                    <label id="3569">
-                                        <text-property name="text">1</text-property>
-                                    </label>
-                                </cell>
-                                <cell id="3555">
-                                    <label id="3570">
-                                        <text-property name="text">1</text-property>
-                                    </label>
-                                </cell>
-                            </row>
-                        </footer>
                     </table>
                 </cell>
             </row>
