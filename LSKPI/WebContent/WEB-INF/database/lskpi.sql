@@ -367,6 +367,7 @@ create table tbl_hospital_data_weekly(
     cheAverageDose  DECIMAL(11,6) default 0
 );
 ALTER TABLE tbl_hospital_data_weekly ADD INDEX INDEX_HOSPITAL_WEEKLY_CODE(hospitalCode);
+ALTER TABLE tbl_hospital_data_weekly ADD INDEX INDEX_HOSPITAL_WEEKLY_DURATION(duration);
 
 /*
  * 1.每周一凌晨0点开始备份上上周的医生中间表，统计有哪些医生

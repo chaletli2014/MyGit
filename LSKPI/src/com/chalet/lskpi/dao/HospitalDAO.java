@@ -11,6 +11,7 @@ import com.chalet.lskpi.model.MonthlyData;
 import com.chalet.lskpi.model.MonthlyInRateData;
 import com.chalet.lskpi.model.MonthlyRatioData;
 import com.chalet.lskpi.model.UserInfo;
+import com.chalet.lskpi.model.WeeklyDataOfHospital;
 
 /**
  * @author Chalet
@@ -80,6 +81,17 @@ public interface HospitalDAO {
     
     public int removeOldWeeklyHosData(String duration) throws Exception;
 	public void generateWeeklyDataOfHospital() throws Exception;
-	public void generateWeeklyDataOfHospital(Date refreshDate) throws Exception;
+	public void generateWeeklyPEDDataOfHospital(Date refreshDate) throws Exception;
 	public int getLastWeeklyData() throws Exception;
+	
+	public int deleteOldHospitalWeeklyData(String duration) throws Exception;
+	
+	public int getWeeklyDataIDOfHospital(String duration, String hospitalCode) throws Exception;
+	
+	public void insertHospitalWeeklyRESData(WeeklyDataOfHospital weeklyData) throws Exception;
+	public void updateHospitalWeeklyRESData(WeeklyDataOfHospital weeklyData, int hosWeeklyDataId) throws Exception;
+	
+	public void insertHospitalWeeklyCHEData(WeeklyDataOfHospital weeklyData) throws Exception;
+	public void updateHospitalWeeklyCHEData(WeeklyDataOfHospital weeklyData, int hosWeeklyDataId) throws Exception;
+	
 }

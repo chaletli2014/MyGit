@@ -20,6 +20,7 @@ import org.springframework.stereotype.Repository;
 import com.chalet.lskpi.mapper.ChestSurgeryMobileRowMapper;
 import com.chalet.lskpi.mapper.ChestSurgeryRowMapper;
 import com.chalet.lskpi.mapper.TopAndBottomRSMDataRowMapper;
+import com.chalet.lskpi.mapper.WeeklyHospitalDataRowMapper;
 import com.chalet.lskpi.model.ChestSurgeryData;
 import com.chalet.lskpi.model.Hospital;
 import com.chalet.lskpi.model.MobileCHEDailyData;
@@ -27,6 +28,7 @@ import com.chalet.lskpi.model.ReportProcessData;
 import com.chalet.lskpi.model.ReportProcessDataDetail;
 import com.chalet.lskpi.model.TopAndBottomRSMData;
 import com.chalet.lskpi.model.UserInfo;
+import com.chalet.lskpi.model.WeeklyDataOfHospital;
 import com.chalet.lskpi.model.WeeklyRatioData;
 import com.chalet.lskpi.utils.DataBean;
 import com.chalet.lskpi.utils.DateUtils;
@@ -903,6 +905,15 @@ public class ChestSurgeryDAOImpl implements ChestSurgeryDAO {
         StringBuffer sb = new StringBuffer();
         sb.append(" select count(1) from tbl_chestSurgery_data_weekly where duration = CONCAT(DATE_FORMAT(DATE_SUB(?, Interval 6 day),'%Y.%m.%d'), '-',DATE_FORMAT(?,'%Y.%m.%d'))");
         return dataBean.getJdbcTemplate().queryForInt(sb.toString(), lastThursDay,lastThursDay);
+    }
+
+    public List<WeeklyDataOfHospital> getWeeklyDataOfHospital(Date refreshDate) throws Exception {
+        Timestamp lastweekDay = new Timestamp(refreshDate.getTime());
+        StringBuffer sb = new StringBuffer();
+        sb.append(LsAttributes.SQL_HOSPITAL_WEEKLY_DATA_SELECTION)
+          .append(" from tbl_chestSurgery_data_weekly ")
+          .append(" where duration = CONCAT(DATE_FORMAT(DATE_SUB(?, Interval 6 day),'%Y.%m.%d'), '-',DATE_FORMAT(?,'%Y.%m.%d'))");
+        return dataBean.getJdbcTemplate().query(sb.toString(), new Object[]{lastweekDay,lastweekDay}, new WeeklyHospitalDataRowMapper());
     }
 
 }

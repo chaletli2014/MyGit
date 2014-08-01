@@ -127,6 +127,15 @@
         loading();
         $("#refreshWeeklyPDFReport").submit();
     }
+    function refreshWeeklyHospitalData(){
+        
+        if( ( $("#hosData_refreshDate") && $("#hosData_refreshDate").val() == '' ) ){
+            alert('请选择日期');
+            return false;
+        }
+        loading();
+        $("#refreshWeeklyHospitalData").submit();
+    }
 	$(function(){
 	    $("#rsdSelect").unbind("change", eWebRsdDropLangChange).bind("change", eWebRsdDropLangChange);
 	    $("#rsmSelect").unbind("change", eWebRsmDropFrameChange).bind("change", eWebRsmDropFrameChange);
@@ -335,6 +344,19 @@
 		                    </form>
 		                    <c:if test="${weeklyPDFRefreshMessage != null && weeklyPDFRefreshMessage != ''}">
 		                        <div><span class="upload_success_title">${weeklyPDFRefreshMessage}</span></div>
+		                    </c:if>
+		                </div>
+					</div>
+					<div class="element_block">
+					     <div class="element_title">医院周报中间表数据刷新</div>
+		                 <div>
+		                    <form action="refreshWeeklyHospitalData" id="refreshWeeklyHospitalData" method="post" enctype="multipart/form-data" data-ajax="false" accept-charset="UTF-8">
+		                                                                                    选择日期：<input id="hosData_refreshDate" type="text" name="refreshDate" class="ls_dailyReportDatepicker" readonly="readonly"/>
+		                        <br/>
+		                        <img alt="" src="<%=basePath%>images/button_submit.png" style="cursor: pointer; vertical-align: middle;" onclick="refreshWeeklyHospitalData()" />
+		                    </form>
+		                    <c:if test="${weeklyHosRefreshMessage != null && weeklyHosRefreshMessage != ''}">
+		                        <div><span class="upload_success_title">${weeklyHosRefreshMessage}</span></div>
 		                    </c:if>
 		                </div>
 					</div>

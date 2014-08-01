@@ -22,6 +22,7 @@ import com.chalet.lskpi.mapper.RespirologyMobileRowMapper;
 import com.chalet.lskpi.mapper.RespirologyMonthDataRowMapper;
 import com.chalet.lskpi.mapper.RespirologyRowMapper;
 import com.chalet.lskpi.mapper.TopAndBottomRSMDataRowMapper;
+import com.chalet.lskpi.mapper.WeeklyHospitalDataRowMapper;
 import com.chalet.lskpi.model.DailyReportData;
 import com.chalet.lskpi.model.Hospital;
 import com.chalet.lskpi.model.MobileRESDailyData;
@@ -32,6 +33,7 @@ import com.chalet.lskpi.model.RespirologyMonthDBData;
 import com.chalet.lskpi.model.TopAndBottomRSMData;
 import com.chalet.lskpi.model.UserCode;
 import com.chalet.lskpi.model.UserInfo;
+import com.chalet.lskpi.model.WeeklyDataOfHospital;
 import com.chalet.lskpi.model.WeeklyRatioData;
 import com.chalet.lskpi.utils.DailyReportDataRowMapper;
 import com.chalet.lskpi.utils.DataBean;
@@ -1146,6 +1148,16 @@ public class RespirologyDAOImpl implements RespirologyDAO {
 	public String getLatestDuration() throws Exception {
 		return dataBean.getJdbcTemplate().queryForObject("select distinct duration from tbl_respirology_data_weekly order by duration desc limit 1", String.class);
 	}
+	
+
+    public List<WeeklyDataOfHospital> getWeeklyDataOfHospital(Date refreshDate) throws Exception {
+        Timestamp lastweekDay = new Timestamp(refreshDate.getTime());
+        StringBuffer sb = new StringBuffer();
+        sb.append(LsAttributes.SQL_HOSPITAL_WEEKLY_DATA_SELECTION)
+          .append(" from tbl_respirology_data_weekly ")
+          .append(" where duration = CONCAT(DATE_FORMAT(DATE_SUB(?, Interval 6 day),'%Y.%m.%d'), '-',DATE_FORMAT(?,'%Y.%m.%d'))");
+        return dataBean.getJdbcTemplate().query(sb.toString(), new Object[]{lastweekDay,lastweekDay}, new WeeklyHospitalDataRowMapper());
+    }
     
     public DataBean getDataBean() {
         return dataBean;
@@ -1154,4 +1166,5 @@ public class RespirologyDAOImpl implements RespirologyDAO {
     public void setDataBean(DataBean dataBean) {
         this.dataBean = dataBean;
     }
+
 }

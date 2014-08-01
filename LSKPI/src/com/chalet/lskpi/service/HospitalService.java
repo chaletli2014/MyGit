@@ -78,4 +78,5 @@ public interface HospitalService {
 	public boolean hasLastWeeklyData() throws Exception;
 	public void generateWeeklyDataOfHospital() throws Exception;
 	public void generateWeeklyDataOfHospital(Date refreshDate) throws Exception;
+	public int deleteOldHospitalWeeklyData(String duration) throws Exception;
 }

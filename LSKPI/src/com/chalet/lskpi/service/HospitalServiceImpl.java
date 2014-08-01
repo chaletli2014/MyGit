@@ -17,8 +17,10 @@ import org.springframework.dao.IncorrectResultSizeDataAccessException;
 import org.springframework.stereotype.Service;
 
 import com.chalet.lskpi.comparator.HospitalSalesDataComparator;
+import com.chalet.lskpi.dao.ChestSurgeryDAO;
 import com.chalet.lskpi.dao.DoctorDAO;
 import com.chalet.lskpi.dao.HospitalDAO;
+import com.chalet.lskpi.dao.RespirologyDAO;
 import com.chalet.lskpi.dao.UserDAO;
 import com.chalet.lskpi.exception.CustomrizedExceptioin;
 import com.chalet.lskpi.model.Doctor;
@@ -30,6 +32,7 @@ import com.chalet.lskpi.model.MonthlyData;
 import com.chalet.lskpi.model.MonthlyInRateData;
 import com.chalet.lskpi.model.MonthlyRatioData;
 import com.chalet.lskpi.model.UserInfo;
+import com.chalet.lskpi.model.WeeklyDataOfHospital;
 import com.chalet.lskpi.utils.DateUtils;
 import com.chalet.lskpi.utils.LsAttributes;
 
@@ -53,6 +56,14 @@ public class HospitalServiceImpl implements HospitalService {
 	@Autowired
 	@Qualifier("doctorDAO")
 	private DoctorDAO doctorDAO;
+	
+	@Autowired
+	@Qualifier("respirologyDAO")
+	private RespirologyDAO respirologyDAO;
+	
+	@Autowired
+	@Qualifier("chestSurgeryDAO")
+	private ChestSurgeryDAO chestSurgeryDAO;
 	
 	private Logger logger = Logger.getLogger(HospitalServiceImpl.class);
 	
@@ -396,11 +407,43 @@ public class HospitalServiceImpl implements HospitalService {
         return count>0;
     }
 	
+
+    public int deleteOldHospitalWeeklyData(String duration) throws Exception {
+        return hospitalDAO.deleteOldHospitalWeeklyData(duration);
+    }
+	
 	public void generateWeeklyDataOfHospital() throws Exception {
 		hospitalDAO.generateWeeklyDataOfHospital();
     }
     
     public void generateWeeklyDataOfHospital(Date refreshDate) throws Exception {
-    	hospitalDAO.generateWeeklyDataOfHospital(refreshDate);
+        logger.info("start to generate the ped hospital data");
+    	hospitalDAO.generateWeeklyPEDDataOfHospital(refreshDate);
+    	logger.info("finish to generate the ped data");
+    	
+    	List<WeeklyDataOfHospital> resWeeklyHosData = respirologyDAO.getWeeklyDataOfHospital(refreshDate);
+    	for( WeeklyDataOfHospital data : resWeeklyHosData ){
+    	    int hosWeeklyDataId = hospitalDAO.getWeeklyDataIDOfHospital(data.getDuration(), data.getHospitalCode());
+    	    if( hosWeeklyDataId > 0 ){
+    	        hospitalDAO.updateHospitalWeeklyRESData(data, hosWeeklyDataId);
+    	    }else{
+    	        hospitalDAO.insertHospitalWeeklyRESData(data);
+    	    }
+    	}
+    	
+    	logger.info("finish to populate the res data");
+    	
+    	List<WeeklyDataOfHospital> cheWeeklyHosData = chestSurgeryDAO.getWeeklyDataOfHospital(refreshDate);
+    	
+    	for( WeeklyDataOfHospital data : cheWeeklyHosData ){
+            int hosWeeklyDataId = hospitalDAO.getWeeklyDataIDOfHospital(data.getDuration(), data.getHospitalCode());
+            if( hosWeeklyDataId > 0 ){
+                hospitalDAO.updateHospitalWeeklyCHEData(data, hosWeeklyDataId);
+            }else{
+                hospitalDAO.insertHospitalWeeklyCHEData(data);
+            }
+        }
+    	
+    	logger.info("finish to populate the che data");
     }
 }

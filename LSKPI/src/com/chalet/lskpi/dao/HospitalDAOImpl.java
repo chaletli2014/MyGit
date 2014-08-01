@@ -35,6 +35,7 @@ import com.chalet.lskpi.model.MonthlyData;
 import com.chalet.lskpi.model.MonthlyInRateData;
 import com.chalet.lskpi.model.MonthlyRatioData;
 import com.chalet.lskpi.model.UserInfo;
+import com.chalet.lskpi.model.WeeklyDataOfHospital;
 import com.chalet.lskpi.utils.DataBean;
 import com.chalet.lskpi.utils.DateUtils;
 import com.chalet.lskpi.utils.LsAttributes;
@@ -637,7 +638,7 @@ public class HospitalDAOImpl implements HospitalDAO {
     @Override
     public void generateWeeklyDataOfHospital() throws Exception {
         Date lastweekDay = DateUtils.getGenerateWeeklyReportDate();
-        this.generateWeeklyDataOfHospital(lastweekDay);
+        this.generateWeeklyPEDDataOfHospital(lastweekDay);
     }
     
     @Override
@@ -647,15 +648,15 @@ public class HospitalDAOImpl implements HospitalDAO {
     }
 	
 	@Override
-	public void generateWeeklyDataOfHospital(Date refreshDate) throws Exception {
+	public void generateWeeklyPEDDataOfHospital(Date refreshDate) throws Exception {
 	    Timestamp lastweekDay = new Timestamp(refreshDate.getTime());
         StringBuffer sb = new StringBuffer();
         
-        sb.append("insert into tbl_hosptial_data_weekly(id,duration,hospitalCode,pedPNum,pedLsNum,pedAverageDose,updatedate) ")
+        sb.append("insert into tbl_hospital_data_weekly(id,duration,hospitalCode,pedPNum,pedLsNum,pedAverageDose,updatedate) ")
             .append(" select ")
             .append(" null,")
             .append(" CONCAT(DATE_FORMAT(DATE_SUB(?, Interval 6 day),'%Y.%m.%d'), '-',DATE_FORMAT(?,'%Y.%m.%d')) as duration, ")
-            .append(" h.code, ")
+            .append(" pdw.hospitalCode, ")
             .append(" pdw.pnum, ")
             .append(" pdw.lsnum, ")
             .append(" pdw.averageDose, ")
@@ -666,10 +667,76 @@ public class HospitalDAOImpl implements HospitalDAO {
         logger.info(String.format("finish to generate the hospital weekly data of ped, the result is %s", result));
 	}
 	
-	public DataBean getDataBean() {
-		return dataBean;
-	}
-	public void setDataBean(DataBean dataBean) {
-		this.dataBean = dataBean;
-	}
+    public int getWeeklyDataIDOfHospital(String duration, String hospitalCode) throws Exception {
+        StringBuffer sb = new StringBuffer();
+        int id = 0;
+        sb.append(" select id ")
+            .append(" from tbl_hospital_data_weekly hdw ")
+            .append(" where hdw.duration = ? ")
+            .append(" and hdw.hospitalCode=?");
+        try{
+            id = dataBean.getJdbcTemplate().queryForInt(sb.toString(), new Object[]{duration,hospitalCode});
+        }catch(Exception e){
+            logger.warn("fail to get the hospital weekly data ID,"+e.getMessage());
+        }
+        return id;
+    }
+
+    public void insertHospitalWeeklyRESData(WeeklyDataOfHospital weeklyData) throws Exception {
+        StringBuffer sb = new StringBuffer();
+        sb.append(" insert into tbl_hospital_data_weekly(id,duration,hospitalCode,resPNum,resLsNum,resAverageDose,updatedate) ")
+            .append(" values ( null,?,?,?,?,?,now())");
+        dataBean.getJdbcTemplate().update(sb.toString(), new Object[]{weeklyData.getDuration()
+            ,weeklyData.getHospitalCode()
+            ,weeklyData.getPnum()
+            ,weeklyData.getLsnum()
+            ,weeklyData.getAverageDose()});
+    }
+
+    public void updateHospitalWeeklyRESData(WeeklyDataOfHospital weeklyData, int hosWeeklyDataId) throws Exception {
+        StringBuffer sql = new StringBuffer("update tbl_hospital_data_weekly set ")
+        .append("updatedate=NOW()")
+        .append(", resPNum=? ")
+        .append(", resLsNum=? ")
+        .append(", resAverageDose=? ")
+        .append(" where id=? ");
+        
+        dataBean.getJdbcTemplate().update(sql.toString(), new Object[]{weeklyData.getPnum(),weeklyData.getLsnum(),weeklyData.getAverageDose(),hosWeeklyDataId});
+    }
+
+    public void insertHospitalWeeklyCHEData(WeeklyDataOfHospital weeklyData) throws Exception {
+        StringBuffer sb = new StringBuffer();
+        sb.append(" insert into tbl_hospital_data_weekly(id,duration,hospitalCode,chePNum,cheLsNum,cheAverageDose,updatedate) ")
+            .append(" values ( null,?,?,?,?,?,now())");
+        dataBean.getJdbcTemplate().update(sb.toString(), new Object[]{weeklyData.getDuration()
+            ,weeklyData.getHospitalCode()
+            ,weeklyData.getPnum()
+            ,weeklyData.getLsnum()
+            ,weeklyData.getAverageDose()});
+    }
+
+    public void updateHospitalWeeklyCHEData(WeeklyDataOfHospital weeklyData, int hosWeeklyDataId) throws Exception {
+        StringBuffer sql = new StringBuffer("update tbl_hospital_data_weekly set ")
+        .append("updatedate=NOW()")
+        .append(", chePNum=? ")
+        .append(", cheLsNum=? ")
+        .append(", cheAverageDose=? ")
+        .append(" where id=? ");
+        
+        dataBean.getJdbcTemplate().update(sql.toString(), new Object[]{weeklyData.getPnum(),weeklyData.getLsnum(),weeklyData.getAverageDose(),hosWeeklyDataId});
+    }
+
+    public int deleteOldHospitalWeeklyData(String duration) throws Exception {
+        String sql = "delete from tbl_hospital_data_weekly where duration=?";
+        return dataBean.getJdbcTemplate().update(sql, new Object[] { duration });
+    }
+    
+
+    public DataBean getDataBean() {
+        return dataBean;
+    }
+    public void setDataBean(DataBean dataBean) {
+        this.dataBean = dataBean;
+    }
+
 }

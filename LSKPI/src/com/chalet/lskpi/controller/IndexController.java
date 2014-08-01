@@ -568,6 +568,11 @@ public class IndexController extends BaseController{
             request.getSession().removeAttribute(LsAttributes.WEEKLY_PDF_REFRESH_MESSAGE);
         }
         
+        if( null != request.getSession().getAttribute(LsAttributes.WEEKLY_HOS_REFRESH_MESSAGE) ){
+            view.addObject(LsAttributes.WEEKLY_HOS_REFRESH_MESSAGE, (String)request.getSession().getAttribute(LsAttributes.WEEKLY_HOS_REFRESH_MESSAGE));
+            request.getSession().removeAttribute(LsAttributes.WEEKLY_HOS_REFRESH_MESSAGE);
+        }
+        
         if( null != request.getSession().getAttribute("reportFiles") ){
         	view.addObject("reportFiles", request.getSession().getAttribute("reportFiles"));
         	request.getSession().removeAttribute("reportFiles");

@@ -10,6 +10,7 @@ import com.chalet.lskpi.model.ReportProcessData;
 import com.chalet.lskpi.model.ReportProcessDataDetail;
 import com.chalet.lskpi.model.TopAndBottomRSMData;
 import com.chalet.lskpi.model.UserInfo;
+import com.chalet.lskpi.model.WeeklyDataOfHospital;
 import com.chalet.lskpi.model.WeeklyRatioData;
 
 public interface ChestSurgeryDAO {
@@ -58,4 +59,5 @@ public interface ChestSurgeryDAO {
     public void generateWeeklyDataOfHospital() throws Exception;
     public void generateWeeklyDataOfHospital(Date refreshDate) throws Exception;
     public int getLastWeeklyData() throws Exception;
+    public List<WeeklyDataOfHospital> getWeeklyDataOfHospital(Date refreshDate) throws Exception;
 }

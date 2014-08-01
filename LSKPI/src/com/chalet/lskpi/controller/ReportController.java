@@ -2003,6 +2003,38 @@ public class ReportController extends BaseController{
         
         return "redirect:showWebUploadData";
     }
+    
+
+    @RequestMapping("/refreshWeeklyHospitalData")
+    public String refreshWeeklyHospitalData(HttpServletRequest request, HttpServletResponse response) throws IOException{
+        String refreshDate_s = request.getParameter("refreshDate");
+        logger.info(String.format("start to refresh the weekly hospital Data, refresh date is %s", refreshDate_s));
+        
+        try{
+            
+            SimpleDateFormat formatter = new SimpleDateFormat("MM-dd-yyyy");
+            Date refreshDate = formatter.parse(refreshDate_s);
+            
+            String duration = DateUtils.getTheBeginDateOfRefreshDate(refreshDate)+"-"+DateUtils.getTheEndDateOfRefreshDate(refreshDate);
+            logger.info(String.format("start to remove the old weekly data, the duration is %s", duration));
+            
+            int rowNumP = hospitalService.deleteOldHospitalWeeklyData(duration);
+            logger.info(String.format("hospital weekly data : the number of rows affected is %s", rowNumP));
+            
+            logger.info(String.format("remove old weekly data done, start to generate the weekly data, the duration is %s", duration));
+            
+            Date weeklyRefreshDate = DateUtils.getGenerateWeeklyReportDate(refreshDate);
+            hospitalService.generateWeeklyDataOfHospital(weeklyRefreshDate);
+            
+            request.getSession().setAttribute(LsAttributes.WEEKLY_HOS_REFRESH_MESSAGE, LsAttributes.WEEKLY_HOS_DATA_REFRESHED);
+            
+        }catch(Exception e){
+            logger.error("fail to refresh the weekly hospital data,",e);
+        }
+        
+        logger.info("end to refresh the weekly hospital data");
+        return "redirect:showWebUploadData";
+    }
 
     @RequestMapping("/doDownloadMonthlyInRateData")
     public String doDownloadMonthlyInRateData(HttpServletRequest request, HttpServletResponse response) throws IOException{

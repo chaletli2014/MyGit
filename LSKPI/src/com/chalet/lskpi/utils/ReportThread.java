@@ -146,15 +146,12 @@ public class ReportThread extends Thread {
                         }
                         logger.info(" the data of chest surgery in last week is populated");
                         
-                        /**
-                         * 
                         if( !hospitalService.hasLastWeeklyData() ){
-                        	hospitalService.generateWeeklyDataOfHospital();
+                        	hospitalService.generateWeeklyDataOfHospital(DateUtils.getGenerateWeeklyReportDate());
                         }else{
                         	logger.info(" the data of hospital in last week is already generated");
                         }
                         logger.info(" the data of hospital in last week is populated");
-                         */
                         
                         
                         logger.info("start to generate the html weekly report");

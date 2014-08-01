@@ -9,6 +9,7 @@ public class LsAttributes {
     public static final String COLLECT_CHESTSURGERY_MESSAGE = "collectChestSurgeryMessage";
     public static final String WEEKLY_PDF_REPORT_MESSAGE = "weeklyReportMessage";
     public static final String WEEKLY_PDF_REFRESH_MESSAGE = "weeklyPDFRefreshMessage";
+    public static final String WEEKLY_HOS_REFRESH_MESSAGE = "weeklyHosRefreshMessage";
     public static final String UPLOAD_FILE_MESSAGE = "uploadFileMessage";
     public static final String CURRENT_OPERATOR_OBJECT = "operatorObj";
     public static final String CURRENT_OPERATOR = "operator";
@@ -83,6 +84,7 @@ public class LsAttributes {
      */
     public static final String WEEKLY_PDF_SEND = "上周周报已发送，请注意查收";
     public static final String WEEKLY_PDF_REFRESHED = "周报已刷新";
+    public static final String WEEKLY_HOS_DATA_REFRESHED = "数据已刷新";
     public static final String JSP_VERIFY_MESSAGE = "message";
     
     public static final String MESSAGE_AREA_ID = "messageareaid";
@@ -898,4 +900,8 @@ public class LsAttributes {
     
     public static final StringBuffer SQL_HOME_WEEKLY_DATA_FROM_HOME_ONLY
     = new StringBuffer(" from tbl_home_data hd ");
+    
+    
+    public static final StringBuffer SQL_HOSPITAL_WEEKLY_DATA_SELECTION
+        = new StringBuffer(" select duration, hospitalCode, pnum, lsnum, averageDose ");
 }
