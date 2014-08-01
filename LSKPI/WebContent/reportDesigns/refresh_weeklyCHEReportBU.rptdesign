@@ -16998,6 +16998,7 @@ this.getStyle().backgroundColor = "#FFFFFF";
                                     <property name="borderTopWidth">thin</property>
                                     <property name="textAlign">right</property>
                                     <data id="3783">
+                                        <property name="fontFamily">"Arial"</property>
                                         <structure name="numberFormat">
                                             <property name="category">Fixed</property>
                                             <property name="pattern">#,##0{RoundingMode=HALF_UP}</property>
@@ -17016,6 +17017,7 @@ this.getStyle().backgroundColor = "#FFFFFF";
                                     <property name="borderTopWidth">thin</property>
                                     <property name="textAlign">right</property>
                                     <data id="3854">
+                                        <property name="fontFamily">"Arial"</property>
                                         <structure name="numberFormat">
                                             <property name="category">Percent</property>
                                             <property name="pattern">###0.0%{RoundingMode=HALF_UP}</property>
@@ -17034,6 +17036,7 @@ this.getStyle().backgroundColor = "#FFFFFF";
                                     <property name="borderTopWidth">thin</property>
                                     <property name="textAlign">right</property>
                                     <data id="3787">
+                                        <property name="fontFamily">"Arial"</property>
                                         <structure name="numberFormat">
                                             <property name="category">Fixed</property>
                                             <property name="pattern">#,##0{RoundingMode=HALF_UP}</property>
@@ -17052,6 +17055,7 @@ this.getStyle().backgroundColor = "#FFFFFF";
                                     <property name="borderTopWidth">thin</property>
                                     <property name="textAlign">right</property>
                                     <data id="3789">
+                                        <property name="fontFamily">"Arial"</property>
                                         <structure name="numberFormat">
                                             <property name="category">Fixed</property>
                                             <property name="pattern">#,##0{RoundingMode=HALF_UP}</property>
@@ -17070,6 +17074,7 @@ this.getStyle().backgroundColor = "#FFFFFF";
                                     <property name="borderTopWidth">thin</property>
                                     <property name="textAlign">right</property>
                                     <data id="3791">
+                                        <property name="fontFamily">"Arial"</property>
                                         <structure name="numberFormat">
                                             <property name="category">Fixed</property>
                                             <property name="pattern">#,##0{RoundingMode=HALF_UP}</property>
@@ -17088,6 +17093,7 @@ this.getStyle().backgroundColor = "#FFFFFF";
                                     <property name="borderTopWidth">thin</property>
                                     <property name="textAlign">right</property>
                                     <data id="3845">
+                                        <property name="fontFamily">"Arial"</property>
                                         <structure name="numberFormat">
                                             <property name="category">Percent</property>
                                             <property name="pattern">###0.0%{RoundingMode=HALF_UP}</property>
@@ -17106,6 +17112,7 @@ this.getStyle().backgroundColor = "#FFFFFF";
                                     <property name="borderTopWidth">thin</property>
                                     <property name="textAlign">right</property>
                                     <data id="3793">
+                                        <property name="fontFamily">"Arial"</property>
                                         <structure name="numberFormat">
                                             <property name="category">Fixed</property>
                                             <property name="pattern">###0.00{RoundingMode=HALF_UP}</property>
@@ -17124,6 +17131,7 @@ this.getStyle().backgroundColor = "#FFFFFF";
                                     <property name="borderTopWidth">thin</property>
                                     <property name="textAlign">right</property>
                                     <data id="3795">
+                                        <property name="fontFamily">"Arial"</property>
                                         <structure name="numberFormat">
                                             <property name="category">Percent</property>
                                             <property name="pattern">###0%{RoundingMode=HALF_UP}</property>
@@ -17142,6 +17150,7 @@ this.getStyle().backgroundColor = "#FFFFFF";
                                     <property name="borderTopWidth">thin</property>
                                     <property name="textAlign">right</property>
                                     <data id="3797">
+                                        <property name="fontFamily">"Arial"</property>
                                         <structure name="numberFormat">
                                             <property name="category">Percent</property>
                                             <property name="pattern">###0%{RoundingMode=HALF_UP}</property>
@@ -17160,6 +17169,7 @@ this.getStyle().backgroundColor = "#FFFFFF";
                                     <property name="borderTopWidth">thin</property>
                                     <property name="textAlign">right</property>
                                     <data id="3799">
+                                        <property name="fontFamily">"Arial"</property>
                                         <structure name="numberFormat">
                                             <property name="category">Percent</property>
                                             <property name="pattern">###0%{RoundingMode=HALF_UP}</property>
@@ -17178,6 +17188,7 @@ this.getStyle().backgroundColor = "#FFFFFF";
                                     <property name="borderTopWidth">thin</property>
                                     <property name="textAlign">right</property>
                                     <data id="3801">
+                                        <property name="fontFamily">"Arial"</property>
                                         <structure name="numberFormat">
                                             <property name="category">Percent</property>
                                             <property name="pattern">###0%{RoundingMode=HALF_UP}</property>
@@ -17196,6 +17207,7 @@ this.getStyle().backgroundColor = "#FFFFFF";
                                     <property name="borderTopWidth">thin</property>
                                     <property name="textAlign">right</property>
                                     <data id="3803">
+                                        <property name="fontFamily">"Arial"</property>
                                         <structure name="numberFormat">
                                             <property name="category">Percent</property>
                                             <property name="pattern">###0%{RoundingMode=HALF_UP}</property>
@@ -17214,6 +17226,7 @@ this.getStyle().backgroundColor = "#FFFFFF";
                                     <property name="borderTopWidth">thin</property>
                                     <property name="textAlign">right</property>
                                     <data id="3805">
+                                        <property name="fontFamily">"Arial"</property>
                                         <structure name="numberFormat">
                                             <property name="category">Fixed</property>
                                             <property name="pattern">###0{RoundingMode=HALF_UP}</property>

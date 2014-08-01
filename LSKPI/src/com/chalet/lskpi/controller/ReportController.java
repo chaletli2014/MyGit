@@ -564,7 +564,7 @@ public class ReportController extends BaseController{
                 dsmCell.setCellStyle(top2Style);
                 
                 HSSFCell psrCell = row.createCell(4, XSSFCell.CELL_TYPE_STRING);
-                psrCell.setCellValue("PSR");
+                psrCell.setCellValue("销售代表");
                 psrCell.setCellStyle(top2Style);
                 
                 HSSFCell hosCodeCell = row.createCell(5, XSSFCell.CELL_TYPE_STRING);
@@ -976,8 +976,8 @@ public class ReportController extends BaseController{
             row.createCell(0, XSSFCell.CELL_TYPE_STRING).setCellValue("区域");
             row.createCell(1, XSSFCell.CELL_TYPE_STRING).setCellValue("大区");
             row.createCell(2, XSSFCell.CELL_TYPE_STRING).setCellValue("DSM");
-            row.createCell(3, XSSFCell.CELL_TYPE_STRING).setCellValue("PSR Code");
-            row.createCell(4, XSSFCell.CELL_TYPE_STRING).setCellValue("PSR");
+            row.createCell(3, XSSFCell.CELL_TYPE_STRING).setCellValue("销售Code");
+            row.createCell(4, XSSFCell.CELL_TYPE_STRING).setCellValue("销售代表");
             row.getCell(0).setCellStyle(topStyle);
             row.getCell(1).setCellStyle(topStyle);
             row.getCell(2).setCellStyle(topStyle);

@@ -26,7 +26,7 @@
 					    <td width="16%">名称</td>
 					    <td width="12%">总目标医生数</td>
 					    <td width="12%">上周新增医生数</td>
-					    <td width="12%">上周家庭雾化新病人次量</td>
+					    <td width="12%">卖/赠泵数量</td>
 					    <td width="12%">持续期治疗率</td>
 					    <td width="12%">推荐使用令舒的人次</td>
 					    <td width="12%">持续期令舒比例</td>
@@ -69,7 +69,7 @@
 	                        <td width="16%">名称</td>
 	                        <td width="12%">总目标医生数</td>
 	                        <td width="12%">上周新增医生数</td>
-	                        <td width="12%">上周家庭雾化新病人次量</td>
+	                        <td width="12%">卖/赠泵数量</td>
 	                        <td width="12%">持续期治疗率</td>
 	                        <td width="12%">推荐使用令舒的人次</td>
 	                        <td width="12%">持续期令舒比例</td>
@@ -104,7 +104,7 @@
 					    <td width="16%">名称</td>
 					    <td width="12%">总目标医生数</td>
 					    <td width="12%">上周新增医生数</td>
-					    <td width="12%">上周家庭雾化新病人次量</td>
+					    <td width="12%">卖/赠泵数量</td>
 					    <td width="12%">持续期治疗率</td>
 					    <td width="12%">推荐使用令舒的人次</td>
 					    <td width="12%">持续期令舒比例</td>
