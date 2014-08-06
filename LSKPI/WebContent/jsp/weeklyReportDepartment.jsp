@@ -20,19 +20,21 @@ function showNextPage(pageURL){
         </jsp:include>
         <div data-role="content" data-theme="a">
         	<div data-role="fieldcontain" class="department_img_div">
-	            <img alt="" src="<%=basePath%>images/img_bg_res_weekly.png" onclick="showNextPage('<%=basePath%>resWeeklyreport')" style="cursor: pointer;">
-        	</div>
-        	<div data-role="fieldcontain" class="department_img_div">
 	            <img alt="" src="<%=basePath%>images/img_bg_ped_weekly.png" onclick="showNextPage('<%=basePath%>pedWeeklyreport')" style="cursor: pointer;">
         	</div>
+        <%--
+        	<div data-role="fieldcontain" class="department_img_div">
+	            <img alt="" src="<%=basePath%>images/img_bg_res_weekly.png" onclick="showNextPage('<%=basePath%>resWeeklyreport')" style="cursor: pointer;">
+        	</div>
+         --%>
         	<div data-role="fieldcontain" class="department_img_div">
 	            <img alt="" src="<%=basePath%>images/img_bg_chestSurgery_weekly.png" onclick="showNextPage('<%=basePath%>cheWeeklyreport')" style="cursor: pointer;">
         	</div>
         	<div data-role="fieldcontain" class="department_img_div">
-	            <img alt="" src="<%=basePath%>images/img_bg_monthly_report.png" onclick="showNextPage('<%=basePath%>monthlyDataReport')" style="cursor: pointer;">
+	            <img alt="" src="<%=basePath%>images/img_bg_home_report.png" onclick="showNextPage('<%=basePath%>homeReport')" style="cursor: pointer;">
         	</div>
         	<div data-role="fieldcontain" class="department_img_div">
-	            <img alt="" src="<%=basePath%>images/img_bg_home_report.png" onclick="showNextPage('<%=basePath%>homeReport')" style="cursor: pointer;">
+	            <img alt="" src="<%=basePath%>images/img_bg_monthly_report.png" onclick="showNextPage('<%=basePath%>monthlyDataReport')" style="cursor: pointer;">
         	</div>
         </div>
         <jsp:include page="page_footer.jsp" flush="true">

@@ -811,7 +811,7 @@ public class ReportController extends BaseController{
     			inRateCell.setCellStyle(top2Style);
     			
     			HSSFCell dsmCell = row.createCell(5, XSSFCell.CELL_TYPE_STRING);
-    			dsmCell.setCellValue("上周家庭雾化新病人次量");
+    			dsmCell.setCellValue("卖/赠泵数量");
     			dsmCell.setCellStyle(top2Style);
     			
     			HSSFCell psrCell = row.createCell(6, XSSFCell.CELL_TYPE_STRING);
