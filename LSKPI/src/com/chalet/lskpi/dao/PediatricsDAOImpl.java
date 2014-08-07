@@ -222,7 +222,7 @@ public class PediatricsDAOImpl implements PediatricsDAO {
     	StringBuffer mobilePEDWeeklySQL = new StringBuffer();
    	 	mobilePEDWeeklySQL.append(LsAttributes.SQL_WEEKLY_PED_RATIO_DATA_SELECT_PED)
     	.append(" , lastweekdata.region as userCode")
-    	.append(" , lastweekdata.region as name ")
+    	.append(" , (select distinct property_value from tbl_property where property_name=lastweekdata.region ) as name ")
     	.append(" from ( ")
     	.append("   select h.region, ")
     	.append(LsAttributes.SQL_WEEKLY_PED_RATIO_DATA_LASTWEEK_SELECT_PED)
@@ -233,7 +233,7 @@ public class PediatricsDAOImpl implements PediatricsDAO {
 	    .append(LsAttributes.SQL_WEEKLY_PED_RATIO_DATA_LAST2WEEK_SELECT_PED)
 	    .append("	group by h.region")
 	    .append(") last2weekdata ")
-        .append("where lastweekdata.region = last2weekdata.region ");
+        .append("where lastweekdata.region = last2weekdata.region  order by lastweekdata.region");
        return dataBean.getJdbcTemplate().query(mobilePEDWeeklySQL.toString(),new PEDWeeklyRatioDataRowMapper());
     }
     

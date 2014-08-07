@@ -77,6 +77,20 @@ public class DateUtils {
         return sb.toString();
     }
     
+    public static String getWeeklyDurationYYYYMMDD(Date date){
+    	StringBuffer sb = new StringBuffer("");
+    	if( date.getDay() <= 3 ){
+    		sb.append(formatter_1.format(new Date(date.getTime() - (date.getDay()+10)*24*60*60*1000)))
+    		.append("-")
+    		.append(formatter_1.format(new Date(date.getTime() - (date.getDay()+4)*24*60*60*1000)));
+    	}else{
+    		sb.append(formatter_1.format(new Date(date.getTime() - (date.getDay()+3)*24*60*60*1000)))
+    		.append("-")
+    		.append(formatter_1.format(new Date(date.getTime() + (3-date.getDay())*24*60*60*1000)));
+    	}
+    	return sb.toString();
+    }
+    
     public static String getLastMonthForTitle(){
         SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM");
         

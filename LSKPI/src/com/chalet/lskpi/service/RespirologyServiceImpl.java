@@ -459,7 +459,11 @@ public class RespirologyServiceImpl implements RespirologyService {
         if( LsAttributes.USER_LEVEL_BM.equalsIgnoreCase(userInfo.getLevel()) ){
         	orderedResData.addAll(leftResData);
         }else{
-        	orderedResData.addAll(1,leftResData);
+        	if( null != orderedResData && orderedResData.size() == 0 ){
+        		orderedResData.addAll(leftResData);
+        	}else{
+        		orderedResData.addAll(1,leftResData);
+        	}
         }
         
         return orderedResData;

@@ -225,7 +225,7 @@ public class RespirologyDAOImpl implements RespirologyDAO {
     	StringBuffer mobileRESWeeklySQL = new StringBuffer();
     	mobileRESWeeklySQL.append(LsAttributes.SQL_WEEKLY_PED_RATIO_DATA_SELECT_RES)
     	.append(" , lastweekdata.region as userCode")
-    	.append(" , lastweekdata.region as name")
+    	.append(" , (select distinct property_value from tbl_property where property_name=lastweekdata.region ) as name")
     	.append(" from ( ")
     	.append("   select h.region, ")
     	.append(LsAttributes.SQL_WEEKLY_PED_RATIO_DATA_LASTWEEK_SELECT_RES)
@@ -236,7 +236,7 @@ public class RespirologyDAOImpl implements RespirologyDAO {
 	    .append(LsAttributes.SQL_WEEKLY_PED_RATIO_DATA_LAST2WEEK_SELECT_RES)
 	    .append("	group by h.region")
 	    .append(") last2weekdata ")
-        .append("where lastweekdata.region = last2weekdata.region ");
+        .append("where lastweekdata.region = last2weekdata.region  order by lastweekdata.region");
        return dataBean.getJdbcTemplate().query(mobileRESWeeklySQL.toString(),new RESWeeklyRatioDataRowMapper());
     }
     
