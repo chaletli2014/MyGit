@@ -297,7 +297,7 @@ where telephone=?]]></xml-property>
   </DataSetParameters>
 </model:DesignValues>]]></xml-property>
         </oda-data-set>
-        <oda-data-set extensionID="org.eclipse.birt.report.data.oda.jdbc.JdbcSelectDataSet" name="rsmCentralRESDataSet" id="1035">
+        <oda-data-set extensionID="org.eclipse.birt.report.data.oda.jdbc.JdbcSelectDataSet" name="centralRSMWeeklyDataSet" id="1035">
             <property name="nullsOrdering">nulls lowest</property>
             <list-property name="computedColumns">
                 <structure>
@@ -2483,7 +2483,7 @@ order by rdw.duration desc;]]></xml-property>
   </design:ResultSets>
 </model:DesignValues>]]></xml-property>
         </oda-data-set>
-        <oda-data-set extensionID="org.eclipse.birt.report.data.oda.jdbc.JdbcSelectDataSet" name="centralHospitalInfo" id="1354">
+        <oda-data-set extensionID="org.eclipse.birt.report.data.oda.jdbc.JdbcSelectDataSet" name="centralRSMHospitalInfo" id="1354">
             <list-property name="columnHints">
                 <structure>
                     <property name="columnName">hosNum</property>
@@ -2638,7 +2638,7 @@ and isResAssessed='1']]></xml-property>
                 <cell id="741">
                     <property name="fontFamily">"Microsoft YaHei UI"</property>
                     <table id="1355">
-                        <property name="dataSet">centralHospitalInfo</property>
+                        <property name="dataSet">centralRSMHospitalInfo</property>
                         <list-property name="boundDataColumns">
                             <structure>
                                 <property name="name">hosNum</property>
@@ -2759,7 +2759,7 @@ and isResAssessed='1']]></xml-property>
                         <property name="fontFamily">"Arial"</property>
                         <property name="pageBreakAfter">avoid</property>
                         <property name="width">10.21875in</property>
-                        <property name="dataSet">rsmCentralRESDataSet</property>
+                        <property name="dataSet">centralRSMWeeklyDataSet</property>
                         <list-property name="boundDataColumns">
                             <structure>
                                 <property name="name">region</property>
