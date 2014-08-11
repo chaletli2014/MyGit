@@ -50,16 +50,16 @@
         <oda-data-set extensionID="org.eclipse.birt.report.data.oda.jdbc.JdbcSelectDataSet" name="hospitalLevelDataSet" id="938">
             <list-property name="columnHints">
                 <structure>
-                    <property name="columnName">thNum</property>
+                    <property name="columnName">coreNum</property>
                     <property name="analysis">measure</property>
-                    <text-property name="displayName">thNum</text-property>
-                    <text-property name="heading">thNum</text-property>
+                    <text-property name="displayName">coreNum</text-property>
+                    <text-property name="heading">coreNum</text-property>
                 </structure>
                 <structure>
-                    <property name="columnName">tNum</property>
+                    <property name="columnName">emergingNum</property>
                     <property name="analysis">measure</property>
-                    <text-property name="displayName">tNum</text-property>
-                    <text-property name="heading">tNum</text-property>
+                    <text-property name="displayName">emergingNum</text-property>
+                    <text-property name="heading">emergingNum</text-property>
                 </structure>
                 <structure>
                     <property name="columnName">region</property>
@@ -73,12 +73,12 @@
                 <list-property name="resultSet">
                     <structure>
                         <property name="position">1</property>
-                        <property name="name">thNum</property>
+                        <property name="name">coreNum</property>
                         <property name="dataType">decimal</property>
                     </structure>
                     <structure>
                         <property name="position">2</property>
-                        <property name="name">tNum</property>
+                        <property name="name">emergingNum</property>
                         <property name="dataType">decimal</property>
                     </structure>
                     <structure>
@@ -92,15 +92,15 @@
             <list-property name="resultSet">
                 <structure>
                     <property name="position">1</property>
-                    <property name="name">thNum</property>
-                    <property name="nativeName">thNum</property>
+                    <property name="name">coreNum</property>
+                    <property name="nativeName">coreNum</property>
                     <property name="dataType">decimal</property>
                     <property name="nativeDataType">-5</property>
                 </structure>
                 <structure>
                     <property name="position">2</property>
-                    <property name="name">tNum</property>
-                    <property name="nativeName">tNum</property>
+                    <property name="name">emergingNum</property>
+                    <property name="nativeName">emergingNum</property>
                     <property name="dataType">decimal</property>
                     <property name="nativeDataType">-5</property>
                 </structure>
@@ -112,44 +112,23 @@
                     <property name="nativeDataType">12</property>
                 </structure>
             </list-property>
-            <xml-property name="queryText"><![CDATA[( 
-	select count(1) as thNum,
-	0 as tNum, 
-	(	case when 
-		h.region in (
-			select property_name 
-			from tbl_property p	)
-		then (
-			select property_value 
-			from tbl_property 
-			where property_name=h.region)
-		else h.region 
-		end
-	) region 
-	from tbl_hospital h
-	where level='3' 
-	and isResAssessed='1' 
-	group by region ) 
-UNION ALL 
-( 
-	select 0 as thNum, 
-	count(1) as tNum,
-	(	case when 
-		h.region in (
-			select property_name 
-			from tbl_property p	)
-		then (
-			select property_value 
-			from tbl_property 
-			where property_name=h.region)
-		else h.region 
-		end
-	) region 
-	from tbl_hospital h
-	where level!='3' 
-	and isResAssessed='1' 
-	group by region
-)]]></xml-property>
+            <xml-property name="queryText"><![CDATA[select core.coreNum,
+emerging.emergingNum,
+(	case when 
+	core.region in (
+		select property_name 
+		from tbl_property p	)
+	then (
+		select property_value 
+		from tbl_property 
+		where property_name=core.region)
+	else core.region 
+	end
+) region
+ from 
+( select count(1) as coreNum,region from tbl_hospital where dragonType='Core' and isResAssessed='1' group by region ) core, 
+( select count(1) as emergingNum,region from tbl_hospital where dragonType='Emerging' and isResAssessed='1' group by region) emerging 
+ where core.region = emerging.region;]]></xml-property>
             <xml-property name="designerValues"><![CDATA[<?xml version="1.0" encoding="UTF-8"?>
 <model:DesignValues xmlns:design="http://www.eclipse.org/datatools/connectivity/oda/design" xmlns:model="http://www.eclipse.org/birt/report/model/adapter/odaModel">
   <Version>2.0</Version>
@@ -1368,7 +1347,7 @@ order by rdw.duration desc;]]></xml-property>
   </design:ResultSets>
 </model:DesignValues>]]></xml-property>
         </oda-data-set>
-        <oda-data-set extensionID="org.eclipse.birt.report.data.oda.jdbc.JdbcSelectDataSet" name="weeklyRESWhRateL2DataSet" id="999">
+        <oda-data-set extensionID="org.eclipse.birt.report.data.oda.jdbc.JdbcSelectDataSet" name="weeklyRESWhRateEmergingDataSet" id="999">
             <list-property name="columnHints">
                 <structure>
                     <property name="columnName">duration</property>
@@ -1453,7 +1432,7 @@ from
 	limit 0,4776 
 ) rdw, tbl_hospital h 
 where h.code = rdw.hospitalCode 
-and h.level!='3'
+and h.dragonType='Emerging'
 group by rdw.duration,h.region 
 order by rdw.duration desc;]]></xml-property>
             <xml-property name="designerValues"><![CDATA[<?xml version="1.0" encoding="UTF-8"?>
@@ -1531,7 +1510,7 @@ order by rdw.duration desc;]]></xml-property>
   </design:ResultSets>
 </model:DesignValues>]]></xml-property>
         </oda-data-set>
-        <oda-data-set extensionID="org.eclipse.birt.report.data.oda.jdbc.JdbcSelectDataSet" name="weeklyRESWhRateL3DataSet" id="737">
+        <oda-data-set extensionID="org.eclipse.birt.report.data.oda.jdbc.JdbcSelectDataSet" name="weeklyRESWhRateCoreDataSet" id="737">
             <list-property name="columnHints">
                 <structure>
                     <property name="columnName">duration</property>
@@ -1616,7 +1595,7 @@ from
 	limit 0,4776 
 ) rdw, tbl_hospital h 
 where h.code = rdw.hospitalCode 
-and h.level='3'
+and h.dragonType='Core'
 group by rdw.duration,h.region 
 order by rdw.duration desc;]]></xml-property>
             <xml-property name="designerValues"><![CDATA[<?xml version="1.0" encoding="UTF-8"?>
@@ -14338,7 +14317,7 @@ limit 0,12;]]></xml-property>
       <Visible>true</Visible>
       <Label>
         <Caption>
-          <Value>L3医院雾化率</Value>
+          <Value>Core医院雾化率</Value>
           <Font>
             <Name>Microsoft YaHei</Name>
             <Size>16.0</Size>
@@ -15494,7 +15473,7 @@ limit 0,12;]]></xml-property>
                         <property name="pageBreakAfter">avoid</property>
                         <property name="height">5.8in</property>
                         <property name="width">960px</property>
-                        <property name="dataSet">weeklyRESWhRateL3DataSet</property>
+                        <property name="dataSet">weeklyRESWhRateCoreDataSet</property>
                         <list-property name="boundDataColumns">
                             <structure>
                                 <property name="name">duration</property>
@@ -15566,7 +15545,7 @@ limit 0,12;]]></xml-property>
       <Visible>true</Visible>
       <Label>
         <Caption>
-          <Value>L2医院雾化率</Value>
+          <Value>Emerging医院雾化率</Value>
           <Font>
             <Name>Microsoft YaHei</Name>
             <Size>16.0</Size>
@@ -16738,7 +16717,7 @@ limit 0,12;]]></xml-property>
                         <property name="pageBreakAfter">avoid</property>
                         <property name="height">5.8in</property>
                         <property name="width">960px</property>
-                        <property name="dataSet">weeklyRESWhRateL2DataSet</property>
+                        <property name="dataSet">weeklyRESWhRateEmergingDataSet</property>
                         <list-property name="boundDataColumns">
                             <structure>
                                 <property name="name">duration</property>
@@ -16810,7 +16789,7 @@ limit 0,12;]]></xml-property>
       <Visible>true</Visible>
       <Label>
         <Caption>
-          <Value>L3/L2 医院数量</Value>
+          <Value>Core/Emerging 医院数量</Value>
           <Font>
             <Name>Microsoft YaHei</Name>
             <Size>16.0</Size>
@@ -17421,13 +17400,13 @@ limit 0,12;]]></xml-property>
             <Visible>true</Visible>
           </Label>
           <DataDefinition>
-            <Definition>row[&quot;thNum&quot;]</Definition>
+            <Definition>row[&quot;coreNum&quot;]</Definition>
             <Grouping>
               <GroupType>Text</GroupType>
               <AggregateExpression>Sum</AggregateExpression>
             </Grouping>
           </DataDefinition>
-          <SeriesIdentifier>III 医院</SeriesIdentifier>
+          <SeriesIdentifier>Core 医院</SeriesIdentifier>
           <DataPoint>
             <Components>
               <Type>Orthogonal_Value</Type>
@@ -17712,14 +17691,14 @@ limit 0,12;]]></xml-property>
             <Visible>true</Visible>
           </Label>
           <DataDefinition>
-            <Definition>row[&quot;tNum&quot;]</Definition>
+            <Definition>row[&quot;emergingNum&quot;]</Definition>
             <Grouping>
               <Enabled>false</Enabled>
               <GroupType>Text</GroupType>
               <AggregateExpression>Sum</AggregateExpression>
             </Grouping>
           </DataDefinition>
-          <SeriesIdentifier>II 医院</SeriesIdentifier>
+          <SeriesIdentifier>Emerging 医院</SeriesIdentifier>
           <DataPoint>
             <Components>
               <Type>Orthogonal_Value</Type>
@@ -18256,19 +18235,19 @@ limit 0,12;]]></xml-property>
                         <property name="dataSet">hospitalLevelDataSet</property>
                         <list-property name="boundDataColumns">
                             <structure>
-                                <property name="name">thNum</property>
-                                <expression name="expression" type="javascript">dataSetRow["thNum"]</expression>
-                                <property name="dataType">decimal</property>
-                            </structure>
-                            <structure>
-                                <property name="name">tNum</property>
-                                <expression name="expression" type="javascript">dataSetRow["tNum"]</expression>
-                                <property name="dataType">decimal</property>
-                            </structure>
-                            <structure>
                                 <property name="name">region</property>
                                 <expression name="expression" type="javascript">dataSetRow["region"]</expression>
                                 <property name="dataType">string</property>
+                            </structure>
+                            <structure>
+                                <property name="name">coreNum</property>
+                                <expression name="expression" type="javascript">dataSetRow["coreNum"]</expression>
+                                <property name="dataType">decimal</property>
+                            </structure>
+                            <structure>
+                                <property name="name">emergingNum</property>
+                                <expression name="expression" type="javascript">dataSetRow["emergingNum"]</expression>
+                                <property name="dataType">decimal</property>
                             </structure>
                         </list-property>
                     </extended-item>
