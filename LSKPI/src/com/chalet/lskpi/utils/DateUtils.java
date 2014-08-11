@@ -1,5 +1,6 @@
 package com.chalet.lskpi.utils;
 
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
@@ -315,7 +316,23 @@ public class DateUtils {
     	return getHomeCollectionBegionDate(reportDate);
     }
     
+    public static String getEndDurationByStartDate(String startDate) throws ParseException{
+    	Date startDate_d = formatter_1.parse(startDate);
+    	Calendar cal = Calendar.getInstance();
+    	cal.setTime(startDate_d);
+    	cal.add(Calendar.DAY_OF_YEAR,-7*11);
+    	Date last12StartDate = cal.getTime();
+    	
+    	Date last12EndDate = new Date(last12StartDate.getTime() + 6 * 24 * 60 * 60 * 1000);
+    	return formatter_1.format(last12StartDate)+"-"+formatter_1.format(last12EndDate);
+    }
+    
     public static void main(String[] args){
-        System.out.println(getHomeWeeklyReportBegionDate());
+        try {
+			System.out.println(getEndDurationByStartDate("2014.07.31"));
+		} catch (ParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
     }
 }

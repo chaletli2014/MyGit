@@ -65,15 +65,13 @@ public class ReportUtils {
             	}else{
             		logger.info(String.format(LOG_MESSAGE, fileSubName));
             	}
-            	/**
-            	 * 
+            	
             	if( !new File(weeklyPDFRESReportFileName).exists() || ( !checkFileExists && new File(weeklyPDFRESReportFileName).exists()) ){
             		html.runRefreshReport( basePath + "reportDesigns/refresh_weeklyRESReportRSD.rptdesign",telephone,startDate,endDate,weeklyPDFRESReportFileName,"pdf","","","");
             		logger.info("the weekly res report for RSD is done.");
             	}else{
             		logger.info(String.format(LOG_MESSAGE, fileSubName));
             	}
-            	 */
             	
             	if( !new File(weeklyPDFCHEReportFileName).exists() || ( !checkFileExists && new File(weeklyPDFCHEReportFileName).exists()) ){
             	    html.runRefreshReport( basePath + "reportDesigns/refresh_weeklyCHEReportRSD.rptdesign",telephone,startDate,endDate,weeklyPDFCHEReportFileName,"pdf","","","");
@@ -92,15 +90,12 @@ public class ReportUtils {
             		logger.info(String.format(LOG_MESSAGE, fileSubName));
             	}
             
-            	/**
-            	 * 
             	if( !new File(weeklyPDFRESReportFileName).exists() || ( !checkFileExists && new File(weeklyPDFRESReportFileName).exists()) ){
             		html.runRefreshReport( basePath + "reportDesigns/refresh_weeklyRESReportRSM.rptdesign",telephone,startDate,endDate,weeklyPDFRESReportFileName,"pdf","","","");
             		logger.info("the weekly res report for RSM is done.");
             	}else{
             		logger.info(String.format(LOG_MESSAGE, fileSubName));
             	}
-            	 */
             	
                 if( !new File(weeklyPDFCHEReportFileName).exists() || ( !checkFileExists && new File(weeklyPDFCHEReportFileName).exists()) ){
                     html.runRefreshReport( basePath + "reportDesigns/refresh_weeklyCHEReportRSM.rptdesign",telephone,startDate,endDate,weeklyPDFCHEReportFileName,"pdf","","","");
@@ -118,15 +113,12 @@ public class ReportUtils {
             		logger.info(String.format(LOG_MESSAGE, fileSubName));
             	}
             
-            	/**
-            	 * 
             	if( !new File(weeklyPDFRESReportFileName).exists() || ( !checkFileExists && new File(weeklyPDFRESReportFileName).exists()) ){
             		html.runRefreshReport( basePath + "reportDesigns/refresh_weeklyRESReportDSM.rptdesign",telephone,startDate,endDate,weeklyPDFRESReportFileName,"pdf","","","");
             		logger.info("the weekly res report for DSM is done.");
             	}else{
             		logger.info(String.format(LOG_MESSAGE, fileSubName));
             	}
-            	 */
             	
             	if( !new File(weeklyPDFCHEReportFileName).exists() || ( !checkFileExists && new File(weeklyPDFCHEReportFileName).exists()) ){
                     html.runRefreshReport( basePath + "reportDesigns/refresh_weeklyCHEReportDSM.rptdesign",telephone,startDate,endDate,weeklyPDFCHEReportFileName,"pdf","","","");
@@ -161,25 +153,19 @@ public class ReportUtils {
                         logger.info(String.format("the ped weekly report for BU %s is done.", region));
                     }
                     
-                    /**
-                     * 
                     if( !new File(weeklyPDFRESSingleRSDReportFileName).exists() || (isFirstRefresh && !checkFileExists)  ){
                         html.runRefreshReport( basePath + "reportDesigns/refresh_weeklyRESReportBUSingleRSD.rptdesign",telephone,startDate,endDate,weeklyPDFRESSingleRSDReportFileName,"pdf","","",region);
                         logger.info(String.format("the res weekly report for BU %s is done.", region));
                     }
-                     */
                     
                 }
                 
-                /**
-                 * 
                 if( !new File(weeklyPDFRESReportFileName).exists() || (isFirstRefresh && !checkFileExists)  ){
                     html.runRefreshReport( basePath + "reportDesigns/refresh_weeklyRESReportBU.rptdesign",telephone,startDate,endDate,weeklyPDFRESReportFileName,"pdf","","","");
                     logger.info("the res weekly res report for BU is done.");
                 }else{
                     logger.info("The res weekly report for BU is already generated, no need to do again.");
                 }
-                 */
                 
                 if( !new File(weeklyPDFPEDReportFileName).exists() || (isFirstRefresh && !checkFileExists)  ){
                     html.runRefreshReport( basePath + "reportDesigns/refresh_weeklyPEDReportBU.rptdesign",telephone,startDate,endDate,weeklyPDFPEDReportFileName,"pdf","","","");

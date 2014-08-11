@@ -156,6 +156,26 @@ public class BirtReportUtils {
                 evaluateParameterValues(parameterMap,parameters,paramValues);
             }
             
+            String startDuration = startDate+"-"+endDate;
+            if( null != startDuration ){
+    			logger.info(String.format("populdate the param startDuration %s", startDuration));
+    			IGetParameterDefinitionTask paramTask = engine.createGetParameterDefinitionTask(design);
+    			Collection parameters = paramTask.getParameterDefns(false);
+    			Map paramValues = new HashMap();
+    			paramValues.put("startDuration", startDuration);
+    			evaluateParameterValues(parameterMap,parameters,paramValues);
+    		}
+    		
+            String last12WeekDuration = DateUtils.getEndDurationByStartDate(startDate);
+    		if( null != last12WeekDuration ){
+    			logger.info(String.format("populdate the param last12WeekDuration %s", last12WeekDuration));
+    			IGetParameterDefinitionTask paramTask = engine.createGetParameterDefinitionTask(design);
+    			Collection parameters = paramTask.getParameterDefns(false);
+    			Map paramValues = new HashMap();
+    			paramValues.put("endDuration", last12WeekDuration);
+    			evaluateParameterValues(parameterMap,parameters,paramValues);
+    		}
+            
             IRunAndRenderTask task = engine.createRunAndRenderTask(design);  
             logger.info("create and render the refresh task");
             IRenderOption options = null;
@@ -186,7 +206,9 @@ public class BirtReportUtils {
             task.setRenderOption(options);
             if( ( null != telephone && !"".equalsIgnoreCase(telephone) ) 
                     || ( null != startDate && !"".equalsIgnoreCase(startDate) )
-                    || ( null != endDate && !"".equalsIgnoreCase(endDate) ) ){
+                    || ( null != endDate && !"".equalsIgnoreCase(endDate) ) 
+                    || ( null != startDuration && !"".equalsIgnoreCase(startDuration) ) 
+                    || ( null != last12WeekDuration && !"".equalsIgnoreCase(last12WeekDuration) ) ){
                 task.setParameterValues(parameterMap);
             }
             logger.info("start to run the refresh report task");
