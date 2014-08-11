@@ -136,6 +136,10 @@
         loading();
         $("#refreshWeeklyHospitalData").submit();
     }
+	function downloadResMonthData(){
+		loading();
+		$("#downloadResMonthData").submit();
+	}
 	$(function(){
 	    $("#rsdSelect").unbind("change", eWebRsdDropLangChange).bind("change", eWebRsdDropLangChange);
 	    $("#rsmSelect").unbind("change", eWebRsmDropFrameChange).bind("change", eWebRsmDropFrameChange);
@@ -395,6 +399,20 @@
 						<c:if test="${monthlyCollectionDataFile != null}">
 							<div id="monthlyCollectionDataFile">
 								<a href="${monthlyCollectionDataFile}">${monthlyCollectionDataFileName}</a>
+							</div>
+						</c:if>
+					</div>
+				</div>
+				<div class="element_block">
+				<div class="element_title">呼吸科月报统计</div>
+					<div>
+						<form action="doDownloadResMonthData" id="downloadResMonthData" method="post" enctype="multipart/form-data" data-ajax="false" accept-charset="UTF-8">
+							<input type="hidden" name="fromWeb" value="Y">
+							<img alt="" src="<%=basePath%>images/button_submit.png" style="cursor: pointer; vertical-align: middle;" onclick="downloadResMonthData()" />
+						</form>
+						<c:if test="${resMonthDataFile != null}">
+							<div>
+								<a href="${resMonthDataFile}">${resMonthDataFileName}</a>
 							</div>
 						</c:if>
 					</div>
