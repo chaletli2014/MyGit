@@ -94,6 +94,10 @@
 		loading();
 		$("#downloadDailyData").submit();
 	}
+   function downloadKPIHosData(){
+        loading();
+        $("#downloadKPIHosData").submit();
+    }
    function downloadHomeData(){
         
         if( $("#home_datepicker") && $("#home_datepicker").val() == '' || 
@@ -209,6 +213,25 @@
 		</div>
 		<div class="downloaddata_input_file">
 			<div class="download_title">数据下载</div>
+			<div class="element_block">
+				<div class="element_title">医院KPI医院列表下载</div>
+				<div>
+					<form action="doDownloadKPIHosData" id="downloadKPIHosData" method="post" enctype="multipart/form-data" data-ajax="false" accept-charset="UTF-8">
+						选择科室：<select name="department">
+									<option value="2">儿科</option>
+									<option value="1">呼吸科</option>
+									<option value="3">胸外科</option>
+									<option value="4">每月袋数</option>
+							</select> 
+						<img alt="" src="<%=basePath%>images/button_submit.png" style="cursor: pointer; vertical-align: middle;" onclick="downloadKPIHosData()" />
+					</form>
+					<c:if test="${kpiHosFile != null}">
+						<div id="kpiHosFile">
+							<a href="<%=basePath%>${kpiHosFile}">${fn:substringAfter(kpiHosFile,'/')}</a>
+						</div>
+					</c:if>
+				</div>
+			</div>
 			<div class="element_block">
 				<div class="element_title">原始数据查询</div>
 				<div>

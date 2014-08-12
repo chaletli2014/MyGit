@@ -27,6 +27,7 @@ import com.chalet.lskpi.model.Doctor;
 import com.chalet.lskpi.model.Hospital;
 import com.chalet.lskpi.model.HospitalSalesQueryObj;
 import com.chalet.lskpi.model.HospitalSalesQueryParam;
+import com.chalet.lskpi.model.KPIHospital4Export;
 import com.chalet.lskpi.model.Monthly12Data;
 import com.chalet.lskpi.model.MonthlyData;
 import com.chalet.lskpi.model.MonthlyInRateData;
@@ -446,4 +447,26 @@ public class HospitalServiceImpl implements HospitalService {
     	
     	logger.info("finish to populate the che data");
     }
+
+	@Override
+	public List<KPIHospital4Export> getKPIHospitalByDepartment(String department)
+			throws Exception {
+		List<KPIHospital4Export> dbKPIHos = new ArrayList<KPIHospital4Export>();
+		
+		switch(department){
+		case "1":
+			dbKPIHos = hospitalDAO.getKPIHospitalOfRes();
+			break;
+		case "2":
+			dbKPIHos = hospitalDAO.getKPIHospitalOfPed();
+			break;
+		case "3":
+			dbKPIHos = hospitalDAO.getKPIHospitalOfChe();
+			break;
+		case "4":
+			dbKPIHos = hospitalDAO.getKPIHospitalOfMonth();
+			break;
+		}
+		return dbKPIHos;
+	}
 }

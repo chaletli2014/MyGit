@@ -6,6 +6,7 @@ import java.util.List;
 import com.chalet.lskpi.model.Hospital;
 import com.chalet.lskpi.model.HospitalSalesQueryObj;
 import com.chalet.lskpi.model.HospitalSalesQueryParam;
+import com.chalet.lskpi.model.KPIHospital4Export;
 import com.chalet.lskpi.model.Monthly12Data;
 import com.chalet.lskpi.model.MonthlyData;
 import com.chalet.lskpi.model.MonthlyInRateData;
@@ -94,4 +95,8 @@ public interface HospitalDAO {
 	public void insertHospitalWeeklyCHEData(WeeklyDataOfHospital weeklyData) throws Exception;
 	public void updateHospitalWeeklyCHEData(WeeklyDataOfHospital weeklyData, int hosWeeklyDataId) throws Exception;
 	
+	public List<KPIHospital4Export> getKPIHospitalOfPed() throws Exception;
+	public List<KPIHospital4Export> getKPIHospitalOfRes() throws Exception;
+	public List<KPIHospital4Export> getKPIHospitalOfChe() throws Exception;
+	public List<KPIHospital4Export> getKPIHospitalOfMonth() throws Exception;
 }

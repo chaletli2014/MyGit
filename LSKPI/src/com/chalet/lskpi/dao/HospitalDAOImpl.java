@@ -21,6 +21,7 @@ import org.springframework.stereotype.Repository;
 
 import com.chalet.lskpi.mapper.HospitalRowMapper;
 import com.chalet.lskpi.mapper.HospitalSalesQueryRowMapper;
+import com.chalet.lskpi.mapper.KPIHospitalRowMapper;
 import com.chalet.lskpi.mapper.Monthly12DataRowMapper;
 import com.chalet.lskpi.mapper.MonthlyCollectionDataRowMapper;
 import com.chalet.lskpi.mapper.MonthlyDataRowMapper;
@@ -30,6 +31,7 @@ import com.chalet.lskpi.mapper.UserInfoRowMapper;
 import com.chalet.lskpi.model.Hospital;
 import com.chalet.lskpi.model.HospitalSalesQueryObj;
 import com.chalet.lskpi.model.HospitalSalesQueryParam;
+import com.chalet.lskpi.model.KPIHospital4Export;
 import com.chalet.lskpi.model.Monthly12Data;
 import com.chalet.lskpi.model.MonthlyData;
 import com.chalet.lskpi.model.MonthlyInRateData;
@@ -730,13 +732,60 @@ public class HospitalDAOImpl implements HospitalDAO {
         String sql = "delete from tbl_hospital_data_weekly where duration=?";
         return dataBean.getJdbcTemplate().update(sql, new Object[] { duration });
     }
-    
 
-    public DataBean getDataBean() {
-        return dataBean;
-    }
-    public void setDataBean(DataBean dataBean) {
-        this.dataBean = dataBean;
-    }
+	@Override
+	public List<KPIHospital4Export> getKPIHospitalOfRes()
+			throws Exception {
+		StringBuffer sb = new StringBuffer();
+	    sb.append("select h.province, h.city, h.code, h.name, h.dragonType, h.level ")
+	        .append(" , ( select distinct property_value from property where property_name = h.region ) as brCNName ")
+	        .append(" , h.region ")
+	        .append(" , ( select userCode from tbl_userinfo u where u.level='RSD' and u.regionCenter = h.region ) as rsdCode ")
+	        .append(" , ( select name from tbl_userinfo u where u.level='RSD' and u.regionCenter = h.region ) as rsdName ")
+	        .append("")
+	        .append("")
+	        .append("")
+	        .append("")
+	        .append(" from tbl_hospital h, tbl_userinfo rsd, tbl_userinfo rsm, tbl_userinfo dsm, tbl_userinfo rep, tbl_hos_user ")
+            .append(" where  ");
+        return dataBean.getJdbcTemplate().query(sb.toString(), new KPIHospitalRowMapper());
+	}
+	
+	@Override
+	public List<KPIHospital4Export> getKPIHospitalOfPed()
+			throws Exception {
+		StringBuffer sb = new StringBuffer();
+	    sb.append("select ")
+	        .append(" ")
+            .append(" ");
+        return dataBean.getJdbcTemplate().query(sb.toString(), new KPIHospitalRowMapper());
+	}
+	
+	@Override
+	public List<KPIHospital4Export> getKPIHospitalOfChe()
+			throws Exception {
+		StringBuffer sb = new StringBuffer();
+	    sb.append("select ")
+	        .append(" ")
+            .append(" ");
+        return dataBean.getJdbcTemplate().query(sb.toString(), new KPIHospitalRowMapper());
+	}
+	
+	@Override
+	public List<KPIHospital4Export> getKPIHospitalOfMonth()
+			throws Exception {
+		StringBuffer sb = new StringBuffer();
+	    sb.append("select ")
+	        .append(" ")
+            .append(" ");
+        return dataBean.getJdbcTemplate().query(sb.toString(), new KPIHospitalRowMapper());
+	}
+	
+	public DataBean getDataBean() {
+		return dataBean;
+	}
+	public void setDataBean(DataBean dataBean) {
+		this.dataBean = dataBean;
+	}
 
 }

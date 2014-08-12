@@ -37,6 +37,7 @@ import com.chalet.lskpi.model.ChestSurgeryData;
 import com.chalet.lskpi.model.ExportDoctor;
 import com.chalet.lskpi.model.HomeData;
 import com.chalet.lskpi.model.HomeWeeklyData;
+import com.chalet.lskpi.model.KPIHospital4Export;
 import com.chalet.lskpi.model.MobileCHEDailyData;
 import com.chalet.lskpi.model.MobilePEDDailyData;
 import com.chalet.lskpi.model.MobileRESDailyData;
@@ -117,6 +118,133 @@ public class ReportController extends BaseController{
         return returnValue;
     }
     
+    @RequestMapping("/doDownloadKPIHosData")
+    public String doDownloadKPIHosData(HttpServletRequest request, HttpServletResponse response) throws IOException{
+    	logger.info("download the KPI Hospital..");
+    	FileOutputStream fOut = null;
+    	String fileName = null;
+    	String fromWeb = request.getParameter("fromWeb");
+    	try{
+			String department = request.getParameter("department");
+			logger.info(String.format("begin to get the KPI Hospital of department %s", department));
+			List<KPIHospital4Export> dbHosData = hospitalService.getKPIHospitalByDepartment(department);
+			
+			File resDir = new File(request.getRealPath("/") + "kpiHosData/");
+			if( !resDir.exists() ){
+				resDir.mkdir();
+			}
+			
+			File tmpFile = null;
+			HSSFWorkbook workbook = new HSSFWorkbook();
+			
+			if( "1".equalsIgnoreCase(department) ){
+				fileName = "kpiHosData/呼吸科KPI医院列表.xls";
+				tmpFile = new File(request.getRealPath("/") + fileName);
+				if( !tmpFile.exists() ){
+					tmpFile.createNewFile();
+				}
+				workbook.createSheet("呼吸科KPI医院列表");
+			}else if( "2".equalsIgnoreCase(department) ){
+				fileName = "kpiHosData/儿科KPI医院列表.xls";
+				tmpFile = new File(request.getRealPath("/") + fileName);
+				if( !tmpFile.exists() ){
+					tmpFile.createNewFile();
+				}
+				workbook.createSheet("儿科KPI医院列表");
+			}else if( "3".equalsIgnoreCase(department) ){
+				fileName = "kpiHosData/胸外科KPI医院列表.xls";
+				tmpFile = new File(request.getRealPath("/") + fileName);
+				if( !tmpFile.exists() ){
+					tmpFile.createNewFile();
+				}
+				workbook.createSheet("胸外科KPI医院列表");
+			}else if( "4".equalsIgnoreCase(department) ){
+				fileName = "kpiHosData/每月袋数KPI医院列表.xls";
+				tmpFile = new File(request.getRealPath("/") + fileName);
+				if( !tmpFile.exists() ){
+					tmpFile.createNewFile();
+				}
+				workbook.createSheet("每月袋数KPI医院列表");
+			}
+				
+			fOut = new FileOutputStream(tmpFile);
+				
+			HSSFSheet sheet = workbook.getSheetAt(0);
+			int currentRowNum = 0;
+				
+			//build the header
+			HSSFRow row = sheet.createRow(currentRowNum++);
+			row.createCell(0, XSSFCell.CELL_TYPE_STRING).setCellValue("Province");
+			row.createCell(1, XSSFCell.CELL_TYPE_STRING).setCellValue("City");
+			row.createCell(2, XSSFCell.CELL_TYPE_STRING).setCellValue("Hospital Code");
+			row.createCell(3, XSSFCell.CELL_TYPE_STRING).setCellValue("Name");
+			row.createCell(4, XSSFCell.CELL_TYPE_STRING).setCellValue("Dragon Type");
+			row.createCell(5, XSSFCell.CELL_TYPE_STRING).setCellValue("Hospital Level");
+			row.createCell(6, XSSFCell.CELL_TYPE_STRING).setCellValue("BR CNName");
+			row.createCell(7, XSSFCell.CELL_TYPE_STRING).setCellValue("BR Name");
+			row.createCell(8, XSSFCell.CELL_TYPE_STRING).setCellValue("RSD Code");
+			row.createCell(9, XSSFCell.CELL_TYPE_STRING).setCellValue("RSD Name");
+			row.createCell(10, XSSFCell.CELL_TYPE_STRING).setCellValue("RSD Tel");
+			row.createCell(11, XSSFCell.CELL_TYPE_STRING).setCellValue("RSD Email");
+			row.createCell(12, XSSFCell.CELL_TYPE_STRING).setCellValue("DIST NAME");
+			row.createCell(13, XSSFCell.CELL_TYPE_STRING).setCellValue("RSM Code");
+			row.createCell(14, XSSFCell.CELL_TYPE_STRING).setCellValue("RSM Name");
+			row.createCell(15, XSSFCell.CELL_TYPE_STRING).setCellValue("RSM Tel");
+			row.createCell(16, XSSFCell.CELL_TYPE_STRING).setCellValue("RSM Email");
+			row.createCell(17, XSSFCell.CELL_TYPE_STRING).setCellValue("DSM Code");
+			row.createCell(18, XSSFCell.CELL_TYPE_STRING).setCellValue("DSM Name");
+			row.createCell(19, XSSFCell.CELL_TYPE_STRING).setCellValue("DSM Tel");
+			row.createCell(20, XSSFCell.CELL_TYPE_STRING).setCellValue("DSM Email");
+			row.createCell(21, XSSFCell.CELL_TYPE_STRING).setCellValue("是否为负责销售(是=1，否=0)");
+			row.createCell(22, XSSFCell.CELL_TYPE_STRING).setCellValue("Rep Code");
+			row.createCell(23, XSSFCell.CELL_TYPE_STRING).setCellValue("Rep Name");
+			row.createCell(24, XSSFCell.CELL_TYPE_STRING).setCellValue("Rep Tel");
+			row.createCell(25, XSSFCell.CELL_TYPE_STRING).setCellValue("Rep Email");
+			
+			for( KPIHospital4Export kpiHos : dbHosData ){
+				row = sheet.createRow(currentRowNum++);
+				row.createCell(0, XSSFCell.CELL_TYPE_STRING).setCellValue(kpiHos.getProvince());
+				row.createCell(1, XSSFCell.CELL_TYPE_STRING).setCellValue(kpiHos.getCity());
+				row.createCell(2, XSSFCell.CELL_TYPE_STRING).setCellValue(kpiHos.getCode());
+				row.createCell(3, XSSFCell.CELL_TYPE_STRING).setCellValue(kpiHos.getName());
+				row.createCell(4, XSSFCell.CELL_TYPE_STRING).setCellValue(kpiHos.getDragonType());
+				row.createCell(5, XSSFCell.CELL_TYPE_STRING).setCellValue(kpiHos.getLevel());
+				row.createCell(6, XSSFCell.CELL_TYPE_STRING).setCellValue(kpiHos.getBrCNName());
+				row.createCell(7, XSSFCell.CELL_TYPE_STRING).setCellValue(kpiHos.getRegion());
+				row.createCell(8, XSSFCell.CELL_TYPE_STRING).setCellValue(kpiHos.getRsdCode());
+				row.createCell(9, XSSFCell.CELL_TYPE_STRING).setCellValue(kpiHos.getRsdName());
+				row.createCell(10, XSSFCell.CELL_TYPE_STRING).setCellValue(kpiHos.getRsdTel());
+				row.createCell(11, XSSFCell.CELL_TYPE_STRING).setCellValue(kpiHos.getRsdEmail());
+				row.createCell(12, XSSFCell.CELL_TYPE_STRING).setCellValue(kpiHos.getRsmRegion());
+				row.createCell(13, XSSFCell.CELL_TYPE_STRING).setCellValue(kpiHos.getRsmCode());
+				row.createCell(14, XSSFCell.CELL_TYPE_STRING).setCellValue(kpiHos.getRsmName());
+				row.createCell(15, XSSFCell.CELL_TYPE_STRING).setCellValue(kpiHos.getRsmTel());
+				row.createCell(16, XSSFCell.CELL_TYPE_STRING).setCellValue(kpiHos.getRsmEmail());
+				row.createCell(17, XSSFCell.CELL_TYPE_STRING).setCellValue(kpiHos.getDsmCode());
+				row.createCell(18, XSSFCell.CELL_TYPE_STRING).setCellValue(kpiHos.getDsmName());
+				row.createCell(19, XSSFCell.CELL_TYPE_STRING).setCellValue(kpiHos.getDsmTel());
+				row.createCell(20, XSSFCell.CELL_TYPE_STRING).setCellValue(kpiHos.getDsmEmail());
+				row.createCell(21, XSSFCell.CELL_TYPE_STRING).setCellValue(kpiHos.getIsMainSales());
+				row.createCell(22, XSSFCell.CELL_TYPE_STRING).setCellValue(kpiHos.getSalesCode());
+				row.createCell(23, XSSFCell.CELL_TYPE_STRING).setCellValue(kpiHos.getSalesName());
+				row.createCell(24, XSSFCell.CELL_TYPE_STRING).setCellValue(kpiHos.getSalesTel());
+				row.createCell(25, XSSFCell.CELL_TYPE_STRING).setCellValue(kpiHos.getSalesEmail());
+			}
+			workbook.write(fOut);
+    	}catch(Exception e){
+    		logger.error("fail to download the KPI hospital file,",e);
+    	}finally{
+    		if( fOut != null ){
+    			fOut.close();
+    		}
+    	}
+    	request.getSession().setAttribute("kpiHosFile", fileName);
+    	if( null != fromWeb && "Y".equalsIgnoreCase(fromWeb) ){
+    		return "redirect:showWebUploadData";
+    	}else{
+    		return "redirect:showUploadData";
+    	}
+    }
     @RequestMapping("/doDownloadDailyData")
     public String doDownloadDailyData(HttpServletRequest request, HttpServletResponse response) throws IOException{
     	logger.info("download the daily data..");

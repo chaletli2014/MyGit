@@ -8,6 +8,7 @@ import com.chalet.lskpi.model.Doctor;
 import com.chalet.lskpi.model.Hospital;
 import com.chalet.lskpi.model.HospitalSalesQueryObj;
 import com.chalet.lskpi.model.HospitalSalesQueryParam;
+import com.chalet.lskpi.model.KPIHospital4Export;
 import com.chalet.lskpi.model.Monthly12Data;
 import com.chalet.lskpi.model.MonthlyData;
 import com.chalet.lskpi.model.MonthlyInRateData;
@@ -79,4 +80,6 @@ public interface HospitalService {
 	public void generateWeeklyDataOfHospital() throws Exception;
 	public void generateWeeklyDataOfHospital(Date refreshDate) throws Exception;
 	public int deleteOldHospitalWeeklyData(String duration) throws Exception;
+	
+	public List<KPIHospital4Export> getKPIHospitalByDepartment(String department) throws Exception;
 }
