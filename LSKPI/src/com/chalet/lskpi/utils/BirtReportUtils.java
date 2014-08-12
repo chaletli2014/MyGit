@@ -47,25 +47,41 @@ public class BirtReportUtils {
             //Open the report design  
             design = engine.openReportDesign(designPath);  
             
+            Date refreshDate = DateUtils.getGenerateWeeklyReportDate();
+            String startDate = DateUtils.getTheBeginDateOfRefreshDate(refreshDate);
+            String endDate = DateUtils.getTheEndDateOfRefreshDate(refreshDate);
+            
+            String startDuration = startDate+"-"+endDate;
+            String last12WeekDuration = DateUtils.getEndDurationByStartDate(startDate);
+            
+            IGetParameterDefinitionTask paramTask = engine.createGetParameterDefinitionTask(design);
+            Collection parameters = paramTask.getParameterDefns(false);
+            
+            if( null != startDuration && !"".equalsIgnoreCase(startDuration) ){
+                Map paramValues = new HashMap();
+                paramValues.put("startDuration", startDuration);
+                evaluateParameterValues(parameterMap,parameters,paramValues);
+            }
+            
+            if( null != last12WeekDuration && !"".equalsIgnoreCase(last12WeekDuration) ){
+                Map paramValues = new HashMap();
+                paramValues.put("endDuration", last12WeekDuration);
+                evaluateParameterValues(parameterMap,parameters,paramValues);
+            }
+            
             if( null != telephone && !"".equalsIgnoreCase(telephone) ){
-                IGetParameterDefinitionTask paramTask = engine.createGetParameterDefinitionTask(design);
-                Collection parameters = paramTask.getParameterDefns(false);
                 Map paramValues = new HashMap();
                 paramValues.put("userTel", telephone);
                 evaluateParameterValues(parameterMap,parameters,paramValues);
             }
             
             if( null != userCode && !"".equalsIgnoreCase(userCode) ){
-                IGetParameterDefinitionTask paramTask = engine.createGetParameterDefinitionTask(design);
-                Collection parameters = paramTask.getParameterDefns(false);
                 Map paramValues = new HashMap();
                 paramValues.put("userCode", userCode);
                 evaluateParameterValues(parameterMap,parameters,paramValues);
             }
             
             if( null != hospitalCode && !"".equalsIgnoreCase(hospitalCode) ){
-            	IGetParameterDefinitionTask paramTask = engine.createGetParameterDefinitionTask(design);
-            	Collection parameters = paramTask.getParameterDefns(false);
             	Map paramValues = new HashMap();
             	paramValues.put("hospitalCode", hospitalCode);
             	evaluateParameterValues(parameterMap,parameters,paramValues);

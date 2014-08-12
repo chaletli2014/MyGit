@@ -58,6 +58,32 @@ new Date(currentDate.getFullYear(),month,currentDate.getDate());</value>
                 <property name="category">Unformatted</property>
             </structure>
         </scalar-parameter>
+        <scalar-parameter name="startDuration" id="1381">
+            <property name="valueType">static</property>
+            <property name="isRequired">false</property>
+            <property name="dataType">string</property>
+            <property name="distinct">true</property>
+            <list-property name="selectionList"/>
+            <property name="paramType">simple</property>
+            <property name="concealValue">false</property>
+            <property name="controlType">text-box</property>
+            <structure name="format">
+                <property name="category">Unformatted</property>
+            </structure>
+        </scalar-parameter>
+        <scalar-parameter name="endDuration" id="1382">
+            <property name="valueType">static</property>
+            <property name="isRequired">false</property>
+            <property name="dataType">string</property>
+            <property name="distinct">true</property>
+            <list-property name="selectionList"/>
+            <property name="paramType">simple</property>
+            <property name="concealValue">false</property>
+            <property name="controlType">text-box</property>
+            <structure name="format">
+                <property name="category">Unformatted</property>
+            </structure>
+        </scalar-parameter>
     </parameters>
     <data-sources>
         <oda-data-source extensionID="org.eclipse.birt.report.data.oda.jdbc" name="MySQLSource" id="11">
@@ -908,11 +934,30 @@ group by h.rsmRegion, h.dsmCode ]]></xml-property>
 </model:DesignValues>]]></xml-property>
         </oda-data-set>
         <oda-data-set extensionID="org.eclipse.birt.report.data.oda.jdbc.JdbcSelectDataSet" name="dsmweeklyLSNumDataSet" id="1221">
-            <list-property name="columnHints"/>
+            <list-property name="columnHints">
+                <structure>
+                    <property name="columnName">duration</property>
+                    <property name="analysis">dimension</property>
+                    <text-property name="displayName">duration</text-property>
+                    <text-property name="heading">duration</text-property>
+                </structure>
+                <structure>
+                    <property name="columnName">name</property>
+                    <property name="analysis">dimension</property>
+                    <text-property name="displayName">name</text-property>
+                    <text-property name="heading">name</text-property>
+                </structure>
+                <structure>
+                    <property name="columnName">lsnum</property>
+                    <property name="analysis">measure</property>
+                    <text-property name="displayName">lsnum</text-property>
+                    <text-property name="heading">lsnum</text-property>
+                </structure>
+            </list-property>
             <list-property name="parameters">
                 <structure>
                     <property name="name">param_1</property>
-                    <property name="paramName">startDate</property>
+                    <property name="paramName">startDuration</property>
                     <property name="nativeName"></property>
                     <property name="dataType">string</property>
                     <property name="nativeDataType">-3</property>
@@ -924,7 +969,7 @@ group by h.rsmRegion, h.dsmCode ]]></xml-property>
                 </structure>
                 <structure>
                     <property name="name">param_2</property>
-                    <property name="paramName">endDate</property>
+                    <property name="paramName">endDuration</property>
                     <property name="nativeName"></property>
                     <property name="dataType">string</property>
                     <property name="nativeDataType">-3</property>
@@ -973,18 +1018,21 @@ group by h.rsmRegion, h.dsmCode ]]></xml-property>
                     <property name="name">duration</property>
                     <property name="nativeName">duration</property>
                     <property name="dataType">string</property>
+                    <property name="nativeDataType">12</property>
                 </structure>
                 <structure>
                     <property name="position">2</property>
                     <property name="name">name</property>
                     <property name="nativeName">name</property>
                     <property name="dataType">string</property>
+                    <property name="nativeDataType">12</property>
                 </structure>
                 <structure>
                     <property name="position">3</property>
                     <property name="name">lsnum</property>
                     <property name="nativeName">lsnum</property>
                     <property name="dataType">decimal</property>
+                    <property name="nativeDataType">3</property>
                 </structure>
             </list-property>
             <xml-property name="queryText"><![CDATA[select rdw.duration, 
@@ -993,9 +1041,8 @@ IFNULL(sum(rdw.lsnum),0) as lsnum
 from 
 (
 	select * from tbl_respirology_data_weekly 
-	where duration <= CONCAT(?, '-',?) 
-	order by duration desc 
-	limit 0,4776 
+	where duration <= ? 
+	and duration >= ? 
 ) rdw, tbl_hospital h 
 where h.code = rdw.hospitalCode 
 and h.rsmRegion = ( select region from tbl_userinfo where telephone=? )
@@ -1140,11 +1187,30 @@ order by rdw.duration desc;]]></xml-property>
         </oda-data-set>
         <oda-data-set extensionID="org.eclipse.birt.report.data.oda.jdbc.JdbcSelectDataSet" name="dsmweeklyRESAverageDoseDataSet" id="1222">
             <property name="nullsOrdering">nulls lowest</property>
-            <list-property name="columnHints"/>
+            <list-property name="columnHints">
+                <structure>
+                    <property name="columnName">duration</property>
+                    <property name="analysis">dimension</property>
+                    <text-property name="displayName">duration</text-property>
+                    <text-property name="heading">duration</text-property>
+                </structure>
+                <structure>
+                    <property name="columnName">name</property>
+                    <property name="analysis">dimension</property>
+                    <text-property name="displayName">name</text-property>
+                    <text-property name="heading">name</text-property>
+                </structure>
+                <structure>
+                    <property name="columnName">averageDose</property>
+                    <property name="analysis">measure</property>
+                    <text-property name="displayName">averageDose</text-property>
+                    <text-property name="heading">averageDose</text-property>
+                </structure>
+            </list-property>
             <list-property name="parameters">
                 <structure>
                     <property name="name">param_1</property>
-                    <property name="paramName">startDate</property>
+                    <property name="paramName">startDuration</property>
                     <property name="nativeName"></property>
                     <property name="dataType">string</property>
                     <property name="nativeDataType">-3</property>
@@ -1156,7 +1222,7 @@ order by rdw.duration desc;]]></xml-property>
                 </structure>
                 <structure>
                     <property name="name">param_2</property>
-                    <property name="paramName">endDate</property>
+                    <property name="paramName">endDuration</property>
                     <property name="nativeName"></property>
                     <property name="dataType">string</property>
                     <property name="nativeDataType">-3</property>
@@ -1205,18 +1271,21 @@ order by rdw.duration desc;]]></xml-property>
                     <property name="name">duration</property>
                     <property name="nativeName">duration</property>
                     <property name="dataType">string</property>
+                    <property name="nativeDataType">12</property>
                 </structure>
                 <structure>
                     <property name="position">2</property>
                     <property name="name">name</property>
                     <property name="nativeName">name</property>
                     <property name="dataType">string</property>
+                    <property name="nativeDataType">12</property>
                 </structure>
                 <structure>
                     <property name="position">3</property>
                     <property name="name">averageDose</property>
                     <property name="nativeName">averageDose</property>
                     <property name="dataType">decimal</property>
+                    <property name="nativeDataType">3</property>
                 </structure>
             </list-property>
             <xml-property name="queryText"><![CDATA[select rdw.duration, 
@@ -1225,9 +1294,8 @@ IFNULL(sum(rdw.averageDose*rdw.lsnum)/sum(rdw.lsnum),0) as averageDose
 from 
 (
 	select * from tbl_respirology_data_weekly 
-	where duration <= CONCAT(?, '-',?) 
-	order by duration desc 
-	limit 0,4776 
+	where duration <= ? 
+	and duration >= ? 
 ) rdw, tbl_hospital h 
 where h.code = rdw.hospitalCode 
 and h.rsmRegion = ( select region from tbl_userinfo where telephone=? )
@@ -1371,11 +1439,30 @@ order by rdw.duration desc;]]></xml-property>
 </model:DesignValues>]]></xml-property>
         </oda-data-set>
         <oda-data-set extensionID="org.eclipse.birt.report.data.oda.jdbc.JdbcSelectDataSet" name="dsmweeklyRESPNumDataSet" id="1223">
-            <list-property name="columnHints"/>
+            <list-property name="columnHints">
+                <structure>
+                    <property name="columnName">duration</property>
+                    <property name="analysis">dimension</property>
+                    <text-property name="displayName">duration</text-property>
+                    <text-property name="heading">duration</text-property>
+                </structure>
+                <structure>
+                    <property name="columnName">name</property>
+                    <property name="analysis">dimension</property>
+                    <text-property name="displayName">name</text-property>
+                    <text-property name="heading">name</text-property>
+                </structure>
+                <structure>
+                    <property name="columnName">pnum</property>
+                    <property name="analysis">measure</property>
+                    <text-property name="displayName">pnum</text-property>
+                    <text-property name="heading">pnum</text-property>
+                </structure>
+            </list-property>
             <list-property name="parameters">
                 <structure>
                     <property name="name">param_1</property>
-                    <property name="paramName">startDate</property>
+                    <property name="paramName">startDuration</property>
                     <property name="nativeName"></property>
                     <property name="dataType">string</property>
                     <property name="nativeDataType">-3</property>
@@ -1387,7 +1474,7 @@ order by rdw.duration desc;]]></xml-property>
                 </structure>
                 <structure>
                     <property name="name">param_2</property>
-                    <property name="paramName">endDate</property>
+                    <property name="paramName">endDuration</property>
                     <property name="nativeName"></property>
                     <property name="dataType">string</property>
                     <property name="nativeDataType">-3</property>
@@ -1436,18 +1523,21 @@ order by rdw.duration desc;]]></xml-property>
                     <property name="name">duration</property>
                     <property name="nativeName">duration</property>
                     <property name="dataType">string</property>
+                    <property name="nativeDataType">12</property>
                 </structure>
                 <structure>
                     <property name="position">2</property>
                     <property name="name">name</property>
                     <property name="nativeName">name</property>
                     <property name="dataType">string</property>
+                    <property name="nativeDataType">12</property>
                 </structure>
                 <structure>
                     <property name="position">3</property>
                     <property name="name">pnum</property>
                     <property name="nativeName">pnum</property>
                     <property name="dataType">decimal</property>
+                    <property name="nativeDataType">3</property>
                 </structure>
             </list-property>
             <xml-property name="queryText"><![CDATA[select rdw.duration, 
@@ -1456,9 +1546,8 @@ IFNULL(sum(rdw.pnum),0) as pnum
 from 
 (
 	select * from tbl_respirology_data_weekly 
-	where duration <= CONCAT(?, '-',?) 
-	order by duration desc 
-	limit 0,4776 
+	where duration <= ? 
+	and duration >= ? 
 ) rdw, tbl_hospital h 
 where h.code = rdw.hospitalCode 
 and h.rsmRegion = ( select region from tbl_userinfo where telephone=? )
@@ -1532,11 +1621,30 @@ order by rdw.duration desc;]]></xml-property>
 </model:DesignValues>]]></xml-property>
         </oda-data-set>
         <oda-data-set extensionID="org.eclipse.birt.report.data.oda.jdbc.JdbcSelectDataSet" name="dsmweeklyRESWhRateDataSet" id="1224">
-            <list-property name="columnHints"/>
+            <list-property name="columnHints">
+                <structure>
+                    <property name="columnName">duration</property>
+                    <property name="analysis">dimension</property>
+                    <text-property name="displayName">duration</text-property>
+                    <text-property name="heading">duration</text-property>
+                </structure>
+                <structure>
+                    <property name="columnName">name</property>
+                    <property name="analysis">dimension</property>
+                    <text-property name="displayName">name</text-property>
+                    <text-property name="heading">name</text-property>
+                </structure>
+                <structure>
+                    <property name="columnName">whRate</property>
+                    <property name="analysis">measure</property>
+                    <text-property name="displayName">whRate</text-property>
+                    <text-property name="heading">whRate</text-property>
+                </structure>
+            </list-property>
             <list-property name="parameters">
                 <structure>
                     <property name="name">param_1</property>
-                    <property name="paramName">startDate</property>
+                    <property name="paramName">startDuration</property>
                     <property name="nativeName"></property>
                     <property name="dataType">string</property>
                     <property name="nativeDataType">-3</property>
@@ -1548,7 +1656,7 @@ order by rdw.duration desc;]]></xml-property>
                 </structure>
                 <structure>
                     <property name="name">param_2</property>
-                    <property name="paramName">endDate</property>
+                    <property name="paramName">endDuration</property>
                     <property name="nativeName"></property>
                     <property name="dataType">string</property>
                     <property name="nativeDataType">-3</property>
@@ -1597,18 +1705,21 @@ order by rdw.duration desc;]]></xml-property>
                     <property name="name">duration</property>
                     <property name="nativeName">duration</property>
                     <property name="dataType">string</property>
+                    <property name="nativeDataType">12</property>
                 </structure>
                 <structure>
                     <property name="position">2</property>
                     <property name="name">name</property>
                     <property name="nativeName">name</property>
                     <property name="dataType">string</property>
+                    <property name="nativeDataType">12</property>
                 </structure>
                 <structure>
                     <property name="position">3</property>
                     <property name="name">whRate</property>
                     <property name="nativeName">whRate</property>
                     <property name="dataType">decimal</property>
+                    <property name="nativeDataType">3</property>
                 </structure>
             </list-property>
             <xml-property name="queryText"><![CDATA[select rdw.duration, 
@@ -1617,9 +1728,8 @@ IFNULL(sum(rdw.lsnum)/sum(rdw.pnum),0) as whRate
 from 
 (
 	select * from tbl_respirology_data_weekly 
-	where duration <= CONCAT(?, '-',?) 
-	order by duration desc 
-	limit 0,4776 
+	where duration <= ? 
+	and duration >= ? 
 ) rdw, tbl_hospital h 
 where h.code = rdw.hospitalCode 
 and h.rsmRegion = ( select region from tbl_userinfo where telephone=? )
@@ -1786,7 +1896,7 @@ order by rdw.duration desc;]]></xml-property>
             <list-property name="parameters">
                 <structure>
                     <property name="name">param_1</property>
-                    <property name="paramName">startDate</property>
+                    <property name="paramName">startDuration</property>
                     <property name="nativeName"></property>
                     <property name="dataType">string</property>
                     <property name="nativeDataType">-3</property>
@@ -1798,7 +1908,7 @@ order by rdw.duration desc;]]></xml-property>
                 </structure>
                 <structure>
                     <property name="name">param_2</property>
-                    <property name="paramName">endDate</property>
+                    <property name="paramName">endDuration</property>
                     <property name="nativeName"></property>
                     <property name="dataType">string</property>
                     <property name="nativeDataType">-3</property>
@@ -1870,9 +1980,8 @@ IFNULL(sum(rdw.lsnum)/sum(rdw.pnum),0) as whRate
 from 
 (
 	select * from tbl_respirology_data_weekly 
-	where duration <= CONCAT(?, '-',?) 
-	order by duration desc 
-	limit 0,4776 
+	where duration <= ? 
+	and duration >= ? 
 ) rdw, tbl_hospital h 
 where h.code = rdw.hospitalCode 
 and h.dragonType='Emerging' 
@@ -2040,7 +2149,7 @@ order by rdw.duration desc;]]></xml-property>
             <list-property name="parameters">
                 <structure>
                     <property name="name">param_1</property>
-                    <property name="paramName">startDate</property>
+                    <property name="paramName">startDuration</property>
                     <property name="nativeName"></property>
                     <property name="dataType">string</property>
                     <property name="nativeDataType">-3</property>
@@ -2052,7 +2161,7 @@ order by rdw.duration desc;]]></xml-property>
                 </structure>
                 <structure>
                     <property name="name">param_2</property>
-                    <property name="paramName">endDate</property>
+                    <property name="paramName">endDuration</property>
                     <property name="nativeName"></property>
                     <property name="dataType">string</property>
                     <property name="nativeDataType">-3</property>
@@ -2124,9 +2233,8 @@ IFNULL(sum(rdw.lsnum)/sum(rdw.pnum),0) as whRate
 from 
 (
 	select * from tbl_respirology_data_weekly 
-	where duration <= CONCAT(?, '-',?) 
-	order by duration desc 
-	limit 0,4776 
+	where duration <= ? 
+	and duration >= ? 
 ) rdw, tbl_hospital h 
 where h.code = rdw.hospitalCode 
 and h.dragonType='Core'

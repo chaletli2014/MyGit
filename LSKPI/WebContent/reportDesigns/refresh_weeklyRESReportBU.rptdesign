@@ -1313,8 +1313,7 @@ from
 (
 	select * from tbl_respirology_data_weekly 
 	where duration <= ? 
-	and duration >= ?
-	order by duration desc  
+	and duration >= ? 
 ) rdw, tbl_hospital h 
 where h.code = rdw.hospitalCode 
 group by rdw.duration,h.region 
@@ -4002,8 +4001,7 @@ from
 (
 	select * from tbl_respirology_data_weekly 
 	where duration <= ? 
-	and duration >= ?
-	order by duration desc 
+	and duration >= ? 
 ) rdw, tbl_hospital h 
 where h.code = rdw.hospitalCode 
 and h.region = 'Central GRA'
@@ -4225,7 +4223,6 @@ from
 	select * from tbl_respirology_data_weekly 
 	where duration <= ? 
 	and duration >= ? 
-	order by duration desc 
 ) rdw, tbl_hospital h 
 where h.code = rdw.hospitalCode 
 and h.region = 'Central GRA'
@@ -4445,8 +4442,7 @@ from
 (
 	select * from tbl_respirology_data_weekly 
 	where duration <= ? 
-	and duration >= ?
-	order by duration desc 
+	and duration >= ? 
 ) rdw, tbl_hospital h 
 where h.code = rdw.hospitalCode 
 and h.region = 'Central GRA'
@@ -4596,8 +4592,7 @@ from
 (
 	select * from tbl_respirology_data_weekly 
 	where duration <= ? 
-	and duration >= ?
-	order by duration desc  
+	and duration >= ? 
 ) rdw, tbl_hospital h 
 where h.code = rdw.hospitalCode 
 and h.region = 'Central GRA'
@@ -4817,8 +4812,7 @@ from
 (
 	select * from tbl_respirology_data_weekly 
 	where duration <= ? 
-	and duration >= ?
-	order by duration desc  
+	and duration >= ? 
 ) rdw, tbl_hospital h 
 where h.code = rdw.hospitalCode
 and h.dragonType='Emerging' 
@@ -5039,8 +5033,7 @@ from
 (
 	select * from tbl_respirology_data_weekly 
 	where duration <= ? 
-	and duration >= ?
-	order by duration desc 
+	and duration >= ? 
 ) rdw, tbl_hospital h 
 where h.code = rdw.hospitalCode 
 and h.dragonType='Core'
@@ -5995,8 +5988,7 @@ from
 (
 	select * from tbl_respirology_data_weekly 
 	where duration <= ? 
-	and duration >= ?
-	order by duration desc  
+	and duration >= ? 
 ) rdw, tbl_hospital h 
 where h.code = rdw.hospitalCode 
 and h.region = 'East1 GRA'
@@ -6217,8 +6209,7 @@ from
 (
 	select * from tbl_respirology_data_weekly 
 	where duration <= ? 
-	and duration >= ?
-	order by duration desc  
+	and duration >= ? 
 ) rdw, tbl_hospital h 
 where h.code = rdw.hospitalCode 
 and h.region = 'East1 GRA'
@@ -6438,8 +6429,7 @@ from
 (
 	select * from tbl_respirology_data_weekly 
 	where duration <= ? 
-	and duration >= ?
-	order by duration desc  
+	and duration >= ? 
 ) rdw, tbl_hospital h 
 where h.code = rdw.hospitalCode 
 and h.region = 'East1 GRA'
@@ -6589,8 +6579,7 @@ from
 (
 	select * from tbl_respirology_data_weekly 
 	where duration <= ? 
-	and duration >= ?
-	order by duration desc  
+	and duration >= ? 
 ) rdw, tbl_hospital h 
 where h.code = rdw.hospitalCode 
 and h.region = 'East1 GRA'
@@ -6810,8 +6799,7 @@ from
 (
 	select * from tbl_respirology_data_weekly 
 	where duration <= ? 
-	and duration >= ?
-	order by duration desc  
+	and duration >= ? 
 ) rdw, tbl_hospital h 
 where h.code = rdw.hospitalCode
 and h.dragonType='Emerging' 
@@ -7032,8 +7020,7 @@ from
 (
 	select * from tbl_respirology_data_weekly 
 	where duration <= ? 
-	and duration >= ?
-	order by duration desc  
+	and duration >= ? 
 ) rdw, tbl_hospital h 
 where h.code = rdw.hospitalCode 
 and h.dragonType='Core'
@@ -7988,8 +7975,7 @@ from
 (
 	select * from tbl_respirology_data_weekly 
 	where duration <= ? 
-	and duration >= ?
-	order by duration desc  
+	and duration >= ? 
 ) rdw, tbl_hospital h 
 where h.code = rdw.hospitalCode 
 and h.region = 'East2 GRA'
@@ -8210,8 +8196,7 @@ from
 (
 	select * from tbl_respirology_data_weekly 
 	where duration <= ? 
-	and duration >= ?
-	order by duration desc  
+	and duration >= ? 
 ) rdw, tbl_hospital h 
 where h.code = rdw.hospitalCode 
 and h.region = 'East2 GRA'
@@ -8431,8 +8416,7 @@ from
 (
 	select * from tbl_respirology_data_weekly 
 	where duration <= ? 
-	and duration >= ?
-	order by duration desc  
+	and duration >= ? 
 ) rdw, tbl_hospital h 
 where h.code = rdw.hospitalCode 
 and h.region = 'East2 GRA'
@@ -8582,8 +8566,7 @@ from
 (
 	select * from tbl_respirology_data_weekly 
 	where duration <= ? 
-	and duration >= ?
-	order by duration desc  
+	and duration >= ? 
 ) rdw, tbl_hospital h 
 where h.code = rdw.hospitalCode 
 and h.region = 'East2 GRA'
@@ -8803,8 +8786,7 @@ from
 (
 	select * from tbl_respirology_data_weekly 
 	where duration <= ? 
-	and duration >= ?
-	order by duration desc  
+	and duration >= ? 
 ) rdw, tbl_hospital h 
 where h.code = rdw.hospitalCode
 and h.dragonType='Emerging' 
@@ -9025,8 +9007,7 @@ from
 (
 	select * from tbl_respirology_data_weekly 
 	where duration <= ? 
-	and duration >= ?
-	order by duration desc  
+	and duration >= ? 
 ) rdw, tbl_hospital h 
 where h.code = rdw.hospitalCode 
 and h.dragonType='Core'
@@ -10492,8 +10473,7 @@ from
 (
 	select * from tbl_respirology_data_weekly 
 	where duration <= ? 
-	and duration >= ?
-	order by duration desc  
+	and duration >= ? 
 ) rdw, tbl_hospital h 
 where h.code = rdw.hospitalCode 
 and h.region = 'North1 GRA'
@@ -10714,8 +10694,7 @@ from
 (
 	select * from tbl_respirology_data_weekly 
 	where duration <= ? 
-	and duration >= ?
-	order by duration desc  
+	and duration >= ? 
 ) rdw, tbl_hospital h 
 where h.code = rdw.hospitalCode 
 and h.region = 'North1 GRA'
@@ -10935,8 +10914,7 @@ from
 (
 	select * from tbl_respirology_data_weekly 
 	where duration <= ? 
-	and duration >= ?
-	order by duration desc  
+	and duration >= ? 
 ) rdw, tbl_hospital h 
 where h.code = rdw.hospitalCode 
 and h.region = 'North1 GRA'
@@ -11086,8 +11064,7 @@ from
 (
 	select * from tbl_respirology_data_weekly 
 	where duration <= ? 
-	and duration >= ?
-	order by duration desc  
+	and duration >= ? 
 ) rdw, tbl_hospital h 
 where h.code = rdw.hospitalCode 
 and h.region = 'North1 GRA'
@@ -11307,8 +11284,7 @@ from
 (
 	select * from tbl_respirology_data_weekly 
 	where duration <= ? 
-	and duration >= ?
-	order by duration desc  
+	and duration >= ? 
 ) rdw, tbl_hospital h 
 where h.code = rdw.hospitalCode
 and h.dragonType='Emerging' 
@@ -11529,8 +11505,7 @@ from
 (
 	select * from tbl_respirology_data_weekly 
 	where duration <= ? 
-	and duration >= ?
-	order by duration desc  
+	and duration >= ? 
 ) rdw, tbl_hospital h 
 where h.code = rdw.hospitalCode 
 and h.dragonType='Core'
@@ -12485,8 +12460,7 @@ from
 (
 	select * from tbl_respirology_data_weekly 
 	where duration <= ? 
-	and duration >= ?
-	order by duration desc  
+	and duration >= ? 
 ) rdw, tbl_hospital h 
 where h.code = rdw.hospitalCode 
 and h.region = 'North2 GRA'
@@ -12707,8 +12681,7 @@ from
 (
 	select * from tbl_respirology_data_weekly 
 	where duration <= ? 
-	and duration >= ?
-	order by duration desc  
+	and duration >= ? 
 ) rdw, tbl_hospital h 
 where h.code = rdw.hospitalCode 
 and h.region = 'North2 GRA'
@@ -12928,8 +12901,7 @@ from
 (
 	select * from tbl_respirology_data_weekly 
 	where duration <= ? 
-	and duration >= ?
-	order by duration desc  
+	and duration >= ? 
 ) rdw, tbl_hospital h 
 where h.code = rdw.hospitalCode 
 and h.region = 'North2 GRA'
@@ -13079,8 +13051,7 @@ from
 (
 	select * from tbl_respirology_data_weekly 
 	where duration <= ? 
-	and duration >= ?
-	order by duration desc  
+	and duration >= ? 
 ) rdw, tbl_hospital h 
 where h.code = rdw.hospitalCode 
 and h.region = 'North2 GRA'
@@ -13300,8 +13271,7 @@ from
 (
 	select * from tbl_respirology_data_weekly 
 	where duration <= ? 
-	and duration >= ?
-	order by duration desc  
+	and duration >= ? 
 ) rdw, tbl_hospital h 
 where h.code = rdw.hospitalCode
 and h.dragonType='Emerging' 
@@ -13522,8 +13492,7 @@ from
 (
 	select * from tbl_respirology_data_weekly 
 	where duration <= ? 
-	and duration >= ?
-	order by duration desc  
+	and duration >= ? 
 ) rdw, tbl_hospital h 
 where h.code = rdw.hospitalCode 
 and h.dragonType='Core'
@@ -14478,8 +14447,7 @@ from
 (
 	select * from tbl_respirology_data_weekly 
 	where duration <= ? 
-	and duration >= ?
-	order by duration desc  
+	and duration >= ? 
 ) rdw, tbl_hospital h 
 where h.code = rdw.hospitalCode 
 and h.region = 'South GRA'
@@ -14700,8 +14668,7 @@ from
 (
 	select * from tbl_respirology_data_weekly 
 	where duration <= ? 
-	and duration >= ?
-	order by duration desc  
+	and duration >= ? 
 ) rdw, tbl_hospital h 
 where h.code = rdw.hospitalCode 
 and h.region = 'South GRA'
@@ -14921,8 +14888,7 @@ from
 (
 	select * from tbl_respirology_data_weekly 
 	where duration <= ? 
-	and duration >= ?
-	order by duration desc  
+	and duration >= ? 
 ) rdw, tbl_hospital h 
 where h.code = rdw.hospitalCode 
 and h.region = 'South GRA'
@@ -15072,8 +15038,7 @@ from
 (
 	select * from tbl_respirology_data_weekly 
 	where duration <= ? 
-	and duration >= ?
-	order by duration desc  
+	and duration >= ? 
 ) rdw, tbl_hospital h 
 where h.code = rdw.hospitalCode 
 and h.region = 'South GRA'
@@ -15293,8 +15258,7 @@ from
 (
 	select * from tbl_respirology_data_weekly 
 	where duration <= ? 
-	and duration >= ?
-	order by duration desc  
+	and duration >= ? 
 ) rdw, tbl_hospital h 
 where h.code = rdw.hospitalCode
 and h.dragonType='Emerging' 
@@ -15515,8 +15479,7 @@ from
 (
 	select * from tbl_respirology_data_weekly 
 	where duration <= ? 
-	and duration >= ?
-	order by duration desc  
+	and duration >= ? 
 ) rdw, tbl_hospital h 
 where h.code = rdw.hospitalCode 
 and h.dragonType='Core'
@@ -16471,8 +16434,7 @@ from
 (
 	select * from tbl_respirology_data_weekly 
 	where duration <= ? 
-	and duration >= ?
-	order by duration desc  
+	and duration >= ? 
 ) rdw, tbl_hospital h 
 where h.code = rdw.hospitalCode 
 and h.region = 'West GRA'
@@ -16693,8 +16655,7 @@ from
 (
 	select * from tbl_respirology_data_weekly 
 	where duration <= ? 
-	and duration >= ?
-	order by duration desc  
+	and duration >= ? 
 ) rdw, tbl_hospital h 
 where h.code = rdw.hospitalCode 
 and h.region = 'West GRA'
@@ -16914,8 +16875,7 @@ from
 (
 	select * from tbl_respirology_data_weekly 
 	where duration <= ? 
-	and duration >= ?
-	order by duration desc  
+	and duration >= ? 
 ) rdw, tbl_hospital h 
 where h.code = rdw.hospitalCode 
 and h.region = 'West GRA'
@@ -17065,8 +17025,7 @@ from
 (
 	select * from tbl_respirology_data_weekly 
 	where duration <= ? 
-	and duration >= ?
-	order by duration desc  
+	and duration >= ? 
 ) rdw, tbl_hospital h 
 where h.code = rdw.hospitalCode 
 and h.region = 'West GRA'
@@ -17286,8 +17245,7 @@ from
 (
 	select * from tbl_respirology_data_weekly 
 	where duration <= ? 
-	and duration >= ?
-	order by duration desc  
+	and duration >= ? 
 ) rdw, tbl_hospital h 
 where h.code = rdw.hospitalCode
 and h.dragonType='Emerging' 
@@ -17508,8 +17466,7 @@ from
 (
 	select * from tbl_respirology_data_weekly 
 	where duration <= ? 
-	and duration >= ?
-	order by duration desc  
+	and duration >= ? 
 ) rdw, tbl_hospital h 
 where h.code = rdw.hospitalCode 
 and h.dragonType='Core'

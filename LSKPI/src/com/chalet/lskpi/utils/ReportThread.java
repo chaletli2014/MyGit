@@ -153,7 +153,6 @@ public class ReportThread extends Thread {
                         }
                         logger.info(" the data of hospital in last week is populated");
                         
-                        
                         logger.info("start to generate the html weekly report");
                         this.taskTime = System.currentTimeMillis();
                         html.startHtmlPlatform();
@@ -204,12 +203,14 @@ public class ReportThread extends Thread {
                         
                         logger.info("start to generate the pdf weekly report");
                         Date refreshDate = DateUtils.getGenerateWeeklyReportDate();
-                        String lastRefreshThursday = DateUtils.getThursDayOfParamDate(refreshDate);
                         String startDate = DateUtils.getTheBeginDateOfRefreshDate(refreshDate);
                         String endDate = DateUtils.getTheEndDateOfRefreshDate(refreshDate);
+                        String lastRefreshThursday = DateUtils.getThursDayOfParamDate(refreshDate);
                         logger.info(String.format("start to refresh the pdf weekly report, lastThursday is %s, start date is %s, end date is %s", lastThursday, startDate, endDate));
+                        
                         boolean isFirstRefresh = true;
                         List<String> regionList = userService.getAllRegionName();
+                        
                         html.startPlatform();
                         for( UserInfo user : reportUserInfos ){
                             String telephone = user.getTelephone();
