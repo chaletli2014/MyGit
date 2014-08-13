@@ -200,6 +200,9 @@ public class ReportController extends BaseController{
 			row.createCell(23, XSSFCell.CELL_TYPE_STRING).setCellValue("Rep Name");
 			row.createCell(24, XSSFCell.CELL_TYPE_STRING).setCellValue("Rep Tel");
 			row.createCell(25, XSSFCell.CELL_TYPE_STRING).setCellValue("Rep Email");
+			if( null != department && "3".equalsIgnoreCase(department) ){
+				row.createCell(26, XSSFCell.CELL_TYPE_STRING).setCellValue("isTop100");
+			}
 			
 			for( KPIHospital4Export kpiHos : dbHosData ){
 				row = sheet.createRow(currentRowNum++);
@@ -229,6 +232,9 @@ public class ReportController extends BaseController{
 				row.createCell(23, XSSFCell.CELL_TYPE_STRING).setCellValue(kpiHos.getSalesName());
 				row.createCell(24, XSSFCell.CELL_TYPE_STRING).setCellValue(kpiHos.getSalesTel());
 				row.createCell(25, XSSFCell.CELL_TYPE_STRING).setCellValue(kpiHos.getSalesEmail());
+				if( null != department && "3".equalsIgnoreCase(department) ){
+					row.createCell(26, XSSFCell.CELL_TYPE_STRING).setCellValue(kpiHos.getIsTop100());
+				}
 			}
 			workbook.write(fOut);
     	}catch(Exception e){

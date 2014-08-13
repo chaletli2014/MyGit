@@ -384,3 +384,5 @@ create table tbl_doctor_weekly(
     hospitalCode    varchar(20),
     doctorCreateDT  datetime
 );
+
+ALTER  TABLE tbl_hos_user ADD INDEX INDEX_HOS_USER_USERCODE (userCode);

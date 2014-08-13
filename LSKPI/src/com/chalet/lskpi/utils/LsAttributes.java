@@ -909,4 +909,59 @@ public class LsAttributes {
     
     public static final StringBuffer SQL_HOSPITAL_WEEKLY_DATA_SELECTION
         = new StringBuffer(" select duration, hospitalCode, pnum, lsnum, averageDose ");
+    
+    public static final StringBuffer SQL_KPI_HOS_SELECTION
+    	= new StringBuffer(" select h.province, h.city, h.code, h.name, h.dragonType, h.level, h.isTop100 ")
+    		.append(" , ( select distinct property_value from tbl_property where property_name = h.region ) as brCNName ")
+    		.append(" , h.region ")
+    		.append(" , rsd.userCode as rsdCode ")
+    		.append(" , rsd.name as rsdName ")
+    		.append(" , rsd.telephone as rsdTel ")
+    		.append(" , rsd.email as rsdEmail ")
+    		.append(" , h.rsmRegion ")
+    		.append(" , rsm.userCode as rsmCode ")
+    		.append(" , rsm.name as rsmName ")
+    		.append(" , rsm.telephone as rsmTel ")
+    		.append(" , rsm.email as rsmEmail ")
+    		.append(" , ( select userCode from tbl_userinfo u where u.region = h.rsmRegion and u.userCode = h.dsmCode and u.level='DSM' ) as dsmCode ")
+    		.append(" , ( select name from tbl_userinfo u where u.region = h.rsmRegion and u.userCode = h.dsmCode and u.level='DSM' ) as dsmName  ")
+    		.append(" , ( select telephone from tbl_userinfo u where u.region = h.rsmRegion and u.userCode = h.dsmCode and u.level='DSM' ) as dsmTel ")
+    		.append(" , ( select email from tbl_userinfo u where u.region = h.rsmRegion and u.userCode = h.dsmCode and u.level='DSM' ) as dsmEmail ");
+
+    public static final StringBuffer SQL_KPI_HOS_CONDITION_WITH_SALES
+    	= new StringBuffer(" from tbl_hospital h, tbl_hos_user hu, tbl_userinfo sales, tbl_userinfo rsd, tbl_userinfo rsm ")
+    		.append(" where h.code = hu.hosCode ")
+    		.append(" and hu.userCode = sales.userCode ")
+    		.append(" and h.region = rsd.regionCenter ")
+    		.append(" and rsd.level='RSD' ")
+    		.append(" and h.rsmRegion = rsm.region ")
+    		.append(" and rsm.level='RSM' ")
+    		.append(" and hu.userCode !='2000003' ");
+    
+    public static final StringBuffer SQL_KPI_HOS_CONDITION_WITHOUT_SALES
+	    = new StringBuffer(" from tbl_hospital h, tbl_hos_user hu, tbl_userinfo rsd, tbl_userinfo rsm ")
+		    .append(" where h.code = hu.hosCode ")
+		    .append(" and h.region = rsd.regionCenter ")
+		    .append(" and rsd.level='RSD' ")
+		    .append(" and h.rsmRegion = rsm.region ")
+		    .append(" and rsm.level='RSM' ")
+		    .append(" and hu.userCode ='2000003' ");
+    		 
+    public static final StringBuffer SQL_KPI_HOS_SELECTION_SALES
+    	= new StringBuffer(" , hu.isPrimary as isMainSales ")
+    		.append(" , sales.userCode as salesCode ")
+    		.append(" , sales.name as salesName ")
+    		.append(" , sales.telephone as salesTel ")
+    		.append(" , sales.email as salesEmail ");
+    
+    public static final StringBuffer SQL_KPI_HOS_SELECTION_WITHOUT_SALES
+    	= new StringBuffer(" , hu.isPrimary as isMainSales ")
+		    .append(" , '2000003' as salesCode ")
+		    .append(" , 'Vacant' as salesName ")
+		    .append(" , '#N/A' as salesTel ")
+		    .append(" , '#N/A' as salesEmail ");
+    		 
+    		 
+    		 
+    
 }

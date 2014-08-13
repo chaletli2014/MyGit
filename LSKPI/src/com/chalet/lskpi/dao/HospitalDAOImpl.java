@@ -737,17 +737,16 @@ public class HospitalDAOImpl implements HospitalDAO {
 	public List<KPIHospital4Export> getKPIHospitalOfRes()
 			throws Exception {
 		StringBuffer sb = new StringBuffer();
-	    sb.append("select h.province, h.city, h.code, h.name, h.dragonType, h.level ")
-	        .append(" , ( select distinct property_value from property where property_name = h.region ) as brCNName ")
-	        .append(" , h.region ")
-	        .append(" , ( select userCode from tbl_userinfo u where u.level='RSD' and u.regionCenter = h.region ) as rsdCode ")
-	        .append(" , ( select name from tbl_userinfo u where u.level='RSD' and u.regionCenter = h.region ) as rsdName ")
-	        .append("")
-	        .append("")
-	        .append("")
-	        .append("")
-	        .append(" from tbl_hospital h, tbl_userinfo rsd, tbl_userinfo rsm, tbl_userinfo dsm, tbl_userinfo rep, tbl_hos_user ")
-            .append(" where  ");
+	    sb.append(LsAttributes.SQL_KPI_HOS_SELECTION)
+	        .append(LsAttributes.SQL_KPI_HOS_SELECTION_SALES)
+	        .append(LsAttributes.SQL_KPI_HOS_CONDITION_WITH_SALES)
+	        .append(" and h.isResAssessed='1' ")
+	        .append(" union all ")
+	        .append(LsAttributes.SQL_KPI_HOS_SELECTION)
+	        .append(LsAttributes.SQL_KPI_HOS_SELECTION_WITHOUT_SALES)
+	        .append(LsAttributes.SQL_KPI_HOS_CONDITION_WITHOUT_SALES)
+	        .append(" and h.isResAssessed='1' ")
+	        .append(" order by region, rsmRegion ");
         return dataBean.getJdbcTemplate().query(sb.toString(), new KPIHospitalRowMapper());
 	}
 	
@@ -755,9 +754,16 @@ public class HospitalDAOImpl implements HospitalDAO {
 	public List<KPIHospital4Export> getKPIHospitalOfPed()
 			throws Exception {
 		StringBuffer sb = new StringBuffer();
-	    sb.append("select ")
-	        .append(" ")
-            .append(" ");
+	    sb.append(LsAttributes.SQL_KPI_HOS_SELECTION)
+	        .append(LsAttributes.SQL_KPI_HOS_SELECTION_SALES)
+	        .append(LsAttributes.SQL_KPI_HOS_CONDITION_WITH_SALES)
+	        .append(" and h.isPedAssessed='1' ")
+	        .append(" union all ")
+	        .append(LsAttributes.SQL_KPI_HOS_SELECTION)
+	        .append(LsAttributes.SQL_KPI_HOS_SELECTION_WITHOUT_SALES)
+	        .append(LsAttributes.SQL_KPI_HOS_CONDITION_WITHOUT_SALES)
+	        .append(" and h.isPedAssessed='1' ")
+	        .append(" order by region, rsmRegion ");
         return dataBean.getJdbcTemplate().query(sb.toString(), new KPIHospitalRowMapper());
 	}
 	
@@ -765,9 +771,16 @@ public class HospitalDAOImpl implements HospitalDAO {
 	public List<KPIHospital4Export> getKPIHospitalOfChe()
 			throws Exception {
 		StringBuffer sb = new StringBuffer();
-	    sb.append("select ")
-	        .append(" ")
-            .append(" ");
+	    sb.append(LsAttributes.SQL_KPI_HOS_SELECTION)
+	        .append(LsAttributes.SQL_KPI_HOS_SELECTION_SALES)
+	        .append(LsAttributes.SQL_KPI_HOS_CONDITION_WITH_SALES)
+	        .append(" and h.isChestSurgeryAssessed='1' ")
+	        .append(" union all ")
+	        .append(LsAttributes.SQL_KPI_HOS_SELECTION)
+	        .append(LsAttributes.SQL_KPI_HOS_SELECTION_WITHOUT_SALES)
+	        .append(LsAttributes.SQL_KPI_HOS_CONDITION_WITHOUT_SALES)
+	        .append(" and h.isChestSurgeryAssessed='1' ")
+	        .append(" order by region, rsmRegion ");
         return dataBean.getJdbcTemplate().query(sb.toString(), new KPIHospitalRowMapper());
 	}
 	
@@ -775,9 +788,16 @@ public class HospitalDAOImpl implements HospitalDAO {
 	public List<KPIHospital4Export> getKPIHospitalOfMonth()
 			throws Exception {
 		StringBuffer sb = new StringBuffer();
-	    sb.append("select ")
-	        .append(" ")
-            .append(" ");
+	    sb.append(LsAttributes.SQL_KPI_HOS_SELECTION)
+	        .append(LsAttributes.SQL_KPI_HOS_SELECTION_SALES)
+	        .append(LsAttributes.SQL_KPI_HOS_CONDITION_WITH_SALES)
+	        .append(" and h.isMonthlyAssessed='1' ")
+	        .append(" union all ")
+	        .append(LsAttributes.SQL_KPI_HOS_SELECTION)
+	        .append(LsAttributes.SQL_KPI_HOS_SELECTION_WITHOUT_SALES)
+	        .append(LsAttributes.SQL_KPI_HOS_CONDITION_WITHOUT_SALES)
+	        .append(" and h.isMonthlyAssessed='1' ")
+	        .append(" order by region, rsmRegion ");
         return dataBean.getJdbcTemplate().query(sb.toString(), new KPIHospitalRowMapper());
 	}
 	

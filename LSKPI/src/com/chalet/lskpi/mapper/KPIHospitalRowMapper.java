@@ -34,9 +34,10 @@ public class KPIHospitalRowMapper implements RowMapper<KPIHospital4Export>{
         dbHospital.setDsmEmail(rs.getString("dsmEmail"));
         dbHospital.setIsMainSales(rs.getString("isMainSales"));
         dbHospital.setSalesCode(rs.getString("salesCode"));
-        dbHospital.setSalesName(rs.getString("saleName"));
+        dbHospital.setSalesName(rs.getString("salesName"));
         dbHospital.setSalesTel(rs.getString("salesTel"));
         dbHospital.setSalesEmail(rs.getString("salesEmail"));
+        dbHospital.setIsTop100(rs.getString("isTop100"));
         return dbHospital;
     }
 
