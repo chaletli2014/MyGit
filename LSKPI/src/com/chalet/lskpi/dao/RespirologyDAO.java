@@ -80,7 +80,9 @@ public interface RespirologyDAO {
     public List<MobileRESDailyData> getDailyRESData4RSMByRegion(String region) throws Exception;
     
     public List<RespirologyMonthDBData> getRESMonthReportDBData(String lastMonthDuration) throws Exception;
+    public List<RespirologyMonthDBData> getRESMonthReportDBDataOfCountry(String lastMonthDuration) throws Exception;
     public List<RespirologyMonthDBData> getRESMonthReportWeeklyDBData(String lastWeekDuration) throws Exception;
+    public List<RespirologyMonthDBData> getRESMonthReportWeeklyDBDataOfCountry(String lastWeekDuration) throws Exception;
     
     public String getLatestDuration() throws Exception;
     

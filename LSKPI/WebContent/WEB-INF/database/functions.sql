@@ -2004,3 +2004,108 @@ from (
 ) homeData 
 right join tbl_userinfo ui on ui.region = homeData.rsmRegion  
 where ui.regionCenter = 'North2 GRA' and ui.level='RSM';
+
+
+-----------------------------------------------------------------------------------------------
+ select h.province, h.city, h.code, h.name, h.dragonType, h.level, h.isTop100 
+ , ( select distinct property_value from tbl_property where property_name = h.region ) as brCNName 
+ , h.region 
+ , rsd.userCode as rsdCode 
+ , rsd.name as rsdName 
+ , rsd.telephone as rsdTel 
+ , rsd.email as rsdEmail 
+ , h.rsmRegion 
+ , rsm.userCode as rsmCode 
+ , rsm.name as rsmName 
+ , rsm.telephone as rsmTel 
+ , rsm.email as rsmEmail 
+ , ( select userCode from tbl_userinfo u where u.region = h.rsmRegion and u.userCode = h.dsmCode and u.level='DSM' ) as dsmCode 
+ , ( select name from tbl_userinfo u where u.region = h.rsmRegion and u.userCode = h.dsmCode and u.level='DSM' ) as dsmName  
+ , ( select telephone from tbl_userinfo u where u.region = h.rsmRegion and u.userCode = h.dsmCode and u.level='DSM' ) as dsmTel 
+ , ( select email from tbl_userinfo u where u.region = h.rsmRegion and u.userCode = h.dsmCode and u.level='DSM' ) as dsmEmail 
+ , hu.isPrimary as isMainSales 
+ , sales.userCode as salesCode 
+ , sales.name as salesName 
+ , sales.telephone as salesTel 
+ , sales.email as salesEmail 
+ from tbl_hospital h, tbl_hos_user hu, tbl_userinfo sales, tbl_userinfo rsd, tbl_userinfo rsm 
+ where h.code = hu.hosCode 
+ and hu.userCode = sales.userCode 
+ and h.region = rsd.regionCenter 
+ and rsd.level='RSD' 
+ and h.rsmRegion = rsm.region 
+ and rsm.level='RSM' 
+ and hu.userCode !='2000003' 
+ and h.isPedAssessed='1' 
+ and hu.isPrimary ='1' 
+ union all
+  select h.province, h.city, h.code, h.name, h.dragonType, h.level, h.isTop100 
+ , ( select distinct property_value from tbl_property where property_name = h.region ) as brCNName 
+ , h.region 
+ , rsd.userCode as rsdCode 
+ , rsd.name as rsdName 
+ , rsd.telephone as rsdTel 
+ , rsd.email as rsdEmail 
+ , h.rsmRegion 
+ , rsm.userCode as rsmCode 
+ , rsm.name as rsmName 
+ , rsm.telephone as rsmTel 
+ , rsm.email as rsmEmail 
+ , ( select userCode from tbl_userinfo u where u.region = h.rsmRegion and u.userCode = h.dsmCode and u.level='DSM' ) as dsmCode 
+ , ( select name from tbl_userinfo u where u.region = h.rsmRegion and u.userCode = h.dsmCode and u.level='DSM' ) as dsmName  
+ , ( select telephone from tbl_userinfo u where u.region = h.rsmRegion and u.userCode = h.dsmCode and u.level='DSM' ) as dsmTel 
+ , ( select email from tbl_userinfo u where u.region = h.rsmRegion and u.userCode = h.dsmCode and u.level='DSM' ) as dsmEmail 
+ , hu.isPrimary as isMainSales 
+ , '2000003' as salesCode 
+ , '' as salesName 
+ , '' as salesTel 
+ , '' as salesEmail 
+ from tbl_hospital h, tbl_hos_user hu, tbl_userinfo rsd, tbl_userinfo rsm 
+ where h.code = hu.hosCode 
+ and h.region = rsd.regionCenter 
+ and rsd.level='RSD' 
+ and h.rsmRegion = rsm.region 
+ and rsm.level='RSM' 
+ and h.isPedAssessed='1'
+ and hu.userCode ='2000003' 
+ and hu.isPrimary ='1' 
+ order by region, rsmRegion;
+ 
+-----------------------------------------getRESMonthReportDBData-----------------------------------------
+ select h.rsmRegion  
+ ,(select distinct name from tbl_userinfo u where u.regionCenter = h.region and u.region = h.rsmRegion and u.level='RSM') as rsmName  
+ ,date_MM  ,date_YYYY  
+ ,'' as duration  
+ ,sum(pnum) as pnum  
+ ,sum(lsnum) as lsnum  
+ ,sum(aenum) as aenum  
+ ,IFNULL(sum(least(innum,3))/(count(1)*3),0) as inRate  
+ ,IFNULL(sum(rdw.lsnum)/sum(rdw.pnum),0) as whRate  
+ ,IFNULL(sum(rdw.averageDose*rdw.lsnum)/sum(rdw.lsnum),0) as averageDose  
+ ,(     
+    select temp2.weekNum    
+    from (       
+        select count(1) as weekNum,date_YYYY,date_MM        
+        from (           
+            select distinct rdw2.date_YYYY,rdw2.date_MM,rdw2.duration            
+            from tbl_respirology_data_weekly rdw2, tbl_hospital h2            
+            where rdw2.hospitalCode = h2.code            
+            and ( (rdw2.date_YYYY > 2013 and rdw2.date_MM > 3)  or ( rdw2.date_YYYY > 2014 ))        
+        ) temp        
+        group by temp.date_YYYY,temp.date_MM    
+    ) temp2    
+    where rdw.date_YYYY = temp2.date_YYYY 
+    and rdw.date_MM = temp2.date_MM  
+) as weeklyCount  
+,(  
+    select sum(resnum) 
+    from tbl_month_data md, tbl_hospital h1         
+    where md.hospitalCode = h1.code and h1.rsmRegion = h.rsmRegion          
+    and md.countMonth = concat(date_YYYY,'-',LPAD(date_MM, 2, 0)) 
+) as resMonthNum  
+from tbl_respirology_data_weekly rdw, tbl_hospital h  
+where h.code = rdw.hospitalCode  
+and ( (rdw.date_YYYY > 2013 and rdw.date_MM > 3)  or ( rdw.date_YYYY > 2014 ))  
+and rdw.duration < '2014.08.07-2014.08.13'  
+group by date_YYYY,date_MM,h.rsmRegion  
+order by h.rsmRegion, date_YYYY, date_MM;

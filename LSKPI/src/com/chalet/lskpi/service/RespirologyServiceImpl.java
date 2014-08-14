@@ -802,9 +802,12 @@ public class RespirologyServiceImpl implements RespirologyService {
     	}
     	
     	List<RespirologyMonthDBData> monthDBData = respirologyDAO.getRESMonthReportDBData(lastMonthDuration);
+    	monthDBData.addAll(respirologyDAO.getRESMonthReportDBDataOfCountry(lastMonthDuration));
+    	
     	List<RespirologyMonthDBData> monthWeeklyDBData = new ArrayList<RespirologyMonthDBData>();
     	if( null != lastWeekDuration && !"".equalsIgnoreCase(lastWeekDuration) ){
     		monthWeeklyDBData = respirologyDAO.getRESMonthReportWeeklyDBData(lastWeekDuration);
+    		monthWeeklyDBData.addAll(respirologyDAO.getRESMonthReportWeeklyDBDataOfCountry(lastWeekDuration));
     	}
     	
         List<RespirologyExportData> exportData = new ArrayList<RespirologyExportData>();

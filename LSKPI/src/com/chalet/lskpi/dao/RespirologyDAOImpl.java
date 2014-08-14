@@ -1082,66 +1082,23 @@ public class RespirologyDAOImpl implements RespirologyDAO {
 	}
 	
 	public List<RespirologyMonthDBData> getRESMonthReportDBData(String lastMonthDuration) throws Exception {
-        StringBuffer resMonthSQL = new StringBuffer();
-        resMonthSQL.append(" select h.rsmRegion ")
-        .append(" ,(select distinct name from tbl_userinfo u where u.regionCenter = h.region and u.region = h.rsmRegion and u.level='RSM') as rsmName ")
-        .append(" ,date_MM ")
-        .append(" ,date_YYYY ")
-        .append(" ,'' as duration ")
-        .append(" ,sum(pnum) as pnum ")
-        .append(" ,sum(lsnum) as lsnum ")
-        .append(" ,sum(aenum) as aenum ")
-        .append(" ,IFNULL(sum(least(innum,3))/(count(1)*3),0) as inRate ")
-        .append(" ,IFNULL(sum(rdw.lsnum)/sum(rdw.pnum),0) as whRate ")
-        .append(" ,IFNULL(sum(rdw.averageDose*rdw.lsnum)/sum(rdw.lsnum),0) as averageDose ")
-        .append(" ,(  ")
-        .append("   select temp2.weekNum ")
-        .append("   from (")
-        .append("       select count(1) as weekNum,date_YYYY,date_MM ")
-        .append("       from (")
-        .append("           select distinct rdw2.date_YYYY,rdw2.date_MM,rdw2.duration ")
-        .append("           from tbl_respirology_data_weekly rdw2, tbl_hospital h2 ")
-        .append("           where rdw2.hospitalCode = h2.code ")
-        .append("           and ( (rdw2.date_YYYY > 2013 and rdw2.date_MM > 3)  or ( rdw2.date_YYYY > 2014 )) ")
-        .append("       ) temp ")
-        .append("       group by temp.date_YYYY,temp.date_MM ")
-        .append("   ) temp2 ")
-        .append("   where rdw.date_YYYY = temp2.date_YYYY and rdw.date_MM = temp2.date_MM ")
-        .append(" ) as weeklyCount ")
-        .append(" ,( 	select sum(resnum) from tbl_month_data md, tbl_hospital h1 ")
-        .append(" 		where md.hospitalCode = h1.code and h1.rsmRegion = h.rsmRegion  ")
-        .append("  		and md.countMonth = concat(date_YYYY,'-',LPAD(date_MM, 2, 0)) ")
-        .append(") as resMonthNum ")
-        .append(" from tbl_respirology_data_weekly rdw, tbl_hospital h ")
-        .append(" where h.code = rdw.hospitalCode ")
-        .append(" and ( (rdw.date_YYYY > 2013 and rdw.date_MM > 3)  or ( rdw.date_YYYY > 2014 )) ")
-        .append(" and rdw.duration < ? ")
-        .append(" group by date_YYYY,date_MM,h.rsmRegion ")
-        .append(" order by h.rsmRegion, date_YYYY, date_MM");
+        StringBuffer resMonthSQL = new StringBuffer(LsAttributes.SQL_MONTH_WEEKLY_REPORT_RES);
        return dataBean.getJdbcTemplate().query(resMonthSQL.toString(),new Object[]{lastMonthDuration},new RespirologyMonthDataRowMapper());
     }
 	
+	public List<RespirologyMonthDBData> getRESMonthReportDBDataOfCountry(String lastMonthDuration) throws Exception {
+	    StringBuffer resMonthSQL = new StringBuffer(LsAttributes.SQL_MONTH_WEEKLY_REPORT_RES_COUNTRY);
+	    return dataBean.getJdbcTemplate().query(resMonthSQL.toString(),new Object[]{lastMonthDuration},new RespirologyMonthDataRowMapper());
+	}
+	
 	public List<RespirologyMonthDBData> getRESMonthReportWeeklyDBData(String lastWeekDuration) throws Exception {
-		StringBuffer resMonthSQL = new StringBuffer();
-		resMonthSQL.append(" select h.rsmRegion ")
-		.append(" , rdw.duration ")
-		.append(" ,(select distinct name from tbl_userinfo u where u.regionCenter = h.region and u.region = h.rsmRegion and u.level='RSM') as rsmName ")
-		.append(" ,sum(pnum) as pnum ")
-        .append(" ,sum(lsnum) as lsnum ")
-        .append(" ,sum(aenum) as aenum ")
-        .append(" ,IFNULL(sum(least(innum,3))/(count(1)*3),0) as inRate ")
-        .append(" ,IFNULL(sum(rdw.lsnum)/sum(rdw.pnum),0) as whRate ")
-        .append(" ,IFNULL(sum(rdw.averageDose*rdw.lsnum)/sum(rdw.lsnum),0) as averageDose ")
-		.append(" ,'1' as weeklyCount ")
-		.append(" ,'1' as resMonthNum ")
-		.append(" ,date_MM ")
-        .append(" ,date_YYYY ")
-		.append(" from tbl_respirology_data_weekly rdw, tbl_hospital h ")
-		.append(" where rdw.hospitalCode = h.code ")
-		.append(" and rdw.duration >= ? ")
-		.append(" group by duration, h.rsmRegion ")
-		.append(" order by h.rsmRegion, duration");
+		StringBuffer resMonthSQL = new StringBuffer(LsAttributes.SQL_MONTH_WEEKLY_REPORT_WEEKLY_RES);
 		return dataBean.getJdbcTemplate().query(resMonthSQL.toString(),new Object[]{lastWeekDuration},new RespirologyMonthDataRowMapper());
+	}
+	
+	public List<RespirologyMonthDBData> getRESMonthReportWeeklyDBDataOfCountry(String lastWeekDuration) throws Exception {
+	    StringBuffer resMonthSQL = new StringBuffer(LsAttributes.SQL_MONTH_WEEKLY_REPORT_WEEKLY_RES_COUNTRY);
+	    return dataBean.getJdbcTemplate().query(resMonthSQL.toString(),new Object[]{lastWeekDuration},new RespirologyMonthDataRowMapper());
 	}
 	
 	@Override
