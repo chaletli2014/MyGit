@@ -153,8 +153,8 @@ public class UploadController {
             dataHeaders.add("录入日期");
             dataHeaders.add("医院编号");
             dataHeaders.add("医院名称");
-            dataHeaders.add("当日病房病人人数");
-            dataHeaders.add("当日病房内AECOPD病人数");
+            dataHeaders.add("当日目标科室病房病人数");
+            dataHeaders.add("当日病房内AECOPD人数");
             dataHeaders.add("当日雾化病人数");
             dataHeaders.add("当日雾化令舒病人数");
             dataHeaders.add("销售代表ETMSCode");

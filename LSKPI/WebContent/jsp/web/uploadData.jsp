@@ -184,6 +184,20 @@
 					</div>
 				</div>
 				<div class="element_block">
+                    <div class="element_title">家庭雾化医生查询</div>
+                    <div>
+                        <form action="doDownloadDoctorData" id="downloadDoctorData" method="post" enctype="multipart/form-data" data-ajax="false" accept-charset="UTF-8">
+                         <input type="hidden" name="fromWeb" value="Y">
+                         <img alt="" src="<%=basePath%>images/button_submit.png" style="cursor: pointer; vertical-align: middle;" onclick="downloadDoctorData()" />
+                        </form>
+                        <c:if test="${doctorDataFile != null}">
+                            <div id="homeDataFile">
+                                <a href="<%=basePath%>${doctorDataFile}">${fn:substringAfter(doctorDataFile,'/')}</a>
+                            </div>
+                        </c:if>
+                    </div>
+                </div>
+				<div class="element_block">
 					<div class="element_title">原始数据查询</div>
 					<form action="doDownloadDailyData" id="downloadDailyData" method="post" enctype="multipart/form-data" data-ajax="false" accept-charset="UTF-8">
 					<input type="hidden" name="fromWeb" value="Y">
@@ -230,20 +244,6 @@
 	                    <c:if test="${weeklyHomeDataFile != null}">
 	                        <div id="homeDataFile">
 	                            <a href="<%=basePath%>${weeklyHomeDataFile}">${fn:substringAfter(weeklyHomeDataFile,'/')}</a>
-	                        </div>
-	                    </c:if>
-	                </div>
-	            </div>
-				<div class="element_block">
-	                <div class="element_title">家庭雾化医生查询</div>
-	                <div>
-	                    <form action="doDownloadDoctorData" id="downloadDoctorData" method="post" enctype="multipart/form-data" data-ajax="false" accept-charset="UTF-8">
-	                     <input type="hidden" name="fromWeb" value="Y">
-	                     <img alt="" src="<%=basePath%>images/button_submit.png" style="cursor: pointer; vertical-align: middle;" onclick="downloadDoctorData()" />
-	                    </form>
-	                    <c:if test="${doctorDataFile != null}">
-	                        <div id="homeDataFile">
-	                            <a href="<%=basePath%>${doctorDataFile}">${fn:substringAfter(doctorDataFile,'/')}</a>
 	                        </div>
 	                    </c:if>
 	                </div>

@@ -301,8 +301,8 @@ public class ReportController extends BaseController{
                     row.createCell(1, XSSFCell.CELL_TYPE_STRING).setCellValue("录入日期");
                     row.createCell(2, XSSFCell.CELL_TYPE_STRING).setCellValue("医院编号");
                     row.createCell(3, XSSFCell.CELL_TYPE_STRING).setCellValue("医院名称");
-                    row.createCell(4, XSSFCell.CELL_TYPE_STRING).setCellValue("当日病房病人人数");
-                    row.createCell(5, XSSFCell.CELL_TYPE_STRING).setCellValue("当日病房内AECOPD病人数");
+                    row.createCell(4, XSSFCell.CELL_TYPE_STRING).setCellValue("当日目标科室病房病人数");
+                    row.createCell(5, XSSFCell.CELL_TYPE_STRING).setCellValue("当日病房内AECOPD人数");
                     row.createCell(6, XSSFCell.CELL_TYPE_STRING).setCellValue("当日雾化病人数");
                     row.createCell(7, XSSFCell.CELL_TYPE_STRING).setCellValue("当日雾化令舒病人数");
                     row.createCell(8, XSSFCell.CELL_TYPE_STRING).setCellValue("销售代表ETMSCode");

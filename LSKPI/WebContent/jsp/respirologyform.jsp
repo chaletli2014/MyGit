@@ -80,11 +80,11 @@ function checkForm(){
 	                </select>
 	            </div>
 	            <div data-role="fieldcontain" class="formCollection">
-	                <label for="pnum" id="pnum_label">当日病房病人人数</label>
+	                <label for="pnum" id="pnum_label">当日目标科室病房病人数</label>
 	                <input type="number" name="pnum" id="pnum" value="${existedData.pnum==null?0:existedData.pnum}"/>
 	            </div>
 	            <div data-role="fieldcontain" class="formCollection">
-	                <label for="aenum" id="aenum_label">当日病房内AECOPD病人数</label>
+	                <label for="aenum" id="aenum_label">当日病房内AECOPD人数</label>
 	                <input type="number" name="aenum" id="aenum"  value="${existedData.aenum==null?0:existedData.aenum}"/>
 	            </div>
                	<div data-role="fieldcontain" class="formCollection">
