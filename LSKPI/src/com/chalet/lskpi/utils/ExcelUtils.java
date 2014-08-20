@@ -533,39 +533,53 @@ public class ExcelUtils {
                     double fbid = 0;
                     
                     try{
-                        oqd = Double.parseDouble(row.getCell(headerColumn.get(headers.get(7))).toString());
+                        if( null != row.getCell(headerColumn.get(headers.get(7))) ){
+                            oqd = Double.parseDouble(row.getCell(headerColumn.get(headers.get(7))).toString());
+                        }
                     }catch(Exception e){
-                        logger.error("ignore the parse of double format for oqd",e);
+                        logger.warn("ignore the parse of double format for oqd",e);
                     }
                     try{
-                        tqd = Double.parseDouble(row.getCell(headerColumn.get(headers.get(8))).toString());
+                        if( null != row.getCell(headerColumn.get(headers.get(8))) ){
+                            tqd = Double.parseDouble(row.getCell(headerColumn.get(headers.get(8))).toString());
+                        }
                     }catch(Exception e){
-                        logger.error("ignore the parse of double format for tqd",e);
+                        logger.warn("ignore the parse of double format for tqd",e);
                     }
                     try{
-                        otid = Double.parseDouble(row.getCell(headerColumn.get(headers.get(9))).toString());
+                        if( null != row.getCell(headerColumn.get(headers.get(9))) ){
+                            otid = Double.parseDouble(row.getCell(headerColumn.get(headers.get(9))).toString());
+                        }
                     }catch(Exception e){
-                        logger.error("ignore the parse of double format for otid",e);
+                        logger.warn("ignore the parse of double format for otid",e);
                     }
                     try{
-                        tbid = Double.parseDouble(row.getCell(headerColumn.get(headers.get(10))).toString());
+                        if( null != row.getCell(headerColumn.get(headers.get(10))) ){
+                            tbid = Double.parseDouble(row.getCell(headerColumn.get(headers.get(10))).toString());
+                        }
                     }catch(Exception e){
-                        logger.error("ignore the parse of double format for tbid",e);
+                        logger.warn("ignore the parse of double format for tbid",e);
                     }
                     try{
-                        ttid = Double.parseDouble(row.getCell(headerColumn.get(headers.get(11))).toString());
+                        if( null != row.getCell(headerColumn.get(headers.get(11))) ){
+                            ttid = Double.parseDouble(row.getCell(headerColumn.get(headers.get(11))).toString());
+                        }
                     }catch(Exception e){
-                        logger.error("ignore the parse of double format for ttid",e);
+                        logger.warn("ignore the parse of double format for ttid",e);
                     }
                     try{
-                        thbid = Double.parseDouble(row.getCell(headerColumn.get(headers.get(12))).toString());
+                        if( null != row.getCell(headerColumn.get(headers.get(12))) ){
+                            thbid = Double.parseDouble(row.getCell(headerColumn.get(headers.get(12))).toString());
+                        }
                     }catch(Exception e){
-                        logger.error("ignore the parse of double format for thid",e);
+                        logger.warn("ignore the parse of double format for thid",e);
                     }
                     try{
-                        fbid = Double.parseDouble(row.getCell(headerColumn.get(headers.get(13))).toString());
+                        if( null != row.getCell(headerColumn.get(headers.get(13))) ){
+                            fbid = Double.parseDouble(row.getCell(headerColumn.get(headers.get(13))).toString());
+                        }
                     }catch(Exception e){
-                        logger.error("ignore the parse of double format for fbid",e);
+                        logger.warn("ignore the parse of double format for fbid",e);
                     }
                     
                     if( (oqd + tqd + otid + tbid + ttid + thbid + fbid) != 100.0 && Integer.parseInt(lsnum) > 0 ){

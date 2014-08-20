@@ -689,6 +689,7 @@
 				<div style="margin-top:4px;">
 				    <span><a href="<%=basePath%>reportTemplate/儿科每日上传数据模板.xls">儿科每日数据上传模板</a></span>
 				    <span><a href="<%=basePath%>reportTemplate/呼吸科每日上传数据模板.xls">呼吸科每日数据上传模板</a></span>
+				    <span><a href="<%=basePath%>reportTemplate/胸外科每日上传数据模板.xls">胸外科每日数据上传模板</a></span>
 				    <span><a href="<%=basePath%>reportTemplate/每月采集数据模板.xls">每月采集数据模板</a></span>
 				</div>
 			</div>
