@@ -278,7 +278,7 @@ public class ReportController extends BaseController{
             		if( !resDir.exists() ){
             			resDir.mkdir();
             		}
-            		fileName = new StringBuffer("dailyPedReport/呼吸科原始数据-")
+            		fileName = new StringBuffer("dailyResReport/呼吸科原始数据-")
                     .append(simpledateformat.format(chooseDate_d))
                     .append("-")
                     .append(simpledateformat.format(chooseDate_end_d))
@@ -317,7 +317,7 @@ public class ReportController extends BaseController{
                     row.createCell(17, XSSFCell.CELL_TYPE_STRING).setCellValue("2mg TID");
                     row.createCell(18, XSSFCell.CELL_TYPE_STRING).setCellValue("3mg BID");
                     row.createCell(19, XSSFCell.CELL_TYPE_STRING).setCellValue("4mg BID");
-//                    row.createCell(19, XSSFCell.CELL_TYPE_STRING).setCellValue("该医院主要处方方式");
+                    row.createCell(20, XSSFCell.CELL_TYPE_STRING).setCellValue("是否为KPI医院（在=1，不在=0）");
                     
                     for( RespirologyData resData : dbResData ){
                     	row = sheet.createRow(currentRowNum++);
@@ -341,7 +341,7 @@ public class ReportController extends BaseController{
                         row.createCell(17, XSSFCell.CELL_TYPE_NUMERIC).setCellValue(resData.getTtid());
                         row.createCell(18, XSSFCell.CELL_TYPE_NUMERIC).setCellValue(resData.getThbid());
                         row.createCell(19, XSSFCell.CELL_TYPE_NUMERIC).setCellValue(resData.getFbid());
-//                        row.createCell(19, XSSFCell.CELL_TYPE_STRING).setCellValue(populateRecipeTypeValue(resData.getRecipeType()));
+                        row.createCell(20, XSSFCell.CELL_TYPE_STRING).setCellValue(resData.getIsResAssessed());
                     }
                     workbook.write(fOut);
             	}else if( "2".equalsIgnoreCase(department) ){
@@ -390,6 +390,7 @@ public class ReportController extends BaseController{
                     row.createCell(16, XSSFCell.CELL_TYPE_STRING).setCellValue("2mg QD");
                     row.createCell(17, XSSFCell.CELL_TYPE_STRING).setCellValue("2mg BID");
                     row.createCell(18, XSSFCell.CELL_TYPE_STRING).setCellValue("该医院主要处方方式");
+                    row.createCell(19, XSSFCell.CELL_TYPE_STRING).setCellValue("是否为KPI医院（在=1，不在=0）");
                     
                     for( PediatricsData pedData : dbPedData ){
                     	row = sheet.createRow(currentRowNum++);
@@ -412,6 +413,7 @@ public class ReportController extends BaseController{
                         row.createCell(16, XSSFCell.CELL_TYPE_NUMERIC).setCellValue(pedData.getTqd());
                         row.createCell(17, XSSFCell.CELL_TYPE_NUMERIC).setCellValue(pedData.getTbid());
                         row.createCell(18, XSSFCell.CELL_TYPE_STRING).setCellValue(populateRecipeTypeValue(pedData.getRecipeType()));
+                        row.createCell(19, XSSFCell.CELL_TYPE_STRING).setCellValue(pedData.getIsPedAssessed());
                     }
                     workbook.write(fOut);
             	}else if( "3".equalsIgnoreCase(department) ){
@@ -460,6 +462,7 @@ public class ReportController extends BaseController{
                     row.createCell(17, XSSFCell.CELL_TYPE_STRING).setCellValue("2mg TID");
                     row.createCell(18, XSSFCell.CELL_TYPE_STRING).setCellValue("3mg BID");
                     row.createCell(19, XSSFCell.CELL_TYPE_STRING).setCellValue("4mg BID");
+                    row.createCell(20, XSSFCell.CELL_TYPE_STRING).setCellValue("是否为KPI医院（在=1，不在=0）");
                     
                     for( ChestSurgeryData cheData : dbChestSurgeryData ){
                         row = sheet.createRow(currentRowNum++);
@@ -483,6 +486,7 @@ public class ReportController extends BaseController{
                         row.createCell(17, XSSFCell.CELL_TYPE_NUMERIC).setCellValue(cheData.getTtid());
                         row.createCell(18, XSSFCell.CELL_TYPE_NUMERIC).setCellValue(cheData.getThbid());
                         row.createCell(19, XSSFCell.CELL_TYPE_NUMERIC).setCellValue(cheData.getFbid());
+                        row.createCell(20, XSSFCell.CELL_TYPE_STRING).setCellValue(cheData.getIsChestSurgeryAssessed());
                     }
                     workbook.write(fOut);
             	}

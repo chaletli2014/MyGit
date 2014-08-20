@@ -34,6 +34,7 @@ public class RespirologyData {
 	private String salesETMSCode;
 	private Date createdate;
 	private String dsmName;
+	private String isResAssessed;
 	
 	public String getHospitalName() {
 		return hospitalName;
@@ -160,5 +161,11 @@ public class RespirologyData {
     }
     public void setDsmName(String dsmName) {
         this.dsmName = dsmName;
+    }
+    public String getIsResAssessed() {
+        return isResAssessed;
+    }
+    public void setIsResAssessed(String isResAssessed) {
+        this.isResAssessed = isResAssessed;
     }
 }

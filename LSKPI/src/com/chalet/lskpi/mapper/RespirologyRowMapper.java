@@ -32,6 +32,7 @@ public class RespirologyRowMapper implements RowMapper<RespirologyData>{
         respirologyData.setFbid(rs.getDouble("fbid"));
         respirologyData.setRecipeType(rs.getString("recipeType"));
         respirologyData.setDsmName(rs.getString("dsmName"));
+        respirologyData.setIsResAssessed(rs.getString("isResAssessed"));
         return respirologyData;
     }
 }

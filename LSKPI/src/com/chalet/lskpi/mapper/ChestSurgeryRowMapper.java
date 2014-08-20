@@ -31,6 +31,7 @@ public class ChestSurgeryRowMapper implements RowMapper<ChestSurgeryData>{
         chestSurgeryData.setThbid(rs.getDouble("thbid"));
         chestSurgeryData.setFbid(rs.getDouble("fbid"));
         chestSurgeryData.setDsmName(rs.getString("dsmName"));
+        chestSurgeryData.setIsChestSurgeryAssessed(rs.getString("isChestSurgeryAssessed"));
         return chestSurgeryData;
     }
 

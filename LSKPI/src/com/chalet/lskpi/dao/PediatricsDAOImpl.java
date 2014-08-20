@@ -661,7 +661,7 @@ public class PediatricsDAOImpl implements PediatricsDAO {
 	
 	@Override
 	public List<PediatricsData> getPediatricsDataByDate(Date createdatebegin, Date createdateend) throws Exception {
-		String sql = "select pd.*,h.code as hospitalCode,h.dsmName from tbl_pediatrics_data pd, tbl_hospital h where DATE_FORMAT(pd.createdate,'%Y-%m-%d') between DATE_FORMAT(?,'%Y-%m-%d') and DATE_FORMAT(?,'%Y-%m-%d') and pd.hospitalName = h.name order by createdate desc";
+		String sql = "select pd.*,h.code as hospitalCode,h.dsmName,h.isPedAssessed from tbl_pediatrics_data pd, tbl_hospital h where DATE_FORMAT(pd.createdate,'%Y-%m-%d') between DATE_FORMAT(?,'%Y-%m-%d') and DATE_FORMAT(?,'%Y-%m-%d') and pd.hospitalName = h.name order by createdate desc";
 		return dataBean.getJdbcTemplate().query(sql, new Object[]{new Timestamp(createdatebegin.getTime()),new Timestamp(createdateend.getTime())},new PediatricsRowMapper());
 	}
 
@@ -1034,6 +1034,7 @@ public class PediatricsDAOImpl implements PediatricsDAO {
         	pediatricsData.setTbid(rs.getDouble("tbid"));
         	pediatricsData.setRecipeType(rs.getString("recipeType"));
         	pediatricsData.setDsmName(rs.getString("dsmName"));
+        	pediatricsData.setIsPedAssessed(rs.getString("isPedAssessed"));
             return pediatricsData;
         }
         

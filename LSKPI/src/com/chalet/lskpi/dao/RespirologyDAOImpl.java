@@ -722,7 +722,7 @@ public class RespirologyDAOImpl implements RespirologyDAO {
 	
 	@Override
 	public List<RespirologyData> getRespirologyDataByDate(Date createdatebegin, Date createdateend) throws Exception {
-		String sql = "select rd.*,h.code as hospitalCode,h.dsmName from tbl_respirology_data rd, tbl_hospital h where DATE_FORMAT(createdate,'%Y-%m-%d') between DATE_FORMAT(?,'%Y-%m-%d') and DATE_FORMAT(?,'%Y-%m-%d') and rd.hospitalName = h.name order by createdate desc";
+		String sql = "select rd.*,h.code as hospitalCode,h.dsmName,h.isResAssessed from tbl_respirology_data rd, tbl_hospital h where DATE_FORMAT(createdate,'%Y-%m-%d') between DATE_FORMAT(?,'%Y-%m-%d') and DATE_FORMAT(?,'%Y-%m-%d') and rd.hospitalName = h.name order by createdate desc";
 		return dataBean.getJdbcTemplate().query(sql, new Object[]{new Timestamp(createdatebegin.getTime()),new Timestamp(createdateend.getTime())},new RespirologyRowMapper());
 	}
 	

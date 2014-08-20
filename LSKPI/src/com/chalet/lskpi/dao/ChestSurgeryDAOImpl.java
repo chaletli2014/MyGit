@@ -62,7 +62,7 @@ public class ChestSurgeryDAOImpl implements ChestSurgeryDAO {
     public List<ChestSurgeryData> getChestSurgeryDataByDate(Date createdatebegin, Date createdateend) throws Exception {
         StringBuffer sql = new StringBuffer("");
         sql.append(" select cd.* ")
-        .append(" , h.code as hospitalCode, h.name as hospitalName, h.rsmRegion , h.region, h.dsmName, h.saleCode as salesCode ")
+        .append(" , h.code as hospitalCode, h.name as hospitalName, h.rsmRegion , h.region, h.dsmName, h.saleCode as salesCode, h.isChestSurgeryAssessed ")
         .append(" , (select distinct name from tbl_userinfo u where u.region = h.rsmRegion and u.superior = h.dsmCode and u.userCode = h.saleCode and u.level='REP') as salesName ")
         .append(" from tbl_chestSurgery_data cd, tbl_hospital h ")
         .append(" where cd.createdate between ? and ? ")

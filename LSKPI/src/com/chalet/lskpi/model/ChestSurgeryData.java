@@ -26,6 +26,8 @@ public class ChestSurgeryData {
 	private double thbid;
 	private double fbid;
 	
+	private String isChestSurgeryAssessed;
+	
 	//below five are used in the upload daily res data feature.
 	private String region;
 	private String rsmRegion;
@@ -153,5 +155,11 @@ public class ChestSurgeryData {
     }
     public void setSalesCode(String salesCode) {
         this.salesCode = salesCode;
+    }
+    public String getIsChestSurgeryAssessed() {
+        return isChestSurgeryAssessed;
+    }
+    public void setIsChestSurgeryAssessed(String isChestSurgeryAssessed) {
+        this.isChestSurgeryAssessed = isChestSurgeryAssessed;
     }
 }

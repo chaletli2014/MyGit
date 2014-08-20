@@ -32,6 +32,8 @@ public class PediatricsData {
     private Date createdate;
     
     private String dsmName;
+    
+    private String isPedAssessed;
 	
 	public int getDataId() {
 		return dataId;
@@ -146,5 +148,11 @@ public class PediatricsData {
     }
     public void setDsmName(String dsmName) {
         this.dsmName = dsmName;
+    }
+    public String getIsPedAssessed() {
+        return isPedAssessed;
+    }
+    public void setIsPedAssessed(String isPedAssessed) {
+        this.isPedAssessed = isPedAssessed;
     }
 }
