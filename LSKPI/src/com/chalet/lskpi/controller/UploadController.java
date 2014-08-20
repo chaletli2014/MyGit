@@ -238,7 +238,7 @@ public class UploadController {
             dataHeaders.add("医院名称");
             dataHeaders.add("当日病房病人人数");
             dataHeaders.add("当日病房内合并COPD或哮喘的手术病人数");
-            dataHeaders.add("当日雾化病人数");
+            dataHeaders.add("当日雾化人数");
             dataHeaders.add("当日雾化令舒病人数");
             dataHeaders.add("1mg QD");
             dataHeaders.add("2mg QD");

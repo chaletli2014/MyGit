@@ -259,3 +259,38 @@ function showDownloadFile(divName,fileSelection){
 		$('#'+divName).html('');
 	}
 }
+
+function hasZeroValue(){
+	var argumentLength = arguments.length;
+	var zeroCount = 0;
+	
+	for( var i = 0; i < argumentLength; i++ ){
+		if( arguments[i] && arguments[i].val() == 0 ){
+			zeroCount++;
+		}
+	}
+	if( zeroCount > 0 ){
+		return true;
+	}else{
+		return false;
+	}
+}
+
+function confirmTypein(title, popupDivID, formID) {
+    if (title == null || title == "") title = "系统信息";
+    $("#"+popupDivID+" h1").html(title);
+    $("#"+popupDivID+" p").html("是否录入为0的数据?");
+    $("#"+popupDivID+" #popup_submit").unbind("click").click(function() { 
+        $("#"+popupDivID).popup("close");
+        
+        $.mobile.showPageLoadingMsg('b','数据提交中',false);
+		if( $('.submit_btn') ){
+			$('.submit_btn').removeAttr("onclick");
+		}
+		$("#"+formID).submit();
+    });
+    $("#"+popupDivID+" #popup_cancel").unbind("click").click(function() { 
+    	$("#"+popupDivID).popup("close");
+    });
+    $("#"+popupDivID).popup("open");
+}

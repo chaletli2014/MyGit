@@ -49,7 +49,7 @@ public class ChestSurgeryDAOImpl implements ChestSurgeryDAO {
     public ChestSurgeryData getChestSurgeryDataByHospital(String hospitalCode) throws Exception {
         StringBuffer sql = new StringBuffer("");
         sql.append(" select cd.* ")
-        .append(" , h.code as hospitalCode, h.name as hospitalName, h.dsmName, h.saleCode as salesCode")
+        .append(" , h.code as hospitalCode, h.name as hospitalName, h.dsmName, h.saleCode as salesCode, h.isChestSurgeryAssessed ")
         .append(" , (select name from tbl_userinfo u where u.region = h.rsmRegion and u.superior = h.dsmCode and u.userCode = h.saleCode and u.level='REP') as salesName ")
         .append(" , h.region, h.rsmRegion ")
         .append(" from tbl_chestSurgery_data cd, tbl_hospital h ")
@@ -74,7 +74,7 @@ public class ChestSurgeryDAOImpl implements ChestSurgeryDAO {
     public ChestSurgeryData getChestSurgeryDataByHospitalAndDate(String hospitalCode, Date createdate) throws Exception {
         StringBuffer sql = new StringBuffer("");
         sql.append(" select cd.* ")
-        .append(" , h.code as hospitalCode, h.name as hospitalName, h.dsmName, h.saleCode as salesCode ")
+        .append(" , h.code as hospitalCode, h.name as hospitalName, h.dsmName, h.saleCode as salesCode, h.isChestSurgeryAssessed ")
         .append(" , (select name from tbl_userinfo u where u.region = h.rsmRegion and u.superior = h.dsmCode and u.userCode = h.saleCode and u.level='REP') as salesName ")
         .append(" , h.region, h.rsmRegion ")
         .append(" from tbl_chestSurgery_data cd, tbl_hospital h ")
@@ -88,7 +88,7 @@ public class ChestSurgeryDAOImpl implements ChestSurgeryDAO {
     public ChestSurgeryData getChestSurgeryDataById(int id) throws Exception {
         StringBuffer sql = new StringBuffer("");
         sql.append(" select cd.* ")
-        .append(" , h.code as hospitalCode, h.name as hospitalName, h.dsmName, h.saleCode as salesCode ")
+        .append(" , h.code as hospitalCode, h.name as hospitalName, h.dsmName, h.saleCode as salesCode, h.isChestSurgeryAssessed ")
         .append(" , (select name from tbl_userinfo u where u.region = h.rsmRegion and u.superior = h.dsmCode and u.userCode = h.saleCode and u.level='REP') as salesName ")
         .append(" , h.region, h.rsmRegion ")
         .append(" from tbl_chestSurgery_data cd, tbl_hospital h ")

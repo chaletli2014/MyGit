@@ -41,6 +41,10 @@ function checkForm(){
         return false;
     }
 	
+    if( hasZeroValue($("#pnum"),$("#risknum"),$("#whnum"),$("#lsnum")) ){
+        return confirmTypein('','popupConfirm','chestSurgeryForm');
+    }
+	
 	return true;
 }
 </script>
@@ -141,6 +145,7 @@ function checkForm(){
 	        </form>
         	</div>
         </div>
+        <%@include file="popupConfirm.jsp" %>
         <jsp:include page="page_footer.jsp">
             <jsp:param value="<%=basePath%>" name="basePath"/>
             <jsp:param value="collectData" name="backURL"/>

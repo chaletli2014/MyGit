@@ -650,13 +650,13 @@ public class PediatricsDAOImpl implements PediatricsDAO {
 	@Override
 	public PediatricsData getPediatricsDataByHospital(String hospitalName)
 			throws Exception {
-		return dataBean.getJdbcTemplate().queryForObject("select pd.*,h.code as hospitalCode,h.dsmName from tbl_pediatrics_data pd, tbl_hospital h where pd.hospitalName=? and DATE_FORMAT(pd.createdate,'%Y-%m-%d') = curdate() and pd.hospitalName = h.name", new Object[]{hospitalName}, new PediatricsRowMapper());
+		return dataBean.getJdbcTemplate().queryForObject("select pd.*,h.code as hospitalCode,h.dsmName,h.isPedAssessed from tbl_pediatrics_data pd, tbl_hospital h where pd.hospitalName=? and DATE_FORMAT(pd.createdate,'%Y-%m-%d') = curdate() and pd.hospitalName = h.name", new Object[]{hospitalName}, new PediatricsRowMapper());
 	}
 
 	@Override
 	public PediatricsData getPediatricsDataByHospitalAndDate(
 			String hospitalName, Date createdate) throws Exception {
-		return dataBean.getJdbcTemplate().queryForObject("select pd.*,h.code as hospitalCode,h.dsmName from tbl_pediatrics_data pd, tbl_hospital h where pd.hospitalName=? and DATE_FORMAT(pd.createdate,'%Y-%m-%d') = DATE_FORMAT(?,'%Y-%m-%d') and pd.hospitalName = h.name", new Object[]{hospitalName,new Timestamp(createdate.getTime())}, new PediatricsRowMapper());
+		return dataBean.getJdbcTemplate().queryForObject("select pd.*,h.code as hospitalCode,h.dsmName,h.isPedAssessed from tbl_pediatrics_data pd, tbl_hospital h where pd.hospitalName=? and DATE_FORMAT(pd.createdate,'%Y-%m-%d') = DATE_FORMAT(?,'%Y-%m-%d') and pd.hospitalName = h.name", new Object[]{hospitalName,new Timestamp(createdate.getTime())}, new PediatricsRowMapper());
 	}
 	
 	@Override
@@ -667,7 +667,7 @@ public class PediatricsDAOImpl implements PediatricsDAO {
 
 	@Override
 	public PediatricsData getPediatricsDataById(int id) throws Exception {
-		return dataBean.getJdbcTemplate().queryForObject("select pd.*,h.code as hospitalCode,h.dsmName from tbl_pediatrics_data pd, tbl_hospital h where pd.id=? and pd.hospitalName = h.name", new Object[]{id}, new PediatricsRowMapper());
+		return dataBean.getJdbcTemplate().queryForObject("select pd.*,h.code as hospitalCode,h.dsmName,h.isPedAssessed from tbl_pediatrics_data pd, tbl_hospital h where pd.id=? and pd.hospitalName = h.name", new Object[]{id}, new PediatricsRowMapper());
 	}
 
     @Override

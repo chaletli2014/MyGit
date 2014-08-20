@@ -717,7 +717,7 @@ public class RespirologyDAOImpl implements RespirologyDAO {
 	
 	@Override
 	public RespirologyData getRespirologyDataByHospital(final String hospitalName) throws Exception {
-		return dataBean.getJdbcTemplate().queryForObject("select rd.*,h.code as hospitalCode,h.dsmName from tbl_respirology_data rd, tbl_hospital h where rd.hospitalName=? and DATE_FORMAT(rd.createdate,'%Y-%m-%d') = curdate() and rd.hospitalName = h.name", new Object[]{hospitalName}, new RespirologyRowMapper());
+		return dataBean.getJdbcTemplate().queryForObject("select rd.*,h.code as hospitalCode,h.dsmName,h.isResAssessed from tbl_respirology_data rd, tbl_hospital h where rd.hospitalName=? and DATE_FORMAT(rd.createdate,'%Y-%m-%d') = curdate() and rd.hospitalName = h.name", new Object[]{hospitalName}, new RespirologyRowMapper());
 	}
 	
 	@Override
@@ -728,11 +728,11 @@ public class RespirologyDAOImpl implements RespirologyDAO {
 	
 	@Override
 	public RespirologyData getRespirologyDataByHospitalAndDate(final String hospitalName, final Date createdate) throws Exception {
-	    return dataBean.getJdbcTemplate().queryForObject("select rd.*,h.code as hospitalCode,h.dsmName from tbl_respirology_data rd, tbl_hospital h where rd.hospitalName=? and DATE_FORMAT(rd.createdate,'%Y-%m-%d') = DATE_FORMAT(?,'%Y-%m-%d') and rd.hospitalName = h.name", new Object[]{hospitalName,new Timestamp(createdate.getTime())}, new RespirologyRowMapper());
+	    return dataBean.getJdbcTemplate().queryForObject("select rd.*,h.code as hospitalCode,h.dsmName,h.isResAssessed from tbl_respirology_data rd, tbl_hospital h where rd.hospitalName=? and DATE_FORMAT(rd.createdate,'%Y-%m-%d') = DATE_FORMAT(?,'%Y-%m-%d') and rd.hospitalName = h.name", new Object[]{hospitalName,new Timestamp(createdate.getTime())}, new RespirologyRowMapper());
 	}
 	
 	public RespirologyData getRespirologyDataById(int id) throws Exception {
-	    return dataBean.getJdbcTemplate().queryForObject("select rd.*,h.code as hospitalCode,h.dsmName from tbl_respirology_data rd, tbl_hospital h where rd.id=? and rd.hospitalName = h.name", new Object[]{id}, new RespirologyRowMapper());
+	    return dataBean.getJdbcTemplate().queryForObject("select rd.*,h.code as hospitalCode,h.dsmName,h.isResAssessed from tbl_respirology_data rd, tbl_hospital h where rd.id=? and rd.hospitalName = h.name", new Object[]{id}, new RespirologyRowMapper());
 	}
 
     public List<MobileRESDailyData> getDailyRESData4RSMByRegion(String region) throws Exception {
