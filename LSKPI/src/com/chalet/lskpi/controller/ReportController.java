@@ -3231,7 +3231,11 @@ public class ReportController extends BaseController{
                     while( inRateIte.hasNext() ){
                         inRateIte.next();
                         HSSFCell titleCell = row.createCell(columnCount+i, XSSFCell.CELL_TYPE_STRING);
-                        titleCell.setCellValue("4.上报率");
+                        if( null != whDaysMap && whDaysMap.size() > 0 ){
+                            titleCell.setCellValue("4.上报率");
+                        }else{
+                            titleCell.setCellValue("3.上报率");
+                        }
                         titleCell.setCellStyle(top2Style);
                         i++;
                     }
