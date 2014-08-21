@@ -813,9 +813,8 @@ public class RespirologyServiceImpl implements RespirologyService {
         List<RespirologyExportData> exportData = new ArrayList<RespirologyExportData>();
         
         Set<String> allRSM = new LinkedHashSet<String>();
-        for( RespirologyMonthDBData resData : monthDBData ){
-            allRSM.add(resData.getRsmRegion());
-        }
+        allRSM.addAll(userService.getAllRSMRegion());
+        allRSM.add("全国");
         
         Map<String, Double> pNumMap = new LinkedHashMap<String, Double>();
         Map<String, Double> lsNumMap = new LinkedHashMap<String, Double>();
@@ -869,18 +868,24 @@ public class RespirologyServiceImpl implements RespirologyService {
             
             List<String> durations = new ArrayList<String>(inRateMap.keySet());
             List<Double> values = new ArrayList<Double>(inRateMap.values());
-            inRateMap.put(durations.get(durations.size()-3)+"到"+durations.get(durations.size()-2), values.get(values.size()-2)-values.get(values.size()-3));
-            inRateMap.put(durations.get(durations.size()-2)+"到"+durations.get(durations.size()-1), values.get(values.size()-1)-values.get(values.size()-2));
+            if( null != durations && durations.size() > 3 ){
+                inRateMap.put(durations.get(durations.size()-3)+"到"+durations.get(durations.size()-2), values.get(values.size()-2)-values.get(values.size()-3));
+                inRateMap.put(durations.get(durations.size()-2)+"到"+durations.get(durations.size()-1), values.get(values.size()-1)-values.get(values.size()-2));
+            }
             
             durations = new ArrayList<String>(whRateMap.keySet());
-            values = new ArrayList<Double>(whRateMap.values());
-            whRateMap.put(durations.get(durations.size()-3)+"到"+durations.get(durations.size()-2), values.get(values.size()-2)-values.get(values.size()-3));
-            whRateMap.put(durations.get(durations.size()-2)+"到"+durations.get(durations.size()-1), values.get(values.size()-1)-values.get(values.size()-2));
+            if( null != durations && durations.size() > 3 ){
+                values = new ArrayList<Double>(whRateMap.values());
+                whRateMap.put(durations.get(durations.size()-3)+"到"+durations.get(durations.size()-2), values.get(values.size()-2)-values.get(values.size()-3));
+                whRateMap.put(durations.get(durations.size()-2)+"到"+durations.get(durations.size()-1), values.get(values.size()-1)-values.get(values.size()-2));
+            }
             
             durations = new ArrayList<String>(lsNumMap.keySet());
-            values = new ArrayList<Double>(lsNumMap.values());
-            lsNumMap.put(durations.get(durations.size()-3)+"到"+durations.get(durations.size()-2), (values.get(values.size()-2)-values.get(values.size()-3))/values.get(values.size()-3));
-            lsNumMap.put(durations.get(durations.size()-2)+"到"+durations.get(durations.size()-1), (values.get(values.size()-1)-values.get(values.size()-2))/values.get(values.size()-2));
+            if( null != durations && durations.size() > 3 ){
+                values = new ArrayList<Double>(lsNumMap.values());
+                lsNumMap.put(durations.get(durations.size()-3)+"到"+durations.get(durations.size()-2), (values.get(values.size()-2)-values.get(values.size()-3))/values.get(values.size()-3));
+                lsNumMap.put(durations.get(durations.size()-2)+"到"+durations.get(durations.size()-1), (values.get(values.size()-1)-values.get(values.size()-2))/values.get(values.size()-2));
+            }
             
             rsmData.setpNumMap(pNumMap);
             rsmData.setLsNumMap(lsNumMap);

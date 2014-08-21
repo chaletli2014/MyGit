@@ -174,4 +174,8 @@ public class UserServiceImpl implements UserService {
     public List<String> getAllRegionName() throws Exception {
         return userDAO.getAllRegionName();
     }
+    
+    public List<String> getAllRSMRegion() throws Exception {
+        return userDAO.getAllRSMRegion();
+    }
 }

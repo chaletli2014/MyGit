@@ -39,4 +39,6 @@ public interface UserDAO {
     public List<UserInfo> getSalesOfCurrentUser(UserInfo currentUser ) throws Exception;
     
     public List<String> getAllRegionName() throws Exception;
+    
+    public List<String> getAllRSMRegion() throws Exception;
 }

@@ -2987,20 +2987,23 @@ public class ReportController extends BaseController{
                 	}
                 	columnCount += averageDoseMap.size();
                 	
-                	i = 0;
-                	whDaysIte = whDaysMap.keySet().iterator();
-                	while( whDaysIte.hasNext() ){
-                		String monthName = whDaysIte.next();
-                		HSSFCell titleCell = row.createCell(columnCount+i, XSSFCell.CELL_TYPE_STRING);
-                		titleCell.setCellValue(monthName+"天数");
-                		if( i == whDaysMap.size()-1 ){
-                	    	titleCell.setCellStyle(top2Style);
-                	    }else{
-                	    	titleCell.setCellStyle(top1Style);
+                	if( null != whDaysMap && whDaysMap.size() > 0 ){
+                	    i = 0;
+                	    whDaysIte = whDaysMap.keySet().iterator();
+                	    while( whDaysIte.hasNext() ){
+                	        String monthName = whDaysIte.next();
+                	        HSSFCell titleCell = row.createCell(columnCount+i, XSSFCell.CELL_TYPE_STRING);
+                	        titleCell.setCellValue(monthName+"天数");
+                	        if( i == whDaysMap.size()-1 ){
+                	            titleCell.setCellStyle(top2Style);
+                	        }else{
+                	            titleCell.setCellStyle(top1Style);
+                	        }
+                	        i++;
                 	    }
-                		i++;
+                	    columnCount += whDaysMap.size();
                 	}
-                	columnCount += whDaysMap.size();
+                	
                 	
                 	for( int columnNum = 1; columnNum < columnCount; columnNum++ ){
                 		sheet.setColumnWidth(columnNum, 20*256);
@@ -3060,13 +3063,15 @@ public class ReportController extends BaseController{
                     		columnName = lsNumIte.next();
                     		HSSFCell lsNumValueCell = row.createCell(columnCount+i, XSSFCell.CELL_TYPE_NUMERIC);
                     		lsNumValueCell.setCellValue(lsNumMap.get(columnName));
-                    		if( i == lsNumMap.size()-2 ){
-                    			lsNumValueCell.setCellStyle(percentCellStyle);
-                    	    }else if( i == lsNumMap.size()-1 ){
-                    	    	lsNumValueCell.setCellStyle(percentCellRightBorderStyle);
-                    	    }else{
-                    	    	lsNumValueCell.setCellStyle(numberCellStyle);
-                    	    }
+                    		    if( lsNumMap.size() > 2 && i == lsNumMap.size()-2 ){
+                    		        lsNumValueCell.setCellStyle(percentCellStyle);
+                    		    }else if( lsNumMap.size() > 2 && i == lsNumMap.size()-1 ){
+                    		        lsNumValueCell.setCellStyle(percentCellRightBorderStyle);
+                    		    }else if( lsNumMap.size() == 2 && i == 0 ){
+                    		        lsNumValueCell.setCellStyle(numberCellStyle);
+                    		    }else{
+                    		        lsNumValueCell.setCellStyle(numberCellRightBorderStyle);
+                    		    }
                     		i++;
                     	}
                     	columnCount += lsNumMap.size();
@@ -3127,19 +3132,21 @@ public class ReportController extends BaseController{
                     	}
                     	columnCount += averageDoseMap.size();
                     	
-                    	i = 0;
-                    	while( whDaysIte.hasNext() ){
-                    		columnName = whDaysIte.next();
-                    		HSSFCell daysValueCell = row.createCell(columnCount+i, XSSFCell.CELL_TYPE_NUMERIC);
-                    		daysValueCell.setCellValue(whDaysMap.get(columnName));
-                    		if( i == whDaysMap.size()-1 ){
-                    			daysValueCell.setCellStyle(averageDoseRightCellStyle);
-                    		}else{
-                    			daysValueCell.setCellStyle(averageDoseCellStyle);
-                    		}
-                    		i++;
+                    	if( null != whDaysMap && whDaysMap.size() > 0 ){
+                    	    i = 0;
+                    	    while( whDaysIte.hasNext() ){
+                    	        columnName = whDaysIte.next();
+                    	        HSSFCell daysValueCell = row.createCell(columnCount+i, XSSFCell.CELL_TYPE_NUMERIC);
+                    	        daysValueCell.setCellValue(whDaysMap.get(columnName));
+                    	        if( i == whDaysMap.size()-1 ){
+                    	            daysValueCell.setCellStyle(averageDoseRightCellStyle);
+                    	        }else{
+                    	            daysValueCell.setCellStyle(averageDoseCellStyle);
+                    	        }
+                    	        i++;
+                    	    }
+                    	    columnCount += whDaysMap.size();
                     	}
-                    	columnCount += whDaysMap.size();
 
                 	}
                 }
@@ -3202,20 +3209,22 @@ public class ReportController extends BaseController{
                     sheet.addMergedRegion(new Region(0, (short)whRateStartCount, 0, (short)(columnCount-1)));
                     row.getCell(whRateStartCount).setCellStyle(top2Style);
                     
-                    i = 0;
-                    int daysStartCount = columnCount;
-                    Iterator<String> daysIte = whDaysMap.keySet().iterator();
-                    while( daysIte.hasNext() ){
-                        daysIte.next();
-                        HSSFCell titleCell = row.createCell(columnCount+i, XSSFCell.CELL_TYPE_STRING);
-                        titleCell.setCellValue("3.雾化天数");
-                        titleCell.setCellStyle(top2Style);
-                        i++;
+                    if( null != whDaysMap && whDaysMap.size() > 0 ){
+                        i = 0;
+                        int daysStartCount = columnCount;
+                        Iterator<String> daysIte = whDaysMap.keySet().iterator();
+                        while( daysIte.hasNext() ){
+                            daysIte.next();
+                            HSSFCell titleCell = row.createCell(columnCount+i, XSSFCell.CELL_TYPE_STRING);
+                            titleCell.setCellValue("3.雾化天数");
+                            titleCell.setCellStyle(top2Style);
+                            i++;
+                        }
+                        columnCount += whDaysMap.size();
+                        
+                        sheet.addMergedRegion(new Region(0, (short)daysStartCount, 0, (short)(columnCount-1)));
+                        row.getCell(daysStartCount).setCellStyle(top2Style);
                     }
-                    columnCount += whDaysMap.size();
-                    
-                    sheet.addMergedRegion(new Region(0, (short)daysStartCount, 0, (short)(columnCount-1)));
-                    row.getCell(daysStartCount).setCellStyle(top2Style);
                     
                     i = 0;
                     int inRateStartCount = columnCount;
@@ -3272,20 +3281,23 @@ public class ReportController extends BaseController{
                     }
                     columnCount += whRateMap.size();
                     
-                    i = 0;
-                    whDaysIte = whDaysMap.keySet().iterator();
-                    while( whDaysIte.hasNext() ){
-                        String monthName = whDaysIte.next();
-                        HSSFCell titleCell = row.createCell(columnCount+i, XSSFCell.CELL_TYPE_STRING);
-                        titleCell.setCellValue(monthName);
-                        if( i == whDaysMap.size()-1 ){
-                        	titleCell.setCellStyle(top2Style);
-                        }else{
-                        	titleCell.setCellStyle(top1Style);
+                    if( null != whDaysMap && whDaysMap.size() > 0 ){
+                        i = 0;
+                        whDaysIte = whDaysMap.keySet().iterator();
+                        while( whDaysIte.hasNext() ){
+                            String monthName = whDaysIte.next();
+                            HSSFCell titleCell = row.createCell(columnCount+i, XSSFCell.CELL_TYPE_STRING);
+                            titleCell.setCellValue(monthName);
+                            if( i == whDaysMap.size()-1 ){
+                                titleCell.setCellStyle(top2Style);
+                            }else{
+                                titleCell.setCellStyle(top1Style);
+                            }
+                            i++;
                         }
-                        i++;
+                        columnCount += whDaysMap.size();
                     }
-                    columnCount += whDaysMap.size();
+                    
                     
                     i = 0;
                     inRateIte = inRateMap.keySet().iterator();
@@ -3334,13 +3346,15 @@ public class ReportController extends BaseController{
                             columnName = lsNumIte.next();
                             HSSFCell lsNumValueCell = row.createCell(columnCount+i, XSSFCell.CELL_TYPE_NUMERIC);
                             lsNumValueCell.setCellValue(lsNumMap.get(columnName));
-                            if( i == lsNumMap.size()-2 ){
-                    			lsNumValueCell.setCellStyle(percentCellStyle);
-                    	    }else if( i == lsNumMap.size()-1 ){
-                    	    	lsNumValueCell.setCellStyle(percentCellRightBorderStyle);
-                    	    }else{
-                    	    	lsNumValueCell.setCellStyle(numberCellStyle);
-                    	    }
+                                if( lsNumMap.size() > 2 && i == lsNumMap.size()-2 ){
+                                    lsNumValueCell.setCellStyle(percentCellStyle);
+                                }else if( lsNumMap.size() > 2 && i == lsNumMap.size()-1 ){
+                                    lsNumValueCell.setCellStyle(percentCellRightBorderStyle);
+                                }else if( lsNumMap.size() == 2  && i == 0 ){
+                                    lsNumValueCell.setCellStyle(numberCellStyle);
+                                }else{
+                                    lsNumValueCell.setCellStyle(numberCellRightBorderStyle);
+                                }
                             i++;
                         }
                         columnCount += lsNumMap.size();
@@ -3359,19 +3373,22 @@ public class ReportController extends BaseController{
                         }
                         columnCount += whRateMap.size();
                         
-                        i = 0;
-                        while( whDaysIte.hasNext() ){
-                            columnName = whDaysIte.next();
-                            HSSFCell daysValueCell = row.createCell(columnCount+i, XSSFCell.CELL_TYPE_NUMERIC);
-                            daysValueCell.setCellValue(whDaysMap.get(columnName));
-                            if( i == whDaysMap.size() -1 ){
-                            	daysValueCell.setCellStyle(averageDoseRightCellStyle);
-                            }else{
-                            	daysValueCell.setCellStyle(averageDoseCellStyle);
+                        if( null != whDaysMap && whDaysMap.size() > 0 ){
+                            i = 0;
+                            while( whDaysIte.hasNext() ){
+                                columnName = whDaysIte.next();
+                                HSSFCell daysValueCell = row.createCell(columnCount+i, XSSFCell.CELL_TYPE_NUMERIC);
+                                daysValueCell.setCellValue(whDaysMap.get(columnName));
+                                if( i == whDaysMap.size() -1 ){
+                                    daysValueCell.setCellStyle(averageDoseRightCellStyle);
+                                }else{
+                                    daysValueCell.setCellStyle(averageDoseCellStyle);
+                                }
+                                i++;
                             }
-                            i++;
+                            columnCount += whDaysMap.size();
                         }
-                        columnCount += whDaysMap.size();
+                        
                         
                         i = 0;
                         while( inRateIte.hasNext() ){

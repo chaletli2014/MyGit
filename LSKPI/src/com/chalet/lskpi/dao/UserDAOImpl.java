@@ -283,4 +283,8 @@ public class UserDAOImpl implements UserDAO {
     public List<String> getAllRegionName() throws Exception {
         return dataBean.getJdbcTemplate().queryForList("select distinct regionCenter from tbl_userinfo where regionCenter is not null", String.class);
     }
+    
+    public List<String> getAllRSMRegion() throws Exception {
+        return dataBean.getJdbcTemplate().queryForList("select distinct region from tbl_userinfo where region is not null order by region ", String.class);
+    }
 }
