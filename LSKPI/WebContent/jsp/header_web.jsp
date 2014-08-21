@@ -18,7 +18,7 @@
 	<script type="text/javascript" src="<%=basePath%>js/jquery-validate.min.js"></script>
 	
 	<link rel="stylesheet" href="<%=basePath%>css/lskpi.css" type="text/css"/>
-	<script type="text/javascript" src="<%=basePath%>js/lskpi.js"></script>
+	<script type="text/javascript" src="<%=basePath%>js/lskpi.js?ver=1"></script>
 	
     <LINK href="<%=basePath%>css/user_Login.css" type=text/css rel=stylesheet>
 	<script type="text/javascript">
