@@ -20,7 +20,7 @@ public class ReportUtils {
     
     public static void refreshWeeklyPDFReport(List<UserInfo> reportUserInfos, String basePath, String contextPath, Date refreshDate, boolean checkFileExists, List<String> regionList){
         try{
-            String lastThursday = DateUtils.getThursDayOfParamDate(refreshDate);
+            String lastThursday = DateUtils.getDirectoryNameOfCurrentDuration(refreshDate);
             String startDate = DateUtils.getTheBeginDateOfRefreshDate(refreshDate);
             String endDate = DateUtils.getTheEndDateOfRefreshDate(refreshDate);
             logger.info(String.format("start to refresh the pdf weekly report, lastThursday is %s, start date is %s, end date is %s", lastThursday, startDate, endDate));

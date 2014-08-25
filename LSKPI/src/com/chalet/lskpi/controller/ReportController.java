@@ -1556,36 +1556,36 @@ public class ReportController extends BaseController{
         String directory = BrowserUtils.getDirectory(request.getHeader("User-Agent"),"weeklyHTMLReport");
         
         if( LsAttributes.USER_LEVEL_BM.equalsIgnoreCase(currentUser.getLevel()) ){
-            remotepedReportFile.append(directory).append(DateUtils.getLastThursDay()).append("/")
+            remotepedReportFile.append(directory).append(DateUtils.getDirectoryNameOfLastDuration()).append("/")
             .append("weeklyPEDReport-")
             .append(currentUser.getLevel())
             .append("-")
-            .append(DateUtils.getLastThursDay())
+            .append(DateUtils.getDirectoryNameOfLastDuration())
             .append(".html");
             
-            localpedReportFile.append(directory).append(DateUtils.getLastThursDay()).append("/")
+            localpedReportFile.append(directory).append(DateUtils.getDirectoryNameOfLastDuration()).append("/")
             .append("weeklyPEDReport-")
             .append(currentUser.getLevel())
             .append("-")
-            .append(DateUtils.getLastThursDay())
+            .append(DateUtils.getDirectoryNameOfLastDuration())
             .append(".html");
         }else{
-            remotepedReportFile.append(directory).append(DateUtils.getLastThursDay()).append("/")
+            remotepedReportFile.append(directory).append(DateUtils.getDirectoryNameOfLastDuration()).append("/")
             .append("weeklyPEDReport-")
             .append(currentUser.getLevel())
             .append("-")
             .append(currentUserTel)
             .append("-")
-            .append(DateUtils.getLastThursDay())
+            .append(DateUtils.getDirectoryNameOfLastDuration())
             .append(".html");
             
-            localpedReportFile.append(directory).append(DateUtils.getLastThursDay()).append("/")
+            localpedReportFile.append(directory).append(DateUtils.getDirectoryNameOfLastDuration()).append("/")
             .append("weeklyPEDReport-")
             .append(currentUser.getLevel())
             .append("-")
             .append(currentUserTel)
             .append("-")
-            .append(DateUtils.getLastThursDay())
+            .append(DateUtils.getDirectoryNameOfLastDuration())
             .append(".html");
         }
         
@@ -1628,36 +1628,36 @@ public class ReportController extends BaseController{
         String directory = BrowserUtils.getDirectory(request.getHeader("User-Agent"),"weeklyHTMLReport");
         
         if( LsAttributes.USER_LEVEL_BM.equalsIgnoreCase(currentUser.getLevel()) ){
-            remoteResReportFile.append(directory).append(DateUtils.getLastThursDay()).append("/")
+            remoteResReportFile.append(directory).append(DateUtils.getDirectoryNameOfLastDuration()).append("/")
             .append("weeklyRESReport-")
             .append(currentUser.getLevel())
             .append("-")
-            .append(DateUtils.getLastThursDay())
+            .append(DateUtils.getDirectoryNameOfLastDuration())
             .append(".html");
             
-            localResReportFile.append(directory).append(DateUtils.getLastThursDay()).append("/")
+            localResReportFile.append(directory).append(DateUtils.getDirectoryNameOfLastDuration()).append("/")
             .append("weeklyRESReport-")
             .append(currentUser.getLevel())
             .append("-")
-            .append(DateUtils.getLastThursDay())
+            .append(DateUtils.getDirectoryNameOfLastDuration())
             .append(".html");
         }else{
-            remoteResReportFile.append(directory).append(DateUtils.getLastThursDay()).append("/")
+            remoteResReportFile.append(directory).append(DateUtils.getDirectoryNameOfLastDuration()).append("/")
             .append("weeklyRESReport-")
             .append(currentUser.getLevel())
             .append("-")
             .append(currentUserTel)
             .append("-")
-            .append(DateUtils.getLastThursDay())
+            .append(DateUtils.getDirectoryNameOfLastDuration())
             .append(".html");
             
-            localResReportFile.append(directory).append(DateUtils.getLastThursDay()).append("/")
+            localResReportFile.append(directory).append(DateUtils.getDirectoryNameOfLastDuration()).append("/")
             .append("weeklyRESReport-")
             .append(currentUser.getLevel())
             .append("-")
             .append(currentUserTel)
             .append("-")
-            .append(DateUtils.getLastThursDay())
+            .append(DateUtils.getDirectoryNameOfLastDuration())
             .append(".html");
         }
         
@@ -1701,36 +1701,36 @@ public class ReportController extends BaseController{
         String directory = BrowserUtils.getDirectory(request.getHeader("User-Agent"),"weeklyHTMLReport");
         
         if( LsAttributes.USER_LEVEL_BM.equalsIgnoreCase(currentUser.getLevel()) ){
-            remoteReportFile.append(directory).append(DateUtils.getLastThursDay()).append("/")
+            remoteReportFile.append(directory).append(DateUtils.getDirectoryNameOfLastDuration()).append("/")
             .append("weeklyCHEReport-")
             .append(currentUser.getLevel())
             .append("-")
-            .append(DateUtils.getLastThursDay())
+            .append(DateUtils.getDirectoryNameOfLastDuration())
             .append(".html");
             
-            localReportFile.append(directory).append(DateUtils.getLastThursDay()).append("/")
+            localReportFile.append(directory).append(DateUtils.getDirectoryNameOfLastDuration()).append("/")
             .append("weeklyCHEReport-")
             .append(currentUser.getLevel())
             .append("-")
-            .append(DateUtils.getLastThursDay())
+            .append(DateUtils.getDirectoryNameOfLastDuration())
             .append(".html");
         }else{
-            remoteReportFile.append(directory).append(DateUtils.getLastThursDay()).append("/")
+            remoteReportFile.append(directory).append(DateUtils.getDirectoryNameOfLastDuration()).append("/")
             .append("weeklyCHEReport-")
             .append(currentUser.getLevel())
             .append("-")
             .append(currentUserTel)
             .append("-")
-            .append(DateUtils.getLastThursDay())
+            .append(DateUtils.getDirectoryNameOfLastDuration())
             .append(".html");
             
-            localReportFile.append(directory).append(DateUtils.getLastThursDay()).append("/")
+            localReportFile.append(directory).append(DateUtils.getDirectoryNameOfLastDuration()).append("/")
             .append("weeklyCHEReport-")
             .append(currentUser.getLevel())
             .append("-")
             .append(currentUserTel)
             .append("-")
-            .append(DateUtils.getLastThursDay())
+            .append(DateUtils.getDirectoryNameOfLastDuration())
             .append(".html");
         }
         
@@ -3429,21 +3429,21 @@ public class ReportController extends BaseController{
     }
     
     private void populateWeeklyReportFile(StringBuffer remoteWeeklyReportFile, StringBuffer weeklyReportFile2Download, StringBuffer localWeeklyReportFile, Date chooseDate_d, String fileNamePre, String fileSubName){
-        weeklyReportFile2Download.append(DateUtils.getThursDayOfParamDate(chooseDate_d)).append("/")
+        weeklyReportFile2Download.append(DateUtils.getDirectoryNameOfCurrentDuration(chooseDate_d)).append("/")
         .append(fileNamePre)
         .append(fileSubName)
         .append("-")
         .append(DateUtils.getWeeklyDuration(chooseDate_d))
         .append(".pdf");
         
-        localWeeklyReportFile.append(DateUtils.getThursDayOfParamDate(chooseDate_d)).append("/")
+        localWeeklyReportFile.append(DateUtils.getDirectoryNameOfCurrentDuration(chooseDate_d)).append("/")
         .append(fileNamePre)
         .append(fileSubName)
         .append("-")
-        .append(DateUtils.getThursDayOfParamDate(chooseDate_d))
+        .append(DateUtils.getDirectoryNameOfCurrentDuration(chooseDate_d))
         .append(".pdf");
         
-        remoteWeeklyReportFile.append(DateUtils.getThursDayOfParamDate(chooseDate_d)).append("/")
+        remoteWeeklyReportFile.append(DateUtils.getDirectoryNameOfCurrentDuration(chooseDate_d)).append("/")
         .append(fileNamePre)
         .append(fileSubName)
         .append("-")
@@ -3458,24 +3458,24 @@ public class ReportController extends BaseController{
         weeklyReportFile2Download = new StringBuffer(localPath).append("weeklyReport2Download/");
         localWeeklyReportFile = new StringBuffer(localPath).append("weeklyReport/");
         
-        remoteWeeklyReportFile.append(DateUtils.getThursDayOfParamDate(chooseDate_d)).append("/")
+        remoteWeeklyReportFile.append(DateUtils.getDirectoryNameOfCurrentDuration(chooseDate_d)).append("/")
         .append(department)
         .append("-BM-")
         .append(DateUtils.getWeeklyDuration(chooseDate_d))
         .append(rsmRegion)
         .append(".pdf");
         
-        weeklyReportFile2Download.append(DateUtils.getThursDayOfParamDate(chooseDate_d)).append("/")
+        weeklyReportFile2Download.append(DateUtils.getDirectoryNameOfCurrentDuration(chooseDate_d)).append("/")
         .append(department)
         .append("-BM-")
         .append(DateUtils.getWeeklyDuration(chooseDate_d))
         .append(rsmRegion)
         .append(".pdf");
         
-        localWeeklyReportFile.append(DateUtils.getThursDayOfParamDate(chooseDate_d)).append("/")
+        localWeeklyReportFile.append(DateUtils.getDirectoryNameOfCurrentDuration(chooseDate_d)).append("/")
         .append(department)
         .append("-BM-")
-        .append(DateUtils.getThursDayOfParamDate(chooseDate_d))
+        .append(DateUtils.getDirectoryNameOfCurrentDuration(chooseDate_d))
         .append(rsmRegion)
         .append(".pdf");
         

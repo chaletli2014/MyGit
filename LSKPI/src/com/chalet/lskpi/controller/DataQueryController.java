@@ -651,22 +651,22 @@ public class DataQueryController extends BaseController{
             
             String directory = BrowserUtils.getDirectory(request.getHeader("User-Agent"),"lowerWeeklyReport");
             
-            remotepedReportFile.append(directory).append(DateUtils.getLastThursDay()).append("/")
+            remotepedReportFile.append(directory).append(DateUtils.getDirectoryNameOfLastDuration()).append("/")
             .append("lowerWeeklyPEDReport-")
             .append(lowerUserLevel)
             .append("-")
             .append(lowerUserCode)
             .append("-")
-            .append(DateUtils.getLastThursDay())
+            .append(DateUtils.getDirectoryNameOfLastDuration())
             .append(".html");
             
-            localpedReportFile.append(directory).append(DateUtils.getLastThursDay()).append("/")
+            localpedReportFile.append(directory).append(DateUtils.getDirectoryNameOfLastDuration()).append("/")
                 .append("lowerWeeklyPEDReport-")
                 .append(lowerUserLevel)
                 .append("-")
                 .append(lowerUserCode)
                 .append("-")
-                .append(DateUtils.getLastThursDay())
+                .append(DateUtils.getDirectoryNameOfLastDuration())
                 .append(".html");
             File reportfile = new File(localpedReportFile.toString());
             if( reportfile.exists() ){
@@ -725,22 +725,22 @@ public class DataQueryController extends BaseController{
             
             String directory = BrowserUtils.getDirectory(request.getHeader("User-Agent"),"lowerWeeklyReport");
             
-            remoteResReportFile.append(directory).append(DateUtils.getLastThursDay()).append("/")
+            remoteResReportFile.append(directory).append(DateUtils.getDirectoryNameOfLastDuration()).append("/")
             .append("lowerWeeklyRESReport-")
             .append(lowerUserLevel)
             .append("-")
             .append(lowerUserCode)
             .append("-")
-            .append(DateUtils.getLastThursDay())
+            .append(DateUtils.getDirectoryNameOfLastDuration())
             .append(".html");
             
-            localResReportFile.append(directory).append(DateUtils.getLastThursDay()).append("/")
+            localResReportFile.append(directory).append(DateUtils.getDirectoryNameOfLastDuration()).append("/")
                 .append("lowerWeeklyRESReport-")
                 .append(lowerUserLevel)
                 .append("-")
                 .append(lowerUserCode)
                 .append("-")
-                .append(DateUtils.getLastThursDay())
+                .append(DateUtils.getDirectoryNameOfLastDuration())
                 .append(".html");
             
             File reportfile = new File(localResReportFile.toString());
@@ -800,22 +800,22 @@ public class DataQueryController extends BaseController{
             
             String directory = BrowserUtils.getDirectory(request.getHeader("User-Agent"),"lowerWeeklyReport");
             
-            remoteReportFile.append(directory).append(DateUtils.getLastThursDay()).append("/")
+            remoteReportFile.append(directory).append(DateUtils.getDirectoryNameOfLastDuration()).append("/")
             .append("lowerWeeklyCHEReport-")
             .append(lowerUserLevel)
             .append("-")
             .append(lowerUserCode)
             .append("-")
-            .append(DateUtils.getLastThursDay())
+            .append(DateUtils.getDirectoryNameOfLastDuration())
             .append(".html");
             
-            localReportFile.append(directory).append(DateUtils.getLastThursDay()).append("/")
+            localReportFile.append(directory).append(DateUtils.getDirectoryNameOfLastDuration()).append("/")
             .append("lowerWeeklyCHEReport-")
             .append(lowerUserLevel)
             .append("-")
             .append(lowerUserCode)
             .append("-")
-            .append(DateUtils.getLastThursDay())
+            .append(DateUtils.getDirectoryNameOfLastDuration())
             .append(".html");
             
             File reportfile = new File(localReportFile.toString());
@@ -1099,18 +1099,18 @@ public class DataQueryController extends BaseController{
             
             String directory = BrowserUtils.getDirectory(request.getHeader("User-Agent"),"hospitalHTMLReport");
             
-            remoteResReportFile.append(directory).append(DateUtils.getLastThursDay()).append("/")
+            remoteResReportFile.append(directory).append(DateUtils.getDirectoryNameOfLastDuration()).append("/")
             .append("hospitalReport-")
             .append(hospitalCode)
             .append("-")
-            .append(DateUtils.getLastThursDay())
+            .append(DateUtils.getDirectoryNameOfLastDuration())
             .append(".html");
             
-            localResReportFile.append(directory).append(DateUtils.getLastThursDay()).append("/")
+            localResReportFile.append(directory).append(DateUtils.getDirectoryNameOfLastDuration()).append("/")
                 .append("hospitalReport-")
                 .append(hospitalCode)
                 .append("-")
-                .append(DateUtils.getLastThursDay())
+                .append(DateUtils.getDirectoryNameOfLastDuration())
                 .append(".html");
             
             File reportfile = new File(localResReportFile.toString());

@@ -1,24 +1,9 @@
-delete from tbl_respirology_data_weekly where duration='2013.12.26-2014.01.01';
-delete from tbl_respirology_data_weekly where duration='2014.01.02-2014.01.08';
-delete from tbl_respirology_data_weekly where duration='2014.01.09-2014.01.15';
-delete from tbl_respirology_data_weekly where duration='2014.01.16-2014.01.22';
-delete from tbl_respirology_data_weekly where duration='2014.01.23-2014.01.29';
-delete from tbl_respirology_data_weekly where duration='2014.01.30-2014.02.05';
-delete from tbl_respirology_data_weekly where duration='2014.02.06-2014.02.12';
-delete from tbl_respirology_data_weekly where duration='2014.02.13-2014.02.19';
-delete from tbl_respirology_data_weekly where duration='2014.02.20-2014.02.26';
-delete from tbl_respirology_data_weekly where duration='2014.02.27-2014.03.05';
-delete from tbl_respirology_data_weekly where duration='2014.03.06-2014.03.12';
-delete from tbl_respirology_data_weekly where duration='2014.03.13-2014.03.19';
-delete from tbl_respirology_data_weekly where duration='2014.03.20-2014.03.26';
-delete from tbl_respirology_data_weekly where duration='2014.03.27-2014.04.02';
-delete from tbl_respirology_data_weekly where duration='2014.04.03-2014.04.09';
-delete from tbl_respirology_data_weekly where duration='2014.04.10-2014.04.16';
+truncate table tbl_respirology_data_weekly;
 
 insert into tbl_respirology_data_weekly 
 select 
 null,
-CONCAT(DATE_FORMAT(DATE_SUB('2014-01-02', Interval 7 day),'%Y.%m.%d'), '-',DATE_FORMAT(DATE_SUB('2014-01-02', Interval 1 day),'%Y.%m.%d')) as duration, 
+CONCAT(DATE_FORMAT(DATE_SUB('2014-08-25', Interval 7 day),'%Y.%m.%d'), '-',DATE_FORMAT(DATE_SUB('2014-08-25', Interval 1 day),'%Y.%m.%d')) as duration, 
 h.name,
 h.code,
 rd_data.inNum,
@@ -37,7 +22,7 @@ h.saleCode,
 h.dsmCode,
 h.rsmRegion,
 h.region,
-now() 
+now(),Year(DATE_SUB('2014-08-25', Interval 7 day)),Month(DATE_SUB('2014-08-25', Interval 7 day))  
 from (
 SELECT 
     h.code, 
@@ -82,12 +67,12 @@ SELECT
     (
         select count(1) as inNum, h.code 
         from tbl_respirology_data rd, tbl_hospital h
-        WHERE rd.createdate between DATE_SUB('2014-01-02', Interval 7 day) and '2014-01-02' 
+        WHERE rd.createdate between DATE_SUB('2014-08-25', Interval 7 day) and '2014-08-25' 
         and rd.hospitalName = h.name 
         and h.isResAssessed='1' 
         GROUP BY h.code
     ) count_hos 
-    WHERE rd.createdate between DATE_SUB('2014-01-02', Interval 7 day) and '2014-01-02' 
+    WHERE rd.createdate between DATE_SUB('2014-08-25', Interval 7 day) and '2014-08-25' 
     and rd.hospitalName = h.name 
     and h.code = count_hos.code
     and h.isResAssessed='1' 
@@ -99,7 +84,7 @@ where h.isResAssessed='1';
 insert into tbl_respirology_data_weekly 
 select 
 null,
-CONCAT(DATE_FORMAT(DATE_SUB('2014-01-09', Interval 7 day),'%Y.%m.%d'), '-',DATE_FORMAT(DATE_SUB('2014-01-09', Interval 1 day),'%Y.%m.%d')) as duration, 
+CONCAT(DATE_FORMAT(DATE_SUB('2014-08-18', Interval 7 day),'%Y.%m.%d'), '-',DATE_FORMAT(DATE_SUB('2014-08-18', Interval 1 day),'%Y.%m.%d')) as duration, 
 h.name,
 h.code,
 rd_data.inNum,
@@ -118,7 +103,7 @@ h.saleCode,
 h.dsmCode,
 h.rsmRegion,
 h.region,
-now() 
+now(),Year(DATE_SUB('2014-08-18', Interval 7 day)),Month(DATE_SUB('2014-08-18', Interval 7 day))  
 from (
 SELECT 
     h.code, 
@@ -163,12 +148,12 @@ SELECT
     (
         select count(1) as inNum, h.code 
         from tbl_respirology_data rd, tbl_hospital h
-        WHERE rd.createdate between DATE_SUB('2014-01-09', Interval 7 day) and '2014-01-09' 
+        WHERE rd.createdate between DATE_SUB('2014-08-18', Interval 7 day) and '2014-08-18' 
         and rd.hospitalName = h.name 
         and h.isResAssessed='1' 
         GROUP BY h.code
     ) count_hos 
-    WHERE rd.createdate between DATE_SUB('2014-01-09', Interval 7 day) and '2014-01-09' 
+    WHERE rd.createdate between DATE_SUB('2014-08-18', Interval 7 day) and '2014-08-18' 
     and rd.hospitalName = h.name 
     and h.code = count_hos.code
     and h.isResAssessed='1' 
@@ -180,7 +165,7 @@ where h.isResAssessed='1';
 insert into tbl_respirology_data_weekly 
 select 
 null,
-CONCAT(DATE_FORMAT(DATE_SUB('2014-01-16', Interval 7 day),'%Y.%m.%d'), '-',DATE_FORMAT(DATE_SUB('2014-01-16', Interval 1 day),'%Y.%m.%d')) as duration, 
+CONCAT(DATE_FORMAT(DATE_SUB('2014-08-11', Interval 7 day),'%Y.%m.%d'), '-',DATE_FORMAT(DATE_SUB('2014-08-11', Interval 1 day),'%Y.%m.%d')) as duration, 
 h.name,
 h.code,
 rd_data.inNum,
@@ -199,7 +184,7 @@ h.saleCode,
 h.dsmCode,
 h.rsmRegion,
 h.region,
-now() 
+now(),Year(DATE_SUB('2014-08-11', Interval 7 day)),Month(DATE_SUB('2014-08-11', Interval 7 day))  
 from (
 SELECT 
     h.code, 
@@ -244,12 +229,12 @@ SELECT
     (
         select count(1) as inNum, h.code 
         from tbl_respirology_data rd, tbl_hospital h
-        WHERE rd.createdate between DATE_SUB('2014-01-16', Interval 7 day) and '2014-01-16' 
+        WHERE rd.createdate between DATE_SUB('2014-08-11', Interval 7 day) and '2014-08-11' 
         and rd.hospitalName = h.name 
         and h.isResAssessed='1' 
         GROUP BY h.code
     ) count_hos 
-    WHERE rd.createdate between DATE_SUB('2014-01-16', Interval 7 day) and '2014-01-16' 
+    WHERE rd.createdate between DATE_SUB('2014-08-11', Interval 7 day) and '2014-08-11' 
     and rd.hospitalName = h.name 
     and h.code = count_hos.code
     and h.isResAssessed='1' 
@@ -261,7 +246,7 @@ where h.isResAssessed='1';
 insert into tbl_respirology_data_weekly 
 select 
 null,
-CONCAT(DATE_FORMAT(DATE_SUB('2014-01-23', Interval 7 day),'%Y.%m.%d'), '-',DATE_FORMAT(DATE_SUB('2014-01-23', Interval 1 day),'%Y.%m.%d')) as duration, 
+CONCAT(DATE_FORMAT(DATE_SUB('2014-08-04', Interval 7 day),'%Y.%m.%d'), '-',DATE_FORMAT(DATE_SUB('2014-08-04', Interval 1 day),'%Y.%m.%d')) as duration, 
 h.name,
 h.code,
 rd_data.inNum,
@@ -280,7 +265,7 @@ h.saleCode,
 h.dsmCode,
 h.rsmRegion,
 h.region,
-now() 
+now(),Year(DATE_SUB('2014-08-04', Interval 7 day)),Month(DATE_SUB('2014-08-04', Interval 7 day))  
 from (
 SELECT 
     h.code, 
@@ -325,12 +310,12 @@ SELECT
     (
         select count(1) as inNum, h.code 
         from tbl_respirology_data rd, tbl_hospital h
-        WHERE rd.createdate between DATE_SUB('2014-01-23', Interval 7 day) and '2014-01-23' 
+        WHERE rd.createdate between DATE_SUB('2014-08-04', Interval 7 day) and '2014-08-04' 
         and rd.hospitalName = h.name 
         and h.isResAssessed='1' 
         GROUP BY h.code
     ) count_hos 
-    WHERE rd.createdate between DATE_SUB('2014-01-23', Interval 7 day) and '2014-01-23' 
+    WHERE rd.createdate between DATE_SUB('2014-08-04', Interval 7 day) and '2014-08-04' 
     and rd.hospitalName = h.name 
     and h.code = count_hos.code
     and h.isResAssessed='1' 
@@ -342,7 +327,7 @@ where h.isResAssessed='1';
 insert into tbl_respirology_data_weekly 
 select 
 null,
-CONCAT(DATE_FORMAT(DATE_SUB('2014-01-30', Interval 7 day),'%Y.%m.%d'), '-',DATE_FORMAT(DATE_SUB('2014-01-30', Interval 1 day),'%Y.%m.%d')) as duration, 
+CONCAT(DATE_FORMAT(DATE_SUB('2014-07-28', Interval 7 day),'%Y.%m.%d'), '-',DATE_FORMAT(DATE_SUB('2014-07-28', Interval 1 day),'%Y.%m.%d')) as duration, 
 h.name,
 h.code,
 rd_data.inNum,
@@ -361,7 +346,7 @@ h.saleCode,
 h.dsmCode,
 h.rsmRegion,
 h.region,
-now() 
+now(),Year(DATE_SUB('2014-07-28', Interval 7 day)),Month(DATE_SUB('2014-07-28', Interval 7 day))  
 from (
 SELECT 
     h.code, 
@@ -406,12 +391,12 @@ SELECT
     (
         select count(1) as inNum, h.code 
         from tbl_respirology_data rd, tbl_hospital h
-        WHERE rd.createdate between DATE_SUB('2014-01-30', Interval 7 day) and '2014-01-30' 
+        WHERE rd.createdate between DATE_SUB('2014-07-28', Interval 7 day) and '2014-07-28' 
         and rd.hospitalName = h.name 
         and h.isResAssessed='1' 
         GROUP BY h.code
     ) count_hos 
-    WHERE rd.createdate between DATE_SUB('2014-01-30', Interval 7 day) and '2014-01-30' 
+    WHERE rd.createdate between DATE_SUB('2014-07-28', Interval 7 day) and '2014-07-28' 
     and rd.hospitalName = h.name 
     and h.code = count_hos.code
     and h.isResAssessed='1' 
@@ -423,7 +408,7 @@ where h.isResAssessed='1';
 insert into tbl_respirology_data_weekly 
 select 
 null,
-CONCAT(DATE_FORMAT(DATE_SUB('2014-02-06', Interval 7 day),'%Y.%m.%d'), '-',DATE_FORMAT(DATE_SUB('2014-02-06', Interval 1 day),'%Y.%m.%d')) as duration, 
+CONCAT(DATE_FORMAT(DATE_SUB('2014-07-21', Interval 7 day),'%Y.%m.%d'), '-',DATE_FORMAT(DATE_SUB('2014-07-21', Interval 1 day),'%Y.%m.%d')) as duration, 
 h.name,
 h.code,
 rd_data.inNum,
@@ -442,7 +427,7 @@ h.saleCode,
 h.dsmCode,
 h.rsmRegion,
 h.region,
-now() 
+now(),Year(DATE_SUB('2014-07-21', Interval 7 day)),Month(DATE_SUB('2014-07-21', Interval 7 day))  
 from (
 SELECT 
     h.code, 
@@ -487,12 +472,12 @@ SELECT
     (
         select count(1) as inNum, h.code 
         from tbl_respirology_data rd, tbl_hospital h
-        WHERE rd.createdate between DATE_SUB('2014-02-06', Interval 7 day) and '2014-02-06' 
+        WHERE rd.createdate between DATE_SUB('2014-07-21', Interval 7 day) and '2014-07-21' 
         and rd.hospitalName = h.name 
         and h.isResAssessed='1' 
         GROUP BY h.code
     ) count_hos 
-    WHERE rd.createdate between DATE_SUB('2014-02-06', Interval 7 day) and '2014-02-06' 
+    WHERE rd.createdate between DATE_SUB('2014-07-21', Interval 7 day) and '2014-07-21' 
     and rd.hospitalName = h.name 
     and h.code = count_hos.code
     and h.isResAssessed='1' 
@@ -504,7 +489,7 @@ where h.isResAssessed='1';
 insert into tbl_respirology_data_weekly 
 select 
 null,
-CONCAT(DATE_FORMAT(DATE_SUB('2014-02-13', Interval 7 day),'%Y.%m.%d'), '-',DATE_FORMAT(DATE_SUB('2014-02-13', Interval 1 day),'%Y.%m.%d')) as duration, 
+CONCAT(DATE_FORMAT(DATE_SUB('2014-07-14', Interval 7 day),'%Y.%m.%d'), '-',DATE_FORMAT(DATE_SUB('2014-07-14', Interval 1 day),'%Y.%m.%d')) as duration, 
 h.name,
 h.code,
 rd_data.inNum,
@@ -523,7 +508,7 @@ h.saleCode,
 h.dsmCode,
 h.rsmRegion,
 h.region,
-now() 
+now(),Year(DATE_SUB('2014-07-14', Interval 7 day)),Month(DATE_SUB('2014-07-14', Interval 7 day))  
 from (
 SELECT 
     h.code, 
@@ -568,12 +553,12 @@ SELECT
     (
         select count(1) as inNum, h.code 
         from tbl_respirology_data rd, tbl_hospital h
-        WHERE rd.createdate between DATE_SUB('2014-02-13', Interval 7 day) and '2014-02-13' 
+        WHERE rd.createdate between DATE_SUB('2014-07-14', Interval 7 day) and '2014-07-14' 
         and rd.hospitalName = h.name 
         and h.isResAssessed='1' 
         GROUP BY h.code
     ) count_hos 
-    WHERE rd.createdate between DATE_SUB('2014-02-13', Interval 7 day) and '2014-02-13' 
+    WHERE rd.createdate between DATE_SUB('2014-07-14', Interval 7 day) and '2014-07-14' 
     and rd.hospitalName = h.name 
     and h.code = count_hos.code
     and h.isResAssessed='1' 
@@ -585,7 +570,7 @@ where h.isResAssessed='1';
 insert into tbl_respirology_data_weekly 
 select 
 null,
-CONCAT(DATE_FORMAT(DATE_SUB('2014-02-20', Interval 7 day),'%Y.%m.%d'), '-',DATE_FORMAT(DATE_SUB('2014-02-20', Interval 1 day),'%Y.%m.%d')) as duration, 
+CONCAT(DATE_FORMAT(DATE_SUB('2014-07-07', Interval 7 day),'%Y.%m.%d'), '-',DATE_FORMAT(DATE_SUB('2014-07-07', Interval 1 day),'%Y.%m.%d')) as duration, 
 h.name,
 h.code,
 rd_data.inNum,
@@ -604,7 +589,7 @@ h.saleCode,
 h.dsmCode,
 h.rsmRegion,
 h.region,
-now() 
+now(),Year(DATE_SUB('2014-07-07', Interval 7 day)),Month(DATE_SUB('2014-07-07', Interval 7 day))  
 from (
 SELECT 
     h.code, 
@@ -649,12 +634,12 @@ SELECT
     (
         select count(1) as inNum, h.code 
         from tbl_respirology_data rd, tbl_hospital h
-        WHERE rd.createdate between DATE_SUB('2014-02-20', Interval 7 day) and '2014-02-20' 
+        WHERE rd.createdate between DATE_SUB('2014-07-07', Interval 7 day) and '2014-07-07' 
         and rd.hospitalName = h.name 
         and h.isResAssessed='1' 
         GROUP BY h.code
     ) count_hos 
-    WHERE rd.createdate between DATE_SUB('2014-02-20', Interval 7 day) and '2014-02-20' 
+    WHERE rd.createdate between DATE_SUB('2014-07-07', Interval 7 day) and '2014-07-07' 
     and rd.hospitalName = h.name 
     and h.code = count_hos.code
     and h.isResAssessed='1' 
@@ -666,7 +651,7 @@ where h.isResAssessed='1';
 insert into tbl_respirology_data_weekly 
 select 
 null,
-CONCAT(DATE_FORMAT(DATE_SUB('2014-02-27', Interval 7 day),'%Y.%m.%d'), '-',DATE_FORMAT(DATE_SUB('2014-02-27', Interval 1 day),'%Y.%m.%d')) as duration, 
+CONCAT(DATE_FORMAT(DATE_SUB('2014-06-30', Interval 7 day),'%Y.%m.%d'), '-',DATE_FORMAT(DATE_SUB('2014-06-30', Interval 1 day),'%Y.%m.%d')) as duration, 
 h.name,
 h.code,
 rd_data.inNum,
@@ -685,7 +670,7 @@ h.saleCode,
 h.dsmCode,
 h.rsmRegion,
 h.region,
-now() 
+now(),Year(DATE_SUB('2014-06-30', Interval 7 day)),Month(DATE_SUB('2014-06-30', Interval 7 day))  
 from (
 SELECT 
     h.code, 
@@ -730,12 +715,12 @@ SELECT
     (
         select count(1) as inNum, h.code 
         from tbl_respirology_data rd, tbl_hospital h
-        WHERE rd.createdate between DATE_SUB('2014-02-27', Interval 7 day) and '2014-02-27' 
+        WHERE rd.createdate between DATE_SUB('2014-06-30', Interval 7 day) and '2014-06-30' 
         and rd.hospitalName = h.name 
         and h.isResAssessed='1' 
         GROUP BY h.code
     ) count_hos 
-    WHERE rd.createdate between DATE_SUB('2014-02-27', Interval 7 day) and '2014-02-27' 
+    WHERE rd.createdate between DATE_SUB('2014-06-30', Interval 7 day) and '2014-06-30' 
     and rd.hospitalName = h.name 
     and h.code = count_hos.code
     and h.isResAssessed='1' 
@@ -747,7 +732,7 @@ where h.isResAssessed='1';
 insert into tbl_respirology_data_weekly 
 select 
 null,
-CONCAT(DATE_FORMAT(DATE_SUB('2014-03-06', Interval 7 day),'%Y.%m.%d'), '-',DATE_FORMAT(DATE_SUB('2014-03-06', Interval 1 day),'%Y.%m.%d')) as duration, 
+CONCAT(DATE_FORMAT(DATE_SUB('2014-06-23', Interval 7 day),'%Y.%m.%d'), '-',DATE_FORMAT(DATE_SUB('2014-06-23', Interval 1 day),'%Y.%m.%d')) as duration, 
 h.name,
 h.code,
 rd_data.inNum,
@@ -766,7 +751,7 @@ h.saleCode,
 h.dsmCode,
 h.rsmRegion,
 h.region,
-now() 
+now(),Year(DATE_SUB('2014-06-23', Interval 7 day)),Month(DATE_SUB('2014-06-23', Interval 7 day))  
 from (
 SELECT 
     h.code, 
@@ -811,12 +796,12 @@ SELECT
     (
         select count(1) as inNum, h.code 
         from tbl_respirology_data rd, tbl_hospital h
-        WHERE rd.createdate between DATE_SUB('2014-03-06', Interval 7 day) and '2014-03-06' 
+        WHERE rd.createdate between DATE_SUB('2014-06-23', Interval 7 day) and '2014-06-23' 
         and rd.hospitalName = h.name 
         and h.isResAssessed='1' 
         GROUP BY h.code
     ) count_hos 
-    WHERE rd.createdate between DATE_SUB('2014-03-06', Interval 7 day) and '2014-03-06' 
+    WHERE rd.createdate between DATE_SUB('2014-06-23', Interval 7 day) and '2014-06-23' 
     and rd.hospitalName = h.name 
     and h.code = count_hos.code
     and h.isResAssessed='1' 
@@ -828,7 +813,7 @@ where h.isResAssessed='1';
 insert into tbl_respirology_data_weekly 
 select 
 null,
-CONCAT(DATE_FORMAT(DATE_SUB('2014-03-13', Interval 7 day),'%Y.%m.%d'), '-',DATE_FORMAT(DATE_SUB('2014-03-13', Interval 1 day),'%Y.%m.%d')) as duration, 
+CONCAT(DATE_FORMAT(DATE_SUB('2014-06-16', Interval 7 day),'%Y.%m.%d'), '-',DATE_FORMAT(DATE_SUB('2014-06-16', Interval 1 day),'%Y.%m.%d')) as duration, 
 h.name,
 h.code,
 rd_data.inNum,
@@ -847,7 +832,7 @@ h.saleCode,
 h.dsmCode,
 h.rsmRegion,
 h.region,
-now() 
+now(),Year(DATE_SUB('2014-06-16', Interval 7 day)),Month(DATE_SUB('2014-06-16', Interval 7 day))  
 from (
 SELECT 
     h.code, 
@@ -892,12 +877,12 @@ SELECT
     (
         select count(1) as inNum, h.code 
         from tbl_respirology_data rd, tbl_hospital h
-        WHERE rd.createdate between DATE_SUB('2014-03-13', Interval 7 day) and '2014-03-13' 
+        WHERE rd.createdate between DATE_SUB('2014-06-16', Interval 7 day) and '2014-06-16' 
         and rd.hospitalName = h.name 
         and h.isResAssessed='1' 
         GROUP BY h.code
     ) count_hos 
-    WHERE rd.createdate between DATE_SUB('2014-03-13', Interval 7 day) and '2014-03-13' 
+    WHERE rd.createdate between DATE_SUB('2014-06-16', Interval 7 day) and '2014-06-16' 
     and rd.hospitalName = h.name 
     and h.code = count_hos.code
     and h.isResAssessed='1' 
@@ -909,7 +894,7 @@ where h.isResAssessed='1';
 insert into tbl_respirology_data_weekly 
 select 
 null,
-CONCAT(DATE_FORMAT(DATE_SUB('2014-03-20', Interval 7 day),'%Y.%m.%d'), '-',DATE_FORMAT(DATE_SUB('2014-03-20', Interval 1 day),'%Y.%m.%d')) as duration, 
+CONCAT(DATE_FORMAT(DATE_SUB('2014-06-09', Interval 7 day),'%Y.%m.%d'), '-',DATE_FORMAT(DATE_SUB('2014-06-09', Interval 1 day),'%Y.%m.%d')) as duration, 
 h.name,
 h.code,
 rd_data.inNum,
@@ -928,7 +913,7 @@ h.saleCode,
 h.dsmCode,
 h.rsmRegion,
 h.region,
-now() 
+now(),Year(DATE_SUB('2014-06-09', Interval 7 day)),Month(DATE_SUB('2014-06-09', Interval 7 day))  
 from (
 SELECT 
     h.code, 
@@ -973,12 +958,12 @@ SELECT
     (
         select count(1) as inNum, h.code 
         from tbl_respirology_data rd, tbl_hospital h
-        WHERE rd.createdate between DATE_SUB('2014-03-20', Interval 7 day) and '2014-03-20' 
+        WHERE rd.createdate between DATE_SUB('2014-06-09', Interval 7 day) and '2014-06-09' 
         and rd.hospitalName = h.name 
         and h.isResAssessed='1' 
         GROUP BY h.code
     ) count_hos 
-    WHERE rd.createdate between DATE_SUB('2014-03-20', Interval 7 day) and '2014-03-20' 
+    WHERE rd.createdate between DATE_SUB('2014-06-09', Interval 7 day) and '2014-06-09' 
     and rd.hospitalName = h.name 
     and h.code = count_hos.code
     and h.isResAssessed='1' 

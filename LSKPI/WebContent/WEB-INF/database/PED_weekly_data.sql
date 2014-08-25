@@ -1,21 +1,9 @@
-delete from tbl_pediatrics_data_weekly where duration='2013.12.26-2014.01.01';
-delete from tbl_pediatrics_data_weekly where duration='2014.01.02-2014.01.08';
-delete from tbl_pediatrics_data_weekly where duration='2014.01.09-2014.01.15';
-delete from tbl_pediatrics_data_weekly where duration='2014.01.16-2014.01.22';
-delete from tbl_pediatrics_data_weekly where duration='2014.01.23-2014.01.29';
-delete from tbl_pediatrics_data_weekly where duration='2014.01.30-2014.02.05';
-delete from tbl_pediatrics_data_weekly where duration='2014.02.06-2014.02.12';
-delete from tbl_pediatrics_data_weekly where duration='2014.02.13-2014.02.19';
-delete from tbl_pediatrics_data_weekly where duration='2014.02.20-2014.02.26';
-delete from tbl_pediatrics_data_weekly where duration='2014.02.27-2014.03.05';
-delete from tbl_pediatrics_data_weekly where duration='2014.03.06-2014.03.12';
-delete from tbl_pediatrics_data_weekly where duration='2014.03.13-2014.03.19';
-delete from tbl_pediatrics_data_weekly where duration='2014.03.20-2014.03.26';
+truncate table tbl_pediatrics_data_weekly;
 
 insert into tbl_pediatrics_data_weekly 
 select 
 null,
-CONCAT(DATE_FORMAT(DATE_SUB('2014-01-02', Interval 7 day),'%Y.%m.%d'), '-',DATE_FORMAT(DATE_SUB('2014-01-02', Interval 1 day),'%Y.%m.%d')) as duration, 
+CONCAT(DATE_FORMAT(DATE_SUB('2014-08-25', Interval 7 day),'%Y.%m.%d'), '-',DATE_FORMAT(DATE_SUB('2014-08-25', Interval 1 day),'%Y.%m.%d')) as duration, 
 h.name,
 h.code,
 pd_data.inNum,
@@ -68,12 +56,12 @@ SELECT
 	(
 		select count(1) as inNum, h.code 
 		from tbl_pediatrics_data pd, tbl_hospital h
-		WHERE pd.createdate between DATE_SUB('2014-01-02', Interval 7 day) and '2014-01-02' 
+		WHERE pd.createdate between DATE_SUB('2014-08-25', Interval 7 day) and '2014-08-25' 
 		and pd.hospitalName = h.name 
 		and h.isPedAssessed='1' 
 		GROUP BY h.code
 	) count_hos 
-    WHERE pd.createdate between DATE_SUB('2014-01-02', Interval 7 day) and '2014-01-02' 
+    WHERE pd.createdate between DATE_SUB('2014-08-25', Interval 7 day) and '2014-08-25' 
 	and pd.hospitalName = h.name 
 	and h.code = count_hos.code
 	and h.isPedAssessed='1' 
@@ -85,7 +73,7 @@ where h.isPedAssessed='1';
 insert into tbl_pediatrics_data_weekly 
 select 
 null,
-CONCAT(DATE_FORMAT(DATE_SUB('2014-01-09', Interval 7 day),'%Y.%m.%d'), '-',DATE_FORMAT(DATE_SUB('2014-01-09', Interval 1 day),'%Y.%m.%d')) as duration, 
+CONCAT(DATE_FORMAT(DATE_SUB('2014-08-18', Interval 7 day),'%Y.%m.%d'), '-',DATE_FORMAT(DATE_SUB('2014-08-18', Interval 1 day),'%Y.%m.%d')) as duration, 
 h.name,
 h.code,
 pd_data.inNum,
@@ -138,12 +126,12 @@ SELECT
 	(
 		select count(1) as inNum, h.code 
 		from tbl_pediatrics_data pd, tbl_hospital h
-		WHERE pd.createdate between DATE_SUB('2014-01-09', Interval 7 day) and '2014-01-09' 
+		WHERE pd.createdate between DATE_SUB('2014-08-18', Interval 7 day) and '2014-08-18' 
 		and pd.hospitalName = h.name 
 		and h.isPedAssessed='1' 
 		GROUP BY h.code
 	) count_hos 
-    WHERE pd.createdate between DATE_SUB('2014-01-09', Interval 7 day) and '2014-01-09' 
+    WHERE pd.createdate between DATE_SUB('2014-08-18', Interval 7 day) and '2014-08-18' 
 	and pd.hospitalName = h.name 
 	and h.code = count_hos.code
 	and h.isPedAssessed='1' 
@@ -155,7 +143,7 @@ where h.isPedAssessed='1';
 insert into tbl_pediatrics_data_weekly 
 select 
 null,
-CONCAT(DATE_FORMAT(DATE_SUB('2014-01-16', Interval 7 day),'%Y.%m.%d'), '-',DATE_FORMAT(DATE_SUB('2014-01-16', Interval 1 day),'%Y.%m.%d')) as duration, 
+CONCAT(DATE_FORMAT(DATE_SUB('2014-08-11', Interval 7 day),'%Y.%m.%d'), '-',DATE_FORMAT(DATE_SUB('2014-08-11', Interval 1 day),'%Y.%m.%d')) as duration, 
 h.name,
 h.code,
 pd_data.inNum,
@@ -208,12 +196,12 @@ SELECT
 	(
 		select count(1) as inNum, h.code 
 		from tbl_pediatrics_data pd, tbl_hospital h
-		WHERE pd.createdate between DATE_SUB('2014-01-16', Interval 7 day) and '2014-01-16' 
+		WHERE pd.createdate between DATE_SUB('2014-08-11', Interval 7 day) and '2014-08-11' 
 		and pd.hospitalName = h.name 
 		and h.isPedAssessed='1' 
 		GROUP BY h.code
 	) count_hos 
-    WHERE pd.createdate between DATE_SUB('2014-01-16', Interval 7 day) and '2014-01-16' 
+    WHERE pd.createdate between DATE_SUB('2014-08-11', Interval 7 day) and '2014-08-11' 
 	and pd.hospitalName = h.name 
 	and h.code = count_hos.code
 	and h.isPedAssessed='1' 
@@ -225,7 +213,7 @@ where h.isPedAssessed='1';
 insert into tbl_pediatrics_data_weekly 
 select 
 null,
-CONCAT(DATE_FORMAT(DATE_SUB('2014-01-23', Interval 7 day),'%Y.%m.%d'), '-',DATE_FORMAT(DATE_SUB('2014-01-23', Interval 1 day),'%Y.%m.%d')) as duration, 
+CONCAT(DATE_FORMAT(DATE_SUB('2014-08-04', Interval 7 day),'%Y.%m.%d'), '-',DATE_FORMAT(DATE_SUB('2014-08-04', Interval 1 day),'%Y.%m.%d')) as duration, 
 h.name,
 h.code,
 pd_data.inNum,
@@ -278,12 +266,12 @@ SELECT
 	(
 		select count(1) as inNum, h.code 
 		from tbl_pediatrics_data pd, tbl_hospital h
-		WHERE pd.createdate between DATE_SUB('2014-01-23', Interval 7 day) and '2014-01-23' 
+		WHERE pd.createdate between DATE_SUB('2014-08-04', Interval 7 day) and '2014-08-04' 
 		and pd.hospitalName = h.name 
 		and h.isPedAssessed='1' 
 		GROUP BY h.code
 	) count_hos 
-    WHERE pd.createdate between DATE_SUB('2014-01-23', Interval 7 day) and '2014-01-23' 
+    WHERE pd.createdate between DATE_SUB('2014-08-04', Interval 7 day) and '2014-08-04' 
 	and pd.hospitalName = h.name 
 	and h.code = count_hos.code
 	and h.isPedAssessed='1' 
@@ -295,7 +283,7 @@ where h.isPedAssessed='1';
 insert into tbl_pediatrics_data_weekly 
 select 
 null,
-CONCAT(DATE_FORMAT(DATE_SUB('2014-01-30', Interval 7 day),'%Y.%m.%d'), '-',DATE_FORMAT(DATE_SUB('2014-01-30', Interval 1 day),'%Y.%m.%d')) as duration, 
+CONCAT(DATE_FORMAT(DATE_SUB('2014-07-28', Interval 7 day),'%Y.%m.%d'), '-',DATE_FORMAT(DATE_SUB('2014-07-28', Interval 1 day),'%Y.%m.%d')) as duration, 
 h.name,
 h.code,
 pd_data.inNum,
@@ -348,12 +336,12 @@ SELECT
 	(
 		select count(1) as inNum, h.code 
 		from tbl_pediatrics_data pd, tbl_hospital h
-		WHERE pd.createdate between DATE_SUB('2014-01-30', Interval 7 day) and '2014-01-30' 
+		WHERE pd.createdate between DATE_SUB('2014-07-28', Interval 7 day) and '2014-07-28' 
 		and pd.hospitalName = h.name 
 		and h.isPedAssessed='1' 
 		GROUP BY h.code
 	) count_hos 
-    WHERE pd.createdate between DATE_SUB('2014-01-30', Interval 7 day) and '2014-01-30' 
+    WHERE pd.createdate between DATE_SUB('2014-07-28', Interval 7 day) and '2014-07-28' 
 	and pd.hospitalName = h.name 
 	and h.code = count_hos.code
 	and h.isPedAssessed='1' 
@@ -365,7 +353,7 @@ where h.isPedAssessed='1';
 insert into tbl_pediatrics_data_weekly 
 select 
 null,
-CONCAT(DATE_FORMAT(DATE_SUB('2014-02-06', Interval 7 day),'%Y.%m.%d'), '-',DATE_FORMAT(DATE_SUB('2014-02-06', Interval 1 day),'%Y.%m.%d')) as duration, 
+CONCAT(DATE_FORMAT(DATE_SUB('2014-07-21', Interval 7 day),'%Y.%m.%d'), '-',DATE_FORMAT(DATE_SUB('2014-07-21', Interval 1 day),'%Y.%m.%d')) as duration, 
 h.name,
 h.code,
 pd_data.inNum,
@@ -418,12 +406,12 @@ SELECT
 	(
 		select count(1) as inNum, h.code 
 		from tbl_pediatrics_data pd, tbl_hospital h
-		WHERE pd.createdate between DATE_SUB('2014-02-06', Interval 7 day) and '2014-02-06' 
+		WHERE pd.createdate between DATE_SUB('2014-07-21', Interval 7 day) and '2014-07-21' 
 		and pd.hospitalName = h.name 
 		and h.isPedAssessed='1' 
 		GROUP BY h.code
 	) count_hos 
-    WHERE pd.createdate between DATE_SUB('2014-02-06', Interval 7 day) and '2014-02-06' 
+    WHERE pd.createdate between DATE_SUB('2014-07-21', Interval 7 day) and '2014-07-21' 
 	and pd.hospitalName = h.name 
 	and h.code = count_hos.code
 	and h.isPedAssessed='1' 
@@ -435,7 +423,7 @@ where h.isPedAssessed='1';
 insert into tbl_pediatrics_data_weekly 
 select 
 null,
-CONCAT(DATE_FORMAT(DATE_SUB('2014-02-13', Interval 7 day),'%Y.%m.%d'), '-',DATE_FORMAT(DATE_SUB('2014-02-13', Interval 1 day),'%Y.%m.%d')) as duration, 
+CONCAT(DATE_FORMAT(DATE_SUB('2014-07-14', Interval 7 day),'%Y.%m.%d'), '-',DATE_FORMAT(DATE_SUB('2014-07-14', Interval 1 day),'%Y.%m.%d')) as duration, 
 h.name,
 h.code,
 pd_data.inNum,
@@ -488,12 +476,12 @@ SELECT
 	(
 		select count(1) as inNum, h.code 
 		from tbl_pediatrics_data pd, tbl_hospital h
-		WHERE pd.createdate between DATE_SUB('2014-02-13', Interval 7 day) and '2014-02-13' 
+		WHERE pd.createdate between DATE_SUB('2014-07-14', Interval 7 day) and '2014-07-14' 
 		and pd.hospitalName = h.name 
 		and h.isPedAssessed='1' 
 		GROUP BY h.code
 	) count_hos 
-    WHERE pd.createdate between DATE_SUB('2014-02-13', Interval 7 day) and '2014-02-13' 
+    WHERE pd.createdate between DATE_SUB('2014-07-14', Interval 7 day) and '2014-07-14' 
 	and pd.hospitalName = h.name 
 	and h.code = count_hos.code
 	and h.isPedAssessed='1' 
@@ -505,7 +493,7 @@ where h.isPedAssessed='1';
 insert into tbl_pediatrics_data_weekly 
 select 
 null,
-CONCAT(DATE_FORMAT(DATE_SUB('2014-02-20', Interval 7 day),'%Y.%m.%d'), '-',DATE_FORMAT(DATE_SUB('2014-02-20', Interval 1 day),'%Y.%m.%d')) as duration, 
+CONCAT(DATE_FORMAT(DATE_SUB('2014-07-07', Interval 7 day),'%Y.%m.%d'), '-',DATE_FORMAT(DATE_SUB('2014-07-07', Interval 1 day),'%Y.%m.%d')) as duration, 
 h.name,
 h.code,
 pd_data.inNum,
@@ -558,12 +546,12 @@ SELECT
 	(
 		select count(1) as inNum, h.code 
 		from tbl_pediatrics_data pd, tbl_hospital h
-		WHERE pd.createdate between DATE_SUB('2014-02-20', Interval 7 day) and '2014-02-20' 
+		WHERE pd.createdate between DATE_SUB('2014-07-07', Interval 7 day) and '2014-07-07' 
 		and pd.hospitalName = h.name 
 		and h.isPedAssessed='1' 
 		GROUP BY h.code
 	) count_hos 
-    WHERE pd.createdate between DATE_SUB('2014-02-20', Interval 7 day) and '2014-02-20' 
+    WHERE pd.createdate between DATE_SUB('2014-07-07', Interval 7 day) and '2014-07-07' 
 	and pd.hospitalName = h.name 
 	and h.code = count_hos.code
 	and h.isPedAssessed='1' 
@@ -575,7 +563,7 @@ where h.isPedAssessed='1';
 insert into tbl_pediatrics_data_weekly 
 select 
 null,
-CONCAT(DATE_FORMAT(DATE_SUB('2014-02-27', Interval 7 day),'%Y.%m.%d'), '-',DATE_FORMAT(DATE_SUB('2014-02-27', Interval 1 day),'%Y.%m.%d')) as duration, 
+CONCAT(DATE_FORMAT(DATE_SUB('2014-06-30', Interval 7 day),'%Y.%m.%d'), '-',DATE_FORMAT(DATE_SUB('2014-06-30', Interval 1 day),'%Y.%m.%d')) as duration, 
 h.name,
 h.code,
 pd_data.inNum,
@@ -628,12 +616,12 @@ SELECT
 	(
 		select count(1) as inNum, h.code 
 		from tbl_pediatrics_data pd, tbl_hospital h
-		WHERE pd.createdate between DATE_SUB('2014-02-27', Interval 7 day) and '2014-02-27' 
+		WHERE pd.createdate between DATE_SUB('2014-06-30', Interval 7 day) and '2014-06-30' 
 		and pd.hospitalName = h.name 
 		and h.isPedAssessed='1' 
 		GROUP BY h.code
 	) count_hos 
-    WHERE pd.createdate between DATE_SUB('2014-02-27', Interval 7 day) and '2014-02-27' 
+    WHERE pd.createdate between DATE_SUB('2014-06-30', Interval 7 day) and '2014-06-30' 
 	and pd.hospitalName = h.name 
 	and h.code = count_hos.code
 	and h.isPedAssessed='1' 
@@ -645,7 +633,7 @@ where h.isPedAssessed='1';
 insert into tbl_pediatrics_data_weekly 
 select 
 null,
-CONCAT(DATE_FORMAT(DATE_SUB('2014-03-06', Interval 7 day),'%Y.%m.%d'), '-',DATE_FORMAT(DATE_SUB('2014-03-06', Interval 1 day),'%Y.%m.%d')) as duration, 
+CONCAT(DATE_FORMAT(DATE_SUB('2014-06-23', Interval 7 day),'%Y.%m.%d'), '-',DATE_FORMAT(DATE_SUB('2014-06-23', Interval 1 day),'%Y.%m.%d')) as duration, 
 h.name,
 h.code,
 pd_data.inNum,
@@ -698,12 +686,12 @@ SELECT
 	(
 		select count(1) as inNum, h.code 
 		from tbl_pediatrics_data pd, tbl_hospital h
-		WHERE pd.createdate between DATE_SUB('2014-03-06', Interval 7 day) and '2014-03-06' 
+		WHERE pd.createdate between DATE_SUB('2014-06-23', Interval 7 day) and '2014-06-23' 
 		and pd.hospitalName = h.name 
 		and h.isPedAssessed='1' 
 		GROUP BY h.code
 	) count_hos 
-    WHERE pd.createdate between DATE_SUB('2014-03-06', Interval 7 day) and '2014-03-06' 
+    WHERE pd.createdate between DATE_SUB('2014-06-23', Interval 7 day) and '2014-06-23' 
 	and pd.hospitalName = h.name 
 	and h.code = count_hos.code
 	and h.isPedAssessed='1' 
@@ -715,7 +703,7 @@ where h.isPedAssessed='1';
 insert into tbl_pediatrics_data_weekly 
 select 
 null,
-CONCAT(DATE_FORMAT(DATE_SUB('2014-03-13', Interval 7 day),'%Y.%m.%d'), '-',DATE_FORMAT(DATE_SUB('2014-03-13', Interval 1 day),'%Y.%m.%d')) as duration, 
+CONCAT(DATE_FORMAT(DATE_SUB('2014-06-16', Interval 7 day),'%Y.%m.%d'), '-',DATE_FORMAT(DATE_SUB('2014-06-16', Interval 1 day),'%Y.%m.%d')) as duration, 
 h.name,
 h.code,
 pd_data.inNum,
@@ -768,12 +756,12 @@ SELECT
 	(
 		select count(1) as inNum, h.code 
 		from tbl_pediatrics_data pd, tbl_hospital h
-		WHERE pd.createdate between DATE_SUB('2014-03-13', Interval 7 day) and '2014-03-13' 
+		WHERE pd.createdate between DATE_SUB('2014-06-16', Interval 7 day) and '2014-06-16' 
 		and pd.hospitalName = h.name 
 		and h.isPedAssessed='1' 
 		GROUP BY h.code
 	) count_hos 
-    WHERE pd.createdate between DATE_SUB('2014-03-13', Interval 7 day) and '2014-03-13' 
+    WHERE pd.createdate between DATE_SUB('2014-06-16', Interval 7 day) and '2014-06-16' 
 	and pd.hospitalName = h.name 
 	and h.code = count_hos.code
 	and h.isPedAssessed='1' 
@@ -785,7 +773,7 @@ where h.isPedAssessed='1';
 insert into tbl_pediatrics_data_weekly 
 select 
 null,
-CONCAT(DATE_FORMAT(DATE_SUB('2014-03-20', Interval 7 day),'%Y.%m.%d'), '-',DATE_FORMAT(DATE_SUB('2014-03-20', Interval 1 day),'%Y.%m.%d')) as duration, 
+CONCAT(DATE_FORMAT(DATE_SUB('2014-06-09', Interval 7 day),'%Y.%m.%d'), '-',DATE_FORMAT(DATE_SUB('2014-06-09', Interval 1 day),'%Y.%m.%d')) as duration, 
 h.name,
 h.code,
 pd_data.inNum,
@@ -838,12 +826,12 @@ SELECT
 	(
 		select count(1) as inNum, h.code 
 		from tbl_pediatrics_data pd, tbl_hospital h
-		WHERE pd.createdate between DATE_SUB('2014-03-20', Interval 7 day) and '2014-03-20' 
+		WHERE pd.createdate between DATE_SUB('2014-06-09', Interval 7 day) and '2014-06-09' 
 		and pd.hospitalName = h.name 
 		and h.isPedAssessed='1' 
 		GROUP BY h.code
 	) count_hos 
-    WHERE pd.createdate between DATE_SUB('2014-03-20', Interval 7 day) and '2014-03-20' 
+    WHERE pd.createdate between DATE_SUB('2014-06-09', Interval 7 day) and '2014-06-09' 
 	and pd.hospitalName = h.name 
 	and h.code = count_hos.code
 	and h.isPedAssessed='1' 

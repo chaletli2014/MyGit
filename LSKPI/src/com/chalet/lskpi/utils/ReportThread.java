@@ -49,7 +49,7 @@ public class ReportThread extends Thread {
             //check report time
             Date now = new Date();
             String yesterday = DateUtils.getYesterDay();
-            String lastThursday = DateUtils.getLastThursDay();
+            String lastThursday = DateUtils.getDirectoryNameOfLastDuration();
             String lastMonth = DateUtils.getLastMonth();
             //daily report start
             try {
@@ -205,7 +205,7 @@ public class ReportThread extends Thread {
                         Date refreshDate = DateUtils.getGenerateWeeklyReportDate();
                         String startDate = DateUtils.getTheBeginDateOfRefreshDate(refreshDate);
                         String endDate = DateUtils.getTheEndDateOfRefreshDate(refreshDate);
-                        String lastRefreshThursday = DateUtils.getThursDayOfParamDate(refreshDate);
+                        String lastRefreshThursday = DateUtils.getDirectoryNameOfCurrentDuration(refreshDate);
                         logger.info(String.format("start to refresh the pdf weekly report, lastThursday is %s, start date is %s, end date is %s", lastThursday, startDate, endDate));
                         
                         boolean isFirstRefresh = true;
@@ -563,14 +563,14 @@ public class ReportThread extends Thread {
     }
     
     private void createHTMLWeeklyReport(BirtReportUtils html, String userLevel,String telephone, String basePath, String contextPath, String lastThursday){
-        String weeklyHtmlPEDReportFileName = basePath + "weeklyHTMLReport/"+lastThursday+"/weeklyPEDReport-"+userLevel+"-"+telephone+"-"+DateUtils.getLastThursDay()+".html";
-        String weeklyHtmlPEDBUReportFileName = basePath + "weeklyHTMLReport/"+lastThursday+"/weeklyPEDReport-"+userLevel+"-"+DateUtils.getLastThursDay()+".html";
+        String weeklyHtmlPEDReportFileName = basePath + "weeklyHTMLReport/"+lastThursday+"/weeklyPEDReport-"+userLevel+"-"+telephone+"-"+DateUtils.getDirectoryNameOfLastDuration()+".html";
+        String weeklyHtmlPEDBUReportFileName = basePath + "weeklyHTMLReport/"+lastThursday+"/weeklyPEDReport-"+userLevel+"-"+DateUtils.getDirectoryNameOfLastDuration()+".html";
         
-        String weeklyHtmlRESReportFileName = basePath + "weeklyHTMLReport/"+lastThursday+"/weeklyRESReport-"+userLevel+"-"+telephone+"-"+DateUtils.getLastThursDay()+".html";
-        String weeklyHtmlRESBUReportFileName = basePath + "weeklyHTMLReport/"+lastThursday+"/weeklyRESReport-"+userLevel+"-"+DateUtils.getLastThursDay()+".html";
+        String weeklyHtmlRESReportFileName = basePath + "weeklyHTMLReport/"+lastThursday+"/weeklyRESReport-"+userLevel+"-"+telephone+"-"+DateUtils.getDirectoryNameOfLastDuration()+".html";
+        String weeklyHtmlRESBUReportFileName = basePath + "weeklyHTMLReport/"+lastThursday+"/weeklyRESReport-"+userLevel+"-"+DateUtils.getDirectoryNameOfLastDuration()+".html";
         
-        String weeklyHtmlCHEReportFileName = basePath + "weeklyHTMLReport/"+lastThursday+"/weeklyCHEReport-"+userLevel+"-"+telephone+"-"+DateUtils.getLastThursDay()+".html";
-        String weeklyHtmlCHEBUReportFileName = basePath + "weeklyHTMLReport/"+lastThursday+"/weeklyCHEReport-"+userLevel+"-"+DateUtils.getLastThursDay()+".html";
+        String weeklyHtmlCHEReportFileName = basePath + "weeklyHTMLReport/"+lastThursday+"/weeklyCHEReport-"+userLevel+"-"+telephone+"-"+DateUtils.getDirectoryNameOfLastDuration()+".html";
+        String weeklyHtmlCHEBUReportFileName = basePath + "weeklyHTMLReport/"+lastThursday+"/weeklyCHEReport-"+userLevel+"-"+DateUtils.getDirectoryNameOfLastDuration()+".html";
         
         switch(userLevel){
             case LsAttributes.USER_LEVEL_RSD:
@@ -691,14 +691,14 @@ public class ReportThread extends Thread {
     }
     
     private void createHTMLWeeklyReportForWeb(BirtReportUtils html, String userLevel,String telephone, String basePath, String contextPath, String lastThursday){
-        String weeklyHtmlPEDReportFileName = basePath + "weeklyHTMLReportForWeb/"+lastThursday+"/weeklyPEDReport-"+userLevel+"-"+telephone+"-"+DateUtils.getLastThursDay()+".html";
-        String weeklyHtmlPEDBUReportFileName = basePath + "weeklyHTMLReportForWeb/"+lastThursday+"/weeklyPEDReport-"+userLevel+"-"+DateUtils.getLastThursDay()+".html";
+        String weeklyHtmlPEDReportFileName = basePath + "weeklyHTMLReportForWeb/"+lastThursday+"/weeklyPEDReport-"+userLevel+"-"+telephone+"-"+DateUtils.getDirectoryNameOfLastDuration()+".html";
+        String weeklyHtmlPEDBUReportFileName = basePath + "weeklyHTMLReportForWeb/"+lastThursday+"/weeklyPEDReport-"+userLevel+"-"+DateUtils.getDirectoryNameOfLastDuration()+".html";
         
-        String weeklyHtmlRESReportFileName = basePath + "weeklyHTMLReportForWeb/"+lastThursday+"/weeklyRESReport-"+userLevel+"-"+telephone+"-"+DateUtils.getLastThursDay()+".html";
-        String weeklyHtmlRESBUReportFileName = basePath + "weeklyHTMLReportForWeb/"+lastThursday+"/weeklyRESReport-"+userLevel+"-"+DateUtils.getLastThursDay()+".html";
+        String weeklyHtmlRESReportFileName = basePath + "weeklyHTMLReportForWeb/"+lastThursday+"/weeklyRESReport-"+userLevel+"-"+telephone+"-"+DateUtils.getDirectoryNameOfLastDuration()+".html";
+        String weeklyHtmlRESBUReportFileName = basePath + "weeklyHTMLReportForWeb/"+lastThursday+"/weeklyRESReport-"+userLevel+"-"+DateUtils.getDirectoryNameOfLastDuration()+".html";
         
-        String weeklyHtmlCHEReportFileName = basePath + "weeklyHTMLReportForWeb/"+lastThursday+"/weeklyCHEReport-"+userLevel+"-"+telephone+"-"+DateUtils.getLastThursDay()+".html";
-        String weeklyHtmlCHEBUReportFileName = basePath + "weeklyHTMLReportForWeb/"+lastThursday+"/weeklyCHEReport-"+userLevel+"-"+DateUtils.getLastThursDay()+".html";
+        String weeklyHtmlCHEReportFileName = basePath + "weeklyHTMLReportForWeb/"+lastThursday+"/weeklyCHEReport-"+userLevel+"-"+telephone+"-"+DateUtils.getDirectoryNameOfLastDuration()+".html";
+        String weeklyHtmlCHEBUReportFileName = basePath + "weeklyHTMLReportForWeb/"+lastThursday+"/weeklyCHEReport-"+userLevel+"-"+DateUtils.getDirectoryNameOfLastDuration()+".html";
         
         switch(userLevel){
             case LsAttributes.USER_LEVEL_RSD:
@@ -821,9 +821,9 @@ public class ReportThread extends Thread {
     }
     
     private void createHTMLWeeklyReportOfLowerUser(BirtReportUtils html, String userLevel,String userCode, String basePath, String contextPath, String lastThursday){
-        String weeklyHtmlPEDReportFileName = basePath + "lowerWeeklyReport/"+lastThursday+"/lowerWeeklyPEDReport-"+userLevel+"-"+userCode+"-"+DateUtils.getLastThursDay()+".html";
-        String weeklyHtmlRESReportFileName = basePath + "lowerWeeklyReport/"+lastThursday+"/lowerWeeklyRESReport-"+userLevel+"-"+userCode+"-"+DateUtils.getLastThursDay()+".html";
-        String weeklyHtmlCHEReportFileName = basePath + "lowerWeeklyReport/"+lastThursday+"/lowerWeeklyCHEReport-"+userLevel+"-"+userCode+"-"+DateUtils.getLastThursDay()+".html";
+        String weeklyHtmlPEDReportFileName = basePath + "lowerWeeklyReport/"+lastThursday+"/lowerWeeklyPEDReport-"+userLevel+"-"+userCode+"-"+DateUtils.getDirectoryNameOfLastDuration()+".html";
+        String weeklyHtmlRESReportFileName = basePath + "lowerWeeklyReport/"+lastThursday+"/lowerWeeklyRESReport-"+userLevel+"-"+userCode+"-"+DateUtils.getDirectoryNameOfLastDuration()+".html";
+        String weeklyHtmlCHEReportFileName = basePath + "lowerWeeklyReport/"+lastThursday+"/lowerWeeklyCHEReport-"+userLevel+"-"+userCode+"-"+DateUtils.getDirectoryNameOfLastDuration()+".html";
         
         switch(userLevel){
             case LsAttributes.USER_LEVEL_RSM:
@@ -907,9 +907,9 @@ public class ReportThread extends Thread {
     }
     
     private void createHTMLWeeklyReportOfLowerUserForWeb(BirtReportUtils html, String userLevel,String userCode, String basePath, String contextPath, String lastThursday){
-        String weeklyHtmlPEDReportFileName = basePath + "lowerWeeklyReportForWeb/"+lastThursday+"/lowerWeeklyPEDReport-"+userLevel+"-"+userCode+"-"+DateUtils.getLastThursDay()+".html";
-        String weeklyHtmlRESReportFileName = basePath + "lowerWeeklyReportForWeb/"+lastThursday+"/lowerWeeklyRESReport-"+userLevel+"-"+userCode+"-"+DateUtils.getLastThursDay()+".html";
-        String weeklyHtmlCHEReportFileName = basePath + "lowerWeeklyReportForWeb/"+lastThursday+"/lowerWeeklyCHEReport-"+userLevel+"-"+userCode+"-"+DateUtils.getLastThursDay()+".html";
+        String weeklyHtmlPEDReportFileName = basePath + "lowerWeeklyReportForWeb/"+lastThursday+"/lowerWeeklyPEDReport-"+userLevel+"-"+userCode+"-"+DateUtils.getDirectoryNameOfLastDuration()+".html";
+        String weeklyHtmlRESReportFileName = basePath + "lowerWeeklyReportForWeb/"+lastThursday+"/lowerWeeklyRESReport-"+userLevel+"-"+userCode+"-"+DateUtils.getDirectoryNameOfLastDuration()+".html";
+        String weeklyHtmlCHEReportFileName = basePath + "lowerWeeklyReportForWeb/"+lastThursday+"/lowerWeeklyCHEReport-"+userLevel+"-"+userCode+"-"+DateUtils.getDirectoryNameOfLastDuration()+".html";
         
         switch(userLevel){
             case LsAttributes.USER_LEVEL_RSM:
@@ -1081,7 +1081,7 @@ public class ReportThread extends Thread {
     }
     
     private void createHTMLWeeklyReportOfHospital(BirtReportUtils html, String hospitalCode, String basePath, String contextPath, String lastThursday){
-        String hospitalHTMLReport = basePath + "hospitalHTMLReport/"+lastThursday+"/hospitalReport-"+hospitalCode+"-"+DateUtils.getLastThursDay()+".html";
+        String hospitalHTMLReport = basePath + "hospitalHTMLReport/"+lastThursday+"/hospitalReport-"+hospitalCode+"-"+DateUtils.getDirectoryNameOfLastDuration()+".html";
         
         if( !new File(hospitalHTMLReport).exists() ){
             html.runReport( basePath + "reportDesigns/hospitalReport.rptdesign","","",hospitalCode,hospitalHTMLReport,"html",basePath+"/reportImages",contextPath+"/reportImages");
@@ -1092,7 +1092,7 @@ public class ReportThread extends Thread {
     }
     
     private void createHTMLWeeklyReportOfHospitalForWeb(BirtReportUtils html, String hospitalCode, String basePath, String contextPath, String lastThursday){
-        String hospitalHTMLReport = basePath + "hospitalHTMLReportForWeb/"+lastThursday+"/hospitalReport-"+hospitalCode+"-"+DateUtils.getLastThursDay()+".html";
+        String hospitalHTMLReport = basePath + "hospitalHTMLReportForWeb/"+lastThursday+"/hospitalReport-"+hospitalCode+"-"+DateUtils.getDirectoryNameOfLastDuration()+".html";
         
         if( !new File(hospitalHTMLReport).exists() ){
             html.runReport( basePath + "reportDesigns/hospitalReportForWeb.rptdesign","","",hospitalCode,hospitalHTMLReport,"html",basePath+"/reportImages",contextPath+"/reportImages");

@@ -6,7 +6,7 @@
     String path = request.getContextPath();
     String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+path+"/";
     
-    String lastThursDay = DateUtils.getLastThursDay();
+    String lastThursDay = DateUtils.getDirectoryNameOfLastDuration();
     String currentUserTel = (String)request.getSession().getAttribute(LsAttributes.CURRENT_OPERATOR);
     UserInfo currentUser = (UserInfo)request.getSession().getAttribute(LsAttributes.CURRENT_OPERATOR_OBJECT);
 %>
