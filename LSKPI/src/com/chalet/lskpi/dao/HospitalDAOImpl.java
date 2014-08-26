@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,6 +20,7 @@ import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Repository;
 
+import com.chalet.lskpi.mapper.CommonMapRowMapper;
 import com.chalet.lskpi.mapper.HospitalRowMapper;
 import com.chalet.lskpi.mapper.HospitalSalesQueryRowMapper;
 import com.chalet.lskpi.mapper.KPIHospitalRowMapper;
@@ -41,6 +43,7 @@ import com.chalet.lskpi.model.WeeklyDataOfHospital;
 import com.chalet.lskpi.utils.DataBean;
 import com.chalet.lskpi.utils.DateUtils;
 import com.chalet.lskpi.utils.LsAttributes;
+import com.sun.jndi.ldap.sasl.LdapSasl;
 
 /**
  * @author Chalet
@@ -800,6 +803,51 @@ public class HospitalDAOImpl implements HospitalDAO {
 	        .append(" order by region, rsmRegion ");
         return dataBean.getJdbcTemplate().query(sb.toString(), new KPIHospitalRowMapper());
 	}
+	
+
+    public List<Map<String, Integer>> getKPIHosNumMap(String department) throws Exception {
+        StringBuffer sb = new StringBuffer();
+        sb.append(" select rsmRegion,count(1) as numCount ")
+          .append(" from tbl_hospital ");
+        switch(department){
+            case LsAttributes.DEPARTMENT_RES:
+                sb.append(" where isResAssessed='1' ")
+                .append(" group by rsmRegion ")
+                .append(" union all ")
+                .append(" select '全国' as rsmRegion, count(1) as numCount ")
+                .append(" from tbl_hospital ")
+                .append(" where isResAssessed='1' ");
+                break;
+            case LsAttributes.DEPARTMENT_PED:
+                break;
+            case LsAttributes.DEPARTMENT_CHE:
+                break;
+        }
+        return dataBean.getJdbcTemplate().query(sb.toString(), new CommonMapRowMapper());
+    }
+
+    public List<Map<String, Integer>> getKPISalesNumMap(String department) throws Exception {
+        StringBuffer sb = new StringBuffer();
+        sb.append(" select h.rsmRegion,count(1) as numCount ")
+          .append(" from tbl_hospital h, tbl_hos_user hu ");
+        switch(department){
+            case LsAttributes.DEPARTMENT_RES:
+                sb.append(LsAttributes.SQL_MONTH_WEEKLY_REPORT_SALES_NUM_CONDITION)
+                .append(" and h.isResAssessed='1' ")
+                .append(" group by h.rsmRegion ") 
+                .append(" union all ")
+                .append(" select '全国' as rsmRegion, count(1) as numCount ")
+                .append(" from tbl_hospital h, tbl_hos_user hu ")
+                .append(LsAttributes.SQL_MONTH_WEEKLY_REPORT_SALES_NUM_CONDITION)
+                .append(" and h.isResAssessed='1'");
+                break;
+            case LsAttributes.DEPARTMENT_PED:
+                break;
+            case LsAttributes.DEPARTMENT_CHE:
+                break;
+        }
+        return dataBean.getJdbcTemplate().query(sb.toString(), new CommonMapRowMapper());
+    }
 	
 	public DataBean getDataBean() {
 		return dataBean;

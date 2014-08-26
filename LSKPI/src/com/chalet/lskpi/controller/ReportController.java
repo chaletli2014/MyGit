@@ -2897,6 +2897,14 @@ public class ReportController extends BaseController{
                 	rsmNameTitleCell.setCellValue("RSM");
                 	rsmNameTitleCell.setCellStyle(rsmTitleBorderStyle);
                 	
+                	HSSFCell hosNumTitleCell = row.createCell(columnCount++, XSSFCell.CELL_TYPE_STRING);
+                	hosNumTitleCell.setCellValue("医院家数");
+                	hosNumTitleCell.setCellStyle(rsmTitleBorderStyle);
+                	
+                	HSSFCell salesNumTitleCell = row.createCell(columnCount++, XSSFCell.CELL_TYPE_STRING);
+                	salesNumTitleCell.setCellValue("代表数");
+                	salesNumTitleCell.setCellStyle(rsmTitleBorderStyle);
+                	
                 	i = 0;
                 	pNumIte = pNumMap.keySet().iterator();
                 	while( pNumIte.hasNext() ){
@@ -3021,6 +3029,14 @@ public class ReportController extends BaseController{
                     	HSSFCell rsmNameValueCell = row.createCell(columnCount++, XSSFCell.CELL_TYPE_STRING);
                     	rsmNameValueCell.setCellValue(res.getRsmName());
                     	rsmNameValueCell.setCellStyle(rsmValueBorderStyle);
+                    	
+                    	HSSFCell hosNumValueCell = row.createCell(columnCount++, XSSFCell.CELL_TYPE_NUMERIC);
+                    	hosNumValueCell.setCellValue(res.getHosNum());
+                    	hosNumValueCell.setCellStyle(rsmValueBorderStyle);
+                    	
+                    	HSSFCell salesNumValueCell = row.createCell(columnCount++, XSSFCell.CELL_TYPE_NUMERIC);
+                    	salesNumValueCell.setCellValue(res.getSalesNum());
+                    	salesNumValueCell.setCellStyle(rsmValueBorderStyle);
                     	
                     	pNumMap = res.getpNumMap();
                     	pNumIte = pNumMap.keySet().iterator();
@@ -3167,6 +3183,9 @@ public class ReportController extends BaseController{
                     sheet.addMergedRegion(new Region(0, (short)0, 0, (short)1));
                     row.getCell(0).setCellStyle(top2Style);
                     
+                    row.createCell(columnCount++, XSSFCell.CELL_TYPE_STRING).setCellValue("医院家数");
+                    row.createCell(columnCount++, XSSFCell.CELL_TYPE_STRING).setCellValue("代表数");
+                    
                     RespirologyExportData resData = resExportData.get(0);
                     
                     Map<String, Double> lsNumMap = resData.getLsNumMap();
@@ -3255,6 +3274,14 @@ public class ReportController extends BaseController{
                     rsmNameTitleCell.setCellValue("RSM");
                     rsmNameTitleCell.setCellStyle(rsmTitleBorderStyle);
                     
+                    HSSFCell hosNumTitleCell = row.createCell(columnCount++, XSSFCell.CELL_TYPE_STRING);
+                    hosNumTitleCell.setCellValue("");
+                    hosNumTitleCell.setCellStyle(rsmTitleBorderStyle);
+                    
+                    HSSFCell salesNumTitleCell = row.createCell(columnCount++, XSSFCell.CELL_TYPE_STRING);
+                    salesNumTitleCell.setCellValue("");
+                    salesNumTitleCell.setCellStyle(rsmTitleBorderStyle);
+                    
                     i = 0;
                     lsNumIte = lsNumMap.keySet().iterator();
                     while( lsNumIte.hasNext() ){
@@ -3334,6 +3361,14 @@ public class ReportController extends BaseController{
                         HSSFCell rsmNameValueCell = row.createCell(columnCount++, XSSFCell.CELL_TYPE_STRING);
                         rsmNameValueCell.setCellValue(res.getRsmName());
                         rsmNameValueCell.setCellStyle(rsmValueBorderStyle);
+                        
+                        HSSFCell hosNumValueCell = row.createCell(columnCount++, XSSFCell.CELL_TYPE_NUMERIC);
+                        hosNumValueCell.setCellValue(res.getHosNum());
+                        hosNumValueCell.setCellStyle(rsmValueBorderStyle);
+                        
+                        HSSFCell salesNumValueCell = row.createCell(columnCount++, XSSFCell.CELL_TYPE_NUMERIC);
+                        salesNumValueCell.setCellValue(res.getSalesNum());
+                        salesNumValueCell.setCellStyle(rsmValueBorderStyle);
                         
                         lsNumMap = res.getLsNumMap();
                         lsNumIte = lsNumMap.keySet().iterator();

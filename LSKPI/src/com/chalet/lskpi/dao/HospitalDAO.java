@@ -2,6 +2,7 @@ package com.chalet.lskpi.dao;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 import com.chalet.lskpi.model.Hospital;
 import com.chalet.lskpi.model.HospitalSalesQueryObj;
@@ -99,4 +100,19 @@ public interface HospitalDAO {
 	public List<KPIHospital4Export> getKPIHospitalOfRes() throws Exception;
 	public List<KPIHospital4Export> getKPIHospitalOfChe() throws Exception;
 	public List<KPIHospital4Export> getKPIHospitalOfMonth() throws Exception;
+	
+    
+    /**
+     * 返回值是一个Map的list，Map中的键值对为<RSM,KPI医院数>
+     * @return HOS count map
+     * @throws Exception
+     */
+    public List<Map<String, Integer>> getKPIHosNumMap(String department) throws Exception;
+    
+    /**
+     * 返回值是一个Map的list，Map中的键值对为<RSM,销售数>
+     * @return sales count map
+     * @throws Exception
+     */
+    public List<Map<String, Integer>> getKPISalesNumMap(String department) throws Exception;
 }

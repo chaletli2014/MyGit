@@ -816,6 +816,10 @@ public class RespirologyServiceImpl implements RespirologyService {
         allRSM.addAll(userService.getAllRSMRegion());
         allRSM.add("全国");
         
+        List<Map<String, Integer>> hosNumMap = hospitalService.getKPIHosNumMap(LsAttributes.DEPARTMENT_RES);
+        List<Map<String, Integer>> salesNumMap = hospitalService.getKPISalesNumMap(LsAttributes.DEPARTMENT_RES);
+        
+        
         Map<String, Double> pNumMap = new LinkedHashMap<String, Double>();
         Map<String, Double> lsNumMap = new LinkedHashMap<String, Double>();
         Map<String, Double> whRateMap = new LinkedHashMap<String, Double>();
@@ -835,6 +839,17 @@ public class RespirologyServiceImpl implements RespirologyService {
             whDaysMap = new LinkedHashMap<String, Double>();
             
             rsmData.setRsmRegion(rsmRegion);
+            
+            for( Map<String, Integer>hosNum : hosNumMap ){
+                if( hosNum.containsKey(rsmRegion) ){
+                    rsmData.setHosNum(hosNum.get(rsmRegion));
+                }
+            }
+            for( Map<String, Integer>salesNum : salesNumMap ){
+                if( salesNum.containsKey(rsmRegion) ){
+                    rsmData.setSalesNum(salesNum.get(rsmRegion));
+                }
+            }
             
             for( RespirologyMonthDBData resData : monthDBData ){
                 if( resData.getRsmRegion().equalsIgnoreCase(rsmRegion) ){
