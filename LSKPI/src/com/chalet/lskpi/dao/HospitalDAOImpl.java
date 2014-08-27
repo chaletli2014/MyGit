@@ -828,18 +828,24 @@ public class HospitalDAOImpl implements HospitalDAO {
 
     public List<Map<String, Integer>> getKPISalesNumMap(String department) throws Exception {
         StringBuffer sb = new StringBuffer();
-        sb.append(" select h.rsmRegion,count(1) as numCount ")
-          .append(" from tbl_hospital h, tbl_hos_user hu ");
+        sb.append(" select rsmRegion,count(1) as numCount ")
+          .append(" from ( ")
+          .append("     select distinct h.rsmRegion, hu.userCode ")
+          .append("     from tbl_hospital h, tbl_hos_user hu ");
         switch(department){
             case LsAttributes.DEPARTMENT_RES:
                 sb.append(LsAttributes.SQL_MONTH_WEEKLY_REPORT_SALES_NUM_CONDITION)
                 .append(" and h.isResAssessed='1' ")
-                .append(" group by h.rsmRegion ") 
+                .append(" ) temp ")
+                .append(" group by rsmRegion ") 
                 .append(" union all ")
                 .append(" select '全国' as rsmRegion, count(1) as numCount ")
-                .append(" from tbl_hospital h, tbl_hos_user hu ")
+                .append(" from ( ")
+                .append("     select distinct h.rsmRegion, hu.userCode ")
+                .append("     from tbl_hospital h, tbl_hos_user hu ")
                 .append(LsAttributes.SQL_MONTH_WEEKLY_REPORT_SALES_NUM_CONDITION)
-                .append(" and h.isResAssessed='1'");
+                .append(" and h.isResAssessed='1'")
+                .append(" ) temp ");
                 break;
             case LsAttributes.DEPARTMENT_PED:
                 break;

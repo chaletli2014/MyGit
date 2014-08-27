@@ -1076,6 +1076,7 @@ public class LsAttributes {
     public static final StringBuffer SQL_MONTH_WEEKLY_REPORT_SALES_NUM_CONDITION = new StringBuffer("")
             .append(" where  h.code = hu.hosCode ")
             .append(" and h.saleCode != '2000003'")
+            .append(" and hu.userCode != '2000003'")
             .append(" and h.saleCode != '#N/A' ");
     
 }
