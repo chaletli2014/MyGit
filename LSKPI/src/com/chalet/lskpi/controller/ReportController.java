@@ -2889,6 +2889,9 @@ public class ReportController extends BaseController{
                 	Map<String, Double> whDaysMap = resData.getWhDaysMap();
                 	Iterator<String> whDaysIte = whDaysMap.keySet().iterator();
                 	
+                	Map<String, Double> dValueMap = resData.getdValueMap();
+                	Iterator<String> dValueIte = dValueMap.keySet().iterator();
+                	
                 	HSSFCell rsmRegionTitleCell = row.createCell(columnCount++, XSSFCell.CELL_TYPE_STRING);
                 	rsmRegionTitleCell.setCellValue("区域");
                 	rsmRegionTitleCell.setCellStyle(rsmTitleStyle);
@@ -2906,6 +2909,21 @@ public class ReportController extends BaseController{
                 	salesNumTitleCell.setCellStyle(rsmTitleBorderStyle);
                 	
                 	i = 0;
+                    inRateIte = inRateMap.keySet().iterator();
+                    while( inRateIte.hasNext() ){
+                        String monthName = inRateIte.next();
+                        HSSFCell titleCell = row.createCell(columnCount+i, XSSFCell.CELL_TYPE_STRING);
+                        titleCell.setCellValue(monthName+"上报率");
+                        if( i == inRateMap.size()-1 ){
+                            titleCell.setCellStyle(top2Style);
+                        }else{
+                            titleCell.setCellStyle(top1Style);
+                        }
+                        i++;
+                    }
+                    columnCount += inRateMap.size();
+                	
+                	i = 0;
                 	pNumIte = pNumMap.keySet().iterator();
                 	while( pNumIte.hasNext() ){
                 	    String monthName = pNumIte.next();
@@ -2921,21 +2939,6 @@ public class ReportController extends BaseController{
                 	columnCount += pNumMap.size();
                 	
                 	i = 0;
-                	lsNumIte = lsNumMap.keySet().iterator();
-                	while( lsNumIte.hasNext() ){
-                	    String monthName = lsNumIte.next();
-                	    HSSFCell titleCell = row.createCell(columnCount+i, XSSFCell.CELL_TYPE_STRING);
-                	    titleCell.setCellValue(new HSSFRichTextString(monthName+"周平均\r\n呼吸科雾化令舒\r\n人数"));
-                	    if( i == lsNumMap.size()-1 ){
-                	    	titleCell.setCellStyle(top2Style);
-                	    }else{
-                	    	titleCell.setCellStyle(top1Style);
-                	    }
-                	    i++;
-                	}
-                	columnCount += lsNumMap.size();
-                	
-                	i = 0;
                 	aeNumIte = aeNumMap.keySet().iterator();
                 	while( aeNumIte.hasNext() ){
                 	    String monthName = aeNumIte.next();
@@ -2949,22 +2952,22 @@ public class ReportController extends BaseController{
                 	    i++;
                 	}
                 	columnCount += aeNumMap.size();
-                    
-                    i = 0;
-                    inRateIte = inRateMap.keySet().iterator();
-                    while( inRateIte.hasNext() ){
-                        String monthName = inRateIte.next();
+                	
+                	i = 0;
+                    lsNumIte = lsNumMap.keySet().iterator();
+                    while( lsNumIte.hasNext() ){
+                        String monthName = lsNumIte.next();
                         HSSFCell titleCell = row.createCell(columnCount+i, XSSFCell.CELL_TYPE_STRING);
-                        titleCell.setCellValue(monthName+"上报率");
-                        if( i == inRateMap.size()-1 ){
-                	    	titleCell.setCellStyle(top2Style);
-                	    }else{
-                	    	titleCell.setCellStyle(top1Style);
-                	    }
+                        titleCell.setCellValue(new HSSFRichTextString(monthName+"周平均\r\n呼吸科雾化令舒\r\n人数"));
+                        if( i == lsNumMap.size()-1 ){
+                            titleCell.setCellStyle(top2Style);
+                        }else{
+                            titleCell.setCellStyle(top1Style);
+                        }
                         i++;
                     }
-                    columnCount += inRateMap.size();
-                	
+                    columnCount += lsNumMap.size();
+                    
                 	i = 0;
                 	whRateIte = whRateMap.keySet().iterator();
                 	while( whRateIte.hasNext() ){
@@ -3012,6 +3015,21 @@ public class ReportController extends BaseController{
                 	    columnCount += whDaysMap.size();
                 	}
                 	
+                	i = 0;
+                	dValueIte = dValueMap.keySet().iterator();
+                    while( dValueIte.hasNext() ){
+                        String monthName = dValueIte.next();
+                        HSSFCell titleCell = row.createCell(columnCount+i, XSSFCell.CELL_TYPE_STRING);
+                        titleCell.setCellValue(monthName+"雾化令舒人数-AE人数");
+                        if( i == dValueMap.size()-1 ){
+                            titleCell.setCellStyle(top2Style);
+                        }else{
+                            titleCell.setCellStyle(top1Style);
+                        }
+                        i++;
+                    }
+                    columnCount += dValueMap.size();
+                	
                 	
                 	for( int columnNum = 1; columnNum < columnCount; columnNum++ ){
                 		sheet.setColumnWidth(columnNum, 20*256);
@@ -3032,11 +3050,11 @@ public class ReportController extends BaseController{
                     	
                     	HSSFCell hosNumValueCell = row.createCell(columnCount++, XSSFCell.CELL_TYPE_NUMERIC);
                     	hosNumValueCell.setCellValue(res.getHosNum());
-                    	hosNumValueCell.setCellStyle(rsmValueBorderStyle);
+                    	hosNumValueCell.setCellStyle(numberCellRightBorderStyle);
                     	
                     	HSSFCell salesNumValueCell = row.createCell(columnCount++, XSSFCell.CELL_TYPE_NUMERIC);
                     	salesNumValueCell.setCellValue(res.getSalesNum());
-                    	salesNumValueCell.setCellStyle(rsmValueBorderStyle);
+                    	salesNumValueCell.setCellStyle(numberCellRightBorderStyle);
                     	
                     	pNumMap = res.getpNumMap();
                     	pNumIte = pNumMap.keySet().iterator();
@@ -3059,8 +3077,25 @@ public class ReportController extends BaseController{
                     	whDaysMap = res.getWhDaysMap();
                     	whDaysIte = whDaysMap.keySet().iterator();
                     	
+                    	dValueMap = res.getdValueMap();
+                    	dValueIte = dValueMap.keySet().iterator();
+                    	
                     	i = 0;
                     	String columnName;
+                        while( inRateIte.hasNext() ){
+                            columnName = inRateIte.next();
+                            HSSFCell inRateValueCell = row.createCell(columnCount+i, XSSFCell.CELL_TYPE_NUMERIC);
+                            inRateValueCell.setCellValue(inRateMap.get(columnName));
+                            if( i == inRateMap.size()-1 ){
+                                inRateValueCell.setCellStyle(percentCellRightBorderStyle);
+                            }else{
+                                inRateValueCell.setCellStyle(percentCellStyle);
+                            }
+                            i++;
+                        }
+                        columnCount += inRateMap.size();
+                    	
+                    	i = 0;
                     	while( pNumIte.hasNext() ){
                     	    columnName = pNumIte.next();
                     	    HSSFCell pNumValueCell = row.createCell(columnCount+i, XSSFCell.CELL_TYPE_NUMERIC);
@@ -3075,24 +3110,6 @@ public class ReportController extends BaseController{
                     	columnCount += pNumMap.size();
                     	
                     	i = 0;
-                    	while( lsNumIte.hasNext() ){
-                    		columnName = lsNumIte.next();
-                    		HSSFCell lsNumValueCell = row.createCell(columnCount+i, XSSFCell.CELL_TYPE_NUMERIC);
-                    		lsNumValueCell.setCellValue(lsNumMap.get(columnName));
-                    		    if( lsNumMap.size() > 2 && i == lsNumMap.size()-2 ){
-                    		        lsNumValueCell.setCellStyle(percentCellStyle);
-                    		    }else if( lsNumMap.size() > 2 && i == lsNumMap.size()-1 ){
-                    		        lsNumValueCell.setCellStyle(percentCellRightBorderStyle);
-                    		    }else if( lsNumMap.size() == 2 && i == 0 ){
-                    		        lsNumValueCell.setCellStyle(numberCellStyle);
-                    		    }else{
-                    		        lsNumValueCell.setCellStyle(numberCellRightBorderStyle);
-                    		    }
-                    		i++;
-                    	}
-                    	columnCount += lsNumMap.size();
-                    	
-                    	i = 0;
                     	while( aeNumIte.hasNext() ){
                     	    columnName = aeNumIte.next();
                     	    HSSFCell aeNumValueCell = row.createCell(columnCount+i, XSSFCell.CELL_TYPE_NUMERIC);
@@ -3105,20 +3122,36 @@ public class ReportController extends BaseController{
                     	    i++;
                     	}
                     	columnCount += aeNumMap.size();
-                        
-                        i = 0;
-                        while( inRateIte.hasNext() ){
-                            columnName = inRateIte.next();
-                            HSSFCell inRateValueCell = row.createCell(columnCount+i, XSSFCell.CELL_TYPE_NUMERIC);
-                            inRateValueCell.setCellValue(inRateMap.get(columnName));
-                            if( i == inRateMap.size()-1 ){
-                            	inRateValueCell.setCellStyle(percentCellRightBorderStyle);
-                    	    }else{
-                    	    	inRateValueCell.setCellStyle(percentCellStyle);
-                    	    }
+                    	
+                    	i = 0;
+                        while( lsNumIte.hasNext() ){
+                            columnName = lsNumIte.next();
+                            HSSFCell lsNumValueCell = row.createCell(columnCount+i, XSSFCell.CELL_TYPE_NUMERIC);
+                            lsNumValueCell.setCellValue(lsNumMap.get(columnName));
+                            
+                            if( lsNumMap.size() > 3 ){
+                                if( i == lsNumMap.size()-1 ){
+                                    lsNumValueCell.setCellStyle(percentCellRightBorderStyle);
+                                }else if( i == lsNumMap.size()-2 ){
+                                    lsNumValueCell.setCellStyle(percentCellStyle);
+                                }else{
+                                    lsNumValueCell.setCellStyle(numberCellStyle);
+                                }
+                            }else if( lsNumMap.size() == 3 ){
+                                if( i == 2 ){
+                                    lsNumValueCell.setCellStyle(percentCellRightBorderStyle);
+                                }else if( i == 1 ){
+                                    lsNumValueCell.setCellStyle(numberCellStyle);
+                                }else{
+                                    lsNumValueCell.setCellStyle(numberCellStyle);
+                                }
+                            }else{
+                                lsNumValueCell.setCellStyle(numberCellRightBorderStyle);
+                            }
+                            
                             i++;
                         }
-                        columnCount += inRateMap.size();
+                        columnCount += lsNumMap.size();
                         
                     	i = 0;
                     	while( whRateIte.hasNext() ){
@@ -3163,6 +3196,35 @@ public class ReportController extends BaseController{
                     	    }
                     	    columnCount += whDaysMap.size();
                     	}
+                    	
+                    	i = 0;
+                    	dValueIte = dValueMap.keySet().iterator();
+                        while( dValueIte.hasNext() ){
+                            columnName = dValueIte.next();
+                            HSSFCell dValueCell = row.createCell(columnCount+i, XSSFCell.CELL_TYPE_NUMERIC);
+                            dValueCell.setCellValue(dValueMap.get(columnName));
+                            if( dValueMap.size() > 3 ){
+                                if( i == dValueMap.size()-1 ){
+                                    dValueCell.setCellStyle(percentCellRightBorderStyle);
+                                }else if( i == dValueMap.size()-2 ){
+                                    dValueCell.setCellStyle(percentCellStyle);
+                                }else{
+                                    dValueCell.setCellStyle(numberCellStyle);
+                                }
+                            }else if( dValueMap.size() == 3 ){
+                                if( i == 2 ){
+                                    dValueCell.setCellStyle(percentCellRightBorderStyle);
+                                }else if( i == 1 ){
+                                    dValueCell.setCellStyle(numberCellStyle);
+                                }else{
+                                    dValueCell.setCellStyle(numberCellStyle);
+                                }
+                            }else{
+                                dValueCell.setCellStyle(numberCellRightBorderStyle);
+                            }
+                            i++;
+                        }
+                        columnCount += dValueMap.size();
 
                 	}
                 }
@@ -3183,8 +3245,13 @@ public class ReportController extends BaseController{
                     sheet.addMergedRegion(new Region(0, (short)0, 0, (short)1));
                     row.getCell(0).setCellStyle(top2Style);
                     
-                    row.createCell(columnCount++, XSSFCell.CELL_TYPE_STRING).setCellValue("医院家数");
-                    row.createCell(columnCount++, XSSFCell.CELL_TYPE_STRING).setCellValue("代表数");
+                    HSSFCell hosNumTitleCell = row.createCell(columnCount++, XSSFCell.CELL_TYPE_STRING);
+                    hosNumTitleCell.setCellValue("医院家数");
+                    hosNumTitleCell.setCellStyle(rsmTitleBorderStyle);
+                    
+                    HSSFCell salesNumTitleCell = row.createCell(columnCount++, XSSFCell.CELL_TYPE_STRING);
+                    salesNumTitleCell.setCellValue("代表数");
+                    salesNumTitleCell.setCellStyle(rsmTitleBorderStyle);
                     
                     RespirologyExportData resData = resExportData.get(0);
                     
@@ -3274,13 +3341,13 @@ public class ReportController extends BaseController{
                     rsmNameTitleCell.setCellValue("RSM");
                     rsmNameTitleCell.setCellStyle(rsmTitleBorderStyle);
                     
-                    HSSFCell hosNumTitleCell = row.createCell(columnCount++, XSSFCell.CELL_TYPE_STRING);
-                    hosNumTitleCell.setCellValue("");
-                    hosNumTitleCell.setCellStyle(rsmTitleBorderStyle);
+                    HSSFCell hosNumTitle2Cell = row.createCell(columnCount++, XSSFCell.CELL_TYPE_STRING);
+                    hosNumTitle2Cell.setCellValue("");
+                    hosNumTitle2Cell.setCellStyle(rsmTitleBorderStyle);
                     
-                    HSSFCell salesNumTitleCell = row.createCell(columnCount++, XSSFCell.CELL_TYPE_STRING);
-                    salesNumTitleCell.setCellValue("");
-                    salesNumTitleCell.setCellStyle(rsmTitleBorderStyle);
+                    HSSFCell salesNumTitle2Cell = row.createCell(columnCount++, XSSFCell.CELL_TYPE_STRING);
+                    salesNumTitle2Cell.setCellValue("");
+                    salesNumTitle2Cell.setCellStyle(rsmTitleBorderStyle);
                     
                     i = 0;
                     lsNumIte = lsNumMap.keySet().iterator();
@@ -3364,11 +3431,11 @@ public class ReportController extends BaseController{
                         
                         HSSFCell hosNumValueCell = row.createCell(columnCount++, XSSFCell.CELL_TYPE_NUMERIC);
                         hosNumValueCell.setCellValue(res.getHosNum());
-                        hosNumValueCell.setCellStyle(rsmValueBorderStyle);
+                        hosNumValueCell.setCellStyle(numberCellRightBorderStyle);
                         
                         HSSFCell salesNumValueCell = row.createCell(columnCount++, XSSFCell.CELL_TYPE_NUMERIC);
                         salesNumValueCell.setCellValue(res.getSalesNum());
-                        salesNumValueCell.setCellStyle(rsmValueBorderStyle);
+                        salesNumValueCell.setCellStyle(numberCellRightBorderStyle);
                         
                         lsNumMap = res.getLsNumMap();
                         lsNumIte = lsNumMap.keySet().iterator();
@@ -3385,15 +3452,25 @@ public class ReportController extends BaseController{
                             columnName = lsNumIte.next();
                             HSSFCell lsNumValueCell = row.createCell(columnCount+i, XSSFCell.CELL_TYPE_NUMERIC);
                             lsNumValueCell.setCellValue(lsNumMap.get(columnName));
-                                if( lsNumMap.size() > 2 && i == lsNumMap.size()-2 ){
-                                    lsNumValueCell.setCellStyle(percentCellStyle);
-                                }else if( lsNumMap.size() > 2 && i == lsNumMap.size()-1 ){
+                            if( lsNumMap.size() > 3 ){
+                                if( i == lsNumMap.size()-1 ){
                                     lsNumValueCell.setCellStyle(percentCellRightBorderStyle);
-                                }else if( lsNumMap.size() == 2  && i == 0 ){
+                                }else if( i == lsNumMap.size()-2 ){
+                                    lsNumValueCell.setCellStyle(percentCellStyle);
+                                }else{
+                                    lsNumValueCell.setCellStyle(numberCellStyle);
+                                }
+                            }else if( lsNumMap.size() == 3 ){
+                                if( i == 2 ){
+                                    lsNumValueCell.setCellStyle(percentCellRightBorderStyle);
+                                }else if( i == 1 ){
                                     lsNumValueCell.setCellStyle(numberCellStyle);
                                 }else{
-                                    lsNumValueCell.setCellStyle(numberCellRightBorderStyle);
+                                    lsNumValueCell.setCellStyle(numberCellStyle);
                                 }
+                            }else{
+                                lsNumValueCell.setCellStyle(numberCellRightBorderStyle);
+                            }
                             i++;
                         }
                         columnCount += lsNumMap.size();
