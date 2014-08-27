@@ -2723,7 +2723,7 @@ order by cdw.duration desc]]></xml-property>
                                         <property name="fontWeight">normal</property>
                                         <property name="color">white</property>
                                         <property name="textAlign">center</property>
-                                        <text-property name="text">雾化人数</text-property>
+                                        <text-property name="text">雾化令舒人数</text-property>
                                     </label>
                                 </cell>
                                 <cell id="1255">
