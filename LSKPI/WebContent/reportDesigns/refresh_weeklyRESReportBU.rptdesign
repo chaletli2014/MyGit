@@ -18370,7 +18370,7 @@ order by rdw.duration desc;]]></xml-property>
                                         <property name="fontWeight">normal</property>
                                         <property name="color">white</property>
                                         <property name="textAlign">center</property>
-                                        <text-property name="text">雾化人数</text-property>
+                                        <text-property name="text">雾化令舒人数</text-property>
                                     </label>
                                 </cell>
                                 <cell id="522">
@@ -35384,7 +35384,7 @@ this.getStyle().backgroundColor = "#FFFFFF";
                                         <property name="fontWeight">normal</property>
                                         <property name="color">white</property>
                                         <property name="textAlign">center</property>
-                                        <text-property name="text">雾化人数</text-property>
+                                        <text-property name="text">雾化令舒人数</text-property>
                                     </label>
                                 </cell>
                                 <cell id="1067">
@@ -45992,7 +45992,7 @@ this.getStyle().backgroundColor = "#FFFFFF";
                                         <property name="fontWeight">normal</property>
                                         <property name="color">white</property>
                                         <property name="textAlign">center</property>
-                                        <text-property name="text">雾化人数</text-property>
+                                        <text-property name="text">雾化令舒人数</text-property>
                                     </label>
                                 </cell>
                                 <cell id="2451">
@@ -56600,7 +56600,7 @@ this.getStyle().backgroundColor = "#FFFFFF";
                                         <property name="fontWeight">normal</property>
                                         <property name="color">white</property>
                                         <property name="textAlign">center</property>
-                                        <text-property name="text">雾化人数</text-property>
+                                        <text-property name="text">雾化令舒人数</text-property>
                                     </label>
                                 </cell>
                                 <cell id="2752">
@@ -67208,7 +67208,7 @@ this.getStyle().backgroundColor = "#FFFFFF";
                                         <property name="fontWeight">normal</property>
                                         <property name="color">white</property>
                                         <property name="textAlign">center</property>
-                                        <text-property name="text">雾化人数</text-property>
+                                        <text-property name="text">雾化令舒人数</text-property>
                                     </label>
                                 </cell>
                                 <cell id="2876">
@@ -77816,7 +77816,7 @@ this.getStyle().backgroundColor = "#FFFFFF";
                                         <property name="fontWeight">normal</property>
                                         <property name="color">white</property>
                                         <property name="textAlign">center</property>
-                                        <text-property name="text">雾化人数</text-property>
+                                        <text-property name="text">雾化令舒人数</text-property>
                                     </label>
                                 </cell>
                                 <cell id="3040">
@@ -88424,7 +88424,7 @@ this.getStyle().backgroundColor = "#FFFFFF";
                                         <property name="fontWeight">normal</property>
                                         <property name="color">white</property>
                                         <property name="textAlign">center</property>
-                                        <text-property name="text">雾化人数</text-property>
+                                        <text-property name="text">雾化令舒人数</text-property>
                                     </label>
                                 </cell>
                                 <cell id="3199">
@@ -99032,7 +99032,7 @@ this.getStyle().backgroundColor = "#FFFFFF";
                                         <property name="fontWeight">normal</property>
                                         <property name="color">white</property>
                                         <property name="textAlign">center</property>
-                                        <text-property name="text">雾化人数</text-property>
+                                        <text-property name="text">雾化令舒人数</text-property>
                                     </label>
                                 </cell>
                                 <cell id="3358">
