@@ -469,4 +469,12 @@ public class HospitalServiceImpl implements HospitalService {
 		}
 		return dbKPIHos;
 	}
+
+    public List<Map<String, Integer>> getKPIHosNumMap(String department) throws Exception {
+        return hospitalDAO.getKPIHosNumMap(department);
+    }
+
+    public List<Map<String, Integer>> getKPISalesNumMap(String department) throws Exception {
+        return hospitalDAO.getKPISalesNumMap(department);
+    }
 }

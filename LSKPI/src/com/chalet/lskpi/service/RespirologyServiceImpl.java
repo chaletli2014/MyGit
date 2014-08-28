@@ -816,6 +816,10 @@ public class RespirologyServiceImpl implements RespirologyService {
         allRSM.addAll(userService.getAllRSMRegion());
         allRSM.add("全国");
         
+        List<Map<String, Integer>> hosNumMap = hospitalService.getKPIHosNumMap(LsAttributes.DEPARTMENT_RES);
+        List<Map<String, Integer>> salesNumMap = hospitalService.getKPISalesNumMap(LsAttributes.DEPARTMENT_RES);
+        
+        
         Map<String, Double> pNumMap = new LinkedHashMap<String, Double>();
         Map<String, Double> lsNumMap = new LinkedHashMap<String, Double>();
         Map<String, Double> whRateMap = new LinkedHashMap<String, Double>();
@@ -823,6 +827,7 @@ public class RespirologyServiceImpl implements RespirologyService {
         Map<String, Double> aeNumMap = new LinkedHashMap<String, Double>();
         Map<String, Double> averageDoseMap = new LinkedHashMap<String, Double>();
         Map<String, Double> whDaysMap = new LinkedHashMap<String, Double>();
+        Map<String, Double> dValueMap = new LinkedHashMap<String, Double>();
         
         for( String rsmRegion : allRSM ){
             RespirologyExportData rsmData = new RespirologyExportData();
@@ -833,21 +838,35 @@ public class RespirologyServiceImpl implements RespirologyService {
             whRateMap = new LinkedHashMap<String, Double>();
             averageDoseMap = new LinkedHashMap<String, Double>();
             whDaysMap = new LinkedHashMap<String, Double>();
+            dValueMap = new LinkedHashMap<String, Double>();
             
             rsmData.setRsmRegion(rsmRegion);
+            
+            for( Map<String, Integer>hosNum : hosNumMap ){
+                if( hosNum.containsKey(rsmRegion) ){
+                    rsmData.setHosNum(hosNum.get(rsmRegion));
+                }
+            }
+            for( Map<String, Integer>salesNum : salesNumMap ){
+                if( salesNum.containsKey(rsmRegion) ){
+                    rsmData.setSalesNum(salesNum.get(rsmRegion));
+                }
+            }
             
             for( RespirologyMonthDBData resData : monthDBData ){
                 if( resData.getRsmRegion().equalsIgnoreCase(rsmRegion) ){
                     
                     rsmData.setRsmName(resData.getRsmName());
+                    String columnName = resData.getDataYear()+"年"+resData.getDataMonth()+"月";
                     
-                    pNumMap.put(resData.getDataYear()+"年"+resData.getDataMonth()+"月", resData.getPnum()/resData.getWeeklyCount());
-                    lsNumMap.put(resData.getDataYear()+"年"+resData.getDataMonth()+"月", resData.getLsnum()/resData.getWeeklyCount());
-                    aeNumMap.put(resData.getDataYear()+"年"+resData.getDataMonth()+"月", resData.getAenum()/resData.getWeeklyCount());
-                    inRateMap.put(resData.getDataYear()+"年"+resData.getDataMonth()+"月", resData.getInRate());
-                    whRateMap.put(resData.getDataYear()+"年"+resData.getDataMonth()+"月", resData.getWhRate());
-                    averageDoseMap.put(resData.getDataYear()+"年"+resData.getDataMonth()+"月", resData.getAverageDose());
-                    whDaysMap.put(resData.getDataYear()+"年"+resData.getDataMonth()+"月", resData.getWhDays());
+                    pNumMap.put(columnName, resData.getPnum()/resData.getWeeklyCount());
+                    lsNumMap.put(columnName, resData.getLsnum()/resData.getWeeklyCount());
+                    aeNumMap.put(columnName, resData.getAenum()/resData.getWeeklyCount());
+                    inRateMap.put(columnName, resData.getInRate());
+                    whRateMap.put(columnName, resData.getWhRate());
+                    averageDoseMap.put(columnName, resData.getAverageDose());
+                    whDaysMap.put(columnName, resData.getWhDays());
+                    dValueMap.put(columnName, resData.getLsnum()/resData.getWeeklyCount()-resData.getAenum()/resData.getWeeklyCount());
                 }
             }
             
@@ -855,42 +874,59 @@ public class RespirologyServiceImpl implements RespirologyService {
             	for( RespirologyMonthDBData resData : monthWeeklyDBData ){
                     if( resData.getRsmRegion().equalsIgnoreCase(rsmRegion) ){
                         rsmData.setRsmName(resData.getRsmName());
+                        String columnName = resData.getDuration().substring(5, 11)+resData.getDuration().substring(16);
                         
-                        pNumMap.put(resData.getDuration().substring(5, 11)+resData.getDuration().substring(16), resData.getPnum());
-                        lsNumMap.put(resData.getDuration().substring(5, 11)+resData.getDuration().substring(16), resData.getLsnum());
-                        aeNumMap.put(resData.getDuration().substring(5, 11)+resData.getDuration().substring(16), resData.getAenum());
-                        inRateMap.put(resData.getDuration().substring(5, 11)+resData.getDuration().substring(16), resData.getInRate());
-                        whRateMap.put(resData.getDuration().substring(5, 11)+resData.getDuration().substring(16), resData.getWhRate());
-                        averageDoseMap.put(resData.getDuration().substring(5, 11)+resData.getDuration().substring(16), resData.getAverageDose());
+                        pNumMap.put(columnName, resData.getPnum());
+                        lsNumMap.put(columnName, resData.getLsnum());
+                        aeNumMap.put(columnName, resData.getAenum());
+                        inRateMap.put(columnName, resData.getInRate());
+                        whRateMap.put(columnName, resData.getWhRate());
+                        averageDoseMap.put(columnName, resData.getAverageDose());
+                        dValueMap.put(columnName, resData.getLsnum()-resData.getAenum());
                     }
                 }
             }
             
             List<String> durations = new ArrayList<String>(inRateMap.keySet());
+            String durationName1 = "";
+            String durationName2 = "";
+            
+            if( null != durations && durations.size() >= 3 ){
+                durationName1 = durations.get(durations.size()-3)+"到"+durations.get(durations.size()-2);
+            }else if( durations.size() == 2 ){
+                durationName2 = durations.get(durations.size()-2)+"到"+durations.get(durations.size()-1);
+            }
+            
             List<Double> values = new ArrayList<Double>(inRateMap.values());
             if( null != durations && durations.size() >= 3 ){
-                inRateMap.put(durations.get(durations.size()-3)+"到"+durations.get(durations.size()-2), values.get(values.size()-2)-values.get(values.size()-3));
-                inRateMap.put(durations.get(durations.size()-2)+"到"+durations.get(durations.size()-1), values.get(values.size()-1)-values.get(values.size()-2));
+                inRateMap.put(durationName1, values.get(values.size()-2)-values.get(values.size()-3));
+                inRateMap.put(durationName2, values.get(values.size()-1)-values.get(values.size()-2));
             }else if( durations.size() == 2 ){
-                inRateMap.put(durations.get(durations.size()-2)+"到"+durations.get(durations.size()-1), values.get(values.size()-1)-values.get(values.size()-2));
+                inRateMap.put(durationName2, values.get(values.size()-1)-values.get(values.size()-2));
             }
             
-            durations = new ArrayList<String>(whRateMap.keySet());
+            values = new ArrayList<Double>(whRateMap.values());
             if( null != durations && durations.size() >= 3 ){
-                values = new ArrayList<Double>(whRateMap.values());
-                whRateMap.put(durations.get(durations.size()-3)+"到"+durations.get(durations.size()-2), values.get(values.size()-2)-values.get(values.size()-3));
-                whRateMap.put(durations.get(durations.size()-2)+"到"+durations.get(durations.size()-1), values.get(values.size()-1)-values.get(values.size()-2));
+                whRateMap.put(durationName1, values.get(values.size()-2)-values.get(values.size()-3));
+                whRateMap.put(durationName2, values.get(values.size()-1)-values.get(values.size()-2));
             }else if( durations.size() == 2 ){
-                whRateMap.put(durations.get(durations.size()-2)+"到"+durations.get(durations.size()-1), values.get(values.size()-1)-values.get(values.size()-2));
+                whRateMap.put(durationName2, values.get(values.size()-1)-values.get(values.size()-2));
             }
             
-            durations = new ArrayList<String>(lsNumMap.keySet());
+            values = new ArrayList<Double>(lsNumMap.values());
             if( null != durations && durations.size() >= 3 ){
-                values = new ArrayList<Double>(lsNumMap.values());
-                lsNumMap.put(durations.get(durations.size()-3)+"到"+durations.get(durations.size()-2), (values.get(values.size()-2)-values.get(values.size()-3))/values.get(values.size()-3));
-                lsNumMap.put(durations.get(durations.size()-2)+"到"+durations.get(durations.size()-1), (values.get(values.size()-1)-values.get(values.size()-2))/values.get(values.size()-2));
+                lsNumMap.put(durationName1, (values.get(values.size()-2)-values.get(values.size()-3))/values.get(values.size()-3));
+                lsNumMap.put(durationName2, (values.get(values.size()-1)-values.get(values.size()-2))/values.get(values.size()-2));
             }else if( durations.size() == 2 ){
-                lsNumMap.put(durations.get(durations.size()-2)+"到"+durations.get(durations.size()-1), (values.get(values.size()-1)-values.get(values.size()-2))/values.get(values.size()-2));
+                lsNumMap.put(durationName2, (values.get(values.size()-1)-values.get(values.size()-2))/values.get(values.size()-2));
+            }
+            
+            values = new ArrayList<Double>(dValueMap.values());
+            if( null != durations && durations.size() >= 3 ){
+                dValueMap.put(durationName1, (values.get(values.size()-2)-values.get(values.size()-3))/values.get(values.size()-3));
+                dValueMap.put(durationName2, (values.get(values.size()-1)-values.get(values.size()-2))/values.get(values.size()-2));
+            }else if( durations.size() == 2 ){
+                dValueMap.put(durationName2, (values.get(values.size()-1)-values.get(values.size()-2))/values.get(values.size()-2));
             }
             
             rsmData.setpNumMap(pNumMap);
@@ -900,6 +936,7 @@ public class RespirologyServiceImpl implements RespirologyService {
             rsmData.setWhRateMap(whRateMap);
             rsmData.setAverageDoseMap(averageDoseMap);
             rsmData.setWhDaysMap(whDaysMap);
+            rsmData.setdValueMap(dValueMap);
             
             exportData.add(rsmData);
         }

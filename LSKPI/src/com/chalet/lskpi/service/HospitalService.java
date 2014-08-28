@@ -82,4 +82,18 @@ public interface HospitalService {
 	public int deleteOldHospitalWeeklyData(String duration) throws Exception;
 	
 	public List<KPIHospital4Export> getKPIHospitalByDepartment(String department) throws Exception;
+	
+    /**
+     * 返回值是一个Map的list，Map中的键值对为<RSM,KPI医院数>
+     * @return HOS count map
+     * @throws Exception
+     */
+    public List<Map<String, Integer>> getKPIHosNumMap(String department) throws Exception;
+    
+    /**
+     * 返回值是一个Map的list，Map中的键值对为<RSM,销售数>
+     * @return sales count map
+     * @throws Exception
+     */
+    public List<Map<String, Integer>> getKPISalesNumMap(String department) throws Exception;
 }

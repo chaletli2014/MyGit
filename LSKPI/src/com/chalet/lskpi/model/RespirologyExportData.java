@@ -16,6 +16,11 @@ public class RespirologyExportData {
 	private Map<String, Double> inRateMap;
 	private Map<String, Double> averageDoseMap;
 	
+	private Map<String, Double> dValueMap;
+	
+	private int hosNum;
+	private int salesNum;
+	
 	public String getRsmRegion() {
 		return rsmRegion;
 	}
@@ -70,4 +75,31 @@ public class RespirologyExportData {
 	public void setAverageDoseMap(Map<String, Double> averageDoseMap) {
 		this.averageDoseMap = averageDoseMap;
 	}
+    public int getHosNum() {
+        return hosNum;
+    }
+    public void setHosNum(int hosNum) {
+        this.hosNum = hosNum;
+    }
+    public int getSalesNum() {
+        return salesNum;
+    }
+    public void setSalesNum(int salesNum) {
+        this.salesNum = salesNum;
+    }
+    
+    /**
+     * lsnum-aenum.
+     * @return 
+     */
+    public Map<String, Double> getdValueMap() {
+        return dValueMap;
+    }
+    /**
+     * lsnum-aenum.
+     * @param dValueMap
+     */
+    public void setdValueMap(Map<String, Double> dValueMap) {
+        this.dValueMap = dValueMap;
+    }
 }
