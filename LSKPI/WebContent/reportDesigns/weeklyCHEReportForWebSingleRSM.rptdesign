@@ -511,7 +511,7 @@ group by cdw.duration,h.rsmRegion]]></xml-property>
                 </structure>
             </list-property>
             <xml-property name="queryText"><![CDATA[select cdw.duration, 
-IFNULL(( select name from tbl_userinfo u1 where u1.level='RSM' and u1.userCode=? ),'vacant') name, 
+IFNULL(( select distinct name from tbl_userinfo u1 where u1.level='RSM' and u1.userCode=? ),'vacant') name, 
 IFNULL(sum(cdw.lsnum)/sum(cdw.pnum),0) as whRate
 from 
 (

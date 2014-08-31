@@ -188,7 +188,7 @@
                 </structure>
             </list-property>
             <xml-property name="queryText"><![CDATA[select rdw.duration, 
-IFNULL(( select name from tbl_userinfo u1 where u1.region = h.rsmRegion and u1.superior = h.dsmCode and u1.userCode=? ),'vacant') name, 
+IFNULL(( select distinct name from tbl_userinfo u1 where u1.region = h.rsmRegion and u1.superior = h.dsmCode and u1.userCode=? ),'vacant') name, 
 IFNULL(sum(rdw.lsnum)/sum(rdw.pnum),0) as whRate
 from 
 (
@@ -472,7 +472,7 @@ group by rdw.duration,h.rsmRegion,h.dsmCode,h.saleCode ]]></xml-property>
                 </structure>
             </list-property>
             <xml-property name="queryText"><![CDATA[select rdw.duration, 
-IFNULL(( select name from tbl_userinfo u1 where u1.region = h.rsmRegion and u1.superior = h.dsmCode and u1.userCode=? ),'vacant') name, 
+IFNULL(( select distinct name from tbl_userinfo u1 where u1.region = h.rsmRegion and u1.superior = h.dsmCode and u1.userCode=? ),'vacant') name, 
 IFNULL(sum(rdw.averageDose*rdw.lsnum)/sum(rdw.lsnum),0) as averageDose
 from 
 (
@@ -755,7 +755,7 @@ group by rdw.duration,h.rsmRegion,h.dsmCode,h.saleCode ]]></xml-property>
                 </structure>
             </list-property>
             <xml-property name="queryText"><![CDATA[select rdw.duration, 
-IFNULL(( select name from tbl_userinfo u1 where u1.region = h.rsmRegion and u1.superior = h.dsmCode and u1.userCode=? ),'vacant') name, 
+IFNULL(( select distinct name from tbl_userinfo u1 where u1.region = h.rsmRegion and u1.superior = h.dsmCode and u1.userCode=? ),'vacant') name, 
 IFNULL(sum(least(rdw.innum,3))/(count(1)*3),0) as inRate 
 from 
 (

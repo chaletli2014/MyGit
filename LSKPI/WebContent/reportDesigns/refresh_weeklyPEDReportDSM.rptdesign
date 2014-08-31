@@ -572,7 +572,7 @@ UNION ALL
                 </structure>
             </list-property>
             <xml-property name="queryText"><![CDATA[select pdw.duration, 
-IFNULL(( select name from tbl_userinfo u1 where u1.region = h.rsmRegion and u1.userCode = h.dsmCode ),'vacant') name, 
+IFNULL(( select distinct name from tbl_userinfo u1 where u1.region = h.rsmRegion and u1.userCode = h.dsmCode ),'vacant') name, 
 IFNULL(sum(pdw.lsnum),0) as lsnum 
 from 
 (
@@ -802,7 +802,7 @@ order by pdw.duration desc]]></xml-property>
                 </structure>
             </list-property>
             <xml-property name="queryText"><![CDATA[select pdw.duration, 
-IFNULL(( select name from tbl_userinfo u1 where u1.region = h.rsmRegion and u1.userCode = h.dsmCode ),'vacant') name, 
+IFNULL(( select distinct name from tbl_userinfo u1 where u1.region = h.rsmRegion and u1.userCode = h.dsmCode ),'vacant') name, 
 IFNULL(sum(pdw.lsnum)/sum(pdw.pnum),0) as whRate
 from 
 (
@@ -1033,7 +1033,7 @@ order by pdw.duration desc]]></xml-property>
                 </structure>
             </list-property>
             <xml-property name="queryText"><![CDATA[select pdw.duration, 
-IFNULL(( select name from tbl_userinfo u1 where u1.region = h.rsmRegion and u1.userCode = h.dsmCode ),'vacant') name, 
+IFNULL(( select distinct name from tbl_userinfo u1 where u1.region = h.rsmRegion and u1.userCode = h.dsmCode ),'vacant') name, 
 IFNULL(sum(pdw.averageDose*pdw.lsnum)/sum(pdw.lsnum),0) as averageDose
 from 
 (
@@ -1500,7 +1500,7 @@ order by pdw.duration desc]]></xml-property>
                 </structure>
             </list-property>
             <xml-property name="queryText"><![CDATA[select pdw.duration, 
-IFNULL(( select name from tbl_userinfo u1 where u1.region = h.rsmRegion and u1.userCode = h.dsmCode ),'vacant') as name, 
+IFNULL(( select distinct name from tbl_userinfo u1 where u1.region = h.rsmRegion and u1.userCode = h.dsmCode ),'vacant') as name, 
 IFNULL(sum(pdw.lsnum)/sum(pdw.pnum),0) as whRate 
 from 
 (
@@ -1731,7 +1731,7 @@ order by pdw.duration desc]]></xml-property>
                 </structure>
             </list-property>
             <xml-property name="queryText"><![CDATA[select pdw.duration, 
-IFNULL(( select name from tbl_userinfo u1 where u1.region = h.rsmRegion and u1.userCode = h.dsmCode ),'vacant') name, 
+IFNULL(( select distinct name from tbl_userinfo u1 where u1.region = h.rsmRegion and u1.userCode = h.dsmCode ),'vacant') name, 
 IFNULL(sum(pdw.pnum),0) as pnum 
 from 
 (

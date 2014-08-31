@@ -798,7 +798,7 @@ new Date(currentDate.getFullYear(),month,currentDate.getDate());</expression>
                 </structure>
             </list-property>
             <xml-property name="queryText"><![CDATA[select 
-IFNULL((select name from tbl_userinfo where region = h.rsmRegion and userCode = h.dsmCode),'vacant') name, 
+IFNULL((select distinct name from tbl_userinfo where region = h.rsmRegion and userCode = h.dsmCode),'vacant') name, 
 count(1) as hosNum, 
 (
     select sum(inNum) from (
@@ -1036,7 +1036,7 @@ group by h.rsmRegion, h.dsmCode ]]></xml-property>
                 </structure>
             </list-property>
             <xml-property name="queryText"><![CDATA[select rdw.duration, 
-IFNULL((select name from tbl_userinfo u where u.region = h.rsmRegion and u.userCode = h.dsmCode),'vacant') name,  
+IFNULL((select distinct name from tbl_userinfo u where u.region = h.rsmRegion and u.userCode = h.dsmCode),'vacant') name,  
 IFNULL(sum(rdw.lsnum),0) as lsnum 
 from 
 (
@@ -1289,7 +1289,7 @@ order by rdw.duration desc;]]></xml-property>
                 </structure>
             </list-property>
             <xml-property name="queryText"><![CDATA[select rdw.duration, 
-IFNULL((select name from tbl_userinfo where region = h.rsmRegion and userCode = h.dsmCode),'vacant') name, 
+IFNULL((select distinct name from tbl_userinfo where region = h.rsmRegion and userCode = h.dsmCode),'vacant') name, 
 IFNULL(sum(rdw.averageDose*rdw.lsnum)/sum(rdw.lsnum),0) as averageDose 
 from 
 (
@@ -1541,7 +1541,7 @@ order by rdw.duration desc;]]></xml-property>
                 </structure>
             </list-property>
             <xml-property name="queryText"><![CDATA[select rdw.duration, 
-IFNULL((select name from tbl_userinfo where region = h.rsmRegion and userCode = h.dsmCode),'vacant') name,  
+IFNULL((select distinct name from tbl_userinfo where region = h.rsmRegion and userCode = h.dsmCode),'vacant') name,  
 IFNULL(sum(rdw.pnum),0) as pnum 
 from 
 (
@@ -1723,7 +1723,7 @@ order by rdw.duration desc;]]></xml-property>
                 </structure>
             </list-property>
             <xml-property name="queryText"><![CDATA[select rdw.duration, 
-IFNULL((select name from tbl_userinfo u where u.region = h.rsmRegion and u.userCode = h.dsmCode),'vacant') name,  
+IFNULL((select distinct name from tbl_userinfo u where u.region = h.rsmRegion and u.userCode = h.dsmCode),'vacant') name,  
 IFNULL(sum(rdw.lsnum)/sum(rdw.pnum),0) as whRate 
 from 
 (
@@ -1975,7 +1975,7 @@ order by rdw.duration desc;]]></xml-property>
                 </structure>
             </list-property>
             <xml-property name="queryText"><![CDATA[select rdw.duration, 
-IFNULL((select name from tbl_userinfo where region = h.rsmRegion and userCode = h.dsmCode),'vacant') name,  
+IFNULL((select distinct name from tbl_userinfo where region = h.rsmRegion and userCode = h.dsmCode),'vacant') name,  
 IFNULL(sum(rdw.lsnum)/sum(rdw.pnum),0) as whRate 
 from 
 (
@@ -2228,7 +2228,7 @@ order by rdw.duration desc;]]></xml-property>
                 </structure>
             </list-property>
             <xml-property name="queryText"><![CDATA[select rdw.duration, 
-IFNULL((select name from tbl_userinfo where region = h.rsmRegion and userCode = h.dsmCode),'vacant') name,  
+IFNULL((select distinct name from tbl_userinfo where region = h.rsmRegion and userCode = h.dsmCode),'vacant') name,  
 IFNULL(sum(rdw.lsnum)/sum(rdw.pnum),0) as whRate 
 from 
 (

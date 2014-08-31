@@ -166,7 +166,7 @@
                 </structure>
             </list-property>
             <xml-property name="queryText"><![CDATA[select pdw.duration, 
-IFNULL(( select name from tbl_userinfo u1 where u1.level='RSM' and u1.userCode=? ),'vacant') name, 
+IFNULL(( select distinct name from tbl_userinfo u1 where u1.level='RSM' and u1.userCode=? ),'vacant') name, 
 IFNULL(sum(pdw.lsnum)/sum(pdw.pnum),0) as whRate
 from 
 (
@@ -428,7 +428,7 @@ group by pdw.duration,h.rsmRegion]]></xml-property>
                 </structure>
             </list-property>
             <xml-property name="queryText"><![CDATA[select pdw.duration, 
-IFNULL(( select name from tbl_userinfo u1 where u1.userCode=? and u1.level='RSM'),'vacant') name, 
+IFNULL(( select distinct name from tbl_userinfo u1 where u1.userCode=? and u1.level='RSM'),'vacant') name, 
 IFNULL(sum(pdw.averageDose*pdw.lsnum)/sum(pdw.lsnum),0) as averageDose
 from 
 (
@@ -689,7 +689,7 @@ group by pdw.duration,h.rsmRegion]]></xml-property>
                 </structure>
             </list-property>
             <xml-property name="queryText"><![CDATA[select pdw.duration, 
-IFNULL(( select name from tbl_userinfo u1 where u1.level = 'RSM' and u1.userCode=? ),'vacant') name, 
+IFNULL(( select distinct name from tbl_userinfo u1 where u1.level = 'RSM' and u1.userCode=? ),'vacant') name, 
 IFNULL(sum(least(pdw.innum,3))/(count(1)*3),0) as inRate 
 from 
 (
