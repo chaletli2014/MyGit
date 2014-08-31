@@ -21,6 +21,32 @@
                 <property name="category">Unformatted</property>
             </structure>
         </scalar-parameter>
+        <scalar-parameter name="startDuration" id="1013">
+            <property name="valueType">static</property>
+            <property name="isRequired">false</property>
+            <property name="dataType">string</property>
+            <property name="distinct">true</property>
+            <list-property name="selectionList"/>
+            <property name="paramType">simple</property>
+            <property name="concealValue">false</property>
+            <property name="controlType">text-box</property>
+            <structure name="format">
+                <property name="category">Unformatted</property>
+            </structure>
+        </scalar-parameter>
+        <scalar-parameter name="endDuration" id="1014">
+            <property name="valueType">static</property>
+            <property name="isRequired">false</property>
+            <property name="dataType">string</property>
+            <property name="distinct">true</property>
+            <list-property name="selectionList"/>
+            <property name="paramType">simple</property>
+            <property name="concealValue">false</property>
+            <property name="controlType">text-box</property>
+            <structure name="format">
+                <property name="category">Unformatted</property>
+            </structure>
+        </scalar-parameter>
     </parameters>
     <data-sources>
         <oda-data-source extensionID="org.eclipse.birt.report.data.oda.jdbc" name="MySQLSource" id="11">
@@ -64,11 +90,35 @@
                 </structure>
                 <structure>
                     <property name="name">param_2</property>
-                    <property name="paramName">userCode</property>
+                    <property name="paramName">startDuration</property>
                     <property name="nativeName"></property>
                     <property name="dataType">string</property>
                     <property name="nativeDataType">-3</property>
                     <property name="position">2</property>
+                    <property name="isOptional">true</property>
+                    <property name="allowNull">true</property>
+                    <property name="isInput">true</property>
+                    <property name="isOutput">false</property>
+                </structure>
+                <structure>
+                    <property name="name">param_3</property>
+                    <property name="paramName">endDuration</property>
+                    <property name="nativeName"></property>
+                    <property name="dataType">string</property>
+                    <property name="nativeDataType">-3</property>
+                    <property name="position">3</property>
+                    <property name="isOptional">true</property>
+                    <property name="allowNull">true</property>
+                    <property name="isInput">true</property>
+                    <property name="isOutput">false</property>
+                </structure>
+                <structure>
+                    <property name="name">param_4</property>
+                    <property name="paramName">userCode</property>
+                    <property name="nativeName"></property>
+                    <property name="dataType">string</property>
+                    <property name="nativeDataType">-3</property>
+                    <property name="position">4</property>
                     <property name="isOptional">true</property>
                     <property name="allowNull">true</property>
                     <property name="isInput">true</property>
@@ -116,13 +166,13 @@
                 </structure>
             </list-property>
             <xml-property name="queryText"><![CDATA[select pdw.duration, 
-IFNULL(( select name from tbl_userinfo u1 where u1.region = h.rsmRegion and u1.superior = h.dsmCode and u1.userCode=? ),'vacant') name, 
+IFNULL(( select distinct name from tbl_userinfo u1 where u1.region = h.rsmRegion and u1.superior = h.dsmCode and u1.userCode=? ),'vacant') name, 
 IFNULL(sum(pdw.lsnum)/sum(pdw.pnum),0) as whRate
 from 
 (
 	select * from tbl_pediatrics_data_weekly 
-	order by duration desc 
-	limit 0,11040 
+	where duration <= ? 
+	and duration >= ? 
 )pdw, tbl_hospital h 
 where h.code = pdw.hospitalCode 
 and h.saleCode = ? 
@@ -158,6 +208,46 @@ group by pdw.duration,h.rsmRegion,h.dsmCode,h.saleCode ]]></xml-property>
           <design:identifier>
             <design:name></design:name>
             <design:position>2</design:position>
+          </design:identifier>
+          <design:nativeDataTypeCode>-3</design:nativeDataTypeCode>
+          <design:precision>0</design:precision>
+          <design:scale>0</design:scale>
+          <design:nullability>Nullable</design:nullability>
+        </design:attributes>
+        <design:inputAttributes>
+          <design:elementAttributes>
+            <design:optional>true</design:optional>
+          </design:elementAttributes>
+        </design:inputAttributes>
+      </design:ParameterDefinition>
+    </parameter>
+    <parameter>
+      <design:ParameterDefinition>
+        <design:inOutMode>In</design:inOutMode>
+        <design:attributes>
+          <design:identifier>
+            <design:name></design:name>
+            <design:position>3</design:position>
+          </design:identifier>
+          <design:nativeDataTypeCode>-3</design:nativeDataTypeCode>
+          <design:precision>0</design:precision>
+          <design:scale>0</design:scale>
+          <design:nullability>Nullable</design:nullability>
+        </design:attributes>
+        <design:inputAttributes>
+          <design:elementAttributes>
+            <design:optional>true</design:optional>
+          </design:elementAttributes>
+        </design:inputAttributes>
+      </design:ParameterDefinition>
+    </parameter>
+    <parameter>
+      <design:ParameterDefinition>
+        <design:inOutMode>In</design:inOutMode>
+        <design:attributes>
+          <design:identifier>
+            <design:name></design:name>
+            <design:position>4</design:position>
           </design:identifier>
           <design:nativeDataTypeCode>-3</design:nativeDataTypeCode>
           <design:precision>0</design:precision>
@@ -262,11 +352,35 @@ group by pdw.duration,h.rsmRegion,h.dsmCode,h.saleCode ]]></xml-property>
                 </structure>
                 <structure>
                     <property name="name">param_2</property>
-                    <property name="paramName">userCode</property>
+                    <property name="paramName">startDuration</property>
                     <property name="nativeName"></property>
                     <property name="dataType">string</property>
                     <property name="nativeDataType">-3</property>
                     <property name="position">2</property>
+                    <property name="isOptional">true</property>
+                    <property name="allowNull">true</property>
+                    <property name="isInput">true</property>
+                    <property name="isOutput">false</property>
+                </structure>
+                <structure>
+                    <property name="name">param_3</property>
+                    <property name="paramName">endDuration</property>
+                    <property name="nativeName"></property>
+                    <property name="dataType">string</property>
+                    <property name="nativeDataType">-3</property>
+                    <property name="position">3</property>
+                    <property name="isOptional">true</property>
+                    <property name="allowNull">true</property>
+                    <property name="isInput">true</property>
+                    <property name="isOutput">false</property>
+                </structure>
+                <structure>
+                    <property name="name">param_4</property>
+                    <property name="paramName">userCode</property>
+                    <property name="nativeName"></property>
+                    <property name="dataType">string</property>
+                    <property name="nativeDataType">-3</property>
+                    <property name="position">4</property>
                     <property name="isOptional">true</property>
                     <property name="allowNull">true</property>
                     <property name="isInput">true</property>
@@ -314,13 +428,13 @@ group by pdw.duration,h.rsmRegion,h.dsmCode,h.saleCode ]]></xml-property>
                 </structure>
             </list-property>
             <xml-property name="queryText"><![CDATA[select pdw.duration, 
-IFNULL(( select name from tbl_userinfo u1 where u1.region = h.rsmRegion and u1.superior = h.dsmCode and u1.userCode=? ),'vacant') name, 
+IFNULL(( select distinct name from tbl_userinfo u1 where u1.region = h.rsmRegion and u1.superior = h.dsmCode and u1.userCode=? ),'vacant') name, 
 IFNULL(sum(pdw.averageDose*pdw.lsnum)/sum(pdw.lsnum),0) as averageDose
 from 
 (
 	select * from tbl_pediatrics_data_weekly 
-	order by duration desc 
-	limit 0,11040 
+	where duration <= ? 
+	and duration >= ? 
 )pdw, tbl_hospital h 
 where h.code = pdw.hospitalCode 
 and h.saleCode = ? 
@@ -356,6 +470,46 @@ group by pdw.duration,h.rsmRegion,h.dsmCode,h.saleCode ]]></xml-property>
           <design:identifier>
             <design:name></design:name>
             <design:position>2</design:position>
+          </design:identifier>
+          <design:nativeDataTypeCode>-3</design:nativeDataTypeCode>
+          <design:precision>0</design:precision>
+          <design:scale>0</design:scale>
+          <design:nullability>Nullable</design:nullability>
+        </design:attributes>
+        <design:inputAttributes>
+          <design:elementAttributes>
+            <design:optional>true</design:optional>
+          </design:elementAttributes>
+        </design:inputAttributes>
+      </design:ParameterDefinition>
+    </parameter>
+    <parameter>
+      <design:ParameterDefinition>
+        <design:inOutMode>In</design:inOutMode>
+        <design:attributes>
+          <design:identifier>
+            <design:name></design:name>
+            <design:position>3</design:position>
+          </design:identifier>
+          <design:nativeDataTypeCode>-3</design:nativeDataTypeCode>
+          <design:precision>0</design:precision>
+          <design:scale>0</design:scale>
+          <design:nullability>Nullable</design:nullability>
+        </design:attributes>
+        <design:inputAttributes>
+          <design:elementAttributes>
+            <design:optional>true</design:optional>
+          </design:elementAttributes>
+        </design:inputAttributes>
+      </design:ParameterDefinition>
+    </parameter>
+    <parameter>
+      <design:ParameterDefinition>
+        <design:inOutMode>In</design:inOutMode>
+        <design:attributes>
+          <design:identifier>
+            <design:name></design:name>
+            <design:position>4</design:position>
           </design:identifier>
           <design:nativeDataTypeCode>-3</design:nativeDataTypeCode>
           <design:precision>0</design:precision>
@@ -459,11 +613,35 @@ group by pdw.duration,h.rsmRegion,h.dsmCode,h.saleCode ]]></xml-property>
                 </structure>
                 <structure>
                     <property name="name">param_2</property>
-                    <property name="paramName">userCode</property>
+                    <property name="paramName">startDuration</property>
                     <property name="nativeName"></property>
                     <property name="dataType">string</property>
                     <property name="nativeDataType">-3</property>
                     <property name="position">2</property>
+                    <property name="isOptional">true</property>
+                    <property name="allowNull">true</property>
+                    <property name="isInput">true</property>
+                    <property name="isOutput">false</property>
+                </structure>
+                <structure>
+                    <property name="name">param_3</property>
+                    <property name="paramName">endDuration</property>
+                    <property name="nativeName"></property>
+                    <property name="dataType">string</property>
+                    <property name="nativeDataType">-3</property>
+                    <property name="position">3</property>
+                    <property name="isOptional">true</property>
+                    <property name="allowNull">true</property>
+                    <property name="isInput">true</property>
+                    <property name="isOutput">false</property>
+                </structure>
+                <structure>
+                    <property name="name">param_4</property>
+                    <property name="paramName">userCode</property>
+                    <property name="nativeName"></property>
+                    <property name="dataType">string</property>
+                    <property name="nativeDataType">-3</property>
+                    <property name="position">4</property>
                     <property name="isOptional">true</property>
                     <property name="allowNull">true</property>
                     <property name="isInput">true</property>
@@ -511,13 +689,13 @@ group by pdw.duration,h.rsmRegion,h.dsmCode,h.saleCode ]]></xml-property>
                 </structure>
             </list-property>
             <xml-property name="queryText"><![CDATA[select pdw.duration, 
-IFNULL(( select name from tbl_userinfo u1 where u1.region = h.rsmRegion and u1.superior = h.dsmCode and u1.userCode=? ),'vacant') name, 
+IFNULL(( select distinct name from tbl_userinfo u1 where u1.region = h.rsmRegion and u1.superior = h.dsmCode and u1.userCode=? ),'vacant') name, 
 IFNULL(sum(least(pdw.innum,3))/(count(1)*3),0) as inRate 
 from 
 (
 	select * from tbl_pediatrics_data_weekly 
-	order by duration desc 
-	limit 0,11040 
+	where duration <= ? 
+	and duration >= ? 
 )pdw, tbl_hospital h 
 where h.code = pdw.hospitalCode 
 and h.saleCode = ? 
@@ -553,6 +731,46 @@ group by pdw.duration,h.rsmRegion,h.dsmCode,h.saleCode ]]></xml-property>
           <design:identifier>
             <design:name></design:name>
             <design:position>2</design:position>
+          </design:identifier>
+          <design:nativeDataTypeCode>-3</design:nativeDataTypeCode>
+          <design:precision>0</design:precision>
+          <design:scale>0</design:scale>
+          <design:nullability>Nullable</design:nullability>
+        </design:attributes>
+        <design:inputAttributes>
+          <design:elementAttributes>
+            <design:optional>true</design:optional>
+          </design:elementAttributes>
+        </design:inputAttributes>
+      </design:ParameterDefinition>
+    </parameter>
+    <parameter>
+      <design:ParameterDefinition>
+        <design:inOutMode>In</design:inOutMode>
+        <design:attributes>
+          <design:identifier>
+            <design:name></design:name>
+            <design:position>3</design:position>
+          </design:identifier>
+          <design:nativeDataTypeCode>-3</design:nativeDataTypeCode>
+          <design:precision>0</design:precision>
+          <design:scale>0</design:scale>
+          <design:nullability>Nullable</design:nullability>
+        </design:attributes>
+        <design:inputAttributes>
+          <design:elementAttributes>
+            <design:optional>true</design:optional>
+          </design:elementAttributes>
+        </design:inputAttributes>
+      </design:ParameterDefinition>
+    </parameter>
+    <parameter>
+      <design:ParameterDefinition>
+        <design:inOutMode>In</design:inOutMode>
+        <design:attributes>
+          <design:identifier>
+            <design:name></design:name>
+            <design:position>4</design:position>
           </design:identifier>
           <design:nativeDataTypeCode>-3</design:nativeDataTypeCode>
           <design:precision>0</design:precision>

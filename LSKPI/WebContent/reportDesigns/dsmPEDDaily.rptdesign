@@ -1292,7 +1292,7 @@ new Date(currentDate.getFullYear(),month,currentDate.getDate());</expression>
                 </structure>
             </list-property>
             <xml-property name="queryText"><![CDATA[select u.name,u.userCode,u.regionCenter,u.region,u.level, (
-	select name from tbl_userinfo ui 
+	select distinct name from tbl_userinfo ui 
 	where ui.region = u.region 
 	and ui.userCode = u.superior 
 ) dsmName,( 
