@@ -18,6 +18,7 @@ import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Repository;
 
+import com.chalet.lskpi.mapper.ResLastWeekDataRowMapper;
 import com.chalet.lskpi.mapper.RespirologyMobileRowMapper;
 import com.chalet.lskpi.mapper.RespirologyMonthDataRowMapper;
 import com.chalet.lskpi.mapper.RespirologyRowMapper;
@@ -29,6 +30,7 @@ import com.chalet.lskpi.model.MobileRESDailyData;
 import com.chalet.lskpi.model.ReportProcessData;
 import com.chalet.lskpi.model.ReportProcessDataDetail;
 import com.chalet.lskpi.model.RespirologyData;
+import com.chalet.lskpi.model.RespirologyLastWeekData;
 import com.chalet.lskpi.model.RespirologyMonthDBData;
 import com.chalet.lskpi.model.TopAndBottomRSMData;
 import com.chalet.lskpi.model.UserCode;
@@ -1116,6 +1118,28 @@ public class RespirologyDAOImpl implements RespirologyDAO {
         return dataBean.getJdbcTemplate().query(sb.toString(), new Object[]{lastweekDay,lastweekDay}, new WeeklyHospitalDataRowMapper());
     }
     
+
+    public RespirologyLastWeekData getLastWeekDataOfRSM(String rsmRegion) throws Exception {
+        StringBuffer mobileRESWeeklySQL = new StringBuffer();
+        String lastWeekDuration = DateUtils.getWeeklyDurationYYYYMMDD(new Date());
+        
+        mobileRESWeeklySQL.append("select duration, IFNULL(sum(lastweek.lsnum),0) as lsnum ")
+        .append(" , IFNULL(sum(lastweek.aenum),0) as aenum ");
+        
+        if( !"全国".equalsIgnoreCase(rsmRegion) ){
+            mobileRESWeeklySQL.append(" from tbl_respirology_data_weekly lastweek, tbl_hospital h ")
+            .append(" where lastweek.hospitalCode=h.code ")
+            .append(" and h.rsmRegion=? ")
+            .append(" and duration=? ");
+            return dataBean.getJdbcTemplate().queryForObject(mobileRESWeeklySQL.toString(),new Object[]{rsmRegion,lastWeekDuration},new ResLastWeekDataRowMapper());
+        }else{
+            mobileRESWeeklySQL.append(" from tbl_respirology_data_weekly lastweek ")
+            .append(" where duration=? ");
+            return dataBean.getJdbcTemplate().queryForObject(mobileRESWeeklySQL.toString(),new Object[]{lastWeekDuration},new ResLastWeekDataRowMapper());
+        }
+        
+    }
+    
     public DataBean getDataBean() {
         return dataBean;
     }
@@ -1123,5 +1147,4 @@ public class RespirologyDAOImpl implements RespirologyDAO {
     public void setDataBean(DataBean dataBean) {
         this.dataBean = dataBean;
     }
-
 }

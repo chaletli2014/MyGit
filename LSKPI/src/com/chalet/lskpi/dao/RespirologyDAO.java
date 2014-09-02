@@ -9,6 +9,7 @@ import com.chalet.lskpi.model.MobileRESDailyData;
 import com.chalet.lskpi.model.ReportProcessData;
 import com.chalet.lskpi.model.ReportProcessDataDetail;
 import com.chalet.lskpi.model.RespirologyData;
+import com.chalet.lskpi.model.RespirologyLastWeekData;
 import com.chalet.lskpi.model.RespirologyMonthDBData;
 import com.chalet.lskpi.model.TopAndBottomRSMData;
 import com.chalet.lskpi.model.UserCode;
@@ -87,4 +88,6 @@ public interface RespirologyDAO {
     public String getLatestDuration() throws Exception;
     
     public List<WeeklyDataOfHospital> getWeeklyDataOfHospital(Date refreshDate) throws Exception;
+    
+    public RespirologyLastWeekData getLastWeekDataOfRSM(String rsmRegion) throws Exception;
 }

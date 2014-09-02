@@ -24,6 +24,7 @@ import com.chalet.lskpi.model.ReportProcessData;
 import com.chalet.lskpi.model.ReportProcessDataDetail;
 import com.chalet.lskpi.model.RespirologyData;
 import com.chalet.lskpi.model.RespirologyExportData;
+import com.chalet.lskpi.model.RespirologyLastWeekData;
 import com.chalet.lskpi.model.RespirologyMonthDBData;
 import com.chalet.lskpi.model.TopAndBottomRSMData;
 import com.chalet.lskpi.model.UserInfo;
@@ -937,6 +938,25 @@ public class RespirologyServiceImpl implements RespirologyService {
             rsmData.setAverageDoseMap(averageDoseMap);
             rsmData.setWhDaysMap(whDaysMap);
             rsmData.setdValueMap(dValueMap);
+            
+            RespirologyLastWeekData lastWeekResData = respirologyDAO.getLastWeekDataOfRSM(rsmRegion);
+            
+            if( null == lastWeekResData ){
+                logger.error("fail to get the last week respirology data during the res month-week download");
+            }else{
+                Map<String, Double> currentWeekAENum = new LinkedHashMap<String, Double>();
+                String columnName = lastWeekResData.getDuration().substring(5, 11)+lastWeekResData.getDuration().substring(16);
+                currentWeekAENum.put(columnName+"周平均AECOPD人数", lastWeekResData.getAenum());
+                rsmData.setCurrentWeekAENum(currentWeekAENum);
+                
+                Map<String, Double> currentWeekLsAERate = new LinkedHashMap<String, Double>();
+                if( 0 == lastWeekResData.getAenum() ){
+                    currentWeekLsAERate.put("当周雾化令舒人数/AE人数", 0.00);
+                }else{
+                    currentWeekLsAERate.put("当周雾化令舒人数/AE人数", lastWeekResData.getLsnum()/lastWeekResData.getAenum());
+                }
+                rsmData.setCurrentWeekLsAERate(currentWeekLsAERate);
+            }
             
             exportData.add(rsmData);
         }
