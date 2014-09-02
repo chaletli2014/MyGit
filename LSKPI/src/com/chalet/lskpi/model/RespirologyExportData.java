@@ -21,6 +21,9 @@ public class RespirologyExportData {
 	private int hosNum;
 	private int salesNum;
 	
+	private Map<String, Double> currentWeekAENum;
+	private Map<String, Double> currentWeekLsAERate;
+	
 	public String getRsmRegion() {
 		return rsmRegion;
 	}
@@ -101,5 +104,17 @@ public class RespirologyExportData {
      */
     public void setdValueMap(Map<String, Double> dValueMap) {
         this.dValueMap = dValueMap;
+    }
+    public Map<String, Double> getCurrentWeekAENum() {
+        return currentWeekAENum;
+    }
+    public void setCurrentWeekAENum(Map<String, Double> currentWeekAENum) {
+        this.currentWeekAENum = currentWeekAENum;
+    }
+    public Map<String, Double> getCurrentWeekLsAERate() {
+        return currentWeekLsAERate;
+    }
+    public void setCurrentWeekLsAERate(Map<String, Double> currentWeekLsAERate) {
+        this.currentWeekLsAERate = currentWeekLsAERate;
     }
 }
