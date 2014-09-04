@@ -314,17 +314,31 @@ public class RespirologyDAOImpl implements RespirologyDAO {
 	    .append("		and h1.isResAssessed='1' ")
 	    .append("		group by rd.hospitalName ")
 	    .append("	) inNumTemp ")
-	    .append("	where inNumTemp.rsmRegion = u.region ")
-	    .append("	and inNumTemp.dsmCode = u.userCode ")
+	    .append("	where u.region = inNumTemp.rsmRegion ")
+	    .append("	and u.userCode = inNumTemp.dsmCode ")
 	    .append(") as validInNum ")
+	    .append(",( select IFNULL(sum(inNum),0) from ( ")
+        .append("       select ")
+        .append(LsAttributes.SQL_REPORT_PROCESS_RES_INNUM4RATE)
+        .append("       , h1.dsmCode")
+        .append("       , h1.rsmRegion ")
+        .append("       from tbl_respirology_data rd, tbl_hospital h1 ")
+        .append("       where rd.hospitalName = h1.name ")
+        .append("       and rd.createdate between ? and DATE_ADD(?, Interval 7 day) ")
+        .append("       and h1.isResAssessed='1' ")
+        .append("       group by rd.hospitalName ")
+        .append("   ) inNumTemp ")
+        .append("   where u.region = inNumTemp.rsmRegion ")
+        .append("   and u.userCode = inNumTemp.dsmCode ")
+        .append(") as inNumForRate ")
 	    .append("from tbl_userinfo u, tbl_hospital h ")
 	    .append("where h.dsmCode = u.userCode ")
 	    .append("and h.rsmRegion = u.region ")
 	    .append("and h.isResAssessed='1' ")
 	    .append("and telephone = ? ");
 	    
-	    Date startDate = DateUtils.getTheBeginDateOfCurrentWeek();
-	    return dataBean.getJdbcTemplate().queryForObject(sb.toString(), new Object[]{new Timestamp(startDate.getTime()),new Timestamp(startDate.getTime()),telephone}, new ReportProcessDataRowMapper());
+	    Timestamp startDate = new Timestamp(DateUtils.getTheBeginDateOfCurrentWeek().getTime());
+	    return dataBean.getJdbcTemplate().queryForObject(sb.toString(), new Object[]{startDate,startDate,startDate,startDate,telephone}, new ReportProcessDataRowMapper());
 	}
 	
 	public List<ReportProcessDataDetail> getRSMSelfReportProcessRESDetailData(String telephone) throws Exception {
@@ -360,15 +374,28 @@ public class RespirologyDAOImpl implements RespirologyDAO {
 		.append("		and h1.isResAssessed='1' ")
 		.append("		group by rd.hospitalName ")
 		.append("	) inNumTemp ")
-		.append("	where inNumTemp.rsmRegion = u.region ")
+		.append("	where u.region = inNumTemp.rsmRegion ")
 		.append(") as validInNum ")
+		.append(",( select IFNULL(sum(inNum),0) from ( ")
+        .append("       select ")
+        .append(LsAttributes.SQL_REPORT_PROCESS_RES_INNUM4RATE)
+        .append("       , h1.dsmCode")
+        .append("       , h1.rsmRegion ")
+        .append("       from tbl_respirology_data rd, tbl_hospital h1 ")
+        .append("       where rd.hospitalName = h1.name ")
+        .append("       and rd.createdate between ? and DATE_ADD(?, Interval 7 day) ")
+        .append("       and h1.isResAssessed='1' ")
+        .append("       group by rd.hospitalName ")
+        .append("   ) inNumTemp ")
+        .append("   where u.region = inNumTemp.rsmRegion ")
+        .append(") as inNumForRate ")
 		.append("from tbl_userinfo u, tbl_hospital h ")
 		.append("where h.rsmRegion = u.region ")
 		.append("and h.isResAssessed='1' ")
 		.append("and telephone = ? ");
 		
-		Date startDate = DateUtils.getTheBeginDateOfCurrentWeek();
-		return dataBean.getJdbcTemplate().queryForObject(sb.toString(), new Object[]{new Timestamp(startDate.getTime()),new Timestamp(startDate.getTime()),telephone}, new ReportProcessDataRowMapper());
+		Timestamp startDate = new Timestamp(DateUtils.getTheBeginDateOfCurrentWeek().getTime());
+		return dataBean.getJdbcTemplate().queryForObject(sb.toString(), new Object[]{startDate,startDate,startDate,startDate,telephone}, new ReportProcessDataRowMapper());
 	}
 	
 	@Override
@@ -385,21 +412,33 @@ public class RespirologyDAOImpl implements RespirologyDAO {
 		.append("	) inNumTemp ")
 		.append("	where u.region = inNumTemp.rsmRegion ")
 		.append(") as validInNum ")
+		.append(",( select IFNULL(sum(inNum),0) from ( ")
+        .append("       select ")
+        .append(LsAttributes.SQL_REPORT_PROCESS_RES_INNUM4RATE)
+        .append("       , h1.dsmCode")
+        .append("       , h1.rsmRegion ")
+        .append("       from tbl_respirology_data rd, tbl_hospital h1 ")
+        .append("       where rd.hospitalName = h1.name ")
+        .append("       and rd.createdate between ? and DATE_ADD(?, Interval 7 day) ")
+        .append("       and h1.isResAssessed='1' ")
+        .append("       group by rd.hospitalName ")
+        .append("   ) inNumTemp ")
+        .append("   where u.region = inNumTemp.rsmRegion ")
+        .append(") as inNumForRate ")
 		.append("from tbl_userinfo u, tbl_hospital h ")
 		.append("where h.rsmRegion = u.region ")
 		.append("and h.rsmRegion=? ")
 		.append("and h.isResAssessed='1' ");
 		
-		Date startDate = DateUtils.getTheBeginDateOfCurrentWeek();
-		Timestamp ts = new Timestamp(startDate.getTime());
-		return dataBean.getJdbcTemplate().query(sb.toString(), new Object[]{ts,ts,rsmRegion}, new ReportProcessDataRowMapper());
+		Timestamp startDate = new Timestamp(DateUtils.getTheBeginDateOfCurrentWeek().getTime());
+		return dataBean.getJdbcTemplate().query(sb.toString(), new Object[]{startDate,startDate,startDate,startDate,rsmRegion}, new ReportProcessDataRowMapper());
 	}
 	
 	@Override
 	public ReportProcessData getSalesSelfReportProcessRESData(String telephone) throws Exception {
 	    StringBuffer sb = new StringBuffer("");
 	    sb.append("select count(1) as hosNum, ")
-	    .append("( select IFNULL(sum(inNum),0) as validInNum from ( ")
+	    .append("( select IFNULL(sum(inNum),0) from ( ")
 	    .append("		select least(count(1),3) as inNum, h1.code as hosCode, h1.dsmCode, h1.rsmRegion ")
 	    .append("		from tbl_respirology_data rd, tbl_hospital h1 ")
 	    .append("		where rd.hospitalName = h1.name ")
@@ -408,20 +447,37 @@ public class RespirologyDAOImpl implements RespirologyDAO {
 	    .append("		group by rd.hospitalName ")
 	    .append("	) inNumTemp, tbl_hos_user hu ")
 	    .append("	where u.region = inNumTemp.rsmRegion ")
-	    .append("	and inNumTemp.hosCode = hu.hosCode  ")
+	    .append("	and hu.hosCode = inNumTemp.hosCode ")
 	    .append("	and hu.userCode = u.userCode ")
-	    .append("	and inNumTemp.dsmCode = u.superior ")
+	    .append("	and u.superior = inNumTemp.dsmCode ")
 	    .append(") as validInNum ")
-	    .append("from tbl_userinfo u, tbl_hospital h, tbl_hos_user hu ")
-	    .append("where h.dsmCode = u.superior ")
-	    .append("and h.rsmRegion = u.region ")
-	    .append("and h.code = hu.hosCode ")
-	    .append("and hu.userCode = u.userCode ")
-	    .append("and h.isResAssessed='1' ")
-	    .append("and telephone = ? ");
+	    .append(",( select IFNULL(sum(inNum),0) from ( ")
+        .append("       select ")
+        .append(LsAttributes.SQL_REPORT_PROCESS_RES_INNUM4RATE)
+        .append("       , h1.code as hosCode")
+        .append("       , h1.dsmCode")
+        .append("       , h1.rsmRegion ")
+        .append("       from tbl_respirology_data rd, tbl_hospital h1 ")
+        .append("       where rd.hospitalName = h1.name ")
+        .append("       and rd.createdate between ? and DATE_ADD(?, Interval 7 day) ")
+        .append("       and h1.isResAssessed='1' ")
+        .append("       group by rd.hospitalName ")
+        .append("   ) inNumTemp, tbl_hos_user hu ")
+        .append("   where u.region = inNumTemp.rsmRegion ")
+        .append("   and hu.hosCode = inNumTemp.hosCode ")
+        .append("   and hu.userCode = u.userCode ")
+        .append("   and u.superior = inNumTemp.dsmCode ")
+        .append(") as inNumForRate ")
+	    .append(" from tbl_userinfo u, tbl_hospital h, tbl_hos_user hu ")
+	    .append(" where h.dsmCode = u.superior ")
+	    .append(" and h.rsmRegion = u.region ")
+	    .append(" and h.code = hu.hosCode ")
+	    .append(" and hu.userCode = u.userCode ")
+	    .append(" and h.isResAssessed='1' ")
+	    .append(" and telephone = ? ");
 	    
-	    Date startDate = DateUtils.getTheBeginDateOfCurrentWeek();
-	    return dataBean.getJdbcTemplate().queryForObject(sb.toString(), new Object[]{new Timestamp(startDate.getTime()),new Timestamp(startDate.getTime()),telephone}, new ReportProcessDataRowMapper());
+	    Timestamp startDate = new Timestamp(DateUtils.getTheBeginDateOfCurrentWeek().getTime());
+	    return dataBean.getJdbcTemplate().queryForObject(sb.toString(), new Object[]{startDate,startDate,startDate,startDate,telephone}, new ReportProcessDataRowMapper());
 	}
 
 	@Override
@@ -448,12 +504,28 @@ public class RespirologyDAOImpl implements RespirologyDAO {
 			.append("	and inNumTemp.saleCode = u.userCode ")
 			.append("	and inNumTemp.dsmCode = u.superior ")
 			.append(") validInNum ")
+			.append(",( select IFNULL(sum(inNum),0) from ( ")
+            .append("       select ")
+            .append(LsAttributes.SQL_REPORT_PROCESS_RES_INNUM4RATE)
+            .append("       , h1.saleCode")
+            .append("       , h1.dsmCode")
+            .append("       , h1.rsmRegion ")
+            .append("       from tbl_respirology_data rd, tbl_hospital h1 ")
+            .append("       where rd.hospitalName = h1.name ")
+            .append("       and rd.createdate between ? and DATE_ADD(?, Interval 7 day) ")
+            .append("       and h1.isResAssessed='1' ")
+            .append("       group by rd.hospitalName ")
+            .append("   ) inNumTemp ")
+            .append("   where u.region = inNumTemp.rsmRegion ")
+            .append("   and u.userCode = inNumTemp.saleCode ")
+            .append("   and u.superior = inNumTemp.dsmCode ")
+            .append(") as inNumForRate ")
 			.append("from tbl_userinfo u ")
 			.append("where u.level='REP' ")
 			.append("and u.superior = ( select superior from tbl_userinfo where telephone = ? )");
 		
-		Date startDate = DateUtils.getTheBeginDateOfCurrentWeek();
-		return dataBean.getJdbcTemplate().query(sb.toString(), new Object[]{new Timestamp(startDate.getTime()),new Timestamp(startDate.getTime()),telephone}, new ReportProcessDataRowMapper());
+		Timestamp startDate = new Timestamp(DateUtils.getTheBeginDateOfCurrentWeek().getTime());
+		return dataBean.getJdbcTemplate().query(sb.toString(), new Object[]{startDate,startDate,startDate,startDate,telephone}, new ReportProcessDataRowMapper());
 	}
 	
 	public int getLastWeeklyRESData() throws Exception {
