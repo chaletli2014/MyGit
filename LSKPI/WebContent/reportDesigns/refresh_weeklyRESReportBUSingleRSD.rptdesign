@@ -735,7 +735,13 @@ h.region,
 count(1) as hosNum,
 (
     select sum(inNum) from (
-        select least(count(1),3) as inNum, h1.rsmRegion, rd.hospitalName 
+        select 
+        case
+			when h1.dragonType='Emerging' then least(count(1)*3,3) 
+			when h1.dragonType='Core' then least(count(1),3) 
+		end  as inNum 
+        , h1.rsmRegion
+        , rd.hospitalName 
         from tbl_respirology_data rd, tbl_hospital h1 
         where rd.hospitalName = h1.name 
         and date_format(rd.createdate,'%Y.%m.%d') between ? and ?  

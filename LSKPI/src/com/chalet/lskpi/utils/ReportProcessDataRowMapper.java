@@ -21,7 +21,14 @@ public class ReportProcessDataRowMapper implements RowMapper<ReportProcessData>{
     	if( rs.getInt("hosNum") == 0 ){
     	    reportProcessData.setCurrentInRate(0);
     	}else{
-    	    reportProcessData.setCurrentInRate(rs.getDouble("validInNum")/(rs.getInt("hosNum")*3));
+    	    Double inNum = 0.00;
+    	    try{
+    	        inNum = rs.getDouble("inNumForRate");
+    	    }catch(SQLException se){
+    	        inNum = rs.getDouble("validInNum");
+    	    }
+    	    
+	        reportProcessData.setCurrentInRate(inNum/(rs.getInt("hosNum")*3));
     	}
         return reportProcessData;
     }

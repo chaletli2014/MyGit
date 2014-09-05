@@ -1079,4 +1079,10 @@ public class LsAttributes {
             .append(" and hu.userCode != '2000003'")
             .append(" and h.saleCode != '#N/A' ");
     
+    public static final StringBuffer SQL_REPORT_PROCESS_RES_INNUM4RATE = new StringBuffer("")
+            .append("       case ")
+            .append("           when h1.dragonType='Emerging' then least(count(1)*3,3) ")
+            .append("           when h1.dragonType='Core' then least(count(1),3) ")
+            .append("       end  as inNum");
+    
 }

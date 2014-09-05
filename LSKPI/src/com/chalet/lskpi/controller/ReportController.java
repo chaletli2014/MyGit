@@ -2872,7 +2872,7 @@ public class ReportController extends BaseController{
                 averageDoseRightCellStyle.setBorderBottom(HSSFCellStyle.BORDER_THIN);
                 averageDoseRightCellStyle.setBottomBorderColor(HSSFColor.BLACK.index);
                 
-                workbook.createSheet("当周KPI医院原始数据");
+                workbook.createSheet("上周呼吸科KPI医院原始数据");
                 HSSFSheet sheet = workbook.getSheetAt(0);
                 int currentRowNum = 0;
                 Date lastWeekEndDate = DateUtils.getGenerateWeeklyReportDate();
