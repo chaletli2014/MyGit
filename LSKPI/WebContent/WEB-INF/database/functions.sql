@@ -2109,3 +2109,85 @@ and ( (rdw.date_YYYY > 2013 and rdw.date_MM > 3)  or ( rdw.date_YYYY > 2014 ))
 and rdw.duration < '2014.08.07-2014.08.13'  
 group by date_YYYY,date_MM,h.rsmRegion  
 order by h.rsmRegion, date_YYYY, date_MM;
+
+
+-------------getMonthlyDataOfREPByDSMCode----------------
+select IFNULL(lastMonthData.pedEmernum,0) as pedEmernum 
+, IFNULL(lastMonthData.pedroomnum,0) as pedroomnum 
+, IFNULL(lastMonthData.resnum,0) as resnum 
+, IFNULL(lastMonthData.othernum,0) as othernum 
+, ROUND(IFNULL(lastMonthData.pedEmernum/lastMonthData.totalnum,0),2) as pedemernumrate 
+, ROUND(IFNULL(lastMonthData.pedroomnum/lastMonthData.totalnum,0),2) as pedroomnumrate 
+, ROUND(IFNULL(lastMonthData.resnum/lastMonthData.totalnum,0),2) as resnumrate 
+, ROUND(IFNULL(lastMonthData.othernum/lastMonthData.totalnum,0),2) as othernumrate 
+, ROUND(IFNULL((lastMonthData.pedEmernum-last2MonthData.pedEmernum)/last2MonthData.pedEmernum,0),2) as pedemernumratio 
+, ROUND(IFNULL((lastMonthData.pedroomnum-last2MonthData.pedroomnum)/last2MonthData.pedroomnum,0),2) as pedroomnumratio 
+, ROUND(IFNULL((lastMonthData.resnum-last2MonthData.resnum)/last2MonthData.resnum,0),2) as resnumratio 
+, ROUND(IFNULL((lastMonthData.othernum-last2MonthData.othernum)/last2MonthData.othernum,0),2) as othernumratio 
+, ROUND(IFNULL(lastMonthData.pedEmernum/lastMonthData.totalnum - last2MonthData.pedEmernum/last2MonthData.totalnum,0),2) as pedemernumrateratio 
+, ROUND(IFNULL(lastMonthData.pedroomnum/lastMonthData.totalnum - last2MonthData.pedroomnum/last2MonthData.totalnum,0),2) as pedroomnumrateratio 
+, ROUND(IFNULL(lastMonthData.resnum/lastMonthData.totalnum - last2MonthData.resnum/last2MonthData.totalnum,0),2) as resnumrateratio 
+, ROUND(IFNULL(lastMonthData.othernum/lastMonthData.totalnum - last2MonthData.othernum/last2MonthData.totalnum,0),2) as othernumrateratio 
+, IFNULL(lastMonthData.totalnum,0) as totalnum 
+, ROUND(IFNULL((lastMonthData.totalnum - last2MonthData.totalnum)/last2MonthData.totalnum,0),2) as totalnumratio 
+, IFNULL(lastMonthData.innum,0) as innum 
+, ROUND(IFNULL((lastMonthData.innum-last2MonthData.innum)/last2MonthData.innum,0),2) as innumratio 
+, IFNULL(lastMonthData.hosnum,0) as hosnum 
+, ROUND(IFNULL((lastMonthData.hosnum-last2MonthData.hosnum)/last2MonthData.hosnum,0),2) as hosnumratio 
+, ROUND(IFNULL(lastMonthData.innum,0)/IFNULL(lastMonthData.hosnum,0),2) as inrate 
+, ROUND(IFNULL(lastMonthData.innum/lastMonthData.hosnum - last2MonthData.innum/last2MonthData.hosnum,0),2) as inrateratio 
+, lastMonthData.saleName, '' as dsmName, lastMonthData.rsmRegion
+, ( select distinct property_value from tbl_property where property_name = lastMonthData.region ) as region 
+ from (
+	select lastMonth.pedEmernum ,lastMonth.pedroomnum ,lastMonth.resnum ,lastMonth.othernum ,lastMonth.totalnum 
+	, lastMonth.innum as innum 
+	, (select count(1) from tbl_hospital h where h.rsmRegion = u.region and h.dsmCode = u.superior and h.saleCode = u.userCode and h.isMonthlyAssessed='1') as hosnum 
+	, u.userCode as saleCode, u.superior as dsmCode, u.name as saleName , u.region as rsmRegion, u.regionCenter as region 
+	    from (
+	       select h.saleCode as saleCode 
+	       , h.dsmCode 
+	       , h.rsmRegion 
+	       , h.region 
+	       , sum(pedEmernum) as pedEmernum 
+	       , sum(pedroomnum) as pedroomnum 
+	       , sum(resnum) as resnum 
+	       , sum(other) as othernum 
+	       , sum(pedEmernum)+sum(pedroomnum)+sum(resnum)+sum(other) as totalnum 
+	       , count(1) as innum 
+	       from tbl_month_data md, tbl_hospital h 
+			where md.countMonth = DATE_FORMAT(DATE_SUB(now(), INTERVAL 1 MONTH),'%Y-%m') 
+	       and md.hospitalCode = h.code and h.isMonthlyAssessed='1' 
+	       and h.dsmCode='5202081' 
+	       group by h.dsmCode, h.saleCode 
+	   ) lastMonth 
+	   right join tbl_userinfo u on u.userCode = lastMonth.saleCode and u.superior = lastMonth.dsmCode
+	   where u.superior = '5202081' 
+	   and u.level='REP' 
+) lastMonthData 
+inner join ( 
+	select last2Month.pedEmernum ,last2Month.pedroomnum ,last2Month.resnum ,last2Month.othernum ,last2Month.totalnum 
+	, last2Month.innum as innum 
+	, (select count(1) from tbl_hospital h where h.rsmRegion = u.region and h.dsmCode = u.superior and h.saleCode = u.userCode and h.isMonthlyAssessed='1') as hosnum 
+	, u.userCode as saleCode, u.superior as dsmCode, u.name as saleName , u.region as rsmRegion, u.regionCenter as region 
+	    from (
+	       select h.saleCode as saleCode 
+	       , h.dsmCode 
+	       , h.rsmRegion 
+	       , h.region 
+	       , sum(pedEmernum) as pedEmernum 
+	       , sum(pedroomnum) as pedroomnum 
+	       , sum(resnum) as resnum 
+	       , sum(other) as othernum 
+	       , sum(pedEmernum)+sum(pedroomnum)+sum(resnum)+sum(other) as totalnum 
+	       , count(1) as innum 
+	       from tbl_month_data md, tbl_hospital h 
+			where md.countMonth = DATE_FORMAT(DATE_SUB(now(), INTERVAL 2 MONTH),'%Y-%m') 
+	       and md.hospitalCode = h.code and h.isMonthlyAssessed='1' 
+	       and h.dsmCode='5202081' 
+	       group by h.dsmCode, h.saleCode 
+	   ) last2Month 
+	   right join tbl_userinfo u on u.userCode = last2Month.saleCode and u.superior = last2Month.dsmCode
+	   where u.superior = '5202081' 
+	   and u.level='REP' 
+) last2MonthData on lastMonthData.saleCode = last2MonthData.saleCode 
+ and lastMonthData.dsmCode = last2MonthData.dsmCode and lastMonthData.rsmRegion = last2MonthData.rsmRegion;
