@@ -340,13 +340,35 @@ public class ReportController extends BaseController{
                         row.createCell(10, XSSFCell.CELL_TYPE_STRING).setCellValue(resData.getDsmName());
                         row.createCell(11, XSSFCell.CELL_TYPE_STRING).setCellValue(resData.getRegion());
                         row.createCell(12, XSSFCell.CELL_TYPE_STRING).setCellValue(resData.getRsmRegion());
-                        row.createCell(13, XSSFCell.CELL_TYPE_NUMERIC).setCellValue(resData.getOqd()+"%");
-                        row.createCell(14, XSSFCell.CELL_TYPE_NUMERIC).setCellValue(resData.getTqd()+"%");
-                        row.createCell(15, XSSFCell.CELL_TYPE_NUMERIC).setCellValue(resData.getOtid()+"%");
-                        row.createCell(16, XSSFCell.CELL_TYPE_NUMERIC).setCellValue(resData.getTbid()+"%");
-                        row.createCell(17, XSSFCell.CELL_TYPE_NUMERIC).setCellValue(resData.getTtid()+"%");
-                        row.createCell(18, XSSFCell.CELL_TYPE_NUMERIC).setCellValue(resData.getThbid()+"%");
-                        row.createCell(19, XSSFCell.CELL_TYPE_NUMERIC).setCellValue(resData.getFbid()+"%");
+                        
+                        HSSFCell oqdCell = row.createCell(13, XSSFCell.CELL_TYPE_NUMERIC);
+                        oqdCell.setCellValue(resData.getOqd()/100);
+                        oqdCell.setCellStyle(percentCellStyle);
+                        
+                        HSSFCell tqdCell = row.createCell(14, XSSFCell.CELL_TYPE_NUMERIC);
+                        tqdCell.setCellValue(resData.getTqd()/100);
+                        tqdCell.setCellStyle(percentCellStyle);
+                        
+                        HSSFCell otidCell = row.createCell(15, XSSFCell.CELL_TYPE_NUMERIC);
+                        otidCell.setCellValue(resData.getOtid()/100);
+                        otidCell.setCellStyle(percentCellStyle);
+                        
+                        HSSFCell tbidCell = row.createCell(16, XSSFCell.CELL_TYPE_NUMERIC);
+                        tbidCell.setCellValue(resData.getTbid()/100);
+                        tbidCell.setCellStyle(percentCellStyle);
+                        
+                        HSSFCell ttidCell = row.createCell(17, XSSFCell.CELL_TYPE_NUMERIC);
+                        ttidCell.setCellValue(resData.getTtid()/100);
+                        ttidCell.setCellStyle(percentCellStyle);
+                        
+                        HSSFCell thbidCell = row.createCell(18, XSSFCell.CELL_TYPE_NUMERIC);
+                        thbidCell.setCellValue(resData.getThbid()/100);
+                        thbidCell.setCellStyle(percentCellStyle);
+                        
+                        HSSFCell fbidCell = row.createCell(19, XSSFCell.CELL_TYPE_NUMERIC);
+                        fbidCell.setCellValue(resData.getFbid()/100);
+                        fbidCell.setCellStyle(percentCellStyle);
+                        
                         row.createCell(20, XSSFCell.CELL_TYPE_STRING).setCellValue(resData.getIsResAssessed());
                         row.createCell(21, XSSFCell.CELL_TYPE_STRING).setCellValue(resData.getDragonType());
                     }
@@ -413,16 +435,31 @@ public class ReportController extends BaseController{
                         row.createCell(9, XSSFCell.CELL_TYPE_STRING).setCellValue(pedData.getDsmName());
                         row.createCell(10, XSSFCell.CELL_TYPE_STRING).setCellValue(pedData.getRegion());
                         row.createCell(11, XSSFCell.CELL_TYPE_STRING).setCellValue(pedData.getRsmRegion());
+                        
                         HSSFCell hqdCell = row.createCell(12, XSSFCell.CELL_TYPE_NUMERIC);
-                        hqdCell.setCellValue(pedData.getHqd()+"%");
+                        hqdCell.setCellValue(pedData.getHqd()/100);
                         hqdCell.setCellStyle(percentCellStyle);
                         
+                        HSSFCell hbidCell = row.createCell(13, XSSFCell.CELL_TYPE_NUMERIC);
+                        hbidCell.setCellValue(pedData.getHbid()/100);
+                        hbidCell.setCellStyle(percentCellStyle);
                         
-                        row.createCell(13, XSSFCell.CELL_TYPE_NUMERIC).setCellValue(pedData.getHbid()+"%");
-                        row.createCell(14, XSSFCell.CELL_TYPE_NUMERIC).setCellValue(pedData.getOqd()+"%");
-                        row.createCell(15, XSSFCell.CELL_TYPE_NUMERIC).setCellValue(pedData.getObid()+"%");
-                        row.createCell(16, XSSFCell.CELL_TYPE_NUMERIC).setCellValue(pedData.getTqd()+"%");
-                        row.createCell(17, XSSFCell.CELL_TYPE_NUMERIC).setCellValue(pedData.getTbid()+"%");
+                        HSSFCell oqdCell = row.createCell(14, XSSFCell.CELL_TYPE_NUMERIC);
+                        oqdCell.setCellValue(pedData.getOqd()/100);
+                        oqdCell.setCellStyle(percentCellStyle);
+                        
+                        HSSFCell obidCell = row.createCell(15, XSSFCell.CELL_TYPE_NUMERIC);
+                        obidCell.setCellValue(pedData.getObid()/100);
+                        obidCell.setCellStyle(percentCellStyle);
+                        
+                        HSSFCell tqdCell = row.createCell(16, XSSFCell.CELL_TYPE_NUMERIC);
+                        tqdCell.setCellValue(pedData.getTqd()/100);
+                        tqdCell.setCellStyle(percentCellStyle);
+                        
+                        HSSFCell tbidCell = row.createCell(17, XSSFCell.CELL_TYPE_NUMERIC);
+                        tbidCell.setCellValue(pedData.getTbid()/100);
+                        tbidCell.setCellStyle(percentCellStyle);
+                        
                         row.createCell(18, XSSFCell.CELL_TYPE_STRING).setCellValue(populateRecipeTypeValue(pedData.getRecipeType()));
                         row.createCell(19, XSSFCell.CELL_TYPE_STRING).setCellValue(pedData.getIsPedAssessed());
                         row.createCell(20, XSSFCell.CELL_TYPE_STRING).setCellValue(pedData.getDragonType());
@@ -490,13 +527,35 @@ public class ReportController extends BaseController{
                         row.createCell(10, XSSFCell.CELL_TYPE_STRING).setCellValue(cheData.getDsmName());
                         row.createCell(11, XSSFCell.CELL_TYPE_STRING).setCellValue(cheData.getSalesCode());
                         row.createCell(12, XSSFCell.CELL_TYPE_STRING).setCellValue(cheData.getSalesName());
-                        row.createCell(13, XSSFCell.CELL_TYPE_NUMERIC).setCellValue(cheData.getOqd()+"%");
-                        row.createCell(14, XSSFCell.CELL_TYPE_NUMERIC).setCellValue(cheData.getTqd()+"%");
-                        row.createCell(15, XSSFCell.CELL_TYPE_NUMERIC).setCellValue(cheData.getOtid()+"%");
-                        row.createCell(16, XSSFCell.CELL_TYPE_NUMERIC).setCellValue(cheData.getTbid()+"%");
-                        row.createCell(17, XSSFCell.CELL_TYPE_NUMERIC).setCellValue(cheData.getTtid()+"%");
-                        row.createCell(18, XSSFCell.CELL_TYPE_NUMERIC).setCellValue(cheData.getThbid()+"%");
-                        row.createCell(19, XSSFCell.CELL_TYPE_NUMERIC).setCellValue(cheData.getFbid()+"%");
+                        
+                        HSSFCell oqdCell = row.createCell(13, XSSFCell.CELL_TYPE_NUMERIC);
+                        oqdCell.setCellValue(cheData.getOqd()/100);
+                        oqdCell.setCellStyle(percentCellStyle);
+                        
+                        HSSFCell tqdCell = row.createCell(14, XSSFCell.CELL_TYPE_NUMERIC);
+                        tqdCell.setCellValue(cheData.getTqd()/100);
+                        tqdCell.setCellStyle(percentCellStyle);
+                        
+                        HSSFCell otidCell = row.createCell(15, XSSFCell.CELL_TYPE_NUMERIC);
+                        otidCell.setCellValue(cheData.getOtid()/100);
+                        otidCell.setCellStyle(percentCellStyle);
+                        
+                        HSSFCell tbidCell = row.createCell(16, XSSFCell.CELL_TYPE_NUMERIC);
+                        tbidCell.setCellValue(cheData.getTbid()/100);
+                        tbidCell.setCellStyle(percentCellStyle);
+                        
+                        HSSFCell ttidCell = row.createCell(17, XSSFCell.CELL_TYPE_NUMERIC);
+                        ttidCell.setCellValue(cheData.getTtid()/100);
+                        ttidCell.setCellStyle(percentCellStyle);
+                        
+                        HSSFCell thbidCell = row.createCell(18, XSSFCell.CELL_TYPE_NUMERIC);
+                        thbidCell.setCellValue(cheData.getThbid()/100);
+                        thbidCell.setCellStyle(percentCellStyle);
+                        
+                        HSSFCell fbidCell = row.createCell(19, XSSFCell.CELL_TYPE_NUMERIC);
+                        fbidCell.setCellValue(cheData.getFbid()/100);
+                        fbidCell.setCellStyle(percentCellStyle);
+                        
                         row.createCell(20, XSSFCell.CELL_TYPE_STRING).setCellValue(cheData.getIsChestSurgeryAssessed());
                     }
                     workbook.write(fOut);
