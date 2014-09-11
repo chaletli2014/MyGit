@@ -34,6 +34,8 @@ public class PediatricsData {
     private String dsmName;
     
     private String isPedAssessed;
+    
+    private String dragonType;
 	
 	public int getDataId() {
 		return dataId;
@@ -154,5 +156,11 @@ public class PediatricsData {
     }
     public void setIsPedAssessed(String isPedAssessed) {
         this.isPedAssessed = isPedAssessed;
+    }
+    public String getDragonType() {
+        return dragonType;
+    }
+    public void setDragonType(String dragonType) {
+        this.dragonType = dragonType;
     }
 }

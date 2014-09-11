@@ -35,6 +35,7 @@ public class RespirologyData {
 	private Date createdate;
 	private String dsmName;
 	private String isResAssessed;
+	private String dragonType;
 	
 	public String getHospitalName() {
 		return hospitalName;
@@ -167,5 +168,11 @@ public class RespirologyData {
     }
     public void setIsResAssessed(String isResAssessed) {
         this.isResAssessed = isResAssessed;
+    }
+    public String getDragonType() {
+        return dragonType;
+    }
+    public void setDragonType(String dragonType) {
+        this.dragonType = dragonType;
     }
 }

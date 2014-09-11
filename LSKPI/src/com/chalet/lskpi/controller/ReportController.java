@@ -271,6 +271,12 @@ public class ReportController extends BaseController{
             	
             	String department = request.getParameter("department");
             	logger.info(String.format("begin to get the data of department %s, from %s to %s", department,chooseDate,chooseDate_end));
+            	
+            	HSSFWorkbook workbook = new HSSFWorkbook();
+            	
+            	HSSFCellStyle percentCellStyle = workbook.createCellStyle();
+                percentCellStyle.setDataFormat(HSSFDataFormat.getBuiltinFormat("0%"));
+            	
             	if( "1".equalsIgnoreCase(department) ){
             		List<RespirologyData> dbResData = respirologyService.getRespirologyDataByDate(chooseDate_d,chooseDate_end_d);
             		
@@ -290,7 +296,6 @@ public class ReportController extends BaseController{
             		
             		fOut = new FileOutputStream(tmpFile);
             		
-            		HSSFWorkbook workbook = new HSSFWorkbook();
             		workbook.createSheet("原始数据");
                     HSSFSheet sheet = workbook.getSheetAt(0);
                     int currentRowNum = 0;
@@ -318,6 +323,7 @@ public class ReportController extends BaseController{
                     row.createCell(18, XSSFCell.CELL_TYPE_STRING).setCellValue("3mg BID");
                     row.createCell(19, XSSFCell.CELL_TYPE_STRING).setCellValue("4mg BID");
                     row.createCell(20, XSSFCell.CELL_TYPE_STRING).setCellValue("是否为KPI医院（在=1，不在=0）");
+                    row.createCell(21, XSSFCell.CELL_TYPE_STRING).setCellValue("Dragon Type");
                     
                     for( RespirologyData resData : dbResData ){
                     	row = sheet.createRow(currentRowNum++);
@@ -334,14 +340,15 @@ public class ReportController extends BaseController{
                         row.createCell(10, XSSFCell.CELL_TYPE_STRING).setCellValue(resData.getDsmName());
                         row.createCell(11, XSSFCell.CELL_TYPE_STRING).setCellValue(resData.getRegion());
                         row.createCell(12, XSSFCell.CELL_TYPE_STRING).setCellValue(resData.getRsmRegion());
-                        row.createCell(13, XSSFCell.CELL_TYPE_NUMERIC).setCellValue(resData.getOqd());
-                        row.createCell(14, XSSFCell.CELL_TYPE_NUMERIC).setCellValue(resData.getTqd());
-                        row.createCell(15, XSSFCell.CELL_TYPE_NUMERIC).setCellValue(resData.getOtid());
-                        row.createCell(16, XSSFCell.CELL_TYPE_NUMERIC).setCellValue(resData.getTbid());
-                        row.createCell(17, XSSFCell.CELL_TYPE_NUMERIC).setCellValue(resData.getTtid());
-                        row.createCell(18, XSSFCell.CELL_TYPE_NUMERIC).setCellValue(resData.getThbid());
-                        row.createCell(19, XSSFCell.CELL_TYPE_NUMERIC).setCellValue(resData.getFbid());
+                        row.createCell(13, XSSFCell.CELL_TYPE_NUMERIC).setCellValue(resData.getOqd()+"%");
+                        row.createCell(14, XSSFCell.CELL_TYPE_NUMERIC).setCellValue(resData.getTqd()+"%");
+                        row.createCell(15, XSSFCell.CELL_TYPE_NUMERIC).setCellValue(resData.getOtid()+"%");
+                        row.createCell(16, XSSFCell.CELL_TYPE_NUMERIC).setCellValue(resData.getTbid()+"%");
+                        row.createCell(17, XSSFCell.CELL_TYPE_NUMERIC).setCellValue(resData.getTtid()+"%");
+                        row.createCell(18, XSSFCell.CELL_TYPE_NUMERIC).setCellValue(resData.getThbid()+"%");
+                        row.createCell(19, XSSFCell.CELL_TYPE_NUMERIC).setCellValue(resData.getFbid()+"%");
                         row.createCell(20, XSSFCell.CELL_TYPE_STRING).setCellValue(resData.getIsResAssessed());
+                        row.createCell(21, XSSFCell.CELL_TYPE_STRING).setCellValue(resData.getDragonType());
                     }
                     workbook.write(fOut);
             	}else if( "2".equalsIgnoreCase(department) ){
@@ -364,7 +371,6 @@ public class ReportController extends BaseController{
             		
             		fOut = new FileOutputStream(tmpFile);
             		
-            		HSSFWorkbook workbook = new HSSFWorkbook();
             		workbook.createSheet("原始数据");
                     HSSFSheet sheet = workbook.getSheetAt(0);
                     int currentRowNum = 0;
@@ -391,6 +397,7 @@ public class ReportController extends BaseController{
                     row.createCell(17, XSSFCell.CELL_TYPE_STRING).setCellValue("2mg BID");
                     row.createCell(18, XSSFCell.CELL_TYPE_STRING).setCellValue("该医院主要处方方式");
                     row.createCell(19, XSSFCell.CELL_TYPE_STRING).setCellValue("是否为KPI医院（在=1，不在=0）");
+                    row.createCell(20, XSSFCell.CELL_TYPE_STRING).setCellValue("Dragon Type");
                     
                     for( PediatricsData pedData : dbPedData ){
                     	row = sheet.createRow(currentRowNum++);
@@ -406,14 +413,19 @@ public class ReportController extends BaseController{
                         row.createCell(9, XSSFCell.CELL_TYPE_STRING).setCellValue(pedData.getDsmName());
                         row.createCell(10, XSSFCell.CELL_TYPE_STRING).setCellValue(pedData.getRegion());
                         row.createCell(11, XSSFCell.CELL_TYPE_STRING).setCellValue(pedData.getRsmRegion());
-                        row.createCell(12, XSSFCell.CELL_TYPE_NUMERIC).setCellValue(pedData.getHqd());
-                        row.createCell(13, XSSFCell.CELL_TYPE_NUMERIC).setCellValue(pedData.getHbid());
-                        row.createCell(14, XSSFCell.CELL_TYPE_NUMERIC).setCellValue(pedData.getOqd());
-                        row.createCell(15, XSSFCell.CELL_TYPE_NUMERIC).setCellValue(pedData.getObid());
-                        row.createCell(16, XSSFCell.CELL_TYPE_NUMERIC).setCellValue(pedData.getTqd());
-                        row.createCell(17, XSSFCell.CELL_TYPE_NUMERIC).setCellValue(pedData.getTbid());
+                        HSSFCell hqdCell = row.createCell(12, XSSFCell.CELL_TYPE_NUMERIC);
+                        hqdCell.setCellValue(pedData.getHqd()+"%");
+                        hqdCell.setCellStyle(percentCellStyle);
+                        
+                        
+                        row.createCell(13, XSSFCell.CELL_TYPE_NUMERIC).setCellValue(pedData.getHbid()+"%");
+                        row.createCell(14, XSSFCell.CELL_TYPE_NUMERIC).setCellValue(pedData.getOqd()+"%");
+                        row.createCell(15, XSSFCell.CELL_TYPE_NUMERIC).setCellValue(pedData.getObid()+"%");
+                        row.createCell(16, XSSFCell.CELL_TYPE_NUMERIC).setCellValue(pedData.getTqd()+"%");
+                        row.createCell(17, XSSFCell.CELL_TYPE_NUMERIC).setCellValue(pedData.getTbid()+"%");
                         row.createCell(18, XSSFCell.CELL_TYPE_STRING).setCellValue(populateRecipeTypeValue(pedData.getRecipeType()));
                         row.createCell(19, XSSFCell.CELL_TYPE_STRING).setCellValue(pedData.getIsPedAssessed());
+                        row.createCell(20, XSSFCell.CELL_TYPE_STRING).setCellValue(pedData.getDragonType());
                     }
                     workbook.write(fOut);
             	}else if( "3".equalsIgnoreCase(department) ){
@@ -435,7 +447,6 @@ public class ReportController extends BaseController{
                     
                     fOut = new FileOutputStream(tmpFile);
                     
-                    HSSFWorkbook workbook = new HSSFWorkbook();
                     workbook.createSheet("原始数据");
                     HSSFSheet sheet = workbook.getSheetAt(0);
                     int currentRowNum = 0;
@@ -479,13 +490,13 @@ public class ReportController extends BaseController{
                         row.createCell(10, XSSFCell.CELL_TYPE_STRING).setCellValue(cheData.getDsmName());
                         row.createCell(11, XSSFCell.CELL_TYPE_STRING).setCellValue(cheData.getSalesCode());
                         row.createCell(12, XSSFCell.CELL_TYPE_STRING).setCellValue(cheData.getSalesName());
-                        row.createCell(13, XSSFCell.CELL_TYPE_NUMERIC).setCellValue(cheData.getOqd());
-                        row.createCell(14, XSSFCell.CELL_TYPE_NUMERIC).setCellValue(cheData.getTqd());
-                        row.createCell(15, XSSFCell.CELL_TYPE_NUMERIC).setCellValue(cheData.getOtid());
-                        row.createCell(16, XSSFCell.CELL_TYPE_NUMERIC).setCellValue(cheData.getTbid());
-                        row.createCell(17, XSSFCell.CELL_TYPE_NUMERIC).setCellValue(cheData.getTtid());
-                        row.createCell(18, XSSFCell.CELL_TYPE_NUMERIC).setCellValue(cheData.getThbid());
-                        row.createCell(19, XSSFCell.CELL_TYPE_NUMERIC).setCellValue(cheData.getFbid());
+                        row.createCell(13, XSSFCell.CELL_TYPE_NUMERIC).setCellValue(cheData.getOqd()+"%");
+                        row.createCell(14, XSSFCell.CELL_TYPE_NUMERIC).setCellValue(cheData.getTqd()+"%");
+                        row.createCell(15, XSSFCell.CELL_TYPE_NUMERIC).setCellValue(cheData.getOtid()+"%");
+                        row.createCell(16, XSSFCell.CELL_TYPE_NUMERIC).setCellValue(cheData.getTbid()+"%");
+                        row.createCell(17, XSSFCell.CELL_TYPE_NUMERIC).setCellValue(cheData.getTtid()+"%");
+                        row.createCell(18, XSSFCell.CELL_TYPE_NUMERIC).setCellValue(cheData.getThbid()+"%");
+                        row.createCell(19, XSSFCell.CELL_TYPE_NUMERIC).setCellValue(cheData.getFbid()+"%");
                         row.createCell(20, XSSFCell.CELL_TYPE_STRING).setCellValue(cheData.getIsChestSurgeryAssessed());
                     }
                     workbook.write(fOut);
