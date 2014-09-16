@@ -386,3 +386,6 @@ create table tbl_doctor_weekly(
 );
 
 ALTER  TABLE tbl_hos_user ADD INDEX INDEX_HOS_USER_USERCODE (userCode);
+
+alter table tbl_hospital add column portNum int;
+alter table tbl_pediatrics_data add column portNum int;

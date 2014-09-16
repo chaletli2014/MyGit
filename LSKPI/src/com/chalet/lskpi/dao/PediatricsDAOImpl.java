@@ -2,7 +2,6 @@ package com.chalet.lskpi.dao;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
-import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.sql.Timestamp;
@@ -15,12 +14,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.jdbc.core.BatchPreparedStatementSetter;
 import org.springframework.jdbc.core.PreparedStatementCreator;
-import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Repository;
 
 import com.chalet.lskpi.mapper.PediatricsMobileRowMapper;
+import com.chalet.lskpi.mapper.PediatricsRowMapper;
+import com.chalet.lskpi.mapper.PediatricsWithPortNumRowMapper;
 import com.chalet.lskpi.mapper.TopAndBottomRSMDataRowMapper;
 import com.chalet.lskpi.model.DailyReportData;
 import com.chalet.lskpi.model.Hospital;
@@ -661,8 +661,8 @@ public class PediatricsDAOImpl implements PediatricsDAO {
 	
 	@Override
 	public List<PediatricsData> getPediatricsDataByDate(Date createdatebegin, Date createdateend) throws Exception {
-		String sql = "select pd.*,h.code as hospitalCode,h.dsmName,h.isPedAssessed,h.dragonType from tbl_pediatrics_data pd, tbl_hospital h where DATE_FORMAT(pd.createdate,'%Y-%m-%d') between DATE_FORMAT(?,'%Y-%m-%d') and DATE_FORMAT(?,'%Y-%m-%d') and pd.hospitalName = h.name order by createdate desc";
-		return dataBean.getJdbcTemplate().query(sql, new Object[]{new Timestamp(createdatebegin.getTime()),new Timestamp(createdateend.getTime())},new PediatricsRowMapper());
+		String sql = "select pd.*,h.code as hospitalCode,h.dsmName,h.isPedAssessed,h.dragonType,pd.portNum from tbl_pediatrics_data pd, tbl_hospital h where DATE_FORMAT(pd.createdate,'%Y-%m-%d') between DATE_FORMAT(?,'%Y-%m-%d') and DATE_FORMAT(?,'%Y-%m-%d') and pd.hospitalName = h.name order by createdate desc";
+		return dataBean.getJdbcTemplate().query(sql, new Object[]{new Timestamp(createdatebegin.getTime()),new Timestamp(createdateend.getTime())},new PediatricsWithPortNumRowMapper());
 	}
 
 	@Override
@@ -905,7 +905,7 @@ public class PediatricsDAOImpl implements PediatricsDAO {
 	public void insert(final PediatricsData pediatricsData, final UserInfo operator, final Hospital hospital) throws Exception {
 		logger.info(">>PediatricsDAOImpl insert");
 		
-		final String sql = "insert into tbl_pediatrics_data values(null,NOW(),?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,NOW(),?)";
+		final String sql = "insert into tbl_pediatrics_data values(null,NOW(),?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,NOW(),?,?)";
 		KeyHolder keyHolder = new GeneratedKeyHolder();
 		dataBean.getJdbcTemplate().update(new PreparedStatementCreator(){
 			@Override
@@ -928,6 +928,7 @@ public class PediatricsDAOImpl implements PediatricsDAO {
 				ps.setDouble(14, pediatricsData.getTbid());
 				ps.setString(15, pediatricsData.getRecipeType());
 				ps.setString(16, (operator.getSuperior()==null||"".equalsIgnoreCase(operator.getSuperior()))?operator.getUserCode():operator.getSuperior());
+				ps.setInt(17, hospital.getPortNum());
 				return ps;
 			}
 		}, keyHolder);
@@ -938,7 +939,7 @@ public class PediatricsDAOImpl implements PediatricsDAO {
 	public void insert(final PediatricsData pediatricsData, final String dsmCode) throws Exception {
 	    logger.info("insert data - daily upload");
 	    
-	    final String sql = "insert into tbl_pediatrics_data values(null,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,NOW(),?)";
+	    final String sql = "insert into tbl_pediatrics_data values(null,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,NOW(),?,?)";
 	    KeyHolder keyHolder = new GeneratedKeyHolder();
 	    dataBean.getJdbcTemplate().update(new PreparedStatementCreator(){
 	        @Override
@@ -962,6 +963,7 @@ public class PediatricsDAOImpl implements PediatricsDAO {
 				ps.setDouble(15, pediatricsData.getTbid());
 				ps.setString(16, pediatricsData.getRecipeType());
 				ps.setString(17, dsmCode);
+				ps.setInt(18, pediatricsData.getPortNum());
 	            return ps;
 	        }
 	    }, keyHolder);
@@ -1010,36 +1012,6 @@ public class PediatricsDAOImpl implements PediatricsDAO {
 	    sql.append(" where id=? ");
 		dataBean.getJdbcTemplate().update(sql.toString(), paramList.toArray());
 	}
-	
-	class PediatricsRowMapper implements RowMapper<PediatricsData>{
-
-        public PediatricsData mapRow(ResultSet rs, int arg1) throws SQLException {
-        	PediatricsData pediatricsData = new PediatricsData();
-        	pediatricsData.setDataId(rs.getInt("id"));
-        	pediatricsData.setCreatedate(rs.getTimestamp("createdate"));
-        	pediatricsData.setHospitalCode(rs.getString("hospitalCode"));
-        	pediatricsData.setHospitalName(rs.getString("hospitalName"));
-        	pediatricsData.setPnum(rs.getInt("pnum"));
-        	pediatricsData.setWhnum(rs.getInt("whnum"));
-        	pediatricsData.setLsnum(rs.getInt("lsnum"));
-        	pediatricsData.setSalesETMSCode(rs.getString("etmsCode"));
-        	pediatricsData.setSalesName(rs.getString("operatorName"));
-        	pediatricsData.setRegion(rs.getString("region"));
-        	pediatricsData.setRsmRegion(rs.getString("rsmRegion"));
-        	pediatricsData.setHqd(rs.getDouble("hqd"));
-        	pediatricsData.setHbid(rs.getDouble("hbid"));
-        	pediatricsData.setOqd(rs.getDouble("oqd"));
-        	pediatricsData.setObid(rs.getDouble("obid"));
-        	pediatricsData.setTqd(rs.getDouble("tqd"));
-        	pediatricsData.setTbid(rs.getDouble("tbid"));
-        	pediatricsData.setRecipeType(rs.getString("recipeType"));
-        	pediatricsData.setDsmName(rs.getString("dsmName"));
-        	pediatricsData.setIsPedAssessed(rs.getString("isPedAssessed"));
-        	pediatricsData.setDragonType(rs.getString("dragonType"));
-            return pediatricsData;
-        }
-        
-    }
 	
 	public DataBean getDataBean() {
         return dataBean;

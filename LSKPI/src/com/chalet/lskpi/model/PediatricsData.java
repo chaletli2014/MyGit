@@ -36,6 +36,8 @@ public class PediatricsData {
     private String isPedAssessed;
     
     private String dragonType;
+    
+    private int portNum;
 	
 	public int getDataId() {
 		return dataId;
@@ -163,4 +165,10 @@ public class PediatricsData {
     public void setDragonType(String dragonType) {
         this.dragonType = dragonType;
     }
+	public int getPortNum() {
+		return portNum;
+	}
+	public void setPortNum(int portNum) {
+		this.portNum = portNum;
+	}
 }

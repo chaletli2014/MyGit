@@ -399,70 +399,75 @@ public class ReportController extends BaseController{
                     
                     //build the header
                     HSSFRow row = sheet.createRow(currentRowNum++);
-                    row.createCell(0, XSSFCell.CELL_TYPE_STRING).setCellValue("编号");
-                    row.createCell(1, XSSFCell.CELL_TYPE_STRING).setCellValue("录入日期");
-                    row.createCell(2, XSSFCell.CELL_TYPE_STRING).setCellValue("医院编号");
-                    row.createCell(3, XSSFCell.CELL_TYPE_STRING).setCellValue("医院名称");
-                    row.createCell(4, XSSFCell.CELL_TYPE_STRING).setCellValue("当日门诊人次");
-                    row.createCell(5, XSSFCell.CELL_TYPE_STRING).setCellValue("当日雾化人次");
-                    row.createCell(6, XSSFCell.CELL_TYPE_STRING).setCellValue("当日雾化令舒人次");
-                    row.createCell(7, XSSFCell.CELL_TYPE_STRING).setCellValue("销售代表ETMSCode");
-                    row.createCell(8, XSSFCell.CELL_TYPE_STRING).setCellValue("销售代表姓名");
-                    row.createCell(9, XSSFCell.CELL_TYPE_STRING).setCellValue("所属DSM");
-                    row.createCell(10, XSSFCell.CELL_TYPE_STRING).setCellValue("所属Region");
-                    row.createCell(11, XSSFCell.CELL_TYPE_STRING).setCellValue("所属RSM Region");
-                    row.createCell(12, XSSFCell.CELL_TYPE_STRING).setCellValue("0.5mg QD");
-                    row.createCell(13, XSSFCell.CELL_TYPE_STRING).setCellValue("0.5mg BID");
-                    row.createCell(14, XSSFCell.CELL_TYPE_STRING).setCellValue("1mg QD");
-                    row.createCell(15, XSSFCell.CELL_TYPE_STRING).setCellValue("1mg BID");
-                    row.createCell(16, XSSFCell.CELL_TYPE_STRING).setCellValue("2mg QD");
-                    row.createCell(17, XSSFCell.CELL_TYPE_STRING).setCellValue("2mg BID");
-                    row.createCell(18, XSSFCell.CELL_TYPE_STRING).setCellValue("该医院主要处方方式");
-                    row.createCell(19, XSSFCell.CELL_TYPE_STRING).setCellValue("是否为KPI医院（在=1，不在=0）");
-                    row.createCell(20, XSSFCell.CELL_TYPE_STRING).setCellValue("Dragon Type");
+                    int columnNum = 0;
+                    row.createCell(columnNum++, XSSFCell.CELL_TYPE_STRING).setCellValue("编号");
+                    row.createCell(columnNum++, XSSFCell.CELL_TYPE_STRING).setCellValue("录入日期");
+                    row.createCell(columnNum++, XSSFCell.CELL_TYPE_STRING).setCellValue("医院编号");
+                    row.createCell(columnNum++, XSSFCell.CELL_TYPE_STRING).setCellValue("医院名称");
+                    row.createCell(columnNum++, XSSFCell.CELL_TYPE_STRING).setCellValue("当日门诊人次");
+                    row.createCell(columnNum++, XSSFCell.CELL_TYPE_STRING).setCellValue("当日雾化人次");
+                    row.createCell(columnNum++, XSSFCell.CELL_TYPE_STRING).setCellValue("当日雾化令舒人次");
+                    row.createCell(columnNum++, XSSFCell.CELL_TYPE_STRING).setCellValue("雾化端口数量");
+                    row.createCell(columnNum++, XSSFCell.CELL_TYPE_STRING).setCellValue("销售代表ETMSCode");
+                    row.createCell(columnNum++, XSSFCell.CELL_TYPE_STRING).setCellValue("销售代表姓名");
+                    row.createCell(columnNum++, XSSFCell.CELL_TYPE_STRING).setCellValue("所属DSM");
+                    row.createCell(columnNum++, XSSFCell.CELL_TYPE_STRING).setCellValue("所属Region");
+                    row.createCell(columnNum++, XSSFCell.CELL_TYPE_STRING).setCellValue("所属RSM Region");
+                    row.createCell(columnNum++, XSSFCell.CELL_TYPE_STRING).setCellValue("0.5mg QD");
+                    row.createCell(columnNum++, XSSFCell.CELL_TYPE_STRING).setCellValue("0.5mg BID");
+                    row.createCell(columnNum++, XSSFCell.CELL_TYPE_STRING).setCellValue("1mg QD");
+                    row.createCell(columnNum++, XSSFCell.CELL_TYPE_STRING).setCellValue("1mg BID");
+                    row.createCell(columnNum++, XSSFCell.CELL_TYPE_STRING).setCellValue("2mg QD");
+                    row.createCell(columnNum++, XSSFCell.CELL_TYPE_STRING).setCellValue("2mg BID");
+                    row.createCell(columnNum++, XSSFCell.CELL_TYPE_STRING).setCellValue("该医院主要处方方式");
+                    row.createCell(columnNum++, XSSFCell.CELL_TYPE_STRING).setCellValue("是否为KPI医院（在=1，不在=0）");
+                    row.createCell(columnNum++, XSSFCell.CELL_TYPE_STRING).setCellValue("Dragon Type");
                     
                     for( PediatricsData pedData : dbPedData ){
                     	row = sheet.createRow(currentRowNum++);
-                    	row.createCell(0, XSSFCell.CELL_TYPE_NUMERIC).setCellValue(currentRowNum-1);
-                        row.createCell(1, XSSFCell.CELL_TYPE_STRING).setCellValue(exportdateformat.format(pedData.getCreatedate()));
-                        row.createCell(2, XSSFCell.CELL_TYPE_STRING).setCellValue(pedData.getHospitalCode());
-                        row.createCell(3, XSSFCell.CELL_TYPE_STRING).setCellValue(pedData.getHospitalName());
-                        row.createCell(4, XSSFCell.CELL_TYPE_NUMERIC).setCellValue(pedData.getPnum());
-                        row.createCell(5, XSSFCell.CELL_TYPE_NUMERIC).setCellValue(pedData.getWhnum());
-                        row.createCell(6, XSSFCell.CELL_TYPE_NUMERIC).setCellValue(pedData.getLsnum());
-                        row.createCell(7, XSSFCell.CELL_TYPE_STRING).setCellValue(pedData.getSalesETMSCode());
-                        row.createCell(8, XSSFCell.CELL_TYPE_STRING).setCellValue(pedData.getSalesName());
-                        row.createCell(9, XSSFCell.CELL_TYPE_STRING).setCellValue(pedData.getDsmName());
-                        row.createCell(10, XSSFCell.CELL_TYPE_STRING).setCellValue(pedData.getRegion());
-                        row.createCell(11, XSSFCell.CELL_TYPE_STRING).setCellValue(pedData.getRsmRegion());
+                    	
+                    	int dataColumnNum = 0;
+                    	row.createCell(dataColumnNum++, XSSFCell.CELL_TYPE_NUMERIC).setCellValue(currentRowNum-1);
+                        row.createCell(dataColumnNum++, XSSFCell.CELL_TYPE_STRING).setCellValue(exportdateformat.format(pedData.getCreatedate()));
+                        row.createCell(dataColumnNum++, XSSFCell.CELL_TYPE_STRING).setCellValue(pedData.getHospitalCode());
+                        row.createCell(dataColumnNum++, XSSFCell.CELL_TYPE_STRING).setCellValue(pedData.getHospitalName());
+                        row.createCell(dataColumnNum++, XSSFCell.CELL_TYPE_NUMERIC).setCellValue(pedData.getPnum());
+                        row.createCell(dataColumnNum++, XSSFCell.CELL_TYPE_NUMERIC).setCellValue(pedData.getWhnum());
+                        row.createCell(dataColumnNum++, XSSFCell.CELL_TYPE_NUMERIC).setCellValue(pedData.getLsnum());
+                        row.createCell(dataColumnNum++, XSSFCell.CELL_TYPE_NUMERIC).setCellValue(pedData.getPortNum());
+                        row.createCell(dataColumnNum++, XSSFCell.CELL_TYPE_STRING).setCellValue(pedData.getSalesETMSCode());
+                        row.createCell(dataColumnNum++, XSSFCell.CELL_TYPE_STRING).setCellValue(pedData.getSalesName());
+                        row.createCell(dataColumnNum++, XSSFCell.CELL_TYPE_STRING).setCellValue(pedData.getDsmName());
+                        row.createCell(dataColumnNum++, XSSFCell.CELL_TYPE_STRING).setCellValue(pedData.getRegion());
+                        row.createCell(dataColumnNum++, XSSFCell.CELL_TYPE_STRING).setCellValue(pedData.getRsmRegion());
                         
-                        HSSFCell hqdCell = row.createCell(12, XSSFCell.CELL_TYPE_NUMERIC);
+                        HSSFCell hqdCell = row.createCell(dataColumnNum++, XSSFCell.CELL_TYPE_NUMERIC);
                         hqdCell.setCellValue(pedData.getHqd()/100);
                         hqdCell.setCellStyle(percentCellStyle);
                         
-                        HSSFCell hbidCell = row.createCell(13, XSSFCell.CELL_TYPE_NUMERIC);
+                        HSSFCell hbidCell = row.createCell(dataColumnNum++, XSSFCell.CELL_TYPE_NUMERIC);
                         hbidCell.setCellValue(pedData.getHbid()/100);
                         hbidCell.setCellStyle(percentCellStyle);
                         
-                        HSSFCell oqdCell = row.createCell(14, XSSFCell.CELL_TYPE_NUMERIC);
+                        HSSFCell oqdCell = row.createCell(dataColumnNum++, XSSFCell.CELL_TYPE_NUMERIC);
                         oqdCell.setCellValue(pedData.getOqd()/100);
                         oqdCell.setCellStyle(percentCellStyle);
                         
-                        HSSFCell obidCell = row.createCell(15, XSSFCell.CELL_TYPE_NUMERIC);
+                        HSSFCell obidCell = row.createCell(dataColumnNum++, XSSFCell.CELL_TYPE_NUMERIC);
                         obidCell.setCellValue(pedData.getObid()/100);
                         obidCell.setCellStyle(percentCellStyle);
                         
-                        HSSFCell tqdCell = row.createCell(16, XSSFCell.CELL_TYPE_NUMERIC);
+                        HSSFCell tqdCell = row.createCell(dataColumnNum++, XSSFCell.CELL_TYPE_NUMERIC);
                         tqdCell.setCellValue(pedData.getTqd()/100);
                         tqdCell.setCellStyle(percentCellStyle);
                         
-                        HSSFCell tbidCell = row.createCell(17, XSSFCell.CELL_TYPE_NUMERIC);
+                        HSSFCell tbidCell = row.createCell(dataColumnNum++, XSSFCell.CELL_TYPE_NUMERIC);
                         tbidCell.setCellValue(pedData.getTbid()/100);
                         tbidCell.setCellStyle(percentCellStyle);
                         
-                        row.createCell(18, XSSFCell.CELL_TYPE_STRING).setCellValue(populateRecipeTypeValue(pedData.getRecipeType()));
-                        row.createCell(19, XSSFCell.CELL_TYPE_STRING).setCellValue(pedData.getIsPedAssessed());
-                        row.createCell(20, XSSFCell.CELL_TYPE_STRING).setCellValue(pedData.getDragonType());
+                        row.createCell(dataColumnNum++, XSSFCell.CELL_TYPE_STRING).setCellValue(populateRecipeTypeValue(pedData.getRecipeType()));
+                        row.createCell(dataColumnNum++, XSSFCell.CELL_TYPE_STRING).setCellValue(pedData.getIsPedAssessed());
+                        row.createCell(dataColumnNum++, XSSFCell.CELL_TYPE_STRING).setCellValue(pedData.getDragonType());
                     }
                     workbook.write(fOut);
             	}else if( "3".equalsIgnoreCase(department) ){

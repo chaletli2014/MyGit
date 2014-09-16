@@ -65,7 +65,7 @@ public class HospitalDAOImpl implements HospitalDAO {
         StringBuffer sql = new StringBuffer("")
         .append(" select h.id,h.code ")
         .append(" , h.name ")
-        .append(" , h.city,h.province,h.region,h.rsmRegion,h.saleCode,h.saleName,h.dsmCode ")
+        .append(" , h.city,h.province,h.region,h.rsmRegion,h.saleCode,h.saleName,h.dsmCode,h.portNum ")
         .append(" from tbl_userinfo u, tbl_hos_user hu, tbl_hospital h ")
         .append(" where u.userCode = hu.userCode and hu.hosCode = h.code and u.telephone = ? ");
         hospitals = dataBean.getJdbcTemplate().query(sql.toString(), new Object[]{telephone}, new HospitalRowMapper());
@@ -77,7 +77,7 @@ public class HospitalDAOImpl implements HospitalDAO {
         StringBuffer sql = new StringBuffer();
         sql.append(" select h.id,h.code ")
             .append(" , h.name")
-            .append(" , h.city,h.province,h.region,h.rsmRegion,h.saleCode,h.saleName,h.dsmCode ")
+            .append(" , h.city,h.province,h.region,h.rsmRegion,h.saleCode,h.saleName,h.dsmCode,h.portNum ")
             .append(" from tbl_hospital h, tbl_userinfo ui ")
             .append(" where h.dsmCode = ui.userCode and ui.telephone = ? ")
             .append(" order by h.name asc ");
@@ -419,6 +419,8 @@ public class HospitalDAOImpl implements HospitalDAO {
             sb.append(", case when h.isChestSurgeryAssessed='1' then concat('* ',h.name) else h.name end name");
         }
         
+        sb.append(" ,h.portNum ");
+        
         sb.append(" from tbl_userinfo u, tbl_hospital h ")
             .append(" where u.userCode = h.dsmCode and u.telephone = ? ");
         
@@ -438,7 +440,7 @@ public class HospitalDAOImpl implements HospitalDAO {
 	    StringBuffer sb = new StringBuffer();
 	    sb.append("select h.id,h.code ")
 	    	.append(", case when h.isMonthlyAssessed='1' then concat('* ',h.name) else h.name end name")
-	    	.append(", h.city,h.province,h.region,h.rsmRegion,h.saleCode,h.saleName,h.dsmCode ")
+	    	.append(", h.city,h.province,h.region,h.rsmRegion,h.saleCode,h.saleName,h.dsmCode,h.portNum ")
 	        .append(" from tbl_hospital h, tbl_userinfo ui, tbl_hos_user hu ")
 	        .append(" where ui.userCode = hu.userCode and hu.hosCode = h.code and ui.telephone = ? order by h.isMonthlyAssessed desc, h.name asc");
 	    return dataBean.getJdbcTemplate().query(sb.toString(), new Object[]{telephone}, new HospitalRowMapper());
@@ -449,7 +451,7 @@ public class HospitalDAOImpl implements HospitalDAO {
 	    StringBuffer sb = new StringBuffer();
 	    sb.append("select h.id,h.code ")
     		.append(", case when h.isMonthlyAssessed='1' then concat('* ',h.name) else h.name end name")
-    		.append(", h.city,h.province,h.region,h.rsmRegion,h.saleCode,h.saleName,h.dsmCode ")
+    		.append(", h.city,h.province,h.region,h.rsmRegion,h.saleCode,h.saleName,h.dsmCode,h.portNum ")
             .append(" from tbl_hospital h, tbl_userinfo ui ")
             .append(" where h.dsmCode = ui.userCode and ui.telephone = ? order by h.isMonthlyAssessed desc, h.name asc");
         return dataBean.getJdbcTemplate().query(sb.toString(), new Object[]{telephone}, new HospitalRowMapper());
@@ -469,6 +471,8 @@ public class HospitalDAOImpl implements HospitalDAO {
         }else if( LsAttributes.DEPARTMENT_CHE.equalsIgnoreCase(department) ){
             sb.append(", case when h.isChestSurgeryAssessed='1' then concat('* ',h.name) else h.name end name ");
         }
+        
+        sb.append(" , h.portNum ");
         
         sb.append(" from tbl_userinfo u, tbl_hos_user hu, tbl_hospital h ")
             .append(" where u.userCode = hu.userCode and hu.hosCode = h.code and u.telephone = ? ");
@@ -860,6 +864,16 @@ public class HospitalDAOImpl implements HospitalDAO {
 	}
 	public void setDataBean(DataBean dataBean) {
 		this.dataBean = dataBean;
+	}
+
+	@Override
+	public void updatePortNum(final Hospital hospitalWithPortNum)
+			throws Exception {
+		StringBuffer sql = new StringBuffer("update tbl_hospital set ")
+        .append(" portNum=? ")
+        .append(" where code=? ");
+        
+        dataBean.getJdbcTemplate().update(sql.toString(), new Object[]{hospitalWithPortNum.getPortNum(),hospitalWithPortNum.getCode()});
 	}
 
 }

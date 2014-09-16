@@ -477,4 +477,10 @@ public class HospitalServiceImpl implements HospitalService {
     public List<Map<String, Integer>> getKPISalesNumMap(String department) throws Exception {
         return hospitalDAO.getKPISalesNumMap(department);
     }
+
+	@Override
+	public void uploadPortNumData(Hospital hospitalWithPortNum)
+			throws Exception {
+		hospitalDAO.updatePortNum(hospitalWithPortNum);
+	}
 }

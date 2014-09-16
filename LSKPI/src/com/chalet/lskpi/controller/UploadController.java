@@ -315,6 +315,7 @@ public class UploadController {
     		dataHeaders.add("当日门诊人次");
     		dataHeaders.add("当日雾化人次");
     		dataHeaders.add("当日雾化令舒人次");
+    		dataHeaders.add("雾化端口数量");
     		dataHeaders.add("销售代表ETMSCode");
     		dataHeaders.add("销售代表姓名");
     		dataHeaders.add("所属Region");
@@ -476,6 +477,48 @@ public class UploadController {
         }
         request.getSession().setAttribute(LsAttributes.MESSAGE_AREA_ID, "uploadDoctorResult_div");
         return "redirect:showUploadData";
+    }
+    
+    @RequestMapping("/doUploadPortNumData")
+    public String doUploadPortNumData(HttpServletRequest request){
+    	logger.info("upload the port num data..");
+    	try{
+    		if( null == request.getSession().getAttribute(LsAttributes.WEB_LOGIN_USER) ){
+    			return "redirect:login";
+    		}
+    		
+    		logger.info("refresh the message info firstly");
+    		request.getSession().removeAttribute(LsAttributes.INVALID_DATA);
+    		request.getSession().removeAttribute(LsAttributes.EXISTS_DATA);
+    		request.getSession().removeAttribute(LsAttributes.VALID_DATA_NUM);
+    		request.getSession().removeAttribute(LsAttributes.UPLOAD_FILE_MESSAGE);
+    		logger.info("refresh the message info done.");
+    		
+    		
+    		List<String> dataHeaders = new ArrayList<String>();
+    		dataHeaders.add("Hospital Code");
+    		dataHeaders.add("雾化端口数量");
+    		
+    		long begin = System.currentTimeMillis();
+    		List<Hospital> portNums = ExcelUtils.getPortNumDataFromFile(loadFile(request), dataHeaders);
+    		long end = System.currentTimeMillis();
+    		logger.info("port num data size is " + portNums.size() + ", spend time " + (end - begin) + " ms");
+    		
+    		for( Hospital hospital : portNums ){
+    			try{
+    				hospitalService.uploadPortNumData(hospital);
+    			}catch(Exception e){
+    				logger.error(String.format("fail to update the port nums for the hospital %s,", hospital.getCode()),e);
+    			}
+    		}
+    		
+    		request.getSession().setAttribute(LsAttributes.UPLOAD_FILE_MESSAGE, LsAttributes.RETURNED_MESSAGE_0);
+    	}catch(Exception e){
+    		logger.error("fail to upload the file,",e);
+    		request.getSession().setAttribute(LsAttributes.UPLOAD_FILE_MESSAGE, (null==e.getMessage()||"".equalsIgnoreCase(e.getMessage()))?LsAttributes.RETURNED_MESSAGE_1:e.getMessage());
+    	}
+    	request.getSession().setAttribute(LsAttributes.MESSAGE_AREA_ID, "uploadPortNumResult_div");
+    	return "redirect:showUploadData";
     }
     
     @RequestMapping("/doUploadDDI")

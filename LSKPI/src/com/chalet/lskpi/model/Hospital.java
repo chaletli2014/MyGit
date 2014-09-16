@@ -22,6 +22,8 @@ public class Hospital {
     private String isChestSurgeryAssessed;
     private String isTop100;//是否在胸外科Top 100名单中（在=1，不在=0）
     
+    private int portNum;
+    
     public int getId() {
         return id;
     }
@@ -130,4 +132,10 @@ public class Hospital {
     public void setIsTop100(String isTop100) {
         this.isTop100 = isTop100;
     }
+	public int getPortNum() {
+		return portNum;
+	}
+	public void setPortNum(int portNum) {
+		this.portNum = portNum;
+	}
 }

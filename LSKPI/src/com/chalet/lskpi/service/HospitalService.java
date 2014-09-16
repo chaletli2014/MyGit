@@ -96,4 +96,6 @@ public interface HospitalService {
      * @throws Exception
      */
     public List<Map<String, Integer>> getKPISalesNumMap(String department) throws Exception;
+    
+    public void uploadPortNumData(Hospital hospitalWithPortNum) throws Exception;
 }

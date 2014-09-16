@@ -21,6 +21,7 @@ public class HospitalRowMapper implements RowMapper<Hospital>{
         dbHospital.setSaleCode(rs.getString("saleCode"));
         dbHospital.setDsmCode(rs.getString("dsmCode"));
         dbHospital.setSaleName(rs.getString("saleName"));
+        dbHospital.setPortNum(rs.getInt("portNum"));
         return dbHospital;
     }
 

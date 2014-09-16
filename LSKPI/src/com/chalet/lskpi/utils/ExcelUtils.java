@@ -279,6 +279,63 @@ public class ExcelUtils {
         return doctors;
     }
     
+    public static List<Hospital> getPortNumDataFromFile(String filePath,List<String> headers) throws Exception{
+    	List<Hospital> portNums = new ArrayList<Hospital>();
+    	FileInputStream is = null;
+    	try{
+    		is = new FileInputStream(filePath);
+    		Workbook book = createCommonWorkbook(is);
+    		Sheet sheet = book.getSheetAt(0);
+    		
+    		int header_count = 0;
+    		Map<String, Integer> headerColumn = new HashMap<String, Integer>();
+    		
+    		Row row = sheet.getRow(sheet.getFirstRowNum());
+    		for( int i = row.getFirstCellNum(); i < row.getPhysicalNumberOfCells(); i++ ){
+    			if( headers.contains(row.getCell(i).toString()) ){
+    				headerColumn.put(row.getCell(i).toString(), i);
+    				header_count++;
+    			}
+    		}
+    		logger.info("port num header_count is " + header_count);
+    		if( header_count != headers.size() ){
+    			throw new Exception("文件格式不正确，无法导入数据");
+    		}
+    		//get the data
+    		for( int i = sheet.getFirstRowNum() + 1; i < sheet.getPhysicalNumberOfRows(); i++ ){
+    			row = sheet.getRow(i);
+    			
+    			Cell hospitalCodeCell = row.getCell(headerColumn.get(headers.get(0)));
+    			hospitalCodeCell.setCellType(Cell.CELL_TYPE_STRING);
+    			String hospitalCode = hospitalCodeCell.toString();
+    			
+    			Cell portNumCell = row.getCell(headerColumn.get(headers.get(1)));
+    			portNumCell.setCellType(Cell.CELL_TYPE_STRING);
+    			int portNum = 0;
+    			try{
+    				portNum = Integer.parseInt(portNumCell.toString());
+    			}catch(Exception e){
+    				logger.warn("fail to parse the port num,",e);
+    			}
+    			
+    			Hospital hospitalPortNum = new Hospital();
+    			hospitalPortNum.setCode(hospitalCode);
+    			hospitalPortNum.setPortNum(portNum);
+    			
+    			portNums.add(hospitalPortNum);
+    		}
+    	}catch(Exception e){
+    		logger.error("fail to get doctors from the excel file.",e);
+    		throw new Exception(e.getMessage());
+    	}finally{
+    		if(null!=is){
+    			is.close();
+    		}
+    	}
+    	
+    	return portNums;
+    }
+    
     public static Map<String, List<RespirologyData>> getdailyRESDataFromFile(String filePath,List<String> headers) throws Exception{
         List<RespirologyData> resDatas = new ArrayList<RespirologyData>();
         List<RespirologyData> invalidResDatas = new ArrayList<RespirologyData>();
@@ -404,7 +461,7 @@ public class ExcelUtils {
                         logger.error("ignore the parse of double format for fbid",e);
                     }
                     
-                    if( (oqd + tqd + otid + tbid + ttid + thbid + fbid) != 100.0 && Integer.parseInt(lsnum) > 0 ){
+                    if( DoubleUtils.round((DoubleUtils.add(oqd, DoubleUtils.add(tqd,DoubleUtils.add(otid,DoubleUtils.add(tbid,DoubleUtils.add(ttid,DoubleUtils.add(thbid,fbid)))))) ),1) != 1.0 && Integer.parseInt(lsnum) > 0 ){
                         isValidData = false;
                     }
                     
@@ -582,7 +639,7 @@ public class ExcelUtils {
                         logger.warn("ignore the parse of double format for fbid",e);
                     }
                     
-                    if( (oqd + tqd + otid + tbid + ttid + thbid + fbid) != 100.0 && Integer.parseInt(lsnum) > 0 ){
+                    if( DoubleUtils.round((DoubleUtils.add(oqd, DoubleUtils.add(tqd,DoubleUtils.add(otid,DoubleUtils.add(tbid,DoubleUtils.add(ttid,DoubleUtils.add(thbid,fbid)))))) ),1) != 1.0 && Integer.parseInt(lsnum) > 0 ){
                         isValidData = false;
                     }
                     
@@ -658,50 +715,56 @@ public class ExcelUtils {
     		for( int i = sheet.getFirstRowNum() + 1; i < sheet.getPhysicalNumberOfRows(); i++ ){
     			PediatricsData pedData = new PediatricsData();
     			boolean isValidData = true;
+    			int columnNum = 0;
     			try{
     				row = sheet.getRow(i);
-    				String hosCode = row.getCell(headerColumn.get(headers.get(1))).toString();
-    				pedData.setHospitalCode(hosCode);
-    				
-    				String hosName = row.getCell(headerColumn.get(headers.get(2))).toString();
-    				pedData.setHospitalName(hosName);
-    				
     				Date createdate = null;
-    				if(  Cell.CELL_TYPE_NUMERIC == row.getCell(headerColumn.get(headers.get(0))).getCellType() ){
-    					createdate = row.getCell(headerColumn.get(headers.get(0))).getDateCellValue();
+    				if(  Cell.CELL_TYPE_NUMERIC == row.getCell(headerColumn.get(headers.get(columnNum))).getCellType() ){
+    					createdate = row.getCell(headerColumn.get(headers.get(columnNum++))).getDateCellValue();
     				}else{
-    					String dateStr = row.getCell(headerColumn.get(headers.get(0))).toString();
+    					String dateStr = row.getCell(headerColumn.get(headers.get(columnNum++))).toString();
     					SimpleDateFormat sf = new SimpleDateFormat("yyyy/MM/dd");
     					createdate = sf.parse(dateStr);
     				}
     				
+    				String hosCode = row.getCell(headerColumn.get(headers.get(columnNum++))).toString();
+    				pedData.setHospitalCode(hosCode);
     				
-    				Cell pnumCell = row.getCell(headerColumn.get(headers.get(3)));
+    				String hosName = row.getCell(headerColumn.get(headers.get(columnNum++))).toString();
+    				pedData.setHospitalName(hosName);
+    				
+    				Cell pnumCell = row.getCell(headerColumn.get(headers.get(columnNum++)));
     				pnumCell.setCellType(Cell.CELL_TYPE_STRING);
     				String pnum = pnumCell.toString();
     				
-    				Cell whnumCell = row.getCell(headerColumn.get(headers.get(4)));
+    				Cell whnumCell = row.getCell(headerColumn.get(headers.get(columnNum++)));
     				whnumCell.setCellType(Cell.CELL_TYPE_STRING);
     				String whnum = whnumCell.toString();
     				
-    				Cell lsnumCell = row.getCell(headerColumn.get(headers.get(5)));
+    				Cell lsnumCell = row.getCell(headerColumn.get(headers.get(columnNum++)));
     				lsnumCell.setCellType(Cell.CELL_TYPE_STRING);
     				String lsnum = lsnumCell.toString();
     				
+    				Cell portnumCell = row.getCell(headerColumn.get(headers.get(columnNum++)));
+    				portnumCell.setCellType(Cell.CELL_TYPE_STRING);
+    				String portnum = portnumCell.toString();
+    				
     				if( Integer.parseInt(pnum)*1.5 < Integer.parseInt(lsnum) ){
+    					logger.warn(String.format("pnum*1.5<lsnum,current hospital is %s", hosCode));
     				    isValidData = false;
     				}
     				
-    				Cell etmsCodeCell = row.getCell(headerColumn.get(headers.get(6)));
+    				Cell etmsCodeCell = row.getCell(headerColumn.get(headers.get(columnNum++)));
     				etmsCodeCell.setCellType(Cell.CELL_TYPE_STRING);
     				String code = etmsCodeCell.toString();
     				
-    				String salesName = row.getCell(headerColumn.get(headers.get(7))).toString();                    
-    				String region = row.getCell(headerColumn.get(headers.get(8))).toString();
-    				String rsmRegion = row.getCell(headerColumn.get(headers.get(9))).toString();
+    				String salesName = row.getCell(headerColumn.get(headers.get(columnNum++))).toString();                    
+    				String region = row.getCell(headerColumn.get(headers.get(columnNum++))).toString();
+    				String rsmRegion = row.getCell(headerColumn.get(headers.get(columnNum++))).toString();
     				
     				if( null == region || "".equalsIgnoreCase(region)
     				        || null == rsmRegion || "".equalsIgnoreCase(rsmRegion)){
+    					logger.warn(String.format("region or rsmRegion is null ,current hospital is %s", hosCode));
                         isValidData = false;
                     }
     				
@@ -712,41 +775,42 @@ public class ExcelUtils {
     				double tqd = 0;
     				double tbid = 0;
     				try{
-    				    hqd = Double.parseDouble(row.getCell(headerColumn.get(headers.get(10))).toString());
+    				    hqd = Double.parseDouble(row.getCell(headerColumn.get(headers.get(columnNum++))).toString());
     				}catch(Exception e){
     				    logger.error("ignore the parse of double format for hqd",e);
     				}
     				try{
-    				    hbid = Double.parseDouble(row.getCell(headerColumn.get(headers.get(11))).toString());
+    				    hbid = Double.parseDouble(row.getCell(headerColumn.get(headers.get(columnNum++))).toString());
     				}catch(Exception e){
     				    logger.error("ignore the parse of double format for hbid",e);
     				}
     				try{
-    				    oqd = Double.parseDouble(row.getCell(headerColumn.get(headers.get(12))).toString());
+    				    oqd = Double.parseDouble(row.getCell(headerColumn.get(headers.get(columnNum++))).toString());
     				}catch(Exception e){
     				    logger.error("ignore the parse of double format for oqd",e);
     				}
     				try{
-    				    obid = Double.parseDouble(row.getCell(headerColumn.get(headers.get(13))).toString());
+    				    obid = Double.parseDouble(row.getCell(headerColumn.get(headers.get(columnNum++))).toString());
     				}catch(Exception e){
     				    logger.error("ignore the parse of double format for obid",e);
     				}
     				try{
-    				    tqd = Double.parseDouble(row.getCell(headerColumn.get(headers.get(14))).toString());
+    				    tqd = Double.parseDouble(row.getCell(headerColumn.get(headers.get(columnNum++))).toString());
     				}catch(Exception e){
     				    logger.error("ignore the parse of double format for tqd",e);
     				}
     				try{
-    				    tbid = Double.parseDouble(row.getCell(headerColumn.get(headers.get(15))).toString());
+    				    tbid = Double.parseDouble(row.getCell(headerColumn.get(headers.get(columnNum++))).toString());
     				}catch(Exception e){
     				    logger.error("ignore the parse of double format for tbid",e);
     				}
     				
-    				String recipeType = row.getCell(headerColumn.get(headers.get(16))).toString();
+    				String recipeType = row.getCell(headerColumn.get(headers.get(columnNum++))).toString();
     				
     				recipeType = populateRecipeTypeValue(recipeType);
     				
-    				if( (hqd + hbid + oqd + obid + tqd + tbid) != 100.0 && Integer.parseInt(lsnum) > 0 ){
+    				if( DoubleUtils.round((DoubleUtils.add(hqd, DoubleUtils.add(hbid,DoubleUtils.add(oqd,DoubleUtils.add(obid,DoubleUtils.add(tqd,tbid)))))),1) != 1.0 && Integer.parseInt(lsnum) > 0 ){
+    					logger.warn(String.format("(hqd + hbid + oqd + obid + tqd + tbid) != 1.0 && Integer.parseInt(lsnum) > 0 ,current hospital is %s", hosCode));
     				    isValidData = false;
     				}
     				
@@ -754,6 +818,7 @@ public class ExcelUtils {
     					pedData.setPnum(Integer.parseInt(pnum));
     					pedData.setWhnum(Integer.parseInt(whnum));
     					pedData.setLsnum(Integer.parseInt(lsnum));
+    					pedData.setPortNum(Integer.parseInt(portnum));
     					pedData.setSalesETMSCode(code);
     					pedData.setSalesName(salesName);
     					pedData.setRegion(region);
