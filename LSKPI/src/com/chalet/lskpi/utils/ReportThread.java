@@ -10,6 +10,7 @@ import org.apache.log4j.Logger;
 import com.chalet.lskpi.model.Hospital;
 import com.chalet.lskpi.model.UserInfo;
 import com.chalet.lskpi.service.ChestSurgeryService;
+import com.chalet.lskpi.service.HomeService;
 import com.chalet.lskpi.service.HospitalService;
 import com.chalet.lskpi.service.PediatricsService;
 import com.chalet.lskpi.service.RespirologyService;
@@ -23,6 +24,7 @@ public class ReportThread extends Thread {
     private RespirologyService respirologyService;
     private ChestSurgeryService chestSurgeryService;
     private HospitalService hospitalService;
+    private HomeService homeService;
     private boolean isRestart = false;
     private long taskTime = 0;
     
@@ -32,13 +34,20 @@ public class ReportThread extends Thread {
     public ReportThread(){
         
     }
-    public ReportThread(String basePath, UserService userService, PediatricsService pediatricsService, RespirologyService respirologyService, ChestSurgeryService chestSurgeryService, HospitalService hospitalService, String contextPath){
+    public ReportThread(String basePath, UserService userService
+    		, PediatricsService pediatricsService
+    		, RespirologyService respirologyService
+    		, ChestSurgeryService chestSurgeryService
+    		, HospitalService hospitalService
+    		, HomeService homeService
+    		, String contextPath){
         this.basePath = basePath;
         this.userService = userService;
         this.pediatricsService = pediatricsService;
         this.respirologyService = respirologyService;
         this.chestSurgeryService = chestSurgeryService;
         this.hospitalService = hospitalService;
+        this.homeService = homeService;
         this.contextPath = contextPath;
     }
     public void run() {  
@@ -304,6 +313,19 @@ public class ReportThread extends Thread {
                     logger.info("Finished");
                 }
                 
+                /**
+                 * 家庭雾化医生每周备份。
+                 * 每周一的凌晨0点，对上周的有效医生进行备份，留待历史周报使用
+                 */
+                if( hour == Integer.parseInt(CustomizedProperty.getContextProperty("home_doctor_backup_time", "0")) 
+                		&& dayInWeek == Integer.parseInt(CustomizedProperty.getContextProperty("home_doctor_backup_day", "1")) ){
+                	logger.info("time is 0 in monday, begin to backup the doctor");
+                	if( homeService.isAlreadyBackup() ){
+                		logger.info("the backup of doctors is already done, no need to do again.");
+                	}else{
+                		homeService.backupDoctors();
+                	}
+                }
                 
                 if( hour == Integer.parseInt(CustomizedProperty.getContextProperty("email_send_time", "8")) && !emailIsSend){
                     try{

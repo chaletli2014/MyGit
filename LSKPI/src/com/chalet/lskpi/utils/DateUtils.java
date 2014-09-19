@@ -362,6 +362,10 @@ public class DateUtils {
     	return formatter_1.format(last12StartDate)+"-"+formatter_1.format(last12EndDate);
     }
     
+    public static String populateDuration( Date beginDate, Date endDate ){
+    	return new StringBuffer(formatter_1.format(beginDate)).append("-").append(formatter_1.format(endDate)).toString();
+    }
+    
     public static void main(String[] args){
 		try {
             System.out.println(getEndDurationByStartDate("2014.08.18"));

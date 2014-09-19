@@ -11,6 +11,7 @@ import org.apache.log4j.Logger;
 import org.springframework.web.context.support.WebApplicationContextUtils;
 
 import com.chalet.lskpi.service.ChestSurgeryService;
+import com.chalet.lskpi.service.HomeService;
 import com.chalet.lskpi.service.HospitalService;
 import com.chalet.lskpi.service.PediatricsService;
 import com.chalet.lskpi.service.RespirologyService;
@@ -47,11 +48,12 @@ public class ReportServlet extends HttpServlet{
                 RespirologyService respirologyService = (RespirologyService)WebApplicationContextUtils.getWebApplicationContext(getServletContext()).getBean("respirologyService");
                 ChestSurgeryService chestSurgeryService = (ChestSurgeryService)WebApplicationContextUtils.getWebApplicationContext(getServletContext()).getBean("chestSurgeryService");
                 HospitalService hospitalService = (HospitalService)WebApplicationContextUtils.getWebApplicationContext(getServletContext()).getBean("hospitalService");
+                HomeService homeService = (HomeService)WebApplicationContextUtils.getWebApplicationContext(getServletContext()).getBean("homeService");
                 
-                myThread1 = new ReportThread(basePath,userService,pediatricsService,respirologyService,chestSurgeryService,hospitalService,contextPath);
+                myThread1 = new ReportThread(basePath,userService,pediatricsService,respirologyService,chestSurgeryService,hospitalService,homeService,contextPath);
                 myThread1.start();
                 
-                threadChecker = new ThreadChecker(basePath,userService,pediatricsService,respirologyService,chestSurgeryService,hospitalService,contextPath,myThread1);
+                threadChecker = new ThreadChecker(basePath,userService,pediatricsService,respirologyService,chestSurgeryService,hospitalService,homeService,contextPath,myThread1);
                 threadChecker.start();
             }catch(Exception e){
                 logger.error("fail to init the thread,",e);

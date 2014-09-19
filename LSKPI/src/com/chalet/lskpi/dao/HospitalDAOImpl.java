@@ -43,7 +43,6 @@ import com.chalet.lskpi.model.WeeklyDataOfHospital;
 import com.chalet.lskpi.utils.DataBean;
 import com.chalet.lskpi.utils.DateUtils;
 import com.chalet.lskpi.utils.LsAttributes;
-import com.sun.jndi.ldap.sasl.LdapSasl;
 
 /**
  * @author Chalet

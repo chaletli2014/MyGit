@@ -19,11 +19,13 @@ import org.springframework.stereotype.Service;
 import com.chalet.lskpi.comparator.HospitalSalesDataComparator;
 import com.chalet.lskpi.dao.ChestSurgeryDAO;
 import com.chalet.lskpi.dao.DoctorDAO;
+import com.chalet.lskpi.dao.HomeDAO;
 import com.chalet.lskpi.dao.HospitalDAO;
 import com.chalet.lskpi.dao.RespirologyDAO;
 import com.chalet.lskpi.dao.UserDAO;
 import com.chalet.lskpi.exception.CustomrizedExceptioin;
 import com.chalet.lskpi.model.Doctor;
+import com.chalet.lskpi.model.HomeData;
 import com.chalet.lskpi.model.Hospital;
 import com.chalet.lskpi.model.HospitalSalesQueryObj;
 import com.chalet.lskpi.model.HospitalSalesQueryParam;
@@ -66,6 +68,10 @@ public class HospitalServiceImpl implements HospitalService {
 	@Qualifier("chestSurgeryDAO")
 	private ChestSurgeryDAO chestSurgeryDAO;
 	
+	@Autowired
+	@Qualifier("homeDAO")
+	private HomeDAO homeDAO;
+	
 	private Logger logger = Logger.getLogger(HospitalServiceImpl.class);
 	
 	
@@ -82,7 +88,22 @@ public class HospitalServiceImpl implements HospitalService {
     }
 
     public void insertDoctor(Doctor doctor) throws Exception {
-        doctorDAO.insertDoctor(doctor);
+        int doctorId = doctorDAO.insertDoctor(doctor);
+        
+        /**
+         * 家庭雾化调整：
+         * 新增医生的同时，添加数据为0的家庭雾化记录
+         */
+        HomeData homeData = new HomeData();
+        homeData.setHospitalCode(doctor.getHospitalCode());
+        homeData.setSalenum(0);
+        homeData.setAsthmanum(0);
+        homeData.setLtenum(0);
+        homeData.setLsnum(0);
+        homeData.setEfnum(0);
+        homeData.setFtnum(0);
+        homeData.setLttnum(0);
+        homeDAO.insert(homeData, String.valueOf(doctorId));
     }
     
     public void updateDoctorRelationship(int doctorId, String salesCode) throws Exception {

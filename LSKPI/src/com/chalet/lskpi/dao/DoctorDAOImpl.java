@@ -63,7 +63,7 @@ public class DoctorDAOImpl implements DoctorDAO {
         return dataBean.getJdbcTemplate().queryForInt(sql.toString(), new Object[]{hospitalCode,drName,drName+"(%)",dataId});
     }
 
-    public void insertDoctor(final Doctor doctor) throws Exception {
+    public int insertDoctor(final Doctor doctor) throws Exception {
         logger.info(">>HospitalDAOImpl insertDoctor");
         
         final String sql = "insert into tbl_doctor values(null,?,LPAD(?,4,'0'),?,?,date_sub(NOW(),interval 7 day),NOW())";
@@ -81,6 +81,7 @@ public class DoctorDAOImpl implements DoctorDAO {
             }
         }, keyHolder);
         logger.info("insertDoctor,returned id is "+keyHolder.getKey().intValue());
+        return keyHolder.getKey().intValue();
     }
     
     public void insertDoctors(final List<Doctor> doctors) throws Exception {

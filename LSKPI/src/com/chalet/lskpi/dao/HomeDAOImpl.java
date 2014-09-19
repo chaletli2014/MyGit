@@ -126,14 +126,21 @@ public class HomeDAOImpl implements HomeDAO {
 
     public List<HomeWeeklyData> getHomeWeeklyDataOfSales(String dsmCode, String region, Date beginDate, Date endDate) throws Exception {
         StringBuffer sql = new StringBuffer();
+        String lastWeekDuration = DateUtils.populateDuration(beginDate, new Date(endDate.getTime() - 1 * 24 * 60 * 60 * 1000));
+        String lastWeek2Duration = DateUtils.populateDuration(new Date(beginDate.getTime() - 7 * 24 * 60 * 60 * 1000), new Date(endDate.getTime() - 8 * 24 * 60 * 60 * 1000));
+        logger.info(String.format("get the sales home weekly data,lastDuration is %s, last2Duration is %s", lastWeekDuration,lastWeek2Duration));
         sql.append(LsAttributes.SQL_HOME_WEEKLY_DATA_SELECTION)
         .append(", ui.name ")
         .append(", '' as regionCenterCN ")
         .append(", homeData.reportNum ")
-        .append(", ( select count(1) from tbl_doctor d2 ")
-        .append("   where d2.salesCode = ui.userCode ")
-        .append("   and d2.createdate between ? and ? ")
-        .append("   ) as newDrNum")
+        .append(", ( select count(1) from tbl_doctor_weekly dw1 ")
+        .append("   where dw1.salesCode = ui.userCode ")
+        .append("   and dw1.duration = ? ")
+        .append("   ) as lastWeekDrNum")
+        .append(", ( select count(1) from tbl_doctor_weekly dw2 ")
+        .append("   where dw2.salesCode = ui.userCode ")
+        .append("   and dw2.duration = ? ")
+        .append("   ) as lastWeek2DrNum")
         .append(", (")
         .append("   select count(1) from tbl_doctor d2 ")
         .append("   where d2.salesCode = ui.userCode ")
@@ -155,8 +162,8 @@ public class HomeDAOImpl implements HomeDAO {
         .append(" right join tbl_userinfo ui on ui.userCode = homeData.userCode ")
         .append(" where ui.superior = ? and ui.region= ? and ui.level='REP' ");
         return dataBean.getJdbcTemplate().query(sql.toString(), new Object[]{
-            new Timestamp(beginDate.getTime())
-            , new Timestamp(endDate.getTime())
+        	lastWeekDuration
+        	,lastWeek2Duration
             , dsmCode
             , region
             , new Timestamp(beginDate.getTime())
@@ -167,15 +174,25 @@ public class HomeDAOImpl implements HomeDAO {
 
     public List<HomeWeeklyData> getHomeWeeklyDataOfDSM(String region,Date beginDate, Date endDate) throws Exception {
         StringBuffer sql = new StringBuffer();
+        
+        String lastWeekDuration = DateUtils.populateDuration(beginDate, new Date(endDate.getTime() - 1 * 24 * 60 * 60 * 1000));
+        String lastWeek2Duration = DateUtils.populateDuration(new Date(beginDate.getTime() - 7 * 24 * 60 * 60 * 1000), new Date(endDate.getTime() - 8 * 24 * 60 * 60 * 1000));
+        logger.info(String.format("get the dsm home weekly data,lastDuration is %s, last2Duration is %s", lastWeekDuration,lastWeek2Duration));
+        
         sql.append(LsAttributes.SQL_HOME_WEEKLY_DATA_SELECTION)
         .append(", ui.name ")
         .append(", homeData.reportNum ")
         .append(", '' as regionCenterCN ")
-        .append(", ( select count(1) from tbl_doctor d2, tbl_hospital h2 ")
-        .append("   where d2.hospitalCode = h2.code ")
+        .append(", ( select count(1) from tbl_doctor_weekly dw1, tbl_hospital h1 ")
+        .append("   where dw1.hospitalCode = h1.code ")
+        .append("   and h1.dsmCode = ui.userCode ")
+        .append("   and dw1.duration = ? ")
+        .append("   ) as lastWeekDrNum")
+        .append(", ( select count(1) from tbl_doctor_weekly dw2, tbl_hospital h2 ")
+        .append("   where dw2.hospitalCode = h2.code ")
         .append("   and h2.dsmCode = ui.userCode ")
-        .append("   and d2.createdate between ? and ? ")
-        .append("   ) as newDrNum")
+        .append("   and dw2.duration = ? ")
+        .append("   ) as lastWeek2DrNum")
         .append(", (")
         .append("   select count(1) from tbl_doctor d2, tbl_hospital h2 ")
         .append("   where d2.hospitalCode = h2.code ")
@@ -194,8 +211,8 @@ public class HomeDAOImpl implements HomeDAO {
         .append(" right join tbl_userinfo ui on ui.userCode = homeData.dsmCode ")
         .append(" where ui.region = ? and ui.level='DSM' ");
         return dataBean.getJdbcTemplate().query(sql.toString(), new Object[]{
-            new Timestamp(beginDate.getTime())
-            , new Timestamp(endDate.getTime())
+            lastWeekDuration
+            ,lastWeek2Duration
             , region
             , new Timestamp(beginDate.getTime())
             , new Timestamp(endDate.getTime())
@@ -204,15 +221,23 @@ public class HomeDAOImpl implements HomeDAO {
     
     public HomeWeeklyData getHomeWeeklyDataOfSingleDSM(String dsmCode, String region,Date beginDate, Date endDate) throws Exception {
         StringBuffer sql = new StringBuffer();
+        String lastWeekDuration = DateUtils.populateDuration(beginDate, new Date(endDate.getTime() - 1 * 24 * 60 * 60 * 1000));
+        String lastWeek2Duration = DateUtils.populateDuration(new Date(beginDate.getTime() - 7 * 24 * 60 * 60 * 1000), new Date(endDate.getTime() - 8 * 24 * 60 * 60 * 1000));
+        logger.info(String.format("get the single dsm home weekly data,lastDuration is %s, last2Duration is %s", lastWeekDuration,lastWeek2Duration));
         sql.append(LsAttributes.SQL_HOME_WEEKLY_DATA_SELECTION)
         .append(", ui.name ")
         .append(", '' as regionCenterCN ")
         .append(", homeData.reportNum ")
-        .append(", ( select count(1) from tbl_doctor d2, tbl_hospital h2 ")
-        .append("   where d2.hospitalCode = h2.code ")
+        .append(", ( select count(1) from tbl_doctor_weekly dw1, tbl_hospital h1 ")
+        .append("   where dw1.hospitalCode = h1.code ")
+        .append("   and h1.dsmCode = ui.userCode ")
+        .append("   and dw1.duration = ? ")
+        .append("   ) as lastWeekDrNum")
+        .append(", ( select count(1) from tbl_doctor_weekly dw2, tbl_hospital h2 ")
+        .append("   where dw2.hospitalCode = h2.code ")
         .append("   and h2.dsmCode = ui.userCode ")
-        .append("   and d2.createdate between ? and ? ")
-        .append("   ) as newDrNum")
+        .append("   and dw2.duration = ? ")
+        .append("   ) as lastWeek2DrNum")
         .append(", (")
         .append("   select count(1) from tbl_doctor d2, tbl_hospital h2 ")
         .append("   where d2.hospitalCode = h2.code ")
@@ -232,8 +257,8 @@ public class HomeDAOImpl implements HomeDAO {
         .append(" right join tbl_userinfo ui on ui.userCode = homeData.dsmCode ")
         .append(" where ui.userCode = ? and ui.region = ? and ui.level='DSM' ");
         return dataBean.getJdbcTemplate().queryForObject(sql.toString(), new Object[]{
-            new Timestamp(beginDate.getTime())
-            , new Timestamp(endDate.getTime())
+            lastWeekDuration
+            , lastWeek2Duration
             , dsmCode
             , region
             , new Timestamp(beginDate.getTime())
@@ -244,15 +269,23 @@ public class HomeDAOImpl implements HomeDAO {
 
     public List<HomeWeeklyData> getHomeWeeklyDataOfRSM(String regionCenter,Date beginDate, Date endDate) throws Exception {
         StringBuffer sql = new StringBuffer();
+        String lastWeekDuration = DateUtils.populateDuration(beginDate, new Date(endDate.getTime() - 1 * 24 * 60 * 60 * 1000));
+        String lastWeek2Duration = DateUtils.populateDuration(new Date(beginDate.getTime() - 7 * 24 * 60 * 60 * 1000), new Date(endDate.getTime() - 8 * 24 * 60 * 60 * 1000));
+        logger.info(String.format("get the rsm home weekly data,lastDuration is %s, last2Duration is %s", lastWeekDuration,lastWeek2Duration));
         sql.append(LsAttributes.SQL_HOME_WEEKLY_DATA_SELECTION)
         .append(", ui.region as name ")
         .append(", homeData.reportNum ")
         .append(", (select distinct property_value from tbl_property where property_name=ui.regionCenter ) as regionCenterCN ")
-        .append(", ( select count(1) from tbl_doctor d2, tbl_hospital h2 ")
-        .append("   where d2.hospitalCode = h2.code ")
+        .append(", ( select count(1) from tbl_doctor_weekly dw1, tbl_hospital h1 ")
+        .append("   where dw1.hospitalCode = h1.code ")
+        .append("   and h1.rsmRegion = ui.region ")
+        .append("   and dw1.duration = ? ")
+        .append("   ) as lastWeekDrNum")
+        .append(", ( select count(1) from tbl_doctor_weekly dw2, tbl_hospital h2 ")
+        .append("   where dw2.hospitalCode = h2.code ")
         .append("   and h2.rsmRegion = ui.region ")
-        .append("   and d2.createdate between ? and ? ")
-        .append("   ) as newDrNum")
+        .append("   and dw2.duration = ? ")
+        .append("   ) as lastWeek2DrNum")
         .append(", (")
         .append("   select count(1) from tbl_doctor d2, tbl_hospital h2 ")
         .append("   where d2.hospitalCode = h2.code ")
@@ -271,8 +304,8 @@ public class HomeDAOImpl implements HomeDAO {
         .append(" right join tbl_userinfo ui on ui.region = homeData.rsmRegion ")
         .append(" where ui.regionCenter = ? and ui.level='RSM' ");
         return dataBean.getJdbcTemplate().query(sql.toString(), new Object[]{
-            new Timestamp(beginDate.getTime())
-            , new Timestamp(endDate.getTime())
+            lastWeekDuration
+            , lastWeek2Duration
             , regionCenter
             , new Timestamp(beginDate.getTime())
             , new Timestamp(endDate.getTime())
@@ -281,15 +314,24 @@ public class HomeDAOImpl implements HomeDAO {
     
     public HomeWeeklyData getHomeWeeklyDataOfSingleRSM(String region,Date beginDate, Date endDate) throws Exception {
         StringBuffer sql = new StringBuffer();
+        String lastWeekDuration = DateUtils.populateDuration(beginDate, new Date(endDate.getTime() - 1 * 24 * 60 * 60 * 1000));
+        String lastWeek2Duration = DateUtils.populateDuration(new Date(beginDate.getTime() - 7 * 24 * 60 * 60 * 1000), new Date(endDate.getTime() - 8 * 24 * 60 * 60 * 1000));
+        logger.info(String.format("get the single rsm home weekly data,lastDuration is %s, last2Duration is %s", lastWeekDuration,lastWeek2Duration));
+        
         sql.append(LsAttributes.SQL_HOME_WEEKLY_DATA_SELECTION)
         .append(", ui.region as name ")
         .append(", '' as regionCenterCN ")
         .append(", homeData.reportNum ")
-        .append(", ( select count(1) from tbl_doctor d2, tbl_hospital h2 ")
-        .append("   where d2.hospitalCode = h2.code ")
+        .append(", ( select count(1) from tbl_doctor_weekly dw1, tbl_hospital h1 ")
+        .append("   where dw1.hospitalCode = h1.code ")
+        .append("   and h1.rsmRegion = ui.region ")
+        .append("   and dw1.duration = ? ")
+        .append("   ) as lastWeekDrNum")
+        .append(", ( select count(1) from tbl_doctor_weekly dw2, tbl_hospital h2 ")
+        .append("   where dw2.hospitalCode = h2.code ")
         .append("   and h2.rsmRegion = ui.region ")
-        .append("   and d2.createdate between ? and ? ")
-        .append("   ) as newDrNum")
+        .append("   and dw2.duration = ? ")
+        .append("   ) as lastWeek2DrNum")
         .append(", (")
         .append("   select count(1) from tbl_doctor d2, tbl_hospital h2 ")
         .append("   where d2.hospitalCode = h2.code ")
@@ -308,8 +350,8 @@ public class HomeDAOImpl implements HomeDAO {
         .append(" right join tbl_userinfo ui on ui.region = homeData.rsmRegion ")
         .append(" where ui.region = ? and ui.level='RSM' ");
         return dataBean.getJdbcTemplate().queryForObject(sql.toString(), new Object[]{
-            new Timestamp(beginDate.getTime())
-            , new Timestamp(endDate.getTime())
+            lastWeekDuration
+            , lastWeek2Duration
             , region
             , new Timestamp(beginDate.getTime())
             , new Timestamp(endDate.getTime())
@@ -318,15 +360,24 @@ public class HomeDAOImpl implements HomeDAO {
 
     public List<HomeWeeklyData> getHomeWeeklyDataOfRSD(Date beginDate, Date endDate) throws Exception {
         StringBuffer sql = new StringBuffer();
+        String lastWeekDuration = DateUtils.populateDuration(beginDate, new Date(endDate.getTime() - 1 * 24 * 60 * 60 * 1000));
+        String lastWeek2Duration = DateUtils.populateDuration(new Date(beginDate.getTime() - 7 * 24 * 60 * 60 * 1000), new Date(endDate.getTime() - 8 * 24 * 60 * 60 * 1000));
+        logger.info(String.format("get the single rsm home weekly data,lastDuration is %s, last2Duration is %s", lastWeekDuration,lastWeek2Duration));
+        
         sql.append(LsAttributes.SQL_HOME_WEEKLY_DATA_SELECTION)
         .append(", (select distinct property_value from tbl_property where property_name=ui.regionCenter ) as name ")
         .append(", '' as regionCenterCN ")
         .append(", homeData.reportNum ")
-        .append(", ( select count(1) from tbl_doctor d2, tbl_hospital h2 ")
-        .append("   where d2.hospitalCode = h2.code ")
+        .append(", ( select count(1) from tbl_doctor_weekly dw1, tbl_hospital h1 ")
+        .append("   where dw1.hospitalCode = h1.code ")
+        .append("   and h1.region = ui.regionCenter ")
+        .append("   and dw1.duration = ? ")
+        .append("   ) as lastWeekDrNum")
+        .append(", ( select count(1) from tbl_doctor_weekly dw2, tbl_hospital h2 ")
+        .append("   where dw2.hospitalCode = h2.code ")
         .append("   and h2.region = ui.regionCenter ")
-        .append("   and d2.createdate between ? and ? ")
-        .append("   ) as newDrNum")
+        .append("   and dw2.duration = ? ")
+        .append("   ) as lastWeek2DrNum")
         .append(", (")
         .append("   select count(1) from tbl_doctor d2, tbl_hospital h2 ")
         .append("   where d2.hospitalCode = h2.code ")
@@ -344,23 +395,32 @@ public class HomeDAOImpl implements HomeDAO {
         .append(" right join tbl_userinfo ui on ui.regionCenter = homeData.region ")
         .append(" where ui.level='RSD' ");
         return dataBean.getJdbcTemplate().query(sql.toString(), new Object[]{
-            new Timestamp(beginDate.getTime())
-            , new Timestamp(endDate.getTime())
+            lastWeekDuration
+            , lastWeek2Duration
             , new Timestamp(beginDate.getTime())
             , new Timestamp(endDate.getTime())}, new HomeWeeklyDataRowMapper());
     }
     
     public HomeWeeklyData getHomeWeeklyDataOfSingleRSD(String regionCenter, Date beginDate, Date endDate) throws Exception {
         StringBuffer sql = new StringBuffer();
+        String lastWeekDuration = DateUtils.populateDuration(beginDate, new Date(endDate.getTime() - 1 * 24 * 60 * 60 * 1000));
+        String lastWeek2Duration = DateUtils.populateDuration(new Date(beginDate.getTime() - 7 * 24 * 60 * 60 * 1000), new Date(endDate.getTime() - 8 * 24 * 60 * 60 * 1000));
+        logger.info(String.format("get the single rsm home weekly data,lastDuration is %s, last2Duration is %s", lastWeekDuration,lastWeek2Duration));
+        
         sql.append(LsAttributes.SQL_HOME_WEEKLY_DATA_SELECTION)
         .append(", (select property_value from tbl_property where property_name=ui.regionCenter ) as name ")
         .append(", '' as regionCenterCN ")
         .append(", homeData.reportNum ")
-        .append(", ( select count(1) from tbl_doctor d2, tbl_hospital h2 ")
-        .append("   where d2.hospitalCode = h2.code ")
+        .append(", ( select count(1) from tbl_doctor_weekly dw1, tbl_hospital h1 ")
+        .append("   where dw1.hospitalCode = h1.code ")
+        .append("   and h1.region = ui.regionCenter ")
+        .append("   and dw1.duration = ? ")
+        .append("   ) as lastWeekDrNum")
+        .append(", ( select count(1) from tbl_doctor_weekly dw2, tbl_hospital h2 ")
+        .append("   where dw2.hospitalCode = h2.code ")
         .append("   and h2.region = ui.regionCenter ")
-        .append("   and d2.createdate between ? and ? ")
-        .append("   ) as newDrNum")
+        .append("   and dw2.duration = ? ")
+        .append("   ) as lastWeek2DrNum")
         .append(", (")
         .append("   select count(1) from tbl_doctor d2, tbl_hospital h2 ")
         .append("   where d2.hospitalCode = h2.code ")
@@ -379,8 +439,8 @@ public class HomeDAOImpl implements HomeDAO {
         .append(" right join tbl_userinfo ui on ui.regionCenter = homeData.region ")
         .append(" where ui.level='RSD' and ui.regionCenter = ?");
         return dataBean.getJdbcTemplate().queryForObject(sql.toString(), new Object[]{
-            new Timestamp(beginDate.getTime())
-            , new Timestamp(endDate.getTime())
+            lastWeekDuration
+            , lastWeek2Duration
             , new Timestamp(beginDate.getTime())
             , new Timestamp(endDate.getTime())
             , regionCenter
@@ -389,21 +449,28 @@ public class HomeDAOImpl implements HomeDAO {
     
     public HomeWeeklyData getHomeWeeklyDataOfCountory(Date beginDate, Date endDate) throws Exception {
         StringBuffer sql = new StringBuffer();
+        String lastWeekDuration = DateUtils.populateDuration(beginDate, new Date(endDate.getTime() - 1 * 24 * 60 * 60 * 1000));
+        String lastWeek2Duration = DateUtils.populateDuration(new Date(beginDate.getTime() - 7 * 24 * 60 * 60 * 1000), new Date(endDate.getTime() - 8 * 24 * 60 * 60 * 1000));
+        logger.info(String.format("get the single rsm home weekly data,lastDuration is %s, last2Duration is %s", lastWeekDuration,lastWeek2Duration));
+        
         sql.append(LsAttributes.SQL_HOME_WEEKLY_DATA_SUB_SELECTION)
         .append(", '全国' as name ")
         .append(", count(1) as reportNum ")
         .append(", '' as regionCenterCN ")
-        .append(", ( select count(1) from tbl_doctor d2 ")
-        .append("   where d2.createdate between ? and ? ")
-        .append("   ) as newDrNum")
+        .append(", ( select count(1) from tbl_doctor_weekly dw1 ")
+        .append("   where dw1.duration = ? ")
+        .append("   ) as lastWeekDrNum")
+        .append(", ( select count(1) from tbl_doctor_weekly dw2 ")
+        .append("   where dw2.duration = ? ")
+        .append("   ) as lastWeek2DrNum")
         .append(", (")
         .append("   select count(1) from tbl_doctor d2 ")
         .append("   ) as totalDrNum ")
         .append(LsAttributes.SQL_HOME_WEEKLY_DATA_FROM_HOME_ONLY)
         .append(" where hd.createdate between ? and ? ");
         return dataBean.getJdbcTemplate().queryForObject(sql.toString(), new Object[]{
-            new Timestamp(beginDate.getTime())
-            , new Timestamp(endDate.getTime())
+            lastWeekDuration
+            , lastWeek2Duration
             , new Timestamp(beginDate.getTime())
             , new Timestamp(endDate.getTime())}, new HomeWeeklyDataRowMapper());
     }
@@ -527,4 +594,31 @@ public class HomeDAOImpl implements HomeDAO {
         }
         return homeProcess;
     }
+
+	@Override
+	public void backupDoctors(String duration) throws Exception {
+        
+        StringBuffer backupSQL = new StringBuffer("");
+        backupSQL.append("insert into tbl_doctor_weekly ")
+        .append(" select ")
+        .append(" null,")
+        .append(" ?, ")
+        .append(" code, ")
+        .append(" hospitalCode, ")
+        .append(" salesCode, ")
+        .append(" createdate, ")
+        .append(" modifydate ")
+        .append(" from tbl_doctor ");
+        
+		int rowNum = dataBean.getJdbcTemplate().update(backupSQL.toString(), duration);
+		logger.info(String.format("backup doctor done, number is %s", rowNum));
+	}
+
+	@Override
+	public boolean isAlreadyBackup(String duration) throws Exception {
+		StringBuffer sb = new StringBuffer();
+        sb.append(" select count(1) from tbl_doctor_weekly where duration = ?");
+        int rowNum = dataBean.getJdbcTemplate().queryForInt(sb.toString(), duration);
+        return rowNum>0;
+	}
 }
