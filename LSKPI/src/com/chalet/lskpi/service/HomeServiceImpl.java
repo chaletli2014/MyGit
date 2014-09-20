@@ -16,7 +16,6 @@ import com.chalet.lskpi.model.ExportDoctor;
 import com.chalet.lskpi.model.HomeData;
 import com.chalet.lskpi.model.HomeWeeklyData;
 import com.chalet.lskpi.model.ReportProcessData;
-import com.chalet.lskpi.model.ReportProcessDataDetail;
 import com.chalet.lskpi.model.UserInfo;
 import com.chalet.lskpi.utils.DateUtils;
 import com.chalet.lskpi.utils.LsAttributes;
@@ -209,4 +208,20 @@ public class HomeServiceImpl implements HomeService {
             return new ReportProcessData();
         }
     }
+
+	@Override
+	public void backupDoctors() throws Exception {
+		Date beginDate = DateUtils.getHomeWeeklyReportBegionDate();
+        Date endDate = new Date(beginDate.getTime() + 6 * 24 * 60 * 60 * 1000);
+        String duration = DateUtils.populateDuration(beginDate, endDate);
+		homeDAO.backupDoctors(duration);
+	}
+	
+	public boolean isAlreadyBackup() throws Exception{
+		Date beginDate = DateUtils.getHomeWeeklyReportBegionDate();
+        Date endDate = new Date(beginDate.getTime() + 6 * 24 * 60 * 60 * 1000);
+        String duration = DateUtils.populateDuration(beginDate, endDate);
+        
+        return homeDAO.isAlreadyBackup(duration);
+	}
 }

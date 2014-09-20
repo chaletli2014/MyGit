@@ -32,4 +32,7 @@ public interface HomeDAO {
     public ReportProcessData getSalesSelfReportProcess(String telephone) throws Exception;
     public ReportProcessData getDSMSelfReportProcess(String telephone) throws Exception;
     public ReportProcessData getRSMSelfReportProcess(String telephone) throws Exception;
+    
+    public void backupDoctors(String duration) throws Exception;
+    public boolean isAlreadyBackup(String duration) throws Exception;
 }

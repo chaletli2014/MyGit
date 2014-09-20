@@ -389,3 +389,14 @@ ALTER  TABLE tbl_hos_user ADD INDEX INDEX_HOS_USER_USERCODE (userCode);
 
 alter table tbl_hospital add column portNum int;
 alter table tbl_pediatrics_data add column portNum int;
+
+drop table tbl_doctor_weekly;
+create table tbl_doctor_weekly(
+    id              int NOT NULL primary key auto_increment,
+    duration        varchar(255),
+    code            varchar(20),
+    hospitalCode    varchar(20),
+    salesCode       varchar(20),
+    createdate      datetime,
+    modifydate      datetime
+);

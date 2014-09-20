@@ -12,7 +12,7 @@ public class HomeWeeklyDataRowMapper implements RowMapper<HomeWeeklyData> {
     public HomeWeeklyData mapRow(ResultSet rs, int arg1) throws SQLException {
         HomeWeeklyData weeklyData = new HomeWeeklyData();
         weeklyData.setUserName(rs.getString("name"));
-        weeklyData.setNewDrNum(rs.getInt("newDrNum"));
+        weeklyData.setNewDrNum(rs.getInt("lastWeekDrNum")-rs.getInt("lastWeek2DrNum"));
         weeklyData.setTotalDrNum(rs.getInt("totalDrNum"));
         weeklyData.setNewWhNum(rs.getDouble("newWhNum"));
         weeklyData.setCureRate(rs.getDouble("cureRate"));

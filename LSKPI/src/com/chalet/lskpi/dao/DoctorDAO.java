@@ -15,7 +15,7 @@ public interface DoctorDAO {
     public int getExistedDrNumByHospitalCodeExcludeSelf( long dataId, String hospitalCode, String drName ) throws Exception;
     public int getTotalDrNumOfHospital(String hospitalCode) throws Exception;
     public int getTotalRemovedDrNumOfHospital(String hospitalCode) throws Exception;
-    public void insertDoctor(Doctor doctor) throws Exception;
+    public int insertDoctor(Doctor doctor) throws Exception;
     public void updateDoctor(Doctor doctor) throws Exception;
     public void deleteDoctor(Doctor doctor) throws Exception;
     public void cleanDoctor() throws Exception;

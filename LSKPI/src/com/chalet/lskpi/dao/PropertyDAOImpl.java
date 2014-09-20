@@ -2,7 +2,6 @@ package com.chalet.lskpi.dao;
 
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
-import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,9 +10,7 @@ import org.springframework.jdbc.core.BatchPreparedStatementSetter;
 import org.springframework.jdbc.core.PreparedStatementSetter;
 import org.springframework.stereotype.Repository;
 
-import com.chalet.lskpi.mapper.UserInfoRowMapper;
 import com.chalet.lskpi.model.Property;
-import com.chalet.lskpi.model.UserInfo;
 import com.chalet.lskpi.utils.DataBean;
 
 @Repository("propertyDAO")
