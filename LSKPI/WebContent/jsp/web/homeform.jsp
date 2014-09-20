@@ -29,6 +29,18 @@ function checkForm(){
 		return false;
 	}
 	
+	if( !obj1ltobj2("asthmanum","ltenum") ){
+		return false;
+	}
+	
+	if( !obj1ltobj2("ltenum","lsnum") ){
+		return false;
+	}
+	
+	if( Number($("#efnum").val()) + Number($("#ftnum").val()) + Number($("#lttnum").val()) != Number($("#lsnum").val()) ){
+		showCustomrizedMessage("8到15天，15到30天和大于30天的病人数相加应等于持续期病人中推荐使用令舒的人数");
+		return false;
+	}
 	return true;
 }
 </script>
@@ -71,6 +83,9 @@ function checkForm(){
                	<div data-role="fieldcontain" class="formCollection">
 	                <label for="lsnum" id="lsnum_label">持续期病人中推荐使用令舒的人数</label>
 	                <input type="number" name="lsnum" id="lsnum"  value="${existedData.lsnum==null?0:existedData.lsnum}"/>
+	            </div>
+	            <div data-role="fieldcontain" class="formCollection">
+	            	<label>以下三个病人数之和=持续期病人中推荐使用令舒的人数</label>
 	            </div>
                	<div data-role="fieldcontain" class="formCollection">
 	                <label for="efnum" id="efnum_label">8≤DOT<15天，病人数</label>

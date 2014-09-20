@@ -18,7 +18,7 @@ function checkIsNotNull(obj){
 function obj1ltobj2(id1, id2){
 	if( $("#"+id1) && $("#"+id2) ){
 		if( Number($("#"+id1).val()) < Number($("#"+id2).val()) ){
-			showCustomrizedMessage($("#"+id1+"_label").text()+"必须大于"+$("#"+id2+"_label").text());
+			showCustomrizedMessage($("#"+id1+"_label").text()+"必须大于或者等于"+$("#"+id2+"_label").text());
 			$("#"+id1).parent().addClass("ls-error");
 			$("#"+id2).parent().addClass("ls-error");
 			return false;
