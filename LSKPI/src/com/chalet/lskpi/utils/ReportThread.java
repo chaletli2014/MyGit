@@ -58,7 +58,7 @@ public class ReportThread extends Thread {
             //check report time
             Date now = new Date();
             String yesterday = DateUtils.getYesterDay();
-            String lastThursday = DateUtils.getDirectoryNameOfLastDuration();
+            String reportGenerateDate = DateUtils.getDirectoryNameOfLastDuration();
             String lastMonth = DateUtils.getLastMonth();
             //daily report start
             try {
@@ -89,16 +89,16 @@ public class ReportThread extends Thread {
                     checkAndCreateFileFolder(basePath + "resAllDSMDailyReport/"+yesterday);
                     //------
                     
-                    checkAndCreateFileFolder(basePath + "weeklyReport/"+lastThursday);
+                    checkAndCreateFileFolder(basePath + "weeklyReport/"+reportGenerateDate);
                     
-                    checkAndCreateFileFolder(basePath + "weeklyHTMLReport/"+lastThursday);
-                    checkAndCreateFileFolder(basePath + "lowerWeeklyReport/"+lastThursday);
-                    checkAndCreateFileFolder(basePath + "hospitalHTMLReport/"+lastThursday);
-                    checkAndCreateFileFolder(basePath + "monthlyHTMLReport/"+lastMonth);
+                    checkAndCreateFileFolder(basePath + "weeklyHTMLReport/"+reportGenerateDate);
+                    checkAndCreateFileFolder(basePath + "lowerWeeklyReport/"+reportGenerateDate);
+                    checkAndCreateFileFolder(basePath + "hospitalHTMLReport/"+reportGenerateDate);
+                    checkAndCreateFileFolder(basePath + "monthlyHTMLReport/"+reportGenerateDate);
                     
-                    checkAndCreateFileFolder(basePath + "weeklyHTMLReportForWeb/"+lastThursday);
-                    checkAndCreateFileFolder(basePath + "lowerWeeklyReportForWeb/"+lastThursday);
-                    checkAndCreateFileFolder(basePath + "hospitalHTMLReportForWeb/"+lastThursday);
+                    checkAndCreateFileFolder(basePath + "weeklyHTMLReportForWeb/"+reportGenerateDate);
+                    checkAndCreateFileFolder(basePath + "lowerWeeklyReportForWeb/"+reportGenerateDate);
+                    checkAndCreateFileFolder(basePath + "hospitalHTMLReportForWeb/"+reportGenerateDate);
                     checkAndCreateFileFolder(basePath + "monthlyHTMLReportForWeb/"+lastMonth);
                     
                     List<UserInfo> reportUserInfos = new ArrayList<UserInfo>();
@@ -115,23 +115,7 @@ public class ReportThread extends Thread {
                     BirtReportUtils html = new BirtReportUtils();
                     int email_send_flag = Integer.parseInt(CustomizedProperty.getContextProperty("email_send_flag", "0"));
                     
-                    /**
-                     * 
-                    logger.info("begin to generate all RSM daily report");
-                    html.startPlatform();
-                    createAllRSMDailyReport(html,basePath, contextPath, email_send_flag, yesterday);
-                    html.stopPlatform();
-                    logger.info("end to generate all RSM daily report");
-                    
-                    logger.info("begin to generate all DSM daily report");
-                    html.startPlatform();
-                    createAllDSMDailyReport(html,basePath, contextPath, email_send_flag, yesterday);
-                    html.stopPlatform();
-                    logger.info("end to generate all DSM daily report");
-                    
-                     */
-                    
-                    if( dayInWeek == Integer.parseInt(CustomizedProperty.getContextProperty("weekly_report_day", "4")) ){
+                    if( dayInWeek == Integer.parseInt(CustomizedProperty.getContextProperty("weekly_report_day", "1")) ){
                         logger.info("today is Thursday, generate the last week data first");
                         
                         if( !pediatricsService.hasLastWeeklyPEDData() ){
@@ -169,11 +153,17 @@ public class ReportThread extends Thread {
                             String telephone = user.getTelephone();
                             if( telephone != null && !"#N/A".equalsIgnoreCase(telephone) ){
                                 logger.info(String.format("the mobile is %s",telephone));
-                                createHTMLWeeklyReport(html, user.getLevel(), telephone, basePath, contextPath, lastThursday);
+                                createHTMLWeeklyReport(html, user.getLevel(), telephone, basePath, contextPath, reportGenerateDate);
                                 this.taskTime = System.currentTimeMillis();
                                 
-                                createHTMLWeeklyReportForWeb(html, user.getLevel(), telephone, basePath, contextPath, lastThursday);
+                                createHTMLWeeklyReportForWeb(html, user.getLevel(), telephone, basePath, contextPath, reportGenerateDate);
                                 this.taskTime = System.currentTimeMillis();
+                                
+                                createHTMLHomeWeeklyReport(html, user.getLevel(), telephone, basePath, contextPath, reportGenerateDate);
+                                this.taskTime = System.currentTimeMillis();
+                                createHTMLHomeWeeklyReportForWeb(html, user.getLevel(), telephone, basePath, contextPath, reportGenerateDate);
+                                this.taskTime = System.currentTimeMillis();
+                                
                             }else{
                                 logger.error(String.format("the telephone number for the user %s is not found", user.getName()));
                             }
@@ -185,10 +175,10 @@ public class ReportThread extends Thread {
                             String userCode = user.getUserCode();
                             if( userCode != null && !"#N/A".equalsIgnoreCase(userCode) ){
                                 logger.info(String.format("the code of the lower user is %s",userCode));
-                                createHTMLWeeklyReportOfLowerUser(html, user.getLevel(), userCode, basePath, contextPath, lastThursday);
+                                createHTMLWeeklyReportOfLowerUser(html, user.getLevel(), userCode, basePath, contextPath, reportGenerateDate);
                                 this.taskTime = System.currentTimeMillis();
                                 
-                                createHTMLWeeklyReportOfLowerUserForWeb(html, user.getLevel(), userCode, basePath, contextPath, lastThursday);
+                                createHTMLWeeklyReportOfLowerUserForWeb(html, user.getLevel(), userCode, basePath, contextPath, reportGenerateDate);
                                 this.taskTime = System.currentTimeMillis();
                             }else{
                                 logger.error(String.format("the userCode of the user %s is not found or the user is vacant", user.getName()));
@@ -202,12 +192,16 @@ public class ReportThread extends Thread {
                             logger.info(String.format("hospital size is %s", hospitals.size()));
                         }
                         for( Hospital hospital : hospitals ){
-                            createHTMLWeeklyReportOfHospital(html, hospital.getCode(), basePath, contextPath, lastThursday);
+                            createHTMLWeeklyReportOfHospital(html, hospital.getCode(), basePath, contextPath, reportGenerateDate);
                             this.taskTime = System.currentTimeMillis();
                             
-                            createHTMLWeeklyReportOfHospitalForWeb(html, hospital.getCode(), basePath, contextPath, lastThursday);
+                            createHTMLWeeklyReportOfHospitalForWeb(html, hospital.getCode(), basePath, contextPath, reportGenerateDate);
                             this.taskTime = System.currentTimeMillis();
                         }
+                        
+                        logger.info("start to generate the html home weekly report in the past 12 weeks");
+                        
+                        
                         html.stopPlatform();
                         
                         logger.info("start to generate the pdf weekly report");
@@ -215,7 +209,7 @@ public class ReportThread extends Thread {
                         String startDate = DateUtils.getTheBeginDateOfRefreshDate(refreshDate);
                         String endDate = DateUtils.getTheEndDateOfRefreshDate(refreshDate);
                         String lastRefreshThursday = DateUtils.getDirectoryNameOfCurrentDuration(refreshDate);
-                        logger.info(String.format("start to refresh the pdf weekly report, lastThursday is %s, start date is %s, end date is %s", lastThursday, startDate, endDate));
+                        logger.info(String.format("start to refresh the pdf weekly report, lastThursday is %s, start date is %s, end date is %s", reportGenerateDate, startDate, endDate));
                         
                         boolean isFirstRefresh = true;
                         List<String> regionList = userService.getAllRegionName();
@@ -234,33 +228,6 @@ public class ReportThread extends Thread {
                         }
                         html.stopPlatform();
                         logger.info("end to refresh the pdf weekly report");
-//                        html.startPlatform();
-//                        boolean tmpSender = false;
-//                        for( UserInfo user : reportUserInfos ){
-//                            String telephone = user.getTelephone();
-//                            if( telephone != null && !"#N/A".equalsIgnoreCase(telephone) ){
-//                                logger.info(String.format("the mobile is %s",telephone));
-//                                createWeeklyPDFReport(html, user, telephone, basePath, contextPath, email_send_flag, lastThursday, user.getEmail());
-//                                this.taskTime = System.currentTimeMillis();
-//                            }else{
-//                                logger.error(String.format("the telephone number for the user %s is not found", user.getName()));
-//                            }
-//                            
-//                            //TODO temp sender
-//                            if( ( LsAttributes.USER_LEVEL_RSD.equalsIgnoreCase(user.getLevel())
-//                                    || ( LsAttributes.USER_LEVEL_BM.equalsIgnoreCase(user.getLevel())
-//                                            && !tmpSender)
-//                                            )
-//                                    && Integer.parseInt(CustomizedProperty.getContextProperty("weekly_email_send_flag_tmp", "0")) == 1 ){
-//                                // the BM only need to send once since all the reports for BM is same.
-//                                if( LsAttributes.USER_LEVEL_BM.equalsIgnoreCase(user.getLevel()) ){
-//                                    tmpSender = true;
-//                                }
-//                                sendWeeklyReport2User(CustomizedProperty.getContextProperty("lskpi_to", "0"), user, lastThursday, user.getTelephone());
-//                            }
-//                        }
-//                        html.stopPlatform();
-                        logger.info("end to generate the pdf weekly report");
                     }else{
                         logger.info(String.format("current day in week is %s, no need to generate the html weekly report", dayInWeek));
                     }
@@ -366,7 +333,7 @@ public class ReportThread extends Thread {
                                 }
                                 if( 1 == email_send_flag ){
                                     List<String> allRegions = userService.getAllRegionName();
-                                    sendWeeklyReport2User(user.getEmail(), user, lastThursday, user.getTelephone(),allRegions);
+                                    sendWeeklyReport2User(user.getEmail(), user, reportGenerateDate, user.getTelephone(),allRegions);
                                     logger.info(String.format("the weekly report email is sent to user %s, level is %s", user.getTelephone(),user.getRealLevel()));
                                 }else{
                                     logger.info(String.format("the email send flag is %s, no need to send the weekly email",email_send_flag));
@@ -525,63 +492,6 @@ public class ReportThread extends Thread {
                 //BU Head report -- end
                 break;
         }
-      //Sales report -- start
-//      if( !new File(pedReportSalesFullName).exists() ){
-//          html.runReport( basePath + "reportDesigns/salesPEDDaily.rptdesign","13598013601",pedReportSalesFullName);
-//          logger.info("PED to sales report done.");
-//      }else{
-//          logger.info("The ped report for sales is already generated, no need to do again.");
-//      }
-//      EmailUtils.sendMessage(pedReportSalesFullName,""," - Sales 儿科日报推送","");
-//      logger.info("send mail to sales end...");
-//      
-//      if( !new File(resReportSalesFullName).exists() ){
-//          html.runReport( basePath + "reportDesigns/salesRESDaily.rptdesign","13598013601",resReportSalesFullName);
-//          logger.info("RES to Sales report done.");
-//      }else{
-//          logger.info("The res report for Sales is already generated, no need to do again.");
-//      }
-//      EmailUtils.sendMessage(resReportSalesFullName,""," - Sales 呼吸科日报推送","");
-//      logger.info("send mail to DSM end...");
-        //Sales report -- end
-    }
-    
-    private void createAllRSMDailyReport(BirtReportUtils html, String basePath, String contextPath, int email_send_flag, String yesterday ) throws Exception{
-        String dailyPEDReportName = basePath + "pedAllRSMDailyReport/"+yesterday+"/儿科日报-RSM-"+yesterday+".xlsx";
-        String dailyRESReportName = basePath + "resAllRSMDailyReport/"+yesterday+"/呼吸科日报-RSM-"+yesterday+".xlsx";
-        
-        if( !new File(dailyPEDReportName).exists() ){
-            html.runReport( basePath + "reportDesigns/exportRSMPEDDaily.rptdesign","","","",dailyPEDReportName,"","","");
-            logger.info("the PED report of all RSM is done.");
-        }else{
-            logger.info("The ped report of all RSM is already generated, no need to do again.");
-        }
-        
-        if( !new File(dailyRESReportName).exists() ){
-            html.runReport( basePath + "reportDesigns/exportRSMRESDaily.rptdesign","","","",dailyRESReportName,"","","");
-            logger.info("the RES report of all RSM is done.");
-        }else{
-            logger.info("The res report of all RSM is already generated, no need to do again.");
-        }
-    }
-    
-    private void createAllDSMDailyReport(BirtReportUtils html, String basePath, String contextPath, int email_send_flag, String yesterday ) throws Exception{
-        String dailyPEDReportName = basePath + "pedAllDSMDailyReport/"+yesterday+"/儿科日报-DSM-"+yesterday+".xlsx";
-        String dailyRESReportName = basePath + "resAllDSMDailyReport/"+yesterday+"/呼吸科日报-DSM-"+yesterday+".xlsx";
-        
-        if( !new File(dailyPEDReportName).exists() ){
-            html.runReport( basePath + "reportDesigns/exportDSMPEDDaily.rptdesign","","","",dailyPEDReportName,"","","");
-            logger.info("the PED report of all DSM is done.");
-        }else{
-            logger.info("The PED report of all DSM is already generated, no need to do again.");
-        }
-        
-        if( !new File(dailyRESReportName).exists() ){
-            html.runReport( basePath + "reportDesigns/exportDSMRESDaily.rptdesign","","","",dailyRESReportName,"","","");
-            logger.info("the RES report of all DSM is done.");
-        }else{
-            logger.info("The RES report of all DSM is already generated, no need to do again.");
-        }
     }
     
     private void createHTMLWeeklyReport(BirtReportUtils html, String userLevel,String telephone, String basePath, String contextPath, String lastThursday){
@@ -667,21 +577,6 @@ public class ReportThread extends Thread {
                     logger.info("The weekly html chest surgery report for DSM is already generated, no need to do again.");
                 }
                 break;
-//            case LsAttributes.USER_LEVEL_REP:
-//                if( !new File(weeklyHtmlPEDReportFileName).exists() ){
-//                    html.runReport( basePath + "reportDesigns/weeklyPEDReportForMobileREP.rptdesign",telephone,weeklyHtmlPEDReportFileName,"html",basePath+"/reportImages",contextPath+"/reportImages");
-//                    logger.info("the weekly html PED report to REP is done.");
-//                }else{
-//                    logger.info("The weekly html ped report for REP is already generated, no need to do again.");
-//                }
-//                
-//                if( !new File(weeklyHtmlRESReportFileName).exists() ){
-//                    html.runReport( basePath + "reportDesigns/weeklyRESReportForMobileREP.rptdesign",telephone,weeklyHtmlRESReportFileName,"html",basePath+"/reportImages",contextPath+"/reportImages");
-//                    logger.info("the weekly html RES report to REP is done.");
-//                }else{
-//                    logger.info("The weekly html res report for REP is already generated, no need to do again.");
-//                }
-//                break;
             case LsAttributes.USER_LEVEL_BM:
                 if( !new File(weeklyHtmlPEDBUReportFileName).exists() ){
                     html.runReport( basePath + "reportDesigns/weeklyPEDReportForMobileBU.rptdesign",telephone,"","",weeklyHtmlPEDBUReportFileName,"html",basePath+"/reportImages",contextPath+"/reportImages");
@@ -712,15 +607,15 @@ public class ReportThread extends Thread {
         }
     }
     
-    private void createHTMLWeeklyReportForWeb(BirtReportUtils html, String userLevel,String telephone, String basePath, String contextPath, String lastThursday){
-        String weeklyHtmlPEDReportFileName = basePath + "weeklyHTMLReportForWeb/"+lastThursday+"/weeklyPEDReport-"+userLevel+"-"+telephone+"-"+DateUtils.getDirectoryNameOfLastDuration()+".html";
-        String weeklyHtmlPEDBUReportFileName = basePath + "weeklyHTMLReportForWeb/"+lastThursday+"/weeklyPEDReport-"+userLevel+"-"+DateUtils.getDirectoryNameOfLastDuration()+".html";
-        
-        String weeklyHtmlRESReportFileName = basePath + "weeklyHTMLReportForWeb/"+lastThursday+"/weeklyRESReport-"+userLevel+"-"+telephone+"-"+DateUtils.getDirectoryNameOfLastDuration()+".html";
-        String weeklyHtmlRESBUReportFileName = basePath + "weeklyHTMLReportForWeb/"+lastThursday+"/weeklyRESReport-"+userLevel+"-"+DateUtils.getDirectoryNameOfLastDuration()+".html";
-        
-        String weeklyHtmlCHEReportFileName = basePath + "weeklyHTMLReportForWeb/"+lastThursday+"/weeklyCHEReport-"+userLevel+"-"+telephone+"-"+DateUtils.getDirectoryNameOfLastDuration()+".html";
-        String weeklyHtmlCHEBUReportFileName = basePath + "weeklyHTMLReportForWeb/"+lastThursday+"/weeklyCHEReport-"+userLevel+"-"+DateUtils.getDirectoryNameOfLastDuration()+".html";
+    private void createHTMLWeeklyReportForWeb(BirtReportUtils html, String userLevel,String telephone, String basePath, String contextPath, String reportGenerateDate){
+    	String weeklyHtmlPEDReportFileName = basePath + "weeklyHTMLReportForWeb/"+reportGenerateDate+"/weeklyPEDReport-"+userLevel+"-"+telephone+"-"+reportGenerateDate+".html";
+    	String weeklyHtmlPEDBUReportFileName = basePath + "weeklyHTMLReportForWeb/"+reportGenerateDate+"/weeklyPEDReport-"+userLevel+"-"+reportGenerateDate+".html";
+    	
+    	String weeklyHtmlRESReportFileName = basePath + "weeklyHTMLReportForWeb/"+reportGenerateDate+"/weeklyRESReport-"+userLevel+"-"+telephone+"-"+reportGenerateDate+".html";
+    	String weeklyHtmlRESBUReportFileName = basePath + "weeklyHTMLReportForWeb/"+reportGenerateDate+"/weeklyRESReport-"+userLevel+"-"+reportGenerateDate+".html";
+    	
+    	String weeklyHtmlCHEReportFileName = basePath + "weeklyHTMLReportForWeb/"+reportGenerateDate+"/weeklyCHEReport-"+userLevel+"-"+telephone+"-"+reportGenerateDate+".html";
+    	String weeklyHtmlCHEBUReportFileName = basePath + "weeklyHTMLReportForWeb/"+reportGenerateDate+"/weeklyCHEReport-"+userLevel+"-"+reportGenerateDate+".html";
         
         switch(userLevel){
             case LsAttributes.USER_LEVEL_RSD:
@@ -797,21 +692,6 @@ public class ReportThread extends Thread {
                     logger.info("The web weekly html chest surgery report for DSM is already generated, no need to do again.");
                 }
                 break;
-//            case LsAttributes.USER_LEVEL_REP:
-//                if( !new File(weeklyHtmlPEDReportFileName).exists() ){
-//                    html.runReport( basePath + "reportDesigns/weeklyPEDReportForWebREP.rptdesign",telephone,weeklyHtmlPEDReportFileName,"html",basePath+"/reportImages",contextPath+"/reportImages");
-//                    logger.info("the weekly html PED report to REP is done.");
-//                }else{
-//                    logger.info("The weekly html ped report for REP is already generated, no need to do again.");
-//                }
-//                
-//                if( !new File(weeklyHtmlRESReportFileName).exists() ){
-//                    html.runReport( basePath + "reportDesigns/weeklyRESReportForWebREP.rptdesign",telephone,weeklyHtmlRESReportFileName,"html",basePath+"/reportImages",contextPath+"/reportImages");
-//                    logger.info("the weekly html RES report to REP is done.");
-//                }else{
-//                    logger.info("The weekly html res report for REP is already generated, no need to do again.");
-//                }
-//                break;
             case LsAttributes.USER_LEVEL_BM:
                 if( !new File(weeklyHtmlPEDBUReportFileName).exists() ){
                     html.runReport( basePath + "reportDesigns/weeklyPEDReportForWebBU.rptdesign",telephone,"","",weeklyHtmlPEDBUReportFileName,"html",basePath+"/reportImages",contextPath+"/reportImages");
@@ -840,6 +720,124 @@ public class ReportThread extends Thread {
                 logger.info(String.format("the level of the user is %s, no need to generate the report", userLevel));
                 break;
         }
+    }
+    
+    private void createHTMLHomeWeeklyReport(BirtReportUtils html, String userLevel,String telephone, String basePath, String contextPath, String reportGenerateDate){
+    	String weeklyHtmlHomeReportFileName = basePath + "weeklyHTMLReport/"+reportGenerateDate+"/weeklyHomeReport-"+userLevel+"-"+telephone+".html";
+    	String weeklyHtmlHomeBUReportFileName = basePath + "weeklyHTMLReport/"+reportGenerateDate+"/weeklyHomeReport-"+userLevel+".html";
+    	try{
+    		String startDuration = DateUtils.getAutoHome12WeeksBeginDuration();
+        	String endDuration = DateUtils.getAutoHome12WeeksEndDuration();
+        	
+        	switch(userLevel){
+    	    	case LsAttributes.USER_LEVEL_BM:
+    	    		if( !new File(weeklyHtmlHomeBUReportFileName).exists() ){
+    	    			html.runHomeReport( basePath + "reportDesigns/weeklyHomeReportForMobileBU.rptdesign",telephone,startDuration,endDuration,weeklyHtmlHomeBUReportFileName,"html",basePath+"/reportImages",contextPath+"/reportImages");
+    	    			logger.info("the weekly html HOME report to BU Head is done.");
+    	    		}else{
+    	    			logger.info("The weekly html HOME report for BU Head is already generated, no need to do again.");
+    	    		}
+    	    		break;
+    	    	case LsAttributes.USER_LEVEL_RSD:
+    	    		if( !new File(weeklyHtmlHomeReportFileName).exists() ){
+    	    			html.runHomeReport( basePath + "reportDesigns/weeklyHomeReportForMobileRSD.rptdesign",telephone,startDuration,endDuration,weeklyHtmlHomeReportFileName,"html",basePath+"/reportImages",contextPath+"/reportImages");
+    	    			logger.info("the weekly html HOME report to RSD is done.");
+    	    		}else{
+    	    			logger.info("The weekly html HOME report for RSD is already generated, no need to do again.");
+    	    		}
+    	    		break;
+    	    		
+    	    	case LsAttributes.USER_LEVEL_RSM:
+    	    		if( !new File(weeklyHtmlHomeReportFileName).exists() ){
+    	    			html.runHomeReport( basePath + "reportDesigns/weeklyHomeReportForMobileRSM.rptdesign",telephone,startDuration,endDuration,weeklyHtmlHomeReportFileName,"html",basePath+"/reportImages",contextPath+"/reportImages");
+    	    			logger.info("the weekly html HOME report to RSM is done.");
+    	    		}else{
+    	    			logger.info("The weekly html HOME report for RSM is already generated, no need to do again.");
+    	    		}
+    	    		break;
+    	    		
+    	    	case LsAttributes.USER_LEVEL_DSM:
+    	    		if( !new File(weeklyHtmlHomeReportFileName).exists() ){
+    	    			html.runHomeReport( basePath + "reportDesigns/weeklyHomeReportForMobileDSM.rptdesign",telephone,startDuration,endDuration,weeklyHtmlHomeReportFileName,"html",basePath+"/reportImages",contextPath+"/reportImages");
+    	    			logger.info("the weekly html HOME report to DSM is done.");
+    	    		}else{
+    	    			logger.info("The weekly html HOME report for DSM is already generated, no need to do again.");
+    	    		}
+    	    		break;
+    	        case LsAttributes.USER_LEVEL_REP:
+    	            if( !new File(weeklyHtmlHomeReportFileName).exists() ){
+    	                html.runHomeReport( basePath + "reportDesigns/weeklyHomeReportForMobileREP.rptdesign",telephone,startDuration,endDuration,weeklyHtmlHomeReportFileName,"html",basePath+"/reportImages",contextPath+"/reportImages");
+    	                logger.info("the weekly html HOME report to REP is done.");
+    	            }else{
+    	                logger.info("The weekly html HOME report for REP is already generated, no need to do again.");
+    	            }
+    	            break;
+    	    	default:
+    	    		logger.info(String.format("the level of the user is %s, no need to generate the report", userLevel));
+    	    		break;
+        	}
+    	}catch(Exception e){
+    		logger.error(String.format("fail to createHTMLHomeWeeklyReport, whose tel is %s", telephone),e);
+    	}
+    }
+    
+    private void createHTMLHomeWeeklyReportForWeb(BirtReportUtils html, String userLevel,String telephone, String basePath, String contextPath, String reportGenerateDate){
+    	String weeklyHtmlHomeReportFileName = basePath + "weeklyHTMLReportForWeb/"+reportGenerateDate+"/weeklyHomeReport-"+userLevel+"-"+telephone+".html";
+    	String weeklyHtmlHomeBUReportFileName = basePath + "weeklyHTMLReportForWeb/"+reportGenerateDate+"/weeklyHomeReport-"+userLevel+".html";
+    	try{
+    		String startDuration = DateUtils.getAutoHome12WeeksBeginDuration();
+        	String endDuration = DateUtils.getAutoHome12WeeksEndDuration();
+        	
+        	switch(userLevel){
+    	    	case LsAttributes.USER_LEVEL_BM:
+    	    		if( !new File(weeklyHtmlHomeBUReportFileName).exists() ){
+    	    			html.runHomeReport( basePath + "reportDesigns/weeklyHomeReportForWebBU.rptdesign",telephone,startDuration,endDuration,weeklyHtmlHomeBUReportFileName,"html",basePath+"/reportImages",contextPath+"/reportImages");
+    	    			logger.info("the web weekly html HOME report to BU Head is done.");
+    	    		}else{
+    	    			logger.info("the web weekly html HOME report for BU Head is already generated, no need to do again.");
+    	    		}
+    	    		break;
+    	    	case LsAttributes.USER_LEVEL_RSD:
+    	    		if( !new File(weeklyHtmlHomeReportFileName).exists() ){
+    	    			html.runHomeReport( basePath + "reportDesigns/weeklyHomeReportForWebRSD.rptdesign",telephone,startDuration,endDuration,weeklyHtmlHomeReportFileName,"html",basePath+"/reportImages",contextPath+"/reportImages");
+    	    			logger.info("the web weekly html HOME report to RSD is done.");
+    	    		}else{
+    	    			logger.info("the web weekly html HOME report for RSD is already generated, no need to do again.");
+    	    		}
+    	    		break;
+    	    		
+    	    	case LsAttributes.USER_LEVEL_RSM:
+    	    		if( !new File(weeklyHtmlHomeReportFileName).exists() ){
+    	    			html.runHomeReport( basePath + "reportDesigns/weeklyHomeReportForWebRSM.rptdesign",telephone,startDuration,endDuration,weeklyHtmlHomeReportFileName,"html",basePath+"/reportImages",contextPath+"/reportImages");
+    	    			logger.info("the web weekly html HOME report to RSM is done.");
+    	    		}else{
+    	    			logger.info("the web weekly html HOME report for RSM is already generated, no need to do again.");
+    	    		}
+    	    		break;
+    	    		
+    	    	case LsAttributes.USER_LEVEL_DSM:
+    	    		if( !new File(weeklyHtmlHomeReportFileName).exists() ){
+    	    			html.runHomeReport( basePath + "reportDesigns/weeklyHomeReportForWebDSM.rptdesign",telephone,startDuration,endDuration,weeklyHtmlHomeReportFileName,"html",basePath+"/reportImages",contextPath+"/reportImages");
+    	    			logger.info("the web weekly html HOME report to DSM is done.");
+    	    		}else{
+    	    			logger.info("the web weekly html HOME report for DSM is already generated, no need to do again.");
+    	    		}
+    	    		break;
+    	        case LsAttributes.USER_LEVEL_REP:
+    	            if( !new File(weeklyHtmlHomeReportFileName).exists() ){
+    	                html.runHomeReport( basePath + "reportDesigns/weeklyHomeReportForWebREP.rptdesign",telephone,startDuration,endDuration,weeklyHtmlHomeReportFileName,"html",basePath+"/reportImages",contextPath+"/reportImages");
+    	                logger.info("the web weekly html HOME report to REP is done.");
+    	            }else{
+    	                logger.info("the web weekly html HOME report for REP is already generated, no need to do again.");
+    	            }
+    	            break;
+    	    	default:
+    	    		logger.info(String.format("the level of the user is %s, no need to generate the report", userLevel));
+    	    		break;
+        	}
+    	}catch(Exception e){
+    		logger.error(String.format("fail to createHTMLHomeWeeklyReport, whose tel is %s", telephone),e);
+    	}
     }
     
     private void createHTMLWeeklyReportOfLowerUser(BirtReportUtils html, String userLevel,String userCode, String basePath, String contextPath, String lastThursday){

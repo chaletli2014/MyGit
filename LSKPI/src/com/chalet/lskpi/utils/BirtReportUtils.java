@@ -129,6 +129,72 @@ public class BirtReportUtils {
         }  
     }  
     //用于运行报表  
+    public void runHomeReport(String designPath, String telephone, String startDuration,String last12WeekDuration, String reportFileName, String fileType, String reportImgPath, String baseImgPath){
+    	try{
+    		logger.info(String.format("run the birt report, the file name is %s",reportFileName));
+    		IReportRunnable design = null;  
+    		HashMap parameterMap = new HashMap();
+    		//Open the report design  
+    		design = engine.openReportDesign(designPath);  
+    		IGetParameterDefinitionTask paramTask = engine.createGetParameterDefinitionTask(design);
+    		Collection parameters = paramTask.getParameterDefns(false);
+    		
+    		if( null != startDuration && !"".equalsIgnoreCase(startDuration) ){
+    			Map paramValues = new HashMap();
+    			paramValues.put("startDuration", startDuration);
+    			evaluateParameterValues(parameterMap,parameters,paramValues);
+    		}
+    		
+    		if( null != last12WeekDuration && !"".equalsIgnoreCase(last12WeekDuration) ){
+    			Map paramValues = new HashMap();
+    			paramValues.put("endDuration", last12WeekDuration);
+    			evaluateParameterValues(parameterMap,parameters,paramValues);
+    		}
+    		
+    		if( null != telephone && !"".equalsIgnoreCase(telephone) ){
+    			Map paramValues = new HashMap();
+    			paramValues.put("userTel", telephone);
+    			evaluateParameterValues(parameterMap,parameters,paramValues);
+    		}
+    		
+    		IRunAndRenderTask task = engine.createRunAndRenderTask(design);  
+    		logger.info("create and render the task");
+    		IRenderOption options = null;
+    		if( null == fileType || "".equalsIgnoreCase(fileType) || "excel".equalsIgnoreCase(fileType)){
+    			options = new EXCELRenderOption();  
+    			options.setOutputFormat("xlsx");
+    			options.setOutputFileName(reportFileName);
+    			options.setOption(IExcelRenderOption.OFFICE_VERSION, "office2007");
+    		}else if( "html".equalsIgnoreCase(fileType) ){
+    			HTMLRenderContext renderContext = new HTMLRenderContext();
+    			renderContext.setImageDirectory(reportImgPath);
+    			renderContext.setBaseImageURL(baseImgPath);
+    			HashMap contextMap = new HashMap();
+    			contextMap.put(EngineConstants.APPCONTEXT_HTML_RENDER_CONTEXT, renderContext);
+    			task.setAppContext(contextMap);
+    			
+    			options = new HTMLRenderOption();
+    			options.setOutputFileName(reportFileName);
+    			options.setOutputFormat("html");
+    			((HTMLRenderOption)options).setEmbeddable(true);
+    			options.setSupportedImageFormats("jpg");
+    		}else if( "pdf".equalsIgnoreCase(fileType) ){
+    			options = new PDFRenderOption();
+    			options.setOutputFormat("pdf");
+    			options.setOutputFileName(reportFileName);
+    		}
+    		
+    		task.setRenderOption(options);
+			task.setParameterValues(parameterMap);
+    		logger.info("start to run the task");
+    		task.run();
+    		task.close();  
+    		logger.info("the taks is closed.");
+    	}catch( Exception ex){
+    		logger.error("fail to generate the home report",ex);
+    	}  
+    }  
+    //用于运行报表  
     public void runRefreshReport(String designPath, String telephone, String startDate, String endDate, String reportFileName, String fileType, String reportImgPath, String baseImgPath, String region){
         try{
             logger.info(String.format("run the birt refresh report, the file name is %s",reportFileName));
@@ -288,7 +354,7 @@ public class BirtReportUtils {
     	try{
     		config = new EngineConfig( );  
     		config.setBIRTHome("");//
-    		config.setLogConfig(CustomizedProperty.getContextProperty("birt_log_path", "d:/chalet/birt/logs"), Level.FINE);
+    		config.setLogConfig("d:/chalet/birt/logs", Level.FINE);
     		HTMLEmitterConfig emitterConfig = new HTMLEmitterConfig( ); 
     		emitterConfig.setActionHandler( new HTMLActionHandler( ) ); 
     		HTMLServerImageHandler imageHandler = new HTMLServerImageHandler( ); 
@@ -332,11 +398,11 @@ public class BirtReportUtils {
     }
     
     public static void main (String[] args) {  
-//        BirtReportUtils html = new BirtReportUtils();  
-//        html.startPlatform();  
-//        System.out.println("Started");
-//        html.runReport("D:\\workspace_birt\\LSKPI\\dsmPEDDaily.rptdesign","13137437096","d:\\test.xls","","");  
-//        html.stopPlatform();  
-//        System.out.println("Finished");  
+        BirtReportUtils html = new BirtReportUtils();  
+        html.startHtmlPlatform();
+        System.out.println("Started");
+        html.runHomeReport( "D://workspace_birt//MyGit//LSKPI//WebContent//reportDesigns/weeklyHomeReportForWebBU.rptdesign","18501622299","2014.09.08-2014.09.14","2014.06.23-2014.06.29","D://test//testHome.html","html","D://test//","D://test//"); 
+        html.stopPlatform();  
+        System.out.println("Finished");  
     }
 }

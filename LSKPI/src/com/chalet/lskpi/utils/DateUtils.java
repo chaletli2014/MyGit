@@ -366,10 +366,65 @@ public class DateUtils {
     	return new StringBuffer(formatter_1.format(beginDate)).append("-").append(formatter_1.format(endDate)).toString();
     }
     
+    public static String getAutoHome12WeeksBeginDuration(){
+    	Calendar cal = Calendar.getInstance();
+    	cal.setTime(new Date());
+    	cal.add(Calendar.DATE, -14);
+    	
+    	return getHome12WeeksBeginDuration(cal.getTime());
+    }
+    
+    public static String getAutoHome12WeeksEndDuration() throws ParseException{
+    	String beginDuration = getAutoHome12WeeksBeginDuration();
+    	
+    	Date startDate_d = formatter_1.parse(beginDuration.substring(0, 10));
+    	
+    	Calendar cal = Calendar.getInstance();
+    	cal.setTime(startDate_d);
+    	cal.add(Calendar.DAY_OF_YEAR,-7*11);
+    	
+    	Date last12StartDate = cal.getTime();
+    	cal.add(Calendar.DATE, 6);
+    	Date last12EndDate = cal.getTime();
+    	return formatter_1.format(last12StartDate)+"-"+formatter_1.format(last12EndDate);
+    }
+    
+    public static String getHome12WeeksBeginDuration(Date date){
+    	Calendar cal = Calendar.getInstance();
+    	cal.setTime(date);
+    	cal.setFirstDayOfWeek(Calendar.MONDAY);
+    	cal.set(Calendar.DAY_OF_WEEK, Calendar.MONDAY);
+    	Date beginDate = cal.getTime();
+    	
+    	cal.add(Calendar.DATE, 6);
+    	Date endDate = cal.getTime();
+    	return formatter_1.format(beginDate)+"-"+formatter_1.format(endDate);
+    }
+    public static String getHome12WeeksEndDuration(Date date) throws ParseException{
+    	String beginDuration = getHome12WeeksBeginDuration(date);
+    	
+    	Date startDate_d = formatter_1.parse(beginDuration.substring(0, 10));
+    	
+    	Calendar cal = Calendar.getInstance();
+    	cal.setTime(startDate_d);
+    	cal.add(Calendar.DAY_OF_YEAR,-7*11);
+    	
+    	Date last12StartDate = cal.getTime();
+    	cal.add(Calendar.DATE, 6);
+    	Date last12EndDate = cal.getTime();
+    	return formatter_1.format(last12StartDate)+"-"+formatter_1.format(last12EndDate);
+    }
+    
     public static void main(String[] args){
 		try {
-            System.out.println(getEndDurationByStartDate("2014.08.18"));
-        } catch (ParseException e) {
+			Date test = new Date();
+			test = new Date(test.getTime() - 0 * 24 * 60 * 60 * 1000);
+			System.out.println(test);
+            System.out.println(getHome12WeeksBeginDuration(test));
+            System.out.println(getHome12WeeksEndDuration(test));
+            System.out.println(getAutoHome12WeeksBeginDuration());
+            System.out.println(getAutoHome12WeeksEndDuration());
+        } catch (Exception e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
         }

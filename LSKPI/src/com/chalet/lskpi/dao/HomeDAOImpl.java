@@ -80,7 +80,7 @@ public class HomeDAOImpl implements HomeDAO {
     public void insert(final HomeData homeData, final String doctorId) throws Exception {
         logger.info("insert home data");
         
-        final String sql = "insert into tbl_home_data values(null,?,?,?,?,?,?,?,?,date_sub(NOW(),interval 7 day),NOW(),?)";
+        final String sql = "insert into tbl_home_data values(null,?,?,?,?,?,?,?,?,date_sub(NOW(),interval 7 day),NOW(),?,concat( DATE_FORMAT( ADDDATE(createdate,-WEEKDAY(NOW())),'%Y.%m.%d'),'-', DATE_FORMAT(ADDDATE(createdate,6-WEEKDAY(NOW())),'%Y.%m.%d')))";
         KeyHolder keyHolder = new GeneratedKeyHolder();
         dataBean.getJdbcTemplate().update(new PreparedStatementCreator(){
             @Override

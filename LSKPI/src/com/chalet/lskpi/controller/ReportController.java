@@ -1529,8 +1529,52 @@ public class ReportController extends BaseController{
                 dsmName = userService.getUserInfoByUserCode(currentUser.getSuperior()).getName();
             }
             populateHomeWeeklyReportTitle(currentUser, view, LsAttributes.HOMEWEEKLYREPORTTITLE, dsmName);
+            
+            logger.info(String.format("begin to get the last 12 weeks report, current user is %s", currentUser.getTelephone()));
+            //add the last 12 weekly report
+            String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+request.getContextPath()+"/";
+            String localPath = request.getRealPath("/");
+            StringBuffer localReportFile = new StringBuffer(localPath);
+            StringBuffer remoteReportFile = new StringBuffer(basePath);
+            
+            String directory = BrowserUtils.getDirectory(request.getHeader("User-Agent"),"weeklyHTMLReport");
+            String reportGenerateDate = DateUtils.getDirectoryNameOfLastDuration();
+            
+            if( LsAttributes.USER_LEVEL_BM.equalsIgnoreCase(currentUser.getLevel()) ){
+                remoteReportFile.append(directory).append(reportGenerateDate).append("/")
+                .append("weeklyHomeReport-")
+                .append(currentUser.getLevel())
+                .append(".html");
+                
+                localReportFile.append(directory).append(reportGenerateDate).append("/")
+                .append("weeklyHomeReport-")
+                .append(currentUser.getLevel())
+                .append(".html");
+            }else{
+                remoteReportFile.append(directory).append(reportGenerateDate).append("/")
+                .append("weeklyHomeReport-")
+                .append(currentUser.getLevel())
+                .append("-")
+                .append(currentUserTel)
+                .append(".html");
+                
+                localReportFile.append(directory).append(reportGenerateDate).append("/")
+                .append("weeklyHomeReport-")
+                .append(currentUser.getLevel())
+                .append("-")
+                .append(currentUserTel)
+                .append(".html");
+            }
+            
+            File reportfile = new File(localReportFile.toString());
+            if( reportfile.exists() ){
+                view.addObject("reportFile", remoteReportFile.toString());
+            }else{
+                view.addObject("reportFile", basePath+"jsp/weeklyReport_404.html");
+            }
+            
         }catch(Exception e){
-            logger.error("fail to get the home weekly data,",e);
+            logger.error("fail to get the last 12 home weekly data,",e);
         }
         
         view.setViewName("homeCollectionReport");

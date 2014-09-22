@@ -400,3 +400,11 @@ create table tbl_doctor_weekly(
     createdate      datetime,
     modifydate      datetime
 );
+
+alter table tbl_home_data add column duration varchar(30);
+
+update tbl_home_data 
+set duration = concat( DATE_FORMAT( ADDDATE(createdate,-WEEKDAY(createdate)),'%Y.%m.%d'),'-', DATE_FORMAT(ADDDATE(createdate,6-WEEKDAY(createdate)),'%Y.%m.%d'));
+
+ALTER  TABLE tbl_doctor_weekly ADD INDEX INDEX_DOCTOR_WEEKLY_DURATION (duration);
+ALTER  TABLE tbl_home_data ADD INDEX INDEX_HOME_DURATION (duration);
