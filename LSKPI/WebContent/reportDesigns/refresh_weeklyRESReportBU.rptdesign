@@ -189,23 +189,35 @@
                     <property name="nativeDataType">12</property>
                 </structure>
             </list-property>
-            <xml-property name="queryText"><![CDATA[select core.coreNum,
-emerging.emergingNum,
+            <xml-property name="queryText"><![CDATA[select allNum.coreNum,
+allNum.emergingNum,
 (	case when 
-	core.region in (
+	allNum.region in (
 		select property_name 
 		from tbl_property p	)
 	then (
 		select property_value 
 		from tbl_property 
-		where property_name=core.region)
-	else core.region 
+		where property_name=allNum.region)
+	else allNum.region 
 	end
 ) region
  from 
-( select count(1) as coreNum,region from tbl_hospital where dragonType='Core' and isResAssessed='1' group by region ) core, 
-( select count(1) as emergingNum,region from tbl_hospital where dragonType='Emerging' and isResAssessed='1' group by region) emerging 
- where core.region = emerging.region;]]></xml-property>
+(
+	( select count(1) as coreNum, 0 as emergingNum, region
+		from tbl_hospital 
+		where dragonType='Core' 
+		and isResAssessed='1' 
+		group by region 
+	)
+	UNION ALL 
+	( select 0 as coreNum, count(1) as emergingNum, region 
+		from tbl_hospital 
+		where dragonType='Emerging' 
+		and isResAssessed='1' 
+		group by region 
+	)
+) allNum]]></xml-property>
             <xml-property name="designerValues"><![CDATA[<?xml version="1.0" encoding="UTF-8"?>
 <model:DesignValues xmlns:design="http://www.eclipse.org/datatools/connectivity/oda/design" xmlns:model="http://www.eclipse.org/birt/report/model/adapter/odaModel">
   <Version>2.0</Version>
@@ -3855,22 +3867,23 @@ and isResAssessed='1']]></xml-property>
                     <property name="nativeDataType">12</property>
                 </structure>
             </list-property>
-            <xml-property name="queryText"><![CDATA[select core.coreNum,emerging.emergingNum,core.rsmRegion
- from 
-( select count(1) as coreNum,rsmRegion, region 
-	from tbl_hospital 
-	where dragonType='Core' 
-	and isResAssessed='1' 
-	group by rsmRegion 
-) core, 
-( select count(1) as emergingNum,rsmRegion, region 
-	from tbl_hospital 
-	where dragonType='Emerging' 
-	and isResAssessed='1' 
-	group by rsmRegion 
-) emerging 
- where core.rsmRegion = emerging.rsmRegion
- and core.region = 'Central GRA';]]></xml-property>
+            <xml-property name="queryText"><![CDATA[ select allNum.coreNum,allNum.emergingNum,allNum.rsmRegion
+ from (
+	( select count(1) as coreNum, 0 as emergingNum, rsmRegion, region
+		from tbl_hospital 
+		where dragonType='Core' 
+		and isResAssessed='1' 
+		group by rsmRegion 
+	)
+	UNION ALL 
+	( select 0 as coreNum, count(1) as emergingNum, rsmRegion, region 
+		from tbl_hospital 
+		where dragonType='Emerging' 
+		and isResAssessed='1' 
+		group by rsmRegion 
+	)
+) allNum 
+ where allNum.region = 'Central GRA']]></xml-property>
             <xml-property name="designerValues"><![CDATA[<?xml version="1.0" encoding="UTF-8"?>
 <model:DesignValues xmlns:design="http://www.eclipse.org/datatools/connectivity/oda/design" xmlns:model="http://www.eclipse.org/birt/report/model/adapter/odaModel">
   <Version>2.0</Version>
@@ -5848,22 +5861,23 @@ and isResAssessed='1']]></xml-property>
                     <property name="nativeDataType">12</property>
                 </structure>
             </list-property>
-            <xml-property name="queryText"><![CDATA[select core.coreNum,emerging.emergingNum,core.rsmRegion
- from 
-( select count(1) as coreNum,rsmRegion, region 
-	from tbl_hospital 
-	where dragonType='Core' 
-	and isResAssessed='1' 
-	group by rsmRegion 
-) core, 
-( select count(1) as emergingNum,rsmRegion, region 
-	from tbl_hospital 
-	where dragonType='Emerging' 
-	and isResAssessed='1' 
-	group by rsmRegion 
-) emerging 
- where core.rsmRegion = emerging.rsmRegion
- and core.region = 'East1 GRA';]]></xml-property>
+            <xml-property name="queryText"><![CDATA[ select allNum.coreNum,allNum.emergingNum,allNum.rsmRegion
+ from (
+	( select count(1) as coreNum, 0 as emergingNum, rsmRegion, region
+		from tbl_hospital 
+		where dragonType='Core' 
+		and isResAssessed='1' 
+		group by rsmRegion 
+	)
+	UNION ALL 
+	( select 0 as coreNum, count(1) as emergingNum, rsmRegion, region 
+		from tbl_hospital 
+		where dragonType='Emerging' 
+		and isResAssessed='1' 
+		group by rsmRegion 
+	)
+) allNum 
+ where allNum.region = 'East1 GRA';]]></xml-property>
             <xml-property name="designerValues"><![CDATA[<?xml version="1.0" encoding="UTF-8"?>
 <model:DesignValues xmlns:design="http://www.eclipse.org/datatools/connectivity/oda/design" xmlns:model="http://www.eclipse.org/birt/report/model/adapter/odaModel">
   <Version>2.0</Version>
@@ -7841,22 +7855,23 @@ and isResAssessed='1']]></xml-property>
                     <property name="nativeDataType">12</property>
                 </structure>
             </list-property>
-            <xml-property name="queryText"><![CDATA[select core.coreNum,emerging.emergingNum,core.rsmRegion
- from 
-( select count(1) as coreNum,rsmRegion, region 
-	from tbl_hospital 
-	where dragonType='Core' 
-	and isResAssessed='1' 
-	group by rsmRegion 
-) core, 
-( select count(1) as emergingNum,rsmRegion, region 
-	from tbl_hospital 
-	where dragonType='Emerging' 
-	and isResAssessed='1' 
-	group by rsmRegion 
-) emerging 
- where core.rsmRegion = emerging.rsmRegion
- and core.region = 'East2 GRA';]]></xml-property>
+            <xml-property name="queryText"><![CDATA[ select allNum.coreNum,allNum.emergingNum,allNum.rsmRegion
+ from (
+	( select count(1) as coreNum, 0 as emergingNum, rsmRegion, region
+		from tbl_hospital 
+		where dragonType='Core' 
+		and isResAssessed='1' 
+		group by rsmRegion 
+	)
+	UNION ALL 
+	( select 0 as coreNum, count(1) as emergingNum, rsmRegion, region 
+		from tbl_hospital 
+		where dragonType='Emerging' 
+		and isResAssessed='1' 
+		group by rsmRegion 
+	)
+) allNum 
+ where allNum.region = 'East2 GRA';]]></xml-property>
             <xml-property name="designerValues"><![CDATA[<?xml version="1.0" encoding="UTF-8"?>
 <model:DesignValues xmlns:design="http://www.eclipse.org/datatools/connectivity/oda/design" xmlns:model="http://www.eclipse.org/birt/report/model/adapter/odaModel">
   <Version>2.0</Version>
@@ -9834,22 +9849,23 @@ and isResAssessed='1']]></xml-property>
                     <property name="nativeDataType">12</property>
                 </structure>
             </list-property>
-            <xml-property name="queryText"><![CDATA[select core.coreNum,emerging.emergingNum,core.rsmRegion
- from 
-( select count(1) as coreNum,rsmRegion, region 
-	from tbl_hospital 
-	where dragonType='Core' 
-	and isResAssessed='1' 
-	group by rsmRegion 
-) core, 
-( select count(1) as emergingNum,rsmRegion, region 
-	from tbl_hospital 
-	where dragonType='Emerging' 
-	and isResAssessed='1' 
-	group by rsmRegion 
-) emerging 
- where core.rsmRegion = emerging.rsmRegion
- and core.region = 'North1 GRA';]]></xml-property>
+            <xml-property name="queryText"><![CDATA[ select allNum.coreNum,allNum.emergingNum,allNum.rsmRegion
+ from (
+	( select count(1) as coreNum, 0 as emergingNum, rsmRegion, region
+		from tbl_hospital 
+		where dragonType='Core' 
+		and isResAssessed='1' 
+		group by rsmRegion 
+	)
+	UNION ALL 
+	( select 0 as coreNum, count(1) as emergingNum, rsmRegion, region 
+		from tbl_hospital 
+		where dragonType='Emerging' 
+		and isResAssessed='1' 
+		group by rsmRegion 
+	)
+) allNum 
+ where allNum.region = 'North1 GRA']]></xml-property>
             <xml-property name="designerValues"><![CDATA[<?xml version="1.0" encoding="UTF-8"?>
 <model:DesignValues xmlns:design="http://www.eclipse.org/datatools/connectivity/oda/design" xmlns:model="http://www.eclipse.org/birt/report/model/adapter/odaModel">
   <Version>2.0</Version>
@@ -11827,22 +11843,23 @@ and isResAssessed='1']]></xml-property>
                     <property name="nativeDataType">12</property>
                 </structure>
             </list-property>
-            <xml-property name="queryText"><![CDATA[select core.coreNum,emerging.emergingNum,core.rsmRegion
- from 
-( select count(1) as coreNum,rsmRegion, region 
-	from tbl_hospital 
-	where dragonType='Core' 
-	and isResAssessed='1' 
-	group by rsmRegion 
-) core, 
-( select count(1) as emergingNum,rsmRegion, region 
-	from tbl_hospital 
-	where dragonType='Emerging' 
-	and isResAssessed='1' 
-	group by rsmRegion 
-) emerging 
- where core.rsmRegion = emerging.rsmRegion
- and core.region = 'North2 GRA';]]></xml-property>
+            <xml-property name="queryText"><![CDATA[ select allNum.coreNum,allNum.emergingNum,allNum.rsmRegion
+ from (
+	( select count(1) as coreNum, 0 as emergingNum, rsmRegion, region
+		from tbl_hospital 
+		where dragonType='Core' 
+		and isResAssessed='1' 
+		group by rsmRegion 
+	)
+	UNION ALL 
+	( select 0 as coreNum, count(1) as emergingNum, rsmRegion, region 
+		from tbl_hospital 
+		where dragonType='Emerging' 
+		and isResAssessed='1' 
+		group by rsmRegion 
+	)
+) allNum 
+ where allNum.region = 'North2 GRA']]></xml-property>
             <xml-property name="designerValues"><![CDATA[<?xml version="1.0" encoding="UTF-8"?>
 <model:DesignValues xmlns:design="http://www.eclipse.org/datatools/connectivity/oda/design" xmlns:model="http://www.eclipse.org/birt/report/model/adapter/odaModel">
   <Version>2.0</Version>
@@ -13820,22 +13837,23 @@ and isResAssessed='1']]></xml-property>
                     <property name="nativeDataType">12</property>
                 </structure>
             </list-property>
-            <xml-property name="queryText"><![CDATA[select core.coreNum,emerging.emergingNum,core.rsmRegion
- from 
-( select count(1) as coreNum,rsmRegion, region 
-	from tbl_hospital 
-	where dragonType='Core' 
-	and isResAssessed='1' 
-	group by rsmRegion 
-) core, 
-( select count(1) as emergingNum,rsmRegion, region 
-	from tbl_hospital 
-	where dragonType='Emerging' 
-	and isResAssessed='1' 
-	group by rsmRegion 
-) emerging 
- where core.rsmRegion = emerging.rsmRegion
- and core.region = 'South GRA';]]></xml-property>
+            <xml-property name="queryText"><![CDATA[ select allNum.coreNum,allNum.emergingNum,allNum.rsmRegion
+ from (
+	( select count(1) as coreNum, 0 as emergingNum, rsmRegion, region
+		from tbl_hospital 
+		where dragonType='Core' 
+		and isResAssessed='1' 
+		group by rsmRegion 
+	)
+	UNION ALL 
+	( select 0 as coreNum, count(1) as emergingNum, rsmRegion, region 
+		from tbl_hospital 
+		where dragonType='Emerging' 
+		and isResAssessed='1' 
+		group by rsmRegion 
+	)
+) allNum 
+ where allNum.region = 'South GRA']]></xml-property>
             <xml-property name="designerValues"><![CDATA[<?xml version="1.0" encoding="UTF-8"?>
 <model:DesignValues xmlns:design="http://www.eclipse.org/datatools/connectivity/oda/design" xmlns:model="http://www.eclipse.org/birt/report/model/adapter/odaModel">
   <Version>2.0</Version>
@@ -15813,22 +15831,23 @@ and isResAssessed='1']]></xml-property>
                     <property name="nativeDataType">12</property>
                 </structure>
             </list-property>
-            <xml-property name="queryText"><![CDATA[select core.coreNum,emerging.emergingNum,core.rsmRegion
- from 
-( select count(1) as coreNum,rsmRegion, region 
-	from tbl_hospital 
-	where dragonType='Core' 
-	and isResAssessed='1' 
-	group by rsmRegion 
-) core, 
-( select count(1) as emergingNum,rsmRegion, region 
-	from tbl_hospital 
-	where dragonType='Emerging' 
-	and isResAssessed='1' 
-	group by rsmRegion 
-) emerging 
- where core.rsmRegion = emerging.rsmRegion
- and core.region = 'West GRA';]]></xml-property>
+            <xml-property name="queryText"><![CDATA[ select allNum.coreNum,allNum.emergingNum,allNum.rsmRegion
+ from (
+	( select count(1) as coreNum, 0 as emergingNum, rsmRegion, region
+		from tbl_hospital 
+		where dragonType='Core' 
+		and isResAssessed='1' 
+		group by rsmRegion 
+	)
+	UNION ALL 
+	( select 0 as coreNum, count(1) as emergingNum, rsmRegion, region 
+		from tbl_hospital 
+		where dragonType='Emerging' 
+		and isResAssessed='1' 
+		group by rsmRegion 
+	)
+) allNum 
+ where allNum.region = 'West GRA']]></xml-property>
             <xml-property name="designerValues"><![CDATA[<?xml version="1.0" encoding="UTF-8"?>
 <model:DesignValues xmlns:design="http://www.eclipse.org/datatools/connectivity/oda/design" xmlns:model="http://www.eclipse.org/birt/report/model/adapter/odaModel">
   <Version>2.0</Version>
