@@ -3686,7 +3686,7 @@ group by hd.duration, h.region;]]></xml-property>
         <Visible>true</Visible>
       </Label>
       <FormatSpecifier xsi:type="attribute:JavaNumberFormatSpecifier">
-        <Pattern>##.#%</Pattern>
+        <Pattern>##,###</Pattern>
       </FormatSpecifier>
       <LabelPosition>Left</LabelPosition>
       <MajorGrid>
@@ -6860,7 +6860,7 @@ group by hd.duration, h.region;]]></xml-property>
         <Visible>true</Visible>
       </Label>
       <FormatSpecifier xsi:type="attribute:JavaNumberFormatSpecifier">
-        <Pattern>##.#%</Pattern>
+        <Pattern>##,###</Pattern>
       </FormatSpecifier>
       <LabelPosition>Left</LabelPosition>
       <MajorGrid>

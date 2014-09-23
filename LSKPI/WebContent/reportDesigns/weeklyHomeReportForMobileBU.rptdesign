@@ -1354,32 +1354,12 @@ group by hd.duration, h.region;]]></xml-property>
         </simple-master-page>
     </page-setup>
     <body>
-        <table id="1057">
-            <list-property name="boundDataColumns">
-                <structure>
-                    <property name="name">regionCenter</property>
-                    <text-property name="displayName">regionCenter</text-property>
-                    <expression name="expression" type="javascript">'所属 [全国] RSD周报数据'</expression>
-                    <property name="dataType">string</property>
-                    <property name="allowExport">true</property>
-                </structure>
-            </list-property>
-            <column id="1061"/>
-            <detail>
-                <row id="1058">
-                    <cell id="1059">
-                        <property name="fontFamily">"Microsoft YaHei UI"</property>
-                        <property name="fontSize">14pt</property>
-                        <property name="textAlign">center</property>
-                        <data id="1060">
-                            <property name="fontFamily">"Microsoft YaHei UI"</property>
-                            <property name="fontWeight">normal</property>
-                            <property name="resultSetColumn">regionCenter</property>
-                        </data>
-                    </cell>
-                </row>
-            </detail>
-        </table>
+        <label id="2255">
+            <property name="fontFamily">"Microsoft YaHei UI"</property>
+            <property name="fontSize">14pt</property>
+            <property name="textAlign">center</property>
+            <text-property name="text">'所属 [全国] RSD周报数据'</text-property>
+        </label>
         <grid id="2225">
             <property name="textAlign">center</property>
             <property name="height">3.15625in</property>
@@ -3691,7 +3671,7 @@ group by hd.duration, h.region;]]></xml-property>
         <Visible>true</Visible>
       </Label>
       <FormatSpecifier xsi:type="attribute:JavaNumberFormatSpecifier">
-        <Pattern>##.#%</Pattern>
+        <Pattern>##,###</Pattern>
       </FormatSpecifier>
       <LabelPosition>Left</LabelPosition>
       <MajorGrid>
@@ -6856,7 +6836,7 @@ group by hd.duration, h.region;]]></xml-property>
         <Visible>true</Visible>
       </Label>
       <FormatSpecifier xsi:type="attribute:JavaNumberFormatSpecifier">
-        <Pattern>##.#%</Pattern>
+        <Pattern>##,###</Pattern>
       </FormatSpecifier>
       <LabelPosition>Left</LabelPosition>
       <MajorGrid>
