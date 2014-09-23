@@ -1595,6 +1595,7 @@ group by hd.duration, h.region;]]></xml-property>
         <Visible>false</Visible>
       </Title>
       <TitlePosition>Above</TitlePosition>
+      <Ellipsis>0</Ellipsis>
     </Children>
     <Bounds>
       <Left>0.0</Left>
@@ -3178,6 +3179,7 @@ group by hd.duration, h.region;]]></xml-property>
         <Visible>false</Visible>
       </Title>
       <TitlePosition>Above</TitlePosition>
+      <Ellipsis>0</Ellipsis>
     </Children>
     <Bounds>
       <Left>0.0</Left>
@@ -4760,6 +4762,7 @@ group by hd.duration, h.region;]]></xml-property>
         <Visible>false</Visible>
       </Title>
       <TitlePosition>Above</TitlePosition>
+      <Ellipsis>0</Ellipsis>
     </Children>
     <Bounds>
       <Left>0.0</Left>
@@ -6343,6 +6346,7 @@ group by hd.duration, h.region;]]></xml-property>
         <Visible>false</Visible>
       </Title>
       <TitlePosition>Above</TitlePosition>
+      <Ellipsis>0</Ellipsis>
     </Children>
     <Bounds>
       <Left>0.0</Left>
@@ -7692,6 +7696,7 @@ group by hd.duration, h.region;]]></xml-property>
         </grid>
         <grid id="698">
             <property name="fontFamily">"微软雅黑"</property>
+            <property name="textAlign">center</property>
             <property name="height">3.1666666666666665in</property>
             <property name="width">3.2604166666666665in</property>
             <column id="699">
@@ -7928,6 +7933,7 @@ group by hd.duration, h.region;]]></xml-property>
         <Visible>false</Visible>
       </Title>
       <TitlePosition>Above</TitlePosition>
+      <Ellipsis>0</Ellipsis>
     </Children>
     <Bounds>
       <Left>0.0</Left>
@@ -9278,7 +9284,7 @@ group by hd.duration, h.region;]]></xml-property>
         </grid>
         <grid id="703">
             <property name="fontFamily">"@微软雅黑"</property>
-            <property name="textAlign">left</property>
+            <property name="textAlign">center</property>
             <property name="height">3.1458333333333335in</property>
             <property name="width">3.25in</property>
             <column id="704">
@@ -9515,6 +9521,7 @@ group by hd.duration, h.region;]]></xml-property>
         <Visible>false</Visible>
       </Title>
       <TitlePosition>Above</TitlePosition>
+      <Ellipsis>0</Ellipsis>
     </Children>
     <Bounds>
       <Left>0.0</Left>
