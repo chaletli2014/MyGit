@@ -112,6 +112,12 @@ public class ReportThread extends Thread {
                     lowerUserInfos4Report.addAll(dsmUserInfos);
                     lowerUserInfos4Report.addAll(repUserInfos);
                     
+                    List<UserInfo> homeReportUsers = new ArrayList<UserInfo>();
+                    homeReportUsers.addAll(rsdUserInfos);
+                    homeReportUsers.addAll(rsmUserInfos);
+                    homeReportUsers.addAll(dsmUserInfos);
+                    homeReportUsers.addAll(repUserInfos);
+                    
                     BirtReportUtils html = new BirtReportUtils();
                     int email_send_flag = Integer.parseInt(CustomizedProperty.getContextProperty("email_send_flag", "0"));
                     
@@ -158,17 +164,26 @@ public class ReportThread extends Thread {
                                 
                                 createHTMLWeeklyReportForWeb(html, user.getLevel(), telephone, basePath, contextPath, reportGenerateDate);
                                 this.taskTime = System.currentTimeMillis();
-                                
-                                createHTMLHomeWeeklyReport(html, user.getLevel(), telephone, basePath, contextPath, reportGenerateDate);
-                                this.taskTime = System.currentTimeMillis();
-                                createHTMLHomeWeeklyReportForWeb(html, user.getLevel(), telephone, basePath, contextPath, reportGenerateDate);
-                                this.taskTime = System.currentTimeMillis();
-                                
                             }else{
                                 logger.error(String.format("the telephone number for the user %s is not found", user.getName()));
                             }
                         }
                         logger.info("end to generate the html weekly report");
+                        
+                        logger.info("start to generate the home html weekly report");
+                        for( UserInfo user : homeReportUsers ){
+                        	String telephone = user.getTelephone();
+                        	if( telephone != null && !"#N/A".equalsIgnoreCase(telephone) ){
+                            	createHTMLHomeWeeklyReport(html, user.getLevel(), telephone, basePath, contextPath, reportGenerateDate);
+                                this.taskTime = System.currentTimeMillis();
+                                
+                                createHTMLHomeWeeklyReportForWeb(html, user.getLevel(), telephone, basePath, contextPath, reportGenerateDate);
+                                this.taskTime = System.currentTimeMillis();
+                            }else{
+                                logger.error(String.format("the telephone number for the user %s is not found or the user is vacant", user.getName()));
+                            }
+                        }
+                        logger.info("end to generate the home html weekly report");
                         
                         logger.info("start to generate the html weekly report of lower user");
                         for( UserInfo user : lowerUserInfos4Report ){

@@ -610,7 +610,7 @@ group by hd.duration, h.region;]]></xml-property>
             <xml-property name="queryText"><![CDATA[select 
 hd.duration,
 h.region,
-sum(hd.ltenum) / sum(asthmanum) as cureRate  
+IFNULL(sum(hd.ltenum) / sum(asthmanum),0) as cureRate   
 from tbl_home_data hd, tbl_hospital h 
 where hd.duration between ? and ? 
 and h.code = hd.hospitalCode 
@@ -996,7 +996,7 @@ group by hd.duration, h.region;]]></xml-property>
             <xml-property name="queryText"><![CDATA[select 
 hd.duration,
 h.region,
-sum(hd.lsnum) / sum(ltenum) as lsRate  
+IFNULL(sum(hd.lsnum) / sum(ltenum),0) as lsRate  
 from tbl_home_data hd, tbl_hospital h 
 where hd.duration between ? and ? 
 and h.code = hd.hospitalCode 
@@ -1189,7 +1189,7 @@ group by hd.duration, h.region;]]></xml-property>
             <xml-property name="queryText"><![CDATA[select 
 hd.duration,
 h.region,
-sum(hd.lttnum) / sum(lsnum) as reachRate 
+IFNULL(sum(hd.lttnum) / sum(lsnum),0) as reachRate  
 from tbl_home_data hd, tbl_hospital h 
 where hd.duration between ? and ? 
 and h.code = hd.hospitalCode 

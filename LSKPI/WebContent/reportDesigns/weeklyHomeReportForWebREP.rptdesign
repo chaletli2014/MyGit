@@ -74,6 +74,7 @@
     </data-sources>
     <data-sets>
         <oda-data-set extensionID="org.eclipse.birt.report.data.oda.jdbc.JdbcSelectDataSet" name="userInfoDataSet" id="1003">
+            <list-property name="columnHints"/>
             <list-property name="parameters">
                 <structure>
                     <property name="name">title_userTel</property>
@@ -92,73 +93,8 @@
                 <list-property name="resultSet">
                     <structure>
                         <property name="position">1</property>
-                        <property name="name">id</property>
-                        <property name="dataType">integer</property>
-                    </structure>
-                    <structure>
-                        <property name="position">2</property>
                         <property name="name">name</property>
                         <property name="dataType">string</property>
-                    </structure>
-                    <structure>
-                        <property name="position">3</property>
-                        <property name="name">telephone</property>
-                        <property name="dataType">string</property>
-                    </structure>
-                    <structure>
-                        <property name="position">4</property>
-                        <property name="name">etmsCode</property>
-                        <property name="dataType">string</property>
-                    </structure>
-                    <structure>
-                        <property name="position">5</property>
-                        <property name="name">userCode</property>
-                        <property name="dataType">string</property>
-                    </structure>
-                    <structure>
-                        <property name="position">6</property>
-                        <property name="name">BU</property>
-                        <property name="dataType">string</property>
-                    </structure>
-                    <structure>
-                        <property name="position">7</property>
-                        <property name="name">regionCenter</property>
-                        <property name="dataType">string</property>
-                    </structure>
-                    <structure>
-                        <property name="position">8</property>
-                        <property name="name">region</property>
-                        <property name="dataType">string</property>
-                    </structure>
-                    <structure>
-                        <property name="position">9</property>
-                        <property name="name">teamCode</property>
-                        <property name="dataType">string</property>
-                    </structure>
-                    <structure>
-                        <property name="position">10</property>
-                        <property name="name">team</property>
-                        <property name="dataType">string</property>
-                    </structure>
-                    <structure>
-                        <property name="position">11</property>
-                        <property name="name">level</property>
-                        <property name="dataType">string</property>
-                    </structure>
-                    <structure>
-                        <property name="position">12</property>
-                        <property name="name">superior</property>
-                        <property name="dataType">string</property>
-                    </structure>
-                    <structure>
-                        <property name="position">13</property>
-                        <property name="name">createdate</property>
-                        <property name="dataType">date-time</property>
-                    </structure>
-                    <structure>
-                        <property name="position">14</property>
-                        <property name="name">modifydate</property>
-                        <property name="dataType">date-time</property>
                     </structure>
                 </list-property>
             </structure>
@@ -166,92 +102,17 @@
             <list-property name="resultSet">
                 <structure>
                     <property name="position">1</property>
-                    <property name="name">id</property>
-                    <property name="nativeName">id</property>
-                    <property name="dataType">integer</property>
-                </structure>
-                <structure>
-                    <property name="position">2</property>
                     <property name="name">name</property>
                     <property name="nativeName">name</property>
                     <property name="dataType">string</property>
                 </structure>
-                <structure>
-                    <property name="position">3</property>
-                    <property name="name">telephone</property>
-                    <property name="nativeName">telephone</property>
-                    <property name="dataType">string</property>
-                </structure>
-                <structure>
-                    <property name="position">4</property>
-                    <property name="name">etmsCode</property>
-                    <property name="nativeName">etmsCode</property>
-                    <property name="dataType">string</property>
-                </structure>
-                <structure>
-                    <property name="position">5</property>
-                    <property name="name">userCode</property>
-                    <property name="nativeName">userCode</property>
-                    <property name="dataType">string</property>
-                </structure>
-                <structure>
-                    <property name="position">6</property>
-                    <property name="name">BU</property>
-                    <property name="nativeName">BU</property>
-                    <property name="dataType">string</property>
-                </structure>
-                <structure>
-                    <property name="position">7</property>
-                    <property name="name">regionCenter</property>
-                    <property name="nativeName">regionCenter</property>
-                    <property name="dataType">string</property>
-                </structure>
-                <structure>
-                    <property name="position">8</property>
-                    <property name="name">region</property>
-                    <property name="nativeName">region</property>
-                    <property name="dataType">string</property>
-                </structure>
-                <structure>
-                    <property name="position">9</property>
-                    <property name="name">teamCode</property>
-                    <property name="nativeName">teamCode</property>
-                    <property name="dataType">string</property>
-                </structure>
-                <structure>
-                    <property name="position">10</property>
-                    <property name="name">team</property>
-                    <property name="nativeName">team</property>
-                    <property name="dataType">string</property>
-                </structure>
-                <structure>
-                    <property name="position">11</property>
-                    <property name="name">level</property>
-                    <property name="nativeName">level</property>
-                    <property name="dataType">string</property>
-                </structure>
-                <structure>
-                    <property name="position">12</property>
-                    <property name="name">superior</property>
-                    <property name="nativeName">superior</property>
-                    <property name="dataType">string</property>
-                </structure>
-                <structure>
-                    <property name="position">13</property>
-                    <property name="name">createdate</property>
-                    <property name="nativeName">createdate</property>
-                    <property name="dataType">date-time</property>
-                </structure>
-                <structure>
-                    <property name="position">14</property>
-                    <property name="name">modifydate</property>
-                    <property name="nativeName">modifydate</property>
-                    <property name="dataType">date-time</property>
-                </structure>
             </list-property>
-            <xml-property name="queryText"><![CDATA[select * 
-from tbl_userinfo
-where telephone=?]]></xml-property>
+            <xml-property name="queryText"><![CDATA[select u1.name 
+from tbl_userinfo u1, tbl_userinfo u2 
+where u1.userCode = u2.superior 
+and u1.region = u2.region 
+and u1.regionCenter = u2.regionCenter 
+and u2.telephone=?]]></xml-property>
             <xml-property name="designerValues"><![CDATA[<?xml version="1.0" encoding="UTF-8"?>
 <model:DesignValues xmlns:design="http://www.eclipse.org/datatools/connectivity/oda/design" xmlns:model="http://www.eclipse.org/birt/report/model/adapter/odaModel">
   <Version>2.0</Version>
@@ -369,7 +230,7 @@ hd.duration,
 	and ui.region = h.rsmRegion 
 	and ui.regionCenter = h.region
 ) as name,
-sum(hd.ltenum) / sum(asthmanum) as cureRate  
+IFNULL(sum(hd.ltenum) / sum(asthmanum),0) as cureRate   
 from tbl_home_data hd, tbl_hospital h, tbl_userinfo ui 
 where hd.duration between ? and ? 
 and h.code = hd.hospitalCode 
@@ -1085,7 +946,7 @@ hd.duration,
 	and ui.region = h.rsmRegion 
 	and ui.regionCenter = h.region
 ) as name,
-sum(hd.lsnum) / sum(ltenum) as lsRate  
+IFNULL(sum(hd.lsnum) / sum(ltenum),0) as lsRate  
 from tbl_home_data hd, tbl_hospital h, tbl_userinfo ui 
 where hd.duration between ? and ? 
 and h.code = hd.hospitalCode 
@@ -1321,7 +1182,7 @@ hd.duration,
 	and ui.region = h.rsmRegion 
 	and ui.regionCenter = h.region
 ) as name,
-sum(hd.lttnum) / sum(lsnum) as reachRate 
+IFNULL(sum(hd.lttnum) / sum(lsnum),0) as reachRate  
 from tbl_home_data hd, tbl_hospital h, tbl_userinfo ui 
 where hd.duration between ? and ? 
 and h.code = hd.hospitalCode 
