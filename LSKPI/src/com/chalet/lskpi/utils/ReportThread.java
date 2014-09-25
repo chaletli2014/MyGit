@@ -113,6 +113,7 @@ public class ReportThread extends Thread {
                     lowerUserInfos4Report.addAll(repUserInfos);
                     
                     List<UserInfo> homeReportUsers = new ArrayList<UserInfo>();
+                    homeReportUsers.addAll(bmUserInfos);
                     homeReportUsers.addAll(rsdUserInfos);
                     homeReportUsers.addAll(rsmUserInfos);
                     homeReportUsers.addAll(dsmUserInfos);
