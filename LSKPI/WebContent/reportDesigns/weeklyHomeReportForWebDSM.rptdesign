@@ -9525,9 +9525,7 @@ group by hd.duration, h.saleCode;]]></xml-property>
             <property name="fontFamily">"微软雅黑"</property>
             <property name="textAlign">center</property>
             <property name="height">6in</property>
-            <column id="2320">
-                <property name="width">3.2604166666666665in</property>
-            </column>
+            <column id="2320"/>
             <row id="2321">
                 <property name="height">6in</property>
                 <cell id="2322">
@@ -11112,9 +11110,7 @@ group by hd.duration, h.saleCode;]]></xml-property>
             <property name="fontFamily">"@微软雅黑"</property>
             <property name="textAlign">center</property>
             <property name="height">6in</property>
-            <column id="2325">
-                <property name="width">3.25in</property>
-            </column>
+            <column id="2325"/>
             <row id="2326">
                 <property name="height">6in</property>
                 <cell id="2327">
@@ -19053,9 +19049,7 @@ group by hd.duration, h.saleCode;]]></xml-property>
             <property name="fontFamily">"微软雅黑"</property>
             <property name="textAlign">center</property>
             <property name="height">6in</property>
-            <column id="2279">
-                <property name="width">3.2604166666666665in</property>
-            </column>
+            <column id="2279"/>
             <row id="2280">
                 <property name="height">6in</property>
                 <cell id="2281">
@@ -20639,9 +20633,7 @@ group by hd.duration, h.saleCode;]]></xml-property>
             <property name="fontFamily">"@微软雅黑"</property>
             <property name="textAlign">center</property>
             <property name="height">6in</property>
-            <column id="2284">
-                <property name="width">3.25in</property>
-            </column>
+            <column id="2284"/>
             <row id="2285">
                 <property name="height">6in</property>
                 <cell id="2286">
