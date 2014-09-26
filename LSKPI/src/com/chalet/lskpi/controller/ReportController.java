@@ -924,7 +924,7 @@ public class ReportController extends BaseController{
     			logger.info(String.format("begin to get the weekly home data from %s", chooseDate));
     			
     			Date reportBeginDate = DateUtils.getExportHomeWeeklyBegionDate(chooseDate_d);
-    			Date reportEndDate = new Date(reportBeginDate.getTime() + 7 * 24 * 60 * 60 * 1000);
+    			Date reportEndDate = new Date(reportBeginDate.getTime() + 6 * 24 * 60 * 60 * 1000);
     			
     			List<String> allRegionCenters = userService.getAllRegionName();
                 List<HomeWeeklyData> allRSMData = new ArrayList<HomeWeeklyData>();
