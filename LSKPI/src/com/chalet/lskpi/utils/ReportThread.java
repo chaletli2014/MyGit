@@ -67,6 +67,21 @@ public class ReportThread extends Thread {
                 int hour = now.getHours();
                 int dayInMonth = now.getDate();
                 logger.info("current hour is " + hour);
+                
+                /**
+                 * 家庭雾化医生每周备份。
+                 * 每周一的凌晨0点，对上周的有效医生进行备份，留待历史周报使用
+                 */
+                if( hour == Integer.parseInt(CustomizedProperty.getContextProperty("home_doctor_backup_time", "0")) 
+                		&& dayInWeek == Integer.parseInt(CustomizedProperty.getContextProperty("home_doctor_backup_day", "1")) ){
+                	logger.info("time is 0 in monday, begin to backup the doctor");
+                	if( homeService.isAlreadyBackup() ){
+                		logger.info("the backup of doctors is already done, no need to do again.");
+                	}else{
+                		homeService.backupDoctors();
+                	}
+                }
+                
                 if( hour == Integer.parseInt(CustomizedProperty.getContextProperty("report_generate_time", "2"))
                         || isRestart ){
                     logger.info("console : now is " + hour + ", begin to generate report");
@@ -294,20 +309,6 @@ public class ReportThread extends Thread {
                     }
                     this.taskTime = 0;
                     logger.info("Finished");
-                }
-                
-                /**
-                 * 家庭雾化医生每周备份。
-                 * 每周一的凌晨0点，对上周的有效医生进行备份，留待历史周报使用
-                 */
-                if( hour == Integer.parseInt(CustomizedProperty.getContextProperty("home_doctor_backup_time", "0")) 
-                		&& dayInWeek == Integer.parseInt(CustomizedProperty.getContextProperty("home_doctor_backup_day", "1")) ){
-                	logger.info("time is 0 in monday, begin to backup the doctor");
-                	if( homeService.isAlreadyBackup() ){
-                		logger.info("the backup of doctors is already done, no need to do again.");
-                	}else{
-                		homeService.backupDoctors();
-                	}
                 }
                 
                 if( hour == Integer.parseInt(CustomizedProperty.getContextProperty("email_send_time", "8")) && !emailIsSend){
