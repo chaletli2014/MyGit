@@ -894,6 +894,7 @@ public class RespirologyServiceImpl implements RespirologyService {
             
             if( null != durations && durations.size() >= 3 ){
                 durationName1 = durations.get(durations.size()-3)+"到"+durations.get(durations.size()-2);
+                durationName2 = durations.get(durations.size()-2)+"到"+durations.get(durations.size()-1);
             }else if( durations.size() == 2 ){
                 durationName2 = durations.get(durations.size()-2)+"到"+durations.get(durations.size()-1);
             }
