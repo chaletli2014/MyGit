@@ -232,7 +232,7 @@ hd.duration,
 ) as name,
 IFNULL(sum(hd.ltenum) / sum(asthmanum),0) as cureRate   
 from tbl_home_data hd, tbl_hospital h, tbl_userinfo ui 
-where hd.duration between ? and ? 
+where hd.duration between ? and ? and hd.duration >= '2014.09.15-2014.09.21'  
 and h.code = hd.hospitalCode 
 and h.region = ui.regionCenter 
 and h.rsmRegion = ui.region 
@@ -476,7 +476,7 @@ dw.duration,
 	and h1.saleCode = h.saleCode
  ) / count(1) as inRate 
 from tbl_doctor_weekly dw, tbl_hospital h, tbl_userinfo ui 
-where dw.duration between ? and ? 
+where dw.duration between ? and ? and dw.duration >= '2014.09.15-2014.09.21' 
 and h.code = dw.hospitalCode 
 and h.region = ui.regionCenter 
 and h.rsmRegion = ui.region 
@@ -712,7 +712,7 @@ hd.duration,
 ) as name,
 sum(hd.lsnum) as lsnum  
 from tbl_home_data hd, tbl_hospital h, tbl_userinfo ui 
-where hd.duration between ? and ? 
+where hd.duration between ? and ? and hd.duration >= '2014.09.15-2014.09.21'  
 and h.code = hd.hospitalCode 
 and h.region = ui.regionCenter 
 and h.rsmRegion = ui.region 
@@ -948,7 +948,7 @@ hd.duration,
 ) as name,
 IFNULL(sum(hd.lsnum) / sum(ltenum),0) as lsRate  
 from tbl_home_data hd, tbl_hospital h, tbl_userinfo ui 
-where hd.duration between ? and ? 
+where hd.duration between ? and ? and hd.duration >= '2014.09.15-2014.09.21'  
 and h.code = hd.hospitalCode 
 and h.region = ui.regionCenter 
 and h.rsmRegion = ui.region 
@@ -1184,7 +1184,7 @@ hd.duration,
 ) as name,
 IFNULL(sum(hd.lttnum) / sum(lsnum),0) as reachRate  
 from tbl_home_data hd, tbl_hospital h, tbl_userinfo ui 
-where hd.duration between ? and ? 
+where hd.duration between ? and ? and hd.duration >= '2014.09.15-2014.09.21'  
 and h.code = hd.hospitalCode 
 and h.region = ui.regionCenter 
 and h.rsmRegion = ui.region 
@@ -1420,7 +1420,7 @@ hd.duration,
 ) as name,
 sum(hd.salenum) as salenum  
 from tbl_home_data hd, tbl_hospital h, tbl_userinfo ui 
-where hd.duration between ? and ? 
+where hd.duration between ? and ? and hd.duration >= '2014.09.15-2014.09.21'  
 and h.code = hd.hospitalCode 
 and h.region = ui.regionCenter 
 and h.rsmRegion = ui.region 

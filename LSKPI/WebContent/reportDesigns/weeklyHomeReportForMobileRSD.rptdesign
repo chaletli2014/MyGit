@@ -220,7 +220,7 @@ hd.duration,
 h.region,
 IFNULL(sum(hd.ltenum) / sum(asthmanum),0) as cureRate   
 from tbl_home_data hd, tbl_hospital h 
-where hd.duration between ? and ? 
+where hd.duration between ? and ? and hd.duration >= '2014.09.15-2014.09.21'  
 and h.code = hd.hospitalCode 
 group by hd.duration, h.region;]]></xml-property>
             <xml-property name="designerValues"><![CDATA[<?xml version="1.0" encoding="UTF-8"?>
@@ -419,7 +419,7 @@ h.region as name,
 	and h1.region = h.region 
  ) / count(1) as inRate 
 from tbl_doctor_weekly dw, tbl_hospital h 
-where dw.duration between ? and ? 
+where dw.duration between ? and ? and dw.duration >= '2014.09.15-2014.09.21'  
 and h.code = dw.hospitalCode 
 group by dw.duration, h.region;]]></xml-property>
             <xml-property name="designerValues"><![CDATA[<?xml version="1.0" encoding="UTF-8"?>
@@ -612,7 +612,7 @@ hd.duration,
 h.region,
 sum(hd.lsnum) as lsnum  
 from tbl_home_data hd, tbl_hospital h 
-where hd.duration between ? and ? 
+where hd.duration between ? and ? and hd.duration >= '2014.09.15-2014.09.21'  
 and h.code = hd.hospitalCode 
 group by hd.duration, h.region;]]></xml-property>
             <xml-property name="designerValues"><![CDATA[<?xml version="1.0" encoding="UTF-8"?>
@@ -805,7 +805,7 @@ hd.duration,
 h.region,
 IFNULL(sum(hd.lsnum) / sum(ltenum),0) as lsRate  
 from tbl_home_data hd, tbl_hospital h 
-where hd.duration between ? and ? 
+where hd.duration between ? and ? and hd.duration >= '2014.09.15-2014.09.21'  
 and h.code = hd.hospitalCode 
 group by hd.duration, h.region;]]></xml-property>
             <xml-property name="designerValues"><![CDATA[<?xml version="1.0" encoding="UTF-8"?>
@@ -998,7 +998,7 @@ hd.duration,
 h.region,
 IFNULL(sum(hd.lttnum) / sum(lsnum),0) as reachRate  
 from tbl_home_data hd, tbl_hospital h 
-where hd.duration between ? and ? 
+where hd.duration between ? and ? and hd.duration >= '2014.09.15-2014.09.21'  
 and h.code = hd.hospitalCode 
 group by hd.duration, h.region;]]></xml-property>
             <xml-property name="designerValues"><![CDATA[<?xml version="1.0" encoding="UTF-8"?>
@@ -1191,7 +1191,7 @@ hd.duration,
 h.region,
 sum(hd.salenum) as salenum  
 from tbl_home_data hd, tbl_hospital h 
-where hd.duration between ? and ? 
+where hd.duration between ? and ? and hd.duration >= '2014.09.15-2014.09.21'  
 and h.code = hd.hospitalCode 
 group by hd.duration, h.region;]]></xml-property>
             <xml-property name="designerValues"><![CDATA[<?xml version="1.0" encoding="UTF-8"?>
@@ -1602,7 +1602,7 @@ hd.duration,
 h.rsmRegion,
 IFNULL(sum(hd.ltenum) / sum(asthmanum),0) as cureRate   
 from tbl_home_data hd, tbl_hospital h 
-where hd.duration between ? and ? 
+where hd.duration between ? and ? and hd.duration >= '2014.09.15-2014.09.21'  
 and h.code = hd.hospitalCode 
 and h.region = (select regionCenter from tbl_userinfo where telephone=?)
 group by hd.duration, h.rsmRegion;]]></xml-property>
@@ -1834,7 +1834,7 @@ h.rsmRegion as name,
 	and h1.rsmRegion = h.rsmRegion 
  ) / count(1) as inRate 
 from tbl_doctor_weekly dw, tbl_hospital h 
-where dw.duration between ? and ? 
+where dw.duration between ? and ? and dw.duration >= '2014.09.15-2014.09.21'  
 and h.code = dw.hospitalCode 
 and h.region = (select regionCenter from tbl_userinfo where telephone=?)
 group by dw.duration, h.rsmRegion;]]></xml-property>
@@ -2060,7 +2060,7 @@ hd.duration,
 h.rsmRegion,
 sum(hd.lsnum) as lsnum  
 from tbl_home_data hd, tbl_hospital h 
-where hd.duration between ? and ? 
+where hd.duration between ? and ? and hd.duration >= '2014.09.15-2014.09.21'  
 and h.code = hd.hospitalCode 
 and h.region = (select regionCenter from tbl_userinfo where telephone=?) 
 group by hd.duration, h.rsmRegion;]]></xml-property>
@@ -2286,7 +2286,7 @@ hd.duration,
 h.rsmRegion,
 IFNULL(sum(hd.lsnum) / sum(ltenum),0) as lsRate  
 from tbl_home_data hd, tbl_hospital h 
-where hd.duration between ? and ? 
+where hd.duration between ? and ? and hd.duration >= '2014.09.15-2014.09.21'  
 and h.code = hd.hospitalCode 
 and h.region = (select regionCenter from tbl_userinfo where telephone=?)
 group by hd.duration, h.rsmRegion;]]></xml-property>
@@ -2512,7 +2512,7 @@ hd.duration,
 h.rsmRegion,
 IFNULL(sum(hd.lttnum) / sum(lsnum),0) as reachRate  
 from tbl_home_data hd, tbl_hospital h 
-where hd.duration between ? and ? 
+where hd.duration between ? and ? and hd.duration >= '2014.09.15-2014.09.21'  
 and h.code = hd.hospitalCode 
 and h.region = (select regionCenter from tbl_userinfo where telephone=?)
 group by hd.duration, h.rsmRegion;]]></xml-property>
@@ -2738,7 +2738,7 @@ hd.duration,
 h.rsmRegion,
 sum(hd.salenum) as salenum  
 from tbl_home_data hd, tbl_hospital h 
-where hd.duration between ? and ? 
+where hd.duration between ? and ? and hd.duration >= '2014.09.15-2014.09.21'  
 and h.code = hd.hospitalCode 
 and h.region = (select regionCenter from tbl_userinfo where telephone=?) 
 group by hd.duration, h.rsmRegion;]]></xml-property>

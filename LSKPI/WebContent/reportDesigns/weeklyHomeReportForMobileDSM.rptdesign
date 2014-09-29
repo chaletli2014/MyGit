@@ -233,6 +233,7 @@ hd.duration,
 IFNULL(sum(hd.ltenum) / sum(asthmanum),0) as cureRate   
 from tbl_home_data hd, tbl_hospital h 
 where hd.duration between ? and ? 
+and hd.duration >= '2014.09.15-2014.09.21' 
 and h.code = hd.hospitalCode 
 and h.rsmRegion = (select region from tbl_userinfo where telephone=?) 
 group by hd.duration, h.dsmCode;]]></xml-property>
@@ -466,7 +467,7 @@ dw.duration,
 	and h1.region = h.region 
  ) / count(1) as inRate 
 from tbl_doctor_weekly dw, tbl_hospital h 
-where dw.duration between ? and ? 
+where dw.duration between ? and ? and dw.duration >= '2014.09.15-2014.09.21' 
 and h.code = dw.hospitalCode 
 and h.rsmRegion = (select region from tbl_userinfo where telephone=?) 
 group by dw.duration, h.dsmCode;]]></xml-property>
@@ -693,6 +694,7 @@ hd.duration,
 sum(hd.lsnum) as lsnum  
 from tbl_home_data hd, tbl_hospital h 
 where hd.duration between ? and ? 
+and hd.duration >= '2014.09.15-2014.09.21' 
 and h.code = hd.hospitalCode 
 and h.rsmRegion = (select region from tbl_userinfo where telephone=?) 
 group by hd.duration, h.dsmCode;]]></xml-property>
@@ -919,6 +921,7 @@ hd.duration,
 IFNULL(sum(hd.lsnum) / sum(ltenum),0) as lsRate  
 from tbl_home_data hd, tbl_hospital h 
 where hd.duration between ? and ? 
+and hd.duration >= '2014.09.15-2014.09.21' 
 and h.code = hd.hospitalCode 
 and h.rsmRegion = (select region from tbl_userinfo where telephone=?) 
 group by hd.duration, h.dsmCode;]]></xml-property>
@@ -1145,6 +1148,7 @@ hd.duration,
 IFNULL(sum(hd.lttnum) / sum(lsnum),0) as reachRate  
 from tbl_home_data hd, tbl_hospital h 
 where hd.duration between ? and ? 
+and hd.duration >= '2014.09.15-2014.09.21' 
 and h.code = hd.hospitalCode 
 and h.rsmRegion = (select region from tbl_userinfo where telephone=?) 
 group by hd.duration, h.dsmCode;]]></xml-property>
@@ -1371,6 +1375,7 @@ hd.duration,
 sum(hd.salenum) as salenum  
 from tbl_home_data hd, tbl_hospital h 
 where hd.duration between ? and ? 
+and hd.duration >= '2014.09.15-2014.09.21' 
 and h.code = hd.hospitalCode 
 and h.rsmRegion = (select region from tbl_userinfo where telephone=?) 
 group by hd.duration, h.dsmCode;]]></xml-property>
@@ -1810,6 +1815,7 @@ hd.duration,
 IFNULL(sum(hd.ltenum) / sum(asthmanum),0) as cureRate   
 from tbl_home_data hd, tbl_hospital h 
 where hd.duration between ? and ? 
+and hd.duration >= '2014.09.15-2014.09.21' 
 and h.code = hd.hospitalCode 
 and h.dsmCode = (select userCode from tbl_userinfo where telephone=?) 
 group by hd.duration, h.saleCode;]]></xml-property>
@@ -2048,7 +2054,7 @@ dw.duration,
 	and h1.rsmRegion = h.rsmRegion 
  ) / count(1) as inRate 
 from tbl_doctor_weekly dw, tbl_hospital h 
-where dw.duration between ? and ? 
+where dw.duration between ? and ? and dw.duration >= '2014.09.15-2014.09.21' 
 and h.code = dw.hospitalCode 
 and h.dsmCode = (select userCode from tbl_userinfo where telephone=?) 
 group by dw.duration, h.saleCode;]]></xml-property>
@@ -2282,6 +2288,7 @@ hd.duration,
 sum(hd.lsnum) as lsnum  
 from tbl_home_data hd, tbl_hospital h 
 where hd.duration between ? and ? 
+and hd.duration >= '2014.09.15-2014.09.21' 
 and h.code = hd.hospitalCode 
 and h.dsmCode = (select userCode from tbl_userinfo where telephone=?) 
 group by hd.duration, h.saleCode;]]></xml-property>
@@ -2515,6 +2522,7 @@ hd.duration,
 IFNULL(sum(hd.lsnum) / sum(ltenum),0) as lsRate  
 from tbl_home_data hd, tbl_hospital h 
 where hd.duration between ? and ? 
+and hd.duration >= '2014.09.15-2014.09.21' 
 and h.code = hd.hospitalCode 
 and h.dsmCode = (select userCode from tbl_userinfo where telephone=?) 
 group by hd.duration, h.saleCode;]]></xml-property>
@@ -2748,6 +2756,7 @@ hd.duration,
 IFNULL(sum(hd.lttnum) / sum(lsnum),0) as reachRate  
 from tbl_home_data hd, tbl_hospital h 
 where hd.duration between ? and ? 
+and hd.duration >= '2014.09.15-2014.09.21' 
 and h.code = hd.hospitalCode 
 and h.dsmCode = (select userCode from tbl_userinfo where telephone=?) 
 group by hd.duration, h.saleCode;]]></xml-property>
@@ -2981,6 +2990,7 @@ hd.duration,
 sum(hd.salenum) as salenum  
 from tbl_home_data hd, tbl_hospital h 
 where hd.duration between ? and ? 
+and hd.duration >= '2014.09.15-2014.09.21' 
 and h.code = hd.hospitalCode 
 and h.dsmCode = (select userCode from tbl_userinfo where telephone=?) 
 group by hd.duration, h.saleCode;]]></xml-property>
