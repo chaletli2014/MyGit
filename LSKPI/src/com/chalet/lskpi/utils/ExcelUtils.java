@@ -478,13 +478,13 @@ public class ExcelUtils {
                         resData.setSalesName(salesName);
                         resData.setRegion(region);
                         resData.setRsmRegion(rsmRegion);
-                        resData.setOqd(oqd);
-                        resData.setTqd(tqd);
-                        resData.setOtid(otid);
-                        resData.setTbid(tbid);
-                        resData.setTtid(ttid);
-                        resData.setThbid(thbid);
-                        resData.setFbid(fbid);
+                        resData.setOqd(oqd*100);
+                        resData.setTqd(tqd*100);
+                        resData.setOtid(otid*100);
+                        resData.setTbid(tbid*100);
+                        resData.setTtid(ttid*100);
+                        resData.setThbid(thbid*100);
+                        resData.setFbid(fbid*100);
 //                        resData.setRecipeType(recipeType);
                         resData.setCreatedate(createdate);
                         
@@ -648,13 +648,13 @@ public class ExcelUtils {
                         data.setRisknum(Integer.parseInt(aenum));
                         data.setWhnum(Integer.parseInt(whnum));
                         data.setLsnum(Integer.parseInt(lsnum));
-                        data.setOqd(oqd);
-                        data.setTqd(tqd);
-                        data.setOtid(otid);
-                        data.setTbid(tbid);
-                        data.setTtid(ttid);
-                        data.setThbid(thbid);
-                        data.setFbid(fbid);
+                        data.setOqd(oqd*100);
+                        data.setTqd(tqd*100);
+                        data.setOtid(otid*100);
+                        data.setTbid(tbid*100);
+                        data.setTtid(ttid*100);
+                        data.setThbid(thbid*100);
+                        data.setFbid(fbid*100);
                         data.setCreatedate(createdate);
                         
                         datas.add(data);
@@ -823,12 +823,12 @@ public class ExcelUtils {
     					pedData.setSalesName(salesName);
     					pedData.setRegion(region);
     					pedData.setRsmRegion(rsmRegion);
-    					pedData.setHqd(hqd);
-    					pedData.setHbid(hbid);
-    					pedData.setOqd(oqd);
-    					pedData.setObid(obid);
-    					pedData.setTqd(tqd);
-    					pedData.setTbid(tbid);
+    					pedData.setHqd(hqd*100);
+    					pedData.setHbid(hbid*100);
+    					pedData.setOqd(oqd*100);
+    					pedData.setObid(obid*100);
+    					pedData.setTqd(tqd*100);
+    					pedData.setTbid(tbid*100);
     					pedData.setRecipeType(recipeType);
     					pedData.setCreatedate(createdate);
     					
