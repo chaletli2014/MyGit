@@ -55,7 +55,6 @@ public class ChestSurgeryServiceImpl implements ChestSurgeryService {
 
     public List<ChestSurgeryData> getChestSurgeryDataByDate(Date createdatebegin, Date createdateend) throws Exception {
         try{
-            createdateend = new Date(createdateend.getTime() + 1 * 24 * 60 * 60 * 1000);
             return chestSurgeryDAO.getChestSurgeryDataByDate(createdatebegin, createdateend);
         } catch(EmptyResultDataAccessException erd){
             logger.info("there is no record found.");

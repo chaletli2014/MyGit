@@ -408,3 +408,27 @@ set duration = concat( DATE_FORMAT( ADDDATE(createdate,-WEEKDAY(createdate)),'%Y
 
 ALTER  TABLE tbl_doctor_weekly ADD INDEX INDEX_DOCTOR_WEEKLY_DURATION (duration);
 ALTER  TABLE tbl_home_data ADD INDEX INDEX_HOME_DURATION (duration);
+
+insert into tbl_home_data 
+select 
+null,
+doctorId,
+salenum,
+asthmanum,
+ltenum,
+lsnum,
+efnum,
+ftnum,
+lttnum,
+date_add(createdate,interval 7 day),
+now(),
+hospitalCode,
+concat( DATE_FORMAT( ADDDATE(date_add(createdate,interval 7 day),-WEEKDAY(date_add(createdate,interval 7 day))),'%Y.%m.%d'),'-', DATE_FORMAT(ADDDATE(date_add(createdate,interval 7 day),6-WEEKDAY(date_add(createdate,interval 7 day))),'%Y.%m.%d')) 
+from tbl_home_data hd 
+where hd.createdate between '2014-09-24' and '2014-10-01' 
+and not exists(
+	select 1 from tbl_home_data hd1
+	where hd1.duration = concat( DATE_FORMAT( ADDDATE(date_add(hd.createdate,interval 7 day),-WEEKDAY(date_add(hd.createdate,interval 7 day))),'%Y.%m.%d'),'-', DATE_FORMAT(ADDDATE(date_add(hd.createdate,interval 7 day),6-WEEKDAY(date_add(hd.createdate,interval 7 day))),'%Y.%m.%d')) 
+	and hd1.hospitalCode = hd.hospitalCode 
+	and hd1.doctorId = hd.doctorId 
+);

@@ -65,7 +65,7 @@ public class ChestSurgeryDAOImpl implements ChestSurgeryDAO {
         .append(" , h.code as hospitalCode, h.name as hospitalName, h.rsmRegion , h.region, h.dsmName, h.saleCode as salesCode, h.isChestSurgeryAssessed ")
         .append(" , (select distinct name from tbl_userinfo u where u.region = h.rsmRegion and u.superior = h.dsmCode and u.userCode = h.saleCode and u.level='REP') as salesName ")
         .append(" from tbl_chestSurgery_data cd, tbl_hospital h ")
-        .append(" where cd.createdate between ? and ? ")
+        .append(" where DATE_FORMAT(cd.createdate,'%Y-%m-%d') between DATE_FORMAT(?,'%Y-%m-%d') and DATE_FORMAT(?,'%Y-%m-%d') ")
         .append(" and cd.hospitalCode = h.code ")
         .append(" order by cd.createdate desc");
         return dataBean.getJdbcTemplate().query(sql.toString(), new Object[]{new Timestamp(createdatebegin.getTime()),new Timestamp(createdateend.getTime())},new ChestSurgeryRowMapper());
