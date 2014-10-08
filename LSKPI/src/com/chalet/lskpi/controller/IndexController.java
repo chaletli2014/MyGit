@@ -397,22 +397,25 @@ public class IndexController extends BaseController{
             view.addObject("hospitals", hospitals);
             
             String selectedHospital = request.getParameter("selectedHospital");
-            String hospitalName = "";
             PediatricsData existedData = new PediatricsData();
             if( (null != selectedHospital && !"".equalsIgnoreCase(selectedHospital)) ){
-			    if( selectedHospital.indexOf("*") == 0 ){
-			        hospitalName = selectedHospital.substring(2);
-	            }else{
-	                hospitalName = selectedHospital;
-	            }
             	
-            	logger.info("get the pediatrics data of the selected hospital - " + hospitalName);
-                existedData = pediatricsService.getPediatricsDataByHospital(hospitalName);
+            	logger.info("get the pediatrics data of the selected hospital - " + selectedHospital);
+                existedData = pediatricsService.getPediatricsDataByHospital(selectedHospital);
+                
                 if( existedData != null ){
 			    	logger.info(String.format("init ped existedData is %s", existedData.getHospitalName()));
 			    }
                 view.addObject("selectedHospital", selectedHospital);
+                
+                //if existedData is null, then the data is not set, the port num should be shown as the one of hospital.
+                if( existedData == null ){
+                	Hospital hospital = hospitalService.getHospitalByCode(selectedHospital);
+                	existedData = new PediatricsData();
+                	existedData.setPortNum(hospital.getPortNum());
+                }
             }
+            
             view.addObject("existedData", existedData);
             
             String message = "";
@@ -446,19 +449,16 @@ public class IndexController extends BaseController{
             }
             
             String dataId = request.getParameter("dataId");
-            String hospitalName = request.getParameter("hospital");
+            String hospitalCode = request.getParameter("hospital");
             
-            if( null == hospitalName || "".equalsIgnoreCase(hospitalName) ){
+            if( null == hospitalCode || "".equalsIgnoreCase(hospitalCode) ){
             	request.getSession().setAttribute(LsAttributes.COLLECT_PEDIATRICS_MESSAGE, LsAttributes.RETURNED_MESSAGE_7);
             	return "redirect:pediatrics";
             }
             
-            if( hospitalName.indexOf("*") == 0 ){
-            	hospitalName = hospitalName.substring(2);
-            }
-            logger.info(String.format("doing the data persistence, dataId is %s, hospital is %s", dataId,hospitalName));
+            logger.info(String.format("doing the data persistence, dataId is %s, hospital is %s", dataId,hospitalCode));
             
-            PediatricsData existedData = pediatricsService.getPediatricsDataByHospital(hospitalName);
+            PediatricsData existedData = pediatricsService.getPediatricsDataByHospital(hospitalCode);
             if( null != existedData ){
             	logger.info(String.format("check the ped data again when user %s collecting, the data id is %s", operator_telephone, existedData.getDataId()));
             }
@@ -469,11 +469,11 @@ public class IndexController extends BaseController{
             }
             
             //new data
-            if( null == dataId || "".equalsIgnoreCase(dataId) ){
+            if( null == dataId || "".equalsIgnoreCase(dataId) || "0".equalsIgnoreCase(dataId) ){
                 PediatricsData pediatricsData = new PediatricsData();
                 populatePediatricsData(request,pediatricsData);
                 
-                Hospital hospital = hospitalService.getHospitalByName(hospitalName);
+                Hospital hospital = hospitalService.getHospitalByCode(hospitalCode);
                 
                 logger.info("insert the data of pediatrics");
                 pediatricsService.insert(pediatricsData, currentUser, hospital);
@@ -833,11 +833,7 @@ public class IndexController extends BaseController{
     }
     
     private void populatePediatricsData(HttpServletRequest request,PediatricsData pediatricsData){
-        String hospitalName = request.getParameter("hospital");
-        
-        if( hospitalName.indexOf("*") == 0 ){
-        	hospitalName = hospitalName.substring(2);
-        }
+        String hospitalCode = request.getParameter("hospital");
         
         //当日病房病人人数
         int pnum = StringUtils.getIntegerFromString(request.getParameter("pnum"));
@@ -860,7 +856,7 @@ public class IndexController extends BaseController{
         //该医院主要处方方式
         String recipeType = request.getParameter("recipeType");
         
-        pediatricsData.setHospitalName(hospitalName);
+        pediatricsData.setHospitalCode(hospitalCode);
         pediatricsData.setPnum(pnum);
         pediatricsData.setWhnum(whnum);
         pediatricsData.setLsnum(lsnum);

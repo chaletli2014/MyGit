@@ -165,15 +165,15 @@ public class PediatricsServiceImpl implements PediatricsService {
     }
 	
 	@Override
-	public PediatricsData getPediatricsDataByHospital(String hospitalName)
+	public PediatricsData getPediatricsDataByHospital(String hospitalCode)
 			throws Exception {
 		try{
-	        return pediatricsDAO.getPediatricsDataByHospital(hospitalName);
+	        return pediatricsDAO.getPediatricsDataByHospital(hospitalCode);
 	    } catch(EmptyResultDataAccessException erd){
 	        logger.info("there is no record found.");
 	        return null;
 	    } catch(Exception e){
-	        logger.error("fail to get the pediatrics data by hospital - " + hospitalName,e);
+	        logger.error("fail to get the pediatrics data by hospital - " + hospitalCode,e);
 	        return null;
 	    }
 	}

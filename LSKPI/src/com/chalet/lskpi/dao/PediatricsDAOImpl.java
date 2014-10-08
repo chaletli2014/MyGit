@@ -648,9 +648,9 @@ public class PediatricsDAOImpl implements PediatricsDAO {
 	}
 	
 	@Override
-	public PediatricsData getPediatricsDataByHospital(String hospitalName)
+	public PediatricsData getPediatricsDataByHospital(String hospitalCode)
 			throws Exception {
-		return dataBean.getJdbcTemplate().queryForObject("select pd.*,h.code as hospitalCode,h.dsmName,h.isPedAssessed,h.dragonType from tbl_pediatrics_data pd, tbl_hospital h where pd.hospitalName=? and DATE_FORMAT(pd.createdate,'%Y-%m-%d') = curdate() and pd.hospitalName = h.name", new Object[]{hospitalName}, new PediatricsRowMapper());
+		return dataBean.getJdbcTemplate().queryForObject("select pd.*,h.code as hospitalCode,h.dsmName,h.isPedAssessed,h.dragonType from tbl_pediatrics_data pd, tbl_hospital h where h.code=? and DATE_FORMAT(pd.createdate,'%Y-%m-%d') = curdate() and pd.hospitalName = h.name", new Object[]{hospitalCode}, new PediatricsRowMapper());
 	}
 
 	@Override
@@ -912,7 +912,7 @@ public class PediatricsDAOImpl implements PediatricsDAO {
 			public PreparedStatement createPreparedStatement(
 					Connection connection) throws SQLException {
 				PreparedStatement ps = connection.prepareStatement(sql,Statement.RETURN_GENERATED_KEYS);
-				ps.setString(1, pediatricsData.getHospitalName());
+				ps.setString(1, hospital.getName());
 				ps.setInt(2, pediatricsData.getPnum());
 				ps.setInt(3, pediatricsData.getWhnum());
 				ps.setInt(4, pediatricsData.getLsnum());

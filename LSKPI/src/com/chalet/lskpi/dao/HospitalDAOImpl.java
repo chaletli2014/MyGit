@@ -411,7 +411,10 @@ public class HospitalDAOImpl implements HospitalDAO {
             .append(", h.city,h.province,h.region,h.rsmRegion,h.saleCode,h.saleName,h.dsmCode ");
         
         if( LsAttributes.DEPARTMENT_PED.equalsIgnoreCase(department) ){
-            sb.append(", case when h.isPedAssessed='1' then concat('* ',h.name) else h.name end name ");
+            sb.append(", case when h.isPedAssessed='1' and h.dragonType='").append(LsAttributes.DRAGON_TYPE_CORE).append("' then concat('* ',h.name) ")
+            .append(" when h.isPedAssessed='1' and h.dragonType='").append(LsAttributes.DRAGON_TYPE_EMERGING).append("' then concat('** ',h.name) ")
+            .append(" else h.name ")
+            .append(" end name ");
         }else if( LsAttributes.DEPARTMENT_RES.equalsIgnoreCase(department) ){
             sb.append(", case when h.isResAssessed='1' then concat('* ',h.name) else h.name end name ");
         }else if( LsAttributes.DEPARTMENT_CHE.equalsIgnoreCase(department) ){
@@ -424,11 +427,11 @@ public class HospitalDAOImpl implements HospitalDAO {
             .append(" where u.userCode = h.dsmCode and u.telephone = ? ");
         
         if( LsAttributes.DEPARTMENT_PED.equalsIgnoreCase(department) ){
-            sb.append(" order by h.isPedAssessed desc, h.name asc");
+            sb.append(" order by h.isPedAssessed desc, name asc");
         }else if( LsAttributes.DEPARTMENT_RES.equalsIgnoreCase(department) ){
-            sb.append(" order by h.isResAssessed desc, h.name asc");
+            sb.append(" order by h.isResAssessed desc, name asc");
         }else if( LsAttributes.DEPARTMENT_CHE.equalsIgnoreCase(department) ){
-            sb.append(" order by h.isChestSurgeryAssessed desc, h.name asc");
+            sb.append(" order by h.isChestSurgeryAssessed desc, name asc");
         }
         
         return dataBean.getJdbcTemplate().query(sb.toString(), new Object[]{telephone}, new HospitalRowMapper());
@@ -464,7 +467,10 @@ public class HospitalDAOImpl implements HospitalDAO {
             .append(", h.city,h.province,h.region,h.rsmRegion,h.saleCode,h.saleName,h.dsmCode ");
         
         if( LsAttributes.DEPARTMENT_PED.equalsIgnoreCase(department) ){
-            sb.append(", case when h.isPedAssessed='1' then concat('* ',h.name) else h.name end name ");
+            sb.append(", case when h.isPedAssessed='1' and h.dragonType='").append(LsAttributes.DRAGON_TYPE_CORE).append("' then concat('* ',h.name) ")
+            .append(" when h.isPedAssessed='1' and h.dragonType='").append(LsAttributes.DRAGON_TYPE_EMERGING).append("' then concat('** ',h.name) ")
+            .append(" else h.name ")
+            .append(" end name ");
         }else if( LsAttributes.DEPARTMENT_RES.equalsIgnoreCase(department) ){
             sb.append(", case when h.isResAssessed='1' then concat('* ',h.name) else h.name end name ");
         }else if( LsAttributes.DEPARTMENT_CHE.equalsIgnoreCase(department) ){
@@ -477,11 +483,11 @@ public class HospitalDAOImpl implements HospitalDAO {
             .append(" where u.userCode = hu.userCode and hu.hosCode = h.code and u.telephone = ? ");
         
         if( LsAttributes.DEPARTMENT_PED.equalsIgnoreCase(department) ){
-            sb.append(" order by h.isPedAssessed desc, h.name asc");
+            sb.append(" order by h.isPedAssessed desc, name asc");
         }else if( LsAttributes.DEPARTMENT_RES.equalsIgnoreCase(department) ){
-            sb.append(" order by h.isResAssessed desc, h.name asc");
+            sb.append(" order by h.isResAssessed desc, name asc");
         }else if( LsAttributes.DEPARTMENT_CHE.equalsIgnoreCase(department) ){
-            sb.append(" order by h.isChestSurgeryAssessed desc, h.name asc");
+            sb.append(" order by h.isChestSurgeryAssessed desc, name asc");
         }
         
         return dataBean.getJdbcTemplate().query(sb.toString(), new Object[]{telephone}, new HospitalRowMapper());

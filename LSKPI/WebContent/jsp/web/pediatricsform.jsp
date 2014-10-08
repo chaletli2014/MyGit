@@ -66,16 +66,17 @@ function checkForm(){
         </jsp:include>
         <div data-role="content"  data-theme="a">
         	<div class="roundCorner">
-        	<div class="report_process_bg_description">医院名称前的 * 表示该医院在考评范围内</div>
+        	<div class="report_process_bg_description">标*为Core医院，每周填报3次；标**为Emerging医院，每周填报1次</div>
             <form id="pediatricsForm" action="collectPediatrics" method="POST" data-ajax="false">
             	<input type="hidden" name="dataId" value="${existedData.dataId}"/>
 	        	<input type="hidden" name="selectedHospital" value="${selectedHospital}"/>
+	        	<input type="hidden" name="portNum" value="${existedData.portNum}"/>
                 <div data-role="fieldcontain">
                     <label for="hospital" class="select">医院名称</label>
                     <select name="hospital" id="hospital" onchange="loadData(this.value)">
                         <option value="">--请选择--</option>
 	                    <c:forEach var="hospital" items="${hospitals}">
-	                        <option value="${hospital.name}" <c:if test="${hospital.name == selectedHospital}">selected</c:if>>${hospital.name}</option>
+	                        <option value="${hospital.code}" <c:if test="${hospital.code == selectedHospital}">selected</c:if>>${hospital.name}</option>
 	                    </c:forEach>
 	                </select>
                 </div>
@@ -90,6 +91,10 @@ function checkForm(){
                 <div data-role="fieldcontain" spellcheck="true">
                     <label for="lsnum" id="lsnum_label">当日雾化令舒病人次</label>
                     <input type="number" name="lsnum" id="lsnum" value="${existedData.lsnum==null?0:existedData.lsnum}"/>
+                </div>
+                <div data-role="fieldcontain">
+                    <label for="portNum" id="portNum_label">雾化端口数量</label>
+                    <input type="number" id="portNum" value="${existedData.portNum==null?0:existedData.portNum}" readonly="readonly" disabled="disabled"/>
                 </div>
                 <div class="ui-grid-a formCollection">
 	                <div class="ui-block-a">

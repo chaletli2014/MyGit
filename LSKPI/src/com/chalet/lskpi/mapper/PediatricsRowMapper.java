@@ -32,6 +32,7 @@ public class PediatricsRowMapper implements RowMapper<PediatricsData>{
     	pediatricsData.setDsmName(rs.getString("dsmName"));
     	pediatricsData.setIsPedAssessed(rs.getString("isPedAssessed"));
     	pediatricsData.setDragonType(rs.getString("dragonType"));
+    	pediatricsData.setPortNum(rs.getInt("portNum"));
         return pediatricsData;
     }
     

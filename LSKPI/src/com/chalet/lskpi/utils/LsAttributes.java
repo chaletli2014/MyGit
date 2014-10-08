@@ -176,6 +176,10 @@ public class LsAttributes {
     public static final String lastWeekDuration = DateUtils.getWeeklyDurationYYYYMMDD(new Date());
     public static final String last2WeekDuration = DateUtils.getWeeklyDurationYYYYMMDD(new Date(new Date().getTime() - 7*24*60*60*1000));
     
+    public static final String DRAGON_TYPE_EMERGING="Emerging";
+    public static final String DRAGON_TYPE_CORE="Core";
+    
+    
     public static final StringBuffer SQL_WEEKLY_PED_RATIO_DATA_SELECT_PED 
     	= new StringBuffer("select lastweekdata.pnum ")
     	    .append(" , ROUND((lastweekdata.pnum - last2weekdata.pnum) / last2weekdata.pnum,2) as pnumRatio ")
