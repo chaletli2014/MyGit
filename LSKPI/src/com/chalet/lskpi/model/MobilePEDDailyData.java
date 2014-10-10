@@ -25,6 +25,9 @@ public class MobilePEDDailyData {
     
     private String regionCenterCN;
     
+    private double coreInRate;
+    private double whPortRate;
+    
     public String getUserName() {
         return userName;
     }
@@ -129,4 +132,16 @@ public class MobilePEDDailyData {
     public void setRegionCenterCN(String regionCenterCN) {
         this.regionCenterCN = regionCenterCN;
     }
+	public double getCoreInRate() {
+		return coreInRate;
+	}
+	public void setCoreInRate(double coreInRate) {
+		this.coreInRate = coreInRate;
+	}
+	public double getWhPortRate() {
+		return whPortRate;
+	}
+	public void setWhPortRate(double whPortRate) {
+		this.whPortRate = whPortRate;
+	}
 }

@@ -21,17 +21,21 @@
 	            <table class="mobileReport_table">
 	               <tr class="mobileReport_table_header">
 	                   <td width="20%">姓名</td>
-                       <td width="16%">上报率</td>
-                       <td width="16%">雾化率</td>
-                       <td width="16%">平均剂量</td>
-                       <td width="16%">门诊人数</td>
-                       <td width="16%">雾化人次</td>
+                       <td width="8%">Core医院上报率</td>
+                       <td width="8%">全体上报率</td>
+                       <td width="12%">雾化率</td>
+                       <td width="12%">雾化端口使用频次</td>
+                       <td width="14%">平均剂量</td>
+                       <td width="14%">门诊人数</td>
+                       <td width="12%">雾化人次</td>
 	               </tr>
 	               <c:forEach items="${mobileDailyReportData}" var="reportData" varStatus="status">
 		               <tr class="mobileReport_table_body <c:if test="${status.count%2==0}">mobileReport_tr_even</c:if>">
 		                   <td>${reportData.userName}</td>
+		                   <td class="report_data_number"><fmt:formatNumber type="percent" value="${reportData.coreInRate}" pattern="#0%"/></td>
 		                   <td class="report_data_number"><fmt:formatNumber type="percent" value="${reportData.inRate}" pattern="#0%"/></td>
 		                   <td class="report_data_number"><fmt:formatNumber type="percent" value="${reportData.whRate}" pattern="#0%"/></td>
+		                   <td class="report_data_number"><fmt:formatNumber type="percent" value="${reportData.whPortRate}" pattern="#0.0%"/></td>
 		                   <td class="report_data_number"><fmt:formatNumber type="percent" value="${reportData.averageDose}" pattern="#0.00"/></td>
 		                   <td class="report_data_number"><fmt:formatNumber value="${reportData.patNum}" pattern="#,###"/></td>
 		                   <td class="report_data_number"><fmt:formatNumber value="${reportData.lsNum}" pattern="#,###"/></td>
@@ -40,8 +44,10 @@
 	               <c:if test="${mobileDailyReportParentData!= null }">
 		               <tr class="mobileReport_table_body <c:if test="${fn:length(mobileDailyReportData)%2 != 0}">mobileReport_tr_even</c:if>">
 		                   <td rowspan="2">${mobileDailyReportParentData.userName}</td>
+		                   <td class="report_data_number"><fmt:formatNumber type="percent" value="${mobileDailyReportParentData.coreInRate}" pattern="#0%"/></td>
 		                   <td class="report_data_number"><fmt:formatNumber type="percent" value="${mobileDailyReportParentData.inRate}" pattern="#0%"/></td>
 		                   <td class="report_data_number"><fmt:formatNumber type="percent" value="${mobileDailyReportParentData.whRate}" pattern="#0%"/></td>
+		                   <td class="report_data_number"><fmt:formatNumber type="percent" value="${mobileDailyReportParentData.whPortRate}" pattern="#0.0%"/></td>
 		                   <td class="report_data_number"><fmt:formatNumber type="percent" value="${mobileDailyReportParentData.averageDose}" pattern="#0.00"/></td>
 		                   <td class="report_data_number"><fmt:formatNumber value="${mobileDailyReportParentData.patNum}" pattern="#,###"/></td>
 		                   <td class="report_data_number"><fmt:formatNumber value="${mobileDailyReportParentData.lsNum}" pattern="#,###"/></td>
@@ -51,61 +57,77 @@
             </div>
             <c:if test="${operatorObj!= null && operatorObj.level=='BM'}">
             <c:forEach items="${mobileDailyReportAllRSMData}" var="rsmReportData">
-                <div class="roundCorner" style="padding: 4px;">
-                    <div class="dailyReport_table_Title">所属[${rsmReportData[0].regionCenterCN}${titleSuffix}</div>
-                    <table class="mobileReport_table">
-                        <tr class="mobileReport_table_header">
-                            <td width="20%">姓名</td>
-                            <td width="16%">上报率</td>
-                            <td width="16%">雾化率</td>
-                            <td width="16%">平均剂量</td>
-                            <td width="16%">门诊人数</td>
-                            <td width="16%">雾化人次</td>
-                        </tr>
-                        <c:forEach items="${rsmReportData}" var="reportData" varStatus="status">
-                            <tr class="mobileReport_table_body <c:if test="${status.count%2==0}">mobileReport_tr_even</c:if>">
-                                <td>${reportData.userName}</td>
-                                <td class="report_data_number">
-                                    <fmt:formatNumber type="percent" value="${reportData.inRate}" pattern="#0%" />
-                                </td>
-                                <td class="report_data_number">
-                                    <fmt:formatNumber type="percent" value="${reportData.whRate}" pattern="#0%" />
-                                </td>
-                                <td class="report_data_number">
-                                    <fmt:formatNumber type="percent" value="${reportData.averageDose}" pattern="#0.00" />
-                                </td>
-                                <td class="report_data_number">
-                                    <fmt:formatNumber value="${reportData.patNum}" pattern="#,###" />
-                                </td>
-                                <td class="report_data_number">
-                                    <fmt:formatNumber value="${reportData.lsNum}" pattern="#,###" />
-                                </td>
-                            </tr>
-                        </c:forEach>
-                    </table>
-                </div>
+	            <div class="roundCorner" style="padding: 4px;">
+					<div class="dailyReport_table_Title">所属[${rsmReportData[0].regionCenterCN}${titleSuffix}</div>
+					<table class="mobileReport_table">
+						<tr class="mobileReport_table_header">
+							<td width="20%">姓名</td>
+	                        <td width="8%">Core医院上报率</td>
+	                        <td width="8%">全体上报率</td>
+	                        <td width="12%">雾化率</td>
+	                        <td width="12%">雾化端口使用频次</td>
+	                        <td width="14%">平均剂量</td>
+	                        <td width="14%">门诊人数</td>
+	                        <td width="12%">雾化人次</td>
+						</tr>
+						<c:forEach items="${rsmReportData}" var="reportData" varStatus="status">
+							<tr	class="mobileReport_table_body <c:if test="${status.count%2==0}">mobileReport_tr_even</c:if>">
+								<td>${reportData.userName}</td>
+								<td class="report_data_number">
+									<fmt:formatNumber type="percent" value="${reportData.coreInRate}" pattern="#0%" />
+								</td>
+								<td class="report_data_number">
+									<fmt:formatNumber type="percent" value="${reportData.inRate}" pattern="#0%" />
+								</td>
+								<td class="report_data_number">
+									<fmt:formatNumber type="percent" value="${reportData.whRate}" pattern="#0%" />
+								</td>
+								<td class="report_data_number">
+									<fmt:formatNumber type="percent" value="${reportData.whPortRate}" pattern="#0.0%" />
+								</td>
+								<td class="report_data_number">
+									<fmt:formatNumber type="percent" value="${reportData.averageDose}" pattern="#0.00" />
+								</td>
+								<td class="report_data_number">
+									<fmt:formatNumber value="${reportData.patNum}" pattern="#,###" />
+								</td>
+								<td class="report_data_number">
+									<fmt:formatNumber value="${reportData.lsNum}" pattern="#,###" />
+								</td>
+							</tr>
+						</c:forEach>
+					</table>
+				</div>
             </c:forEach>
             </c:if>
             <c:if test="${mobileDailyReportChildData!= null && fn:length(mobileDailyReportChildData) > 0}">
-            <div class="roundCorner" style="padding:4px;">
+            <div class="roundCorner" style="padding: 4px;">
 				<div class="dailyReport_table_Title">${childTitle}</div>
 				<table class="mobileReport_table">
 					<tr class="mobileReport_table_header">
 						<td width="20%">姓名</td>
-						<td width="16%">上报率</td>
-						<td width="16%">雾化率</td>
-						<td width="16%">平均剂量</td>
-						<td width="16%">门诊人数</td>
-						<td width="16%">雾化人次</td>
+                       	<td width="8%">Core医院上报率</td>
+                       	<td width="8%">全体上报率</td>
+                       	<td width="12%">雾化率</td>
+                       	<td width="12%">雾化端口使用频次</td>
+                       	<td width="14%">平均剂量</td>
+                       	<td width="14%">门诊人数</td>
+                       	<td width="12%">雾化人次</td>
 					</tr>
 					<c:forEach items="${mobileDailyReportChildData}" var="reportData" varStatus="status">
 						<tr	class="mobileReport_table_body <c:if test="${status.count%2==0}">mobileReport_tr_even</c:if>">
 							<td>${reportData.userName}</td>
 							<td class="report_data_number">
+								<fmt:formatNumber type="percent" value="${reportData.coreInRate}" pattern="#0%" />
+							</td>
+							<td class="report_data_number">
 								<fmt:formatNumber type="percent" value="${reportData.inRate}" pattern="#0%" />
 							</td>
 							<td class="report_data_number">
 								<fmt:formatNumber type="percent" value="${reportData.whRate}" pattern="#0%" />
+							</td>
+							<td class="report_data_number">
+								<fmt:formatNumber type="percent" value="${reportData.whPortRate}" pattern="#0.0%" />
 							</td>
 							<td class="report_data_number">
 								<fmt:formatNumber type="percent" value="${reportData.averageDose}" pattern="#0.00" />
@@ -131,7 +153,7 @@
 	                       <td width="35%" colspan="2">Bottom RSM</td>
 	                   </tr>
 		               <tr class="mobileReport_table_body">
-		                   <td>上报率</td>
+		                   <td>全体上报率</td>
 		                   <td>${rsmData.topInRateRSMName}</td>
 		                   <td class="report_data_number"><fmt:formatNumber type="percent" value="${rsmData.topInRate}" pattern="#0.00%"/></td>
 		                   <td>${rsmData.bottomInRateRSMName}</td>

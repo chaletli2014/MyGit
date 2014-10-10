@@ -31,13 +31,22 @@ public interface PediatricsDAO {
 	public void update(PediatricsData pediatricsData, UserInfo operator) throws Exception;
 	
 	public MobilePEDDailyData getDailyPEDData4CountoryMobile()throws Exception;
-	
+	public List<MobilePEDDailyData> getDailyPEDData4RSMByRegion(String region) throws Exception;
 	public List<MobilePEDDailyData> getDailyPEDData4DSMMobile( String telephone ) throws Exception;
 	public List<MobilePEDDailyData> getDailyPEDData4RSMMobile( String telephone ) throws Exception;
 	public List<MobilePEDDailyData> getDailyPEDData4RSDMobile() throws Exception;
 	public List<MobilePEDDailyData> getDailyPEDChildData4DSMMobile( String telephone ) throws Exception;
 	public List<MobilePEDDailyData> getDailyPEDChildData4RSMMobile( String telephone ) throws Exception;
 	public List<MobilePEDDailyData> getDailyPEDChildData4RSDMobile( String telephone ) throws Exception;
+	
+	public MobilePEDDailyData getDailyCorePEDData4CountoryMobile()throws Exception;
+	public List<MobilePEDDailyData> getDailyCorePEDData4RSMByRegion(String region) throws Exception;
+	public List<MobilePEDDailyData> getDailyCorePEDData4DSMMobile( String telephone ) throws Exception;
+	public List<MobilePEDDailyData> getDailyCorePEDData4RSMMobile( String telephone ) throws Exception;
+	public List<MobilePEDDailyData> getDailyCorePEDData4RSDMobile() throws Exception;
+	public List<MobilePEDDailyData> getDailyCorePEDChildData4DSMMobile( String telephone ) throws Exception;
+	public List<MobilePEDDailyData> getDailyCorePEDChildData4RSMMobile( String telephone ) throws Exception;
+	public List<MobilePEDDailyData> getDailyCorePEDChildData4RSDMobile( String telephone ) throws Exception;
 	
 	public List<DailyReportData> getAllRSMDataByTelephone() throws Exception;
 	
@@ -70,5 +79,4 @@ public interface PediatricsDAO {
     
     public void updatePEDUserCodes(List<UserCode> userCodes) throws Exception;
     
-    public List<MobilePEDDailyData> getDailyPEDData4RSMByRegion(String region) throws Exception;
 }

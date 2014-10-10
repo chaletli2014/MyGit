@@ -3,7 +3,9 @@ package com.chalet.lskpi.service;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -249,8 +251,14 @@ public class PediatricsServiceImpl implements PediatricsService {
 
 	public List<MobilePEDDailyData> getDailyPEDData4MobileByRegion(String region) throws Exception{
     	List<MobilePEDDailyData> pedDatas = new ArrayList<MobilePEDDailyData>();
-    	
 		pedDatas = pediatricsDAO.getDailyPEDData4RSMByRegion(region);
+		
+		List<MobilePEDDailyData> pedCoreData = new ArrayList<MobilePEDDailyData>();
+		Map<String,Double> pedCoreInRateMap = new HashMap<String,Double>();
+		pedCoreData = pediatricsDAO.getDailyCorePEDData4RSMByRegion(region);
+		for( MobilePEDDailyData pedCore : pedCoreData ){
+			pedCoreInRateMap.put(pedCore.getUserCode(), pedCore.getCoreInRate());
+		}
         
         for( MobilePEDDailyData pedDailyData : pedDatas ){
             List<RateElement> rates = new ArrayList<RateElement>();
@@ -281,6 +289,8 @@ public class PediatricsServiceImpl implements PediatricsService {
             pedDailyData.setSecondRate(rates.get(1));
             pedDailyData.setInRate(pedDailyData.getHosNum()==0?0:(double)pedDailyData.getInNum()/pedDailyData.getHosNum());
             pedDailyData.setWhRate(pedDailyData.getPatNum()==0?0:(double)pedDailyData.getLsNum()/pedDailyData.getPatNum());
+            
+            pedDailyData.setCoreInRate(pedCoreInRateMap.get(pedDailyData.getUserCode()));
         }
         
         return pedDatas;
@@ -288,14 +298,26 @@ public class PediatricsServiceImpl implements PediatricsService {
 	
     public List<MobilePEDDailyData> getDailyPEDData4Mobile(String telephone, UserInfo currentUser) throws Exception {
     	List<MobilePEDDailyData> pedDatas = new ArrayList<MobilePEDDailyData>();
+    	
+		List<MobilePEDDailyData> pedCoreData = new ArrayList<MobilePEDDailyData>();
+		Map<String,Double> pedCoreInRateMap = new HashMap<String,Double>();
+    	
     	if( LsAttributes.USER_LEVEL_DSM.equalsIgnoreCase(currentUser.getLevel()) ){
     		pedDatas = pediatricsDAO.getDailyPEDData4DSMMobile(telephone);
+    		pedCoreData = pediatricsDAO.getDailyCorePEDData4DSMMobile(telephone);
     	}else if( LsAttributes.USER_LEVEL_RSM.equalsIgnoreCase(currentUser.getLevel()) ){
     		pedDatas = pediatricsDAO.getDailyPEDData4RSMMobile(telephone);
+    		pedCoreData = pediatricsDAO.getDailyCorePEDData4RSMMobile(telephone);
     	}else if( LsAttributes.USER_LEVEL_RSD.equalsIgnoreCase(currentUser.getLevel()) 
     			|| LsAttributes.USER_LEVEL_BM.equalsIgnoreCase(currentUser.getLevel()) ){
     		pedDatas = pediatricsDAO.getDailyPEDData4RSDMobile();
+    		pedCoreData = pediatricsDAO.getDailyCorePEDData4RSDMobile();
     	}
+    	
+    	for( MobilePEDDailyData pedCore : pedCoreData ){
+			pedCoreInRateMap.put(pedCore.getUserCode(), pedCore.getCoreInRate());
+		}
+    	
     	logger.info(String.format("end to get the ped daily data...current telephone is %s", telephone));
     	List<MobilePEDDailyData> orderedPedData = new ArrayList<MobilePEDDailyData>();
     	List<MobilePEDDailyData> leftPedData = new ArrayList<MobilePEDDailyData>();
@@ -330,6 +352,8 @@ public class PediatricsServiceImpl implements PediatricsService {
             pedDailyData.setInRate(pedDailyData.getHosNum()==0?0:(double)pedDailyData.getInNum()/pedDailyData.getHosNum());
             pedDailyData.setWhRate(pedDailyData.getPatNum()==0?0:(double)pedDailyData.getLsNum()/pedDailyData.getPatNum());
         
+            pedDailyData.setCoreInRate(pedCoreInRateMap.get(pedDailyData.getUserCode()));
+            
             if( pedDailyData.getHosNum() != 0 ){
                 if( null != currentUser && null != pedDailyData.getUserCode() 
                         && pedDailyData.getUserCode().equalsIgnoreCase(currentUser.getUserCode()) ){
@@ -338,7 +362,6 @@ public class PediatricsServiceImpl implements PediatricsService {
                     leftPedData.add(pedDailyData);
                 }
             }
-            
         }
         
         if( LsAttributes.USER_LEVEL_BM.equalsIgnoreCase(currentUser.getLevel()) ){
@@ -350,19 +373,28 @@ public class PediatricsServiceImpl implements PediatricsService {
         return orderedPedData;
     }
     
-    public List<MobilePEDDailyData> getDailyPEDChildData4Mobile(String telephone) throws Exception {
-        UserInfo userInfo = userService.getUserInfoByTel(telephone);
+    public List<MobilePEDDailyData> getDailyPEDChildData4Mobile(String telephone, UserInfo currentUser) throws Exception {
         List<MobilePEDDailyData> pedDatas = new ArrayList<MobilePEDDailyData>();
         
         List<MobilePEDDailyData> filteredPedDatas = new ArrayList<MobilePEDDailyData>();
         
-        if( LsAttributes.USER_LEVEL_DSM.equalsIgnoreCase(userInfo.getLevel()) ){
+        List<MobilePEDDailyData> pedCoreData = new ArrayList<MobilePEDDailyData>();
+		Map<String,Double> pedCoreInRateMap = new HashMap<String,Double>();
+        
+        if( LsAttributes.USER_LEVEL_DSM.equalsIgnoreCase(currentUser.getLevel()) ){
             pedDatas = pediatricsDAO.getDailyPEDChildData4DSMMobile(telephone);
-        }else if( LsAttributes.USER_LEVEL_RSM.equalsIgnoreCase(userInfo.getLevel()) ){
+            pedCoreData = pediatricsDAO.getDailyCorePEDChildData4DSMMobile(telephone);
+        }else if( LsAttributes.USER_LEVEL_RSM.equalsIgnoreCase(currentUser.getLevel()) ){
             pedDatas = pediatricsDAO.getDailyPEDChildData4RSMMobile(telephone);
-        }else if( LsAttributes.USER_LEVEL_RSD.equalsIgnoreCase(userInfo.getLevel()) ){
+            pedCoreData = pediatricsDAO.getDailyCorePEDChildData4RSMMobile(telephone);
+        }else if( LsAttributes.USER_LEVEL_RSD.equalsIgnoreCase(currentUser.getLevel()) ){
             pedDatas = pediatricsDAO.getDailyPEDChildData4RSDMobile(telephone);
+            pedCoreData = pediatricsDAO.getDailyCorePEDChildData4RSDMobile(telephone);
         }
+        
+        for( MobilePEDDailyData pedCore : pedCoreData ){
+			pedCoreInRateMap.put(pedCore.getUserCode(), pedCore.getCoreInRate());
+		}
         
         for( MobilePEDDailyData pedDailyData : pedDatas ){
             List<RateElement> rates = new ArrayList<RateElement>();
@@ -394,12 +426,13 @@ public class PediatricsServiceImpl implements PediatricsService {
             pedDailyData.setInRate(pedDailyData.getHosNum()==0?0:(double)pedDailyData.getInNum()/pedDailyData.getHosNum());
             pedDailyData.setWhRate(pedDailyData.getPatNum()==0?0:(double)pedDailyData.getLsNum()/pedDailyData.getPatNum());
             
+            pedDailyData.setCoreInRate(pedCoreInRateMap.get(pedDailyData.getUserCode()));
+            
             if( pedDailyData.getHosNum() != 0 ){
                 filteredPedDatas.add(pedDailyData);
             }
             
         }
-        
         return filteredPedDatas;
     }
     

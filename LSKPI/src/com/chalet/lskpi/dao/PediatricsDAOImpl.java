@@ -18,6 +18,7 @@ import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Repository;
 
+import com.chalet.lskpi.mapper.PediatricsCoreHosRowMapper;
 import com.chalet.lskpi.mapper.PediatricsMobileRowMapper;
 import com.chalet.lskpi.mapper.PediatricsRowMapper;
 import com.chalet.lskpi.mapper.PediatricsWithPortNumRowMapper;
@@ -839,66 +840,187 @@ public class PediatricsDAOImpl implements PediatricsDAO {
 	@Override
 	public List<MobilePEDDailyData> getDailyPEDChildData4RSMMobile(String telephone)	throws Exception {
 	    return this.getDailyPEDData4DSMMobile(telephone);
-	    /**
-	     * 
-	    StringBuffer mobilePEDDailySQL = new StringBuffer();
-	    
-	    Date date = new Date();
-	    Timestamp paramDate = new Timestamp(DateUtils.populateParamDate(date).getTime());
-	    
-	    mobilePEDDailySQL.append("select ui.name, ui.userCode,")
-	    .append(" ( select count(1) from tbl_hospital h where h.dsmCode = ui.userCode and h.rsmRegion = ui.region and h.isPedAssessed='1' ) hosNum, ")
-	    .append(LsAttributes.SQL_DAILYREPORT_SELECTION_ALIAS_PED)
-	    .append(" from ( ")
-        .append(" select u.name,u.userCode,")
-        .append(LsAttributes.SQL_DAILYREPORT_SELECTION_PED)
-        .append(" from tbl_userinfo u, tbl_pediatrics_data pd, tbl_hospital h1 ")
-        .append(" where pd.hospitalName = h1.name ")
-        .append(" and h1.rsmRegion = u.region ")
-        .append(" and h1.dsmCode = u.userCode ")
-        .append(" and TO_DAYS(?) = TO_DAYS(pd.createdate) ")
-        .append(" and h1.isPedAssessed='1' ")
-        .append(" and u.level='DSM' ")
-        .append(" and u.region = ( select region from tbl_userinfo where telephone=? ) ")
-        .append(" group by u.userCode ")
-        .append(" ) dailyData ")
-        .append(" right join tbl_userinfo ui on ui.userCode = dailyData.userCode ")
-        .append(" where ui.level='DSM' ")
-        .append(" and ui.region = ( select region from tbl_userinfo where telephone=? )");
-	    return dataBean.getJdbcTemplate().query(mobilePEDDailySQL.toString(), new Object[]{paramDate,telephone,telephone},new PediatricsMobileRowMapper());
-	     */
 	}
 	
 	@Override
 	public List<MobilePEDDailyData> getDailyPEDChildData4RSDMobile(String telephone) throws Exception {
 	    return this.getDailyPEDData4RSMMobile(telephone);
-	    /**
-	     * 
-	    StringBuffer mobilePEDDailySQL = new StringBuffer();
-	    
-	    Date date = new Date();
-	    Timestamp paramDate = new Timestamp(DateUtils.populateParamDate(date).getTime());
-	    
-	    mobilePEDDailySQL.append("select ui.region as name, ui.userCode,")
-	    .append(" ( select count(1) from tbl_hospital h where h.rsmRegion = ui.region and h.isPedAssessed='1' ) hosNum, ")
-	    .append(LsAttributes.SQL_DAILYREPORT_SELECTION_ALIAS_PED)
-	    .append(" from ( ")
-        .append(" select u.region as name,u.userCode,")
-        .append(LsAttributes.SQL_DAILYREPORT_SELECTION_PED)
-	    .append(" from tbl_userinfo u, tbl_pediatrics_data pd, tbl_hospital h1 ")
-        .append(" where pd.hospitalName = h1.name ")
-        .append(" and h1.rsmRegion = u.region ")
-        .append(" and TO_DAYS(?) = TO_DAYS(pd.createdate) ")
-        .append(" and h1.isPedAssessed='1' ")
-        .append(" and u.level='RSM' ")
-        .append(" and u.regionCenter = ( select regionCenter from tbl_userinfo where telephone=? ) ")
-        .append(" group by u.userCode ")
-        .append(" ) dailyData ")
-        .append(" right join tbl_userinfo ui on ui.userCode = dailyData.userCode ")
-        .append(" where ui.level='RSM' ")
-        .append(" and ui.regionCenter = ( select regionCenter from tbl_userinfo where telephone=? )");
-	    return dataBean.getJdbcTemplate().query(mobilePEDDailySQL.toString(), new Object[]{paramDate,telephone,telephone}, new PediatricsMobileRowMapper());
-	     */
+	}
+	
+	@Override
+	public List<MobilePEDDailyData> getDailyCorePEDData4RSMByRegion(String region) throws Exception {
+		StringBuffer mobilePEDDailySQL = new StringBuffer();
+		
+		Date date = new Date();
+		Timestamp paramDate = new Timestamp(DateUtils.populateParamDate(date).getTime());
+		
+		mobilePEDDailySQL.append("select ui.userCode,")
+		.append(" ( select count(1) from tbl_hospital h where h.rsmRegion = ui.region and h.isPedAssessed='1' and h.dragonType='Core' ) coreHosNum, ")
+		.append(" IFNULL(dailyData.inNum,0) as coreInNum ")
+		.append(" from ( ")
+		.append(" select u.userCode,")
+		.append(" count(1) as inNum ")
+		.append(" from tbl_userinfo u, tbl_pediatrics_data pd, tbl_hospital h1 ")
+		.append(" where pd.hospitalName = h1.name ")
+		.append(" and h1.rsmRegion = u.region ")
+		.append(" and TO_DAYS(?) = TO_DAYS(pd.createdate) ")
+		.append(" and h1.isPedAssessed='1' ")
+		.append(" and h1.dragonType='Core' ")
+		.append(" and u.level='RSM' ")
+		.append(" and u.regionCenter = ? ")
+		.append(" group by u.userCode ")
+		.append(" ) dailyData ")
+		.append(" right join tbl_userinfo ui on ui.userCode = dailyData.userCode ")
+		.append(" where ui.level='RSM' ")
+		.append(" and ui.regionCenter = ? ")
+		.append(" order by ui.region");
+		return dataBean.getJdbcTemplate().query(mobilePEDDailySQL.toString(), new Object[]{paramDate,region,region},new PediatricsCoreHosRowMapper());
+	}
+	
+	public MobilePEDDailyData getDailyCorePEDData4CountoryMobile() throws Exception {
+		StringBuffer mobilePEDDailySQL = new StringBuffer();
+		
+		Date date = new Date();
+		Timestamp paramDate = new Timestamp(DateUtils.populateParamDate(date).getTime());
+		
+		mobilePEDDailySQL.append("select null as userCode,")
+		.append(" (select count(1) from tbl_hospital h where h.isPedAssessed='1' and h.dragonType='Core' ) coreHosNum, ")
+		.append(" count(1) as coreInNum ")
+		.append(" from ( ")
+		.append("   select ped.id from tbl_pediatrics_data ped, tbl_hospital h ")
+		.append("   where ped.hospitalName = h.name ")
+		.append("   and TO_DAYS(ped.createdate) = TO_DAYS(?) ")
+		.append("   and h.isPedAssessed='1' ")
+		.append(" 	and h.dragonType='Core' ")
+		.append(" ) pd ");
+		return dataBean.getJdbcTemplate().queryForObject(mobilePEDDailySQL.toString(), new Object[]{paramDate},new PediatricsCoreHosRowMapper());
+	}
+	
+	public List<MobilePEDDailyData> getDailyCorePEDData4DSMMobile(String telephone) throws Exception {
+		StringBuffer mobilePEDDailySQL = new StringBuffer();
+		
+		Date date = new Date();
+		Timestamp paramDate = new Timestamp(DateUtils.populateParamDate(date).getTime());
+		
+		mobilePEDDailySQL.append("select ui.userCode,")
+		.append(" ( select count(1) from tbl_hospital h where h.dsmCode = ui.userCode and h.rsmRegion = ui.region and h.isPedAssessed='1' and h.dragonType='Core' ) coreHosNum, ")
+		.append(" IFNULL(dailyData.inNum,0) as coreInNum ")
+		.append(" from ( ")
+		.append(" select u.name,u.userCode,")
+		.append(" count(1) as inNum ")
+		.append(" from tbl_userinfo u, tbl_pediatrics_data pd, tbl_hospital h1 ")
+		.append(" where pd.hospitalName = h1.name ")
+		.append(" and h1.rsmRegion = u.region ")
+		.append(" and h1.dsmCode = u.userCode ")
+		.append(" and TO_DAYS(?) = TO_DAYS(pd.createdate) ")
+		.append(" and h1.isPedAssessed='1' ")
+		.append(" and h1.dragonType='Core' ")
+		.append(" and u.level='DSM' ")
+		.append(" and u.region = ( select region from tbl_userinfo where telephone=? ) ")
+		.append(" group by u.userCode ")
+		.append(" ) dailyData ")
+		.append(" right join tbl_userinfo ui on ui.userCode = dailyData.userCode ")
+		.append(" where ui.level='DSM' ")
+		.append(" and ui.region = ( select region from tbl_userinfo where telephone=? )");
+		return dataBean.getJdbcTemplate().query(mobilePEDDailySQL.toString(), new Object[]{paramDate,telephone,telephone},new PediatricsCoreHosRowMapper());
+	}
+	
+	@Override
+	public List<MobilePEDDailyData> getDailyCorePEDData4RSMMobile(String telephone)	throws Exception {
+		StringBuffer mobilePEDDailySQL = new StringBuffer();
+		
+		Date date = new Date();
+		Timestamp paramDate = new Timestamp(DateUtils.populateParamDate(date).getTime());
+		
+		mobilePEDDailySQL.append("select ui.userCode,")
+		.append(" ( select count(1) from tbl_hospital h where h.rsmRegion = ui.region and h.isPedAssessed='1' and h.dragonType='Core' ) coreHosNum, ")
+		.append(" IFNULL(dailyData.inNum,0) as coreInNum ")
+		.append(" from ( ")
+		.append(" select u.userCode,")
+		.append(" count(1) as inNum ")
+		.append(" from tbl_userinfo u, tbl_pediatrics_data pd, tbl_hospital h1 ")
+		.append(" where pd.hospitalName = h1.name ")
+		.append(" and h1.rsmRegion = u.region ")
+		.append(" and TO_DAYS(?) = TO_DAYS(pd.createdate) ")
+		.append(" and h1.isPedAssessed='1' ")
+		.append(" and h1.dragonType='Core' ")
+		.append(" and u.level='RSM' ")
+		.append(" and u.regionCenter = ( select regionCenter from tbl_userinfo where telephone=? ) ")
+		.append(" group by u.userCode ")
+		.append(" ) dailyData ")
+		.append(" right join tbl_userinfo ui on ui.userCode = dailyData.userCode ")
+		.append(" where ui.level='RSM' ")
+		.append(" and ui.regionCenter = ( select regionCenter from tbl_userinfo where telephone=? ) ")
+		.append(" order by ui.region");
+		return dataBean.getJdbcTemplate().query(mobilePEDDailySQL.toString(), new Object[]{paramDate,telephone,telephone},new PediatricsCoreHosRowMapper());
+	}
+	
+	@Override
+	public List<MobilePEDDailyData> getDailyCorePEDData4RSDMobile() throws Exception {
+		StringBuffer mobilePEDDailySQL = new StringBuffer();
+		
+		Date date = new Date();
+		Timestamp paramDate = new Timestamp(DateUtils.populateParamDate(date).getTime());
+		
+		mobilePEDDailySQL.append("select ui.userCode,")
+		.append(" ( select count(1) from tbl_hospital h where h.region = ui.regionCenter and h.isPedAssessed='1' and h.dragonType='Core' ) coreHosNum, ")
+		.append(" IFNULL(dailyData.inNum,0) as coreInNum ")
+		.append(" from ( ")
+		.append(" select u.userCode,")
+		.append(" count(1) as inNum ")
+		.append(" from tbl_userinfo u, tbl_pediatrics_data pd, tbl_hospital h1 ")
+		.append(" where pd.hospitalName = h1.name ")
+		.append(" and h1.region = u.regionCenter ")
+		.append(" and TO_DAYS(?) = TO_DAYS(pd.createdate) ")
+		.append(" and h1.isPedAssessed='1' ")
+		.append(" and h1.dragonType='Core' ")
+		.append(" and u.level='RSD' ")
+		.append(" group by u.regionCenter ")
+		.append(" ) dailyData ")
+		.append(" right join tbl_userinfo ui on ui.userCode = dailyData.userCode ")
+		.append(" where ui.level='RSD' ")
+		.append(" order by ui.regionCenter");
+		return dataBean.getJdbcTemplate().query(mobilePEDDailySQL.toString(), new Object[]{paramDate}, new PediatricsCoreHosRowMapper());
+	}
+	
+	public List<MobilePEDDailyData> getDailyCorePEDChildData4DSMMobile(String telephone) throws Exception {
+		StringBuffer mobilePEDDailySQL = new StringBuffer();
+		
+		Date date = new Date();
+		Timestamp paramDate = new Timestamp(DateUtils.populateParamDate(date).getTime());
+		
+		mobilePEDDailySQL.append("select ui.userCode,")
+		.append(" ( select count(1) from tbl_hospital h where h.saleCode = ui.userCode and h.rsmRegion = ui.region and h.dsmCode = ui.superior and h.isPedAssessed='1' and h.dragonType='Core') coreHosNum, ")
+		.append(" IFNULL(dailyData.inNum,0) as coreInNum ")
+		.append(" from ( ")
+		.append(" select u.userCode,")
+		.append(" count(1) as inNum ")
+		.append(" from tbl_userinfo u, tbl_pediatrics_data pd, tbl_hospital h1 ")
+		.append(" where pd.hospitalName = h1.name ")
+		.append(" and h1.rsmRegion = u.region ")
+		.append(" and h1.dsmCode = u.superior ")
+		.append(" and h1.saleCode = u.userCode ")
+		.append(" and TO_DAYS(?) = TO_DAYS(pd.createdate) ")
+		.append(" and h1.isPedAssessed='1' ")
+		.append(" and h1.dragonType='Core' ")
+		.append(" and u.level='REP' ")
+		.append(" and u.superior = ( select userCode from tbl_userinfo where telephone=? ) ")
+		.append(" group by u.userCode ")
+		.append(" ) dailyData ")
+		.append(" right join tbl_userinfo ui on ui.userCode = dailyData.userCode ")
+		.append(" where ui.level='REP' ")
+		.append(" and ui.superior = ( select userCode from tbl_userinfo where telephone=? )");
+		return dataBean.getJdbcTemplate().query(mobilePEDDailySQL.toString(), new Object[]{paramDate,telephone,telephone},new PediatricsCoreHosRowMapper());
+	}
+	
+	@Override
+	public List<MobilePEDDailyData> getDailyCorePEDChildData4RSMMobile(String telephone)	throws Exception {
+		return this.getDailyCorePEDData4DSMMobile(telephone);
+	}
+	
+	@Override
+	public List<MobilePEDDailyData> getDailyCorePEDChildData4RSDMobile(String telephone) throws Exception {
+		return this.getDailyCorePEDData4RSMMobile(telephone);
 	}
 	
 	@Override
