@@ -94,6 +94,15 @@
     	<filter-name>urlFilter</filter-name>
     	<url-pattern>*.xls</url-pattern>
   	</filter-mapping>
+  	
+    <filter>
+	    <filter-name>fileDownloadFilter</filter-name>
+	    <filter-class>com.chalet.lskpi.utils.FileDownloadFilter</filter-class>
+  	</filter>
+  	<filter-mapping>
+    	<filter-name>fileDownloadFilter</filter-name>
+    	<url-pattern>/KPISource/*</url-pattern>
+  	</filter-mapping>
     
     <!-- Default locale setting.
     -->
