@@ -152,6 +152,13 @@
 	                       <td width="35%" colspan="2">Top RSM</td>
 	                       <td width="35%" colspan="2">Bottom RSM</td>
 	                   </tr>
+	                   <tr class="mobileReport_table_body">
+		                   <td>Core医院上报率</td>
+		                   <td>${rsmData.coreTopInRateRSMName}</td>
+		                   <td class="report_data_number"><fmt:formatNumber type="percent" value="${rsmData.coreTopInRate}" pattern="#0.00%"/></td>
+		                   <td>${rsmData.coreBottomInRateRSMName}</td>
+		                   <td class="report_data_number"><fmt:formatNumber type="percent" value="${rsmData.coreBottomInRate}" pattern="#0.00%"/></td>
+		               </tr>
 		               <tr class="mobileReport_table_body">
 		                   <td>全体上报率</td>
 		                   <td>${rsmData.topInRateRSMName}</td>
