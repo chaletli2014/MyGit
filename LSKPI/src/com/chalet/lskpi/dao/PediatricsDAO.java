@@ -39,6 +39,15 @@ public interface PediatricsDAO {
 	public List<MobilePEDDailyData> getDailyPEDChildData4RSMMobile( String telephone ) throws Exception;
 	public List<MobilePEDDailyData> getDailyPEDChildData4RSDMobile( String telephone ) throws Exception;
 	
+	public MobilePEDDailyData getDailyPEDWhPortData4CountoryMobile()throws Exception;
+	public List<MobilePEDDailyData> getDailyPEDWhPortData4RSMByRegion(String region) throws Exception;
+	public List<MobilePEDDailyData> getDailyPEDWhPortData4DSMMobile( String telephone ) throws Exception;
+	public List<MobilePEDDailyData> getDailyPEDWhPortData4RSMMobile( String telephone ) throws Exception;
+	public List<MobilePEDDailyData> getDailyPEDWhPortData4RSDMobile() throws Exception;
+	public List<MobilePEDDailyData> getDailyPEDWhPortChildData4DSMMobile( String telephone ) throws Exception;
+	public List<MobilePEDDailyData> getDailyPEDWhPortChildData4RSMMobile( String telephone ) throws Exception;
+	public List<MobilePEDDailyData> getDailyPEDWhPortChildData4RSDMobile( String telephone ) throws Exception;
+	
 	public MobilePEDDailyData getDailyCorePEDData4CountoryMobile()throws Exception;
 	public List<MobilePEDDailyData> getDailyCorePEDData4RSMByRegion(String region) throws Exception;
 	public List<MobilePEDDailyData> getDailyCorePEDData4DSMMobile( String telephone ) throws Exception;
@@ -51,6 +60,7 @@ public interface PediatricsDAO {
 	public List<DailyReportData> getAllRSMDataByTelephone() throws Exception;
 	
 	public TopAndBottomRSMData getTopAndBottomRSMData() throws Exception;
+	public TopAndBottomRSMData getCoreTopAndBottomRSMData() throws Exception;
 	
 	public void generateWeeklyPEDDataOfHospital() throws Exception;
 	public int removeOldWeeklyPEDData(String duration) throws Exception;

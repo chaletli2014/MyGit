@@ -259,6 +259,13 @@ public class PediatricsServiceImpl implements PediatricsService {
 		for( MobilePEDDailyData pedCore : pedCoreData ){
 			pedCoreInRateMap.put(pedCore.getUserCode(), pedCore.getCoreInRate());
 		}
+		
+		List<MobilePEDDailyData> pedWhPortData = new ArrayList<MobilePEDDailyData>();
+		Map<String,Double> pedWhPortMap = new HashMap<String,Double>();
+		pedWhPortData = pediatricsDAO.getDailyPEDWhPortData4RSMByRegion(region);
+		for( MobilePEDDailyData pedWhPort : pedWhPortData ){
+			pedWhPortMap.put(pedWhPort.getUserCode(), pedWhPort.getWhPortRate());
+		}
         
         for( MobilePEDDailyData pedDailyData : pedDatas ){
             List<RateElement> rates = new ArrayList<RateElement>();
@@ -291,6 +298,7 @@ public class PediatricsServiceImpl implements PediatricsService {
             pedDailyData.setWhRate(pedDailyData.getPatNum()==0?0:(double)pedDailyData.getLsNum()/pedDailyData.getPatNum());
             
             pedDailyData.setCoreInRate(pedCoreInRateMap.get(pedDailyData.getUserCode()));
+            pedDailyData.setWhPortRate(pedWhPortMap.get(pedDailyData.getUserCode()));
         }
         
         return pedDatas;
@@ -301,21 +309,32 @@ public class PediatricsServiceImpl implements PediatricsService {
     	
 		List<MobilePEDDailyData> pedCoreData = new ArrayList<MobilePEDDailyData>();
 		Map<String,Double> pedCoreInRateMap = new HashMap<String,Double>();
+		
+		List<MobilePEDDailyData> pedWhPortData = new ArrayList<MobilePEDDailyData>();
+		Map<String,Double> pedWhPortMap = new HashMap<String,Double>();
+
     	
     	if( LsAttributes.USER_LEVEL_DSM.equalsIgnoreCase(currentUser.getLevel()) ){
     		pedDatas = pediatricsDAO.getDailyPEDData4DSMMobile(telephone);
     		pedCoreData = pediatricsDAO.getDailyCorePEDData4DSMMobile(telephone);
+    		pedWhPortData = pediatricsDAO.getDailyPEDWhPortData4DSMMobile(telephone);
     	}else if( LsAttributes.USER_LEVEL_RSM.equalsIgnoreCase(currentUser.getLevel()) ){
     		pedDatas = pediatricsDAO.getDailyPEDData4RSMMobile(telephone);
     		pedCoreData = pediatricsDAO.getDailyCorePEDData4RSMMobile(telephone);
+    		pedWhPortData = pediatricsDAO.getDailyPEDWhPortData4RSMMobile(telephone);
     	}else if( LsAttributes.USER_LEVEL_RSD.equalsIgnoreCase(currentUser.getLevel()) 
     			|| LsAttributes.USER_LEVEL_BM.equalsIgnoreCase(currentUser.getLevel()) ){
     		pedDatas = pediatricsDAO.getDailyPEDData4RSDMobile();
     		pedCoreData = pediatricsDAO.getDailyCorePEDData4RSDMobile();
+    		pedWhPortData = pediatricsDAO.getDailyPEDWhPortData4RSDMobile();
     	}
     	
     	for( MobilePEDDailyData pedCore : pedCoreData ){
 			pedCoreInRateMap.put(pedCore.getUserCode(), pedCore.getCoreInRate());
+		}
+    	
+		for( MobilePEDDailyData pedWhPort : pedWhPortData ){
+			pedWhPortMap.put(pedWhPort.getUserCode(), pedWhPort.getWhPortRate());
 		}
     	
     	logger.info(String.format("end to get the ped daily data...current telephone is %s", telephone));
@@ -353,6 +372,7 @@ public class PediatricsServiceImpl implements PediatricsService {
             pedDailyData.setWhRate(pedDailyData.getPatNum()==0?0:(double)pedDailyData.getLsNum()/pedDailyData.getPatNum());
         
             pedDailyData.setCoreInRate(pedCoreInRateMap.get(pedDailyData.getUserCode()));
+            pedDailyData.setWhPortRate(pedWhPortMap.get(pedDailyData.getUserCode()));
             
             if( pedDailyData.getHosNum() != 0 ){
                 if( null != currentUser && null != pedDailyData.getUserCode() 
@@ -380,20 +400,30 @@ public class PediatricsServiceImpl implements PediatricsService {
         
         List<MobilePEDDailyData> pedCoreData = new ArrayList<MobilePEDDailyData>();
 		Map<String,Double> pedCoreInRateMap = new HashMap<String,Double>();
+		
+		List<MobilePEDDailyData> pedWhPortData = new ArrayList<MobilePEDDailyData>();
+		Map<String,Double> pedWhPortMap = new HashMap<String,Double>();
         
         if( LsAttributes.USER_LEVEL_DSM.equalsIgnoreCase(currentUser.getLevel()) ){
             pedDatas = pediatricsDAO.getDailyPEDChildData4DSMMobile(telephone);
             pedCoreData = pediatricsDAO.getDailyCorePEDChildData4DSMMobile(telephone);
+            pedWhPortData = pediatricsDAO.getDailyPEDWhPortChildData4DSMMobile(telephone);
         }else if( LsAttributes.USER_LEVEL_RSM.equalsIgnoreCase(currentUser.getLevel()) ){
             pedDatas = pediatricsDAO.getDailyPEDChildData4RSMMobile(telephone);
             pedCoreData = pediatricsDAO.getDailyCorePEDChildData4RSMMobile(telephone);
+            pedWhPortData = pediatricsDAO.getDailyPEDWhPortChildData4RSMMobile(telephone);
         }else if( LsAttributes.USER_LEVEL_RSD.equalsIgnoreCase(currentUser.getLevel()) ){
             pedDatas = pediatricsDAO.getDailyPEDChildData4RSDMobile(telephone);
             pedCoreData = pediatricsDAO.getDailyCorePEDChildData4RSDMobile(telephone);
+            pedWhPortData = pediatricsDAO.getDailyPEDWhPortChildData4RSDMobile(telephone);
         }
         
         for( MobilePEDDailyData pedCore : pedCoreData ){
 			pedCoreInRateMap.put(pedCore.getUserCode(), pedCore.getCoreInRate());
+		}
+    	
+		for( MobilePEDDailyData pedWhPort : pedWhPortData ){
+			pedWhPortMap.put(pedWhPort.getUserCode(), pedWhPort.getWhPortRate());
 		}
         
         for( MobilePEDDailyData pedDailyData : pedDatas ){
@@ -427,6 +457,7 @@ public class PediatricsServiceImpl implements PediatricsService {
             pedDailyData.setWhRate(pedDailyData.getPatNum()==0?0:(double)pedDailyData.getLsNum()/pedDailyData.getPatNum());
             
             pedDailyData.setCoreInRate(pedCoreInRateMap.get(pedDailyData.getUserCode()));
+            pedDailyData.setWhPortRate(pedWhPortMap.get(pedDailyData.getUserCode()));
             
             if( pedDailyData.getHosNum() != 0 ){
                 filteredPedDatas.add(pedDailyData);
@@ -438,7 +469,15 @@ public class PediatricsServiceImpl implements PediatricsService {
     
 	@Override
 	public TopAndBottomRSMData getTopAndBottomRSMData() throws Exception {
-		return pediatricsDAO.getTopAndBottomRSMData();
+		TopAndBottomRSMData topAndBottomRSMData = pediatricsDAO.getTopAndBottomRSMData();
+		TopAndBottomRSMData coreRSMData = pediatricsDAO.getCoreTopAndBottomRSMData();
+		
+		topAndBottomRSMData.setCoreBottomInRate(coreRSMData.getCoreBottomInRate());
+		topAndBottomRSMData.setCoreBottomInRateRSMName(coreRSMData.getCoreBottomInRateRSMName());
+		topAndBottomRSMData.setCoreTopInRate(coreRSMData.getCoreTopInRate());
+		topAndBottomRSMData.setCoreTopInRateRSMName(coreRSMData.getCoreTopInRateRSMName());
+		
+		return topAndBottomRSMData;
 	}
     
     @Override

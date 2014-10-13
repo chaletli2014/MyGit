@@ -28,6 +28,11 @@ public class TopAndBottomRSMData {
 	private double topAverageDose;
 	private double bottomAverageDose;
 	
+	private String coreTopInRateRSMName;
+	private String coreBottomInRateRSMName;
+	private double coreTopInRate;
+	private double coreBottomInRate;
+	
 	public String getTopRSMName() {
 		return topRSMName;
 	}
@@ -135,6 +140,30 @@ public class TopAndBottomRSMData {
 	}
 	public void setBottomAverageDose(double bottomAverageDose) {
 		this.bottomAverageDose = bottomAverageDose;
+	}
+	public String getCoreTopInRateRSMName() {
+		return coreTopInRateRSMName;
+	}
+	public void setCoreTopInRateRSMName(String coreTopInRateRSMName) {
+		this.coreTopInRateRSMName = coreTopInRateRSMName;
+	}
+	public String getCoreBottomInRateRSMName() {
+		return coreBottomInRateRSMName;
+	}
+	public void setCoreBottomInRateRSMName(String coreBottomInRateRSMName) {
+		this.coreBottomInRateRSMName = coreBottomInRateRSMName;
+	}
+	public double getCoreTopInRate() {
+		return coreTopInRate;
+	}
+	public void setCoreTopInRate(double coreTopInRate) {
+		this.coreTopInRate = coreTopInRate;
+	}
+	public double getCoreBottomInRate() {
+		return coreBottomInRate;
+	}
+	public void setCoreBottomInRate(double coreBottomInRate) {
+		this.coreBottomInRate = coreBottomInRate;
 	}
 
 }
