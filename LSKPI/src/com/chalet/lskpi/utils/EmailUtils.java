@@ -38,8 +38,10 @@ public class EmailUtils {
 			helper.setFrom(CustomizedProperty.getContextProperty("email_from"));
 //			helper.setTo(CustomizedProperty.getContextProperty("lskpi_to").split(","));
 			helper.setTo(to.split(","));
-			helper.setSubject(new String(CustomizedProperty.getContextProperty("email_subject").getBytes("UTF-8"),"UTF-8") + subject);
-			helper.setText(new String(CustomizedProperty.getContextProperty("email_body").getBytes("UTF-8"),"UTF-8") + body);
+//			helper.setSubject(new String(CustomizedProperty.getContextProperty("email_subject").getBytes("UTF-8"),"UTF-8") + subject);
+//			helper.setText(new String(CustomizedProperty.getContextProperty("email_body").getBytes("UTF-8"),"UTF-8") + body);
+			helper.setSubject("令舒KPI报告 " + subject);
+			helper.setText("该邮件为令舒KPI邮件系统自动发送，请勿回复。详情数据请见附件 " + body);
 			helper.addAttachment(MimeUtility.encodeText(new File(filePath).getName(),"UTF-8","B"), new File(filePath));
 			/**
 			 * 
