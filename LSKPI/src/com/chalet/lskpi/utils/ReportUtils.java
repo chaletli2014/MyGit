@@ -144,21 +144,21 @@ public class ReportUtils {
             	}
                 break;
             case LsAttributes.USER_LEVEL_BM:
-                for( String region : regionList ){
-                    String weeklyPDFPEDSingleRSDReportFileName = new StringBuffer(pedFileNamePre).append("_").append(region).append(".pdf").toString();
-                    String weeklyPDFRESSingleRSDReportFileName = new StringBuffer(resFileNamePre).append("_").append(region).append(".pdf").toString();
-                    
-                    if( !new File(weeklyPDFPEDSingleRSDReportFileName).exists() || (isFirstRefresh && !checkFileExists) ){
-                        html.runRefreshReport( basePath + "reportDesigns/refresh_weeklyPEDReportBUSingleRSD.rptdesign",telephone,startDate,endDate,weeklyPDFPEDSingleRSDReportFileName,"pdf","","",region);
-                        logger.info(String.format("the ped weekly report for BU %s is done.", region));
-                    }
-                    
-                    if( !new File(weeklyPDFRESSingleRSDReportFileName).exists() || (isFirstRefresh && !checkFileExists)  ){
-                        html.runRefreshReport( basePath + "reportDesigns/refresh_weeklyRESReportBUSingleRSD.rptdesign",telephone,startDate,endDate,weeklyPDFRESSingleRSDReportFileName,"pdf","","",region);
-                        logger.info(String.format("the res weekly report for BU %s is done.", region));
-                    }
-                    
-                }
+//                for( String region : regionList ){
+//                    String weeklyPDFPEDSingleRSDReportFileName = new StringBuffer(pedFileNamePre).append("_").append(region).append(".pdf").toString();
+//                    String weeklyPDFRESSingleRSDReportFileName = new StringBuffer(resFileNamePre).append("_").append(region).append(".pdf").toString();
+//                    
+//                    if( !new File(weeklyPDFPEDSingleRSDReportFileName).exists() || (isFirstRefresh && !checkFileExists) ){
+//                        html.runRefreshReport( basePath + "reportDesigns/refresh_weeklyPEDReportBUSingleRSD.rptdesign",telephone,startDate,endDate,weeklyPDFPEDSingleRSDReportFileName,"pdf","","",region);
+//                        logger.info(String.format("the ped weekly report for BU %s is done.", region));
+//                    }
+//                    
+//                    if( !new File(weeklyPDFRESSingleRSDReportFileName).exists() || (isFirstRefresh && !checkFileExists)  ){
+//                        html.runRefreshReport( basePath + "reportDesigns/refresh_weeklyRESReportBUSingleRSD.rptdesign",telephone,startDate,endDate,weeklyPDFRESSingleRSDReportFileName,"pdf","","",region);
+//                        logger.info(String.format("the res weekly report for BU %s is done.", region));
+//                    }
+//                    
+//                }
                 
                 if( !new File(weeklyPDFRESReportFileName).exists() || (isFirstRefresh && !checkFileExists)  ){
                     html.runRefreshReport( basePath + "reportDesigns/refresh_weeklyRESReportBU.rptdesign",telephone,startDate,endDate,weeklyPDFRESReportFileName,"pdf","","","");
