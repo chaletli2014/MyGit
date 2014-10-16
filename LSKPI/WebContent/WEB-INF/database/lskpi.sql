@@ -432,3 +432,45 @@ and not exists(
 	and hd1.hospitalCode = hd.hospitalCode 
 	and hd1.doctorId = hd.doctorId 
 );
+
+alter table tbl_pediatrics_data_weekly add column portNum int default 0;
+
+select h1.duration
+,data.whPortRate
+,(
+	case when 
+	h1.region in (
+		select property_name 
+		from tbl_property p	)
+	then (
+		select property_value 
+		from tbl_property 
+		where property_name=h1.region)
+	else h1.region 
+	end
+) region 
+from 
+(
+	select 
+	pdw.duration,
+	ROUND(IFNULL(sum(pdw.lsnum)/sum(pdw.portNum),0),1) as whPortRate, 
+	h.region
+	from 
+	(
+		select * from tbl_pediatrics_data_weekly 
+		where duration <= '2014.10.06-2014.10.12' 
+		and duration >= '2014.09.01-2014.09.07' 
+	) pdw, tbl_hospital h 
+	where h.code = pdw.hospitalCode 
+	and pdw.portNum != 0 
+	and pdw.portNum is not null 
+	group by pdw.duration,h.region 
+) data 
+right join (
+	select distinct duration, region from tbl_hospital, (
+		select distinct duration from tbl_pediatrics_data_weekly 
+		where duration <= '2014.10.06-2014.10.12' 
+		and duration >= '2014.09.01-2014.09.07' 
+	) durations
+) h1 on h1.region = data.region and h1.duration = data.duration 
+order by h1.duration desc;
