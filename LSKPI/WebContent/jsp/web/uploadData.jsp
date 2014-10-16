@@ -429,7 +429,7 @@
 					</div>
 				</div>
 				<div class="element_block">
-				<div class="element_title">呼吸科月报统计</div>
+				<div class="element_title">呼吸科周周报</div>
 					<div>
 						<form action="doDownloadResMonthData" id="downloadResMonthData" method="post" enctype="multipart/form-data" data-ajax="false" accept-charset="UTF-8">
 							<input type="hidden" name="fromWeb" value="Y">
