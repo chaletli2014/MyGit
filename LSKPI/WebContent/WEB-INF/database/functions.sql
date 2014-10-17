@@ -2191,3 +2191,17 @@ inner join (
 	   and u.level='REP' 
 ) last2MonthData on lastMonthData.saleCode = last2MonthData.saleCode 
  and lastMonthData.dsmCode = last2MonthData.dsmCode and lastMonthData.rsmRegion = last2MonthData.rsmRegion;
+ 
+ 
+ 
+ 
+ 
+ 
+update tbl_pediatrics_data_weekly 
+set portNum = 10 
+where region='South GRA' and duration='2014.09.29-2014.10.05';
+
+
+update tbl_pediatrics_data_weekly 
+set portNum = 10 
+where region !='South GRA' and duration='2014.10.06-2014.10.12';
