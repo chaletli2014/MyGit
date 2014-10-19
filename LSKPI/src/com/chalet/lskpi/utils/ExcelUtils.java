@@ -1037,6 +1037,8 @@ public class ExcelUtils {
             Map<String, Integer> rsmHeaderColumn = new HashMap<String, Integer>();
             Map<String, Integer> rsdHeaderColumn = new HashMap<String, Integer>();
             
+            Map<String, Integer> whPortNumColumn = new HashMap<String, Integer>();
+            
             Row row = sheet.getRow(sheet.getFirstRowNum());
             if( row == null ){
                 throw new Exception("文件格式不正确，无法导入数据");
@@ -1076,6 +1078,10 @@ public class ExcelUtils {
                 if( rsdHeaders.contains(row.getCell(i).toString()) ){
                     rsdHeaderColumn.put(row.getCell(i).toString(), i);
                     rsd_header_count++;
+                }
+                
+                if( "雾化端口数量".equalsIgnoreCase(row.getCell(i).toString()) ){
+                	whPortNumColumn.put(row.getCell(i).toString(), i);
                 }
             }
             logger.info("hospitalHeaders num is " + hos_header_count + ",regionHeader num is " + region_header_count
@@ -1207,6 +1213,15 @@ public class ExcelUtils {
                 rsdEmailCell.setCellType(Cell.CELL_TYPE_STRING);
                 String rsdEmail = rsdEmailCell.toString();
                 
+                int portNum = 0;
+                if( whPortNumColumn != null && !whPortNumColumn.isEmpty()){
+                	Cell portNumCell = row.getCell(whPortNumColumn.get("雾化端口数量"));
+                	if( portNumCell != null && !"".equalsIgnoreCase(portNumCell.toString()) ){
+                		double portNum_d = Double.parseDouble(portNumCell.toString());
+                		portNum = (int)portNum_d;
+                	}
+                }
+                
                 if( null != hospitalCodes && !hospitalCodes.contains(hospitalCode) 
                         && null != hospitalName && !"".equalsIgnoreCase(hospitalName) ){
                     Hospital hospital = new Hospital();
@@ -1227,6 +1242,7 @@ public class ExcelUtils {
                     hospital.setIsMonthlyAssessed(isMonthlyAssessed);
                     hospital.setIsChestSurgeryAssessed(isChestSurgeryAssessed);
                     hospital.setIsTop100(isTop100);
+                    hospital.setPortNum(portNum);
                     
                     hospitalMap.put(hospitalCode, hospital);
                     hospitalCodes.add(hospitalCode);
