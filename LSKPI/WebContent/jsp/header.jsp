@@ -28,7 +28,7 @@
 	
 	<link rel="stylesheet" href="<%=basePath%>css/ls-theme.min.css" type="text/css"/>
 	<link rel="stylesheet" href="<%=basePath%>css/lskpi.css" type="text/css"/>
-	<script type="text/javascript" src="<%=basePath%>js/lskpi.js?ver=2"></script>
+	<script type="text/javascript" src="<%=basePath%>js/lskpi.js?ver=1020"></script>
 	<script type="text/javascript" src="<%=basePath%>js/homecollection.js"></script>
 	<script type="text/javascript">
 	$(document).ready(function(){
