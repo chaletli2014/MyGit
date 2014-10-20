@@ -27,6 +27,17 @@ function obj1ltobj2(id1, id2){
 	return true;
 }
 
+function numlt9999(id){
+	if( $("#"+id) ){
+		if( Number($("#"+id).val()) > 9999 ){
+			showCustomrizedMessage($("#"+id+"_label").text()+"必须小于9999");
+			$("#"+id).parent().addClass("ls-error");
+			return false;
+		}
+	}
+	return true;
+}
+
 function isLsNumAndPNumValid(){
 	if( Number($("#lsnum").val()) > Number($("#pnum").val())*1.5 ){
 		showCustomrizedMessage("当日雾化令舒病人数据异常，该数值不能超过总人数的1.5倍");

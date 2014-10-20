@@ -2115,19 +2115,19 @@ public class ReportController extends BaseController{
 			}else{
 			  //the whole country is selected.
 			    List<String> filePaths = new ArrayList<String>();
-			    List<String> allRegions = userService.getAllRegionName();
+//			    List<String> allRegions = userService.getAllRegionName();
 			    try{
 			        if( "1".equalsIgnoreCase(department) ){
 			            populateWeeklyReportAttachedFiles(filePaths,reportFiles, localPath, basePath, chooseDate_d, weeklyReportFile2Download, localWeeklyReportFile, remoteWeeklyReportFile, "呼吸科周报", "");
 			            
-			            for( String reigonCenter : allRegions ){
-			                populateWeeklyReportAttachedFiles(filePaths,reportFiles, localPath, basePath, chooseDate_d, weeklyReportFile2Download, localWeeklyReportFile, remoteWeeklyReportFile, "呼吸科周报", "_"+reigonCenter);
-			            }
+//			            for( String reigonCenter : allRegions ){
+//			                populateWeeklyReportAttachedFiles(filePaths,reportFiles, localPath, basePath, chooseDate_d, weeklyReportFile2Download, localWeeklyReportFile, remoteWeeklyReportFile, "呼吸科周报", "_"+reigonCenter);
+//			            }
 			        }else if( "2".equalsIgnoreCase(department) ){
                         populateWeeklyReportAttachedFiles(filePaths,reportFiles, localPath, basePath, chooseDate_d, weeklyReportFile2Download, localWeeklyReportFile, remoteWeeklyReportFile, "儿科周报", "");
-                        for( String reigonCenter : allRegions ){
-                            populateWeeklyReportAttachedFiles(filePaths,reportFiles, localPath, basePath, chooseDate_d, weeklyReportFile2Download, localWeeklyReportFile, remoteWeeklyReportFile, "儿科周报", "_"+reigonCenter);
-                        }
+//                        for( String reigonCenter : allRegions ){
+//                            populateWeeklyReportAttachedFiles(filePaths,reportFiles, localPath, basePath, chooseDate_d, weeklyReportFile2Download, localWeeklyReportFile, remoteWeeklyReportFile, "儿科周报", "_"+reigonCenter);
+//                        }
 			        }else{
 			            populateWeeklyReportAttachedFiles(filePaths,reportFiles, localPath, basePath, chooseDate_d, weeklyReportFile2Download, localWeeklyReportFile, remoteWeeklyReportFile, "胸外科周报", "");
 			        }

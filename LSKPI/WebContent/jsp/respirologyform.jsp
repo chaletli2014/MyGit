@@ -36,6 +36,11 @@ function checkForm(){
 	if( !isLsNumAndPNumValid() ){
         return false;
 	}
+	
+	if( !numlt9999("whnum") ){
+        return false;
+	}
+	
 	/*
 	if( !obj1ltobj2("pnum","aenum") ){
 		return false;

@@ -45,6 +45,10 @@ function checkForm(){
         return confirmTypein('','popupConfirm','chestSurgeryForm');
     }
 	
+	if( !numlt9999("whnum") ){
+        return false;
+	}
+	
 	return true;
 }
 </script>
