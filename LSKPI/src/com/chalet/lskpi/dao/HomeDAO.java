@@ -35,4 +35,5 @@ public interface HomeDAO {
     
     public void backupDoctors(String duration) throws Exception;
     public boolean isAlreadyBackup(String duration) throws Exception;
+    public void removeOldDoctors(String duration) throws Exception;
 }

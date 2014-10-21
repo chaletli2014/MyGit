@@ -621,4 +621,12 @@ public class HomeDAOImpl implements HomeDAO {
         int rowNum = dataBean.getJdbcTemplate().queryForInt(sb.toString(), duration);
         return rowNum>0;
 	}
+	
+	@Override
+	public void removeOldDoctors(String duration) throws Exception {
+		StringBuffer sb = new StringBuffer();
+		sb.append(" delete from tbl_doctor_weekly where duration = ?");
+		int rowNum = dataBean.getJdbcTemplate().update(sb.toString(), duration);
+		logger.info(String.format("remove old doctor done, number is %s", rowNum));
+	}
 }

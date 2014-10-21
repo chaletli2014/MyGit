@@ -29,6 +29,7 @@ public interface HomeService {
     public ReportProcessData getDSMSelfReportProcess(String telephone) throws Exception;
     public ReportProcessData getRSMSelfReportProcess(String telephone) throws Exception;
     
-    public void backupDoctors() throws Exception;
+    public void backupDoctors(int dayInWeek) throws Exception;
     public boolean isAlreadyBackup() throws Exception;
+    public void removeOldDoctors(int dayinweek) throws Exception;
 }

@@ -210,10 +210,18 @@ public class HomeServiceImpl implements HomeService {
     }
 
 	@Override
-	public void backupDoctors() throws Exception {
-		Date beginDate = DateUtils.getHomeWeeklyReportBegionDate();
-        Date endDate = new Date(beginDate.getTime() + 6 * 24 * 60 * 60 * 1000);
-        String duration = DateUtils.populateDuration(beginDate, endDate);
+	public void backupDoctors(int dayInWeek) throws Exception {
+        String duration = "";
+		if( dayInWeek == 4 ){
+			Date beginDate = DateUtils.getHomeCollectionBegionDate(new Date());
+	        Date endDate = new Date(beginDate.getTime() + 6 * 24 * 60 * 60 * 1000);
+	        duration = DateUtils.populateDuration(beginDate, endDate);
+		}else if( dayInWeek == 1 ){
+			Date beginDate = DateUtils.getHomeWeeklyReportBegionDate();
+	        Date endDate = new Date(beginDate.getTime() + 6 * 24 * 60 * 60 * 1000);
+	        duration = DateUtils.populateDuration(beginDate, endDate);
+		}
+		logger.info(String.format("backup doctors, duration is %s, day in week is %s", duration,dayInWeek));
 		homeDAO.backupDoctors(duration);
 	}
 	
@@ -223,5 +231,20 @@ public class HomeServiceImpl implements HomeService {
         String duration = DateUtils.populateDuration(beginDate, endDate);
         
         return homeDAO.isAlreadyBackup(duration);
+	}
+	
+	public void removeOldDoctors(int dayInWeek) throws Exception{
+		String duration = "";
+		if( dayInWeek == 4 ){
+			Date beginDate = DateUtils.getHomeCollectionBegionDate(new Date());
+	        Date endDate = new Date(beginDate.getTime() + 6 * 24 * 60 * 60 * 1000);
+	        duration = DateUtils.populateDuration(beginDate, endDate);
+		}else if( dayInWeek == 1 ){
+			Date beginDate = DateUtils.getHomeWeeklyReportBegionDate();
+	        Date endDate = new Date(beginDate.getTime() + 6 * 24 * 60 * 60 * 1000);
+	        duration = DateUtils.populateDuration(beginDate, endDate);
+		}
+		logger.info(String.format("remove old doctors, duration is %s, day in week is %s", duration,dayInWeek));
+		homeDAO.removeOldDoctors(duration);
 	}
 }

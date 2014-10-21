@@ -389,6 +389,29 @@ public class DateUtils {
     	return formatter_1.format(last12StartDate)+"-"+formatter_1.format(last12EndDate);
     }
     
+    public static String getThursdayHome12WeeksBeginDuration(){
+    	Calendar cal = Calendar.getInstance();
+    	cal.setTime(new Date());
+    	cal.add(Calendar.DATE, -7);
+    	
+    	return getHome12WeeksBeginDuration(cal.getTime());
+    }
+    
+    public static String getThursdayHome12WeeksEndDuration() throws ParseException{
+    	String beginDuration = getThursdayHome12WeeksBeginDuration();
+    	
+    	Date startDate_d = formatter_1.parse(beginDuration.substring(0, 10));
+    	
+    	Calendar cal = Calendar.getInstance();
+    	cal.setTime(startDate_d);
+    	cal.add(Calendar.DAY_OF_YEAR,-7*11);
+    	
+    	Date last12StartDate = cal.getTime();
+    	cal.add(Calendar.DATE, 6);
+    	Date last12EndDate = cal.getTime();
+    	return formatter_1.format(last12StartDate)+"-"+formatter_1.format(last12EndDate);
+    }
+    
     public static String getHome12WeeksBeginDuration(Date date){
     	Calendar cal = Calendar.getInstance();
     	cal.setTime(date);
@@ -425,6 +448,7 @@ public class DateUtils {
             System.out.println(getAutoHome12WeeksBeginDuration());
             System.out.println(getAutoHome12WeeksEndDuration());
             System.out.println(getHomeWeeklyReportBegionDate());
+            System.out.println(getHomeCollectionBegionDate(new Date()));
         } catch (Exception e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
