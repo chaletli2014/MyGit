@@ -1,6 +1,7 @@
 package com.chalet.lskpi.controller;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -389,6 +390,12 @@ public class HomeCollectionController extends BaseController{
             if(!( LsAttributes.USER_LEVEL_REP.equalsIgnoreCase(operator.getLevel()) 
                             || LsAttributes.USER_LEVEL_DSM.equalsIgnoreCase(operator.getLevel()))){
                 request.getSession().setAttribute(LsAttributes.COLLECT_HOMEDATA_MESSAGE, LsAttributes.RETURNED_MESSAGE_3);
+                return "redirect:collecthomedata";
+            }
+            
+            int dayInWeek = new Date().getDay();
+            if( dayInWeek > 3 || dayInWeek == 0 ){
+            	request.getSession().setAttribute(LsAttributes.COLLECT_HOMEDATA_MESSAGE, LsAttributes.RETURNED_MESSAGE_12);
                 return "redirect:collecthomedata";
             }
             

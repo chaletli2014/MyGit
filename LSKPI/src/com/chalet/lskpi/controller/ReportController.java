@@ -67,6 +67,7 @@ import com.chalet.lskpi.utils.LsAttributes;
 import com.chalet.lskpi.utils.LsKPIModelAndView;
 import com.chalet.lskpi.utils.ReportUtils;
 import com.chalet.lskpi.utils.StringUtils;
+import com.ibm.icu.util.Calendar;
 
 @Controller
 public class ReportController extends BaseController{
@@ -1082,7 +1083,18 @@ public class ReportController extends BaseController{
                     value2Cell.setCellStyle(numberCellStyle);
                     
                     HSSFCell value3Cell = row.createCell(2, XSSFCell.CELL_TYPE_NUMERIC);
-                    value3Cell.setCellValue(rsmDate.getNewDrNum());
+                    
+                    Calendar aCalendar = Calendar.getInstance();
+                    aCalendar.setTime(new Date());
+                    int day1 = aCalendar.get(Calendar.DAY_OF_YEAR);
+                    aCalendar.setTime(reportBeginDate);
+                    int day2 = aCalendar.get(Calendar.DAY_OF_YEAR);
+                    
+                    if( ((day1 - day2 > 6) && (day1 - day2 < 10)) || day1 - day2 < 0 ){
+                    	value3Cell.setCellValue("N/A");
+                    }else{
+                    	value3Cell.setCellValue(rsmDate.getNewDrNum());
+                    }
                     value3Cell.setCellStyle(numberCellStyle);
                     
                     HSSFCell reportValueCell = row.createCell(3, XSSFCell.CELL_TYPE_NUMERIC);
