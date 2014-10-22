@@ -12,9 +12,15 @@ function loadData(selectedDoctor){
 	window.location.href="<%=basePath%>collecthomedata?selectedDoctor="+selectedDoctor;
 }
 function submitForm(){
-	if(checkForm()){
+	var myDate = new Date();
+	var dayInWeekVar = myDate.getDay();
+	if( dayInWeekVar>3||dayInWeekVar==0 ){
         submitHomeCollection();
-    }
+	}else{
+		if(checkForm()){
+	        submitHomeCollection();
+	    }
+	}
 }
 function checkForm(){
 	if( !checkIsNotNull( $("#doctor") ) ){
@@ -62,7 +68,7 @@ function checkForm(){
                 <img alt="" src="<%=basePath%>images/img_bg_doctor.png" onclick="javascript:window.location.href='<%=basePath%>doctormaintenance'" style="cursor: pointer;">
             </div>
         	<div class="roundCorner">
-	        <form id="homeForm" action="docollecthomedata" method="POST" data-ajax="false" class="validate" onsubmit="return checkForm()">
+	        <form id="homeForm" action="docollecthomedata" method="POST" data-ajax="false" class="validate">
 	        	<input type="hidden" name="dataId" value="${existedData.id}"/>
 	        	<input type="hidden" name="selectedDoctor" value="${selectedDoctor}"/>
 	            <div data-role="fieldcontain">
