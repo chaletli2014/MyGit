@@ -107,7 +107,7 @@ function checkForm(){
 	            
 	            <div style="text-align: center;">
 	            	<a class="submit_btn" href="javascript:void(0)" onclick="submitForm()">
-			            <img alt="" src="<%=basePath%>images/button_submit.png" style="cursor: pointer;" />
+			            <img alt="" src="<%=basePath%>images/button_submit.png" style="cursor: pointer;"/>
 	            	</a>
 	            </div>
 	        </form>
