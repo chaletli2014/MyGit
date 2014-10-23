@@ -1,3 +1,4 @@
+<%@page import="java.util.Date"%>
 <%@page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %> 
@@ -44,6 +45,10 @@ function checkForm(){
 	return true;
 }
 </script>
+<%
+	int dayInWeek = new Date().getDay();
+	boolean noInput = dayInWeek>3||dayInWeek==0;
+%>
 <body onload="checkMessage('${message}')">
     <div style="position:absolute; left:-9999px;"><a href="#" id="setfoc"></a></div>
     <div data-role="page" id="home">
@@ -70,34 +75,34 @@ function checkForm(){
 	            </div>
 	            <div data-role="fieldcontain" class="formCollection">
 	                <label for="salenum" id="salenum_label">卖/赠泵数量</label>
-	                <input type="number" name="salenum" id="salenum" value="${existedData.salenum==null?0:existedData.salenum}"/>
+	                <input type="number" name="salenum" id="salenum" value="${existedData.salenum==null?0:existedData.salenum}" <%if(noInput){%>readonly="readonly" disabled="disabled"<%}%>/>
 	            </div>
 	            <div data-role="fieldcontain" class="formCollection">
 	                <label for="asthmanum" id="asthmanum_label">哮喘*患者人数</label>
-	                <input type="number" name="asthmanum" id="asthmanum"  value="${existedData.asthmanum==null?0:existedData.asthmanum}"/>
+	                <input type="number" name="asthmanum" id="asthmanum"  value="${existedData.asthmanum==null?0:existedData.asthmanum}" <%if(noInput){%>readonly="readonly" disabled="disabled"<%}%>/>
 	            </div>
                	<div data-role="fieldcontain" class="formCollection">
 	                <label for="ltenum" id="ltenum_label">处方≥8天的哮喘持续期病人数</label>
-	                <input type="number" name="ltenum" id="ltenum"  value="${existedData.ltenum==null?0:existedData.ltenum}"/>
+	                <input type="number" name="ltenum" id="ltenum"  value="${existedData.ltenum==null?0:existedData.ltenum}" <%if(noInput){%>readonly="readonly" disabled="disabled"<%}%>/>
 	            </div>
                	<div data-role="fieldcontain" class="formCollection">
 	                <label for="lsnum" id="lsnum_label">持续期病人中推荐使用令舒的人数</label>
-	                <input type="number" name="lsnum" id="lsnum"  value="${existedData.lsnum==null?0:existedData.lsnum}"/>
+	                <input type="number" name="lsnum" id="lsnum"  value="${existedData.lsnum==null?0:existedData.lsnum}" <%if(noInput){%>readonly="readonly" disabled="disabled"<%}%>/>
 	            </div>
 	            <div data-role="fieldcontain" class="formCollection">
 	            	<label>以下三个病人数之和=持续期病人中推荐使用令舒的人数</label>
 	            </div>
                	<div data-role="fieldcontain" class="formCollection">
 	                <label for="efnum" id="efnum_label">8≤DOT<15天，病人数</label>
-	                <input type="number" name="efnum" id="efnum"  value="${existedData.efnum==null?0:existedData.efnum}"/>
+	                <input type="number" name="efnum" id="efnum"  value="${existedData.efnum==null?0:existedData.efnum}" <%if(noInput){%>readonly="readonly" disabled="disabled"<%}%>/>
 	            </div>
                	<div data-role="fieldcontain" class="formCollection">
 	                <label for="ftnum" id="ftnum_label">15≤DOT<30天，病人数</label>
-	                <input type="number" name="ftnum" id="ftnum"  value="${existedData.ftnum==null?0:existedData.ftnum}"/>
+	                <input type="number" name="ftnum" id="ftnum"  value="${existedData.ftnum==null?0:existedData.ftnum}" <%if(noInput){%>readonly="readonly" disabled="disabled"<%}%>/>
 	            </div>
                	<div data-role="fieldcontain" class="formCollection">
 	                <label for="lttnum" id="lttnum_label">DOT≥30天，病人数</label>
-	                <input type="number" name="lttnum" id="lttnum"  value="${existedData.lttnum==null?0:existedData.lttnum}"/>
+	                <input type="number" name="lttnum" id="lttnum"  value="${existedData.lttnum==null?0:existedData.lttnum}" <%if(noInput){%>readonly="readonly" disabled="disabled"<%}%>/>
 	            </div>
 	            
 	            <div style="text-align: center;">
