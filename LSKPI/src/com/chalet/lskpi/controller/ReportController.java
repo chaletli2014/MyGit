@@ -1552,6 +1552,11 @@ public class ReportController extends BaseController{
             String directory = BrowserUtils.getDirectory(request.getHeader("User-Agent"),"weeklyHTMLReport");
             String reportGenerateDate = DateUtils.getDirectoryNameOfLastDuration();
             
+            Date now = new Date();
+            if( now.getDay() > 3 || now.getDay() == 0 ){
+				reportGenerateDate = DateUtils.getDirectoryNameOfLastDuration(new Date(now.getTime()+ 7 * 24 * 60 * 60 * 1000));
+			}
+            
             if( LsAttributes.USER_LEVEL_BM.equalsIgnoreCase(currentUser.getLevel()) ){
                 remoteReportFile.append(directory).append(reportGenerateDate).append("/")
                 .append("weeklyHomeReport-")
