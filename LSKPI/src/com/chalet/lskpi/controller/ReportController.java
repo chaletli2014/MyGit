@@ -1102,7 +1102,8 @@ public class ReportController extends BaseController{
                     reportValueCell.setCellStyle(numberCellStyle);
                     
                     HSSFCell inRateValueCell = row.createCell(4, XSSFCell.CELL_TYPE_NUMERIC);
-                    inRateValueCell.setCellValue((double)rsmDate.getReportNum()/(double)rsmDate.getTotalDrNum());
+//                    inRateValueCell.setCellValue((double)rsmDate.getReportNum()/(double)rsmDate.getTotalDrNum());
+                    inRateValueCell.setCellValue(rsmDate.getInRate());
                     inRateValueCell.setCellStyle(percentCellStyle);
                     
                     HSSFCell value4Cell = row.createCell(5, XSSFCell.CELL_TYPE_NUMERIC);
