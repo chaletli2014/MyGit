@@ -38,6 +38,8 @@ public class HomeWeeklyData {
     private String regionCenterCN;
     
     private int reportNum;
+    
+    private double inRate;
 
     public int getTotalDrNum() {
         return totalDrNum;
@@ -146,5 +148,13 @@ public class HomeWeeklyData {
 
 	public void setReportNum(int reportNum) {
 		this.reportNum = reportNum;
+	}
+
+	public double getInRate() {
+		return inRate;
+	}
+
+	public void setInRate(double inRate) {
+		this.inRate = inRate;
 	}
 }

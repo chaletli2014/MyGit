@@ -18,23 +18,25 @@
                 <div class="dailyReport_table_Title">${homeDataTitle}</div>
                 <table class="mobileReport_table">
                    <tr class="mobileReport_table_header">
-                        <td width="16%">层级情况</td>
+                        <td colspan="2">层级情况</td>
 				        <td colspan="2">医生情况</td>
 					    <td colspan="5">处方情况</td>
                     </tr>
                     <tr class="mobileReport_table_header">
-					    <td width="16%">名称</td>
-					    <td width="12%">总目标医生数</td>
-					    <td width="12%">上周新增医生数</td>
+					    <td width="10%">名称</td>
+					    <td width="10%">上报率</td>
+					    <td width="10%">总目标医生数</td>
+					    <td width="10%">上周新增医生数</td>
 					    <td width="12%">卖/赠泵数量</td>
 					    <td width="12%">持续期治疗率</td>
 					    <td width="12%">推荐使用令舒的人次</td>
 					    <td width="12%">持续期令舒比例</td>
 					    <td width="12%">家庭雾化疗程达标率（DOT>=30天）</td>
-					  </tr>
+					</tr>
                    <c:forEach items="${homeWeeklyDataList}" var="homeWeeklyData" varStatus="status">
                        <tr class="mobileReport_table_body <c:if test="${status.count%2==0}">mobileReport_tr_even</c:if>">
                           <td class="report_data_number">${homeWeeklyData.userName}</td>
+                          <td class="report_data_number" ><fmt:formatNumber value="${homeWeeklyData.inRate}" type="percent" pattern="#0%"/></td>
                           <td class="report_data_number" ><fmt:formatNumber value="${homeWeeklyData.totalDrNum}" pattern="#,###"/></td>
                           <td class="report_data_number" ><fmt:formatNumber value="${homeWeeklyData.newDrNum}" pattern="#,###"/></td>
                           <td class="report_data_number" ><fmt:formatNumber value="${homeWeeklyData.newWhNum}" pattern="#,###"/></td>
@@ -46,6 +48,7 @@
                    </c:forEach>
                    <tr class="mobileReport_table_body <c:if test="${fn:length(homeWeeklyDataList)%2 != 0}">mobileReport_tr_even</c:if>">
                           <td class="report_data_number">${upperHomeWeeklyData.userName}</td>
+                          <td class="report_data_number" ><fmt:formatNumber value="${upperHomeWeeklyData.inRate}" type="percent" pattern="#0%"/></td>
                           <td class="report_data_number" ><fmt:formatNumber value="${upperHomeWeeklyData.totalDrNum}" pattern="#,###"/></td>
                           <td class="report_data_number" ><fmt:formatNumber value="${upperHomeWeeklyData.newDrNum}" pattern="#,###"/></td>
                           <td class="report_data_number" ><fmt:formatNumber value="${upperHomeWeeklyData.newWhNum}" pattern="#,###"/></td>
@@ -61,23 +64,25 @@
                 <div class="dailyReport_table_Title">${childTitle}</div>
 	                <table class="mobileReport_table">
 	                   <tr class="mobileReport_table_header">
-	                        <td width="16%">层级情况</td>
+	                        <td colspan="2">层级情况</td>
 	                        <td colspan="2">医生情况</td>
 	                        <td colspan="5">处方情况</td>
 	                    </tr>
 	                    <tr class="mobileReport_table_header">
-	                        <td width="16%">名称</td>
-	                        <td width="12%">总目标医生数</td>
-	                        <td width="12%">上周新增医生数</td>
-	                        <td width="12%">卖/赠泵数量</td>
-	                        <td width="12%">持续期治疗率</td>
-	                        <td width="12%">推荐使用令舒的人次</td>
-	                        <td width="12%">持续期令舒比例</td>
-	                        <td width="12%">家庭雾化疗程达标率（DOT>=30天）</td>
+	                        <td width="10%">名称</td>
+						    <td width="10%">上报率</td>
+						    <td width="10%">总目标医生数</td>
+						    <td width="10%">上周新增医生数</td>
+						    <td width="12%">卖/赠泵数量</td>
+						    <td width="12%">持续期治疗率</td>
+						    <td width="12%">推荐使用令舒的人次</td>
+						    <td width="12%">持续期令舒比例</td>
+						    <td width="12%">家庭雾化疗程达标率（DOT>=30天）</td>
 	                      </tr>
 	                   <c:forEach items="${lowerHomeWeeklyDataList}" var="homeWeeklyData" varStatus="status">
 	                       <tr class="mobileReport_table_body <c:if test="${status.count%2==0}">mobileReport_tr_even</c:if>">
 	                          <td class="report_data_number">${homeWeeklyData.userName}</td>
+	                          <td class="report_data_number" ><fmt:formatNumber value="${homeWeeklyData.inRate}" type="percent" pattern="#0%"/></td>
 	                          <td class="report_data_number" ><fmt:formatNumber value="${homeWeeklyData.totalDrNum}" pattern="#,###"/></td>
 	                          <td class="report_data_number" ><fmt:formatNumber value="${homeWeeklyData.newDrNum}" pattern="#,###"/></td>
 	                          <td class="report_data_number" ><fmt:formatNumber value="${homeWeeklyData.newWhNum}" pattern="#,###"/></td>
@@ -96,14 +101,15 @@
                 <div class="dailyReport_table_Title">所属[${rsmReportData[0].regionCenterCN}${titleSuffix}</div>
                 <table class="mobileReport_table">
                    <tr class="mobileReport_table_header">
-                        <td width="16%">层级情况</td>
+                        <td colspan="2">层级情况</td>
 				        <td colspan="2">医生情况</td>
 					    <td colspan="5">处方情况</td>
                     </tr>
                     <tr class="mobileReport_table_header">
-					    <td width="16%">名称</td>
-					    <td width="12%">总目标医生数</td>
-					    <td width="12%">上周新增医生数</td>
+					    <td width="10%">名称</td>
+					    <td width="10%">上报率</td>
+					    <td width="10%">总目标医生数</td>
+					    <td width="10%">上周新增医生数</td>
 					    <td width="12%">卖/赠泵数量</td>
 					    <td width="12%">持续期治疗率</td>
 					    <td width="12%">推荐使用令舒的人次</td>
@@ -113,6 +119,7 @@
                    <c:forEach items="${rsmReportData}" var="homeWeeklyData" varStatus="status">
                        <tr class="mobileReport_table_body <c:if test="${status.count%2==0}">mobileReport_tr_even</c:if>">
                           <td class="report_data_number">${homeWeeklyData.userName}</td>
+                          <td class="report_data_number" ><fmt:formatNumber value="${homeWeeklyData.inRate}" type="percent" pattern="#0%"/></td>
                           <td class="report_data_number" ><fmt:formatNumber value="${homeWeeklyData.totalDrNum}" pattern="#,###"/></td>
                           <td class="report_data_number" ><fmt:formatNumber value="${homeWeeklyData.newDrNum}" pattern="#,###"/></td>
                           <td class="report_data_number" ><fmt:formatNumber value="${homeWeeklyData.newWhNum}" pattern="#,###"/></td>

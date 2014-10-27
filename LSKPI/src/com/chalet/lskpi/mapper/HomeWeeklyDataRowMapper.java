@@ -21,6 +21,11 @@ public class HomeWeeklyDataRowMapper implements RowMapper<HomeWeeklyData> {
         weeklyData.setReachRate(rs.getDouble("reachRate"));
         weeklyData.setRegionCenterCN(rs.getString("regionCenterCN"));
         weeklyData.setReportNum(rs.getInt("reportNum"));
+        if( rs.getDouble("lastWeekDrNum") != 0 ){
+        	weeklyData.setInRate(rs.getDouble("reportNum")/rs.getDouble("lastWeekDrNum"));
+        }else{
+        	weeklyData.setInRate(0);
+        }
         return weeklyData;
     }
 
