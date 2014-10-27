@@ -70,15 +70,11 @@ public class ReportThread extends Thread {
                 
                 /**
                  * 家庭雾化医生每周备份。
-                 * 每周一的凌晨0点，对上周的有效医生进行备份，留待历史周报使用
-                 * 修正:在每周四的凌晨0点，对医生进行备份
+                 * 每周四的凌晨0点，对上周的有效医生进行备份，留待历史周报使用
                  */
                 if( hour == Integer.parseInt(CustomizedProperty.getContextProperty("home_doctor_backup_time", "0")) 
-                		&& (
-                				dayInWeek == Integer.parseInt(CustomizedProperty.getContextProperty("home_doctor_backup_day", "1"))
-                				|| dayInWeek == 4 
-                			)){
-                	logger.info("time is 0 in monday or thursday, begin to backup the doctor");
+                		&& dayInWeek == Integer.parseInt(CustomizedProperty.getContextProperty("home_doctor_backup_day", "4")) ){
+                	logger.info("time is 0 in thursday, begin to backup the doctor");
                 	homeService.removeOldDoctors(dayInWeek);
             		homeService.backupDoctors(dayInWeek);
                 }
@@ -138,16 +134,14 @@ public class ReportThread extends Thread {
                     BirtReportUtils html = new BirtReportUtils();
                     int email_send_flag = Integer.parseInt(CustomizedProperty.getContextProperty("email_send_flag", "0"));
                     
-                    if( dayInWeek == Integer.parseInt(CustomizedProperty.getContextProperty("weekly_report_day", "1")) || dayInWeek == 4 ){
+                    if( dayInWeek == Integer.parseInt(CustomizedProperty.getContextProperty("home_doctor_backup_day", "4"))){
                     	html.startHtmlPlatform();
                     	logger.info("start to generate the home html weekly report");
                     	for( UserInfo user : homeReportUsers ){
                     		String telephone = user.getTelephone();
                     		if( telephone != null && !"#N/A".equalsIgnoreCase(telephone) ){
                     			
-                    			if( dayInWeek == 4 ){
-                    				reportGenerateDate = DateUtils.getDirectoryNameOfLastDuration(new Date(now.getTime()+ 7 * 24 * 60 * 60 * 1000));
-                    			}
+                				reportGenerateDate = DateUtils.getDirectoryNameOfLastDuration(new Date(now.getTime()+ 7 * 24 * 60 * 60 * 1000));
                     			
                     			createHTMLHomeWeeklyReport(html, user.getLevel(), telephone, basePath, contextPath, reportGenerateDate, dayInWeek);
                     			this.taskTime = System.currentTimeMillis();
