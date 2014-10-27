@@ -5420,9 +5420,9 @@ order by h1.duration desc;]]></xml-property>
         <SeriesPalette>
           <Entries xsi:type="attribute:ColorDefinition">
             <Transparency>255</Transparency>
-            <Red>255</Red>
+            <Red>0</Red>
             <Green>0</Green>
-            <Blue>0</Blue>
+            <Blue>255</Blue>
           </Entries>
           <Entries xsi:type="attribute:ColorDefinition">
             <Transparency>255</Transparency>
