@@ -56,6 +56,13 @@ public class PediatricsServiceImpl implements PediatricsService {
         
         switch (level) {
             case LsAttributes.USER_LEVEL_BM:
+            	
+            	MobilePEDDailyData pedCoreData = new MobilePEDDailyData();
+        		pedCoreData = pediatricsDAO.getDailyCorePEDData4CountoryMobile();
+        		
+        		MobilePEDDailyData pedWhPortData = new MobilePEDDailyData();
+        		pedWhPortData = pediatricsDAO.getDailyPEDWhPortData4CountoryMobile();
+            	
                 mpd = pediatricsDAO.getDailyPEDData4CountoryMobile();
                 logger.info(String.format("end to get the ped daily data of the countory, current telephone is %s", telephone));
                 List<RateElement> rates = new ArrayList<RateElement>();
@@ -86,6 +93,10 @@ public class PediatricsServiceImpl implements PediatricsService {
                 mpd.setSecondRate(rates.get(1));
                 mpd.setInRate(mpd.getHosNum()==0?0:(double)mpd.getInNum()/mpd.getHosNum());
                 mpd.setWhRate(mpd.getPatNum()==0?0:(double)mpd.getLsNum()/mpd.getPatNum());
+                
+                
+                mpd.setCoreInRate(pedCoreData.getCoreInRate());
+                mpd.setWhPortRate(pedWhPortData.getWhPortRate());
                 break;
             default:
                 mpd = null;
