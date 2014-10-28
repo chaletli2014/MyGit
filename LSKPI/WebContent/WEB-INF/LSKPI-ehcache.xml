@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans 
+       http://www.springframework.org/schema/beans/spring-beans-2.0.xsd 
+       http://www.springmodules.org/schema/ehcache 
+       http://www.springmodules.org/schema/cache/springmodules-ehcache.xsd"
+       xmlns:ehcache="http://www.springmodules.org/schema/ehcache">
+
+	<bean id="ehCacheManager"
+	 		class="org.springframework.cache.ehcache.EhCacheManagerFactoryBean" scope="singleton">
+	 		<property name="configLocation" value="classpath:ehcache.xml" />
+	</bean>
+	
+	<bean id="cacheProvider"
+	        class="org.springmodules.cache.provider.ehcache.EhCacheFacade">
+	    	<property name="cacheManager" ref="ehCacheManager" />
+  	</bean>
+  	
+  	<ehcache:methodMapInterceptors cachingInterceptorId="cachingInterceptor"
+	    flushingInterceptorId="flushingInterceptor" providerId="cacheProvider">
+	    
+   		<!--  Caching -->
+		<ehcache:caching
+	      methodFQN="com.chalet.lskpi.dao.PediatricsDAO.getTopAndBottomRSMData"
+	      cacheName="topAndBottomRSMData" />
+	      
+   		<!--  Flushing -->
+	</ehcache:methodMapInterceptors>
+	
+	<bean id="cacheProxy"
+	    class="org.springframework.aop.framework.autoproxy.BeanNameAutoProxyCreator">
+	    <property name="beanNames">
+    	  <list>
+      		<idref bean="pediatricsDAO" />
+    	  </list>
+	    </property>
+	    <property name="interceptorNames">
+	      <list>
+	        <value>cachingInterceptor</value>
+	        <value>flushingInterceptor</value>
+	      </list>
+	    </property>
+	</bean>
+</beans>
