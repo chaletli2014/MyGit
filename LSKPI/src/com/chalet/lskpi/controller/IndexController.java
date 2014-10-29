@@ -337,7 +337,7 @@ public class IndexController extends BaseController{
             if( null != existedData ){
             	logger.info(String.format("check the res data again when user %s collecting, the data id is %s", operator_telephone, existedData.getDataId()));
             }
-            if( ( null == dataId || "".equalsIgnoreCase(dataId) ) 
+            if( ( null == dataId || "".equalsIgnoreCase(dataId) || "0".equalsIgnoreCase(dataId) ) 
                     && null != existedData){
                 dataId = String.valueOf(existedData.getDataId());
                 logger.info(String.format("the res data is found which id is %s", dataId));
@@ -462,7 +462,7 @@ public class IndexController extends BaseController{
             if( null != existedData ){
             	logger.info(String.format("check the ped data again when user %s collecting, the data id is %s", operator_telephone, existedData.getDataId()));
             }
-            if( ( null == dataId || "".equalsIgnoreCase(dataId) ) 
+            if( ( null == dataId || "".equalsIgnoreCase(dataId) || "0".equalsIgnoreCase(dataId) ) 
                     && null != existedData){
                 dataId = String.valueOf(existedData.getDataId());
                 logger.info(String.format("the res data is found which id is %s", dataId));

@@ -102,7 +102,7 @@ public class ChestSurgeryController extends BaseController{
             if( null != existedData ){
                 logger.info(String.format("check the chest surgery data again when user %s is collecting, the data id is %s", operator_telephone, existedData.getDataId()));
             }
-            if( ( null == dataId || "".equalsIgnoreCase(dataId) ) 
+            if( ( null == dataId || "".equalsIgnoreCase(dataId) || "".equalsIgnoreCase(dataId) ) 
                     && null != existedData){
                 dataId = String.valueOf(existedData.getDataId());
                 logger.info(String.format("the chest surgery data is found which id is %s", dataId));
