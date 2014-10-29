@@ -246,8 +246,8 @@
 					<form action="doDownloadDailyData" id="downloadDailyData" method="post" enctype="multipart/form-data" data-ajax="false" accept-charset="UTF-8">
 						选择日期：<input id="datepicker" type="text" name="chooseDate" class="ls_datepicker" readonly="readonly"/> - <input id="datepicker_end" type="text" name="chooseDate_end" class="ls_datepicker" readonly="readonly"/>
 						选择科室：<select name="department">
-									<option value="1">呼吸科</option>
 									<option value="2">儿科</option>
+									<option value="1">呼吸科</option>
 									<option value="3">胸外科</option>
 							</select> 
 						<img alt="" src="<%=basePath%>images/button_submit.png" style="cursor: pointer; vertical-align: middle;" onclick="downloadDailyData()" />
@@ -306,8 +306,8 @@
 					<form action="doDownloadDailyDSMReport" id="downloadDailyDSMReport" method="post" enctype="multipart/form-data" data-ajax="false" accept-charset="UTF-8">
 						选择日期：<input id="datepicker_allDSM" type="text" name="chooseDate" class="ls_dailyReportDatepicker" readonly="readonly"/>
 						选择科室：<select name="department">
-									<option value="1">呼吸科</option>
 									<option value="2">儿科</option>
+									<option value="1">呼吸科</option>
 							</select> 
 						<img alt="" src="<%=basePath%>images/button_submit.png" style="cursor: pointer; vertical-align: middle;" onclick="downloadAllDSMData()" />
 					</form>
@@ -324,8 +324,8 @@
 					<form action="doDownloadDailyRSMReport" id="downloadDailyRSMReport" method="post" enctype="multipart/form-data" data-ajax="false" accept-charset="UTF-8">
 						选择日期：<input id="datepicker_allRSM" type="text" name="chooseDate" class="ls_dailyReportDatepicker" readonly="readonly"/>
 						选择科室：<select name="department">
-									<option value="1">呼吸科</option>
 									<option value="2">儿科</option>
+									<option value="1">呼吸科</option>
 							</select> 
 						<img alt="" src="<%=basePath%>images/button_submit.png" style="cursor: pointer; vertical-align: middle;" onclick="downloadAllRSMData()" />
 					</form>
@@ -385,8 +385,8 @@
                         <br/>
                         <span>选择科室：</span>
                             <select name="department">
-                                    <option value="1" <c:if test="${department=='1'}">selected="selected"</c:if>>呼吸科</option>
                                     <option value="2" <c:if test="${department=='2'}">selected="selected"</c:if>>儿科</option>
+                                    <option value="1" <c:if test="${department=='1'}">selected="selected"</c:if>>呼吸科</option>
                                     <option value="3" <c:if test="${department=='3'}">selected="selected"</c:if>>胸外科</option>
                             </select>
                         <br/>
