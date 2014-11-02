@@ -4015,7 +4015,7 @@ order by pdw.duration desc]]></xml-property>
                 </structure>
             </list-property>
             <xml-property name="queryText"><![CDATA[select h1.duration
-,IFNULL(data.whPortRate,0) as whPortRate 
+,IFNULL(data.whPortRate/24,0) as whPortRate 
 ,IFNULL(( select distinct name from tbl_userinfo u1 where u1.region = h1.rsmRegion and u1.userCode = h1.dsmCode ),'vacant') name 
 from 
 (
@@ -4695,7 +4695,7 @@ order by h1.duration desc;]]></xml-property>
                 </structure>
             </list-property>
             <xml-property name="queryText"><![CDATA[select h1.duration
-,IFNULL(data.whPortRate,0) as whPortRate 
+,IFNULL(data.whPortRate/24,0) as whPortRate 
 ,h1.rsmRegion 
 from 
 (
@@ -10597,6 +10597,9 @@ if( dataSetRow["regionCenter"] == 'Central GRA' ){&#13;
         </Insets>
         <Visible>true</Visible>
       </Label>
+      <FormatSpecifier xsi:type="attribute:JavaNumberFormatSpecifier">
+        <Pattern>##%</Pattern>
+      </FormatSpecifier>
       <LabelPosition>Left</LabelPosition>
       <MajorGrid>
         <LineAttributes>
@@ -22839,6 +22842,9 @@ if( dataSetRow["regionCenter"] == 'Central GRA' ){&#13;
         </Insets>
         <Visible>true</Visible>
       </Label>
+      <FormatSpecifier xsi:type="attribute:JavaNumberFormatSpecifier">
+        <Pattern>##%</Pattern>
+      </FormatSpecifier>
       <LabelPosition>Left</LabelPosition>
       <MajorGrid>
         <LineAttributes>

@@ -35,7 +35,7 @@
 		                   <td class="report_data_number"><fmt:formatNumber type="percent" value="${reportData.coreInRate}" pattern="#0%"/></td>
 		                   <td class="report_data_number"><fmt:formatNumber type="percent" value="${reportData.inRate}" pattern="#0%"/></td>
 		                   <td class="report_data_number"><fmt:formatNumber type="percent" value="${reportData.whRate}" pattern="#0%"/></td>
-		                   <td class="report_data_number"><fmt:formatNumber type="percent" value="${reportData.whPortRate}" pattern="#0.0"/></td>
+		                   <td class="report_data_number"><fmt:formatNumber type="percent" value="${reportData.whPortRate}" pattern="#0%"/></td>
 		                   <td class="report_data_number"><fmt:formatNumber type="percent" value="${reportData.averageDose}" pattern="#0.00"/></td>
 		                   <td class="report_data_number"><fmt:formatNumber value="${reportData.patNum}" pattern="#,###"/></td>
 		                   <td class="report_data_number"><fmt:formatNumber value="${reportData.lsNum}" pattern="#,###"/></td>
@@ -47,7 +47,7 @@
 		                   <td class="report_data_number"><fmt:formatNumber type="percent" value="${mobileDailyReportParentData.coreInRate}" pattern="#0%"/></td>
 		                   <td class="report_data_number"><fmt:formatNumber type="percent" value="${mobileDailyReportParentData.inRate}" pattern="#0%"/></td>
 		                   <td class="report_data_number"><fmt:formatNumber type="percent" value="${mobileDailyReportParentData.whRate}" pattern="#0%"/></td>
-		                   <td class="report_data_number"><fmt:formatNumber type="percent" value="${mobileDailyReportParentData.whPortRate}" pattern="#0.0"/></td>
+		                   <td class="report_data_number"><fmt:formatNumber type="percent" value="${mobileDailyReportParentData.whPortRate}" pattern="#0%"/></td>
 		                   <td class="report_data_number"><fmt:formatNumber type="percent" value="${mobileDailyReportParentData.averageDose}" pattern="#0.00"/></td>
 		                   <td class="report_data_number"><fmt:formatNumber value="${mobileDailyReportParentData.patNum}" pattern="#,###"/></td>
 		                   <td class="report_data_number"><fmt:formatNumber value="${mobileDailyReportParentData.lsNum}" pattern="#,###"/></td>
@@ -83,7 +83,7 @@
 									<fmt:formatNumber type="percent" value="${reportData.whRate}" pattern="#0%" />
 								</td>
 								<td class="report_data_number">
-									<fmt:formatNumber type="percent" value="${reportData.whPortRate}" pattern="#0.0" />
+									<fmt:formatNumber type="percent" value="${reportData.whPortRate}" pattern="#0%" />
 								</td>
 								<td class="report_data_number">
 									<fmt:formatNumber type="percent" value="${reportData.averageDose}" pattern="#0.00" />
@@ -127,7 +127,7 @@
 								<fmt:formatNumber type="percent" value="${reportData.whRate}" pattern="#0%" />
 							</td>
 							<td class="report_data_number">
-								<fmt:formatNumber type="percent" value="${reportData.whPortRate}" pattern="#0.0" />
+								<fmt:formatNumber type="percent" value="${reportData.whPortRate}" pattern="#0%" />
 							</td>
 							<td class="report_data_number">
 								<fmt:formatNumber type="percent" value="${reportData.averageDose}" pattern="#0.00" />

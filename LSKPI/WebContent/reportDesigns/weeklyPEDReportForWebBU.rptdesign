@@ -3236,7 +3236,7 @@ limit 0,12;]]></xml-property>
                 </structure>
             </list-property>
             <xml-property name="queryText"><![CDATA[select h1.duration
-,IFNULL(data.whPortRate,0) as whPortRate 
+,IFNULL(data.whPortRate/24,0) as whPortRate 
 ,(
 	case when 
 	h1.region in (
@@ -13062,6 +13062,9 @@ order by h1.duration desc;]]></xml-property>
         </Insets>
         <Visible>true</Visible>
       </Label>
+      <FormatSpecifier xsi:type="attribute:JavaNumberFormatSpecifier">
+        <Pattern>##%</Pattern>
+      </FormatSpecifier>
       <LabelPosition>Left</LabelPosition>
       <MajorGrid>
         <LineAttributes>

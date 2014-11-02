@@ -6,6 +6,7 @@ import java.sql.SQLException;
 import org.springframework.jdbc.core.RowMapper;
 
 import com.chalet.lskpi.model.MobilePEDDailyData;
+import com.chalet.lskpi.utils.CustomizedProperty;
 
 public class PediatricsWhPortRowMapper implements RowMapper<MobilePEDDailyData>{
     
@@ -15,7 +16,8 @@ public class PediatricsWhPortRowMapper implements RowMapper<MobilePEDDailyData>{
         if( rs.getDouble("portNum") == 0 ){
         	mobilePEDDailyData.setWhPortRate(0);
         }else{
-        	mobilePEDDailyData.setWhPortRate(rs.getDouble("lsnum")/rs.getDouble("portNum"));
+        	int portRateBase = Integer.parseInt(CustomizedProperty.getContextProperty("portRateBase", "24"));
+        	mobilePEDDailyData.setWhPortRate(rs.getDouble("lsnum")/(rs.getDouble("portNum")*portRateBase));
         }
         return mobilePEDDailyData;
     }
