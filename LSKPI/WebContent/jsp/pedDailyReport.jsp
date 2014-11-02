@@ -24,7 +24,7 @@
                        <td width="8%">Core医院上报率</td>
                        <td width="8%">上报率</td>
                        <td width="12%">雾化率</td>
-                       <td width="12%">雾化端口使用频次</td>
+                       <td width="12%">雾化端口使用率</td>
                        <td width="14%">平均剂量</td>
                        <td width="14%">门诊人数</td>
                        <td width="12%">雾化人次</td>
@@ -65,7 +65,7 @@
 	                        <td width="8%">Core医院上报率</td>
 	                        <td width="8%">上报率</td>
 	                        <td width="12%">雾化率</td>
-	                        <td width="12%">雾化端口使用频次</td>
+	                        <td width="12%">雾化端口使用率</td>
 	                        <td width="14%">平均剂量</td>
 	                        <td width="14%">门诊人数</td>
 	                        <td width="12%">雾化人次</td>
@@ -109,7 +109,7 @@
                        	<td width="8%">Core医院上报率</td>
                        	<td width="8%">上报率</td>
                        	<td width="12%">雾化率</td>
-                       	<td width="12%">雾化端口使用频次</td>
+                       	<td width="12%">雾化端口使用率</td>
                        	<td width="14%">平均剂量</td>
                        	<td width="14%">门诊人数</td>
                        	<td width="12%">雾化人次</td>

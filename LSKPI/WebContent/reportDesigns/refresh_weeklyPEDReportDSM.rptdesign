@@ -9448,7 +9448,7 @@ dataSetRow["inNum"]/dataSetRow["hosNum"]&#13;
       <Visible>true</Visible>
       <Label>
         <Caption>
-          <Value>儿科雾化端口使用频次</Value>
+          <Value>儿科雾化端口使用率</Value>
           <Font>
             <Name>Microsoft YaHei UI</Name>
             <Size>16.0</Size>

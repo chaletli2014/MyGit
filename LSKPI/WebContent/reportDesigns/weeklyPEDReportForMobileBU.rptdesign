@@ -13140,7 +13140,7 @@ order by h1.duration desc;]]></xml-property>
       <Visible>true</Visible>
       <Label>
         <Caption>
-          <Value>儿科雾化端口使用频次</Value>
+          <Value>儿科雾化端口使用率</Value>
           <Font>
             <Name>Microsoft YaHei UI</Name>
             <Size>14.0</Size>
