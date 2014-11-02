@@ -1614,7 +1614,7 @@ group by pdw.duration,h.rsmRegion,h.dsmCode,h.saleCode ]]></xml-property>
               <AggregateExpression>Sum</AggregateExpression>
             </Grouping>
           </DataDefinition>
-          <SeriesIdentifier>全体上报率</SeriesIdentifier>
+          <SeriesIdentifier>上报率</SeriesIdentifier>
           <DataPoint>
             <Components>
               <Type>Orthogonal_Value</Type>

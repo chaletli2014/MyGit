@@ -22,7 +22,7 @@
 	               <tr class="mobileReport_table_header">
 	                   <td width="20%">姓名</td>
                        <td width="8%">Core医院上报率</td>
-                       <td width="8%">全体上报率</td>
+                       <td width="8%">上报率</td>
                        <td width="12%">雾化率</td>
                        <td width="12%">雾化端口使用频次</td>
                        <td width="14%">平均剂量</td>
@@ -63,7 +63,7 @@
 						<tr class="mobileReport_table_header">
 							<td width="20%">姓名</td>
 	                        <td width="8%">Core医院上报率</td>
-	                        <td width="8%">全体上报率</td>
+	                        <td width="8%">上报率</td>
 	                        <td width="12%">雾化率</td>
 	                        <td width="12%">雾化端口使用频次</td>
 	                        <td width="14%">平均剂量</td>
@@ -107,7 +107,7 @@
 					<tr class="mobileReport_table_header">
 						<td width="20%">姓名</td>
                        	<td width="8%">Core医院上报率</td>
-                       	<td width="8%">全体上报率</td>
+                       	<td width="8%">上报率</td>
                        	<td width="12%">雾化率</td>
                        	<td width="12%">雾化端口使用频次</td>
                        	<td width="14%">平均剂量</td>
@@ -160,7 +160,7 @@
 		                   <td class="report_data_number"><fmt:formatNumber type="percent" value="${rsmData.coreBottomInRate}" pattern="#0.00%"/></td>
 		               </tr>
 		               <tr class="mobileReport_table_body">
-		                   <td>全体上报率</td>
+		                   <td>上报率</td>
 		                   <td>${rsmData.topInRateRSMName}</td>
 		                   <td class="report_data_number"><fmt:formatNumber type="percent" value="${rsmData.topInRate}" pattern="#0.00%"/></td>
 		                   <td>${rsmData.bottomInRateRSMName}</td>

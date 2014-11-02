@@ -3953,7 +3953,7 @@ dataSetRow["inNum"]/dataSetRow["hosNum"]&#13;
                             <property name="fontWeight">normal</property>
                             <property name="color">white</property>
                             <property name="textAlign">center</property>
-                            <text-property name="text">全体上报率</text-property>
+                            <text-property name="text">上报率</text-property>
                         </label>
                     </cell>
                     <cell id="1111">

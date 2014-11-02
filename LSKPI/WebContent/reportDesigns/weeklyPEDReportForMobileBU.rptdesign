@@ -4211,7 +4211,7 @@ order by h1.duration desc;]]></xml-property>
       <TitlePosition>Left</TitlePosition>
       <SeriesDefinitions>
         <Query>
-          <Definition>'全体上报率'</Definition>
+          <Definition>'上报率'</Definition>
           <Grouping>
             <GroupType>Text</GroupType>
           </Grouping>
@@ -4451,7 +4451,7 @@ order by h1.duration desc;]]></xml-property>
               <AggregateExpression>Sum</AggregateExpression>
             </Grouping>
           </DataDefinition>
-          <SeriesIdentifier>全体上报率</SeriesIdentifier>
+          <SeriesIdentifier>上报率</SeriesIdentifier>
           <DataPoint>
             <Components>
               <Type>Orthogonal_Value</Type>
