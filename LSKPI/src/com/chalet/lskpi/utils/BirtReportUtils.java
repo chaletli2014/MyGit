@@ -229,7 +229,7 @@ public class BirtReportUtils {
                 evaluateParameterValues(parameterMap,parameters,paramValues);
             }
             
-            if( null != region ){
+            if( null != region && !"".equalsIgnoreCase(region) ){
                 logger.info(String.format("populdate the param region %s", region));
                 IGetParameterDefinitionTask paramTask = engine.createGetParameterDefinitionTask(design);
                 Collection parameters = paramTask.getParameterDefns(false);

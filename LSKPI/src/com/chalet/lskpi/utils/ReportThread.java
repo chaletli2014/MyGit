@@ -187,32 +187,6 @@ public class ReportThread extends Thread {
                         }
                         logger.info(" the data of hospital in last week is populated");
                         
-                        logger.info("start to generate the pdf weekly report");
-                        this.taskTime = System.currentTimeMillis();
-                        Date refreshDate = DateUtils.getGenerateWeeklyReportDate();
-                        String startDate = DateUtils.getTheBeginDateOfRefreshDate(refreshDate);
-                        String endDate = DateUtils.getTheEndDateOfRefreshDate(refreshDate);
-                        String lastRefreshThursday = DateUtils.getDirectoryNameOfCurrentDuration(refreshDate);
-                        logger.info(String.format("start to refresh the pdf weekly report, lastThursday is %s, start date is %s, end date is %s", reportGenerateDate, startDate, endDate));
-                        
-                        boolean isFirstRefresh = true;
-                        List<String> regionList = userService.getAllRegionName();
-                        
-                        html.startPlatform();
-                        for( UserInfo user : reportUserInfos ){
-                            String telephone = user.getTelephone();
-                            if( telephone != null && !"#N/A".equalsIgnoreCase(telephone) ){
-                                logger.info(String.format("the mobile is %s",telephone));
-                                ReportUtils.createWeeklyPDFReport(html, user, telephone, startDate, endDate, basePath, contextPath, lastRefreshThursday, user.getEmail(),isFirstRefresh,true,regionList);
-                                this.taskTime = System.currentTimeMillis();
-                            }else{
-                                logger.error(String.format("the telephone number for the user %s is not found", user.getName()));
-                            }
-                            isFirstRefresh = false;
-                        }
-                        html.stopPlatform();
-                        logger.info("end to refresh the pdf weekly report");
-                        
                         logger.info("start to generate the html weekly report");
                         html.startHtmlPlatform();
                         for( UserInfo user : reportUserInfos ){
@@ -260,6 +234,32 @@ public class ReportThread extends Thread {
                         }
                         
                         html.stopPlatform();
+                        
+                        logger.info("start to generate the pdf weekly report");
+                        this.taskTime = System.currentTimeMillis();
+                        Date refreshDate = DateUtils.getGenerateWeeklyReportDate();
+                        String startDate = DateUtils.getTheBeginDateOfRefreshDate(refreshDate);
+                        String endDate = DateUtils.getTheEndDateOfRefreshDate(refreshDate);
+                        String lastRefreshThursday = DateUtils.getDirectoryNameOfCurrentDuration(refreshDate);
+                        logger.info(String.format("start to refresh the pdf weekly report, lastThursday is %s, start date is %s, end date is %s", reportGenerateDate, startDate, endDate));
+                        
+                        boolean isFirstRefresh = true;
+                        List<String> regionList = userService.getAllRegionName();
+                        
+                        html.startPlatform();
+                        for( UserInfo user : reportUserInfos ){
+                            String telephone = user.getTelephone();
+                            if( telephone != null && !"#N/A".equalsIgnoreCase(telephone) ){
+                                logger.info(String.format("the mobile is %s",telephone));
+                                ReportUtils.createWeeklyPDFReport(html, user, telephone, startDate, endDate, basePath, contextPath, lastRefreshThursday, user.getEmail(),isFirstRefresh,true,regionList);
+                                this.taskTime = System.currentTimeMillis();
+                            }else{
+                                logger.error(String.format("the telephone number for the user %s is not found", user.getName()));
+                            }
+                            isFirstRefresh = false;
+                        }
+                        html.stopPlatform();
+                        logger.info("end to refresh the pdf weekly report");
                     }else{
                         logger.info(String.format("current day in week is %s, no need to generate the html weekly report", dayInWeek));
                     }
