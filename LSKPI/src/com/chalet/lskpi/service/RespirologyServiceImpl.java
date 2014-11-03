@@ -766,19 +766,19 @@ public class RespirologyServiceImpl implements RespirologyService {
 		return weeklyRatioData;
 	}
 	
-    public int removeOldWeeklyRESData(String duration) throws Exception{
+    public synchronized int removeOldWeeklyRESData(String duration) throws Exception{
         return respirologyDAO.removeOldWeeklyRESData(duration);
     }
 	
-    public void generateWeeklyRESDataOfHospital() throws Exception {
+    public synchronized void generateWeeklyRESDataOfHospital() throws Exception {
         respirologyDAO.generateWeeklyRESDataOfHospital();
     }
     
-    public void generateWeeklyRESDataOfHospital(Date refreshDate) throws Exception {
+    public synchronized void generateWeeklyRESDataOfHospital(Date refreshDate) throws Exception {
         respirologyDAO.generateWeeklyRESDataOfHospital(refreshDate);
     }
 
-    public boolean hasLastWeeklyRESData() throws Exception {
+    public synchronized boolean hasLastWeeklyRESData() throws Exception {
         int count = respirologyDAO.getLastWeeklyRESData();
         logger.info("the last week res data size is " + count);
         return count>0;

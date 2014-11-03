@@ -549,19 +549,19 @@ public class ChestSurgeryServiceImpl implements ChestSurgeryService {
     }
     
 
-    public int removeOldWeeklyData(String duration) throws Exception{
+    public synchronized int removeOldWeeklyData(String duration) throws Exception{
         return chestSurgeryDAO.removeOldWeeklyData(duration);
     }
     
-    public void generateWeeklyDataOfHospital() throws Exception {
+    public synchronized void generateWeeklyDataOfHospital() throws Exception {
         chestSurgeryDAO.generateWeeklyDataOfHospital();
     }
     
-    public void generateWeeklyDataOfHospital(Date refreshDate) throws Exception {
+    public synchronized void generateWeeklyDataOfHospital(Date refreshDate) throws Exception {
         chestSurgeryDAO.generateWeeklyDataOfHospital(refreshDate);
     }
 
-    public boolean hasLastWeeklyData() throws Exception {
+    public synchronized boolean hasLastWeeklyData() throws Exception {
         int count = chestSurgeryDAO.getLastWeeklyData();
         logger.info("the last week chest surgery data size is " + count);
         return count>0;

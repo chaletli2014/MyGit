@@ -423,22 +423,22 @@ public class HospitalServiceImpl implements HospitalService {
         }
 	}
 	
-	public boolean hasLastWeeklyData() throws Exception {
+	public synchronized boolean hasLastWeeklyData() throws Exception {
         int count = hospitalDAO.getLastWeeklyData();
         logger.info("the last week hospital data size is " + count);
         return count>0;
     }
 	
 
-    public int deleteOldHospitalWeeklyData(String duration) throws Exception {
+    public synchronized int deleteOldHospitalWeeklyData(String duration) throws Exception {
         return hospitalDAO.deleteOldHospitalWeeklyData(duration);
     }
 	
-	public void generateWeeklyDataOfHospital() throws Exception {
+	public synchronized void generateWeeklyDataOfHospital() throws Exception {
 		hospitalDAO.generateWeeklyDataOfHospital();
     }
     
-    public void generateWeeklyDataOfHospital(Date refreshDate) throws Exception {
+    public synchronized void generateWeeklyDataOfHospital(Date refreshDate) throws Exception {
         logger.info("start to generate the ped hospital data");
     	hospitalDAO.generateWeeklyPEDDataOfHospital(refreshDate);
     	logger.info("finish to generate the ped data");

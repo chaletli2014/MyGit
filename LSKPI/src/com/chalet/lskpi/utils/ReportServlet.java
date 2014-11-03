@@ -28,6 +28,7 @@ public class ReportServlet extends HttpServlet{
 	private static final long serialVersionUID = 1L;  
     
     private ReportThread myThread1;
+    private PDFReportThread pdfThread;
     private ThreadChecker threadChecker;
     private Logger logger = Logger.getLogger(ReportServlet.class);
     
@@ -40,16 +41,15 @@ public class ReportServlet extends HttpServlet{
         String contextPath = CustomizedProperty.getContextProperty("host", "http://localhost:8080");
         
         logger.info("init the report servlet, basePath is " + basePath + ",contextPath is " + contextPath);
-    	String str = null;
-        if (str == null && myThread1 == null) {
+        UserService userService = (UserService)WebApplicationContextUtils.getWebApplicationContext(getServletContext()).getBean("userService");
+        PediatricsService pediatricsService = (PediatricsService)WebApplicationContextUtils.getWebApplicationContext(getServletContext()).getBean("pediatricsService");
+        RespirologyService respirologyService = (RespirologyService)WebApplicationContextUtils.getWebApplicationContext(getServletContext()).getBean("respirologyService");
+        ChestSurgeryService chestSurgeryService = (ChestSurgeryService)WebApplicationContextUtils.getWebApplicationContext(getServletContext()).getBean("chestSurgeryService");
+        HospitalService hospitalService = (HospitalService)WebApplicationContextUtils.getWebApplicationContext(getServletContext()).getBean("hospitalService");
+        HomeService homeService = (HomeService)WebApplicationContextUtils.getWebApplicationContext(getServletContext()).getBean("homeService");
+        
+        if (myThread1 == null) {
             try{
-                UserService userService = (UserService)WebApplicationContextUtils.getWebApplicationContext(getServletContext()).getBean("userService");
-                PediatricsService pediatricsService = (PediatricsService)WebApplicationContextUtils.getWebApplicationContext(getServletContext()).getBean("pediatricsService");
-                RespirologyService respirologyService = (RespirologyService)WebApplicationContextUtils.getWebApplicationContext(getServletContext()).getBean("respirologyService");
-                ChestSurgeryService chestSurgeryService = (ChestSurgeryService)WebApplicationContextUtils.getWebApplicationContext(getServletContext()).getBean("chestSurgeryService");
-                HospitalService hospitalService = (HospitalService)WebApplicationContextUtils.getWebApplicationContext(getServletContext()).getBean("hospitalService");
-                HomeService homeService = (HomeService)WebApplicationContextUtils.getWebApplicationContext(getServletContext()).getBean("homeService");
-                
                 myThread1 = new ReportThread(basePath,userService,pediatricsService,respirologyService,chestSurgeryService,hospitalService,homeService,contextPath);
                 myThread1.start();
                 
@@ -58,6 +58,14 @@ public class ReportServlet extends HttpServlet{
             }catch(Exception e){
                 logger.error("fail to init the thread,",e);
             }
+        }
+        if (pdfThread == null) {
+        	try{
+        		pdfThread = new PDFReportThread(basePath,userService,pediatricsService,respirologyService,chestSurgeryService,hospitalService,contextPath);
+        		pdfThread.start();
+        	}catch(Exception e){
+        		logger.error("fail to init the pdf thread,",e);
+        	}
         }
     }  
   
@@ -69,6 +77,9 @@ public class ReportServlet extends HttpServlet{
     public void destory(){  
         if (myThread1 != null && myThread1.isInterrupted()) {  
             myThread1.interrupt();  
+        }  
+        if (pdfThread != null && pdfThread.isInterrupted()) {  
+        	pdfThread.interrupt();  
         }  
     }
 }

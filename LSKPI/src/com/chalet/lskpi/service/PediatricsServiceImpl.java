@@ -748,19 +748,19 @@ public class PediatricsServiceImpl implements PediatricsService {
         return pedData;
 	}
 	
-    public void generateWeeklyPEDDataOfHospital() throws Exception {
+    public synchronized void generateWeeklyPEDDataOfHospital() throws Exception {
         pediatricsDAO.generateWeeklyPEDDataOfHospital();
     }
     
-    public int removeOldWeeklyPEDData(String duration) throws Exception{
+    public synchronized int removeOldWeeklyPEDData(String duration) throws Exception{
         return pediatricsDAO.removeOldWeeklyPEDData(duration);
     }
     
-    public void generateWeeklyPEDDataOfHospital(Date refreshDate) throws Exception {
+    public synchronized void generateWeeklyPEDDataOfHospital(Date refreshDate) throws Exception {
         pediatricsDAO.generateWeeklyPEDDataOfHospital(refreshDate);
     }
 
-    public boolean hasLastWeeklyPEDData() throws Exception {
+    public synchronized boolean hasLastWeeklyPEDData() throws Exception {
         int count = pediatricsDAO.getLastWeeklyPEDData();
         logger.info("the last week ped data size is " + count);
         return count>0;

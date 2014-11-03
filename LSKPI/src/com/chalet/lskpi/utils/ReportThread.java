@@ -234,32 +234,6 @@ public class ReportThread extends Thread {
                         }
                         
                         html.stopPlatform();
-                        
-                        logger.info("start to generate the pdf weekly report");
-                        this.taskTime = System.currentTimeMillis();
-                        Date refreshDate = DateUtils.getGenerateWeeklyReportDate();
-                        String startDate = DateUtils.getTheBeginDateOfRefreshDate(refreshDate);
-                        String endDate = DateUtils.getTheEndDateOfRefreshDate(refreshDate);
-                        String lastRefreshThursday = DateUtils.getDirectoryNameOfCurrentDuration(refreshDate);
-                        logger.info(String.format("start to refresh the pdf weekly report, lastThursday is %s, start date is %s, end date is %s", reportGenerateDate, startDate, endDate));
-                        
-                        boolean isFirstRefresh = true;
-                        List<String> regionList = userService.getAllRegionName();
-                        
-                        html.startPlatform();
-                        for( UserInfo user : reportUserInfos ){
-                            String telephone = user.getTelephone();
-                            if( telephone != null && !"#N/A".equalsIgnoreCase(telephone) ){
-                                logger.info(String.format("the mobile is %s",telephone));
-                                ReportUtils.createWeeklyPDFReport(html, user, telephone, startDate, endDate, basePath, contextPath, lastRefreshThursday, user.getEmail(),isFirstRefresh,true,regionList);
-                                this.taskTime = System.currentTimeMillis();
-                            }else{
-                                logger.error(String.format("the telephone number for the user %s is not found", user.getName()));
-                            }
-                            isFirstRefresh = false;
-                        }
-                        html.stopPlatform();
-                        logger.info("end to refresh the pdf weekly report");
                     }else{
                         logger.info(String.format("current day in week is %s, no need to generate the html weekly report", dayInWeek));
                     }
@@ -381,21 +355,6 @@ public class ReportThread extends Thread {
             }  finally{
                 isRestart = false;
             }
-        }
-    }
-    
-    private void sendDailyReport2User( String email, UserInfo user, String yesterday, String telephone){
-        String fileSubName = StringUtils.getFileSubName(user);
-        String userLevel = user.getLevel();
-        String dailyPEDReportName = basePath + "pedDailyReport/"+yesterday+"/儿科日报-"+fileSubName+"-"+yesterday+".xlsx";
-        String dailyRESReportName = basePath + "resDailyReport/"+yesterday+"/呼吸科日报-"+fileSubName+"-"+yesterday+".xlsx";
-        StringBuffer pedSubject = new StringBuffer(" - ").append(userLevel).append(" 儿科日报推送");
-        StringBuffer resSubject = new StringBuffer(" - ").append(userLevel).append(" 呼吸科日报推送");
-        try{
-            EmailUtils.sendMessage(dailyPEDReportName,email,pedSubject.toString(),"");
-            EmailUtils.sendMessage(dailyRESReportName,email,resSubject.toString(),"");
-        }catch(Exception e){
-            logger.error(String.format("fail to send the daily report email to user %s,email is %s,", telephone,email),e);
         }
     }
     
