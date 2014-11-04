@@ -17,6 +17,11 @@ public class PediatricsCoreHosRowMapper implements RowMapper<MobilePEDDailyData>
         }else{
         	mobilePEDDailyData.setCoreInRate(rs.getDouble("coreInNum")/rs.getDouble("coreHosNum"));
         }
+        if( rs.getDouble("corePNum") == 0 ){
+        	mobilePEDDailyData.setCoreWhRate(0);
+        }else{
+        	mobilePEDDailyData.setCoreWhRate(rs.getDouble("coreLsNum")/rs.getDouble("corePNum"));
+        }
         return mobilePEDDailyData;
     }
 }

@@ -20,10 +20,11 @@
                 <div class="dailyReport_table_Title">${selfTitle}</div>
 	            <table class="mobileReport_table">
 	               <tr class="mobileReport_table_header">
-	                   <td width="20%">姓名</td>
-                       <td width="8%">Core医院上报率</td>
+	                   <td width="12%">姓名</td>
+                       <td width="10%">Core医院上报率</td>
                        <td width="8%">上报率</td>
-                       <td width="12%">雾化率</td>
+                       <td width="10%">Core医院雾化率</td>
+                       <td width="8%">雾化率</td>
                        <td width="12%">雾化端口使用率</td>
                        <td width="14%">平均剂量</td>
                        <td width="14%">门诊人数</td>
@@ -34,6 +35,7 @@
 		                   <td>${reportData.userName}</td>
 		                   <td class="report_data_number"><fmt:formatNumber type="percent" value="${reportData.coreInRate}" pattern="#0%"/></td>
 		                   <td class="report_data_number"><fmt:formatNumber type="percent" value="${reportData.inRate}" pattern="#0%"/></td>
+		                   <td class="report_data_number"><fmt:formatNumber type="percent" value="${reportData.coreWhRate}" pattern="#0%"/></td>
 		                   <td class="report_data_number"><fmt:formatNumber type="percent" value="${reportData.whRate}" pattern="#0%"/></td>
 		                   <td class="report_data_number"><fmt:formatNumber type="percent" value="${reportData.whPortRate}" pattern="#0%"/></td>
 		                   <td class="report_data_number"><fmt:formatNumber type="percent" value="${reportData.averageDose}" pattern="#0.00"/></td>
@@ -46,6 +48,7 @@
 		                   <td rowspan="2">${mobileDailyReportParentData.userName}</td>
 		                   <td class="report_data_number"><fmt:formatNumber type="percent" value="${mobileDailyReportParentData.coreInRate}" pattern="#0%"/></td>
 		                   <td class="report_data_number"><fmt:formatNumber type="percent" value="${mobileDailyReportParentData.inRate}" pattern="#0%"/></td>
+		                   <td class="report_data_number"><fmt:formatNumber type="percent" value="${mobileDailyReportParentData.coreWhRate}" pattern="#0%"/></td>
 		                   <td class="report_data_number"><fmt:formatNumber type="percent" value="${mobileDailyReportParentData.whRate}" pattern="#0%"/></td>
 		                   <td class="report_data_number"><fmt:formatNumber type="percent" value="${mobileDailyReportParentData.whPortRate}" pattern="#0%"/></td>
 		                   <td class="report_data_number"><fmt:formatNumber type="percent" value="${mobileDailyReportParentData.averageDose}" pattern="#0.00"/></td>
@@ -61,14 +64,15 @@
 					<div class="dailyReport_table_Title">所属[${rsmReportData[0].regionCenterCN}${titleSuffix}</div>
 					<table class="mobileReport_table">
 						<tr class="mobileReport_table_header">
-							<td width="20%">姓名</td>
-	                        <td width="8%">Core医院上报率</td>
-	                        <td width="8%">上报率</td>
-	                        <td width="12%">雾化率</td>
-	                        <td width="12%">雾化端口使用率</td>
-	                        <td width="14%">平均剂量</td>
-	                        <td width="14%">门诊人数</td>
-	                        <td width="12%">雾化人次</td>
+							<td width="12%">姓名</td>
+	                       	<td width="10%">Core医院上报率</td>
+	                       	<td width="8%">上报率</td>
+	                       	<td width="10%">Core医院雾化率</td>
+	                       	<td width="8%">雾化率</td>
+	                       	<td width="12%">雾化端口使用率</td>
+	                       	<td width="14%">平均剂量</td>
+	                       	<td width="14%">门诊人数</td>
+	                       	<td width="12%">雾化人次</td>
 						</tr>
 						<c:forEach items="${rsmReportData}" var="reportData" varStatus="status">
 							<tr	class="mobileReport_table_body <c:if test="${status.count%2==0}">mobileReport_tr_even</c:if>">
@@ -78,6 +82,9 @@
 								</td>
 								<td class="report_data_number">
 									<fmt:formatNumber type="percent" value="${reportData.inRate}" pattern="#0%" />
+								</td>
+								<td class="report_data_number">
+									<fmt:formatNumber type="percent" value="${reportData.coreWhRate}" pattern="#0%" />
 								</td>
 								<td class="report_data_number">
 									<fmt:formatNumber type="percent" value="${reportData.whRate}" pattern="#0%" />
@@ -105,10 +112,11 @@
 				<div class="dailyReport_table_Title">${childTitle}</div>
 				<table class="mobileReport_table">
 					<tr class="mobileReport_table_header">
-						<td width="20%">姓名</td>
-                       	<td width="8%">Core医院上报率</td>
+						<td width="12%">姓名</td>
+                       	<td width="10%">Core医院上报率</td>
                        	<td width="8%">上报率</td>
-                       	<td width="12%">雾化率</td>
+                       	<td width="10%">Core医院雾化率</td>
+                       	<td width="8%">雾化率</td>
                        	<td width="12%">雾化端口使用率</td>
                        	<td width="14%">平均剂量</td>
                        	<td width="14%">门诊人数</td>
@@ -122,6 +130,9 @@
 							</td>
 							<td class="report_data_number">
 								<fmt:formatNumber type="percent" value="${reportData.inRate}" pattern="#0%" />
+							</td>
+							<td class="report_data_number">
+								<fmt:formatNumber type="percent" value="${reportData.coreWhRate}" pattern="#0%" />
 							</td>
 							<td class="report_data_number">
 								<fmt:formatNumber type="percent" value="${reportData.whRate}" pattern="#0%" />
@@ -165,6 +176,13 @@
 		                   <td class="report_data_number"><fmt:formatNumber type="percent" value="${rsmData.topInRate}" pattern="#0.00%"/></td>
 		                   <td>${rsmData.bottomInRateRSMName}</td>
 		                   <td class="report_data_number"><fmt:formatNumber type="percent" value="${rsmData.bottomInRate}" pattern="#0.00%"/></td>
+		               </tr>
+		               <tr class="mobileReport_table_body">
+		                   <td >Core医院雾化率</td>
+		                   <td>${rsmData.coreTopWhRateRSMName}</td>
+		                   <td class="report_data_number"><fmt:formatNumber type="percent" value="${rsmData.coreTopWhRate}" pattern="#0.00%"/></td>
+		                   <td>${rsmData.coreBottomWhRateRSMName}</td>
+		                   <td class="report_data_number"><fmt:formatNumber type="percent" value="${rsmData.coreBottomWhRate}" pattern="#0.00%"/></td>
 		               </tr>
 		               <tr class="mobileReport_table_body">
 		                   <td >雾化率</td>

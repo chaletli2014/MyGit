@@ -61,6 +61,7 @@ public interface PediatricsDAO {
 	
 	public TopAndBottomRSMData getTopAndBottomRSMData() throws Exception;
 	public TopAndBottomRSMData getCoreTopAndBottomRSMData() throws Exception;
+	public TopAndBottomRSMData getCoreTopAndBottomRSMWhRateData() throws Exception;
 	
 	public void generateWeeklyPEDDataOfHospital() throws Exception;
 	public int removeOldWeeklyPEDData(String duration) throws Exception;

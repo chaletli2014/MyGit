@@ -97,6 +97,7 @@ public class PediatricsServiceImpl implements PediatricsService {
                 
                 
                 mpd.setCoreInRate(pedCoreData.getCoreInRate());
+                mpd.setCoreWhRate(pedCoreData.getCoreWhRate());
                 mpd.setWhPortRate(pedWhPortData.getWhPortRate());
                 break;
             default:
@@ -268,13 +269,17 @@ public class PediatricsServiceImpl implements PediatricsService {
 		
 		List<MobilePEDDailyData> pedCoreData = new ArrayList<MobilePEDDailyData>();
 		Map<String,Double> pedCoreInRateMap = new HashMap<String,Double>();
+		Map<String,Double> pedCoreWhRateMap = new HashMap<String,Double>();
+		
 		pedCoreData = pediatricsDAO.getDailyCorePEDData4RSMByRegion(region);
 		for( MobilePEDDailyData pedCore : pedCoreData ){
 			pedCoreInRateMap.put(pedCore.getUserCode(), pedCore.getCoreInRate());
+			pedCoreWhRateMap.put(pedCore.getUserCode(), pedCore.getCoreWhRate());
 		}
 		
 		List<MobilePEDDailyData> pedWhPortData = new ArrayList<MobilePEDDailyData>();
 		Map<String,Double> pedWhPortMap = new HashMap<String,Double>();
+		
 		pedWhPortData = pediatricsDAO.getDailyPEDWhPortData4RSMByRegion(region);
 		for( MobilePEDDailyData pedWhPort : pedWhPortData ){
 			pedWhPortMap.put(pedWhPort.getUserCode(), pedWhPort.getWhPortRate());
@@ -311,6 +316,7 @@ public class PediatricsServiceImpl implements PediatricsService {
             pedDailyData.setWhRate(pedDailyData.getPatNum()==0?0:(double)pedDailyData.getLsNum()/pedDailyData.getPatNum());
             
             pedDailyData.setCoreInRate(pedCoreInRateMap.get(pedDailyData.getUserCode()));
+            pedDailyData.setCoreWhRate(pedCoreWhRateMap.get(pedDailyData.getUserCode()));
             pedDailyData.setWhPortRate(pedWhPortMap.get(pedDailyData.getUserCode()));
         }
         
@@ -322,9 +328,11 @@ public class PediatricsServiceImpl implements PediatricsService {
     	
 		List<MobilePEDDailyData> pedCoreData = new ArrayList<MobilePEDDailyData>();
 		Map<String,Double> pedCoreInRateMap = new HashMap<String,Double>();
+		Map<String,Double> pedCoreWhRateMap = new HashMap<String,Double>();
 		
 		List<MobilePEDDailyData> pedWhPortData = new ArrayList<MobilePEDDailyData>();
 		Map<String,Double> pedWhPortMap = new HashMap<String,Double>();
+		
 
     	
     	if( LsAttributes.USER_LEVEL_DSM.equalsIgnoreCase(currentUser.getLevel()) ){
@@ -344,6 +352,7 @@ public class PediatricsServiceImpl implements PediatricsService {
     	
     	for( MobilePEDDailyData pedCore : pedCoreData ){
 			pedCoreInRateMap.put(pedCore.getUserCode(), pedCore.getCoreInRate());
+			pedCoreWhRateMap.put(pedCore.getUserCode(), pedCore.getCoreWhRate());
 		}
     	
 		for( MobilePEDDailyData pedWhPort : pedWhPortData ){
@@ -385,6 +394,7 @@ public class PediatricsServiceImpl implements PediatricsService {
             pedDailyData.setWhRate(pedDailyData.getPatNum()==0?0:(double)pedDailyData.getLsNum()/pedDailyData.getPatNum());
         
             pedDailyData.setCoreInRate(pedCoreInRateMap.get(pedDailyData.getUserCode()));
+            pedDailyData.setCoreWhRate(pedCoreWhRateMap.get(pedDailyData.getUserCode()));
             pedDailyData.setWhPortRate(pedWhPortMap.get(pedDailyData.getUserCode()));
             
             if( pedDailyData.getHosNum() != 0 ){
@@ -413,6 +423,7 @@ public class PediatricsServiceImpl implements PediatricsService {
         
         List<MobilePEDDailyData> pedCoreData = new ArrayList<MobilePEDDailyData>();
 		Map<String,Double> pedCoreInRateMap = new HashMap<String,Double>();
+		Map<String,Double> pedCoreWhRateMap = new HashMap<String,Double>();
 		
 		List<MobilePEDDailyData> pedWhPortData = new ArrayList<MobilePEDDailyData>();
 		Map<String,Double> pedWhPortMap = new HashMap<String,Double>();
@@ -433,6 +444,7 @@ public class PediatricsServiceImpl implements PediatricsService {
         
         for( MobilePEDDailyData pedCore : pedCoreData ){
 			pedCoreInRateMap.put(pedCore.getUserCode(), pedCore.getCoreInRate());
+			pedCoreWhRateMap.put(pedCore.getUserCode(), pedCore.getCoreWhRate());
 		}
     	
 		for( MobilePEDDailyData pedWhPort : pedWhPortData ){
@@ -470,6 +482,7 @@ public class PediatricsServiceImpl implements PediatricsService {
             pedDailyData.setWhRate(pedDailyData.getPatNum()==0?0:(double)pedDailyData.getLsNum()/pedDailyData.getPatNum());
             
             pedDailyData.setCoreInRate(pedCoreInRateMap.get(pedDailyData.getUserCode()));
+            pedDailyData.setCoreWhRate(pedCoreWhRateMap.get(pedDailyData.getUserCode()));
             pedDailyData.setWhPortRate(pedWhPortMap.get(pedDailyData.getUserCode()));
             
             if( pedDailyData.getHosNum() != 0 ){
@@ -485,12 +498,17 @@ public class PediatricsServiceImpl implements PediatricsService {
 	public TopAndBottomRSMData getTopAndBottomRSMData() throws Exception {
 		TopAndBottomRSMData topAndBottomRSMData = pediatricsDAO.getTopAndBottomRSMData();
 		TopAndBottomRSMData coreRSMData = pediatricsDAO.getCoreTopAndBottomRSMData();
+		TopAndBottomRSMData coreWhRateData = pediatricsDAO.getCoreTopAndBottomRSMWhRateData();
 		
 		topAndBottomRSMData.setCoreBottomInRate(coreRSMData.getCoreBottomInRate());
 		topAndBottomRSMData.setCoreBottomInRateRSMName(coreRSMData.getCoreBottomInRateRSMName());
 		topAndBottomRSMData.setCoreTopInRate(coreRSMData.getCoreTopInRate());
 		topAndBottomRSMData.setCoreTopInRateRSMName(coreRSMData.getCoreTopInRateRSMName());
 		
+		topAndBottomRSMData.setCoreBottomWhRate(coreWhRateData.getCoreBottomWhRate());
+		topAndBottomRSMData.setCoreBottomWhRateRSMName(coreWhRateData.getCoreBottomWhRateRSMName());
+		topAndBottomRSMData.setCoreTopWhRate(coreWhRateData.getCoreTopWhRate());
+		topAndBottomRSMData.setCoreTopWhRateRSMName(coreWhRateData.getCoreTopWhRateRSMName());
 		return topAndBottomRSMData;
 	}
     

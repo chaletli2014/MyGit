@@ -32,6 +32,10 @@ public class TopAndBottomRSMData {
 	private String coreBottomInRateRSMName;
 	private double coreTopInRate;
 	private double coreBottomInRate;
+	private String coreTopWhRateRSMName;
+	private String coreBottomWhRateRSMName;
+	private double coreTopWhRate;
+	private double coreBottomWhRate;
 	
 	public String getTopRSMName() {
 		return topRSMName;
@@ -164,6 +168,30 @@ public class TopAndBottomRSMData {
 	}
 	public void setCoreBottomInRate(double coreBottomInRate) {
 		this.coreBottomInRate = coreBottomInRate;
+	}
+	public double getCoreTopWhRate() {
+		return coreTopWhRate;
+	}
+	public void setCoreTopWhRate(double coreTopWhRate) {
+		this.coreTopWhRate = coreTopWhRate;
+	}
+	public double getCoreBottomWhRate() {
+		return coreBottomWhRate;
+	}
+	public void setCoreBottomWhRate(double coreBottomWhRate) {
+		this.coreBottomWhRate = coreBottomWhRate;
+	}
+	public String getCoreTopWhRateRSMName() {
+		return coreTopWhRateRSMName;
+	}
+	public void setCoreTopWhRateRSMName(String coreTopWhRateRSMName) {
+		this.coreTopWhRateRSMName = coreTopWhRateRSMName;
+	}
+	public String getCoreBottomWhRateRSMName() {
+		return coreBottomWhRateRSMName;
+	}
+	public void setCoreBottomWhRateRSMName(String coreBottomWhRateRSMName) {
+		this.coreBottomWhRateRSMName = coreBottomWhRateRSMName;
 	}
 
 }

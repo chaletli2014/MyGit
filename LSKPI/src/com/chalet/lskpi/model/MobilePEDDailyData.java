@@ -28,6 +28,8 @@ public class MobilePEDDailyData {
     private double coreInRate;
     private double whPortRate;
     
+    private double coreWhRate;
+    
     public String getUserName() {
         return userName;
     }
@@ -143,5 +145,11 @@ public class MobilePEDDailyData {
 	}
 	public void setWhPortRate(double whPortRate) {
 		this.whPortRate = whPortRate;
+	}
+	public double getCoreWhRate() {
+		return coreWhRate;
+	}
+	public void setCoreWhRate(double coreWhRate) {
+		this.coreWhRate = coreWhRate;
 	}
 }
