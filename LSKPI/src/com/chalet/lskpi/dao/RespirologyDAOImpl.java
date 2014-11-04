@@ -12,6 +12,7 @@ import java.util.List;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.jdbc.core.BatchPreparedStatementSetter;
 import org.springframework.jdbc.core.PreparedStatementCreator;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
@@ -223,6 +224,7 @@ public class RespirologyDAOImpl implements RespirologyDAO {
        return dataBean.getJdbcTemplate().query(mobileRESWeeklySQL.toString(),new Object[]{telephone},new RESWeeklyRatioDataRowMapper());
     }
 
+    @Cacheable(value="getWeeklyRESData4RSDMobile")
     public List<WeeklyRatioData> getWeeklyRESData4RSDMobile() throws Exception {
     	StringBuffer mobileRESWeeklySQL = new StringBuffer();
     	mobileRESWeeklySQL.append(LsAttributes.SQL_WEEKLY_PED_RATIO_DATA_SELECT_RES)
@@ -838,6 +840,7 @@ public class RespirologyDAOImpl implements RespirologyDAO {
         return dataBean.getJdbcTemplate().query(mobileRESDailySQL.toString(), new Object[]{paramDate,region,region},new RespirologyMobileRowMapper());
     }
     
+    @Cacheable(value="getDailyRESData4CountoryMobile")
     public MobileRESDailyData getDailyRESData4CountoryMobile() throws Exception {
         StringBuffer mobileRESDailySQL = new StringBuffer();
         
@@ -918,6 +921,7 @@ public class RespirologyDAOImpl implements RespirologyDAO {
 	}
 
 	@Override
+	@Cacheable(value="getDailyRESData4RSDMobile")
 	public List<MobileRESDailyData> getDailyRESData4RSDMobile() throws Exception {
 		StringBuffer mobileRESDailySQL = new StringBuffer();
 		

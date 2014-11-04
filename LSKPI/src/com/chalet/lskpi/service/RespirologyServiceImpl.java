@@ -11,6 +11,7 @@ import java.util.Set;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.dao.IncorrectResultSizeDataAccessException;
 import org.springframework.stereotype.Service;
@@ -193,6 +194,7 @@ public class RespirologyServiceImpl implements RespirologyService {
         }
 	}
 	
+	@Cacheable(value="getDailyRESData4MobileByRegion")
 	public List<MobileRESDailyData> getDailyRESData4MobileByRegion(String region) throws Exception {
     	List<MobileRESDailyData> resDatas = new ArrayList<MobileRESDailyData>();
 		resDatas = respirologyDAO.getDailyRESData4RSMByRegion(region);
@@ -471,6 +473,7 @@ public class RespirologyServiceImpl implements RespirologyService {
     }
 	
 	@Override
+	@Cacheable(value="getTopAndBottomRSMData_RES")
 	public TopAndBottomRSMData getTopAndBottomRSMData() throws Exception {
 		return respirologyDAO.getTopAndBottomRSMData();
 	}
@@ -711,6 +714,7 @@ public class RespirologyServiceImpl implements RespirologyService {
         return hospitalData;
     }
 	
+	@Cacheable(value="getWeeklyRESCountoryData4Mobile")
 	public WeeklyRatioData getWeeklyRESCountoryData4Mobile() throws Exception {
 		WeeklyRatioData weeklyRatioData = new WeeklyRatioData();
 		try{

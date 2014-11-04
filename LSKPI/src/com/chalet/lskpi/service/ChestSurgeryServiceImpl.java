@@ -7,6 +7,7 @@ import java.util.List;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.dao.IncorrectResultSizeDataAccessException;
 import org.springframework.stereotype.Service;
@@ -197,6 +198,7 @@ public class ChestSurgeryServiceImpl implements ChestSurgeryService {
         return filteredCheDatas;
     }
 
+    @Cacheable(value="getDailyCHEData4MobileByRegionCenter")
     public List<MobileCHEDailyData> getDailyCHEData4MobileByRegionCenter(String regionCenter) throws Exception {
         List<MobileCHEDailyData> cheDatas = new ArrayList<MobileCHEDailyData>();
         cheDatas = chestSurgeryDAO.getDailyCHEData4RSMByRegionCenter(regionCenter);
@@ -208,6 +210,7 @@ public class ChestSurgeryServiceImpl implements ChestSurgeryService {
         return cheDatas;
     }
 
+    @Cacheable(value="getTopAndBottomRSMData_CHE")
     public TopAndBottomRSMData getTopAndBottomRSMData() throws Exception {
         return chestSurgeryDAO.getTopAndBottomRSMData();
     }
@@ -493,6 +496,7 @@ public class ChestSurgeryServiceImpl implements ChestSurgeryService {
         return hospitalData;
     }
     
+    @Cacheable(value="getWeeklyCountoryData4Mobile")
     public WeeklyRatioData getWeeklyCountoryData4Mobile() throws Exception {
         WeeklyRatioData weeklyRatioData = new WeeklyRatioData();
         try{

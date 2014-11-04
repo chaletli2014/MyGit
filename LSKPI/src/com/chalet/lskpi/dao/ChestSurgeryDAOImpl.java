@@ -12,6 +12,7 @@ import java.util.List;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.jdbc.core.PreparedStatementCreator;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
@@ -187,6 +188,7 @@ public class ChestSurgeryDAOImpl implements ChestSurgeryDAO {
         dataBean.getJdbcTemplate().update(sql.toString(), paramList.toArray());
     }
 
+    @Cacheable(value="getDailyCHEData4CountoryMobile")
     public MobileCHEDailyData getDailyCHEData4CountoryMobile() throws Exception {
         StringBuffer mobileCHEDailySQL = new StringBuffer();
         
@@ -207,6 +209,7 @@ public class ChestSurgeryDAOImpl implements ChestSurgeryDAO {
         return dataBean.getJdbcTemplate().queryForObject(mobileCHEDailySQL.toString(), new Object[]{startDate,endDate},new ChestSurgeryMobileRowMapper());
     }
 
+    @Cacheable(value="getDailyCHEData4DSMMobile")
     public List<MobileCHEDailyData> getDailyCHEData4DSMMobile(String region) throws Exception {
         StringBuffer mobileCHEDailySQL = new StringBuffer();
         
@@ -237,6 +240,7 @@ public class ChestSurgeryDAOImpl implements ChestSurgeryDAO {
         return dataBean.getJdbcTemplate().query(mobileCHEDailySQL.toString(), new Object[]{startDate,endDate,region,region},new ChestSurgeryMobileRowMapper());
     }
 
+    @Cacheable(value="getDailyCHEData4RSMMobile")
     public List<MobileCHEDailyData> getDailyCHEData4RSMMobile(String regionCenter) throws Exception {
         StringBuffer mobileCHEDailySQL = new StringBuffer();
         
@@ -267,6 +271,7 @@ public class ChestSurgeryDAOImpl implements ChestSurgeryDAO {
         return dataBean.getJdbcTemplate().query(mobileCHEDailySQL.toString(), new Object[]{startDate,endDate,regionCenter,regionCenter},new ChestSurgeryMobileRowMapper());
     }
 
+    @Cacheable(value="getDailyCHEData4RSDMobile")
     public List<MobileCHEDailyData> getDailyCHEData4RSDMobile() throws Exception {
         StringBuffer mobileCHEDailySQL = new StringBuffer();
         
@@ -295,6 +300,7 @@ public class ChestSurgeryDAOImpl implements ChestSurgeryDAO {
         return dataBean.getJdbcTemplate().query(mobileCHEDailySQL.toString(), new Object[]{startDate,endDate}, new ChestSurgeryMobileRowMapper());
     }
 
+    @Cacheable(value="getChildDailyCHEData4DSMMobile")
     public List<MobileCHEDailyData> getChildDailyCHEData4DSMMobile(String dsmCode) throws Exception {
         StringBuffer mobileCHEDailySQL = new StringBuffer();
         
@@ -787,6 +793,7 @@ public class ChestSurgeryDAOImpl implements ChestSurgeryDAO {
        return dataBean.getJdbcTemplate().query(mobileWeeklySQL.toString(),new Object[]{telephone},new RESWeeklyRatioDataRowMapper());
     }
 
+    @Cacheable(value="getWeeklyData4RSDMobile")
     public List<WeeklyRatioData> getWeeklyData4RSDMobile() throws Exception {
         StringBuffer mobileWeeklySQL = new StringBuffer();
         mobileWeeklySQL.append(LsAttributes.SQL_WEEKLY_PED_RATIO_DATA_SELECT_RES)

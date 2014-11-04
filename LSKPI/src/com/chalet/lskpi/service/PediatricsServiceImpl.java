@@ -10,6 +10,7 @@ import java.util.Map;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.dao.IncorrectResultSizeDataAccessException;
 import org.springframework.stereotype.Service;
@@ -260,6 +261,7 @@ public class PediatricsServiceImpl implements PediatricsService {
 	    }
 	}
 
+	@Cacheable(value="getDailyPEDData4MobileByRegion")
 	public List<MobilePEDDailyData> getDailyPEDData4MobileByRegion(String region) throws Exception{
     	List<MobilePEDDailyData> pedDatas = new ArrayList<MobilePEDDailyData>();
 		pedDatas = pediatricsDAO.getDailyPEDData4RSMByRegion(region);
@@ -479,6 +481,7 @@ public class PediatricsServiceImpl implements PediatricsService {
     }
     
 	@Override
+	@Cacheable(value="getTopAndBottomRSMData")
 	public TopAndBottomRSMData getTopAndBottomRSMData() throws Exception {
 		TopAndBottomRSMData topAndBottomRSMData = pediatricsDAO.getTopAndBottomRSMData();
 		TopAndBottomRSMData coreRSMData = pediatricsDAO.getCoreTopAndBottomRSMData();

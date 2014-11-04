@@ -12,6 +12,7 @@ import java.util.List;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.jdbc.core.BatchPreparedStatementSetter;
 import org.springframework.jdbc.core.PreparedStatementCreator;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
@@ -769,6 +770,7 @@ public class PediatricsDAOImpl implements PediatricsDAO {
         return dataBean.getJdbcTemplate().query(mobilePEDDailySQL.toString(), new Object[]{paramDate,region,region},new PediatricsMobileRowMapper());
     }
 
+    @Cacheable(value="getDailyPEDData4CountoryMobile")
     public MobilePEDDailyData getDailyPEDData4CountoryMobile() throws Exception {
         StringBuffer mobilePEDDailySQL = new StringBuffer();
         
@@ -848,6 +850,7 @@ public class PediatricsDAOImpl implements PediatricsDAO {
 	}
 
 	@Override
+	@Cacheable(value="getDailyPEDData4RSDMobile")
 	public List<MobilePEDDailyData> getDailyPEDData4RSDMobile() throws Exception {
 		StringBuffer mobilePEDDailySQL = new StringBuffer();
 	    
@@ -946,6 +949,7 @@ public class PediatricsDAOImpl implements PediatricsDAO {
 		return dataBean.getJdbcTemplate().query(mobilePEDDailySQL.toString(), new Object[]{paramDate,region,region},new PediatricsWhPortRowMapper());
 	}
 	
+	@Cacheable(value="getDailyPEDWhPortData4CountoryMobile")
 	public MobilePEDDailyData getDailyPEDWhPortData4CountoryMobile() throws Exception {
 		StringBuffer mobilePEDDailySQL = new StringBuffer();
 		
@@ -1025,6 +1029,7 @@ public class PediatricsDAOImpl implements PediatricsDAO {
 	}
 	
 	@Override
+	@Cacheable(value="getDailyPEDWhPortData4RSDMobile")
 	public List<MobilePEDDailyData> getDailyPEDWhPortData4RSDMobile() throws Exception {
 		StringBuffer mobilePEDDailySQL = new StringBuffer();
 		
@@ -1124,6 +1129,7 @@ public class PediatricsDAOImpl implements PediatricsDAO {
 		return dataBean.getJdbcTemplate().query(mobilePEDDailySQL.toString(), new Object[]{paramDate,region,region},new PediatricsCoreHosRowMapper());
 	}
 	
+	@Cacheable(value="getDailyCorePEDData4CountoryMobile")
 	public MobilePEDDailyData getDailyCorePEDData4CountoryMobile() throws Exception {
 		StringBuffer mobilePEDDailySQL = new StringBuffer();
 		
@@ -1203,6 +1209,7 @@ public class PediatricsDAOImpl implements PediatricsDAO {
 	}
 	
 	@Override
+	@Cacheable(value="getDailyCorePEDData4RSDMobile")
 	public List<MobilePEDDailyData> getDailyCorePEDData4RSDMobile() throws Exception {
 		StringBuffer mobilePEDDailySQL = new StringBuffer();
 		
