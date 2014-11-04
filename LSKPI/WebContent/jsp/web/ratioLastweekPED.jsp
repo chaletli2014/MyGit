@@ -87,50 +87,50 @@ function checkForm(){
 					   		</td>
 					   </tr>
 	               </c:forEach>
-	               <c:if test="${countoryRatioData!=null}">
+	               <c:if test="${countryRatioData!=null}">
 	               	   <tr class="mobileReport_table_body <c:if test="${fn:length(weeklyRatioData)%2 != 0}">mobileReport_tr_even</c:if>">
 		                   <td rowspan="2">全国</td>
-		                   <td class="report_data_number"><fmt:formatNumber type="percent" value="${countoryRatioData.inRate}" pattern="#0%"/></td>
-		                   <td class="report_data_number"><fmt:formatNumber type="percent" value="${countoryRatioData.whRate}" pattern="#0%"/></td>
-		                   <td class="report_data_number"><fmt:formatNumber type="percent" value="${countoryRatioData.averageDose}" pattern="#0.00"/></td>
-		                   <td class="report_data_number"><fmt:formatNumber value="${countoryRatioData.pnum}" pattern="#,###" /></td>
-		                   <td class="report_data_number"><fmt:formatNumber value="${countoryRatioData.lsnum}" pattern="#,###" /></td>
+		                   <td class="report_data_number"><fmt:formatNumber type="percent" value="${countryRatioData.inRate}" pattern="#0%"/></td>
+		                   <td class="report_data_number"><fmt:formatNumber type="percent" value="${countryRatioData.whRate}" pattern="#0%"/></td>
+		                   <td class="report_data_number"><fmt:formatNumber type="percent" value="${countryRatioData.averageDose}" pattern="#0.00"/></td>
+		                   <td class="report_data_number"><fmt:formatNumber value="${countryRatioData.pnum}" pattern="#,###" /></td>
+		                   <td class="report_data_number"><fmt:formatNumber value="${countryRatioData.lsnum}" pattern="#,###" /></td>
 		               </tr>
 		               <tr class="mobileReport_table_body <c:if test="${fn:length(weeklyRatioData)%2 != 0}">mobileReport_tr_even</c:if>">
-		               		<td class="<c:if test="${countoryRatioData.inRateRatio>0}">ratio_up</c:if><c:if test="${countoryRatioData.inRateRatio<0}">ratio_down</c:if>">
+		               		<td class="<c:if test="${countryRatioData.inRateRatio>0}">ratio_up</c:if><c:if test="${countryRatioData.inRateRatio<0}">ratio_down</c:if>">
 			               		<span class="narrow_font">
-				               		<c:if test="${countoryRatioData.inRateRatio>0}">+</c:if>
-			               			<c:if test="${countoryRatioData.inRateRatio<0}">-</c:if>
+				               		<c:if test="${countryRatioData.inRateRatio>0}">+</c:if>
+			               			<c:if test="${countryRatioData.inRateRatio<0}">-</c:if>
 			               		</span>
-		               			<fmt:formatNumber type="percent" value="${countoryRatioData.inRateRatio<0?-countoryRatioData.inRateRatio:countoryRatioData.inRateRatio}" pattern="#0%"/>
+		               			<fmt:formatNumber type="percent" value="${countryRatioData.inRateRatio<0?-countryRatioData.inRateRatio:countryRatioData.inRateRatio}" pattern="#0%"/>
 		               		</td>
-					    	<td class="<c:if test="${countoryRatioData.whRateRatio>0}">ratio_up</c:if><c:if test="${countoryRatioData.whRateRatio<0}">ratio_down</c:if>">
+					    	<td class="<c:if test="${countryRatioData.whRateRatio>0}">ratio_up</c:if><c:if test="${countryRatioData.whRateRatio<0}">ratio_down</c:if>">
 					    		<span class="narrow_font">
-						    		<c:if test="${countoryRatioData.whRateRatio>0}">+</c:if>
-			               			<c:if test="${countoryRatioData.whRateRatio<0}">-</c:if>
+						    		<c:if test="${countryRatioData.whRateRatio>0}">+</c:if>
+			               			<c:if test="${countryRatioData.whRateRatio<0}">-</c:if>
 			               		</span>
-					    		<fmt:formatNumber type="percent" value="${countoryRatioData.whRateRatio<0?-countoryRatioData.whRateRatio:countoryRatioData.whRateRatio}" pattern="#0%"/>
+					    		<fmt:formatNumber type="percent" value="${countryRatioData.whRateRatio<0?-countryRatioData.whRateRatio:countryRatioData.whRateRatio}" pattern="#0%"/>
 					    	</td>
-					    	<td class="<c:if test="${countoryRatioData.averageDoseRatio>0}">ratio_up</c:if><c:if test="${countoryRatioData.averageDoseRatio<0}">ratio_down</c:if>">
+					    	<td class="<c:if test="${countryRatioData.averageDoseRatio>0}">ratio_up</c:if><c:if test="${countryRatioData.averageDoseRatio<0}">ratio_down</c:if>">
 					    		<span class="narrow_font">
-						    		<c:if test="${countoryRatioData.averageDoseRatio>0}">+</c:if>
-			               			<c:if test="${countoryRatioData.averageDoseRatio<0}">-</c:if>
+						    		<c:if test="${countryRatioData.averageDoseRatio>0}">+</c:if>
+			               			<c:if test="${countryRatioData.averageDoseRatio<0}">-</c:if>
 			               		</span>
-					    		<fmt:formatNumber type="percent" value="${countoryRatioData.averageDoseRatio<0?-countoryRatioData.averageDoseRatio:countoryRatioData.averageDoseRatio}" pattern="#0%"/>
+					    		<fmt:formatNumber type="percent" value="${countryRatioData.averageDoseRatio<0?-countryRatioData.averageDoseRatio:countryRatioData.averageDoseRatio}" pattern="#0%"/>
 					    	</td>
-					   		<td class="<c:if test="${countoryRatioData.patNumRatio>0}">ratio_up_noimg</c:if><c:if test="${countoryRatioData.patNumRatio<0}">ratio_down_noimg</c:if>">
+					   		<td class="<c:if test="${countryRatioData.patNumRatio>0}">ratio_up_noimg</c:if><c:if test="${countryRatioData.patNumRatio<0}">ratio_down_noimg</c:if>">
 					   			<span class="narrow_font">
-						    		<c:if test="${countoryRatioData.patNumRatio>0}">+</c:if>
-			               			<c:if test="${countoryRatioData.patNumRatio<0}">-</c:if>
+						    		<c:if test="${countryRatioData.patNumRatio>0}">+</c:if>
+			               			<c:if test="${countryRatioData.patNumRatio<0}">-</c:if>
 			               		</span>
-					   			<fmt:formatNumber type="percent" value="${countoryRatioData.patNumRatio<0?-countoryRatioData.patNumRatio:countoryRatioData.patNumRatio}" pattern="#0%"/>
+					   			<fmt:formatNumber type="percent" value="${countryRatioData.patNumRatio<0?-countryRatioData.patNumRatio:countryRatioData.patNumRatio}" pattern="#0%"/>
 					   		</td>
-					   		<td class="<c:if test="${countoryRatioData.lsNumRatio>0}">ratio_up_noimg</c:if><c:if test="${countoryRatioData.lsNumRatio<0}">ratio_down_noimg</c:if>">
+					   		<td class="<c:if test="${countryRatioData.lsNumRatio>0}">ratio_up_noimg</c:if><c:if test="${countryRatioData.lsNumRatio<0}">ratio_down_noimg</c:if>">
 					   			<span class="narrow_font">
-						    		<c:if test="${countoryRatioData.lsNumRatio>0}">+</c:if>
-			               			<c:if test="${countoryRatioData.lsNumRatio<0}">-</c:if>
+						    		<c:if test="${countryRatioData.lsNumRatio>0}">+</c:if>
+			               			<c:if test="${countryRatioData.lsNumRatio<0}">-</c:if>
 			               		</span>
-					   			<fmt:formatNumber type="percent" value="${countoryRatioData.lsNumRatio<0?-countoryRatioData.lsNumRatio:countoryRatioData.lsNumRatio}" pattern="#0%"/>
+					   			<fmt:formatNumber type="percent" value="${countryRatioData.lsNumRatio<0?-countryRatioData.lsNumRatio:countryRatioData.lsNumRatio}" pattern="#0%"/>
 					   		</td>
 					   </tr>
 	               </c:if>

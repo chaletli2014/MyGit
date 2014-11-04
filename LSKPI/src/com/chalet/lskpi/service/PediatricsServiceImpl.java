@@ -65,7 +65,7 @@ public class PediatricsServiceImpl implements PediatricsService {
         		pedWhPortData = pediatricsDAO.getDailyPEDWhPortData4CountoryMobile();
             	
                 mpd = pediatricsDAO.getDailyPEDData4CountoryMobile();
-                logger.info(String.format("end to get the ped daily data of the countory, current telephone is %s", telephone));
+                logger.info(String.format("end to get the ped daily data of the country, current telephone is %s", telephone));
                 List<RateElement> rates = new ArrayList<RateElement>();
                 RateElement re1 = new RateElement("ped");
                 re1.setRateType(1);
@@ -694,9 +694,9 @@ public class PediatricsServiceImpl implements PediatricsService {
     		weeklyRatioData.setFirstRate(rates.get(0));
     		weeklyRatioData.setSecondRate(rates.get(1));
     	}catch(EmptyResultDataAccessException e){
-    		logger.info(String.format("there is no record found by the countory"));
+    		logger.info(String.format("there is no record found by the country"));
     	}catch(Exception e){
-    		logger.error("fail to get the countory weekly ratio data,",e);
+    		logger.error("fail to get the country weekly ratio data,",e);
     	}
     	return weeklyRatioData;
     }

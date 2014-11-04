@@ -445,7 +445,7 @@ public class DataQueryController extends BaseController{
     			monthly12Datas = hospitalService.get12MontlyDataOfUser(lowerUser);
     		}
     		if( null == lowerUser ){
-    			logger.info("get the whole countory 12 monthly data");
+    			logger.info("get the whole country 12 monthly data");
     			StringBuffer monthlyDataTitle = new StringBuffer();
     			monthlyDataTitle.append(LsAttributes.DAILYREPORTTITLE_1)
         		.append("全国")
@@ -515,8 +515,8 @@ public class DataQueryController extends BaseController{
             logger.info("get lower users of current user end...");
             
             if( LsAttributes.USER_LEVEL_BM.equalsIgnoreCase(currentUser.getLevel()) ){
-            	WeeklyRatioData countoryRatioData = pediatricsService.getWeeklyPEDCountoryData4Mobile();
-            	view.addObject("countoryRatioData", countoryRatioData);
+            	WeeklyRatioData countryRatioData = pediatricsService.getWeeklyPEDCountoryData4Mobile();
+            	view.addObject("countryRatioData", countryRatioData);
             }
             
             populateDailyReportTitle(currentUser, view, LsAttributes.DAILYREPORTTITLE_3_2);
@@ -556,8 +556,8 @@ public class DataQueryController extends BaseController{
             logger.info("get lower users of current user end...");
             
             if( LsAttributes.USER_LEVEL_BM.equalsIgnoreCase(currentUser.getLevel()) ){
-            	WeeklyRatioData countoryRatioData = respirologyService.getWeeklyRESCountoryData4Mobile();
-            	view.addObject("countoryRatioData", countoryRatioData);
+            	WeeklyRatioData countryRatioData = respirologyService.getWeeklyRESCountoryData4Mobile();
+            	view.addObject("countryRatioData", countryRatioData);
             }
             
             populateDailyReportTitle(currentUser, view, LsAttributes.DAILYREPORTTITLE_3_2);
@@ -597,8 +597,8 @@ public class DataQueryController extends BaseController{
             logger.info("get lower users of current user end...");
             
             if( LsAttributes.USER_LEVEL_BM.equalsIgnoreCase(currentUser.getLevel()) ){
-                WeeklyRatioData countoryRatioData = chestSurgeryService.getWeeklyCountoryData4Mobile();
-                view.addObject("countoryRatioData", countoryRatioData);
+                WeeklyRatioData countryRatioData = chestSurgeryService.getWeeklyCountoryData4Mobile();
+                view.addObject("countryRatioData", countryRatioData);
             }
             
             populateDailyReportTitle(currentUser, view, LsAttributes.DAILYREPORTTITLE_3_2);

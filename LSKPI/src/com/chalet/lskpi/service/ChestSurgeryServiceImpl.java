@@ -125,7 +125,7 @@ public class ChestSurgeryServiceImpl implements ChestSurgeryService {
         switch (level) {
             case LsAttributes.USER_LEVEL_BM:
                 mcd = chestSurgeryDAO.getDailyCHEData4CountoryMobile();
-                logger.info(String.format("end to get the chest surgery daily data of the countory, current telephone is %s", telephone));
+                logger.info(String.format("end to get the chest surgery daily data of the country, current telephone is %s", telephone));
                 mcd.setInRate(mcd.getHosNum()==0?0:(double)mcd.getInNum()/mcd.getHosNum());
                 mcd.setWhRate(mcd.getPatNum()==0?0:(double)mcd.getLsNum()/mcd.getPatNum());
                 break;
@@ -545,9 +545,9 @@ public class ChestSurgeryServiceImpl implements ChestSurgeryService {
             weeklyRatioData.setFirstRate(rates.get(0));
             weeklyRatioData.setSecondRate(rates.get(1));
         }catch(EmptyResultDataAccessException e){
-            logger.info(String.format("there is no record found by the countory"));
+            logger.info(String.format("there is no record found by the country"));
         }catch(Exception e){
-            logger.error("fail to get the countory weekly ratio data,",e);
+            logger.error("fail to get the country weekly ratio data,",e);
         }
         return weeklyRatioData;
     }
