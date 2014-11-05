@@ -2648,6 +2648,18 @@ order by pdw.duration desc]]></xml-property>
                     <text-property name="heading">coreInNum</text-property>
                 </structure>
                 <structure>
+                    <property name="columnName">coreLsNum</property>
+                    <property name="analysis">measure</property>
+                    <text-property name="displayName">coreLsNum</text-property>
+                    <text-property name="heading">coreLsNum</text-property>
+                </structure>
+                <structure>
+                    <property name="columnName">corePNum</property>
+                    <property name="analysis">measure</property>
+                    <text-property name="displayName">corePNum</text-property>
+                    <text-property name="heading">corePNum</text-property>
+                </structure>
+                <structure>
                     <property name="columnName">pnum</property>
                     <property name="analysis">measure</property>
                     <text-property name="displayName">pnum</text-property>
@@ -2852,46 +2864,56 @@ new Date(currentDate.getFullYear(),month,currentDate.getDate());</expression>
                     </structure>
                     <structure>
                         <property name="position">7</property>
-                        <property name="name">pnum</property>
+                        <property name="name">coreLsNum</property>
                         <property name="dataType">decimal</property>
                     </structure>
                     <structure>
                         <property name="position">8</property>
-                        <property name="name">lsnum</property>
+                        <property name="name">corePNum</property>
                         <property name="dataType">decimal</property>
                     </structure>
                     <structure>
                         <property name="position">9</property>
-                        <property name="name">portNum</property>
+                        <property name="name">pnum</property>
                         <property name="dataType">decimal</property>
                     </structure>
                     <structure>
                         <property name="position">10</property>
-                        <property name="name">averageDose</property>
+                        <property name="name">lsnum</property>
                         <property name="dataType">decimal</property>
                     </structure>
                     <structure>
                         <property name="position">11</property>
-                        <property name="name">hmgRate</property>
+                        <property name="name">portNum</property>
                         <property name="dataType">decimal</property>
                     </structure>
                     <structure>
                         <property name="position">12</property>
-                        <property name="name">omgRate</property>
+                        <property name="name">averageDose</property>
                         <property name="dataType">decimal</property>
                     </structure>
                     <structure>
                         <property name="position">13</property>
-                        <property name="name">tmgRate</property>
+                        <property name="name">hmgRate</property>
                         <property name="dataType">decimal</property>
                     </structure>
                     <structure>
                         <property name="position">14</property>
-                        <property name="name">fmgRate</property>
+                        <property name="name">omgRate</property>
                         <property name="dataType">decimal</property>
                     </structure>
                     <structure>
                         <property name="position">15</property>
+                        <property name="name">tmgRate</property>
+                        <property name="dataType">decimal</property>
+                    </structure>
+                    <structure>
+                        <property name="position">16</property>
+                        <property name="name">fmgRate</property>
+                        <property name="dataType">decimal</property>
+                    </structure>
+                    <structure>
+                        <property name="position">17</property>
                         <property name="name">numRate</property>
                         <property name="dataType">float</property>
                     </structure>
@@ -2943,55 +2965,69 @@ new Date(currentDate.getFullYear(),month,currentDate.getDate());</expression>
                 </structure>
                 <structure>
                     <property name="position">7</property>
+                    <property name="name">coreLsNum</property>
+                    <property name="nativeName">coreLsNum</property>
+                    <property name="dataType">decimal</property>
+                    <property name="nativeDataType">3</property>
+                </structure>
+                <structure>
+                    <property name="position">8</property>
+                    <property name="name">corePNum</property>
+                    <property name="nativeName">corePNum</property>
+                    <property name="dataType">decimal</property>
+                    <property name="nativeDataType">3</property>
+                </structure>
+                <structure>
+                    <property name="position">9</property>
                     <property name="name">pnum</property>
                     <property name="nativeName">pnum</property>
                     <property name="dataType">decimal</property>
                     <property name="nativeDataType">3</property>
                 </structure>
                 <structure>
-                    <property name="position">8</property>
+                    <property name="position">10</property>
                     <property name="name">lsnum</property>
                     <property name="nativeName">lsnum</property>
                     <property name="dataType">decimal</property>
                     <property name="nativeDataType">3</property>
                 </structure>
                 <structure>
-                    <property name="position">9</property>
+                    <property name="position">11</property>
                     <property name="name">portNum</property>
                     <property name="nativeName">portNum</property>
                     <property name="dataType">decimal</property>
                     <property name="nativeDataType">3</property>
                 </structure>
                 <structure>
-                    <property name="position">10</property>
+                    <property name="position">12</property>
                     <property name="name">averageDose</property>
                     <property name="nativeName">averageDose</property>
                     <property name="dataType">decimal</property>
                     <property name="nativeDataType">3</property>
                 </structure>
                 <structure>
-                    <property name="position">11</property>
+                    <property name="position">13</property>
                     <property name="name">hmgRate</property>
                     <property name="nativeName">hmgRate</property>
                     <property name="dataType">decimal</property>
                     <property name="nativeDataType">3</property>
                 </structure>
                 <structure>
-                    <property name="position">12</property>
+                    <property name="position">14</property>
                     <property name="name">omgRate</property>
                     <property name="nativeName">omgRate</property>
                     <property name="dataType">decimal</property>
                     <property name="nativeDataType">3</property>
                 </structure>
                 <structure>
-                    <property name="position">13</property>
+                    <property name="position">15</property>
                     <property name="name">tmgRate</property>
                     <property name="nativeName">tmgRate</property>
                     <property name="dataType">decimal</property>
                     <property name="nativeDataType">3</property>
                 </structure>
                 <structure>
-                    <property name="position">14</property>
+                    <property name="position">16</property>
                     <property name="name">fmgRate</property>
                     <property name="nativeName">fmgRate</property>
                     <property name="dataType">decimal</property>
@@ -3056,6 +3092,26 @@ count(1) as actualHosNum,
 		group by pd.hospitalName 
 	) inNumTemp where h.dsmCode = inNumTemp.dsmCode and h.rsmRegion = inNumTemp.rsmRegion 
 ) coreInNum,
+(	
+	select IFNULL(sum(pdw_core.lsnum),0) 
+	from tbl_pediatrics_data_weekly pdw_core, tbl_hospital h_core 
+	where h_core.code = pdw_core.hospitalCode 
+	and h_core.dragonType='Core' 
+	and h_core.region = h.region 
+	and h_core.rsmRegion = h.rsmRegion 
+	and h_core.dsmCode = h.dsmCode 
+	and pdw_core.duration = pdw.duration 	
+) as coreLsNum,
+(
+	select IFNULL(sum(pdw_core.pnum),0) 
+	from tbl_pediatrics_data_weekly pdw_core, tbl_hospital h_core 
+	where h_core.code = pdw_core.hospitalCode 
+	and h_core.dragonType='Core' 
+	and h_core.region = h.region 
+	and h_core.rsmRegion = h.rsmRegion 
+	and h_core.dsmCode = h.dsmCode 
+	and pdw_core.duration = pdw.duration 	
+) as corePNum,
 IFNULL(sum(pdw.pnum),0) as pnum, 
 IFNULL(sum(pdw.lsnum),0) as lsnum, 
 IFNULL(sum(pdw.portNum),0) as portNum, 
@@ -5258,6 +5314,18 @@ order by pdw.duration desc]]></xml-property>
                     <text-property name="heading">coreInNum</text-property>
                 </structure>
                 <structure>
+                    <property name="columnName">coreLsNum</property>
+                    <property name="analysis">measure</property>
+                    <text-property name="displayName">coreLsNum</text-property>
+                    <text-property name="heading">coreLsNum</text-property>
+                </structure>
+                <structure>
+                    <property name="columnName">corePNum</property>
+                    <property name="analysis">measure</property>
+                    <text-property name="displayName">corePNum</text-property>
+                    <text-property name="heading">corePNum</text-property>
+                </structure>
+                <structure>
                     <property name="columnName">pnum</property>
                     <property name="analysis">measure</property>
                     <text-property name="displayName">pnum</text-property>
@@ -5467,41 +5535,51 @@ new Date(currentDate.getFullYear(),month,currentDate.getDate());</expression>
                     </structure>
                     <structure>
                         <property name="position">8</property>
-                        <property name="name">pnum</property>
+                        <property name="name">coreLsNum</property>
                         <property name="dataType">decimal</property>
                     </structure>
                     <structure>
                         <property name="position">9</property>
-                        <property name="name">lsnum</property>
+                        <property name="name">corePNum</property>
                         <property name="dataType">decimal</property>
                     </structure>
                     <structure>
                         <property name="position">10</property>
-                        <property name="name">portNum</property>
+                        <property name="name">pnum</property>
                         <property name="dataType">decimal</property>
                     </structure>
                     <structure>
                         <property name="position">11</property>
-                        <property name="name">averageDose</property>
+                        <property name="name">lsnum</property>
                         <property name="dataType">decimal</property>
                     </structure>
                     <structure>
                         <property name="position">12</property>
-                        <property name="name">hmgRate</property>
+                        <property name="name">portNum</property>
                         <property name="dataType">decimal</property>
                     </structure>
                     <structure>
                         <property name="position">13</property>
-                        <property name="name">omgRate</property>
+                        <property name="name">averageDose</property>
                         <property name="dataType">decimal</property>
                     </structure>
                     <structure>
                         <property name="position">14</property>
-                        <property name="name">tmgRate</property>
+                        <property name="name">hmgRate</property>
                         <property name="dataType">decimal</property>
                     </structure>
                     <structure>
                         <property name="position">15</property>
+                        <property name="name">omgRate</property>
+                        <property name="dataType">decimal</property>
+                    </structure>
+                    <structure>
+                        <property name="position">16</property>
+                        <property name="name">tmgRate</property>
+                        <property name="dataType">decimal</property>
+                    </structure>
+                    <structure>
+                        <property name="position">17</property>
                         <property name="name">fmgRate</property>
                         <property name="dataType">decimal</property>
                     </structure>
@@ -5560,55 +5638,69 @@ new Date(currentDate.getFullYear(),month,currentDate.getDate());</expression>
                 </structure>
                 <structure>
                     <property name="position">8</property>
+                    <property name="name">coreLsNum</property>
+                    <property name="nativeName">coreLsNum</property>
+                    <property name="dataType">decimal</property>
+                    <property name="nativeDataType">3</property>
+                </structure>
+                <structure>
+                    <property name="position">9</property>
+                    <property name="name">corePNum</property>
+                    <property name="nativeName">corePNum</property>
+                    <property name="dataType">decimal</property>
+                    <property name="nativeDataType">3</property>
+                </structure>
+                <structure>
+                    <property name="position">10</property>
                     <property name="name">pnum</property>
                     <property name="nativeName">pnum</property>
                     <property name="dataType">decimal</property>
                     <property name="nativeDataType">3</property>
                 </structure>
                 <structure>
-                    <property name="position">9</property>
+                    <property name="position">11</property>
                     <property name="name">lsnum</property>
                     <property name="nativeName">lsnum</property>
                     <property name="dataType">decimal</property>
                     <property name="nativeDataType">3</property>
                 </structure>
                 <structure>
-                    <property name="position">10</property>
+                    <property name="position">12</property>
                     <property name="name">portNum</property>
                     <property name="nativeName">portNum</property>
                     <property name="dataType">decimal</property>
                     <property name="nativeDataType">3</property>
                 </structure>
                 <structure>
-                    <property name="position">11</property>
+                    <property name="position">13</property>
                     <property name="name">averageDose</property>
                     <property name="nativeName">averageDose</property>
                     <property name="dataType">decimal</property>
                     <property name="nativeDataType">3</property>
                 </structure>
                 <structure>
-                    <property name="position">12</property>
+                    <property name="position">14</property>
                     <property name="name">hmgRate</property>
                     <property name="nativeName">hmgRate</property>
                     <property name="dataType">decimal</property>
                     <property name="nativeDataType">3</property>
                 </structure>
                 <structure>
-                    <property name="position">13</property>
+                    <property name="position">15</property>
                     <property name="name">omgRate</property>
                     <property name="nativeName">omgRate</property>
                     <property name="dataType">decimal</property>
                     <property name="nativeDataType">3</property>
                 </structure>
                 <structure>
-                    <property name="position">14</property>
+                    <property name="position">16</property>
                     <property name="name">tmgRate</property>
                     <property name="nativeName">tmgRate</property>
                     <property name="dataType">decimal</property>
                     <property name="nativeDataType">3</property>
                 </structure>
                 <structure>
-                    <property name="position">15</property>
+                    <property name="position">17</property>
                     <property name="name">fmgRate</property>
                     <property name="nativeName">fmgRate</property>
                     <property name="dataType">decimal</property>
@@ -5667,6 +5759,24 @@ count(1) as actualHosNum,
 		) inNumTemp 
 		where h.rsmRegion = inNumTemp.rsmRegion 
 ) coreInNum,
+(	
+	select IFNULL(sum(pdw_core.lsnum),0) 
+	from tbl_pediatrics_data_weekly pdw_core, tbl_hospital h_core 
+	where h_core.code = pdw_core.hospitalCode 
+	and h_core.dragonType='Core' 
+	and h_core.region = h.region 
+	and pdw_core.duration = pdw.duration 
+	and h_core.rsmRegion = h.rsmRegion 
+) as coreLsNum,
+(
+	select IFNULL(sum(pdw_core.pnum),0) 
+	from tbl_pediatrics_data_weekly pdw_core, tbl_hospital h_core 
+	where h_core.code = pdw_core.hospitalCode 
+	and h_core.dragonType='Core' 
+	and h_core.region = h.region 
+	and pdw_core.duration = pdw.duration 
+	and h_core.rsmRegion = h.rsmRegion 
+) as corePNum,
 IFNULL(sum(pdw.pnum),0) as pnum, 
 IFNULL(sum(pdw.lsnum),0) as lsnum, 
 IFNULL(sum(pdw.portNum),0) as portNum, 
@@ -6365,7 +6475,7 @@ order by h1.duration desc;]]></xml-property>
             <property name="verticalAlign">middle</property>
             <property name="pageBreakAfter">avoid</property>
             <property name="canShrink">false</property>
-            <property name="width">9.40625in</property>
+            <property name="width">9.447916666666666in</property>
             <property name="dataSet">weelyPEDRSMDataSet</property>
             <list-property name="boundDataColumns">
                 <structure>
@@ -6852,6 +6962,74 @@ dataSetRow["inNum"]/dataSetRow["hosNum"]&#13;
                     <property name="dataType">float</property>
                     <property name="allowExport">true</property>
                 </structure>
+                <structure>
+                    <property name="name">coreWhRate</property>
+                    <text-property name="displayName">coreWhRate</text-property>
+                    <expression name="expression" type="javascript">if( dataSetRow["corePNum"] == 0 ){&#13;
+	0&#13;
+}else{&#13;
+	dataSetRow["coreLsNum"]/dataSetRow["corePNum"]&#13;
+}</expression>
+                    <property name="dataType">float</property>
+                    <property name="allowExport">true</property>
+                </structure>
+                <structure>
+                    <property name="name">coreLsNum</property>
+                    <text-property name="displayName">coreLsNum</text-property>
+                    <expression name="expression" type="javascript">dataSetRow["coreLsNum"]</expression>
+                    <property name="dataType">integer</property>
+                    <property name="allowExport">true</property>
+                </structure>
+                <structure>
+                    <property name="name">corePNum</property>
+                    <text-property name="displayName">corePNum</text-property>
+                    <expression name="expression" type="javascript">dataSetRow["corePNum"]</expression>
+                    <property name="dataType">integer</property>
+                    <property name="allowExport">true</property>
+                </structure>
+                <structure>
+                    <property name="name">portNum_1</property>
+                    <text-property name="displayName">portNum</text-property>
+                    <expression name="expression" type="javascript">dataSetRow["portNum"]</expression>
+                    <property name="dataType">decimal</property>
+                </structure>
+                <structure>
+                    <property name="name">corePNumTotal</property>
+                    <text-property name="displayName">corePNumTotal</text-property>
+                    <property name="dataType">integer</property>
+                    <property name="aggregateFunction">SUM</property>
+                    <list-property name="arguments">
+                        <structure>
+                            <property name="name">Expression</property>
+                            <expression name="value" type="javascript">row["corePNum"]</expression>
+                        </structure>
+                    </list-property>
+                    <property name="allowExport">true</property>
+                </structure>
+                <structure>
+                    <property name="name">coreLsNumTotal</property>
+                    <text-property name="displayName">coreLsNumTotal</text-property>
+                    <property name="dataType">integer</property>
+                    <property name="aggregateFunction">SUM</property>
+                    <list-property name="arguments">
+                        <structure>
+                            <property name="name">Expression</property>
+                            <expression name="value" type="javascript">row["coreLsNum"]</expression>
+                        </structure>
+                    </list-property>
+                    <property name="allowExport">true</property>
+                </structure>
+                <structure>
+                    <property name="name">coreWhRateTotal</property>
+                    <text-property name="displayName">coreWhRateTotal</text-property>
+                    <expression name="expression" type="javascript">if( row["corePNumTotal"] == 0 ){&#13;
+	0&#13;
+}else{&#13;
+	row["coreLsNumTotal"]/row["corePNumTotal"]&#13;
+}</expression>
+                    <property name="dataType">float</property>
+                    <property name="allowExport">true</property>
+                </structure>
             </list-property>
             <method name="onPrepare"><![CDATA[count = 0;]]></method>
             <column id="1560">
@@ -6875,35 +7053,39 @@ dataSetRow["inNum"]/dataSetRow["hosNum"]&#13;
             </column>
             <column id="1565">
                 <property name="textAlign">right</property>
-                <property name="width">1in</property>
+                <property name="width">0.71875in</property>
+            </column>
+            <column id="4463">
+                <property name="textAlign">right</property>
+                <property name="width">0.7291666666666666in</property>
             </column>
             <column id="1566">
                 <property name="textAlign">right</property>
-                <property name="width">0.625in</property>
+                <property name="width">0.6875in</property>
             </column>
             <column id="4449">
                 <property name="textAlign">right</property>
-                <property name="width">1.125in</property>
+                <property name="width">0.7083333333333334in</property>
             </column>
             <column id="1567">
                 <property name="textAlign">right</property>
-                <property name="width">0.75in</property>
+                <property name="width">0.6458333333333334in</property>
             </column>
             <column id="1568">
                 <property name="textAlign">right</property>
-                <property name="width">0.5833333333333334in</property>
+                <property name="width">0.6666666666666666in</property>
             </column>
             <column id="1569">
                 <property name="textAlign">right</property>
-                <property name="width">0.6458333333333334in</property>
+                <property name="width">0.6354166666666666in</property>
             </column>
             <column id="1570">
                 <property name="textAlign">right</property>
-                <property name="width">0.6666666666666666in</property>
+                <property name="width">0.6041666666666666in</property>
             </column>
             <column id="1571">
                 <property name="textAlign">right</property>
-                <property name="width">0.5729166666666666in</property>
+                <property name="width">0.6145833333333334in</property>
             </column>
             <header>
                 <row id="1484">
@@ -6921,7 +7103,7 @@ dataSetRow["inNum"]/dataSetRow["hosNum"]&#13;
                     <property name="borderTopColor">#000000</property>
                     <property name="borderTopStyle">solid</property>
                     <property name="borderTopWidth">1px</property>
-                    <property name="height">0.28125in</property>
+                    <property name="height">0.4895833333333333in</property>
                     <cell id="1485">
                         <property name="borderBottomColor">#000000</property>
                         <property name="borderBottomStyle">solid</property>
@@ -7040,6 +7222,26 @@ dataSetRow["inNum"]/dataSetRow["hosNum"]&#13;
                             <property name="color">white</property>
                             <property name="textAlign">center</property>
                             <text-property name="text">雾化令舒人数</text-property>
+                        </label>
+                    </cell>
+                    <cell id="4460">
+                        <property name="borderBottomColor">#000000</property>
+                        <property name="borderBottomStyle">solid</property>
+                        <property name="borderBottomWidth">1px</property>
+                        <property name="borderLeftColor">#000000</property>
+                        <property name="borderLeftStyle">solid</property>
+                        <property name="borderLeftWidth">1px</property>
+                        <property name="borderRightColor">#000000</property>
+                        <property name="borderRightStyle">solid</property>
+                        <property name="borderRightWidth">1px</property>
+                        <property name="borderTopColor">#000000</property>
+                        <property name="borderTopStyle">solid</property>
+                        <property name="borderTopWidth">1px</property>
+                        <label id="4464">
+                            <property name="fontWeight">normal</property>
+                            <property name="color">white</property>
+                            <property name="textAlign">center</property>
+                            <text-property name="text">Core医院雾化率</text-property>
                         </label>
                     </cell>
                     <cell id="1497">
@@ -7298,6 +7500,23 @@ dataSetRow["inNum"]/dataSetRow["hosNum"]&#13;
                             <property name="resultSetColumn">lsnum</property>
                         </data>
                     </cell>
+                    <cell id="4461">
+                        <property name="borderBottomStyle">solid</property>
+                        <property name="borderBottomWidth">thin</property>
+                        <property name="borderLeftStyle">solid</property>
+                        <property name="borderLeftWidth">thin</property>
+                        <property name="borderRightStyle">solid</property>
+                        <property name="borderRightWidth">thin</property>
+                        <property name="borderTopStyle">solid</property>
+                        <property name="borderTopWidth">thin</property>
+                        <data id="4465">
+                            <structure name="numberFormat">
+                                <property name="category">Percent</property>
+                                <property name="pattern">###0.0%{RoundingMode=HALF_UP}</property>
+                            </structure>
+                            <property name="resultSetColumn">coreWhRate</property>
+                        </data>
+                    </cell>
                     <cell id="1523">
                         <property name="borderBottomStyle">solid</property>
                         <property name="borderBottomWidth">thin</property>
@@ -7529,6 +7748,23 @@ dataSetRow["inNum"]/dataSetRow["hosNum"]&#13;
                                 <property name="pattern">#,##0{RoundingMode=HALF_UP}</property>
                             </structure>
                             <property name="resultSetColumn">lsnumRSMTotal</property>
+                        </data>
+                    </cell>
+                    <cell id="4462">
+                        <property name="borderBottomStyle">solid</property>
+                        <property name="borderBottomWidth">1px</property>
+                        <property name="borderLeftStyle">solid</property>
+                        <property name="borderLeftWidth">1px</property>
+                        <property name="borderRightStyle">solid</property>
+                        <property name="borderRightWidth">1px</property>
+                        <property name="borderTopStyle">solid</property>
+                        <property name="borderTopWidth">2px</property>
+                        <data id="4466">
+                            <structure name="numberFormat">
+                                <property name="category">Percent</property>
+                                <property name="pattern">###0.0%{RoundingMode=HALF_UP}</property>
+                            </structure>
+                            <property name="resultSetColumn">coreWhRateTotal</property>
                         </data>
                     </cell>
                     <cell id="1548">
@@ -19918,7 +20154,7 @@ dataSetRow["inNum"]/dataSetRow["hosNum"]&#13;
             <property name="verticalAlign">middle</property>
             <property name="pageBreakAfter">avoid</property>
             <property name="canShrink">false</property>
-            <property name="width">9.40625in</property>
+            <property name="width">9.416666666666666in</property>
             <property name="dataSet">weelyPEDDSMDataSet</property>
             <list-property name="boundDataColumns">
                 <structure>
@@ -20405,6 +20641,74 @@ dataSetRow["inNum"]/dataSetRow["hosNum"]&#13;
                     <property name="dataType">float</property>
                     <property name="allowExport">true</property>
                 </structure>
+                <structure>
+                    <property name="name">coreLsNum</property>
+                    <text-property name="displayName">coreLsNum</text-property>
+                    <expression name="expression" type="javascript">dataSetRow["coreLsNum"]</expression>
+                    <property name="dataType">integer</property>
+                    <property name="allowExport">true</property>
+                </structure>
+                <structure>
+                    <property name="name">corePNum</property>
+                    <text-property name="displayName">corePNum</text-property>
+                    <expression name="expression" type="javascript">dataSetRow["corePNum"]</expression>
+                    <property name="dataType">integer</property>
+                    <property name="allowExport">true</property>
+                </structure>
+                <structure>
+                    <property name="name">portNum_1</property>
+                    <text-property name="displayName">portNum</text-property>
+                    <expression name="expression" type="javascript">dataSetRow["portNum"]</expression>
+                    <property name="dataType">decimal</property>
+                </structure>
+                <structure>
+                    <property name="name">corePNumTotal</property>
+                    <text-property name="displayName">corePNumTotal</text-property>
+                    <property name="dataType">integer</property>
+                    <property name="aggregateFunction">SUM</property>
+                    <list-property name="arguments">
+                        <structure>
+                            <property name="name">Expression</property>
+                            <expression name="value" type="javascript">row["corePNum"]</expression>
+                        </structure>
+                    </list-property>
+                    <property name="allowExport">true</property>
+                </structure>
+                <structure>
+                    <property name="name">coreLsNumTotal</property>
+                    <text-property name="displayName">coreLsNumTotal</text-property>
+                    <property name="dataType">integer</property>
+                    <property name="aggregateFunction">SUM</property>
+                    <list-property name="arguments">
+                        <structure>
+                            <property name="name">Expression</property>
+                            <expression name="value" type="javascript">row["coreLsNum"]</expression>
+                        </structure>
+                    </list-property>
+                    <property name="allowExport">true</property>
+                </structure>
+                <structure>
+                    <property name="name">coreWhRate</property>
+                    <text-property name="displayName">coreWhRate</text-property>
+                    <expression name="expression" type="javascript">if( dataSetRow["corePNum"] == 0 ){&#13;
+	0&#13;
+}else{&#13;
+	dataSetRow["coreLsNum"]/dataSetRow["corePNum"]&#13;
+}</expression>
+                    <property name="dataType">float</property>
+                    <property name="allowExport">true</property>
+                </structure>
+                <structure>
+                    <property name="name">coreWhRateTotal</property>
+                    <text-property name="displayName">coreWhRateTotal</text-property>
+                    <expression name="expression" type="javascript">if( row["corePNumTotal"] == 0 ){&#13;
+	0&#13;
+}else{&#13;
+	row["coreLsNumTotal"]/row["corePNumTotal"]&#13;
+}</expression>
+                    <property name="dataType">float</property>
+                    <property name="allowExport">true</property>
+                </structure>
             </list-property>
             <method name="onPrepare"><![CDATA[count = 0;]]></method>
             <column id="1471">
@@ -20428,23 +20732,27 @@ dataSetRow["inNum"]/dataSetRow["hosNum"]&#13;
             </column>
             <column id="1476">
                 <property name="textAlign">right</property>
-                <property name="width">1in</property>
+                <property name="width">0.6979166666666666in</property>
+            </column>
+            <column id="4470">
+                <property name="textAlign">right</property>
+                <property name="width">0.7708333333333334in</property>
             </column>
             <column id="1477">
                 <property name="textAlign">right</property>
-                <property name="width">0.6145833333333334in</property>
+                <property name="width">0.6979166666666666in</property>
             </column>
             <column id="4456">
                 <property name="textAlign">right</property>
-                <property name="width">1.0833333333333333in</property>
+                <property name="width">0.71875in</property>
             </column>
             <column id="1478">
                 <property name="textAlign">right</property>
-                <property name="width">0.7604166666666666in</property>
+                <property name="width">0.7083333333333334in</property>
             </column>
             <column id="1479">
                 <property name="textAlign">right</property>
-                <property name="width">0.65625in</property>
+                <property name="width">0.5625in</property>
             </column>
             <column id="1480">
                 <property name="textAlign">right</property>
@@ -20452,7 +20760,7 @@ dataSetRow["inNum"]/dataSetRow["hosNum"]&#13;
             </column>
             <column id="1481">
                 <property name="textAlign">right</property>
-                <property name="width">0.625in</property>
+                <property name="width">0.59375in</property>
             </column>
             <column id="1482">
                 <property name="textAlign">right</property>
@@ -20474,7 +20782,7 @@ dataSetRow["inNum"]/dataSetRow["hosNum"]&#13;
                     <property name="borderTopColor">#000000</property>
                     <property name="borderTopStyle">solid</property>
                     <property name="borderTopWidth">1px</property>
-                    <property name="height">0.28125in</property>
+                    <property name="height">0.4479166666666667in</property>
                     <cell id="1397">
                         <property name="fontFamily">"Arial"</property>
                         <property name="borderBottomColor">#000000</property>
@@ -20600,6 +20908,27 @@ dataSetRow["inNum"]/dataSetRow["hosNum"]&#13;
                             <property name="color">white</property>
                             <property name="textAlign">center</property>
                             <text-property name="text">雾化令舒人数</text-property>
+                        </label>
+                    </cell>
+                    <cell id="4467">
+                        <property name="borderBottomColor">#000000</property>
+                        <property name="borderBottomStyle">solid</property>
+                        <property name="borderBottomWidth">1px</property>
+                        <property name="borderLeftColor">#000000</property>
+                        <property name="borderLeftStyle">solid</property>
+                        <property name="borderLeftWidth">1px</property>
+                        <property name="borderRightColor">#000000</property>
+                        <property name="borderRightStyle">solid</property>
+                        <property name="borderRightWidth">1px</property>
+                        <property name="borderTopColor">#000000</property>
+                        <property name="borderTopStyle">solid</property>
+                        <property name="borderTopWidth">1px</property>
+                        <property name="textAlign">center</property>
+                        <label id="4471">
+                            <property name="fontWeight">normal</property>
+                            <property name="color">white</property>
+                            <property name="textAlign">center</property>
+                            <text-property name="text">Core医院雾化率</text-property>
                         </label>
                     </cell>
                     <cell id="1409">
@@ -20860,6 +21189,23 @@ dataSetRow["inNum"]/dataSetRow["hosNum"]&#13;
                             <property name="resultSetColumn">lsnum</property>
                         </data>
                     </cell>
+                    <cell id="4468">
+                        <property name="borderBottomStyle">solid</property>
+                        <property name="borderBottomWidth">thin</property>
+                        <property name="borderLeftStyle">solid</property>
+                        <property name="borderLeftWidth">thin</property>
+                        <property name="borderRightStyle">solid</property>
+                        <property name="borderRightWidth">thin</property>
+                        <property name="borderTopStyle">solid</property>
+                        <property name="borderTopWidth">thin</property>
+                        <data id="4472">
+                            <structure name="numberFormat">
+                                <property name="category">Percent</property>
+                                <property name="pattern">###0.0%{RoundingMode=HALF_UP}</property>
+                            </structure>
+                            <property name="resultSetColumn">coreWhRate</property>
+                        </data>
+                    </cell>
                     <cell id="1434">
                         <property name="borderBottomStyle">solid</property>
                         <property name="borderBottomWidth">thin</property>
@@ -21091,6 +21437,23 @@ dataSetRow["inNum"]/dataSetRow["hosNum"]&#13;
                                 <property name="pattern">#,##0{RoundingMode=HALF_UP}</property>
                             </structure>
                             <property name="resultSetColumn">lsnumRSMTotal</property>
+                        </data>
+                    </cell>
+                    <cell id="4469">
+                        <property name="borderBottomStyle">solid</property>
+                        <property name="borderBottomWidth">1px</property>
+                        <property name="borderLeftStyle">solid</property>
+                        <property name="borderLeftWidth">1px</property>
+                        <property name="borderRightStyle">solid</property>
+                        <property name="borderRightWidth">1px</property>
+                        <property name="borderTopStyle">solid</property>
+                        <property name="borderTopWidth">2px</property>
+                        <data id="4473">
+                            <structure name="numberFormat">
+                                <property name="category">Percent</property>
+                                <property name="pattern">###0.0%{RoundingMode=HALF_UP}</property>
+                            </structure>
+                            <property name="resultSetColumn">coreWhRateTotal</property>
                         </data>
                     </cell>
                     <cell id="1459">
