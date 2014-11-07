@@ -12,26 +12,26 @@ public class HomeWeeklyData {
     private double newWhNum;
     
     /**
-     * 持续期治疗率.
-     * “处方>=8天的哮喘持续期病人次”统加/“哮喘*患者人次”统加
+     * 维持期治疗率.
+     * “处方>=8天的哮喘维持期病人次”统加/“哮喘*患者人次”统加
      */
     private double cureRate;
     
     /**
-     * 推荐使用令舒的人次.
-     * “持续期病人中推荐使用令舒的人次”统加
+     * 维持期推荐使用令舒的人次.
+     * “维持期病人中推荐使用令舒的人次”统加
      */
     private double lsnum;
     
     /**
-     * 持续期令舒比例.
-     * “持续期病人中推荐使用令舒的人次”统加/“处方>=8天的哮喘持续期病人次” 统加
+     * 维持期令舒比例.
+     * “维持期病人中推荐使用令舒的人次”统加/“处方>=8天的哮喘维持期病人次” 统加
      */
     private double lsRate;
     
     /**
      * 家庭雾化疗程达标率（DOT>=30天）.
-     * “DOT>=30天,病人次”统加/“持续期病人中推荐使用令舒的人次”统加
+     * “DOT>=30天,病人次”统加/“维持期病人中推荐使用令舒的人次”统加
      */
     private double reachRate;
     
@@ -76,8 +76,8 @@ public class HomeWeeklyData {
     }
 
     /**
-     * 持续期治疗率.
-     * “处方>=8天的哮喘持续期病人次”统加/“哮喘*患者人次”统加
+     * 维持期治疗率.
+     * “处方>=8天的哮喘维持期病人次”统加/“哮喘*患者人次”统加
      * @return double
      */
     public double getCureRate() {
@@ -85,8 +85,8 @@ public class HomeWeeklyData {
     }
 
     /**
-     * 持续期治疗率.
-     * “处方>=8天的哮喘持续期病人次”统加/“哮喘*患者人次”统加
+     * 维持期治疗率.
+     * “处方>=8天的哮喘维持期病人次”统加/“哮喘*患者人次”统加
      * @param cureRate double
      */
     public void setCureRate(double cureRate) {
@@ -94,8 +94,8 @@ public class HomeWeeklyData {
     }
 
     /**
-     * 推荐使用令舒的人次.
-     * “持续期病人中推荐使用令舒的人次”统加
+     * 维持期推荐使用令舒的人次.
+     * “维持期病人中推荐使用令舒的人次”统加
      * @return double
      */
     public double getLsnum() {
@@ -103,7 +103,7 @@ public class HomeWeeklyData {
     }
 
     /**
-     * 推荐使用令舒的人次.
+     * 维持期推荐使用令舒的人次.
      * @param lsnum
      */
     public void setLsnum(double lsnum) {

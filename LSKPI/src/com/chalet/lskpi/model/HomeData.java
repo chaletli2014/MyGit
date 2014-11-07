@@ -22,11 +22,11 @@ public class HomeData {
      */
     private int asthmanum;
     /**
-     * 处方>=8天的哮喘持续期病人次.
+     * 处方>=8天的哮喘维持期病人次.
      */
     private int ltenum;
     /**
-     * 持续期病人中推荐使用令舒的人次.
+     * 维持期病人中推荐使用令舒的人次.
      */
     private int lsnum;
     /**
@@ -88,28 +88,28 @@ public class HomeData {
         this.asthmanum = asthmanum;
     }
     /**
-     * 处方>=8天的哮喘持续期病人次.
+     * 处方>=8天的哮喘维持期病人次.
      * @return int
      */
     public int getLtenum() {
         return ltenum;
     }
     /**
-     * 处方>=8天的哮喘持续期病人次.
+     * 处方>=8天的哮喘维持期病人次.
      * @param ltenum int
      */
     public void setLtenum(int ltenum) {
         this.ltenum = ltenum;
     }
     /**
-     * 持续期病人中推荐使用令舒的人次.
+     * 维持期病人中推荐使用令舒的人次.
      * @return int
      */
     public int getLsnum() {
         return lsnum;
     }
     /**
-     * 持续期病人中推荐使用令舒的人次.
+     * 维持期病人中推荐使用令舒的人次.
      * @param lsnum int
      */
     public void setLsnum(int lsnum) {

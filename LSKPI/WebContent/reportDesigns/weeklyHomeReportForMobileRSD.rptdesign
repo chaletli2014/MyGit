@@ -6140,7 +6140,7 @@ group by hd.duration, h.rsmRegion;]]></xml-property>
       <Visible>true</Visible>
       <Label>
         <Caption>
-          <Value>持续期治疗率</Value>
+          <Value>维持期治疗率</Value>
           <Font>
             <Name>Microsoft YaHei UI</Name>
             <Size>16.0</Size>
@@ -7724,7 +7724,7 @@ group by hd.duration, h.rsmRegion;]]></xml-property>
       <Visible>true</Visible>
       <Label>
         <Caption>
-          <Value>推荐使用令舒的人次</Value>
+          <Value>维持期推荐使用令舒的人次</Value>
           <Font>
             <Name>Microsoft YaHei UI</Name>
             <Size>16.0</Size>
@@ -9311,7 +9311,7 @@ group by hd.duration, h.rsmRegion;]]></xml-property>
       <Visible>true</Visible>
       <Label>
         <Caption>
-          <Value>持续期令舒比例</Value>
+          <Value>维持期令舒比例</Value>
           <Font>
             <Name>Microsoft YaHei UI</Name>
             <Size>16.0</Size>
@@ -15675,7 +15675,7 @@ group by hd.duration, h.rsmRegion;]]></xml-property>
       <Visible>true</Visible>
       <Label>
         <Caption>
-          <Value>持续期治疗率</Value>
+          <Value>维持期治疗率</Value>
           <Font>
             <Name>Microsoft YaHei UI</Name>
             <Size>16.0</Size>
@@ -17258,7 +17258,7 @@ group by hd.duration, h.rsmRegion;]]></xml-property>
       <Visible>true</Visible>
       <Label>
         <Caption>
-          <Value>推荐使用令舒的人次</Value>
+          <Value>维持期推荐使用令舒的人次</Value>
           <Font>
             <Name>Microsoft YaHei UI</Name>
             <Size>16.0</Size>
@@ -18845,7 +18845,7 @@ group by hd.duration, h.rsmRegion;]]></xml-property>
       <Visible>true</Visible>
       <Label>
         <Caption>
-          <Value>持续期令舒比例</Value>
+          <Value>维持期令舒比例</Value>
           <Font>
             <Name>Microsoft YaHei UI</Name>
             <Size>16.0</Size>

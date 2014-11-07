@@ -45,7 +45,7 @@ function checkForm(){
 	}
 	
 	if( Number($("#efnum").val()) + Number($("#ftnum").val()) + Number($("#lttnum").val()) != Number($("#lsnum").val()) ){
-		showCustomrizedMessage("8到15天，15到30天和大于30天的病人数相加应等于持续期病人中推荐使用令舒的人数");
+		showCustomrizedMessage("8到15天，15到30天和大于30天的病人数相加应等于维持期病人中推荐使用令舒的人数");
 		return false;
 	}
 	return true;
@@ -88,15 +88,15 @@ function checkForm(){
 	                <input type="number" name="asthmanum" id="asthmanum"  value="${existedData.asthmanum==null?0:existedData.asthmanum}" <%if(noInput){%>readonly="readonly" disabled="disabled"<%}%>/>
 	            </div>
                	<div data-role="fieldcontain" class="formCollection">
-	                <label for="ltenum" id="ltenum_label">处方≥8天的哮喘持续期病人数</label>
+	                <label for="ltenum" id="ltenum_label">处方≥8天的哮喘维持期病人数</label>
 	                <input type="number" name="ltenum" id="ltenum"  value="${existedData.ltenum==null?0:existedData.ltenum}" <%if(noInput){%>readonly="readonly" disabled="disabled"<%}%>/>
 	            </div>
                	<div data-role="fieldcontain" class="formCollection">
-	                <label for="lsnum" id="lsnum_label">持续期病人中推荐使用令舒的人数</label>
+	                <label for="lsnum" id="lsnum_label">维持期病人中推荐使用令舒的人数</label>
 	                <input type="number" name="lsnum" id="lsnum"  value="${existedData.lsnum==null?0:existedData.lsnum}" <%if(noInput){%>readonly="readonly" disabled="disabled"<%}%>/>
 	            </div>
 	            <div data-role="fieldcontain" class="formCollection">
-	            	<label>以下三个病人数之和=持续期病人中推荐使用令舒的人数</label>
+	            	<label>以下三个病人数之和=维持期病人中推荐使用令舒的人数</label>
 	            </div>
                	<div data-role="fieldcontain" class="formCollection">
 	                <label for="efnum" id="efnum_label">8≤DOT<15天，病人数</label>

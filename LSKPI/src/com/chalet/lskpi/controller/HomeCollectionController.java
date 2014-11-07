@@ -456,9 +456,9 @@ public class HomeCollectionController extends BaseController{
         int salenum = StringUtils.getIntegerFromString(request.getParameter("salenum"));
         //哮喘*患者人次.
         int asthmanum = StringUtils.getIntegerFromString(request.getParameter("asthmanum"));
-        //处方>=8天的哮喘持续期病人次
+        //处方>=8天的哮喘维持期病人次
         int ltenum = StringUtils.getIntegerFromString(request.getParameter("ltenum"));
-        //持续期病人中推荐使用令舒的人次
+        //维持期病人中推荐使用令舒的人次
         int lsnum = StringUtils.getIntegerFromString(request.getParameter("lsnum"));
         //8<=DOT<15天，病人次.
         int efnum = StringUtils.getIntegerFromString(request.getParameter("efnum"));

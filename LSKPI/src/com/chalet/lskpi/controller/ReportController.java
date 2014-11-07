@@ -747,13 +747,13 @@ public class ReportController extends BaseController{
                 
                 row.createCell(9, XSSFCell.CELL_TYPE_STRING).setCellValue("");
                 
-                row.createCell(10, XSSFCell.CELL_TYPE_STRING).setCellValue("持续期治疗");
+                row.createCell(10, XSSFCell.CELL_TYPE_STRING).setCellValue("维持期治疗");
                 row.createCell(11, XSSFCell.CELL_TYPE_STRING).setCellValue("");
                 row.createCell(12, XSSFCell.CELL_TYPE_STRING).setCellValue("");
                 sheet.addMergedRegion(new Region(0, (short)10, 0, (short)12));
                 row.getCell(10).setCellStyle(topStyle);
                 
-                row.createCell(13, XSSFCell.CELL_TYPE_STRING).setCellValue("持续期令舒治疗天数（DOT)");
+                row.createCell(13, XSSFCell.CELL_TYPE_STRING).setCellValue("维持期令舒治疗天数（DOT)");
                 row.createCell(14, XSSFCell.CELL_TYPE_STRING).setCellValue("");
                 row.createCell(15, XSSFCell.CELL_TYPE_STRING).setCellValue("");
                 sheet.addMergedRegion(new Region(0, (short)13, 0, (short)15));
@@ -806,11 +806,11 @@ public class ReportController extends BaseController{
                 num1Cell.setCellStyle(top2Style);
                 
                 HSSFCell num2Cell = row.createCell(11, XSSFCell.CELL_TYPE_STRING);
-                num2Cell.setCellValue("处方>=8天的哮喘持续期病人次");
+                num2Cell.setCellValue("处方>=8天的哮喘维持期病人次");
                 num2Cell.setCellStyle(top2Style);
                 
                 HSSFCell num3Cell = row.createCell(12, XSSFCell.CELL_TYPE_STRING);
-                num3Cell.setCellValue("持续期病人中推荐使用令舒的人次");
+                num3Cell.setCellValue("维持期推荐使用令舒的人次");
                 num3Cell.setCellStyle(top2Style);
                 
                 HSSFCell num4Cell = row.createCell(13, XSSFCell.CELL_TYPE_STRING);
@@ -1029,15 +1029,15 @@ public class ReportController extends BaseController{
     			dsmCell.setCellStyle(top2Style);
     			
     			HSSFCell psrCell = row.createCell(6, XSSFCell.CELL_TYPE_STRING);
-    			psrCell.setCellValue("持续期治疗率");
+    			psrCell.setCellValue("维持期治疗率");
     			psrCell.setCellStyle(top2Style);
     			
     			HSSFCell hosCodeCell = row.createCell(7, XSSFCell.CELL_TYPE_STRING);
-    			hosCodeCell.setCellValue("推荐使用令舒的人次");
+    			hosCodeCell.setCellValue("维持期推荐使用令舒的人次");
     			hosCodeCell.setCellStyle(top2Style);
     			
     			HSSFCell hosNameCell = row.createCell(8, XSSFCell.CELL_TYPE_STRING);
-    			hosNameCell.setCellValue("持续期令舒比例");
+    			hosNameCell.setCellValue("维持期令舒比例");
     			hosNameCell.setCellStyle(top2Style);
     			
     			HSSFCell drNameCell = row.createCell(9, XSSFCell.CELL_TYPE_STRING);

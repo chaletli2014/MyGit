@@ -28,9 +28,9 @@
 					    <td width="10%">总目标医生数</td>
 					    <td width="10%">上周新增医生数</td>
 					    <td width="12%">卖/赠泵数量</td>
-					    <td width="12%">持续期治疗率</td>
-					    <td width="12%">推荐使用令舒的人次</td>
-					    <td width="12%">持续期令舒比例</td>
+					    <td width="12%">维持期治疗率</td>
+					    <td width="12%">维持期推荐使用令舒的人次</td>
+					    <td width="12%">维持期令舒比例</td>
 					    <td width="12%">家庭雾化疗程达标率（DOT>=30天）</td>
 					</tr>
                    <c:forEach items="${homeWeeklyDataList}" var="homeWeeklyData" varStatus="status">
@@ -74,9 +74,9 @@
 						    <td width="10%">总目标医生数</td>
 						    <td width="10%">上周新增医生数</td>
 						    <td width="12%">卖/赠泵数量</td>
-						    <td width="12%">持续期治疗率</td>
-						    <td width="12%">推荐使用令舒的人次</td>
-						    <td width="12%">持续期令舒比例</td>
+						    <td width="12%">维持期治疗率</td>
+						    <td width="12%">维持期推荐使用令舒的人次</td>
+						    <td width="12%">维持期令舒比例</td>
 						    <td width="12%">家庭雾化疗程达标率（DOT>=30天）</td>
 						</tr>
 	                   <c:forEach items="${lowerHomeWeeklyDataList}" var="homeWeeklyData" varStatus="status">
@@ -111,9 +111,9 @@
 					    <td width="10%">总目标医生数</td>
 					    <td width="10%">上周新增医生数</td>
 					    <td width="12%">卖/赠泵数量</td>
-					    <td width="12%">持续期治疗率</td>
-					    <td width="12%">推荐使用令舒的人次</td>
-					    <td width="12%">持续期令舒比例</td>
+					    <td width="12%">维持期治疗率</td>
+					    <td width="12%">维持期推荐使用令舒的人次</td>
+					    <td width="12%">维持期令舒比例</td>
 					    <td width="12%">家庭雾化疗程达标率（DOT>=30天）</td>
 					</tr>
                    <c:forEach items="${rsmReportData}" var="homeWeeklyData" varStatus="status">
