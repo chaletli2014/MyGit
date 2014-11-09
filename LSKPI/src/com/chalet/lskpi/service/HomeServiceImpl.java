@@ -212,7 +212,7 @@ public class HomeServiceImpl implements HomeService {
 	@Override
 	public void backupDoctors(int dayInWeek) throws Exception {
         String duration = "";
-		if( dayInWeek == 4 ){
+        if( dayInWeek > 3 || dayInWeek == 0 ){
 			Date beginDate = DateUtils.getHomeCollectionBegionDate(new Date());
 	        Date endDate = new Date(beginDate.getTime() + 6 * 24 * 60 * 60 * 1000);
 	        duration = DateUtils.populateDuration(beginDate, endDate);
@@ -235,7 +235,7 @@ public class HomeServiceImpl implements HomeService {
 	
 	public void removeOldDoctors(int dayInWeek) throws Exception{
 		String duration = "";
-		if( dayInWeek == 4 ){
+		if( dayInWeek > 3 || dayInWeek == 0 ){
 			Date beginDate = DateUtils.getHomeCollectionBegionDate(new Date());
 	        Date endDate = new Date(beginDate.getTime() + 6 * 24 * 60 * 60 * 1000);
 	        duration = DateUtils.populateDuration(beginDate, endDate);

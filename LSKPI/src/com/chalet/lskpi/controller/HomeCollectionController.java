@@ -150,6 +150,17 @@ public class HomeCollectionController extends BaseController{
             
             hospitalService.insertDoctor(doctor);
             logger.info(String.format("user %s add new doctor successfully!", currentUserTel));
+            
+            int dayInWeek = new Date().getDay();
+            if( dayInWeek > 3 || dayInWeek == 0 ){
+            	logger.info("start to refresh the doctor weekly table.");
+            	homeService.removeOldDoctors(dayInWeek);
+            	logger.info("end to remove the doctor weekly table.");
+        		homeService.backupDoctors(dayInWeek);
+        		logger.info("end to backup the doctor weekly table.");
+            }
+            
+            
         }catch(Exception e){
             logger.error("fail to add doctor,"+e.getMessage());
             request.getSession().setAttribute(LsAttributes.COLLECT_HOMEDATA_MESSAGE, LsAttributes.RETURNED_MESSAGE_1);
@@ -308,6 +319,15 @@ public class HomeCollectionController extends BaseController{
             
             hospitalService.deleteDoctor(doctor);
             logger.info(String.format("user %s delete doctor successfully!", currentUserTel));
+            
+            int dayInWeek = new Date().getDay();
+            if( dayInWeek > 3 || dayInWeek == 0 ){
+            	logger.info("start to refresh the doctor weekly table.");
+            	homeService.removeOldDoctors(dayInWeek);
+            	logger.info("end to remove the doctor weekly table.");
+        		homeService.backupDoctors(dayInWeek);
+        		logger.info("end to backup the doctor weekly table.");
+            }
         }catch(CustomrizedExceptioin ce){
             logger.error("fail to delete doctor,"+ce.getMessage());
             request.getSession().setAttribute(LsAttributes.COLLECT_HOMEDATA_MESSAGE, ce.getMessage());
