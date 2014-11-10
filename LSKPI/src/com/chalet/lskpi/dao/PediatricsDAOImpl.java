@@ -1212,11 +1212,11 @@ public class PediatricsDAOImpl implements PediatricsDAO {
 		
 		mobilePEDDailySQL.append("select null as userCode,")
 		.append(" (select count(1) from tbl_hospital h where h.isPedAssessed='1' and h.dragonType='Core' ) coreHosNum, ")
-		.append(" count(1) as coreInNum ")
+		.append(" pd.coreInNum ")
 		.append(" ,IFNULL(pd.pnum,0) as corePNum ")
 		.append(" ,IFNULL(pd.lsnum,0) as coreLsNum ")
 		.append(" from ( ")
-		.append("   select ped.id,IFNULL(sum(ped.pnum),0) as pnum,IFNULL(sum(ped.lsnum),0) as lsnum from tbl_pediatrics_data ped, tbl_hospital h ")
+		.append("   select count(1) as coreInNum,IFNULL(sum(ped.pnum),0) as pnum,IFNULL(sum(ped.lsnum),0) as lsnum from tbl_pediatrics_data ped, tbl_hospital h ")
 		.append("   where ped.hospitalName = h.name ")
 		.append("   and TO_DAYS(ped.createdate) = TO_DAYS(?) ")
 		.append("   and h.isPedAssessed='1' ")

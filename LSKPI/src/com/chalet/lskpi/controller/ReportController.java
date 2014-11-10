@@ -1298,7 +1298,7 @@ public class ReportController extends BaseController{
         
         try{
             String telephone = (String)request.getSession().getAttribute(LsAttributes.CURRENT_OPERATOR);
-            logger.info("daily RES report, the current user is " + telephone);
+            logger.info("daily PED report, the current user is " + telephone);
             
             List<MobilePEDDailyData> mobilePEDData = pediatricsService.getDailyPEDData4Mobile(telephone,currentUser);
             logger.info("get daily ped data for mobile end...");
