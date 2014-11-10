@@ -124,248 +124,6 @@ new Date(currentDate.getFullYear(),month,currentDate.getDate());</expression>
                     <property name="isInput">true</property>
                     <property name="isOutput">false</property>
                 </structure>
-                <structure>
-                    <property name="name">param_2</property>
-                    <property name="paramName">paramDate</property>
-                    <property name="nativeName"></property>
-                    <property name="dataType">string</property>
-                    <property name="nativeDataType">-3</property>
-                    <property name="position">2</property>
-                    <expression name="defaultValue" type="javascript">var currentDate = new Date();&#13;
-var month = currentDate.getMonth();&#13;
-&#13;
-if( currentDate.getDay() == 0 ){&#13;
-    currentDate.setDate(currentDate.getDate() - 2 );&#13;
-}else if( currentDate.getDay() == 1 ){&#13;
-    currentDate.setDate(currentDate.getDate() - 3 );&#13;
-}else{&#13;
-	currentDate.setDate(currentDate.getDate() - 1 );&#13;
-}&#13;
-new Date(currentDate.getFullYear(),month,currentDate.getDate());</expression>
-                    <property name="isOptional">true</property>
-                    <property name="allowNull">true</property>
-                    <property name="isInput">true</property>
-                    <property name="isOutput">false</property>
-                </structure>
-                <structure>
-                    <property name="name">param_3</property>
-                    <property name="paramName">paramDate</property>
-                    <property name="nativeName"></property>
-                    <property name="dataType">string</property>
-                    <property name="nativeDataType">-3</property>
-                    <property name="position">3</property>
-                    <expression name="defaultValue" type="javascript">var currentDate = new Date();&#13;
-var month = currentDate.getMonth();&#13;
-&#13;
-if( currentDate.getDay() == 0 ){&#13;
-    currentDate.setDate(currentDate.getDate() - 2 );&#13;
-}else if( currentDate.getDay() == 1 ){&#13;
-    currentDate.setDate(currentDate.getDate() - 3 );&#13;
-}else{&#13;
-	currentDate.setDate(currentDate.getDate() - 1 );&#13;
-}&#13;
-new Date(currentDate.getFullYear(),month,currentDate.getDate());</expression>
-                    <property name="isOptional">true</property>
-                    <property name="allowNull">true</property>
-                    <property name="isInput">true</property>
-                    <property name="isOutput">false</property>
-                </structure>
-                <structure>
-                    <property name="name">param_4</property>
-                    <property name="paramName">paramDate</property>
-                    <property name="nativeName"></property>
-                    <property name="dataType">string</property>
-                    <property name="nativeDataType">-3</property>
-                    <property name="position">4</property>
-                    <expression name="defaultValue" type="javascript">var currentDate = new Date();&#13;
-var month = currentDate.getMonth();&#13;
-&#13;
-if( currentDate.getDay() == 0 ){&#13;
-    currentDate.setDate(currentDate.getDate() - 2 );&#13;
-}else if( currentDate.getDay() == 1 ){&#13;
-    currentDate.setDate(currentDate.getDate() - 3 );&#13;
-}else{&#13;
-	currentDate.setDate(currentDate.getDate() - 1 );&#13;
-}&#13;
-new Date(currentDate.getFullYear(),month,currentDate.getDate());</expression>
-                    <property name="isOptional">true</property>
-                    <property name="allowNull">true</property>
-                    <property name="isInput">true</property>
-                    <property name="isOutput">false</property>
-                </structure>
-                <structure>
-                    <property name="name">param_5</property>
-                    <property name="paramName">paramDate</property>
-                    <property name="nativeName"></property>
-                    <property name="dataType">string</property>
-                    <property name="nativeDataType">-3</property>
-                    <property name="position">5</property>
-                    <expression name="defaultValue" type="javascript">var currentDate = new Date();&#13;
-var month = currentDate.getMonth();&#13;
-&#13;
-if( currentDate.getDay() == 0 ){&#13;
-    currentDate.setDate(currentDate.getDate() - 2 );&#13;
-}else if( currentDate.getDay() == 1 ){&#13;
-    currentDate.setDate(currentDate.getDate() - 3 );&#13;
-}else{&#13;
-	currentDate.setDate(currentDate.getDate() - 1 );&#13;
-}&#13;
-new Date(currentDate.getFullYear(),month,currentDate.getDate());</expression>
-                    <property name="isOptional">true</property>
-                    <property name="allowNull">true</property>
-                    <property name="isInput">true</property>
-                    <property name="isOutput">false</property>
-                </structure>
-                <structure>
-                    <property name="name">param_6</property>
-                    <property name="paramName">paramDate</property>
-                    <property name="nativeName"></property>
-                    <property name="dataType">string</property>
-                    <property name="nativeDataType">-3</property>
-                    <property name="position">6</property>
-                    <expression name="defaultValue" type="javascript">var currentDate = new Date();&#13;
-var month = currentDate.getMonth();&#13;
-&#13;
-if( currentDate.getDay() == 0 ){&#13;
-    currentDate.setDate(currentDate.getDate() - 2 );&#13;
-}else if( currentDate.getDay() == 1 ){&#13;
-    currentDate.setDate(currentDate.getDate() - 3 );&#13;
-}else{&#13;
-	currentDate.setDate(currentDate.getDate() - 1 );&#13;
-}&#13;
-new Date(currentDate.getFullYear(),month,currentDate.getDate());</expression>
-                    <property name="isOptional">true</property>
-                    <property name="allowNull">true</property>
-                    <property name="isInput">true</property>
-                    <property name="isOutput">false</property>
-                </structure>
-                <structure>
-                    <property name="name">param_7</property>
-                    <property name="paramName">paramDate</property>
-                    <property name="nativeName"></property>
-                    <property name="dataType">string</property>
-                    <property name="nativeDataType">-3</property>
-                    <property name="position">7</property>
-                    <expression name="defaultValue" type="javascript">var currentDate = new Date();&#13;
-var month = currentDate.getMonth();&#13;
-&#13;
-if( currentDate.getDay() == 0 ){&#13;
-    currentDate.setDate(currentDate.getDate() - 2 );&#13;
-}else if( currentDate.getDay() == 1 ){&#13;
-    currentDate.setDate(currentDate.getDate() - 3 );&#13;
-}else{&#13;
-	currentDate.setDate(currentDate.getDate() - 1 );&#13;
-}&#13;
-new Date(currentDate.getFullYear(),month,currentDate.getDate());</expression>
-                    <property name="isOptional">true</property>
-                    <property name="allowNull">true</property>
-                    <property name="isInput">true</property>
-                    <property name="isOutput">false</property>
-                </structure>
-                <structure>
-                    <property name="name">param_8</property>
-                    <property name="paramName">paramDate</property>
-                    <property name="nativeName"></property>
-                    <property name="dataType">string</property>
-                    <property name="nativeDataType">-3</property>
-                    <property name="position">8</property>
-                    <expression name="defaultValue" type="javascript">var currentDate = new Date();&#13;
-var month = currentDate.getMonth();&#13;
-&#13;
-if( currentDate.getDay() == 0 ){&#13;
-    currentDate.setDate(currentDate.getDate() - 2 );&#13;
-}else if( currentDate.getDay() == 1 ){&#13;
-    currentDate.setDate(currentDate.getDate() - 3 );&#13;
-}else{&#13;
-	currentDate.setDate(currentDate.getDate() - 1 );&#13;
-}&#13;
-new Date(currentDate.getFullYear(),month,currentDate.getDate());</expression>
-                    <property name="isOptional">true</property>
-                    <property name="allowNull">true</property>
-                    <property name="isInput">true</property>
-                    <property name="isOutput">false</property>
-                </structure>
-                <structure>
-                    <property name="name">param_9</property>
-                    <property name="paramName">paramDate</property>
-                    <property name="nativeName"></property>
-                    <property name="dataType">string</property>
-                    <property name="nativeDataType">-3</property>
-                    <property name="position">9</property>
-                    <expression name="defaultValue" type="javascript">var currentDate = new Date();&#13;
-var month = currentDate.getMonth();&#13;
-&#13;
-if( currentDate.getDay() == 0 ){&#13;
-    currentDate.setDate(currentDate.getDate() - 2 );&#13;
-}else if( currentDate.getDay() == 1 ){&#13;
-    currentDate.setDate(currentDate.getDate() - 3 );&#13;
-}else{&#13;
-	currentDate.setDate(currentDate.getDate() - 1 );&#13;
-}&#13;
-new Date(currentDate.getFullYear(),month,currentDate.getDate());</expression>
-                    <property name="isOptional">true</property>
-                    <property name="allowNull">true</property>
-                    <property name="isInput">true</property>
-                    <property name="isOutput">false</property>
-                </structure>
-                <structure>
-                    <property name="name">param_10</property>
-                    <property name="paramName">paramDate</property>
-                    <property name="nativeName"></property>
-                    <property name="dataType">string</property>
-                    <property name="nativeDataType">-3</property>
-                    <property name="position">10</property>
-                    <expression name="defaultValue" type="javascript">var currentDate = new Date();&#13;
-var month = currentDate.getMonth();&#13;
-&#13;
-if( currentDate.getDay() == 0 ){&#13;
-    currentDate.setDate(currentDate.getDate() - 2 );&#13;
-}else if( currentDate.getDay() == 1 ){&#13;
-    currentDate.setDate(currentDate.getDate() - 3 );&#13;
-}else{&#13;
-	currentDate.setDate(currentDate.getDate() - 1 );&#13;
-}&#13;
-new Date(currentDate.getFullYear(),month,currentDate.getDate());</expression>
-                    <property name="isOptional">true</property>
-                    <property name="allowNull">true</property>
-                    <property name="isInput">true</property>
-                    <property name="isOutput">false</property>
-                </structure>
-                <structure>
-                    <property name="name">param_11</property>
-                    <property name="paramName">paramDate</property>
-                    <property name="nativeName"></property>
-                    <property name="dataType">string</property>
-                    <property name="nativeDataType">-3</property>
-                    <property name="position">11</property>
-                    <expression name="defaultValue" type="javascript">var currentDate = new Date();&#13;
-var month = currentDate.getMonth();&#13;
-&#13;
-if( currentDate.getDay() == 0 ){&#13;
-    currentDate.setDate(currentDate.getDate() - 2 );&#13;
-}else if( currentDate.getDay() == 1 ){&#13;
-    currentDate.setDate(currentDate.getDate() - 3 );&#13;
-}else{&#13;
-	currentDate.setDate(currentDate.getDate() - 1 );&#13;
-}&#13;
-new Date(currentDate.getFullYear(),month,currentDate.getDate());</expression>
-                    <property name="isOptional">true</property>
-                    <property name="allowNull">true</property>
-                    <property name="isInput">true</property>
-                    <property name="isOutput">false</property>
-                </structure>
-                <structure>
-                    <property name="name">param_12</property>
-                    <property name="paramName">paramDate</property>
-                    <property name="nativeName"></property>
-                    <property name="dataType">string</property>
-                    <property name="nativeDataType">-3</property>
-                    <property name="position">12</property>
-                    <property name="isOptional">true</property>
-                    <property name="allowNull">true</property>
-                    <property name="isInput">true</property>
-                    <property name="isOutput">false</property>
-                </structure>
             </list-property>
             <structure name="cachedMetaData">
                 <list-property name="resultSet">
@@ -577,109 +335,51 @@ new Date(currentDate.getFullYear(),month,currentDate.getDate());</expression>
                     <property name="dataType">decimal</property>
                 </structure>
             </list-property>
-            <xml-property name="queryText"><![CDATA[select u.name,u.userCode,u.regionCenter,u.region,u.level, ( 
+            <xml-property name="queryText"><![CDATA[select 
+ui.name,ui.userCode,ui.regionCenter,ui.region,ui.level
+,( 
     select count(1) from tbl_hospital h 
-    where h.dsmCode = u.userCode 
-    and h.rsmRegion = u.region 
+    where h.dsmCode = ui.userCode 
+    and h.rsmRegion = ui.region 
     and h.isResAssessed='1' 
-) hosNum, (
-    select count(1) 
-    from tbl_respirology_data rd, tbl_hospital h1 
+) hosNum
+,IFNULL(res_data.inNum,0) as inNum
+,IFNULL(res_data.pnum,0) as pnum
+,IFNULL(res_data.whnum,0) as whnum
+,IFNULL(res_data.lsnum,0) as lsnum
+,IFNULL(res_data.aenum,0) as aenum
+,IFNULL(res_data.averageDose,0) as averageDose
+,IFNULL(res_data.omgRate,0) as omgRate
+,IFNULL(res_data.tmgRate,0) as tmgRate
+,IFNULL(res_data.thmgRate,0) as thmgRate
+,IFNULL(res_data.fmgRate,0) as fmgRate 
+,IFNULL(res_data.smgRate,0) as smgRate 
+,IFNULL(res_data.emgRate,0) as emgRate 
+from(
+select u.name,u.userCode,u.regionCenter,u.region,u.level
+,count(1) as inNum
+,IFNULL(sum(rd.pnum),0) as pnum
+,IFNULL(sum(rd.whnum),0) as whnum
+,IFNULL(sum(rd.lsnum),0) as lsnum 
+,IFNULL(sum(rd.aenum),0) as aenum
+,IFNULL( sum( ( ( 1*IFNULL(rd.oqd,0) + 2*1*IFNULL(rd.tqd,0) + 1*3*IFNULL(rd.otid,0) + 2*2*IFNULL(rd.tbid,0) + 2*3*IFNULL(rd.ttid,0) + 3*2*IFNULL(rd.thbid,0) + 4*2*IFNULL(rd.fbid,0) ) / 100 ) * IFNULL(rd.lsnum,0) ) / IFNULL(sum(rd.lsnum),0),0 ) as averageDose
+,IFNULL( sum( IFNULL(rd.oqd,0)/100*IFNULL(rd.lsnum,0) ) / sum( IFNULL(rd.lsnum,0) ),0 ) as omgRate
+,IFNULL( sum( IFNULL(rd.tqd,0)/100*IFNULL(rd.lsnum,0) ) / sum( IFNULL(rd.lsnum,0) ),0 ) as tmgRate 
+,IFNULL( sum( IFNULL(rd.otid,0)/100*IFNULL(rd.lsnum,0) ) / sum( IFNULL(rd.lsnum,0) ),0 ) as thmgRate 
+,IFNULL( sum( IFNULL(rd.tbid,0)/100*IFNULL(rd.lsnum,0) ) / sum( IFNULL(rd.lsnum,0) ),0 ) as fmgRate
+,IFNULL( sum( IFNULL(rd.ttid,0)/100*IFNULL(rd.lsnum,0) + IFNULL(rd.thbid,0)/100*IFNULL(rd.lsnum,0) ) / sum( IFNULL(rd.lsnum,0) ),0 ) as smgRate
+,IFNULL( sum( IFNULL(rd.fbid,0)/100*IFNULL(rd.lsnum,0) ) / sum( IFNULL(rd.lsnum,0) ),0 ) as emgRate
+from tbl_respirology_data rd, tbl_hospital h1, tbl_userinfo u 
     where rd.hospitalName = h1.name 
     and h1.rsmRegion = u.region 
     and h1.dsmCode = u.userCode 
     and DATE_FORMAT(rd.createdate,'%m-%d-%Y') = ? 
     and h1.isResAssessed='1' 
-) inNum, (
-    select IFNULL(sum(rd.pnum),0) 
-    from tbl_respirology_data rd, tbl_hospital h1 
-    where rd.hospitalName = h1.name 
-    and h1.rsmRegion = u.region 
-    and h1.dsmCode = u.userCode 
-    and DATE_FORMAT(rd.createdate,'%m-%d-%Y') = ? 
-    and h1.isResAssessed='1' 
-) pnum, (
-    select IFNULL(sum(rd.whnum),0) 
-    from tbl_respirology_data rd, tbl_hospital h1 
-    where rd.hospitalName = h1.name 
-    and h1.rsmRegion = u.region 
-    and h1.dsmCode = u.userCode 
-    and DATE_FORMAT(rd.createdate,'%m-%d-%Y') = ? 
-    and h1.isResAssessed='1' 
-) whnum, (
-    select IFNULL(sum(rd.lsnum),0) 
-    from tbl_respirology_data rd, tbl_hospital h1 
-    where rd.hospitalName = h1.name 
-    and h1.rsmRegion = u.region 
-    and h1.dsmCode = u.userCode 
-    and DATE_FORMAT(rd.createdate,'%m-%d-%Y') = ? 
-    and h1.isResAssessed='1' 
-) lsnum, (
-    select IFNULL(sum(rd.aenum),0) 
-    from tbl_respirology_data rd, tbl_hospital h1 
-    where rd.hospitalName = h1.name 
-    and h1.rsmRegion = u.region 
-    and h1.dsmCode = u.userCode 
-    and DATE_FORMAT(rd.createdate,'%m-%d-%Y') = ? 
-    and h1.isResAssessed='1' 
-) aenum, (
-    select IFNULL( sum( ( ( 1*IFNULL(rd.oqd,0) + 2*1*IFNULL(rd.tqd,0) + 1*3*IFNULL(rd.otid,0) + 2*2*IFNULL(rd.tbid,0) + 2*3*IFNULL(rd.ttid,0) + 3*2*IFNULL(rd.thbid,0) + 4*2*IFNULL(rd.fbid,0) ) / 100 ) * IFNULL(rd.lsnum,0) ) / IFNULL(sum(rd.lsnum),0),0 )
-    from tbl_respirology_data rd, tbl_hospital h1 
-    where rd.hospitalName = h1.name 
-    and h1.rsmRegion = u.region 
-    and h1.dsmCode = u.userCode 
-    and DATE_FORMAT(rd.createdate,'%m-%d-%Y') = ? 
-    and h1.isResAssessed='1' 
-) averageDose, (
-    select IFNULL( sum( IFNULL(rd.oqd,0)/100*IFNULL(rd.lsnum,0) ) / sum( IFNULL(rd.lsnum,0) ),0 )
-    from tbl_respirology_data rd, tbl_hospital h1 
-    where rd.hospitalName = h1.name 
-    and h1.rsmRegion = u.region 
-    and h1.dsmCode = u.userCode 
-    and DATE_FORMAT(rd.createdate,'%m-%d-%Y') = ? 
-    and h1.isResAssessed='1' 
-) omgRate, (
-    select IFNULL( sum( IFNULL(rd.tqd,0)/100*IFNULL(rd.lsnum,0) ) / sum( IFNULL(rd.lsnum,0) ),0 )
-    from tbl_respirology_data rd, tbl_hospital h1 
-    where rd.hospitalName = h1.name 
-    and h1.rsmRegion = u.region 
-    and h1.dsmCode = u.userCode 
-    and DATE_FORMAT(rd.createdate,'%m-%d-%Y') = ? 
-    and h1.isResAssessed='1' 
-) tmgRate, (
-    select IFNULL( sum( IFNULL(rd.otid,0)/100*IFNULL(rd.lsnum,0) ) / sum( IFNULL(rd.lsnum,0) ),0 )
-    from tbl_respirology_data rd, tbl_hospital h1 
-    where rd.hospitalName = h1.name 
-    and h1.rsmRegion = u.region 
-    and h1.dsmCode = u.userCode 
-    and DATE_FORMAT(rd.createdate,'%m-%d-%Y') = ? 
-    and h1.isResAssessed='1' 
-) thmgRate, (
-    select IFNULL( sum( IFNULL(rd.tbid,0)/100*IFNULL(rd.lsnum,0) ) / sum( IFNULL(rd.lsnum,0) ),0 )
-    from tbl_respirology_data rd, tbl_hospital h1 
-    where rd.hospitalName = h1.name 
-    and h1.rsmRegion = u.region 
-    and h1.dsmCode = u.userCode 
-    and DATE_FORMAT(rd.createdate,'%m-%d-%Y') = ? 
-    and h1.isResAssessed='1' 
-) fmgRate, (
-    select IFNULL( sum( IFNULL(rd.ttid,0)/100*IFNULL(rd.lsnum,0) + IFNULL(rd.thbid,0)/100*IFNULL(rd.lsnum,0) ) / sum( IFNULL(rd.lsnum,0) ),0 ) 
-    from tbl_respirology_data rd, tbl_hospital h1 
-    where rd.hospitalName = h1.name 
-    and h1.rsmRegion = u.region 
-    and h1.dsmCode = u.userCode 
-    and DATE_FORMAT(rd.createdate,'%m-%d-%Y') = ? 
-    and h1.isResAssessed='1' 
-) smgRate, (
-    select IFNULL( sum( IFNULL(rd.fbid,0)/100*IFNULL(rd.lsnum,0) ) / sum( IFNULL(rd.lsnum,0) ),0 ) 
-    from tbl_respirology_data rd, tbl_hospital h1 
-    where rd.hospitalName = h1.name 
-    and h1.rsmRegion = u.region 
-    and h1.dsmCode = u.userCode 
-    and DATE_FORMAT(rd.createdate,'%m-%d-%Y') = ? 
-    and h1.isResAssessed='1' 
-) emgRate
-from tbl_userinfo u where u.level='DSM';]]></xml-property>
+	and u.level='DSM' 
+	group by u.regionCenter,u.region,u.userCode 
+) res_data 
+right join tbl_userinfo ui on res_data.userCode = ui.userCode and res_data.regionCenter = ui.regionCenter and res_data.region = ui.region 
+where ui.level='DSM';]]></xml-property>
             <xml-property name="designerValues"><![CDATA[<?xml version="1.0" encoding="UTF-8"?>
 <model:DesignValues xmlns:design="http://www.eclipse.org/datatools/connectivity/oda/design" xmlns:model="http://www.eclipse.org/birt/report/model/adapter/odaModel">
   <Version>2.0</Version>
@@ -691,226 +391,6 @@ from tbl_userinfo u where u.level='DSM';]]></xml-property>
           <design:identifier>
             <design:name></design:name>
             <design:position>1</design:position>
-          </design:identifier>
-          <design:nativeDataTypeCode>-3</design:nativeDataTypeCode>
-          <design:precision>0</design:precision>
-          <design:scale>0</design:scale>
-          <design:nullability>Nullable</design:nullability>
-        </design:attributes>
-        <design:inputAttributes>
-          <design:elementAttributes>
-            <design:optional>true</design:optional>
-          </design:elementAttributes>
-        </design:inputAttributes>
-      </design:ParameterDefinition>
-    </parameter>
-    <parameter>
-      <design:ParameterDefinition>
-        <design:inOutMode>In</design:inOutMode>
-        <design:attributes>
-          <design:identifier>
-            <design:name></design:name>
-            <design:position>2</design:position>
-          </design:identifier>
-          <design:nativeDataTypeCode>-3</design:nativeDataTypeCode>
-          <design:precision>0</design:precision>
-          <design:scale>0</design:scale>
-          <design:nullability>Nullable</design:nullability>
-        </design:attributes>
-        <design:inputAttributes>
-          <design:elementAttributes>
-            <design:optional>true</design:optional>
-          </design:elementAttributes>
-        </design:inputAttributes>
-      </design:ParameterDefinition>
-    </parameter>
-    <parameter>
-      <design:ParameterDefinition>
-        <design:inOutMode>In</design:inOutMode>
-        <design:attributes>
-          <design:identifier>
-            <design:name></design:name>
-            <design:position>3</design:position>
-          </design:identifier>
-          <design:nativeDataTypeCode>-3</design:nativeDataTypeCode>
-          <design:precision>0</design:precision>
-          <design:scale>0</design:scale>
-          <design:nullability>Nullable</design:nullability>
-        </design:attributes>
-        <design:inputAttributes>
-          <design:elementAttributes>
-            <design:optional>true</design:optional>
-          </design:elementAttributes>
-        </design:inputAttributes>
-      </design:ParameterDefinition>
-    </parameter>
-    <parameter>
-      <design:ParameterDefinition>
-        <design:inOutMode>In</design:inOutMode>
-        <design:attributes>
-          <design:identifier>
-            <design:name></design:name>
-            <design:position>4</design:position>
-          </design:identifier>
-          <design:nativeDataTypeCode>-3</design:nativeDataTypeCode>
-          <design:precision>0</design:precision>
-          <design:scale>0</design:scale>
-          <design:nullability>Nullable</design:nullability>
-        </design:attributes>
-        <design:inputAttributes>
-          <design:elementAttributes>
-            <design:optional>true</design:optional>
-          </design:elementAttributes>
-        </design:inputAttributes>
-      </design:ParameterDefinition>
-    </parameter>
-    <parameter>
-      <design:ParameterDefinition>
-        <design:inOutMode>In</design:inOutMode>
-        <design:attributes>
-          <design:identifier>
-            <design:name></design:name>
-            <design:position>5</design:position>
-          </design:identifier>
-          <design:nativeDataTypeCode>-3</design:nativeDataTypeCode>
-          <design:precision>0</design:precision>
-          <design:scale>0</design:scale>
-          <design:nullability>Nullable</design:nullability>
-        </design:attributes>
-        <design:inputAttributes>
-          <design:elementAttributes>
-            <design:optional>true</design:optional>
-          </design:elementAttributes>
-        </design:inputAttributes>
-      </design:ParameterDefinition>
-    </parameter>
-    <parameter>
-      <design:ParameterDefinition>
-        <design:inOutMode>In</design:inOutMode>
-        <design:attributes>
-          <design:identifier>
-            <design:name></design:name>
-            <design:position>6</design:position>
-          </design:identifier>
-          <design:nativeDataTypeCode>-3</design:nativeDataTypeCode>
-          <design:precision>0</design:precision>
-          <design:scale>0</design:scale>
-          <design:nullability>Nullable</design:nullability>
-        </design:attributes>
-        <design:inputAttributes>
-          <design:elementAttributes>
-            <design:optional>true</design:optional>
-          </design:elementAttributes>
-        </design:inputAttributes>
-      </design:ParameterDefinition>
-    </parameter>
-    <parameter>
-      <design:ParameterDefinition>
-        <design:inOutMode>In</design:inOutMode>
-        <design:attributes>
-          <design:identifier>
-            <design:name></design:name>
-            <design:position>7</design:position>
-          </design:identifier>
-          <design:nativeDataTypeCode>-3</design:nativeDataTypeCode>
-          <design:precision>0</design:precision>
-          <design:scale>0</design:scale>
-          <design:nullability>Nullable</design:nullability>
-        </design:attributes>
-        <design:inputAttributes>
-          <design:elementAttributes>
-            <design:optional>true</design:optional>
-          </design:elementAttributes>
-        </design:inputAttributes>
-      </design:ParameterDefinition>
-    </parameter>
-    <parameter>
-      <design:ParameterDefinition>
-        <design:inOutMode>In</design:inOutMode>
-        <design:attributes>
-          <design:identifier>
-            <design:name></design:name>
-            <design:position>8</design:position>
-          </design:identifier>
-          <design:nativeDataTypeCode>-3</design:nativeDataTypeCode>
-          <design:precision>0</design:precision>
-          <design:scale>0</design:scale>
-          <design:nullability>Nullable</design:nullability>
-        </design:attributes>
-        <design:inputAttributes>
-          <design:elementAttributes>
-            <design:optional>true</design:optional>
-          </design:elementAttributes>
-        </design:inputAttributes>
-      </design:ParameterDefinition>
-    </parameter>
-    <parameter>
-      <design:ParameterDefinition>
-        <design:inOutMode>In</design:inOutMode>
-        <design:attributes>
-          <design:identifier>
-            <design:name></design:name>
-            <design:position>9</design:position>
-          </design:identifier>
-          <design:nativeDataTypeCode>-3</design:nativeDataTypeCode>
-          <design:precision>0</design:precision>
-          <design:scale>0</design:scale>
-          <design:nullability>Nullable</design:nullability>
-        </design:attributes>
-        <design:inputAttributes>
-          <design:elementAttributes>
-            <design:optional>true</design:optional>
-          </design:elementAttributes>
-        </design:inputAttributes>
-      </design:ParameterDefinition>
-    </parameter>
-    <parameter>
-      <design:ParameterDefinition>
-        <design:inOutMode>In</design:inOutMode>
-        <design:attributes>
-          <design:identifier>
-            <design:name></design:name>
-            <design:position>10</design:position>
-          </design:identifier>
-          <design:nativeDataTypeCode>-3</design:nativeDataTypeCode>
-          <design:precision>0</design:precision>
-          <design:scale>0</design:scale>
-          <design:nullability>Nullable</design:nullability>
-        </design:attributes>
-        <design:inputAttributes>
-          <design:elementAttributes>
-            <design:optional>true</design:optional>
-          </design:elementAttributes>
-        </design:inputAttributes>
-      </design:ParameterDefinition>
-    </parameter>
-    <parameter>
-      <design:ParameterDefinition>
-        <design:inOutMode>In</design:inOutMode>
-        <design:attributes>
-          <design:identifier>
-            <design:name></design:name>
-            <design:position>11</design:position>
-          </design:identifier>
-          <design:nativeDataTypeCode>-3</design:nativeDataTypeCode>
-          <design:precision>0</design:precision>
-          <design:scale>0</design:scale>
-          <design:nullability>Nullable</design:nullability>
-        </design:attributes>
-        <design:inputAttributes>
-          <design:elementAttributes>
-            <design:optional>true</design:optional>
-          </design:elementAttributes>
-        </design:inputAttributes>
-      </design:ParameterDefinition>
-    </parameter>
-    <parameter>
-      <design:ParameterDefinition>
-        <design:inOutMode>In</design:inOutMode>
-        <design:attributes>
-          <design:identifier>
-            <design:name></design:name>
-            <design:position>12</design:position>
           </design:identifier>
           <design:nativeDataTypeCode>-3</design:nativeDataTypeCode>
           <design:precision>0</design:precision>
