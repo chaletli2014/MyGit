@@ -784,6 +784,9 @@ public class PediatricsServiceImpl implements PediatricsService {
     public synchronized boolean hasLastWeeklyPEDData() throws Exception {
         int count = pediatricsDAO.getLastWeeklyPEDData();
         logger.info("the last week ped data size is " + count);
+        if( !(count>0) ){
+        	this.generateWeeklyPEDDataOfHospital();
+        }
         return count>0;
     }
     

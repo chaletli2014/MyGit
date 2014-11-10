@@ -51,9 +51,11 @@ public class ReportServlet extends HttpServlet{
         if (myThread1 == null) {
             try{
                 myThread1 = new ReportThread(basePath,userService,pediatricsService,respirologyService,chestSurgeryService,hospitalService,homeService,contextPath);
+                myThread1.setName("reportThread");
                 myThread1.start();
                 
                 threadChecker = new ThreadChecker(basePath,userService,pediatricsService,respirologyService,chestSurgeryService,hospitalService,homeService,contextPath,myThread1);
+                threadChecker.setName("threadChecker");
                 threadChecker.start();
             }catch(Exception e){
                 logger.error("fail to init the thread,",e);
@@ -62,6 +64,7 @@ public class ReportServlet extends HttpServlet{
         if (pdfThread == null) {
         	try{
         		pdfThread = new PDFReportThread(basePath,userService,pediatricsService,respirologyService,chestSurgeryService,hospitalService,contextPath);
+        		pdfThread.setName("PDFReportThread");
         		pdfThread.start();
         	}catch(Exception e){
         		logger.error("fail to init the pdf thread,",e);

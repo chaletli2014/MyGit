@@ -159,30 +159,22 @@ public class ReportThread extends Thread {
                     if( dayInWeek == Integer.parseInt(CustomizedProperty.getContextProperty("weekly_report_day", "1")) ){
                         logger.info("today is Thursday, generate the last week data first");
                         
-                        if( !pediatricsService.hasLastWeeklyPEDData() ){
-                            pediatricsService.generateWeeklyPEDDataOfHospital();
-                        }else{
+                        if( pediatricsService.hasLastWeeklyPEDData() ){
                             logger.info(" the data of PED in last week is already generated");
                         }
                         logger.info(" the data of PED in last week is populated");
                         
-                        if( !respirologyService.hasLastWeeklyRESData() ){
-                            respirologyService.generateWeeklyRESDataOfHospital();
-                        }else{
+                        if( respirologyService.hasLastWeeklyRESData() ){
                             logger.info(" the data of RES in last week is already generated");
                         }
                         logger.info(" the data of RES in last week is populated");
                         
-                        if( !chestSurgeryService.hasLastWeeklyData() ){
-                            chestSurgeryService.generateWeeklyDataOfHospital();
-                        }else{
+                        if( chestSurgeryService.hasLastWeeklyData() ){
                             logger.info(" the data of chest surgery in last week is already generated");
                         }
                         logger.info(" the data of chest surgery in last week is populated");
                         
-                        if( !hospitalService.hasLastWeeklyData() ){
-                        	hospitalService.generateWeeklyDataOfHospital(DateUtils.getGenerateWeeklyReportDate());
-                        }else{
+                        if( hospitalService.hasLastWeeklyData() ){
                         	logger.info(" the data of hospital in last week is already generated");
                         }
                         logger.info(" the data of hospital in last week is populated");

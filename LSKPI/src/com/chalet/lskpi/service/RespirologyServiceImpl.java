@@ -785,6 +785,9 @@ public class RespirologyServiceImpl implements RespirologyService {
     public synchronized boolean hasLastWeeklyRESData() throws Exception {
         int count = respirologyDAO.getLastWeeklyRESData();
         logger.info("the last week res data size is " + count);
+        if( !(count>0) ){
+        	this.generateWeeklyRESDataOfHospital();
+        }
         return count>0;
     }
 

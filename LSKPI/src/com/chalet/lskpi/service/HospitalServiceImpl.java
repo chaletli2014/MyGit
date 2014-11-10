@@ -426,6 +426,9 @@ public class HospitalServiceImpl implements HospitalService {
 	public synchronized boolean hasLastWeeklyData() throws Exception {
         int count = hospitalDAO.getLastWeeklyData();
         logger.info("the last week hospital data size is " + count);
+        if( !(count>0) ){
+        	this.generateWeeklyDataOfHospital(DateUtils.getGenerateWeeklyReportDate());
+        }
         return count>0;
     }
 	

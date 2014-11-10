@@ -568,6 +568,9 @@ public class ChestSurgeryServiceImpl implements ChestSurgeryService {
     public synchronized boolean hasLastWeeklyData() throws Exception {
         int count = chestSurgeryDAO.getLastWeeklyData();
         logger.info("the last week chest surgery data size is " + count);
+        if( !(count>0) ){
+        	this.generateWeeklyDataOfHospital();
+        }
         return count>0;
     }
 }
