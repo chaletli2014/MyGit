@@ -37,6 +37,7 @@ import com.chalet.lskpi.model.ChestSurgeryData;
 import com.chalet.lskpi.model.ExportDoctor;
 import com.chalet.lskpi.model.HomeData;
 import com.chalet.lskpi.model.HomeWeeklyData;
+import com.chalet.lskpi.model.HomeWeeklyNoReportDr;
 import com.chalet.lskpi.model.KPIHospital4Export;
 import com.chalet.lskpi.model.MobileCHEDailyData;
 import com.chalet.lskpi.model.MobilePEDDailyData;
@@ -1125,6 +1126,51 @@ public class ReportController extends BaseController{
                     HSSFCell value8Cell = row.createCell(9, XSSFCell.CELL_TYPE_NUMERIC);
                     value8Cell.setCellValue(rsmDate.getReachRate());
                     value8Cell.setCellStyle(percentCellStyle);
+    			}
+    			
+    			workbook.createSheet("家庭雾化未上报医生名单");
+    			HSSFSheet sheet2 = workbook.getSheetAt(1);
+    			currentRowNum = 0;
+    			
+    			HSSFRow doctorRow = sheet2.createRow(currentRowNum++);
+    			
+    			int columnNum = 0;
+    			HSSFCell doctor_rsdCell = doctorRow.createCell(columnNum++, XSSFCell.CELL_TYPE_STRING);
+    			doctor_rsdCell.setCellValue("RSD");
+    			HSSFCell doctor_rsmCell = doctorRow.createCell(columnNum++, XSSFCell.CELL_TYPE_STRING);
+    			doctor_rsmCell.setCellValue("RSM");
+    			HSSFCell doctor_dsmCell = doctorRow.createCell(columnNum++, XSSFCell.CELL_TYPE_STRING);
+    			doctor_dsmCell.setCellValue("DSM");
+    			HSSFCell doctor_repCell = doctorRow.createCell(columnNum++, XSSFCell.CELL_TYPE_STRING);
+    			doctor_repCell.setCellValue("REP");
+    			HSSFCell doctor_hospitalNameCell = doctorRow.createCell(columnNum++, XSSFCell.CELL_TYPE_STRING);
+    			doctor_hospitalNameCell.setCellValue("医院名称");
+    			HSSFCell doctor_doctorNameCell = doctorRow.createCell(columnNum++, XSSFCell.CELL_TYPE_STRING);
+    			doctor_doctorNameCell.setCellValue("医生姓名");
+    			
+    			List<HomeWeeklyNoReportDr> noReportDrList = new ArrayList<HomeWeeklyNoReportDr>();
+    			
+    			for( HomeWeeklyNoReportDr noReportDr : noReportDrList ){
+    			    row = sheet.createRow(currentRowNum++);
+    			    columnNum = 0;
+    			 
+    			    HSSFCell rsdValueCell = row.createCell(columnNum++, XSSFCell.CELL_TYPE_STRING);
+    			    rsdValueCell.setCellValue(noReportDr.getRsd());
+    			    
+    			    HSSFCell rsmValueCell = row.createCell(columnNum++, XSSFCell.CELL_TYPE_STRING);
+    			    rsmValueCell.setCellValue(noReportDr.getRsm());
+    			    
+    			    HSSFCell dsmValueCell = row.createCell(columnNum++, XSSFCell.CELL_TYPE_STRING);
+    			    dsmValueCell.setCellValue(noReportDr.getDsm());
+    			    
+    			    HSSFCell repValueCell = row.createCell(columnNum++, XSSFCell.CELL_TYPE_STRING);
+    			    repValueCell.setCellValue(noReportDr.getRep());
+    			    
+    			    HSSFCell hospitalNameValueCell = row.createCell(columnNum++, XSSFCell.CELL_TYPE_STRING);
+    			    hospitalNameValueCell.setCellValue(noReportDr.getHospitalName());
+    			    
+    			    HSSFCell drNameValueCell = row.createCell(columnNum++, XSSFCell.CELL_TYPE_STRING);
+    			    drNameValueCell.setCellValue(noReportDr.getDoctorName());
     			}
     			
     			workbook.write(fOut);
