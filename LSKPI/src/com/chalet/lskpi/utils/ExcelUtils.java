@@ -226,6 +226,7 @@ public class ExcelUtils {
             }
             //get the data
             String hospitalCode_tmp = "";
+            Map<String, Integer> doctorCount = new HashMap<String, Integer>();
             int count = 0;
             NumberFormat nf = NumberFormat.getInstance();
             //设置是否使用分组
@@ -251,19 +252,17 @@ public class ExcelUtils {
                 String salesCode = salesCodeCell.toString();
                 
                 if( null != hospitalCode && !"#N/A".equalsIgnoreCase(hospitalCode) ){
-                	
-                	if( !hospitalCode.equalsIgnoreCase(hospitalCode_tmp) ){
-                    	hospitalCode_tmp = hospitalCode;
-                    	count = 1;
-                    }else{
-                    	count++;
-                    }
+                	if( doctorCount.containsKey(hospitalCode) ){
+                		doctorCount.put(hospitalCode, doctorCount.get(hospitalCode)+1);
+                	}else{
+                		doctorCount.put(hospitalCode, 1);
+                	}
                 	
                     Doctor doctor = new Doctor();
                     doctor.setHospitalCode(hospitalCode);
                     doctor.setName(doctorName);
                     doctor.setSalesCode(salesCode);
-                    doctor.setCode(nf.format(count));
+                    doctor.setCode(nf.format(doctorCount.get(hospitalCode)));
                     doctors.add(doctor);
                 }
             }

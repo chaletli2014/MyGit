@@ -1128,48 +1128,122 @@ public class ReportController extends BaseController{
                     value8Cell.setCellStyle(percentCellStyle);
     			}
     			
-    			workbook.createSheet("家庭雾化未上报医生名单");
+    			workbook.createSheet("未上报家庭雾化医生名单");
     			HSSFSheet sheet2 = workbook.getSheetAt(1);
     			currentRowNum = 0;
     			
     			HSSFRow doctorRow = sheet2.createRow(currentRowNum++);
     			
+                HSSFFont font = workbook.createFont();
+                font.setColor(HSSFColor.WHITE.index);
+                
+                HSSFCellStyle noReportDrTop1Style=workbook.createCellStyle();
+                noReportDrTop1Style.setAlignment(HSSFCellStyle.ALIGN_CENTER);
+                noReportDrTop1Style.setVerticalAlignment(HSSFCellStyle.VERTICAL_CENTER);
+                noReportDrTop1Style.setBorderLeft(HSSFCellStyle.BORDER_THIN);
+                noReportDrTop1Style.setBorderRight(HSSFCellStyle.BORDER_THIN);
+                noReportDrTop1Style.setLeftBorderColor(HSSFColor.BLACK.index);
+                noReportDrTop1Style.setRightBorderColor(HSSFColor.BLACK.index);
+                noReportDrTop1Style.setFillForegroundColor(HSSFColor.BLUE.index);
+                noReportDrTop1Style.setFillPattern(HSSFCellStyle.SOLID_FOREGROUND);
+                noReportDrTop1Style.setFont(font);
+                
+                HSSFCellStyle noReportDrTop2Style=workbook.createCellStyle();
+                noReportDrTop2Style.setAlignment(HSSFCellStyle.ALIGN_CENTER);
+                noReportDrTop2Style.setVerticalAlignment(HSSFCellStyle.VERTICAL_CENTER);
+                noReportDrTop2Style.setBorderLeft(HSSFCellStyle.BORDER_THIN);
+                noReportDrTop2Style.setBorderRight(HSSFCellStyle.BORDER_THIN);
+                noReportDrTop2Style.setLeftBorderColor(HSSFColor.BLACK.index);
+                noReportDrTop2Style.setRightBorderColor(HSSFColor.BLACK.index);
+                noReportDrTop2Style.setFillForegroundColor(HSSFColor.VIOLET.index);
+                noReportDrTop2Style.setFillPattern(HSSFCellStyle.SOLID_FOREGROUND);
+                noReportDrTop2Style.setFont(font);
+    			
     			int columnNum = 0;
+    			sheet2.setColumnWidth(columnNum, dateColumnWidth*256);
     			HSSFCell doctor_rsdCell = doctorRow.createCell(columnNum++, XSSFCell.CELL_TYPE_STRING);
-    			doctor_rsdCell.setCellValue("RSD");
+    			doctor_rsdCell.setCellValue("区域");
+    			doctor_rsdCell.setCellStyle(noReportDrTop1Style);
+    			
+    			sheet2.setColumnWidth(columnNum, dateColumnWidth*256);
     			HSSFCell doctor_rsmCell = doctorRow.createCell(columnNum++, XSSFCell.CELL_TYPE_STRING);
-    			doctor_rsmCell.setCellValue("RSM");
+    			doctor_rsmCell.setCellValue("大区");
+    			doctor_rsmCell.setCellStyle(noReportDrTop1Style);
+    			
+    			sheet2.setColumnWidth(columnNum, dateColumnWidth*256);
     			HSSFCell doctor_dsmCell = doctorRow.createCell(columnNum++, XSSFCell.CELL_TYPE_STRING);
     			doctor_dsmCell.setCellValue("DSM");
-    			HSSFCell doctor_repCell = doctorRow.createCell(columnNum++, XSSFCell.CELL_TYPE_STRING);
-    			doctor_repCell.setCellValue("REP");
-    			HSSFCell doctor_hospitalNameCell = doctorRow.createCell(columnNum++, XSSFCell.CELL_TYPE_STRING);
-    			doctor_hospitalNameCell.setCellValue("医院名称");
-    			HSSFCell doctor_doctorNameCell = doctorRow.createCell(columnNum++, XSSFCell.CELL_TYPE_STRING);
-    			doctor_doctorNameCell.setCellValue("医生姓名");
+    			doctor_dsmCell.setCellStyle(noReportDrTop1Style);
     			
-    			List<HomeWeeklyNoReportDr> noReportDrList = new ArrayList<HomeWeeklyNoReportDr>();
+    			sheet2.setColumnWidth(columnNum, dateColumnWidth*256);
+    			HSSFCell doctor_salesCodeCell = doctorRow.createCell(columnNum++, XSSFCell.CELL_TYPE_STRING);
+    			doctor_salesCodeCell.setCellValue("销售Code");
+    			doctor_salesCodeCell.setCellStyle(noReportDrTop1Style);
+    			
+    			sheet2.setColumnWidth(columnNum, dateColumnWidth*256);
+    			HSSFCell doctor_repCell = doctorRow.createCell(columnNum++, XSSFCell.CELL_TYPE_STRING);
+    			doctor_repCell.setCellValue("销售代表");
+    			doctor_repCell.setCellStyle(noReportDrTop1Style);
+    			
+    			sheet2.setColumnWidth(columnNum, dateColumnWidth*256);
+    			HSSFCell doctor_hospitalCodeCell = doctorRow.createCell(columnNum++, XSSFCell.CELL_TYPE_STRING);
+    			doctor_hospitalCodeCell.setCellValue("目标医院Code");
+    			doctor_hospitalCodeCell.setCellStyle(noReportDrTop2Style);
+    			
+    			sheet2.setColumnWidth(columnNum, 18*256);
+    			HSSFCell doctor_hospitalNameCell = doctorRow.createCell(columnNum++, XSSFCell.CELL_TYPE_STRING);
+    			doctor_hospitalNameCell.setCellValue("目标医院名称");
+    			doctor_hospitalNameCell.setCellStyle(noReportDrTop2Style);
+    			
+    			sheet2.setColumnWidth(columnNum, dateColumnWidth*256);
+    			HSSFCell doctor_doctorCodeCell = doctorRow.createCell(columnNum++, XSSFCell.CELL_TYPE_STRING);
+    			doctor_doctorCodeCell.setCellValue("目标医生Code");
+    			doctor_doctorCodeCell.setCellStyle(noReportDrTop2Style);
+    			
+    			sheet2.setColumnWidth(columnNum, dateColumnWidth*256);
+    			HSSFCell doctor_doctorIdCell = doctorRow.createCell(columnNum++, XSSFCell.CELL_TYPE_STRING);
+    			doctor_doctorIdCell.setCellValue("目标医生ID");
+    			doctor_doctorIdCell.setCellStyle(noReportDrTop2Style);
+    			
+    			sheet2.setColumnWidth(columnNum, dateColumnWidth*256);
+    			HSSFCell doctor_doctorNameCell = doctorRow.createCell(columnNum++, XSSFCell.CELL_TYPE_STRING);
+    			doctor_doctorNameCell.setCellValue("目标医生");
+    			doctor_doctorNameCell.setCellStyle(noReportDrTop2Style);
+    			
+    			List<HomeWeeklyNoReportDr> noReportDrList = homeService.getWeeklyNoReportDr(reportBeginDate);
     			
     			for( HomeWeeklyNoReportDr noReportDr : noReportDrList ){
-    			    row = sheet.createRow(currentRowNum++);
+    				doctorRow = sheet2.createRow(currentRowNum++);
     			    columnNum = 0;
     			 
-    			    HSSFCell rsdValueCell = row.createCell(columnNum++, XSSFCell.CELL_TYPE_STRING);
+    			    HSSFCell rsdValueCell = doctorRow.createCell(columnNum++, XSSFCell.CELL_TYPE_STRING);
     			    rsdValueCell.setCellValue(noReportDr.getRsd());
     			    
-    			    HSSFCell rsmValueCell = row.createCell(columnNum++, XSSFCell.CELL_TYPE_STRING);
+    			    HSSFCell rsmValueCell = doctorRow.createCell(columnNum++, XSSFCell.CELL_TYPE_STRING);
     			    rsmValueCell.setCellValue(noReportDr.getRsm());
     			    
-    			    HSSFCell dsmValueCell = row.createCell(columnNum++, XSSFCell.CELL_TYPE_STRING);
+    			    HSSFCell dsmValueCell = doctorRow.createCell(columnNum++, XSSFCell.CELL_TYPE_STRING);
     			    dsmValueCell.setCellValue(noReportDr.getDsm());
     			    
-    			    HSSFCell repValueCell = row.createCell(columnNum++, XSSFCell.CELL_TYPE_STRING);
+    			    HSSFCell repCodeValueCell = doctorRow.createCell(columnNum++, XSSFCell.CELL_TYPE_STRING);
+    			    repCodeValueCell.setCellValue(noReportDr.getSalesCode());
+    			    
+    			    HSSFCell repValueCell = doctorRow.createCell(columnNum++, XSSFCell.CELL_TYPE_STRING);
     			    repValueCell.setCellValue(noReportDr.getRep());
     			    
-    			    HSSFCell hospitalNameValueCell = row.createCell(columnNum++, XSSFCell.CELL_TYPE_STRING);
+    			    HSSFCell hospitalCodeValueCell = doctorRow.createCell(columnNum++, XSSFCell.CELL_TYPE_STRING);
+    			    hospitalCodeValueCell.setCellValue(noReportDr.getHospitalCode());
+    			    
+    			    HSSFCell hospitalNameValueCell = doctorRow.createCell(columnNum++, XSSFCell.CELL_TYPE_STRING);
     			    hospitalNameValueCell.setCellValue(noReportDr.getHospitalName());
     			    
-    			    HSSFCell drNameValueCell = row.createCell(columnNum++, XSSFCell.CELL_TYPE_STRING);
+    			    HSSFCell drCodeValueCell = doctorRow.createCell(columnNum++, XSSFCell.CELL_TYPE_STRING);
+    			    drCodeValueCell.setCellValue(noReportDr.getDoctorCode());
+    			    
+    			    HSSFCell drIdValueCell = doctorRow.createCell(columnNum++, XSSFCell.CELL_TYPE_STRING);
+    			    drIdValueCell.setCellValue(noReportDr.getDoctorId());
+    			    
+    			    HSSFCell drNameValueCell = doctorRow.createCell(columnNum++, XSSFCell.CELL_TYPE_STRING);
     			    drNameValueCell.setCellValue(noReportDr.getDoctorName());
     			}
     			

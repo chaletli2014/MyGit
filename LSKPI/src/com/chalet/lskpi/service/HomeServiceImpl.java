@@ -15,6 +15,7 @@ import com.chalet.lskpi.dao.HomeDAO;
 import com.chalet.lskpi.model.ExportDoctor;
 import com.chalet.lskpi.model.HomeData;
 import com.chalet.lskpi.model.HomeWeeklyData;
+import com.chalet.lskpi.model.HomeWeeklyNoReportDr;
 import com.chalet.lskpi.model.ReportProcessData;
 import com.chalet.lskpi.model.UserInfo;
 import com.chalet.lskpi.utils.DateUtils;
@@ -171,6 +172,22 @@ public class HomeServiceImpl implements HomeService {
 	    
 	    rsmHomeWeeklyData = homeDAO.getHomeWeeklyDataOfRSM(regionCenter,beginDate, endDate);
 	    return rsmHomeWeeklyData;
+	}
+	
+	@Override
+	public List<HomeWeeklyNoReportDr> getWeeklyNoReportDr(Date beginDate)
+			throws Exception {
+		List<HomeWeeklyNoReportDr> homeWeeklyNoReportDr = new ArrayList<HomeWeeklyNoReportDr>();
+		Date endDate = new Date(beginDate.getTime() + 7 * 24 * 60 * 60 * 1000);
+		
+		String duration = DateUtils.populateDuration(beginDate, new Date(endDate.getTime() - 1 * 24 * 60 * 60 * 1000));
+		try{
+			homeWeeklyNoReportDr = homeDAO.getWeeklyNoReportDr(beginDate, endDate, duration);
+		}catch(EmptyResultDataAccessException erd){
+			return new ArrayList<HomeWeeklyNoReportDr>();
+		}
+		
+		return homeWeeklyNoReportDr;
 	}
 
     public ReportProcessData getSalesSelfReportProcess(String telephone) throws Exception {

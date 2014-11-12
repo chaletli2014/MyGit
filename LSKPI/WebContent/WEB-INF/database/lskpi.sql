@@ -255,8 +255,8 @@ create table tbl_home_data(
     doctorId        int NOT NULL,
     salenum         int, /*卖/赠泵数量*/
     asthmanum       int, /*哮喘*患者人次*/
-    ltenum          int, /*处方>=8天的哮喘持续期病人次*/
-    lsnum           int, /*持续期病人中推荐使用令舒的人次*/
+    ltenum          int, /*处方>=8天的哮喘维持期病人次*/
+    lsnum           int, /*维持期病人中推荐使用令舒的人次*/
     efnum           int, /*8<=DOT<15天，病人次*/
     ftnum           int, /*15<=DOT<30天，病人次*/
     lttnum          int, /*DOT>=30天,病人次*/
@@ -369,27 +369,16 @@ create table tbl_hospital_data_weekly(
 ALTER TABLE tbl_hospital_data_weekly ADD INDEX INDEX_HOSPITAL_WEEKLY_CODE(hospitalCode);
 ALTER TABLE tbl_hospital_data_weekly ADD INDEX INDEX_HOSPITAL_WEEKLY_DURATION(duration);
 
-/*
- * 1.每周一凌晨0点开始备份上上周的医生中间表，统计有哪些医生
- * 2.在用户通过界面关联医生销售时，本中间表要同步更新销售ID
- * 
- * */
-drop table tbl_doctor_weekly;
-create table tbl_doctor_weekly(
-    id              int NOT NULL primary key auto_increment,
-    duration        varchar(30),
-    doctorId        int,
-    doctorName      varchar(255),
-    salesCode       varchar(20),
-    hospitalCode    varchar(20),
-    doctorCreateDT  datetime
-);
-
 ALTER  TABLE tbl_hos_user ADD INDEX INDEX_HOS_USER_USERCODE (userCode);
 
 alter table tbl_hospital add column portNum int;
 alter table tbl_pediatrics_data add column portNum int;
 
+/*
+ * 1.每周一凌晨0点开始备份上上周的医生中间表，统计有哪些医生
+ * 2.在用户通过界面关联医生销售时，本中间表要同步更新销售ID
+ * 
+ * */
 drop table tbl_doctor_weekly;
 create table tbl_doctor_weekly(
     id              int NOT NULL primary key auto_increment,
@@ -409,68 +398,8 @@ set duration = concat( DATE_FORMAT( ADDDATE(createdate,-WEEKDAY(createdate)),'%Y
 ALTER  TABLE tbl_doctor_weekly ADD INDEX INDEX_DOCTOR_WEEKLY_DURATION (duration);
 ALTER  TABLE tbl_home_data ADD INDEX INDEX_HOME_DURATION (duration);
 
-insert into tbl_home_data 
-select 
-null,
-doctorId,
-salenum,
-asthmanum,
-ltenum,
-lsnum,
-efnum,
-ftnum,
-lttnum,
-date_add(createdate,interval 7 day),
-now(),
-hospitalCode,
-concat( DATE_FORMAT( ADDDATE(date_add(createdate,interval 7 day),-WEEKDAY(date_add(createdate,interval 7 day))),'%Y.%m.%d'),'-', DATE_FORMAT(ADDDATE(date_add(createdate,interval 7 day),6-WEEKDAY(date_add(createdate,interval 7 day))),'%Y.%m.%d')) 
-from tbl_home_data hd 
-where hd.createdate between '2014-09-24' and '2014-10-01' 
-and not exists(
-	select 1 from tbl_home_data hd1
-	where hd1.duration = concat( DATE_FORMAT( ADDDATE(date_add(hd.createdate,interval 7 day),-WEEKDAY(date_add(hd.createdate,interval 7 day))),'%Y.%m.%d'),'-', DATE_FORMAT(ADDDATE(date_add(hd.createdate,interval 7 day),6-WEEKDAY(date_add(hd.createdate,interval 7 day))),'%Y.%m.%d')) 
-	and hd1.hospitalCode = hd.hospitalCode 
-	and hd1.doctorId = hd.doctorId 
-);
-
 alter table tbl_pediatrics_data_weekly add column portNum int default 0;
 
-select h1.duration
-,data.whPortRate
-,(
-	case when 
-	h1.region in (
-		select property_name 
-		from tbl_property p	)
-	then (
-		select property_value 
-		from tbl_property 
-		where property_name=h1.region)
-	else h1.region 
-	end
-) region 
-from 
-(
-	select 
-	pdw.duration,
-	ROUND(IFNULL(sum(pdw.lsnum)/sum(pdw.portNum),0),1) as whPortRate, 
-	h.region
-	from 
-	(
-		select * from tbl_pediatrics_data_weekly 
-		where duration <= '2014.10.06-2014.10.12' 
-		and duration >= '2014.09.01-2014.09.07' 
-	) pdw, tbl_hospital h 
-	where h.code = pdw.hospitalCode 
-	and pdw.portNum != 0 
-	and pdw.portNum is not null 
-	group by pdw.duration,h.region 
-) data 
-right join (
-	select distinct duration, region from tbl_hospital, (
-		select distinct duration from tbl_pediatrics_data_weekly 
-		where duration <= '2014.10.06-2014.10.12' 
-		and duration >= '2014.09.01-2014.09.07' 
-	) durations
-) h1 on h1.region = data.region and h1.duration = data.duration 
-order by h1.duration desc;
+alter table tbl_doctor_weekly add column doctorId int;
+alter table tbl_doctor_weekly add column doctorName varchar(255);
+

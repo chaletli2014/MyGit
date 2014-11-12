@@ -107,6 +107,105 @@ select * from tbl_pediatrics_data
 where (dsmCode='#N/A' or etmsCode='#N/A')
 and date_format(createdate,'%Y-%m-%d') = date_format('2014-01-24','%Y-%m-%d');
 
+========================================================================================================================
+--查找医生表中同一家医院code重复的医生
+select d.* from tbl_doctor d
+where concat(d.hospitalCode,d.code) in (
+	select concat(hospitalCode,code) from tbl_doctor
+	group by hospitalCode,code 
+	having count(1)>1
+) 
+order by hospitalCode;
+
+--查询重复医生所在医院的所有医生
+select * from tbl_doctor where hospitalCode in (
+	select d.hospitalCode from tbl_doctor d
+	where concat(d.hospitalCode,d.code) in (
+		select concat(hospitalCode,code) from tbl_doctor
+		group by hospitalCode,code 
+		having count(1)>1
+	) 
+)
+order by hospitalCode;
+
+--
+select * from tbl_doctor
+where hospitalCode='CQCQ006H';
+
+select * from tbl_doctor_weekly 
+where hospitalCode='ZJHZ015H' 
+and duration ='2014.10.20-2014.10.26';
+
+select * from tbl_doctor_weekly 
+group by duration,hospitalCode,code 
+having count(1) > 1
+
+(210,2153,4098,6048,18468,26658) | 0001 | CQCQ006H --> doctorId 1853 --> 0002
+update tbl_doctor_weekly set code='0002' where id in (210,2153,4098,6048,18468,26658);
+
+(326,2269,4214,6164,18581,26770) | 0001 | FJFZ004H --> doctorId 943 --> 0002
+update tbl_doctor_weekly set code='0002' where id in (326,2269,4214,6164,18581,26770);
+
+(307,2250,4195,6145,18562,26751) | 0001 | FJFZ016H --> 0003
+update tbl_doctor_weekly set code='0003' where id in (307,2250,4195,6145,18562,26751);
+ -----------------
+								  396 | 董李   | 0001 | FJFZ016H	
+								| 398 | 林娟   | 0002 | FJFZ016H	
+								| 399 | 唐素萍  | 0003 | FJFZ016H
+ -----------------
+(812,2755,4700,6650,19064,27247) | 0001 | GDSS001H --> 0003
+update tbl_doctor_weekly set code='0003' where id in (812,2755,4700,6650,19064,27247);
+ 
+								 1049 | 李焕琼 | 0001 | GDSS001H
+								| 1053 | 黄如章 | 0002 | GDSS001H
+								| 1054 | 钟斌才 | 0003 | GDSS001H
+------------------
+(1144,3087,5032,6982,19392,27573)	| 0001 | HUCS002H --> doctorId 1808 --> 0004
+update tbl_doctor_weekly set code='0004' where id in (1144,3087,5032,6982,19392,27573);
+
+(125,2068,4013,5963,18383,26573)	| 0001 | JSCZ001H --> doctorId 190 --> 0002
+update tbl_doctor_weekly set code='0002' where id in (125,2068,4013,5963,18383,26573);
+
+(661,2604,4549,6499,18914,27097)		| 0001 | SX03920N --> doctorId 848 --> 0002
+update tbl_doctor_weekly set code='0002' where id in (661,2604,4549,6499,18914,27097);
+
+(583,2526,4471,6421,18838,27021)		| 0001 | ZJHZ015H --> doctorId 1780 --> 0012
+update tbl_doctor_weekly set code='0012' where id in (583,2526,4471,6421,18838,27021);
+
+(584,2527,4472,6422,18839,27022)		| 0002 | ZJHZ015H --> doctorId 1781 --> 0013
+update tbl_doctor_weekly set code='0013' where id in (584,2527,4472,6422,18839,27022);
+
+
+update tbl_doctor_weekly dw,tbl_doctor d set dw.doctorName=d.name, dw.doctorId=d.id 
+where dw.hospitalCode = d.hospitalCode and dw.code = d.code;
+
+update tbl_doctor_weekly dw,tbl_doctor_history dh set dw.doctorName=dh.drName, dw.doctorId=dh.doctorId 
+where dw.hospitalCode = dh.hospitalCode and dw.code = dh.drCode and dw.doctorId is null;
+
+
+select h.region
+,h.rsmRegion
+,(select u.name from tbl_userinfo u where u.userCode = h.dsmCode and u.region = h.rsmRegion and u.regionCenter = h.region) as dsmName
+,case when dw.salesCode is null or dw.salesCode = '' then 'N/A' else dw.salesCode end as salesCode 
+,IFNULL((select u.name from tbl_userinfo u where u.userCode = dw.salesCode and u.superior = h.dsmCode and u.region = h.rsmRegion and u.regionCenter = h.region),'N/A') as salesName
+,dw.hospitalCode
+,h.name
+,concat(dw.hospitalCode,dw.code) as doctorCode
+,dw.doctorId
+,dw.doctorName 
+from tbl_doctor_weekly dw, tbl_hospital h 
+where not exists(
+	select 1 
+	from tbl_home_data hd 
+	where hd.createdate between '2014.10.13' and '2014.10.20' 
+	and hd.doctorId = dw.doctorId 
+) 
+and dw.hospitalCode = h.code 
+and dw.duration = '2014.10.13-2014.10.19' 
+order by region,rsmRegion,dsmName,salesName,doctorName;
+
+
+=======================================================================================================================================
 -----------------------------------------------------salesPEDDaily-------------------------------------------------
 
 

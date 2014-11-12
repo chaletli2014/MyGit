@@ -5,8 +5,12 @@ public class HomeWeeklyNoReportDr {
 	private String rsd;
 	private String rsm;
 	private String dsm;
+	private String salesCode;
 	private String rep;
+	private String hospitalCode;
 	private String hospitalName;
+	private String doctorCode;
+	private String doctorId;
 	private String doctorName;
 	
 	public String getRsd() {
@@ -44,5 +48,29 @@ public class HomeWeeklyNoReportDr {
 	}
 	public void setDoctorName(String doctorName) {
 		this.doctorName = doctorName;
+	}
+	public String getSalesCode() {
+		return salesCode;
+	}
+	public void setSalesCode(String salesCode) {
+		this.salesCode = salesCode;
+	}
+	public String getHospitalCode() {
+		return hospitalCode;
+	}
+	public void setHospitalCode(String hospitalCode) {
+		this.hospitalCode = hospitalCode;
+	}
+	public String getDoctorCode() {
+		return doctorCode;
+	}
+	public void setDoctorCode(String doctorCode) {
+		this.doctorCode = doctorCode;
+	}
+	public String getDoctorId() {
+		return doctorId;
+	}
+	public void setDoctorId(String doctorId) {
+		this.doctorId = doctorId;
 	}
 }

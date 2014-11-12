@@ -20,9 +20,11 @@ import com.chalet.lskpi.mapper.ExportDoctorRowMapper;
 import com.chalet.lskpi.mapper.HomeDataExportRowMapper;
 import com.chalet.lskpi.mapper.HomeDataRowMapper;
 import com.chalet.lskpi.mapper.HomeWeeklyDataRowMapper;
+import com.chalet.lskpi.mapper.NoReportDoctorRowMapper;
 import com.chalet.lskpi.model.ExportDoctor;
 import com.chalet.lskpi.model.HomeData;
 import com.chalet.lskpi.model.HomeWeeklyData;
+import com.chalet.lskpi.model.HomeWeeklyNoReportDr;
 import com.chalet.lskpi.model.ReportProcessData;
 import com.chalet.lskpi.utils.DataBean;
 import com.chalet.lskpi.utils.DateUtils;
@@ -473,6 +475,36 @@ public class HomeDAOImpl implements HomeDAO {
             , lastWeek2Duration
             , new Timestamp(beginDate.getTime())
             , new Timestamp(endDate.getTime())}, new HomeWeeklyDataRowMapper());
+    }
+    
+    public List<HomeWeeklyNoReportDr> getWeeklyNoReportDr(Date beginDate, Date endDate, String duration) throws Exception {
+    	StringBuffer sql = new StringBuffer();
+    	logger.info(String.format("get the non-reported doctors in the week from %s to %s", beginDate,endDate));
+    	
+    	sql.append(" select h.region ")
+    	.append(",h.rsmRegion ")
+    	.append(",(select u.name from tbl_userinfo u where u.userCode = h.dsmCode and u.region = h.rsmRegion and u.regionCenter = h.region) as dsmName ")
+    	.append(",case when dw.salesCode is null or dw.salesCode = '' then 'N/A' else dw.salesCode end as salesCode ")
+    	.append(",IFNULL((select u.name from tbl_userinfo u where u.userCode = dw.salesCode and u.superior = h.dsmCode and u.region = h.rsmRegion and u.regionCenter = h.region),'N/A') as salesName ")
+    	.append(",dw.hospitalCode ")
+    	.append(",h.name as hospitalName")
+    	.append(",concat(dw.hospitalCode,dw.code) as doctorCode ")
+    	.append(",dw.doctorId ")
+    	.append(",dw.doctorName ")
+    	.append("from tbl_doctor_weekly dw, tbl_hospital h ")
+    	.append("where not exists( ")
+    	.append("	select 1 ")
+    	.append("	from tbl_home_data hd ")
+    	.append("	where hd.createdate between ? and ? ")
+    	.append("	and hd.doctorId = dw.doctorId ")
+    	.append(") ")
+    	.append("and dw.hospitalCode = h.code ")
+    	.append("and dw.duration = ? ")
+    	.append("order by region,rsmRegion,dsmName,salesName,doctorName ");
+    	return dataBean.getJdbcTemplate().query(sql.toString(), new Object[]{
+    		new Timestamp(beginDate.getTime())
+    		, new Timestamp(endDate.getTime())
+    		,duration}, new NoReportDoctorRowMapper());
     }
 
     public List<ExportDoctor> getAllDoctors() throws Exception {

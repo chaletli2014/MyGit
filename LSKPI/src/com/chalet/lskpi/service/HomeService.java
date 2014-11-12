@@ -6,6 +6,7 @@ import java.util.List;
 import com.chalet.lskpi.model.ExportDoctor;
 import com.chalet.lskpi.model.HomeData;
 import com.chalet.lskpi.model.HomeWeeklyData;
+import com.chalet.lskpi.model.HomeWeeklyNoReportDr;
 import com.chalet.lskpi.model.ReportProcessData;
 import com.chalet.lskpi.model.UserInfo;
 
@@ -24,6 +25,7 @@ public interface HomeService {
     public List<ExportDoctor> getAllDoctors() throws Exception;
     public List<HomeWeeklyData> getWeeklyDataByRegion(String regionCenter) throws Exception;
     public List<HomeWeeklyData> getWeeklyDataByRegion(String regionCenter, Date beginDate) throws Exception;
+    public List<HomeWeeklyNoReportDr> getWeeklyNoReportDr(Date beginDate) throws Exception;
     
     public ReportProcessData getSalesSelfReportProcess(String telephone) throws Exception;
     public ReportProcessData getDSMSelfReportProcess(String telephone) throws Exception;
