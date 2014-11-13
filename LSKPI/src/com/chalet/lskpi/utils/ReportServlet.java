@@ -63,7 +63,7 @@ public class ReportServlet extends HttpServlet{
         }
         if (pdfThread == null) {
         	try{
-        		pdfThread = new PDFReportThread(basePath,userService,pediatricsService,respirologyService,chestSurgeryService,hospitalService,contextPath);
+        		pdfThread = new PDFReportThread(basePath,userService,pediatricsService,respirologyService,chestSurgeryService,hospitalService,homeService,contextPath);
         		pdfThread.setName("PDFReportThread");
         		pdfThread.start();
         	}catch(Exception e){

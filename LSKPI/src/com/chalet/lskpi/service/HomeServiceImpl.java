@@ -250,7 +250,7 @@ public class HomeServiceImpl implements HomeService {
         return homeDAO.isAlreadyBackup(duration);
 	}
 	
-	public void removeOldDoctors(int dayInWeek) throws Exception{
+	public synchronized void removeOldDoctors(int dayInWeek) throws Exception{
 		String duration = "";
 		if( dayInWeek > 3 || dayInWeek == 0 ){
 			Date beginDate = DateUtils.getHomeCollectionBegionDate(new Date());
@@ -263,5 +263,8 @@ public class HomeServiceImpl implements HomeService {
 		}
 		logger.info(String.format("remove old doctors, duration is %s, day in week is %s", duration,dayInWeek));
 		homeDAO.removeOldDoctors(duration);
+		
+		logger.info(String.format("begin to backup the doctors, duration is %s, day in week is %s", duration,dayInWeek));
+		this.backupDoctors(dayInWeek);
 	}
 }

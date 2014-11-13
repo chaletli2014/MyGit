@@ -302,6 +302,68 @@ public class BirtReportUtils {
         }  
     }  
     
+    /**
+     * 用于运行家庭雾化报表 .
+     * @param designPath
+     * @param telephone
+     * @param startDuration
+     * @param endDuration
+     * @param reportFileName
+     * @param fileType
+     * @param reportImgPath
+     * @param baseImgPath
+     */
+    public void runHomePDFReport(String designPath, String telephone, String startDuration, String endDuration, String reportFileName){
+    	try{
+    		logger.info(String.format("run the birt home pdf report, the file name is %s",reportFileName));
+    		IReportRunnable design = null;  
+    		HashMap parameterMap = new HashMap();
+    		//Open the report design  
+    		design = engine.openReportDesign(designPath);  
+    		
+    		if( null != telephone && !"".equalsIgnoreCase(telephone) ){
+    			IGetParameterDefinitionTask paramTask = engine.createGetParameterDefinitionTask(design);
+    			Collection parameters = paramTask.getParameterDefns(false);
+    			Map paramValues = new HashMap();
+    			paramValues.put("userTel", telephone);
+    			evaluateParameterValues(parameterMap,parameters,paramValues);
+    		}
+    		
+    		if( null != startDuration ){
+    			logger.info(String.format("populdate the param startDuration %s", startDuration));
+    			IGetParameterDefinitionTask paramTask = engine.createGetParameterDefinitionTask(design);
+    			Collection parameters = paramTask.getParameterDefns(false);
+    			Map paramValues = new HashMap();
+    			paramValues.put("startDuration", startDuration);
+    			evaluateParameterValues(parameterMap,parameters,paramValues);
+    		}
+    		
+    		if( null != endDuration ){
+    			logger.info(String.format("populdate the param endDuration %s", endDuration));
+    			IGetParameterDefinitionTask paramTask = engine.createGetParameterDefinitionTask(design);
+    			Collection parameters = paramTask.getParameterDefns(false);
+    			Map paramValues = new HashMap();
+    			paramValues.put("endDuration", endDuration);
+    			evaluateParameterValues(parameterMap,parameters,paramValues);
+    		}
+    		
+    		IRunAndRenderTask task = engine.createRunAndRenderTask(design);  
+    		logger.info("create and render the refresh task");
+    		IRenderOption options = new PDFRenderOption();
+			options.setOutputFormat("pdf");
+			options.setOutputFileName(reportFileName);
+    		
+    		task.setRenderOption(options);
+			task.setParameterValues(parameterMap);
+    		logger.info("start to run the home pdf report task");
+    		task.run();
+    		task.close();  
+    		logger.info("the home pdf report taks is closed.");
+    	}catch( Exception ex){
+    		logger.error("fail to generate the home pdf report",ex);
+    	}  
+    }  
+    
     public void runAllDailyReport(String designPath, String paramDate, String reportFileName){
     	try{
     		logger.info(String.format("run the all dsm or rsm daily report, the file name is %s",reportFileName));

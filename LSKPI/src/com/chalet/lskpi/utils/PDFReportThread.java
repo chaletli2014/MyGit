@@ -9,6 +9,7 @@ import org.apache.log4j.Logger;
 
 import com.chalet.lskpi.model.UserInfo;
 import com.chalet.lskpi.service.ChestSurgeryService;
+import com.chalet.lskpi.service.HomeService;
 import com.chalet.lskpi.service.HospitalService;
 import com.chalet.lskpi.service.PediatricsService;
 import com.chalet.lskpi.service.RespirologyService;
@@ -22,6 +23,7 @@ public class PDFReportThread extends Thread {
     private RespirologyService respirologyService;
     private ChestSurgeryService chestSurgeryService;
     private HospitalService hospitalService;
+    private HomeService homeService;
     private boolean isRestart = false;
     private long taskTime = 0;
     
@@ -36,6 +38,7 @@ public class PDFReportThread extends Thread {
     		, RespirologyService respirologyService
     		, ChestSurgeryService chestSurgeryService
     		, HospitalService hospitalService
+    		, HomeService homeService
     		, String contextPath){
         this.basePath = basePath;
         this.userService = userService;
@@ -43,6 +46,7 @@ public class PDFReportThread extends Thread {
         this.respirologyService = respirologyService;
         this.chestSurgeryService = chestSurgeryService;
         this.hospitalService = hospitalService;
+        this.homeService = homeService;
         this.contextPath = contextPath;
     }
     public void run() {  
@@ -58,6 +62,17 @@ public class PDFReportThread extends Thread {
                 //0-Sunday
                 int dayInWeek = now.getDay();
                 int hour = now.getHours();
+                
+                /**
+                 * 家庭雾化医生每周备份。
+                 * 每周四的凌晨0点，对上周的有效医生进行备份，留待历史周报使用
+                 */
+                if( hour == Integer.parseInt(CustomizedProperty.getContextProperty("home_doctor_backup_time", "0")) 
+                		&& dayInWeek == Integer.parseInt(CustomizedProperty.getContextProperty("home_doctor_backup_day", "4")) ){
+                	logger.info("time is 0 in thursday, begin to backup the doctor");
+                	homeService.removeOldDoctors(dayInWeek);
+                }
+                
                 if( hour == Integer.parseInt(CustomizedProperty.getContextProperty("report_generate_time", "2"))
                         || isRestart ){
                     logger.info("console : now is " + hour + ", begin to generate PDF report");
@@ -126,6 +141,24 @@ public class PDFReportThread extends Thread {
                         html.stopPlatform();
                     }else{
                         logger.info(String.format("current day in week is %s, no need to generate the html weekly report", dayInWeek));
+                    }
+                    
+                    if( dayInWeek == Integer.parseInt(CustomizedProperty.getContextProperty("home_doctor_backup_day", "4"))){
+                    	html.startPlatform();
+                    	boolean isFirstRefresh = true;
+                        for( UserInfo user : reportUserInfos ){
+                            String telephone = user.getTelephone();
+                            if( telephone != null && !"#N/A".equalsIgnoreCase(telephone) ){
+                                logger.info(String.format("the mobile is %s",telephone));
+                                ReportUtils.createWeeklyHomePDFReport(html, user, telephone,basePath, contextPath, true, isFirstRefresh);
+                                this.taskTime = System.currentTimeMillis();
+                            }else{
+                                logger.error(String.format("the telephone number for the user %s is not found", user.getName()));
+                            }
+                            
+                            isFirstRefresh = false;
+                        }
+                        html.stopPlatform();
                     }
                     
                     this.taskTime = 0;

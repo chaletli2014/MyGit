@@ -51,10 +51,12 @@ public class ReportUtils {
         String pedFileNamePre = basePath + "weeklyReport/"+lastThursday+"/儿科周报-"+fileSubName+"-"+lastThursday;
         String resFileNamePre = basePath + "weeklyReport/"+lastThursday+"/呼吸科周报-"+fileSubName+"-"+lastThursday;
         String cheFileNamePre = basePath + "weeklyReport/"+lastThursday+"/胸外科周报-"+fileSubName+"-"+lastThursday;
+        String homeFileNamePre = basePath + "weeklyReport/"+lastThursday+"/家庭雾化周报-"+fileSubName+"-"+lastThursday;
         
         String weeklyPDFPEDReportFileName = pedFileNamePre+".pdf";
         String weeklyPDFRESReportFileName = resFileNamePre+".pdf";
         String weeklyPDFCHEReportFileName = cheFileNamePre+".pdf";
+        String weeklyPDFHomeReportFileName = homeFileNamePre+".pdf";
         
         switch(userLevel){
             case LsAttributes.USER_LEVEL_RSD:
@@ -78,6 +80,13 @@ public class ReportUtils {
             	    logger.info("the weekly chest surgery report for RSD is done.");
             	}else{
             	    logger.info(String.format(LOG_MESSAGE, fileSubName));
+            	}
+            	
+            	if( !new File(weeklyPDFHomeReportFileName).exists() || ( !checkFileExists && new File(weeklyPDFHomeReportFileName).exists()) ){
+            		html.runRefreshReport( basePath + "reportDesigns/weeklyHomePDFReportForRSD.rptdesign",telephone,startDate,endDate,weeklyPDFHomeReportFileName,"pdf","","","");
+            		logger.info("the weekly home report for RSD is done.");
+            	}else{
+            		logger.info(String.format(LOG_MESSAGE, fileSubName));
             	}
             	
                 break;
@@ -185,5 +194,69 @@ public class ReportUtils {
                 logger.info(String.format("the level of the user is %s, no need to generate the report", userLevel));
                 break;
         }
+    }
+    public static void createWeeklyHomePDFReport(BirtReportUtils html, UserInfo user,String telephone,String basePath, String contextPath, boolean checkFileExists, boolean isFirstRefresh) throws Exception{
+    	String userLevel = user.getLevel();
+    	String fileSubName = StringUtils.getFileSubName(user);
+    	Date now = new Date();
+    	
+    	String reportGenerateDate = DateUtils.getDirectoryNameOfLastDuration(new Date(now.getTime()+ 7 * 24 * 60 * 60 * 1000));
+    	String startDuration = DateUtils.getThursdayHome12WeeksBeginDuration();
+		String endDuration = DateUtils.getThursdayHome12WeeksEndDuration();
+    	
+    	String homeFileNamePre = basePath + "weeklyReport/"+reportGenerateDate+"/家庭雾化周报-"+fileSubName+"-"+reportGenerateDate;
+    	
+    	String weeklyPDFHomeReportFileName = homeFileNamePre+".pdf";
+    	
+    	switch(userLevel){
+    	case LsAttributes.USER_LEVEL_RSD:
+    		//RSD
+    		if( !new File(weeklyPDFHomeReportFileName).exists() || ( !checkFileExists && new File(weeklyPDFHomeReportFileName).exists()) ){
+    			html.runHomePDFReport( basePath + "reportDesigns/weeklyHomePDFReportForRSD.rptdesign",telephone,startDuration,endDuration,weeklyPDFHomeReportFileName);
+    			logger.info("the weekly home report for RSD is done.");
+    		}else{
+    			logger.info(String.format(LOG_MESSAGE, fileSubName));
+    		}
+    		
+    		break;
+    	case LsAttributes.USER_LEVEL_RSM:
+    		//RSM
+    		if( !new File(weeklyPDFHomeReportFileName).exists() || ( !checkFileExists && new File(weeklyPDFHomeReportFileName).exists()) ){
+    			html.runHomePDFReport( basePath + "reportDesigns/weeklyHomePDFReportForRSM.rptdesign",telephone,startDuration,endDuration,weeklyPDFHomeReportFileName);
+    			logger.info("the weekly home report for RSM is done.");
+    		}else{
+    			logger.info(String.format(LOG_MESSAGE, fileSubName));
+    		}
+    		break;
+    	case LsAttributes.USER_LEVEL_DSM:
+    		//DSM
+    		if( !new File(weeklyPDFHomeReportFileName).exists() || ( !checkFileExists && new File(weeklyPDFHomeReportFileName).exists()) ){
+    			html.runHomePDFReport( basePath + "reportDesigns/weeklyHomePDFReportForDSM.rptdesign",telephone,startDuration,endDuration,weeklyPDFHomeReportFileName);
+    			logger.info("the weekly home report for DSM is done.");
+    		}else{
+    			logger.info(String.format(LOG_MESSAGE, fileSubName));
+    		}
+    		break;
+    	case LsAttributes.USER_LEVEL_REP:
+    		//REP
+    		if( !new File(weeklyPDFHomeReportFileName).exists() || ( !checkFileExists && new File(weeklyPDFHomeReportFileName).exists()) ){
+    			html.runHomePDFReport( basePath + "reportDesigns/weeklyHomePDFReportForREP.rptdesign",telephone,startDuration,endDuration,weeklyPDFHomeReportFileName);
+    			logger.info("the weekly home report for REP is done.");
+    		}else{
+    			logger.info(String.format(LOG_MESSAGE, fileSubName));
+    		}
+    		break;
+    	case LsAttributes.USER_LEVEL_BM:
+    		if( !new File(weeklyPDFHomeReportFileName).exists() || (isFirstRefresh && !checkFileExists)  ){
+    			html.runHomePDFReport( basePath + "reportDesigns/weeklyHomePDFReportForBU.rptdesign",telephone,startDuration,endDuration,weeklyPDFHomeReportFileName);
+    			logger.info("the home weekly report for BU is done.");
+    		}else{
+    			logger.info("The home weekly report for BU is already generated, no need to do again.");
+    		}
+    		break;
+    	default:
+    		logger.info(String.format("the level of the user is %s, no need to generate the report", userLevel));
+    		break;
+    	}
     }
 }

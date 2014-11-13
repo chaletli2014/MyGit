@@ -76,7 +76,6 @@ public class ReportThread extends Thread {
                 		&& dayInWeek == Integer.parseInt(CustomizedProperty.getContextProperty("home_doctor_backup_day", "4")) ){
                 	logger.info("time is 0 in thursday, begin to backup the doctor");
                 	homeService.removeOldDoctors(dayInWeek);
-            		homeService.backupDoctors(dayInWeek);
                 }
                 
                 if( hour == Integer.parseInt(CustomizedProperty.getContextProperty("report_generate_time", "2"))

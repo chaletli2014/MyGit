@@ -631,7 +631,7 @@ public class HomeDAOImpl implements HomeDAO {
 	public void backupDoctors(String duration) throws Exception {
         
         StringBuffer backupSQL = new StringBuffer("");
-        backupSQL.append("insert into tbl_doctor_weekly ")
+        backupSQL.append("insert into tbl_doctor_weekly(id,duration,code,hospitalCode,salesCode,createdate,modifydate,doctorId,doctorName) ")
         .append(" select ")
         .append(" null,")
         .append(" ?, ")
@@ -639,7 +639,9 @@ public class HomeDAOImpl implements HomeDAO {
         .append(" hospitalCode, ")
         .append(" salesCode, ")
         .append(" createdate, ")
-        .append(" modifydate ")
+        .append(" modifydate, ")
+        .append(" id, ")
+        .append(" name ")
         .append(" from tbl_doctor ");
         
 		int rowNum = dataBean.getJdbcTemplate().update(backupSQL.toString(), duration);
