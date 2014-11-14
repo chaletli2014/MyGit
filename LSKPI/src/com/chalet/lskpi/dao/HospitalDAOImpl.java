@@ -354,7 +354,7 @@ public class HospitalDAOImpl implements HospitalDAO {
 	
 	@Override
 	public void insertMonthlyData(final MonthlyData monthlyData) throws Exception {
-	    final String insertSQL = "insert into tbl_month_data values(null,?,?,?,?,?,?,?,?,?,?,?,now(),?)";
+	    final String insertSQL = "insert into tbl_month_data(id,pedEmernum,pedroomnum,resnum,other,operatorName,operatorCode,hospitalCode,dsmCode,rsmRegion,region,createdate,updatedate,countMonth) values(null,?,?,?,?,?,?,?,?,?,?,?,now(),?)";
         KeyHolder keyHolder = new GeneratedKeyHolder();
         dataBean.getJdbcTemplate().update(new PreparedStatementCreator(){
             @Override

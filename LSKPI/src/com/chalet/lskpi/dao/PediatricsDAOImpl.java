@@ -424,7 +424,7 @@ public class PediatricsDAOImpl implements PediatricsDAO {
 	    Timestamp lastweekDay = new Timestamp(refreshDate.getTime());
 	    StringBuffer sb = new StringBuffer();
 	    
-	    sb.append("insert into tbl_pediatrics_data_weekly ")
+	    sb.append("insert into tbl_pediatrics_data_weekly(id,duration,hospitalName,hospitalCode,innum,pnum,whnum,lsnum,averageDose,hmgRate,omgRate,tmgRate,fmgRate,saleCode,dsmCode,rsmRegion,region,updatedate,portNum) ")
 	    .append("select ")
 	    .append("null,")
 	    .append(" CONCAT(DATE_FORMAT(DATE_SUB(?, Interval 6 day),'%Y.%m.%d'), '-',DATE_FORMAT(?,'%Y.%m.%d')) as duration, ")
@@ -1373,7 +1373,7 @@ public class PediatricsDAOImpl implements PediatricsDAO {
 	public void insert(final PediatricsData pediatricsData, final UserInfo operator, final Hospital hospital) throws Exception {
 		logger.info(">>PediatricsDAOImpl insert");
 		
-		final String sql = "insert into tbl_pediatrics_data values(null,NOW(),?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,NOW(),?,?)";
+		final String sql = "insert into tbl_pediatrics_data(id,createdate,hospitalName,pnum,whnum,lsnum,etmsCode,operatorName,region,rsmRegion,hqd,hbid,oqd,obid,tqd,tbid,recipeType,updatedate,dsmCode,portNum) values(null,NOW(),?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,NOW(),?,?)";
 		KeyHolder keyHolder = new GeneratedKeyHolder();
 		dataBean.getJdbcTemplate().update(new PreparedStatementCreator(){
 			@Override
@@ -1407,7 +1407,7 @@ public class PediatricsDAOImpl implements PediatricsDAO {
 	public void insert(final PediatricsData pediatricsData, final String dsmCode) throws Exception {
 	    logger.info("insert data - daily upload");
 	    
-	    final String sql = "insert into tbl_pediatrics_data values(null,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,NOW(),?,?)";
+	    final String sql = "insert into tbl_pediatrics_data(id,createdate,hospitalName,pnum,whnum,lsnum,etmsCode,operatorName,region,rsmRegion,hqd,hbid,oqd,obid,tqd,tbid,recipeType,updatedate,dsmCode,portNum) values(null,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,NOW(),?,?)";
 	    KeyHolder keyHolder = new GeneratedKeyHolder();
 	    dataBean.getJdbcTemplate().update(new PreparedStatementCreator(){
 	        @Override

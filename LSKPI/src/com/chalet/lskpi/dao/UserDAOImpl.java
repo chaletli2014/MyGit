@@ -133,7 +133,7 @@ public class UserDAOImpl implements UserDAO {
 	
 	@Override
 	public void insert(final List<UserInfo> userInfos) throws Exception {
-		String insertSQL = "insert into tbl_userinfo values(null,?,?,?,?,?,?,?,?,?,?,?,now(),now(),?)";
+		String insertSQL = "insert into tbl_userinfo(id,name,telephone,etmsCode,userCode,BU,regionCenter,region,teamCode,team,level,superior,createdate,modifydate,email) values(null,?,?,?,?,?,?,?,?,?,?,?,now(),now(),?)";
 		dataBean.getJdbcTemplate().batchUpdate(insertSQL, new BatchPreparedStatementSetter() {
 			
 			@Override
@@ -161,7 +161,7 @@ public class UserDAOImpl implements UserDAO {
 	
 	@Override
 	public void insert(final UserInfo userInfo) throws Exception {
-		String insertSQL = "insert into tbl_userinfo values(null,?,?,?,?,?,?,?,?,?,?,?,now(),now(),?)";
+		String insertSQL = "insert into tbl_userinfo(id,name,telephone,etmsCode,userCode,BU,regionCenter,region,teamCode,team,level,superior,createdate,modifydate,email) values(null,?,?,?,?,?,?,?,?,?,?,?,now(),now(),?)";
 		dataBean.getJdbcTemplate().update(insertSQL, new PreparedStatementSetter() {
 			@Override
 			public void setValues(PreparedStatement ps) throws SQLException {
@@ -239,7 +239,7 @@ public class UserDAOImpl implements UserDAO {
     }
 
     public void insertHosUsers(final List<HospitalUserRefer> hosUsers) throws Exception {
-        String insertSQL = "insert into tbl_hos_user values(?,?,?)";
+        String insertSQL = "insert into tbl_hos_user(hosCode,userCode,isPrimary) values(?,?,?)";
         dataBean.getJdbcTemplate().batchUpdate(insertSQL, new BatchPreparedStatementSetter() {
             
             @Override

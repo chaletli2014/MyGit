@@ -101,7 +101,7 @@ public class ChestSurgeryDAOImpl implements ChestSurgeryDAO {
     public void insert(final ChestSurgeryData chestSurgeryData, UserInfo operator, Hospital hospital) throws Exception {
         logger.info(">>ChestSurgeryDAOImpl insert");
         
-        final String sql = "insert into tbl_chestSurgery_data values(null,NOW(),?,?,?,?,?,?,?,?,?,?,?,?,NOW())";
+        final String sql = "insert into tbl_chestSurgery_data(id,createdate,hospitalCode,pnum,risknum,whnum,lsnum,oqd,tqd,otid,tbid,ttid,thbid,fbid,updatedate) values(null,NOW(),?,?,?,?,?,?,?,?,?,?,?,?,NOW())";
         KeyHolder keyHolder = new GeneratedKeyHolder();
         dataBean.getJdbcTemplate().update(new PreparedStatementCreator(){
             @Override
@@ -129,7 +129,7 @@ public class ChestSurgeryDAOImpl implements ChestSurgeryDAO {
     public void insert(final ChestSurgeryData chestSurgeryData, String dsmCode) throws Exception {
         logger.info(">>ChestSurgeryDAOImpl insert - upload daily data");
         
-        final String sql = "insert into tbl_chestSurgery_data values(null,?,?,?,?,?,?,?,?,?,?,?,?,?,NOW())";
+        final String sql = "insert into tbl_chestSurgery_data(id,createdate,hospitalCode,pnum,risknum,whnum,lsnum,oqd,tqd,otid,tbid,ttid,thbid,fbid,updatedate) values(null,?,?,?,?,?,?,?,?,?,?,?,?,?,NOW())";
         KeyHolder keyHolder = new GeneratedKeyHolder();
         dataBean.getJdbcTemplate().update(new PreparedStatementCreator(){
             @Override
@@ -847,7 +847,7 @@ public class ChestSurgeryDAOImpl implements ChestSurgeryDAO {
         Timestamp lastweekDay = new Timestamp(refreshDate.getTime());
         StringBuffer sb = new StringBuffer();
         
-        sb.append("insert into tbl_chestSurgery_data_weekly ")
+        sb.append("insert into tbl_chestSurgery_data_weekly(id,duration,hospitalName,hospitalCode,innum,pnum,risknum,whnum,lsnum,averageDose,omgRate,tmgRate,thmgRate,fmgRate,smgRate,emgRate,updatedate,date_YYYY,date_MM) ")
             .append("select ")
             .append("null,")
             .append(" CONCAT(DATE_FORMAT(DATE_SUB(?, Interval 6 day),'%Y.%m.%d'), '-',DATE_FORMAT(?,'%Y.%m.%d')) as duration, ")

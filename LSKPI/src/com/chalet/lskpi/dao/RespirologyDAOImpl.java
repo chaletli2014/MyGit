@@ -554,7 +554,7 @@ public class RespirologyDAOImpl implements RespirologyDAO {
 	    Timestamp lastweekDay = new Timestamp(refreshDate.getTime());
         StringBuffer sb = new StringBuffer();
         
-        sb.append("insert into tbl_respirology_data_weekly ")
+        sb.append("insert into tbl_respirology_data_weekly(id,duration,hospitalName,hospitalCode,innum,pnum,aenum,whnum,lsnum,averageDose,omgRate,tmgRate,thmgRate,fmgRate,smgRate,emgRate,saleCode,dsmCode,rsmRegion,region,updatedate,date_YYYY,date_MM) ")
             .append("select ")
             .append("null,")
             .append(" CONCAT(DATE_FORMAT(DATE_SUB(?, Interval 6 day),'%Y.%m.%d'), '-',DATE_FORMAT(?,'%Y.%m.%d')) as duration, ")
@@ -1044,7 +1044,7 @@ public class RespirologyDAOImpl implements RespirologyDAO {
 	public void insert(final RespirologyData respirologyData, final UserInfo operator, final Hospital hospital) throws Exception {
 		logger.info(">>RespirologyDAOImpl insert");
 		
-		final String sql = "insert into tbl_respirology_data values(null,NOW(),?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,NOW(),?)";
+		final String sql = "insert into tbl_respirology_data(id,createdate,hospitalName,pnum,aenum,whnum,lsnum,etmsCode,operatorName,region,rsmRegion,oqd,tqd,otid,tbid,ttid,thbid,fbid,recipeType,updatedate,dsmCode) values(null,NOW(),?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,NOW(),?)";
 		KeyHolder keyHolder = new GeneratedKeyHolder();
 		dataBean.getJdbcTemplate().update(new PreparedStatementCreator(){
 			@Override
@@ -1079,7 +1079,7 @@ public class RespirologyDAOImpl implements RespirologyDAO {
 	public void insert(final RespirologyData respirologyData, final String dsmCode) throws Exception {
 	    logger.info(">>RespirologyDAOImpl insert - upload daily data");
 	    
-	    final String sql = "insert into tbl_respirology_data values(null,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,NOW(),?)";
+	    final String sql = "insert into tbl_respirology_data(id,createdate,hospitalName,pnum,aenum,whnum,lsnum,etmsCode,operatorName,region,rsmRegion,oqd,tqd,otid,tbid,ttid,thbid,fbid,recipeType,updatedate,dsmCode) values(null,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,NOW(),?)";
 	    KeyHolder keyHolder = new GeneratedKeyHolder();
 	    dataBean.getJdbcTemplate().update(new PreparedStatementCreator(){
 	        @Override
