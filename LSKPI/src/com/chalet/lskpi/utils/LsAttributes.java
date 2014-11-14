@@ -924,6 +924,7 @@ public class LsAttributes {
     	= new StringBuffer(" select h.province, h.city, h.code, h.name, h.dragonType, h.level, h.isTop100 ")
     		.append(" , ( select distinct property_value from tbl_property where property_name = h.region ) as brCNName ")
     		.append(" , h.region ")
+    		.append(" , h.portNum ")
     		.append(" , rsd.userCode as rsdCode ")
     		.append(" , rsd.name as rsdName ")
     		.append(" , rsd.telephone as rsdTel ")

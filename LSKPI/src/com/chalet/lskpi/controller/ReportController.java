@@ -176,66 +176,74 @@ public class ReportController extends BaseController{
 				
 			//build the header
 			HSSFRow row = sheet.createRow(currentRowNum++);
-			row.createCell(0, XSSFCell.CELL_TYPE_STRING).setCellValue("Province");
-			row.createCell(1, XSSFCell.CELL_TYPE_STRING).setCellValue("City");
-			row.createCell(2, XSSFCell.CELL_TYPE_STRING).setCellValue("Hospital Code");
-			row.createCell(3, XSSFCell.CELL_TYPE_STRING).setCellValue("Name");
-			row.createCell(4, XSSFCell.CELL_TYPE_STRING).setCellValue("Dragon Type");
-			row.createCell(5, XSSFCell.CELL_TYPE_STRING).setCellValue("Hospital Level");
-			row.createCell(6, XSSFCell.CELL_TYPE_STRING).setCellValue("BR CNName");
-			row.createCell(7, XSSFCell.CELL_TYPE_STRING).setCellValue("BR Name");
-			row.createCell(8, XSSFCell.CELL_TYPE_STRING).setCellValue("RSD Code");
-			row.createCell(9, XSSFCell.CELL_TYPE_STRING).setCellValue("RSD Name");
-			row.createCell(10, XSSFCell.CELL_TYPE_STRING).setCellValue("RSD Tel");
-			row.createCell(11, XSSFCell.CELL_TYPE_STRING).setCellValue("RSD Email");
-			row.createCell(12, XSSFCell.CELL_TYPE_STRING).setCellValue("DIST NAME");
-			row.createCell(13, XSSFCell.CELL_TYPE_STRING).setCellValue("RSM Code");
-			row.createCell(14, XSSFCell.CELL_TYPE_STRING).setCellValue("RSM Name");
-			row.createCell(15, XSSFCell.CELL_TYPE_STRING).setCellValue("RSM Tel");
-			row.createCell(16, XSSFCell.CELL_TYPE_STRING).setCellValue("RSM Email");
-			row.createCell(17, XSSFCell.CELL_TYPE_STRING).setCellValue("DSM Code");
-			row.createCell(18, XSSFCell.CELL_TYPE_STRING).setCellValue("DSM Name");
-			row.createCell(19, XSSFCell.CELL_TYPE_STRING).setCellValue("DSM Tel");
-			row.createCell(20, XSSFCell.CELL_TYPE_STRING).setCellValue("DSM Email");
-			row.createCell(21, XSSFCell.CELL_TYPE_STRING).setCellValue("是否为负责销售(是=1，否=0)");
-			row.createCell(22, XSSFCell.CELL_TYPE_STRING).setCellValue("Rep Code");
-			row.createCell(23, XSSFCell.CELL_TYPE_STRING).setCellValue("Rep Name");
-			row.createCell(24, XSSFCell.CELL_TYPE_STRING).setCellValue("Rep Tel");
-			row.createCell(25, XSSFCell.CELL_TYPE_STRING).setCellValue("Rep Email");
+			int columnNum = 0;
+			row.createCell(columnNum++, XSSFCell.CELL_TYPE_STRING).setCellValue("Province");
+			row.createCell(columnNum++, XSSFCell.CELL_TYPE_STRING).setCellValue("City");
+			row.createCell(columnNum++, XSSFCell.CELL_TYPE_STRING).setCellValue("Hospital Code");
+			row.createCell(columnNum++, XSSFCell.CELL_TYPE_STRING).setCellValue("Name");
+			row.createCell(columnNum++, XSSFCell.CELL_TYPE_STRING).setCellValue("Dragon Type");
+			row.createCell(columnNum++, XSSFCell.CELL_TYPE_STRING).setCellValue("Hospital Level");
+			row.createCell(columnNum++, XSSFCell.CELL_TYPE_STRING).setCellValue("BR CNName");
+			row.createCell(columnNum++, XSSFCell.CELL_TYPE_STRING).setCellValue("BR Name");
+			row.createCell(columnNum++, XSSFCell.CELL_TYPE_STRING).setCellValue("RSD Code");
+			row.createCell(columnNum++, XSSFCell.CELL_TYPE_STRING).setCellValue("RSD Name");
+			row.createCell(columnNum++, XSSFCell.CELL_TYPE_STRING).setCellValue("RSD Tel");
+			row.createCell(columnNum++, XSSFCell.CELL_TYPE_STRING).setCellValue("RSD Email");
+			row.createCell(columnNum++, XSSFCell.CELL_TYPE_STRING).setCellValue("DIST NAME");
+			row.createCell(columnNum++, XSSFCell.CELL_TYPE_STRING).setCellValue("RSM Code");
+			row.createCell(columnNum++, XSSFCell.CELL_TYPE_STRING).setCellValue("RSM Name");
+			row.createCell(columnNum++, XSSFCell.CELL_TYPE_STRING).setCellValue("RSM Tel");
+			row.createCell(columnNum++, XSSFCell.CELL_TYPE_STRING).setCellValue("RSM Email");
+			row.createCell(columnNum++, XSSFCell.CELL_TYPE_STRING).setCellValue("DSM Code");
+			row.createCell(columnNum++, XSSFCell.CELL_TYPE_STRING).setCellValue("DSM Name");
+			row.createCell(columnNum++, XSSFCell.CELL_TYPE_STRING).setCellValue("DSM Tel");
+			row.createCell(columnNum++, XSSFCell.CELL_TYPE_STRING).setCellValue("DSM Email");
+			row.createCell(columnNum++, XSSFCell.CELL_TYPE_STRING).setCellValue("是否为负责销售(是=1，否=0)");
+			row.createCell(columnNum++, XSSFCell.CELL_TYPE_STRING).setCellValue("Rep Code");
+			row.createCell(columnNum++, XSSFCell.CELL_TYPE_STRING).setCellValue("Rep Name");
+			row.createCell(columnNum++, XSSFCell.CELL_TYPE_STRING).setCellValue("Rep Tel");
+			row.createCell(columnNum++, XSSFCell.CELL_TYPE_STRING).setCellValue("Rep Email");
 			if( null != department && "3".equalsIgnoreCase(department) ){
-				row.createCell(26, XSSFCell.CELL_TYPE_STRING).setCellValue("isTop100");
+				row.createCell(columnNum++, XSSFCell.CELL_TYPE_STRING).setCellValue("isTop100");
+			}
+			if( null != department && "2".equalsIgnoreCase(department) ){
+				row.createCell(columnNum++, XSSFCell.CELL_TYPE_STRING).setCellValue("雾化端口数量");
 			}
 			
 			for( KPIHospital4Export kpiHos : dbHosData ){
 				row = sheet.createRow(currentRowNum++);
-				row.createCell(0, XSSFCell.CELL_TYPE_STRING).setCellValue(kpiHos.getProvince());
-				row.createCell(1, XSSFCell.CELL_TYPE_STRING).setCellValue(kpiHos.getCity());
-				row.createCell(2, XSSFCell.CELL_TYPE_STRING).setCellValue(kpiHos.getCode());
-				row.createCell(3, XSSFCell.CELL_TYPE_STRING).setCellValue(kpiHos.getName());
-				row.createCell(4, XSSFCell.CELL_TYPE_STRING).setCellValue(kpiHos.getDragonType());
-				row.createCell(5, XSSFCell.CELL_TYPE_STRING).setCellValue(kpiHos.getLevel());
-				row.createCell(6, XSSFCell.CELL_TYPE_STRING).setCellValue(kpiHos.getBrCNName());
-				row.createCell(7, XSSFCell.CELL_TYPE_STRING).setCellValue(kpiHos.getRegion());
-				row.createCell(8, XSSFCell.CELL_TYPE_STRING).setCellValue(kpiHos.getRsdCode());
-				row.createCell(9, XSSFCell.CELL_TYPE_STRING).setCellValue(kpiHos.getRsdName());
-				row.createCell(10, XSSFCell.CELL_TYPE_STRING).setCellValue(kpiHos.getRsdTel());
-				row.createCell(11, XSSFCell.CELL_TYPE_STRING).setCellValue(kpiHos.getRsdEmail());
-				row.createCell(12, XSSFCell.CELL_TYPE_STRING).setCellValue(kpiHos.getRsmRegion());
-				row.createCell(13, XSSFCell.CELL_TYPE_STRING).setCellValue(kpiHos.getRsmCode());
-				row.createCell(14, XSSFCell.CELL_TYPE_STRING).setCellValue(kpiHos.getRsmName());
-				row.createCell(15, XSSFCell.CELL_TYPE_STRING).setCellValue(kpiHos.getRsmTel());
-				row.createCell(16, XSSFCell.CELL_TYPE_STRING).setCellValue(kpiHos.getRsmEmail());
-				row.createCell(17, XSSFCell.CELL_TYPE_STRING).setCellValue(kpiHos.getDsmCode());
-				row.createCell(18, XSSFCell.CELL_TYPE_STRING).setCellValue(kpiHos.getDsmName());
-				row.createCell(19, XSSFCell.CELL_TYPE_STRING).setCellValue(kpiHos.getDsmTel());
-				row.createCell(20, XSSFCell.CELL_TYPE_STRING).setCellValue(kpiHos.getDsmEmail());
-				row.createCell(21, XSSFCell.CELL_TYPE_STRING).setCellValue(kpiHos.getIsMainSales());
-				row.createCell(22, XSSFCell.CELL_TYPE_STRING).setCellValue(kpiHos.getSalesCode());
-				row.createCell(23, XSSFCell.CELL_TYPE_STRING).setCellValue(kpiHos.getSalesName());
-				row.createCell(24, XSSFCell.CELL_TYPE_STRING).setCellValue(kpiHos.getSalesTel());
-				row.createCell(25, XSSFCell.CELL_TYPE_STRING).setCellValue(kpiHos.getSalesEmail());
+				columnNum = 0;
+				row.createCell(columnNum++, XSSFCell.CELL_TYPE_STRING).setCellValue(kpiHos.getProvince());
+				row.createCell(columnNum++, XSSFCell.CELL_TYPE_STRING).setCellValue(kpiHos.getCity());
+				row.createCell(columnNum++, XSSFCell.CELL_TYPE_STRING).setCellValue(kpiHos.getCode());
+				row.createCell(columnNum++, XSSFCell.CELL_TYPE_STRING).setCellValue(kpiHos.getName());
+				row.createCell(columnNum++, XSSFCell.CELL_TYPE_STRING).setCellValue(kpiHos.getDragonType());
+				row.createCell(columnNum++, XSSFCell.CELL_TYPE_STRING).setCellValue(kpiHos.getLevel());
+				row.createCell(columnNum++, XSSFCell.CELL_TYPE_STRING).setCellValue(kpiHos.getBrCNName());
+				row.createCell(columnNum++, XSSFCell.CELL_TYPE_STRING).setCellValue(kpiHos.getRegion());
+				row.createCell(columnNum++, XSSFCell.CELL_TYPE_STRING).setCellValue(kpiHos.getRsdCode());
+				row.createCell(columnNum++, XSSFCell.CELL_TYPE_STRING).setCellValue(kpiHos.getRsdName());
+				row.createCell(columnNum++, XSSFCell.CELL_TYPE_STRING).setCellValue(kpiHos.getRsdTel());
+				row.createCell(columnNum++, XSSFCell.CELL_TYPE_STRING).setCellValue(kpiHos.getRsdEmail());
+				row.createCell(columnNum++, XSSFCell.CELL_TYPE_STRING).setCellValue(kpiHos.getRsmRegion());
+				row.createCell(columnNum++, XSSFCell.CELL_TYPE_STRING).setCellValue(kpiHos.getRsmCode());
+				row.createCell(columnNum++, XSSFCell.CELL_TYPE_STRING).setCellValue(kpiHos.getRsmName());
+				row.createCell(columnNum++, XSSFCell.CELL_TYPE_STRING).setCellValue(kpiHos.getRsmTel());
+				row.createCell(columnNum++, XSSFCell.CELL_TYPE_STRING).setCellValue(kpiHos.getRsmEmail());
+				row.createCell(columnNum++, XSSFCell.CELL_TYPE_STRING).setCellValue(kpiHos.getDsmCode());
+				row.createCell(columnNum++, XSSFCell.CELL_TYPE_STRING).setCellValue(kpiHos.getDsmName());
+				row.createCell(columnNum++, XSSFCell.CELL_TYPE_STRING).setCellValue(kpiHos.getDsmTel());
+				row.createCell(columnNum++, XSSFCell.CELL_TYPE_STRING).setCellValue(kpiHos.getDsmEmail());
+				row.createCell(columnNum++, XSSFCell.CELL_TYPE_STRING).setCellValue(kpiHos.getIsMainSales());
+				row.createCell(columnNum++, XSSFCell.CELL_TYPE_STRING).setCellValue(kpiHos.getSalesCode());
+				row.createCell(columnNum++, XSSFCell.CELL_TYPE_STRING).setCellValue(kpiHos.getSalesName());
+				row.createCell(columnNum++, XSSFCell.CELL_TYPE_STRING).setCellValue(kpiHos.getSalesTel());
+				row.createCell(columnNum++, XSSFCell.CELL_TYPE_STRING).setCellValue(kpiHos.getSalesEmail());
 				if( null != department && "3".equalsIgnoreCase(department) ){
-					row.createCell(26, XSSFCell.CELL_TYPE_STRING).setCellValue(kpiHos.getIsTop100());
+					row.createCell(columnNum++, XSSFCell.CELL_TYPE_STRING).setCellValue(kpiHos.getIsTop100());
+				}
+				if( null != department && "2".equalsIgnoreCase(department) ){
+					row.createCell(columnNum++, XSSFCell.CELL_TYPE_STRING).setCellValue(kpiHos.getPortNum());
 				}
 			}
 			workbook.write(fOut);

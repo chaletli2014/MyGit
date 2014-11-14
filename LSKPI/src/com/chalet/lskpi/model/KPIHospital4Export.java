@@ -35,6 +35,8 @@ public class KPIHospital4Export {
     private String salesEmail;
     private String isMainSales;
     
+    private int portNum;
+    
     public int getId() {
         return id;
     }
@@ -202,5 +204,11 @@ public class KPIHospital4Export {
 	}
 	public void setIsMainSales(String isMainSales) {
 		this.isMainSales = isMainSales;
+	}
+	public int getPortNum() {
+		return portNum;
+	}
+	public void setPortNum(int portNum) {
+		this.portNum = portNum;
 	}
 }
