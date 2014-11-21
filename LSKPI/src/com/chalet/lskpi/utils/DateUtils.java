@@ -412,6 +412,20 @@ public class DateUtils {
     	return formatter_1.format(last12StartDate)+"-"+formatter_1.format(last12EndDate);
     }
     
+    public static String getThursdayHome12WeeksEndDuration(String startDuration) throws ParseException{
+    	
+    	Date startDate_d = formatter_1.parse(startDuration.substring(0, 10));
+    	
+    	Calendar cal = Calendar.getInstance();
+    	cal.setTime(startDate_d);
+    	cal.add(Calendar.DAY_OF_YEAR,-7*11);
+    	
+    	Date last12StartDate = cal.getTime();
+    	cal.add(Calendar.DATE, 6);
+    	Date last12EndDate = cal.getTime();
+    	return formatter_1.format(last12StartDate)+"-"+formatter_1.format(last12EndDate);
+    }
+    
     public static String getHome12WeeksBeginDuration(Date date){
     	Calendar cal = Calendar.getInstance();
     	cal.setTime(date);

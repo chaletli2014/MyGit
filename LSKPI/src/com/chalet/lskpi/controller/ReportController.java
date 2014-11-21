@@ -2234,49 +2234,72 @@ public class ReportController extends BaseController{
 			if( null != selectedDSM && !"".equalsIgnoreCase(selectedDSM) ){
 			    UserInfo dsm = userService.getUserInfoByTel(selectedDSM);
                 
-                if( "1".equalsIgnoreCase(department) ){
-                    populateWeeklyReportFile(remoteWeeklyReportFile, weeklyReportFile2Download, localWeeklyReportFile, chooseDate_d, "呼吸科周报-DSM-", dsm.getName());
-                }else if( "2".equalsIgnoreCase(department) ){
-                    populateWeeklyReportFile(remoteWeeklyReportFile, weeklyReportFile2Download, localWeeklyReportFile, chooseDate_d, "儿科周报-DSM-", dsm.getName());
-                }else{
-                    populateWeeklyReportFile(remoteWeeklyReportFile, weeklyReportFile2Download, localWeeklyReportFile, chooseDate_d, "胸外科周报-DSM-", dsm.getName());
-                }
+			    switch(department){
+				    case "1":
+				    	populateWeeklyReportFile(remoteWeeklyReportFile, weeklyReportFile2Download, localWeeklyReportFile, chooseDate_d, "呼吸科周报-DSM-", dsm.getName());
+				    	break;
+				    case "2":
+				    	populateWeeklyReportFile(remoteWeeklyReportFile, weeklyReportFile2Download, localWeeklyReportFile, chooseDate_d, "儿科周报-DSM-", dsm.getName());
+				    	break;
+				    case "3":
+				    	populateWeeklyReportFile(remoteWeeklyReportFile, weeklyReportFile2Download, localWeeklyReportFile, chooseDate_d, "胸外科周报-DSM-", dsm.getName());
+				    	break;
+				    case "4":
+				    	populateWeeklyReportFile(remoteWeeklyReportFile, weeklyReportFile2Download, localWeeklyReportFile, chooseDate_d, "家庭雾化周报-DSM-", dsm.getName());
+				    	break;
+			    	default:
+			    }
 			}else if( null != selectedRSM && !"".equalsIgnoreCase(selectedRSM) ){
-			    
-			    if( "1".equalsIgnoreCase(department) ){
-			        populateWeeklyReportFile(remoteWeeklyReportFile, weeklyReportFile2Download, localWeeklyReportFile, chooseDate_d, "呼吸科周报-RSM-", selectedRSM);
-                }else if( "2".equalsIgnoreCase(department) ){
-                    populateWeeklyReportFile(remoteWeeklyReportFile, weeklyReportFile2Download, localWeeklyReportFile, chooseDate_d, "儿科周报-RSM-", selectedRSM);
-                }else{
-                    populateWeeklyReportFile(remoteWeeklyReportFile, weeklyReportFile2Download, localWeeklyReportFile, chooseDate_d, "胸外科周报-RSM-", selectedRSM);
-                }
+				switch(department){
+					case "1":
+						populateWeeklyReportFile(remoteWeeklyReportFile, weeklyReportFile2Download, localWeeklyReportFile, chooseDate_d, "呼吸科周报-RSM-", selectedRSM);
+						break;
+					case "2":
+						populateWeeklyReportFile(remoteWeeklyReportFile, weeklyReportFile2Download, localWeeklyReportFile, chooseDate_d, "儿科周报-RSM-", selectedRSM);
+						break;
+					case "3":
+						populateWeeklyReportFile(remoteWeeklyReportFile, weeklyReportFile2Download, localWeeklyReportFile, chooseDate_d, "胸外科周报-RSM-", selectedRSM);
+						break;
+					case "4":
+						populateWeeklyReportFile(remoteWeeklyReportFile, weeklyReportFile2Download, localWeeklyReportFile, chooseDate_d, "家庭雾化周报-RSM-", selectedRSM);
+						break;
+					default:
+				}
 			}else if( null != selectedRSD && !"0".equalsIgnoreCase(selectedRSD) ){
-			    if( "1".equalsIgnoreCase(department) ){
-			        populateWeeklyReportFile(remoteWeeklyReportFile, weeklyReportFile2Download, localWeeklyReportFile, chooseDate_d, "呼吸科周报-RSD-", selectedRSD);
-                }else if( "2".equalsIgnoreCase(department) ){
-                    populateWeeklyReportFile(remoteWeeklyReportFile, weeklyReportFile2Download, localWeeklyReportFile, chooseDate_d, "儿科周报-RSD-", selectedRSD);
-                }else{
-                    populateWeeklyReportFile(remoteWeeklyReportFile, weeklyReportFile2Download, localWeeklyReportFile, chooseDate_d, "胸外科周报-RSD-", selectedRSD);
-                }
+				switch(department){
+					case "1":
+						populateWeeklyReportFile(remoteWeeklyReportFile, weeklyReportFile2Download, localWeeklyReportFile, chooseDate_d, "呼吸科周报-RSD-", selectedRSD);
+						break;
+					case "2":
+						populateWeeklyReportFile(remoteWeeklyReportFile, weeklyReportFile2Download, localWeeklyReportFile, chooseDate_d, "儿科周报-RSD-", selectedRSD);
+						break;
+					case "3":
+						populateWeeklyReportFile(remoteWeeklyReportFile, weeklyReportFile2Download, localWeeklyReportFile, chooseDate_d, "胸外科周报-RSD-", selectedRSD);
+						break;
+					case "4":
+						populateWeeklyReportFile(remoteWeeklyReportFile, weeklyReportFile2Download, localWeeklyReportFile, chooseDate_d, "家庭雾化周报-RSD-", selectedRSD);
+						break;
+					default:
+				}
 			}else{
 			  //the whole country is selected.
 			    List<String> filePaths = new ArrayList<String>();
-//			    List<String> allRegions = userService.getAllRegionName();
 			    try{
-			        if( "1".equalsIgnoreCase(department) ){
-			            populateWeeklyReportAttachedFiles(filePaths,reportFiles, localPath, basePath, chooseDate_d, weeklyReportFile2Download, localWeeklyReportFile, remoteWeeklyReportFile, "呼吸科周报", "");
-			            
-//			            for( String reigonCenter : allRegions ){
-//			                populateWeeklyReportAttachedFiles(filePaths,reportFiles, localPath, basePath, chooseDate_d, weeklyReportFile2Download, localWeeklyReportFile, remoteWeeklyReportFile, "呼吸科周报", "_"+reigonCenter);
-//			            }
-			        }else if( "2".equalsIgnoreCase(department) ){
-                        populateWeeklyReportAttachedFiles(filePaths,reportFiles, localPath, basePath, chooseDate_d, weeklyReportFile2Download, localWeeklyReportFile, remoteWeeklyReportFile, "儿科周报", "");
-//                        for( String reigonCenter : allRegions ){
-//                            populateWeeklyReportAttachedFiles(filePaths,reportFiles, localPath, basePath, chooseDate_d, weeklyReportFile2Download, localWeeklyReportFile, remoteWeeklyReportFile, "儿科周报", "_"+reigonCenter);
-//                        }
-			        }else{
-			            populateWeeklyReportAttachedFiles(filePaths,reportFiles, localPath, basePath, chooseDate_d, weeklyReportFile2Download, localWeeklyReportFile, remoteWeeklyReportFile, "胸外科周报", "");
-			        }
+			    	switch(department){
+						case "1":
+							populateWeeklyReportAttachedFiles(filePaths,reportFiles, localPath, basePath, chooseDate_d, weeklyReportFile2Download, localWeeklyReportFile, remoteWeeklyReportFile, "呼吸科周报", "");
+							break;
+						case "2":
+							populateWeeklyReportAttachedFiles(filePaths,reportFiles, localPath, basePath, chooseDate_d, weeklyReportFile2Download, localWeeklyReportFile, remoteWeeklyReportFile, "儿科周报", "");
+							break;
+						case "3":
+							populateWeeklyReportAttachedFiles(filePaths,reportFiles, localPath, basePath, chooseDate_d, weeklyReportFile2Download, localWeeklyReportFile, remoteWeeklyReportFile, "胸外科周报", "");
+							break;
+						case "4":
+							populateWeeklyReportAttachedFiles(filePaths,reportFiles, localPath, basePath, chooseDate_d, weeklyReportFile2Download, localWeeklyReportFile, remoteWeeklyReportFile, "家庭雾化周报", "");
+							break;
+						default:
+					}
 			    }catch(Exception e){
 			        logger.error("fail to generate the daily report to export, no file is found");
 			        

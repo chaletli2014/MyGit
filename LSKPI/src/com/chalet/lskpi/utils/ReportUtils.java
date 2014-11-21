@@ -58,6 +58,9 @@ public class ReportUtils {
         String weeklyPDFCHEReportFileName = cheFileNamePre+".pdf";
         String weeklyPDFHomeReportFileName = homeFileNamePre+".pdf";
         
+        String startDuration = startDate+"-"+endDate;
+		String endDuration = DateUtils.getThursdayHome12WeeksEndDuration(startDuration);
+        
         switch(userLevel){
             case LsAttributes.USER_LEVEL_RSD:
               //RSD
@@ -83,7 +86,7 @@ public class ReportUtils {
             	}
             	
             	if( !new File(weeklyPDFHomeReportFileName).exists() || ( !checkFileExists && new File(weeklyPDFHomeReportFileName).exists()) ){
-            		html.runRefreshReport( basePath + "reportDesigns/weeklyHomePDFReportForRSD.rptdesign",telephone,startDate,endDate,weeklyPDFHomeReportFileName,"pdf","","","");
+            		html.runHomeReport( basePath + "reportDesigns/weeklyHomePDFReportForRSD.rptdesign",telephone,startDuration,endDuration,weeklyPDFHomeReportFileName,"pdf","","");
             		logger.info("the weekly home report for RSD is done.");
             	}else{
             		logger.info(String.format(LOG_MESSAGE, fileSubName));
@@ -112,6 +115,13 @@ public class ReportUtils {
                 }else{
                     logger.info(String.format(LOG_MESSAGE, fileSubName));
                 }
+                
+                if( !new File(weeklyPDFHomeReportFileName).exists() || ( !checkFileExists && new File(weeklyPDFHomeReportFileName).exists()) ){
+                	html.runHomeReport( basePath + "reportDesigns/weeklyHomePDFReportForRSM.rptdesign",telephone,startDuration,endDuration,weeklyPDFHomeReportFileName,"pdf","","");
+                	logger.info("the weekly home report for RSM is done.");
+                }else{
+                	logger.info(String.format(LOG_MESSAGE, fileSubName));
+                }
                 break;
             case LsAttributes.USER_LEVEL_DSM:
               //DSM
@@ -135,6 +145,13 @@ public class ReportUtils {
                 }else{
                     logger.info(String.format(LOG_MESSAGE, fileSubName));
                 }
+            	
+            	if( !new File(weeklyPDFHomeReportFileName).exists() || ( !checkFileExists && new File(weeklyPDFHomeReportFileName).exists()) ){
+            		html.runHomeReport( basePath + "reportDesigns/weeklyHomePDFReportForDSM.rptdesign",telephone,startDuration,endDuration,weeklyPDFHomeReportFileName,"pdf","","");
+            		logger.info("the weekly chest surgery report for DSM is done.");
+            	}else{
+            		logger.info(String.format(LOG_MESSAGE, fileSubName));
+            	}
                 break;
             case LsAttributes.USER_LEVEL_REP:
               //REP
@@ -153,21 +170,6 @@ public class ReportUtils {
             	}
                 break;
             case LsAttributes.USER_LEVEL_BM:
-//                for( String region : regionList ){
-//                    String weeklyPDFPEDSingleRSDReportFileName = new StringBuffer(pedFileNamePre).append("_").append(region).append(".pdf").toString();
-//                    String weeklyPDFRESSingleRSDReportFileName = new StringBuffer(resFileNamePre).append("_").append(region).append(".pdf").toString();
-//                    
-//                    if( !new File(weeklyPDFPEDSingleRSDReportFileName).exists() || (isFirstRefresh && !checkFileExists) ){
-//                        html.runRefreshReport( basePath + "reportDesigns/refresh_weeklyPEDReportBUSingleRSD.rptdesign",telephone,startDate,endDate,weeklyPDFPEDSingleRSDReportFileName,"pdf","","",region);
-//                        logger.info(String.format("the ped weekly report for BU %s is done.", region));
-//                    }
-//                    
-//                    if( !new File(weeklyPDFRESSingleRSDReportFileName).exists() || (isFirstRefresh && !checkFileExists)  ){
-//                        html.runRefreshReport( basePath + "reportDesigns/refresh_weeklyRESReportBUSingleRSD.rptdesign",telephone,startDate,endDate,weeklyPDFRESSingleRSDReportFileName,"pdf","","",region);
-//                        logger.info(String.format("the res weekly report for BU %s is done.", region));
-//                    }
-//                    
-//                }
                 
                 if( !new File(weeklyPDFRESReportFileName).exists() || (isFirstRefresh && !checkFileExists)  ){
                     html.runRefreshReport( basePath + "reportDesigns/refresh_weeklyRESReportBU.rptdesign",telephone,startDate,endDate,weeklyPDFRESReportFileName,"pdf","","","");
@@ -188,6 +190,13 @@ public class ReportUtils {
                     logger.info("the chest surgery weekly report for BU is done.");
                 }else{
                     logger.info("The chest surgery weekly report for BU is already generated, no need to do again.");
+                }
+                
+                if( !new File(weeklyPDFHomeReportFileName).exists() || (isFirstRefresh && !checkFileExists)  ){
+                	html.runHomeReport( basePath + "reportDesigns/weeklyHomePDFReportForBU.rptdesign",telephone,startDuration,endDuration,weeklyPDFHomeReportFileName,"pdf","","");
+                	logger.info("the chest surgery weekly report for BU is done.");
+                }else{
+                	logger.info("The chest surgery weekly report for BU is already generated, no need to do again.");
                 }
                 break;
             default:
