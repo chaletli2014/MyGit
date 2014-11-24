@@ -95,7 +95,7 @@ public class UploadServiceImpl implements UploadService {
             	doctorExists = doctorDAO.isDrExists(hospitalCode,doctor.getName());
             	if( !doctorExists ){
             		drCount = doctorDAO.getTotalDrNumOfHospital(hospitalCode)+doctorDAO.getTotalRemovedDrNumOfHospital(hospitalCode);
-            		doctor.setCode(String.valueOf(drCount));
+            		doctor.setCode(String.valueOf(drCount+1));
             		doctorDAO.insertDoctor(doctor);
             	}else{
             		duplicateDoctors.add(doctor);
