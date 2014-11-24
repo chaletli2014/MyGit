@@ -32,6 +32,7 @@ public class ReportUtils {
                 String telephone = user.getTelephone();
                 if( telephone != null && !"#N/A".equalsIgnoreCase(telephone) ){
                     logger.info(String.format("the mobile is %s",telephone));
+                    createWeeklyHomePDFReport(html, user, telephone, basePath, contextPath, checkFileExists, isFirstRefresh);
                     createWeeklyPDFReport(html, user, telephone, startDate, endDate, basePath, contextPath, lastThursday, user.getEmail(),isFirstRefresh,checkFileExists, regionList);
                 }else{
                     logger.error(String.format("the telephone number for the user %s is not found", user.getName()));
@@ -51,15 +52,10 @@ public class ReportUtils {
         String pedFileNamePre = basePath + "weeklyReport/"+lastThursday+"/儿科周报-"+fileSubName+"-"+lastThursday;
         String resFileNamePre = basePath + "weeklyReport/"+lastThursday+"/呼吸科周报-"+fileSubName+"-"+lastThursday;
         String cheFileNamePre = basePath + "weeklyReport/"+lastThursday+"/胸外科周报-"+fileSubName+"-"+lastThursday;
-        String homeFileNamePre = basePath + "weeklyReport/"+lastThursday+"/家庭雾化周报-"+fileSubName+"-"+lastThursday;
         
         String weeklyPDFPEDReportFileName = pedFileNamePre+".pdf";
         String weeklyPDFRESReportFileName = resFileNamePre+".pdf";
         String weeklyPDFCHEReportFileName = cheFileNamePre+".pdf";
-        String weeklyPDFHomeReportFileName = homeFileNamePre+".pdf";
-        
-        String startDuration = startDate+"-"+endDate;
-		String endDuration = DateUtils.getThursdayHome12WeeksEndDuration(startDuration);
         
         switch(userLevel){
             case LsAttributes.USER_LEVEL_RSD:
@@ -85,13 +81,6 @@ public class ReportUtils {
             	    logger.info(String.format(LOG_MESSAGE, fileSubName));
             	}
             	
-            	if( !new File(weeklyPDFHomeReportFileName).exists() || ( !checkFileExists && new File(weeklyPDFHomeReportFileName).exists()) ){
-            		html.runHomeReport( basePath + "reportDesigns/weeklyHomePDFReportForRSD.rptdesign",telephone,startDuration,endDuration,weeklyPDFHomeReportFileName,"pdf","","");
-            		logger.info("the weekly home report for RSD is done.");
-            	}else{
-            		logger.info(String.format(LOG_MESSAGE, fileSubName));
-            	}
-            	
                 break;
             case LsAttributes.USER_LEVEL_RSM:
               //RSM
@@ -114,13 +103,6 @@ public class ReportUtils {
                     logger.info("the weekly chest surgery report for RSM is done.");
                 }else{
                     logger.info(String.format(LOG_MESSAGE, fileSubName));
-                }
-                
-                if( !new File(weeklyPDFHomeReportFileName).exists() || ( !checkFileExists && new File(weeklyPDFHomeReportFileName).exists()) ){
-                	html.runHomeReport( basePath + "reportDesigns/weeklyHomePDFReportForRSM.rptdesign",telephone,startDuration,endDuration,weeklyPDFHomeReportFileName,"pdf","","");
-                	logger.info("the weekly home report for RSM is done.");
-                }else{
-                	logger.info(String.format(LOG_MESSAGE, fileSubName));
                 }
                 break;
             case LsAttributes.USER_LEVEL_DSM:
@@ -145,13 +127,6 @@ public class ReportUtils {
                 }else{
                     logger.info(String.format(LOG_MESSAGE, fileSubName));
                 }
-            	
-            	if( !new File(weeklyPDFHomeReportFileName).exists() || ( !checkFileExists && new File(weeklyPDFHomeReportFileName).exists()) ){
-            		html.runHomeReport( basePath + "reportDesigns/weeklyHomePDFReportForDSM.rptdesign",telephone,startDuration,endDuration,weeklyPDFHomeReportFileName,"pdf","","");
-            		logger.info("the weekly chest surgery report for DSM is done.");
-            	}else{
-            		logger.info(String.format(LOG_MESSAGE, fileSubName));
-            	}
                 break;
             case LsAttributes.USER_LEVEL_REP:
               //REP
@@ -190,13 +165,6 @@ public class ReportUtils {
                     logger.info("the chest surgery weekly report for BU is done.");
                 }else{
                     logger.info("The chest surgery weekly report for BU is already generated, no need to do again.");
-                }
-                
-                if( !new File(weeklyPDFHomeReportFileName).exists() || (isFirstRefresh && !checkFileExists)  ){
-                	html.runHomeReport( basePath + "reportDesigns/weeklyHomePDFReportForBU.rptdesign",telephone,startDuration,endDuration,weeklyPDFHomeReportFileName,"pdf","","");
-                	logger.info("the chest surgery weekly report for BU is done.");
-                }else{
-                	logger.info("The chest surgery weekly report for BU is already generated, no need to do again.");
                 }
                 break;
             default:
