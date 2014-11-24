@@ -1,5 +1,6 @@
 package com.chalet.lskpi.service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -80,18 +81,34 @@ public class UploadServiceImpl implements UploadService {
         }
     }
 
-    public void uploadDoctorData(List<Doctor> doctors) throws Exception {
+    public List<Doctor> uploadDoctorData(List<Doctor> doctors) throws Exception {
+    	List<Doctor> duplicateDoctors = new ArrayList<Doctor>();
         try{
             long start = System.currentTimeMillis();
-            doctorDAO.cleanDoctor();
-            doctorDAO.insertDoctors(doctors);
+//            doctorDAO.cleanDoctor();
+            int drCount = 0;
+            String hospitalCode = "";
+            
+            for( Doctor doctor : doctors ){
+            	boolean doctorExists = false;
+            	hospitalCode = doctor.getHospitalCode();
+            	doctorExists = doctorDAO.isDrExists(hospitalCode,doctor.getName());
+            	if( !doctorExists ){
+            		drCount = doctorDAO.getTotalDrNumOfHospital(hospitalCode)+doctorDAO.getTotalRemovedDrNumOfHospital(hospitalCode);
+            		doctor.setCode(String.valueOf(drCount));
+            		doctorDAO.insertDoctor(doctor);
+            	}else{
+            		duplicateDoctors.add(doctor);
+            	}
+            }
+            
             long finish = System.currentTimeMillis();
             logger.info("time spent to insert the doctors infos into DB is " + (finish-start) + " ms");
-            
         }catch(Exception e){
             logger.error("fail to update the doctor data,",e);
             throw new Exception("更新医生失败");
         }
+        return duplicateDoctors;
     }
     
     

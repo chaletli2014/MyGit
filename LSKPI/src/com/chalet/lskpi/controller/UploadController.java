@@ -469,7 +469,11 @@ public class UploadController {
             List<Doctor> doctors = ExcelUtils.getDoctorDataFromFile(loadFile(request), dataHeaders);
             long end = System.currentTimeMillis();
             logger.info("doctor data size is " + doctors.size() + ", spend time " + (end - begin) + " ms");
-            uploadService.uploadDoctorData(doctors);
+            List<Doctor> duplicateDoctors = uploadService.uploadDoctorData(doctors);
+            
+            if( null != duplicateDoctors && !duplicateDoctors.isEmpty()){
+            	request.getSession().setAttribute(LsAttributes.INVALID_DATA, duplicateDoctors);
+            }
             request.getSession().setAttribute(LsAttributes.UPLOAD_FILE_MESSAGE, LsAttributes.RETURNED_MESSAGE_0);
         }catch(Exception e){
             logger.error("fail to upload the file,",e);

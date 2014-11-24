@@ -25,4 +25,6 @@ public interface DoctorDAO {
     public Doctor getDoctorById(int doctorId) throws Exception;
     
     public boolean drHasLastWeekData(int doctorId, Date beginDate, Date endDate) throws Exception;
+    
+    public boolean isDrExists(String hospitalCode,String drName) throws Exception;
 }

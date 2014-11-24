@@ -9,5 +9,5 @@ public interface UploadService {
 
     public void uploadAllData(Map<String, List> allInfos) throws Exception;
     
-    public void uploadDoctorData(List<Doctor> doctors) throws Exception;
+    public List<Doctor> uploadDoctorData(List<Doctor> doctors) throws Exception;
 }

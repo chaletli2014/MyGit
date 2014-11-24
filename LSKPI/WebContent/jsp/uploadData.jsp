@@ -506,6 +506,15 @@
                                     <div>${message}</div>
                                 </div>
                             </c:if>
+                            <c:if test="${! empty invalidData}">
+								<div>
+									<div><span class="upload_failure_title">问题数据：</span>${fn:length(invalidData)} 条。 以下医院的医生姓名重复，请确认</div>
+									<div>(医院Code - 医生姓名)</div>
+									<c:forEach items="${invalidData}" var="invalidDr">
+										<div>${invalidDr.hospitalCode} - ${invalidDr.name}</div>
+									</c:forEach>
+								</div>
+							</c:if>
                         </div>
 					</form>
 				</div>

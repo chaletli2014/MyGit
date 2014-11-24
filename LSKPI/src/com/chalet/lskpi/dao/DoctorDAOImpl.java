@@ -230,6 +230,13 @@ public class DoctorDAOImpl implements DoctorDAO {
         int count = dataBean.getJdbcTemplate().queryForInt("select count(1) from tbl_home_data where doctorId=? and createdate between ? and ?", new Object[]{doctorId,new Timestamp(beginDate.getTime()),new Timestamp(endDate.getTime())});
         return count>0;
     }
+    
+	@Override
+	public boolean isDrExists(String hospitalCode, String drName)
+			throws Exception {
+		int count = dataBean.getJdbcTemplate().queryForInt("select count(1) from tbl_doctor where hospitalCode=? and name=?", new Object[]{hospitalCode,drName});
+		return count>0;
+	}
 
     public DataBean getDataBean() {
         return dataBean;
