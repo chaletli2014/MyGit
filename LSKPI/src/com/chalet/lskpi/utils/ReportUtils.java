@@ -33,7 +33,9 @@ public class ReportUtils {
                 String telephone = user.getTelephone();
                 if( telephone != null && !"#N/A".equalsIgnoreCase(telephone) ){
                     logger.info(String.format("the mobile is %s",telephone));
+                    lastThursday = DateUtils.getDirectoryNameOfCurrentDuration(new Date(refreshDate.getTime() + 7 * 24 * 60 * 60 * 1000));
                     createWeeklyHomePDFReport(html, user, telephone, startDate, endDate, lastThursday, basePath, contextPath, checkFileExists, isFirstRefresh, false);
+                    lastThursday = DateUtils.getDirectoryNameOfCurrentDuration(refreshDate);
                     createWeeklyPDFReport(html, user, telephone, startDate, endDate, basePath, contextPath, lastThursday, user.getEmail(),isFirstRefresh,checkFileExists, regionList);
                 }else{
                     logger.error(String.format("the telephone number for the user %s is not found", user.getName()));

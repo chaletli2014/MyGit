@@ -156,8 +156,8 @@ public class HomeCollectionController extends BaseController{
             	logger.info("start to refresh the doctor weekly table.");
             	homeService.removeOldDoctors(dayInWeek);
             	logger.info("end to remove the doctor weekly table.");
-        		homeService.backupDoctors(dayInWeek);
-        		logger.info("end to backup the doctor weekly table.");
+//        		homeService.backupDoctors(dayInWeek);
+//        		logger.info("end to backup the doctor weekly table.");
             }
             
             
@@ -325,8 +325,8 @@ public class HomeCollectionController extends BaseController{
             	logger.info("start to refresh the doctor weekly table.");
             	homeService.removeOldDoctors(dayInWeek);
             	logger.info("end to remove the doctor weekly table.");
-        		homeService.backupDoctors(dayInWeek);
-        		logger.info("end to backup the doctor weekly table.");
+//        		homeService.backupDoctors(dayInWeek);
+//        		logger.info("end to backup the doctor weekly table.");
             }
         }catch(CustomrizedExceptioin ce){
             logger.error("fail to delete doctor,"+ce.getMessage());
