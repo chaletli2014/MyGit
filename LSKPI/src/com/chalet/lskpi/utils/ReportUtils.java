@@ -1,6 +1,7 @@
 package com.chalet.lskpi.utils;
 
 import java.io.File;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
@@ -20,7 +21,7 @@ public class ReportUtils {
     
     public static void refreshWeeklyPDFReport(List<UserInfo> reportUserInfos, String basePath, String contextPath, Date refreshDate, boolean checkFileExists, List<String> regionList){
         try{
-            String lastThursday = DateUtils.getDirectoryNameOfCurrentDuration(refreshDate);
+            String lastThursday = DateUtils.getDirectoryNameOfCurrentDuration(new Date(refreshDate.getTime() + 7 * 24 * 60 * 60 * 1000));
             String startDate = DateUtils.getTheBeginDateOfRefreshDate(refreshDate);
             String endDate = DateUtils.getTheEndDateOfRefreshDate(refreshDate);
             logger.info(String.format("start to refresh the pdf weekly report, lastThursday is %s, start date is %s, end date is %s", lastThursday, startDate, endDate));
@@ -32,7 +33,7 @@ public class ReportUtils {
                 String telephone = user.getTelephone();
                 if( telephone != null && !"#N/A".equalsIgnoreCase(telephone) ){
                     logger.info(String.format("the mobile is %s",telephone));
-                    createWeeklyHomePDFReport(html, user, telephone, basePath, contextPath, checkFileExists, isFirstRefresh);
+                    createWeeklyHomePDFReport(html, user, telephone, startDate, endDate, lastThursday, basePath, contextPath, checkFileExists, isFirstRefresh, false);
                     createWeeklyPDFReport(html, user, telephone, startDate, endDate, basePath, contextPath, lastThursday, user.getEmail(),isFirstRefresh,checkFileExists, regionList);
                 }else{
                     logger.error(String.format("the telephone number for the user %s is not found", user.getName()));
@@ -172,16 +173,30 @@ public class ReportUtils {
                 break;
         }
     }
-    public static void createWeeklyHomePDFReport(BirtReportUtils html, UserInfo user,String telephone,String basePath, String contextPath, boolean checkFileExists, boolean isFirstRefresh) throws Exception{
+    public static void createWeeklyHomePDFReport(BirtReportUtils html, UserInfo user,String telephone,String startDate, String endDate, String directoryName, String basePath, String contextPath, boolean checkFileExists, boolean isFirstRefresh, boolean isScheduledFresh) throws Exception{
     	String userLevel = user.getLevel();
     	String fileSubName = StringUtils.getFileSubName(user);
-    	Date now = new Date();
     	
-    	String reportGenerateDate = DateUtils.getDirectoryNameOfLastDuration(new Date(now.getTime()+ 7 * 24 * 60 * 60 * 1000));
-    	String startDuration = DateUtils.getThursdayHome12WeeksBeginDuration();
-		String endDuration = DateUtils.getThursdayHome12WeeksEndDuration();
+    	String startDuration = "";
+    	String endDuration = "";
     	
-    	String homeFileNamePre = basePath + "weeklyReport/"+reportGenerateDate+"/家庭雾化周报-"+fileSubName+"-"+reportGenerateDate;
+    	if( isScheduledFresh ){
+        	Calendar cal = Calendar.getInstance();
+        	cal.setTime(new Date());
+        	cal.add(Calendar.DAY_OF_YEAR,7);
+        	
+    		directoryName = DateUtils.getDirectoryNameOfLastDuration(cal.getTime());
+        	startDuration = DateUtils.getThursdayHome12WeeksBeginDuration();
+    		endDuration = DateUtils.getThursdayHome12WeeksEndDuration();
+    		logger.info(String.format("this is the scheduled refresh, directoryName is %s,startDuration is %s, endDuration is %s",directoryName,startDuration,endDuration));
+    	}else{
+    		startDuration = startDate+"-"+endDate;
+    		endDuration = DateUtils.getThursdayHome12WeeksEndDuration(startDuration);
+    		
+    		logger.info(String.format("this is the manual refresh, directoryName is %s,startDuration is %s, endDuration is %s",directoryName,startDuration,endDuration));
+    	}
+    	
+    	String homeFileNamePre = basePath + "weeklyReport/"+directoryName+"/家庭雾化周报-"+fileSubName+"-"+directoryName;
     	
     	String weeklyPDFHomeReportFileName = homeFileNamePre+".pdf";
     	

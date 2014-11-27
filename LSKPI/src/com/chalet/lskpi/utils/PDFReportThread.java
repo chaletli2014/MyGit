@@ -117,14 +117,15 @@ public class PDFReportThread extends Thread {
                         logger.info(" the data of hospital in last week is populated");
                         
                         this.taskTime = System.currentTimeMillis();
+                        
+                        boolean isFirstRefresh = true;
+                        List<String> regionList = userService.getAllRegionName();
+                        
                         Date refreshDate = DateUtils.getGenerateWeeklyReportDate();
                         String startDate = DateUtils.getTheBeginDateOfRefreshDate(refreshDate);
                         String endDate = DateUtils.getTheEndDateOfRefreshDate(refreshDate);
                         String lastRefreshThursday = DateUtils.getDirectoryNameOfCurrentDuration(refreshDate);
                         logger.info(String.format("start to refresh the pdf weekly report, lastThursday is %s, start date is %s, end date is %s", reportGenerateDate, startDate, endDate));
-                        
-                        boolean isFirstRefresh = true;
-                        List<String> regionList = userService.getAllRegionName();
                         
                         html.startPlatform();
                         for( UserInfo user : reportUserInfos ){
@@ -146,11 +147,12 @@ public class PDFReportThread extends Thread {
                     if( dayInWeek == Integer.parseInt(CustomizedProperty.getContextProperty("home_doctor_backup_day", "4"))){
                     	html.startPlatform();
                     	boolean isFirstRefresh = true;
+                    	
                         for( UserInfo user : reportUserInfos ){
                             String telephone = user.getTelephone();
                             if( telephone != null && !"#N/A".equalsIgnoreCase(telephone) ){
                                 logger.info(String.format("the mobile is %s",telephone));
-                                ReportUtils.createWeeklyHomePDFReport(html, user, telephone,basePath, contextPath, true, isFirstRefresh);
+                                ReportUtils.createWeeklyHomePDFReport(html, user, telephone,"","","",basePath, contextPath, true, isFirstRefresh, true);
                                 this.taskTime = System.currentTimeMillis();
                             }else{
                                 logger.error(String.format("the telephone number for the user %s is not found", user.getName()));

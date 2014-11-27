@@ -2231,53 +2231,57 @@ public class ReportController extends BaseController{
 			logger.info(String.format("begin to get the weekly pdf report selectedRSD is %s, selectedRSM is %s,selectedDSM is %s, department is %s, chooseDate_weekly is %s", selectedRSD, selectedRSM,selectedDSM,department,chooseDate_weekly));
 			List<ReportFileObject> reportFiles = new ArrayList<ReportFileObject>();
 			
+			String directoryName = DateUtils.getDirectoryNameOfCurrentDuration(chooseDate_d);
 			if( null != selectedDSM && !"".equalsIgnoreCase(selectedDSM) ){
 			    UserInfo dsm = userService.getUserInfoByTel(selectedDSM);
                 
 			    switch(department){
 				    case "1":
-				    	populateWeeklyReportFile(remoteWeeklyReportFile, weeklyReportFile2Download, localWeeklyReportFile, chooseDate_d, "呼吸科周报-DSM-", dsm.getName());
+				    	populateWeeklyReportFile(remoteWeeklyReportFile, weeklyReportFile2Download, localWeeklyReportFile, chooseDate_d, "呼吸科周报-DSM-", dsm.getName(),directoryName);
 				    	break;
 				    case "2":
-				    	populateWeeklyReportFile(remoteWeeklyReportFile, weeklyReportFile2Download, localWeeklyReportFile, chooseDate_d, "儿科周报-DSM-", dsm.getName());
+				    	populateWeeklyReportFile(remoteWeeklyReportFile, weeklyReportFile2Download, localWeeklyReportFile, chooseDate_d, "儿科周报-DSM-", dsm.getName(),directoryName);
 				    	break;
 				    case "3":
-				    	populateWeeklyReportFile(remoteWeeklyReportFile, weeklyReportFile2Download, localWeeklyReportFile, chooseDate_d, "胸外科周报-DSM-", dsm.getName());
+				    	populateWeeklyReportFile(remoteWeeklyReportFile, weeklyReportFile2Download, localWeeklyReportFile, chooseDate_d, "胸外科周报-DSM-", dsm.getName(),directoryName);
 				    	break;
 				    case "4":
-				    	populateWeeklyReportFile(remoteWeeklyReportFile, weeklyReportFile2Download, localWeeklyReportFile, chooseDate_d, "家庭雾化周报-DSM-", dsm.getName());
+				    	directoryName = DateUtils.getDirectoryNameOfCurrentDuration(new Date(chooseDate_d.getTime() + 7*24*60*60*1000));
+				    	populateWeeklyReportFile(remoteWeeklyReportFile, weeklyReportFile2Download, localWeeklyReportFile, chooseDate_d, "家庭雾化周报-DSM-", dsm.getName(),directoryName);
 				    	break;
 			    	default:
 			    }
 			}else if( null != selectedRSM && !"".equalsIgnoreCase(selectedRSM) ){
 				switch(department){
 					case "1":
-						populateWeeklyReportFile(remoteWeeklyReportFile, weeklyReportFile2Download, localWeeklyReportFile, chooseDate_d, "呼吸科周报-RSM-", selectedRSM);
+						populateWeeklyReportFile(remoteWeeklyReportFile, weeklyReportFile2Download, localWeeklyReportFile, chooseDate_d, "呼吸科周报-RSM-", selectedRSM,directoryName);
 						break;
 					case "2":
-						populateWeeklyReportFile(remoteWeeklyReportFile, weeklyReportFile2Download, localWeeklyReportFile, chooseDate_d, "儿科周报-RSM-", selectedRSM);
+						populateWeeklyReportFile(remoteWeeklyReportFile, weeklyReportFile2Download, localWeeklyReportFile, chooseDate_d, "儿科周报-RSM-", selectedRSM,directoryName);
 						break;
 					case "3":
-						populateWeeklyReportFile(remoteWeeklyReportFile, weeklyReportFile2Download, localWeeklyReportFile, chooseDate_d, "胸外科周报-RSM-", selectedRSM);
+						populateWeeklyReportFile(remoteWeeklyReportFile, weeklyReportFile2Download, localWeeklyReportFile, chooseDate_d, "胸外科周报-RSM-", selectedRSM,directoryName);
 						break;
 					case "4":
-						populateWeeklyReportFile(remoteWeeklyReportFile, weeklyReportFile2Download, localWeeklyReportFile, chooseDate_d, "家庭雾化周报-RSM-", selectedRSM);
+						directoryName = DateUtils.getDirectoryNameOfCurrentDuration(new Date(chooseDate_d.getTime() + 7*24*60*60*1000));
+						populateWeeklyReportFile(remoteWeeklyReportFile, weeklyReportFile2Download, localWeeklyReportFile, chooseDate_d, "家庭雾化周报-RSM-", selectedRSM,directoryName);
 						break;
 					default:
 				}
 			}else if( null != selectedRSD && !"0".equalsIgnoreCase(selectedRSD) ){
 				switch(department){
 					case "1":
-						populateWeeklyReportFile(remoteWeeklyReportFile, weeklyReportFile2Download, localWeeklyReportFile, chooseDate_d, "呼吸科周报-RSD-", selectedRSD);
+						populateWeeklyReportFile(remoteWeeklyReportFile, weeklyReportFile2Download, localWeeklyReportFile, chooseDate_d, "呼吸科周报-RSD-", selectedRSD,directoryName);
 						break;
 					case "2":
-						populateWeeklyReportFile(remoteWeeklyReportFile, weeklyReportFile2Download, localWeeklyReportFile, chooseDate_d, "儿科周报-RSD-", selectedRSD);
+						populateWeeklyReportFile(remoteWeeklyReportFile, weeklyReportFile2Download, localWeeklyReportFile, chooseDate_d, "儿科周报-RSD-", selectedRSD,directoryName);
 						break;
 					case "3":
-						populateWeeklyReportFile(remoteWeeklyReportFile, weeklyReportFile2Download, localWeeklyReportFile, chooseDate_d, "胸外科周报-RSD-", selectedRSD);
+						populateWeeklyReportFile(remoteWeeklyReportFile, weeklyReportFile2Download, localWeeklyReportFile, chooseDate_d, "胸外科周报-RSD-", selectedRSD,directoryName);
 						break;
 					case "4":
-						populateWeeklyReportFile(remoteWeeklyReportFile, weeklyReportFile2Download, localWeeklyReportFile, chooseDate_d, "家庭雾化周报-RSD-", selectedRSD);
+						directoryName = DateUtils.getDirectoryNameOfCurrentDuration(new Date(chooseDate_d.getTime() + 7*24*60*60*1000));
+						populateWeeklyReportFile(remoteWeeklyReportFile, weeklyReportFile2Download, localWeeklyReportFile, chooseDate_d, "家庭雾化周报-RSD-", selectedRSD,directoryName);
 						break;
 					default:
 				}
@@ -2287,16 +2291,17 @@ public class ReportController extends BaseController{
 			    try{
 			    	switch(department){
 						case "1":
-							populateWeeklyReportAttachedFiles(filePaths,reportFiles, localPath, basePath, chooseDate_d, weeklyReportFile2Download, localWeeklyReportFile, remoteWeeklyReportFile, "呼吸科周报", "");
+							populateWeeklyReportAttachedFiles(filePaths,reportFiles, localPath, basePath, chooseDate_d, weeklyReportFile2Download, localWeeklyReportFile, remoteWeeklyReportFile, "呼吸科周报", "",directoryName);
 							break;
 						case "2":
-							populateWeeklyReportAttachedFiles(filePaths,reportFiles, localPath, basePath, chooseDate_d, weeklyReportFile2Download, localWeeklyReportFile, remoteWeeklyReportFile, "儿科周报", "");
+							populateWeeklyReportAttachedFiles(filePaths,reportFiles, localPath, basePath, chooseDate_d, weeklyReportFile2Download, localWeeklyReportFile, remoteWeeklyReportFile, "儿科周报", "",directoryName);
 							break;
 						case "3":
-							populateWeeklyReportAttachedFiles(filePaths,reportFiles, localPath, basePath, chooseDate_d, weeklyReportFile2Download, localWeeklyReportFile, remoteWeeklyReportFile, "胸外科周报", "");
+							populateWeeklyReportAttachedFiles(filePaths,reportFiles, localPath, basePath, chooseDate_d, weeklyReportFile2Download, localWeeklyReportFile, remoteWeeklyReportFile, "胸外科周报", "",directoryName);
 							break;
 						case "4":
-							populateWeeklyReportAttachedFiles(filePaths,reportFiles, localPath, basePath, chooseDate_d, weeklyReportFile2Download, localWeeklyReportFile, remoteWeeklyReportFile, "家庭雾化周报", "");
+							directoryName = DateUtils.getDirectoryNameOfCurrentDuration(new Date(chooseDate_d.getTime() + 7*24*60*60*1000));
+							populateWeeklyReportAttachedFiles(filePaths,reportFiles, localPath, basePath, chooseDate_d, weeklyReportFile2Download, localWeeklyReportFile, remoteWeeklyReportFile, "家庭雾化周报", "",directoryName);
 							break;
 						default:
 					}
@@ -4196,22 +4201,22 @@ public class ReportController extends BaseController{
         }
     }
     
-    private void populateWeeklyReportFile(StringBuffer remoteWeeklyReportFile, StringBuffer weeklyReportFile2Download, StringBuffer localWeeklyReportFile, Date chooseDate_d, String fileNamePre, String fileSubName){
-        weeklyReportFile2Download.append(DateUtils.getDirectoryNameOfCurrentDuration(chooseDate_d)).append("/")
+    private void populateWeeklyReportFile(StringBuffer remoteWeeklyReportFile, StringBuffer weeklyReportFile2Download, StringBuffer localWeeklyReportFile, Date chooseDate_d, String fileNamePre, String fileSubName, String directoryName){
+        weeklyReportFile2Download.append(directoryName).append("/")
         .append(fileNamePre)
         .append(fileSubName)
         .append("-")
         .append(DateUtils.getWeeklyDuration(chooseDate_d))
         .append(".pdf");
         
-        localWeeklyReportFile.append(DateUtils.getDirectoryNameOfCurrentDuration(chooseDate_d)).append("/")
+        localWeeklyReportFile.append(directoryName).append("/")
         .append(fileNamePre)
         .append(fileSubName)
         .append("-")
-        .append(DateUtils.getDirectoryNameOfCurrentDuration(chooseDate_d))
+        .append(directoryName)
         .append(".pdf");
         
-        remoteWeeklyReportFile.append(DateUtils.getDirectoryNameOfCurrentDuration(chooseDate_d)).append("/")
+        remoteWeeklyReportFile.append(directoryName).append("/")
         .append(fileNamePre)
         .append(fileSubName)
         .append("-")
@@ -4221,29 +4226,29 @@ public class ReportController extends BaseController{
     
     private void populateWeeklyReportAttachedFiles(List<String> filePaths, List<ReportFileObject> reportFiles, String localPath, String basePath, Date chooseDate_d
             , StringBuffer weeklyReportFile2Download, StringBuffer localWeeklyReportFile, StringBuffer remoteWeeklyReportFile
-            , String department, String rsmRegion) throws Exception{
+            , String department, String rsmRegion, String directoryName) throws Exception{
     	remoteWeeklyReportFile = new StringBuffer(basePath).append("weeklyReport2Download/");
         weeklyReportFile2Download = new StringBuffer(localPath).append("weeklyReport2Download/");
         localWeeklyReportFile = new StringBuffer(localPath).append("weeklyReport/");
         
-        remoteWeeklyReportFile.append(DateUtils.getDirectoryNameOfCurrentDuration(chooseDate_d)).append("/")
+        remoteWeeklyReportFile.append(directoryName).append("/")
         .append(department)
         .append("-BM-")
         .append(DateUtils.getWeeklyDuration(chooseDate_d))
         .append(rsmRegion)
         .append(".pdf");
         
-        weeklyReportFile2Download.append(DateUtils.getDirectoryNameOfCurrentDuration(chooseDate_d)).append("/")
+        weeklyReportFile2Download.append(directoryName).append("/")
         .append(department)
         .append("-BM-")
         .append(DateUtils.getWeeklyDuration(chooseDate_d))
         .append(rsmRegion)
         .append(".pdf");
         
-        localWeeklyReportFile.append(DateUtils.getDirectoryNameOfCurrentDuration(chooseDate_d)).append("/")
+        localWeeklyReportFile.append(directoryName).append("/")
         .append(department)
         .append("-BM-")
-        .append(DateUtils.getDirectoryNameOfCurrentDuration(chooseDate_d))
+        .append(directoryName)
         .append(rsmRegion)
         .append(".pdf");
         
