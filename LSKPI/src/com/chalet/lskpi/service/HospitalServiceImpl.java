@@ -15,6 +15,7 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.dao.IncorrectResultSizeDataAccessException;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.chalet.lskpi.comparator.HospitalSalesDataComparator;
 import com.chalet.lskpi.dao.ChestSurgeryDAO;
@@ -114,7 +115,8 @@ public class HospitalServiceImpl implements HospitalService {
         doctorDAO.updateDoctor(doctor);
     }
 
-    public void deleteDoctor(Doctor doctor) throws Exception {
+    @Transactional
+    public void deleteDoctor(Doctor doctor, String currentUserTel) throws Exception {
         Date beginDate = DateUtils.getHomeCollectionBegionDate(new Date());
         Date endDate = new Date(beginDate.getTime() + 7 * 24 * 60 * 60 * 1000);
         boolean drHasData = doctorDAO.drHasLastWeekData(doctor.getId(), beginDate,endDate);
@@ -126,7 +128,8 @@ public class HospitalServiceImpl implements HospitalService {
             doctorDAO.backupDoctor(doctor);
             logger.info("start to delete the doctor");
             doctorDAO.deleteDoctor(doctor);
-            logger.info("delete done.");
+            logger.info("delete done, start to change the approval status");
+            doctorDAO.updateApprovalStatus(doctor, currentUserTel, "1");
         }
     }
 	

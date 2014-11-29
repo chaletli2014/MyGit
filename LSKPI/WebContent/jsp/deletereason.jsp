@@ -15,7 +15,7 @@ function submitForm(){
     <div data-role="page" id="home">
         <div data-role="content"  data-theme="a">
             <div class="roundCorner" style="width:80%">
-            <form id="doDeleteDoctorForm" action="doDeleteDoctor" method="POST" data-ajax="false" style="padding:10px 20px;">
+            <form id="doDeleteDoctorForm" action="doApprovalDoctor" method="POST" data-ajax="false" style="padding:10px 20px;">
 	            <input type="hidden" name="dataId" value="${dataId}"/>
 	            <fieldset data-role="controlgroup">
 				    <legend>请选择删除的原因:</legend>

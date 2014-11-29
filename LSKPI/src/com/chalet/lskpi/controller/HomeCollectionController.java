@@ -14,6 +14,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.chalet.lskpi.exception.CustomrizedExceptioin;
 import com.chalet.lskpi.model.Doctor;
+import com.chalet.lskpi.model.DoctorToBeDeleted;
 import com.chalet.lskpi.model.HomeData;
 import com.chalet.lskpi.model.Hospital;
 import com.chalet.lskpi.model.UserInfo;
@@ -107,6 +108,39 @@ public class HomeCollectionController extends BaseController{
         }
         
         return view;
+    }
+    
+    @RequestMapping("/doctorapproval")
+    public ModelAndView doctorapproval(HttpServletRequest request){
+    	ModelAndView view = new LsKPIModelAndView(request);
+    	String currentUserTel = verifyCurrentUser(request,view);
+    	
+    	UserInfo currentUser = (UserInfo)request.getSession().getAttribute(LsAttributes.CURRENT_OPERATOR_OBJECT);
+    	if( null == currentUserTel || "".equalsIgnoreCase(currentUserTel) || null == currentUser ){
+    		view.addObject(LsAttributes.JSP_VERIFY_MESSAGE, LsAttributes.NO_USER_FOUND_WEB);
+    		view.setViewName("index");
+    		return view;
+    	}
+    	
+    	try {
+    		List<DoctorToBeDeleted> doctors = new ArrayList<DoctorToBeDeleted>();
+    		doctors = homeService.getAllDoctorsToBeDeleted();
+    		view.addObject("doctors", doctors);
+    		
+    		view.addObject("currentUser", currentUser);
+    		view.setViewName("doctorapproval");
+    		
+    		if( request.getSession().getAttribute(LsAttributes.JSP_VERIFY_MESSAGE)!=null 
+    				&& request.getSession().getAttribute(LsAttributes.JSP_VERIFY_MESSAGE) != ""){
+    			view.addObject(LsAttributes.JSP_VERIFY_MESSAGE, request.getSession().getAttribute(LsAttributes.JSP_VERIFY_MESSAGE));
+    			request.getSession().removeAttribute(LsAttributes.JSP_VERIFY_MESSAGE);
+    		}
+    		
+    	} catch (Exception e) {
+    		logger.error("fail to init the doctor approval page,",e);
+    	}
+    	
+    	return view;
     }
     
     @RequestMapping("/doAddDoctor")
@@ -282,60 +316,145 @@ public class HomeCollectionController extends BaseController{
         logger.info(String.format("do delete doctor, current user's telephone is %s", currentUserTel));
         if( null == currentUserTel || "".equalsIgnoreCase(currentUserTel) || null == currentUser ){
             request.getSession().setAttribute(LsAttributes.COLLECT_HOMEDATA_MESSAGE, LsAttributes.NO_USER_FOUND_WEB);
-            return "redirect:doctormaintenance";
+            return "redirect:doctorapproval";
         }
         
         if( !(LsAttributes.USER_LEVEL_BM.equalsIgnoreCase(currentUser.getLevel()) 
                 || LsAttributes.USER_LEVEL_DSM.equalsIgnoreCase(currentUser.getLevel())) ){
             request.getSession().setAttribute(LsAttributes.COLLECT_HOMEDATA_MESSAGE, LsAttributes.RETURNED_MESSAGE_3);
-            return "redirect:doctormaintenance";
+            return "redirect:doctorapproval";
         }
         
         String dataId = request.getParameter("dataId");
         if( null == dataId || "".equalsIgnoreCase(dataId) ){
             request.getSession().setAttribute(LsAttributes.COLLECT_HOMEDATA_MESSAGE, LsAttributes.RETURNED_MESSAGE_9);
-            return "redirect:doctormaintenance";
+            return "redirect:doctorapproval";
         }
-        
-        String reason = request.getParameter("reason");
-        String reason_other = request.getParameter("reason_other");
-        if( null != reason && "other".equalsIgnoreCase(reason) ){
-            reason = reason_other;
-        }
-        
-        if( LsAttributes.USER_LEVEL_DSM.equalsIgnoreCase(currentUser.getLevel()) 
-                && (null == reason||"".equalsIgnoreCase(reason)) ){
-            request.getSession().setAttribute(LsAttributes.COLLECT_HOMEDATA_DATAID, dataId);
-            return "redirect:deletereason";
-        }
-        
-        int doctorId = Integer.parseInt(dataId);
         
         logger.info(String.format("delete the doctor data, dataId is %s", dataId));
+        
         try{
-            Doctor doctor = new Doctor();
-            doctor.setId(doctorId);
-            doctor.setReason(reason);
-            
-            hospitalService.deleteDoctor(doctor);
-            logger.info(String.format("user %s delete doctor successfully!", currentUserTel));
+        	String[] drIds = dataId.split(",");
+        	for( String drId : drIds ){
+        		Doctor doctor = new Doctor();
+        		doctor.setId(Integer.parseInt(drId));
+        		String reason = homeService.getDeleteReasonByDrId(Integer.parseInt(drId));
+        		doctor.setReason(reason);
+        		
+        		hospitalService.deleteDoctor(doctor,currentUserTel);
+        		logger.info(String.format("user %s delete doctor %s successfully!", currentUserTel, drId));
+        	}
             
             int dayInWeek = new Date().getDay();
             if( dayInWeek > 3 || dayInWeek == 0 ){
             	logger.info("start to refresh the doctor weekly table.");
             	homeService.removeOldDoctors(dayInWeek);
             	logger.info("end to remove the doctor weekly table.");
-//        		homeService.backupDoctors(dayInWeek);
-//        		logger.info("end to backup the doctor weekly table.");
             }
         }catch(CustomrizedExceptioin ce){
             logger.error("fail to delete doctor,"+ce.getMessage());
-            request.getSession().setAttribute(LsAttributes.COLLECT_HOMEDATA_MESSAGE, ce.getMessage());
+            request.getSession().setAttribute(LsAttributes.JSP_VERIFY_MESSAGE, ce.getMessage());
         }catch(Exception e){
             logger.error("fail to delete doctor,"+e.getMessage());
-            request.getSession().setAttribute(LsAttributes.COLLECT_HOMEDATA_MESSAGE, LsAttributes.RETURNED_MESSAGE_1);
+            request.getSession().setAttribute(LsAttributes.JSP_VERIFY_MESSAGE, LsAttributes.RETURNED_MESSAGE_1);
         }
-        return "redirect:doctormaintenance";
+        return "redirect:doctorapproval";
+    }
+    
+    @RequestMapping("/doRejectDoctor")
+    public String doRejectDoctor(HttpServletRequest request){
+    	ModelAndView view = new LsKPIModelAndView(request);
+    	String currentUserTel = verifyCurrentUser(request,view);
+    	UserInfo currentUser = (UserInfo)request.getSession().getAttribute(LsAttributes.CURRENT_OPERATOR_OBJECT);
+    	logger.info(String.format("do reject removing doctor, current user's telephone is %s", currentUserTel));
+    	if( null == currentUserTel || "".equalsIgnoreCase(currentUserTel) || null == currentUser ){
+    		request.getSession().setAttribute(LsAttributes.COLLECT_HOMEDATA_MESSAGE, LsAttributes.NO_USER_FOUND_WEB);
+    		return "redirect:doctorapproval";
+    	}
+    	
+    	if( !(LsAttributes.USER_LEVEL_BM.equalsIgnoreCase(currentUser.getLevel()) 
+    			|| LsAttributes.USER_LEVEL_DSM.equalsIgnoreCase(currentUser.getLevel())) ){
+    		request.getSession().setAttribute(LsAttributes.COLLECT_HOMEDATA_MESSAGE, LsAttributes.RETURNED_MESSAGE_3);
+    		return "redirect:doctorapproval";
+    	}
+    	
+    	String dataId = request.getParameter("dataId");
+    	if( null == dataId || "".equalsIgnoreCase(dataId) ){
+    		request.getSession().setAttribute(LsAttributes.COLLECT_HOMEDATA_MESSAGE, LsAttributes.RETURNED_MESSAGE_9);
+    		return "redirect:doctorapproval";
+    	}
+    	
+    	logger.info(String.format("reject removing the doctor data, dataId is %s", dataId));
+    	
+    	try{
+    		String[] drIds = dataId.split(",");
+    		for( String drId : drIds ){
+    			Doctor doctor = new Doctor();
+    			doctor.setId(Integer.parseInt(drId));
+    			
+    			homeService.rejectRemovingDoctor(doctor, currentUserTel);
+    			logger.info(String.format("user %s reject removing doctor %s successfully!", currentUserTel, drId));
+    		}
+    	}catch(CustomrizedExceptioin ce){
+    		logger.error("fail to delete doctor,"+ce.getMessage());
+    		request.getSession().setAttribute(LsAttributes.JSP_VERIFY_MESSAGE, ce.getMessage());
+    	}catch(Exception e){
+    		logger.error("fail to delete doctor,"+e.getMessage());
+    		request.getSession().setAttribute(LsAttributes.JSP_VERIFY_MESSAGE, LsAttributes.RETURNED_MESSAGE_1);
+    	}
+    	return "redirect:doctorapproval";
+    }
+    
+    @RequestMapping("/doApprovalDoctor")
+    public String doApprovalDoctor(HttpServletRequest request){
+    	ModelAndView view = new LsKPIModelAndView(request);
+    	String currentUserTel = verifyCurrentUser(request,view);
+    	UserInfo currentUser = (UserInfo)request.getSession().getAttribute(LsAttributes.CURRENT_OPERATOR_OBJECT);
+    	logger.info(String.format("store the to be deleted doctor, current user's telephone is %s", currentUserTel));
+    	if( null == currentUserTel || "".equalsIgnoreCase(currentUserTel) || null == currentUser ){
+    		request.getSession().setAttribute(LsAttributes.COLLECT_HOMEDATA_MESSAGE, LsAttributes.NO_USER_FOUND_WEB);
+    		return "redirect:doctormaintenance";
+    	}
+    	
+    	if( !(LsAttributes.USER_LEVEL_BM.equalsIgnoreCase(currentUser.getLevel()) 
+    			|| LsAttributes.USER_LEVEL_DSM.equalsIgnoreCase(currentUser.getLevel())) ){
+    		request.getSession().setAttribute(LsAttributes.COLLECT_HOMEDATA_MESSAGE, LsAttributes.RETURNED_MESSAGE_3);
+    		return "redirect:doctormaintenance";
+    	}
+    	
+    	String dataId = request.getParameter("dataId");
+    	if( null == dataId || "".equalsIgnoreCase(dataId) ){
+    		request.getSession().setAttribute(LsAttributes.COLLECT_HOMEDATA_MESSAGE, LsAttributes.RETURNED_MESSAGE_9);
+    		return "redirect:doctormaintenance";
+    	}
+    	
+    	String reason = request.getParameter("reason");
+    	String reason_other = request.getParameter("reason_other");
+    	if( null != reason && "other".equalsIgnoreCase(reason) ){
+    		reason = reason_other;
+    	}
+    	
+    	if( LsAttributes.USER_LEVEL_DSM.equalsIgnoreCase(currentUser.getLevel()) 
+    			&& (null == reason||"".equalsIgnoreCase(reason)) ){
+    		request.getSession().setAttribute(LsAttributes.COLLECT_HOMEDATA_DATAID, dataId);
+    		return "redirect:deletereason";
+    	}
+    	
+    	logger.info(String.format("store the to be deleted doctor data, dataId is %s", dataId));
+    	try{
+			DoctorToBeDeleted doctor = new DoctorToBeDeleted();
+			doctor.setDrId(Integer.parseInt(dataId));
+			doctor.setDeleteReason(reason);
+    		homeService.storeToBeDeletedDoctor(doctor,currentUserTel);
+    		logger.info(String.format("user %s store the to be deleted doctor successfully!", currentUserTel));
+    	}catch(CustomrizedExceptioin ce){
+    		logger.error("fail to store the to be deleted doctor,"+ce.getMessage());
+    		request.getSession().setAttribute(LsAttributes.COLLECT_HOMEDATA_MESSAGE, ce.getMessage());
+    	}catch(Exception e){
+    		logger.error("fail to store the to be deleted doctor,"+e.getMessage());
+    		request.getSession().setAttribute(LsAttributes.COLLECT_HOMEDATA_MESSAGE, LsAttributes.RETURNED_MESSAGE_1);
+    	}
+    	return "redirect:doctormaintenance";
     }
     
     @RequestMapping("/deletereason")
@@ -358,7 +477,7 @@ public class HomeCollectionController extends BaseController{
         String currentUserTel = verifyCurrentUser(request,view);
         
         UserInfo currentUser = (UserInfo)request.getSession().getAttribute(LsAttributes.CURRENT_OPERATOR_OBJECT);
-        if( !super.isCurrentUserValid(currentUser, currentUserTel, view, true) ){
+        if( !super.isCurrentUserValid(currentUser, currentUserTel, view, false) ){
             return view;
         }
         

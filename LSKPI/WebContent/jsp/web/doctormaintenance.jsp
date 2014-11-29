@@ -21,7 +21,7 @@ function checkForm(){
 }
 function deletedoctor(dataId,doctorname){
     $.mobile.showPageLoadingMsg('b','数据加载中',false);
-    window.location.href = "<%=basePath%>doDeleteDoctor?dataId="+dataId;
+    window.location.href = "<%=basePath%>doApprovalDoctor?dataId="+dataId;
 }
 </script>
 <body onload="checkMessage('${message}')">
@@ -72,18 +72,16 @@ function deletedoctor(dataId,doctorname){
 	                            <td>${doctor.hospitalName}</td>
 	                            <td>${doctor.name}</td>
 	                            <td>${doctor.salesName}</td>
-	                            <td><!-- deletedoctor(${doctor.id},'${doctor.name}') -->
+	                            <td>
 	                               <c:if test="${currentUser.level=='DSM'||currentUser.level=='REP'}">
 			                           <a href="javascript:void(0)" onclick="showEdit(${doctor.id},'${doctor.name}','${doctor.hospitalName}','${doctor.hospitalCode}')">
 						                    <img alt="" src="<%=basePath%>images/button_modify.png" style="cursor: pointer;" />
 						                </a>
 	                               </c:if>
 	                               <c:if test="${currentUser.level=='DSM'||currentUser.level=='BM'}">
-	                               <!-- 
                                        <a href="javascript:void(0)" onclick="confirm('',${doctor.id},'${doctor.name}')">
                                          <img alt="" src="<%=basePath%>images/button_delete.png" style="cursor: pointer;" />
                                        </a>
-	                                -->
 									   <a href="javascript:void(0)" onclick="showRefer(${doctor.id},'${doctor.name}','${doctor.hospitalName}','${doctor.salesCode}')">
                                          <img alt="" src="<%=basePath%>images/button_refer.png" style="cursor: pointer;" />
                                        </a>

@@ -2,6 +2,7 @@ package com.chalet.lskpi.service;
 
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 
@@ -11,7 +12,11 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
 
+import com.chalet.lskpi.dao.DoctorDAO;
 import com.chalet.lskpi.dao.HomeDAO;
+import com.chalet.lskpi.exception.CustomrizedExceptioin;
+import com.chalet.lskpi.model.Doctor;
+import com.chalet.lskpi.model.DoctorToBeDeleted;
 import com.chalet.lskpi.model.ExportDoctor;
 import com.chalet.lskpi.model.HomeData;
 import com.chalet.lskpi.model.HomeWeeklyData;
@@ -27,6 +32,10 @@ public class HomeServiceImpl implements HomeService {
     @Autowired
     @Qualifier("homeDAO")
     private HomeDAO homeDAO;
+    
+	@Autowired
+	@Qualifier("doctorDAO")
+	private DoctorDAO doctorDAO;
     
     Logger logger = Logger.getLogger(HomeServiceImpl.class);
     
@@ -266,5 +275,47 @@ public class HomeServiceImpl implements HomeService {
 		
 		logger.info(String.format("begin to backup the doctors, duration is %s, day in week is %s", duration,dayInWeek));
 		this.backupDoctors(dayInWeek);
+	}
+
+	@Override
+	public List<DoctorToBeDeleted> getAllDoctorsToBeDeleted() throws Exception {
+		try{
+			List<DoctorToBeDeleted> doctors = doctorDAO.getAllDoctorsToBeDeleted();
+			if( doctors == null ){
+				doctors = Collections.emptyList();
+			}
+			return doctors;
+		}catch(EmptyResultDataAccessException erd){
+			return Collections.emptyList();
+		}
+	}
+
+	@Override
+	public void storeToBeDeletedDoctor(DoctorToBeDeleted doctor, String currentUserTel)
+			throws Exception {
+		Date beginDate = DateUtils.getHomeCollectionBegionDate(new Date());
+        Date endDate = new Date(beginDate.getTime() + 7 * 24 * 60 * 60 * 1000);
+        boolean drHasData = doctorDAO.drHasLastWeekData(doctor.getDrId(), beginDate,endDate);
+        if( drHasData ){
+            logger.warn(String.format("doctor %s has data in last week, could not be deleted",doctor.getDrId()));
+            throw new CustomrizedExceptioin("该医生已经填入上周数据，本周不能立即删除");
+        }else{
+        	doctorDAO.storeToBeDeletedDoctor(doctor,currentUserTel);
+        }
+	}
+
+	@Override
+	public String getDeleteReasonByDrId(int drId) throws Exception {
+		try{
+			return doctorDAO.getDeleteReasonByDrId(drId);
+		}catch(EmptyResultDataAccessException erd){
+			return "UNKNOWN";
+		}
+	}
+
+	@Override
+	public void rejectRemovingDoctor(Doctor doctor, String currentUserTel)
+			throws Exception {
+		doctorDAO.updateApprovalStatus(doctor, currentUserTel, "2");
 	}
 }

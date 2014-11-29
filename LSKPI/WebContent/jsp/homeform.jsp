@@ -24,13 +24,13 @@ function submitForm(){
 }
 function checkForm(){
 	if( !checkIsNotNull( $("#doctor") ) ){
-        showCustomrizedMessage("医生名称不能为空");
-        return false;
-    }
-    if( !checkIsNotNull( $("#salenum"),$("#asthmanum"),$("#ltenum"),$("#lsnum"),$("#efnum"),$("#ftnum"),$("#lttnum") ) ){
-        showCustomrizedMessage("数据不能为空或者字母");
-        return false;
-    }
+		showCustomrizedMessage("医生名称不能为空");
+		return false;
+	}
+	if( !checkIsNotNull( $("#salenum"),$("#asthmanum"),$("#ltenum"),$("#lsnum"),$("#efnum"),$("#ftnum"),$("#lttnum") ) ){
+		showCustomrizedMessage("数据不能为空或者字母");
+		return false;
+	}
 	
 	if( !isInteger($("#salenum"),$("#asthmanum"),$("#ltenum"),$("#lsnum"),$("#efnum"),$("#ftnum"),$("#lttnum"))  ){
 		return false;
@@ -48,7 +48,6 @@ function checkForm(){
 		showCustomrizedMessage("8到15天，15到30天和大于30天的病人数相加应等于维持期病人中推荐使用令舒的人数");
 		return false;
 	}
-	
 	return true;
 }
 </script>
@@ -66,6 +65,8 @@ function checkForm(){
         <div data-role="content" data-theme="a">
         	<div data-role="fieldcontain" class="department_img_div">
                 <img alt="" src="<%=basePath%>images/img_bg_doctor.png" onclick="javascript:window.location.href='<%=basePath%>doctormaintenance'" style="cursor: pointer;">
+                <br/>
+                <img alt="" src="<%=basePath%>images/img_bg_doctor_approval.png" onclick="javascript:window.location.href='<%=basePath%>doctorapproval'" style="cursor: pointer;">
             </div>
         	<div class="roundCorner">
 	        <form id="homeForm" action="docollecthomedata" method="POST" data-ajax="false" class="validate">

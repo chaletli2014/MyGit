@@ -65,6 +65,8 @@ function checkForm(){
         <div data-role="content" data-theme="a">
         	<div data-role="fieldcontain" class="department_img_div"> 
                 <img alt="" src="<%=basePath%>images/img_bg_doctor_w.png" onclick="javascript:window.location.href='<%=basePath%>doctormaintenance'" style="cursor: pointer;">
+                <br/>
+                <img alt="" src="<%=basePath%>images/img_bg_doctor_approval_w.png" onclick="javascript:window.location.href='<%=basePath%>doctorapproval'" style="cursor: pointer;">
             </div>
         	<div class="roundCorner">
 	        <form id="homeForm" action="docollecthomedata" method="POST" data-ajax="false" class="validate">

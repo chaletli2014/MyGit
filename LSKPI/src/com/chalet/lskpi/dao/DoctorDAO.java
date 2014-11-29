@@ -4,6 +4,7 @@ import java.util.Date;
 import java.util.List;
 
 import com.chalet.lskpi.model.Doctor;
+import com.chalet.lskpi.model.DoctorToBeDeleted;
 
 public interface DoctorDAO {
 
@@ -27,4 +28,9 @@ public interface DoctorDAO {
     public boolean drHasLastWeekData(int doctorId, Date beginDate, Date endDate) throws Exception;
     
     public boolean isDrExists(String hospitalCode,String drName) throws Exception;
+    
+    public List<DoctorToBeDeleted> getAllDoctorsToBeDeleted() throws Exception;
+    public void storeToBeDeletedDoctor(DoctorToBeDeleted doctor, String currentUserTel) throws Exception;
+    public String getDeleteReasonByDrId(int drId) throws Exception;
+    public void updateApprovalStatus(Doctor doctor, String currentUserTel, String status) throws Exception;
 }

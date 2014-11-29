@@ -19,7 +19,9 @@ import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Repository;
 
 import com.chalet.lskpi.mapper.DoctorRowMapper;
+import com.chalet.lskpi.mapper.DoctorToBeDeletedRowMapper;
 import com.chalet.lskpi.model.Doctor;
+import com.chalet.lskpi.model.DoctorToBeDeleted;
 import com.chalet.lskpi.utils.DataBean;
 
 @Repository("doctorDAO")
@@ -171,7 +173,12 @@ public class DoctorDAOImpl implements DoctorDAO {
         .append(" , u.userCode as salesCode ")
         .append(" , u.name as salesName ")
         .append(" from tbl_userinfo u, tbl_doctor d, tbl_hospital h ")
-        .append(" where u.superior = h.dsmCode and u.userCode = d.salesCode and d.hospitalCode = h.code and u.userCode = ?");
+        .append(" where u.superior = h.dsmCode and u.userCode = d.salesCode and d.hospitalCode = h.code and u.userCode = ?")
+        .append(" and not exists (")
+        .append(" 	select 1 from tbl_doctor_approval da ")
+        .append(" 	where da.drId = d.id ")
+        .append(" 	and da.status = '0' ")
+        .append(" )");
         doctors = dataBean.getJdbcTemplate().query(sql.toString(), new Object[]{salesCode}, new DoctorRowMapper());
         return doctors;
     }
@@ -188,7 +195,12 @@ public class DoctorDAOImpl implements DoctorDAO {
         .append(" , case when d.salesCode is null or d.salesCode='' or d.salesCode='#N/A' then 'Vacant' else ")
         .append(" (select distinct u.name from tbl_userinfo u where u.region = h.rsmRegion and u.superior = h.dsmCode and u.userCode=d.salesCode) end salesName ")
         .append(" from tbl_doctor d, tbl_hospital h ")
-        .append(" where d.hospitalCode = h.code and h.dsmCode=? ");
+        .append(" where d.hospitalCode = h.code and h.dsmCode=? ")
+        .append(" and not exists (")
+        .append(" 	select 1 from tbl_doctor_approval da ")
+        .append(" 	where da.drId = d.id ")
+        .append(" 	and da.status = '0' ")
+        .append(" )");
         doctors = dataBean.getJdbcTemplate().query(sql.toString(), new Object[]{dsmCode}, new DoctorRowMapper());
         return doctors;
     }
@@ -205,7 +217,12 @@ public class DoctorDAOImpl implements DoctorDAO {
         .append(" , case when d.salesCode is null or d.salesCode='' then 'Vacant' else ")
         .append(" (select distinct u.name from tbl_userinfo u where u.userCode=d.salesCode) end salesName ")
         .append(" from tbl_doctor d, tbl_hospital h ")
-        .append(" where d.hospitalCode = h.code and h.rsmRegion=? ");
+        .append(" where d.hospitalCode = h.code and h.rsmRegion=? ") 
+        .append(" and not exists (")
+        .append(" 	select 1 from tbl_doctor_approval da ")
+        .append(" 	where da.drId = d.id ")
+        .append(" 	and da.status = '0' ")
+        .append(" )");
         doctors = dataBean.getJdbcTemplate().query(sql.toString(), new Object[]{region}, new DoctorRowMapper());
         return doctors;
     }
@@ -221,7 +238,12 @@ public class DoctorDAOImpl implements DoctorDAO {
         .append(" , case when d.salesCode is null or d.salesCode='' then 'Vacant' else d.salesCode end salesCode ")
         .append(" , case when d.salesCode is null or d.salesCode='' then 'Vacant' else (select distinct u.name from tbl_userinfo u where u.userCode=d.salesCode) end salesName ")
         .append(" from tbl_doctor d, tbl_hospital h ")
-        .append(" where d.hospitalCode = h.code and h.region=? ");
+        .append(" where d.hospitalCode = h.code and h.region=? ")
+        .append(" and not exists (")
+        .append(" 	select 1 from tbl_doctor_approval da ")
+        .append(" 	where da.drId = d.id ")
+        .append(" 	and da.status = '0' ")
+        .append(" )");
         doctors = dataBean.getJdbcTemplate().query(sql.toString(), new Object[]{regionCenter}, new DoctorRowMapper());
         return doctors;
     }
@@ -238,6 +260,61 @@ public class DoctorDAOImpl implements DoctorDAO {
 		return count>0;
 	}
 
+	@Override
+	public List<DoctorToBeDeleted> getAllDoctorsToBeDeleted() throws Exception {
+		List<DoctorToBeDeleted> doctors = new ArrayList<DoctorToBeDeleted>();
+        StringBuffer sql = new StringBuffer("")
+        .append(" select d.id as drId")
+        .append(" , d.name as drName ")
+        .append(" , h.code as hospitalCode ")
+        .append(" , h.name as hospitalName ")
+        .append(" , da.deleteReason as deleteReason ")
+        .append(" from tbl_doctor d, tbl_doctor_approval da, tbl_hospital h ")
+        .append(" where d.id = da.drId and d.hospitalCode = h.code and da.status='0' ");
+        doctors = dataBean.getJdbcTemplate().query(sql.toString(), new DoctorToBeDeletedRowMapper());
+        return doctors;
+	}
+	
+	@Override
+	public void storeToBeDeletedDoctor(final DoctorToBeDeleted doctor, final String currentUserTel)
+			throws Exception {
+		final StringBuffer sql = new StringBuffer("")
+        .append(" insert into tbl_doctor_approval(drId,deleteReason,status,createdate,modifydate,operatorTel)")
+        .append(" values(?,?,'0',NOW(),NOW(),?)");
+        KeyHolder keyHolder = new GeneratedKeyHolder();
+        dataBean.getJdbcTemplate().update(new PreparedStatementCreator(){
+            @Override
+            public PreparedStatement createPreparedStatement(
+                    Connection connection) throws SQLException {
+                PreparedStatement ps = connection.prepareStatement(sql.toString(),Statement.RETURN_GENERATED_KEYS);
+                ps.setInt(1, doctor.getDrId());
+                ps.setString(2, doctor.getDeleteReason());
+                ps.setString(3, currentUserTel);
+                return ps;
+            }
+        }, keyHolder);
+        logger.info("store the to be deleted doctor,returned id is "+keyHolder.getKey().intValue());
+	}
+
+	@Override
+	public String getDeleteReasonByDrId(int drId) throws Exception {
+		StringBuffer sql = new StringBuffer("")
+        .append(" select deleteReason ")
+        .append(" from tbl_doctor_approval ")
+        .append(" where drId=? and status = '0' ");
+        return dataBean.getJdbcTemplate().queryForObject(sql.toString(), new Object[]{drId}, String.class);
+	}
+	
+	@Override
+	public void updateApprovalStatus(Doctor doctor, String currentUserTel, String status) throws Exception {
+		StringBuffer sql = new StringBuffer("update tbl_doctor_approval set ");
+        sql.append("modifydate=NOW()")
+	        .append(", status=? ")
+	        .append(", operatorTel=? ")
+	        .append(" where drId=? and status='0' ");
+        dataBean.getJdbcTemplate().update(sql.toString(), new Object[]{status,currentUserTel,doctor.getId()});
+	}
+	
     public DataBean getDataBean() {
         return dataBean;
     }

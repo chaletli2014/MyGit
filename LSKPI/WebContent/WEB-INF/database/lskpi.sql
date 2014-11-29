@@ -403,3 +403,17 @@ alter table tbl_pediatrics_data_weekly add column portNum int default 0;
 alter table tbl_doctor_weekly add column doctorId int;
 alter table tbl_doctor_weekly add column doctorName varchar(255);
 
+/*
+ * 删除医生的待审批表
+ * status -- 0-初始提交  1-删除  2-拒绝
+ * */
+drop table tbl_doctor_approval;
+create table tbl_doctor_approval(
+    id              int NOT NULL primary key auto_increment,
+    drId        	int,
+    deleteReason    varchar(2000),
+    status			char(1),
+    operatorTel		varchar(20),
+    createdate      datetime,
+    modifydate      datetime
+);

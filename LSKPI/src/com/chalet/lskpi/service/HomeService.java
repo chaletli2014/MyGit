@@ -3,6 +3,8 @@ package com.chalet.lskpi.service;
 import java.util.Date;
 import java.util.List;
 
+import com.chalet.lskpi.model.Doctor;
+import com.chalet.lskpi.model.DoctorToBeDeleted;
 import com.chalet.lskpi.model.ExportDoctor;
 import com.chalet.lskpi.model.HomeData;
 import com.chalet.lskpi.model.HomeWeeklyData;
@@ -34,4 +36,9 @@ public interface HomeService {
     public void backupDoctors(int dayInWeek) throws Exception;
     public boolean isAlreadyBackup() throws Exception;
     public void removeOldDoctors(int dayinweek) throws Exception;
+    
+    public List<DoctorToBeDeleted> getAllDoctorsToBeDeleted() throws Exception;
+    public void storeToBeDeletedDoctor(DoctorToBeDeleted doctor,String currentUserTel) throws Exception;
+    public String getDeleteReasonByDrId(int drId) throws Exception;
+    public void rejectRemovingDoctor(Doctor doctor, String currentUserTel) throws Exception;
 }
