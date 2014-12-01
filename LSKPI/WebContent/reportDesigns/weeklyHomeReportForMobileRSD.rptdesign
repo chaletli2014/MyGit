@@ -2917,7 +2917,7 @@ group by hd.duration, h.rsmRegion;]]></xml-property>
     <page-setup>
         <simple-master-page name="Simple MasterPage" id="2">
             <property name="type">custom</property>
-            <property name="height">44in</property>
+            <property name="height">65in</property>
             <property name="width">3.82in</property>
         </simple-master-page>
     </page-setup>
@@ -2930,11 +2930,11 @@ group by hd.duration, h.rsmRegion;]]></xml-property>
         </label>
         <grid id="2225">
             <property name="textAlign">center</property>
-            <property name="height">3.15625in</property>
+            <property name="height">5.229166666666667in</property>
             <property name="width">3.271in</property>
             <column id="2226"/>
             <row id="2227">
-                <property name="height">3.15625in</property>
+                <property name="height">5.229166666666667in</property>
                 <cell id="2228">
                     <extended-item extensionName="Chart" id="1012">
                         <xml-property name="xmlRepresentation"><![CDATA[<model:ChartWithAxes xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:attribute="http://www.birt.eclipse.org/ChartModelAttribute" xmlns:data="http://www.birt.eclipse.org/ChartModelData" xmlns:layout="http://www.birt.eclipse.org/ChartModelLayout" xmlns:model="http://www.birt.eclipse.org/ChartModel" xmlns:type="http://www.birt.eclipse.org/ChartModelType">
@@ -4487,7 +4487,7 @@ group by hd.duration, h.rsmRegion;]]></xml-property>
 ]]></xml-property>
                         <property name="outputFormat">JPG</property>
                         <property name="inheritColumns">false</property>
-                        <property name="height">3.4in</property>
+                        <property name="height">5.094in</property>
                         <property name="width">3.2in</property>
                         <property name="dataSet">weeklyHomeInRateDataSet</property>
                         <list-property name="boundDataColumns">
@@ -4514,11 +4514,11 @@ group by hd.duration, h.rsmRegion;]]></xml-property>
         </grid>
         <grid id="2229">
             <property name="textAlign">center</property>
-            <property name="height">3.15625in</property>
+            <property name="height">5.229166666666667in</property>
             <property name="width">3.271in</property>
             <column id="2230"/>
             <row id="2231">
-                <property name="height">3.15625in</property>
+                <property name="height">5.229166666666667in</property>
                 <cell id="2232">
                     <extended-item extensionName="Chart" id="2250">
                         <xml-property name="xmlRepresentation"><![CDATA[<model:ChartWithAxes xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:attribute="http://www.birt.eclipse.org/ChartModelAttribute" xmlns:data="http://www.birt.eclipse.org/ChartModelData" xmlns:layout="http://www.birt.eclipse.org/ChartModelLayout" xmlns:model="http://www.birt.eclipse.org/ChartModel" xmlns:type="http://www.birt.eclipse.org/ChartModelType">
@@ -6071,7 +6071,7 @@ group by hd.duration, h.rsmRegion;]]></xml-property>
 ]]></xml-property>
                         <property name="outputFormat">JPG</property>
                         <property name="inheritColumns">false</property>
-                        <property name="height">3.4in</property>
+                        <property name="height">5.094in</property>
                         <property name="width">3.2in</property>
                         <property name="dataSet">weeklyHomeSalesNumDataSet</property>
                         <list-property name="boundDataColumns">
@@ -6097,11 +6097,11 @@ group by hd.duration, h.rsmRegion;]]></xml-property>
         </grid>
         <grid id="2233">
             <property name="textAlign">center</property>
-            <property name="height">3.15625in</property>
+            <property name="height">5.229166666666667in</property>
             <property name="width">3.271in</property>
             <column id="2234"/>
             <row id="2235">
-                <property name="height">3.15625in</property>
+                <property name="height">5.229166666666667in</property>
                 <cell id="2236">
                     <extended-item extensionName="Chart" id="2251">
                         <xml-property name="xmlRepresentation"><![CDATA[<model:ChartWithAxes xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:attribute="http://www.birt.eclipse.org/ChartModelAttribute" xmlns:data="http://www.birt.eclipse.org/ChartModelData" xmlns:layout="http://www.birt.eclipse.org/ChartModelLayout" xmlns:model="http://www.birt.eclipse.org/ChartModel" xmlns:type="http://www.birt.eclipse.org/ChartModelType">
@@ -7654,7 +7654,7 @@ group by hd.duration, h.rsmRegion;]]></xml-property>
 ]]></xml-property>
                         <property name="outputFormat">JPG</property>
                         <property name="inheritColumns">false</property>
-                        <property name="height">3.4in</property>
+                        <property name="height">5.09375in</property>
                         <property name="width">3.2in</property>
                         <property name="dataSet">weeklyHomeCureRateDataSet</property>
                         <list-property name="boundDataColumns">
@@ -7681,11 +7681,11 @@ group by hd.duration, h.rsmRegion;]]></xml-property>
         </grid>
         <grid id="2237">
             <property name="textAlign">center</property>
-            <property name="height">3.15625in</property>
+            <property name="height">5.229166666666667in</property>
             <property name="width">3.271in</property>
             <column id="2238"/>
             <row id="2239">
-                <property name="height">3.15625in</property>
+                <property name="height">5.229166666666667in</property>
                 <cell id="2240">
                     <extended-item extensionName="Chart" id="2252">
                         <xml-property name="xmlRepresentation"><![CDATA[<model:ChartWithAxes xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:attribute="http://www.birt.eclipse.org/ChartModelAttribute" xmlns:data="http://www.birt.eclipse.org/ChartModelData" xmlns:layout="http://www.birt.eclipse.org/ChartModelLayout" xmlns:model="http://www.birt.eclipse.org/ChartModel" xmlns:type="http://www.birt.eclipse.org/ChartModelType">
@@ -9238,7 +9238,7 @@ group by hd.duration, h.rsmRegion;]]></xml-property>
 ]]></xml-property>
                         <property name="outputFormat">JPG</property>
                         <property name="inheritColumns">false</property>
-                        <property name="height">3.4in</property>
+                        <property name="height">5.09375in</property>
                         <property name="width">3.2in</property>
                         <property name="dataSet">weeklyHomeLsNumDataSet</property>
                         <list-property name="boundDataColumns">
@@ -9265,13 +9265,13 @@ group by hd.duration, h.rsmRegion;]]></xml-property>
         <grid id="698">
             <property name="fontFamily">"微软雅黑"</property>
             <property name="textAlign">center</property>
-            <property name="height">3.1666666666666665in</property>
+            <property name="height">5.229166666666667in</property>
             <property name="width">3.2604166666666665in</property>
             <column id="699">
                 <property name="width">3.2604166666666665in</property>
             </column>
             <row id="700">
-                <property name="height">3.1666666666666665in</property>
+                <property name="height">5.229166666666667in</property>
                 <cell id="701">
                     <property name="textAlign">left</property>
                     <extended-item extensionName="Chart" id="2253">
@@ -10825,7 +10825,7 @@ group by hd.duration, h.rsmRegion;]]></xml-property>
 ]]></xml-property>
                         <property name="outputFormat">JPG</property>
                         <property name="inheritColumns">false</property>
-                        <property name="height">3.4in</property>
+                        <property name="height">5.09375in</property>
                         <property name="width">3.2in</property>
                         <property name="dataSet">weeklyHomeLsRateDataSet</property>
                         <list-property name="boundDataColumns">
@@ -10853,13 +10853,13 @@ group by hd.duration, h.rsmRegion;]]></xml-property>
         <grid id="703">
             <property name="fontFamily">"@微软雅黑"</property>
             <property name="textAlign">center</property>
-            <property name="height">3.1458333333333335in</property>
+            <property name="height">5.229166666666667in</property>
             <property name="width">3.25in</property>
             <column id="704">
                 <property name="width">3.25in</property>
             </column>
             <row id="705">
-                <property name="height">3.1458333333333335in</property>
+                <property name="height">5.229166666666667in</property>
                 <cell id="706">
                     <property name="textAlign">left</property>
                     <extended-item extensionName="Chart" id="2254">
@@ -12413,7 +12413,7 @@ group by hd.duration, h.rsmRegion;]]></xml-property>
 ]]></xml-property>
                         <property name="outputFormat">JPG</property>
                         <property name="inheritColumns">false</property>
-                        <property name="height">3.4in</property>
+                        <property name="height">5.09375in</property>
                         <property name="width">3.2in</property>
                         <property name="dataSet">weeklyHomeReachRateDataSet</property>
                         <list-property name="boundDataColumns">
@@ -12466,11 +12466,11 @@ group by hd.duration, h.rsmRegion;]]></xml-property>
         </table>
         <grid id="2258">
             <property name="textAlign">center</property>
-            <property name="height">3.15625in</property>
+            <property name="height">5.229166666666667in</property>
             <property name="width">3.271in</property>
             <column id="2259"/>
             <row id="2260">
-                <property name="height">3.15625in</property>
+                <property name="height">5.229166666666667in</property>
                 <cell id="2261">
                     <extended-item extensionName="Chart" id="2262">
                         <xml-property name="xmlRepresentation"><![CDATA[<model:ChartWithAxes xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:attribute="http://www.birt.eclipse.org/ChartModelAttribute" xmlns:data="http://www.birt.eclipse.org/ChartModelData" xmlns:layout="http://www.birt.eclipse.org/ChartModelLayout" xmlns:model="http://www.birt.eclipse.org/ChartModel" xmlns:type="http://www.birt.eclipse.org/ChartModelType">
@@ -14023,7 +14023,7 @@ group by hd.duration, h.rsmRegion;]]></xml-property>
 ]]></xml-property>
                         <property name="outputFormat">JPG</property>
                         <property name="inheritColumns">false</property>
-                        <property name="height">3.4in</property>
+                        <property name="height">5.09375in</property>
                         <property name="width">3.2in</property>
                         <property name="dataSet">rsmWeeklyHomeInRateDataSet</property>
                         <list-property name="boundDataColumns">
@@ -14049,11 +14049,11 @@ group by hd.duration, h.rsmRegion;]]></xml-property>
         </grid>
         <grid id="2263">
             <property name="textAlign">center</property>
-            <property name="height">3.15625in</property>
+            <property name="height">5.229166666666667in</property>
             <property name="width">3.271in</property>
             <column id="2264"/>
             <row id="2265">
-                <property name="height">3.15625in</property>
+                <property name="height">5.229166666666667in</property>
                 <cell id="2266">
                     <extended-item extensionName="Chart" id="2267">
                         <xml-property name="xmlRepresentation"><![CDATA[<model:ChartWithAxes xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:attribute="http://www.birt.eclipse.org/ChartModelAttribute" xmlns:data="http://www.birt.eclipse.org/ChartModelData" xmlns:layout="http://www.birt.eclipse.org/ChartModelLayout" xmlns:model="http://www.birt.eclipse.org/ChartModel" xmlns:type="http://www.birt.eclipse.org/ChartModelType">
@@ -15606,7 +15606,7 @@ group by hd.duration, h.rsmRegion;]]></xml-property>
 ]]></xml-property>
                         <property name="outputFormat">JPG</property>
                         <property name="inheritColumns">false</property>
-                        <property name="height">3.4in</property>
+                        <property name="height">5.09375in</property>
                         <property name="width">3.2in</property>
                         <property name="dataSet">rsmWeeklyHomeSalesNumDataSet</property>
                         <list-property name="boundDataColumns">
@@ -15632,11 +15632,11 @@ group by hd.duration, h.rsmRegion;]]></xml-property>
         </grid>
         <grid id="2268">
             <property name="textAlign">center</property>
-            <property name="height">3.15625in</property>
+            <property name="height">5.229166666666667in</property>
             <property name="width">3.271in</property>
             <column id="2269"/>
             <row id="2270">
-                <property name="height">3.15625in</property>
+                <property name="height">5.229166666666667in</property>
                 <cell id="2271">
                     <extended-item extensionName="Chart" id="2272">
                         <xml-property name="xmlRepresentation"><![CDATA[<model:ChartWithAxes xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:attribute="http://www.birt.eclipse.org/ChartModelAttribute" xmlns:data="http://www.birt.eclipse.org/ChartModelData" xmlns:layout="http://www.birt.eclipse.org/ChartModelLayout" xmlns:model="http://www.birt.eclipse.org/ChartModel" xmlns:type="http://www.birt.eclipse.org/ChartModelType">
@@ -17189,7 +17189,7 @@ group by hd.duration, h.rsmRegion;]]></xml-property>
 ]]></xml-property>
                         <property name="outputFormat">JPG</property>
                         <property name="inheritColumns">false</property>
-                        <property name="height">3.4in</property>
+                        <property name="height">5.09375in</property>
                         <property name="width">3.2in</property>
                         <property name="dataSet">rsmWeeklyHomeCureRateDataSet</property>
                         <list-property name="boundDataColumns">
@@ -17215,11 +17215,11 @@ group by hd.duration, h.rsmRegion;]]></xml-property>
         </grid>
         <grid id="2273">
             <property name="textAlign">center</property>
-            <property name="height">3.15625in</property>
+            <property name="height">5.229166666666667in</property>
             <property name="width">3.271in</property>
             <column id="2274"/>
             <row id="2275">
-                <property name="height">3.15625in</property>
+                <property name="height">5.229166666666667in</property>
                 <cell id="2276">
                     <extended-item extensionName="Chart" id="2277">
                         <xml-property name="xmlRepresentation"><![CDATA[<model:ChartWithAxes xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:attribute="http://www.birt.eclipse.org/ChartModelAttribute" xmlns:data="http://www.birt.eclipse.org/ChartModelData" xmlns:layout="http://www.birt.eclipse.org/ChartModelLayout" xmlns:model="http://www.birt.eclipse.org/ChartModel" xmlns:type="http://www.birt.eclipse.org/ChartModelType">
@@ -18772,7 +18772,7 @@ group by hd.duration, h.rsmRegion;]]></xml-property>
 ]]></xml-property>
                         <property name="outputFormat">JPG</property>
                         <property name="inheritColumns">false</property>
-                        <property name="height">3.4in</property>
+                        <property name="height">5.09375in</property>
                         <property name="width">3.2in</property>
                         <property name="dataSet">rsmWeeklyHomeLsNumDataSet</property>
                         <list-property name="boundDataColumns">
@@ -18799,13 +18799,13 @@ group by hd.duration, h.rsmRegion;]]></xml-property>
         <grid id="2278">
             <property name="fontFamily">"微软雅黑"</property>
             <property name="textAlign">center</property>
-            <property name="height">3.1666666666666665in</property>
+            <property name="height">5.229166666666667in</property>
             <property name="width">3.2604166666666665in</property>
             <column id="2279">
                 <property name="width">3.2604166666666665in</property>
             </column>
             <row id="2280">
-                <property name="height">3.1666666666666665in</property>
+                <property name="height">5.229166666666667in</property>
                 <cell id="2281">
                     <property name="textAlign">left</property>
                     <extended-item extensionName="Chart" id="2282">
@@ -20359,7 +20359,7 @@ group by hd.duration, h.rsmRegion;]]></xml-property>
 ]]></xml-property>
                         <property name="outputFormat">JPG</property>
                         <property name="inheritColumns">false</property>
-                        <property name="height">3.4in</property>
+                        <property name="height">5.09375in</property>
                         <property name="width">3.2in</property>
                         <property name="dataSet">rsmWeeklyHomeLsRateDataSet</property>
                         <list-property name="boundDataColumns">
@@ -20386,13 +20386,13 @@ group by hd.duration, h.rsmRegion;]]></xml-property>
         <grid id="2283">
             <property name="fontFamily">"@微软雅黑"</property>
             <property name="textAlign">center</property>
-            <property name="height">3.1458333333333335in</property>
+            <property name="height">5.229166666666667in</property>
             <property name="width">3.25in</property>
             <column id="2284">
                 <property name="width">3.25in</property>
             </column>
             <row id="2285">
-                <property name="height">3.1458333333333335in</property>
+                <property name="height">5.229166666666667in</property>
                 <cell id="2286">
                     <property name="textAlign">left</property>
                     <extended-item extensionName="Chart" id="2287">
@@ -21946,7 +21946,7 @@ group by hd.duration, h.rsmRegion;]]></xml-property>
 ]]></xml-property>
                         <property name="outputFormat">JPG</property>
                         <property name="inheritColumns">false</property>
-                        <property name="height">3.4in</property>
+                        <property name="height">5.09375in</property>
                         <property name="width">3.2in</property>
                         <property name="dataSet">rsmWeeklyHomeReachRateDataSet</property>
                         <list-property name="boundDataColumns">
