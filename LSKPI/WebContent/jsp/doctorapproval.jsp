@@ -110,10 +110,10 @@ input.approvalDr{
 	                            <td>${doctor.deleteReason}</td>
 	                            <td>
                                    <a href="javascript:void(0)" onclick="confirmDeleteSingleDr(${doctor.drId})">
-                                   		<img alt="" src="<%=basePath%>images/button_delete.png" style="cursor: pointer;" />
+                                   		<img alt="" src="<%=basePath%>images/button_submit_140.png" style="cursor: pointer;" />
                                    </a>
 		                           <a href="javascript:void(0)" onclick="confirmRejectSingleDr(${doctor.drId})">
-					                    <img alt="" src="<%=basePath%>images/button_modify.png" style="cursor: pointer;" />
+					                    <img alt="" src="<%=basePath%>images/button_reject.png" style="cursor: pointer;" />
 					               </a>
 	                            </td>
 	                        </tr>
@@ -121,10 +121,10 @@ input.approvalDr{
 	                    <tr>
 	                    	<td colspan="5" align="right">
 		                    	<a href="javascript:void(0)" onclick="confirmDeleteDr()">
-	                           		<img alt="" src="<%=basePath%>images/button_delete.png" style="cursor: pointer;" />
+	                           		<img alt="" src="<%=basePath%>images/button_submit_all.png" style="cursor: pointer;" />
 		                    	</a>
 		                    	<a href="javascript:void(0)" onclick="confirmRejectDr()">
-	                            	<img alt="" src="<%=basePath%>images/button_delete.png" style="cursor: pointer;" />
+	                            	<img alt="" src="<%=basePath%>images/button_reject_all.png" style="cursor: pointer;" />
 		                    	</a>
 	                    	</td>
 	                   	</tr>
