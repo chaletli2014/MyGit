@@ -1,8 +1,11 @@
 package com.chalet.lskpi.service;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,17 +15,18 @@ import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.dao.IncorrectResultSizeDataAccessException;
 import org.springframework.stereotype.Service;
 
+import com.chalet.lskpi.comparator.RateElementComparator;
 import com.chalet.lskpi.dao.ChestSurgeryDAO;
 import com.chalet.lskpi.model.ChestSurgeryData;
 import com.chalet.lskpi.model.Hospital;
 import com.chalet.lskpi.model.MobileCHEDailyData;
+import com.chalet.lskpi.model.MonthlyStatisticsData;
 import com.chalet.lskpi.model.RateElement;
 import com.chalet.lskpi.model.ReportProcessData;
 import com.chalet.lskpi.model.ReportProcessDataDetail;
 import com.chalet.lskpi.model.TopAndBottomRSMData;
 import com.chalet.lskpi.model.UserInfo;
 import com.chalet.lskpi.model.WeeklyRatioData;
-import com.chalet.lskpi.service.PediatricsServiceImpl.RateElementComparator;
 import com.chalet.lskpi.utils.LsAttributes;
 
 @Service("chestSurgeryService")
@@ -573,4 +577,75 @@ public class ChestSurgeryServiceImpl implements ChestSurgeryService {
         }
         return count>0;
     }
+
+	@Override
+	public List<MonthlyStatisticsData> getMonthlyStatisticsData(
+			String beginDuraion, String endDuraion, String level)
+			throws Exception {
+		try{
+			return chestSurgeryDAO.getMonthlyStatisticsData(beginDuraion, endDuraion, level);
+		}catch(EmptyResultDataAccessException erd){
+			return Collections.emptyList();
+		}
+	}
+
+	@Override
+	public MonthlyStatisticsData getMonthlyStatisticsCountryData(
+			String beginDuraion, String endDuraion) throws Exception {
+		try{
+			return chestSurgeryDAO.getMonthlyStatisticsCountryData(beginDuraion, endDuraion);
+		}catch(EmptyResultDataAccessException erd){
+			return new MonthlyStatisticsData();
+		}
+	}
+
+	@Override
+	public MonthlyStatisticsData getCoreOrEmergingMonthlyStatisticsCountryData(
+			String beginDuraion, String endDuraion, String dragonType)
+			throws Exception {
+		try{
+			if( "Core".equalsIgnoreCase(dragonType) ){
+				return chestSurgeryDAO.getCoreMonthlyStatisticsCountryData(beginDuraion, endDuraion);
+			}else{
+				return chestSurgeryDAO.getEmergingMonthlyStatisticsCountryData(beginDuraion, endDuraion);
+			}
+		}catch(EmptyResultDataAccessException erd){
+			return new MonthlyStatisticsData();
+		}
+	}
+
+	@Override
+	public Map<String, MonthlyStatisticsData> getCoreOrEmergingMonthlyStatisticsData(
+			String beginDuraion, String endDuraion, String level,
+			String dragonType) throws Exception {
+		List<MonthlyStatisticsData> dbStatisticsData = new ArrayList<MonthlyStatisticsData>();
+		try{
+			if( "Core".equalsIgnoreCase(dragonType) ){
+				dbStatisticsData = chestSurgeryDAO.getCoreMonthlyStatisticsData(beginDuraion, endDuraion, level);
+			}else{
+				dbStatisticsData = chestSurgeryDAO.getEmergingMonthlyStatisticsData(beginDuraion, endDuraion, level);
+			}
+			
+			Map<String, MonthlyStatisticsData> statisticsDataMap = new HashMap<String, MonthlyStatisticsData>();
+			
+			if( null != dbStatisticsData && !dbStatisticsData.isEmpty() ){
+				for( MonthlyStatisticsData data : dbStatisticsData ){
+					switch(level){
+						case LsAttributes.USER_LEVEL_DSM:
+							statisticsDataMap.put(data.getRsd()+data.getRsm()+data.getDsmCode(), data);
+							break;
+						case LsAttributes.USER_LEVEL_RSM:
+							statisticsDataMap.put(data.getRsm(), data);
+							break;
+						case LsAttributes.USER_LEVEL_RSD:
+							statisticsDataMap.put(data.getRsd(), data);
+							break;
+					}
+				}
+			}
+			return statisticsDataMap;
+		}catch(EmptyResultDataAccessException erd){
+			return Collections.emptyMap();
+		}
+	}
 }

@@ -10,7 +10,7 @@ import com.chalet.lskpi.model.HospitalSalesQueryParam;
 import com.chalet.lskpi.model.KPIHospital4Export;
 import com.chalet.lskpi.model.Monthly12Data;
 import com.chalet.lskpi.model.MonthlyData;
-import com.chalet.lskpi.model.MonthlyInRateData;
+import com.chalet.lskpi.model.MonthlyStatisticsData;
 import com.chalet.lskpi.model.MonthlyRatioData;
 import com.chalet.lskpi.model.UserInfo;
 import com.chalet.lskpi.model.WeeklyDataOfHospital;
@@ -72,7 +72,7 @@ public interface HospitalDAO {
     
     public List<HospitalSalesQueryObj> getHospitalSalesList(HospitalSalesQueryParam queryParam) throws Exception;
     
-    public List<MonthlyInRateData> getMonthlyInRateData(String beginDuraion, String endDuraion, String level) throws Exception;
+    public List<MonthlyStatisticsData> getMonthlyInRateData(String beginDuraion, String endDuraion, String level) throws Exception;
     
     public List<MonthlyRatioData> getMonthlyCollectionData(Date chooseDate) throws Exception;
     

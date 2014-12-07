@@ -33,7 +33,7 @@ import com.chalet.lskpi.model.HospitalSalesQueryParam;
 import com.chalet.lskpi.model.KPIHospital4Export;
 import com.chalet.lskpi.model.Monthly12Data;
 import com.chalet.lskpi.model.MonthlyData;
-import com.chalet.lskpi.model.MonthlyInRateData;
+import com.chalet.lskpi.model.MonthlyStatisticsData;
 import com.chalet.lskpi.model.MonthlyRatioData;
 import com.chalet.lskpi.model.UserInfo;
 import com.chalet.lskpi.model.WeeklyDataOfHospital;
@@ -355,15 +355,15 @@ public class HospitalServiceImpl implements HospitalService {
     }
 
 	@Override
-	public Map<String, MonthlyInRateData> getMonthlyInRateData(String beginDuraion, String endDuraion, String level)
+	public Map<String, MonthlyStatisticsData> getMonthlyInRateData(String beginDuraion, String endDuraion, String level)
 			throws Exception {
-		List<MonthlyInRateData> dbInRateData = hospitalDAO.getMonthlyInRateData(beginDuraion, endDuraion, level);
+		List<MonthlyStatisticsData> dbInRateData = hospitalDAO.getMonthlyInRateData(beginDuraion, endDuraion, level);
 		logger.info(String.format("finish to get monthly inRate during %s and %s", beginDuraion,endDuraion));
 		
-		Map<String, MonthlyInRateData> tempInRateResult = new HashMap<String, MonthlyInRateData>();
-		Map<String, List<MonthlyInRateData>> tempInRate = new HashMap<String, List<MonthlyInRateData>>();
+		Map<String, MonthlyStatisticsData> tempInRateResult = new HashMap<String, MonthlyStatisticsData>();
+		Map<String, List<MonthlyStatisticsData>> tempInRate = new HashMap<String, List<MonthlyStatisticsData>>();
 		String user = "";
-		for( MonthlyInRateData inRate : dbInRateData ){
+		for( MonthlyStatisticsData inRate : dbInRateData ){
 			if( "RSM".equalsIgnoreCase(level) ){
 				user = inRate.getRsm();
 			}else{
@@ -372,7 +372,7 @@ public class HospitalServiceImpl implements HospitalService {
 			if( tempInRate.containsKey(user) ){
 				tempInRate.get(user).add(inRate);
 			}else{
-				List<MonthlyInRateData> inRateList = new ArrayList<MonthlyInRateData>();
+				List<MonthlyStatisticsData> inRateList = new ArrayList<MonthlyStatisticsData>();
 				inRateList.add(inRate);
 				tempInRate.put(user, inRateList);
 			}
@@ -386,15 +386,15 @@ public class HospitalServiceImpl implements HospitalService {
 			double resInRate = 0;
 			double pedInRate = 0;
 			userName = userIterator.next();
-			List<MonthlyInRateData> inRateList = tempInRate.get(userName);
-			for( MonthlyInRateData inRateData : inRateList ){
+			List<MonthlyStatisticsData> inRateList = tempInRate.get(userName);
+			for( MonthlyStatisticsData inRateData : inRateList ){
 				resInRate = resInRate + inRateData.getResInRate();
 				pedInRate = pedInRate + inRateData.getPedInRate();
 			}
 			pedInRate = pedInRate/inRateList.size();
 			resInRate = resInRate/inRateList.size();
 			
-			MonthlyInRateData inRateResult = new MonthlyInRateData();
+			MonthlyStatisticsData inRateResult = new MonthlyStatisticsData();
 			inRateResult.setPedInRate(pedInRate);
 			inRateResult.setResInRate(resInRate);
 			tempInRateResult.put(userName, inRateResult);

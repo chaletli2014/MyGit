@@ -6,10 +6,10 @@ import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -43,8 +43,8 @@ import com.chalet.lskpi.model.MobileCHEDailyData;
 import com.chalet.lskpi.model.MobilePEDDailyData;
 import com.chalet.lskpi.model.MobileRESDailyData;
 import com.chalet.lskpi.model.MonthlyData;
-import com.chalet.lskpi.model.MonthlyInRateData;
 import com.chalet.lskpi.model.MonthlyRatioData;
+import com.chalet.lskpi.model.MonthlyStatisticsData;
 import com.chalet.lskpi.model.PediatricsData;
 import com.chalet.lskpi.model.ReportFileObject;
 import com.chalet.lskpi.model.RespirologyData;
@@ -2475,11 +2475,12 @@ public class ReportController extends BaseController{
         try{
         	String chooseDate = request.getParameter("chooseDate_monthlyInRate");
         	String level = request.getParameter("level");
+        	String department = request.getParameter("department");
         	
             if( null == chooseDate || "".equalsIgnoreCase(chooseDate) ){
-                logger.error(String.format("the choose date is %s", chooseDate));
+                logger.error("there is no date chose.");
             }else{
-                logger.info(String.format("begin to get the inrate data in %s,level is %s", chooseDate,level));
+                logger.info(String.format("begin to get the monthly statistical data in %s,level is %s, department is %s", chooseDate,level,department));
                 SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
                 Date inRateDate = formatter.parse(chooseDate);
                 String monthName = DateUtils.getMonthInCN(inRateDate);
@@ -2490,10 +2491,23 @@ public class ReportController extends BaseController{
                 StringBuffer localReportFile = new StringBuffer(localPath);
                 long systemTime = System.currentTimeMillis();
                 
+                String departmentName = "";
+                switch(department){
+	                case "1":
+	                	departmentName = "呼吸科";
+	                	break;
+	                case "2":
+	                	departmentName = "儿科";
+	                	break;
+	                case "3":
+	                	departmentName = "胸外科";
+	                	break;
+                }
+                
                 remoteReportFile.append("monthlyInRate/")
-            	.append(monthName).append(level).append("上报率-").append(systemTime).append(".xls");
+            	.append(monthName).append(departmentName).append(level).append("汇总数据-").append(systemTime).append(".xls");
                 localReportFile.append("monthlyInRate/")
-            	.append(monthName).append(level).append("上报率-").append(systemTime).append(".xls");
+            	.append(monthName).append(departmentName).append(level).append("汇总数据-").append(systemTime).append(".xls");
                 
                 fileName = remoteReportFile.toString();
                 
@@ -2513,7 +2527,7 @@ public class ReportController extends BaseController{
                     fOut = new FileOutputStream(tmpFile);
                     
                     HSSFWorkbook workbook = new HSSFWorkbook();
-                    String title = monthName+level+"平均上报率";
+                    String title = monthName+level+"汇总数据";
                     workbook.createSheet(title);
                     HSSFSheet sheet = workbook.getSheetAt(0);
                     int currentRowNum = 0;
@@ -2524,6 +2538,18 @@ public class ReportController extends BaseController{
                     percentCellStyle.setBorderRight(HSSFCellStyle.BORDER_THIN);
                     percentCellStyle.setLeftBorderColor(HSSFColor.BLACK.index);
                     percentCellStyle.setRightBorderColor(HSSFColor.BLACK.index);
+                    
+                    HSSFCellStyle numberCellStyle = workbook.createCellStyle();
+                    numberCellStyle.setDataFormat(HSSFDataFormat.getBuiltinFormat("#,##0"));
+                    numberCellStyle.setBorderLeft(HSSFCellStyle.BORDER_THIN);
+                    numberCellStyle.setBorderRight(HSSFCellStyle.BORDER_THIN);
+                    numberCellStyle.setLeftBorderColor(HSSFColor.BLACK.index);
+                    numberCellStyle.setRightBorderColor(HSSFColor.BLACK.index);
+                    
+                    HSSFCellStyle averageDoseCellStyle = workbook.createCellStyle();
+                    averageDoseCellStyle.setDataFormat(HSSFDataFormat.getBuiltinFormat("0.00"));
+                    averageDoseCellStyle.setBorderRight(HSSFCellStyle.BORDER_THIN);
+                    averageDoseCellStyle.setRightBorderColor(HSSFColor.BLACK.index);
                     
                     HSSFRow row = sheet.createRow(currentRowNum++);
                     row.createCell(0, XSSFCell.CELL_TYPE_STRING).setCellValue(title);
@@ -2560,52 +2586,232 @@ public class ReportController extends BaseController{
                     
                     //build the header
                     row = sheet.createRow(currentRowNum++);
-                    HSSFCell userCell = row.createCell(0, XSSFCell.CELL_TYPE_STRING);
+                    int columnNum = 0;
+                    HSSFCell userCell = row.createCell(columnNum++, XSSFCell.CELL_TYPE_STRING);
                     userCell.setCellValue(level+"名单");
                     userCell.setCellStyle(top2Style);
+                    sheet.setColumnWidth(columnNum-1, 15*256);
                     
-                    HSSFCell resTitle = row.createCell(1, XSSFCell.CELL_TYPE_STRING);
-                    resTitle.setCellValue("呼吸科");
-                    resTitle.setCellStyle(top2Style);
+                    if( LsAttributes.USER_LEVEL_DSM.equalsIgnoreCase(level) ){
+                    	HSSFCell rsmTitle = row.createCell(columnNum++, XSSFCell.CELL_TYPE_STRING);
+                    	rsmTitle.setCellValue("RSM");
+                    	rsmTitle.setCellStyle(top2Style);
+                    }
                     
-                    HSSFCell pedTitle = row.createCell(2, XSSFCell.CELL_TYPE_STRING);
-                    pedTitle.setCellValue("儿科");
-                    pedTitle.setCellStyle(top2Style);
+                    HSSFCell inRateTitle = row.createCell(columnNum++, XSSFCell.CELL_TYPE_STRING);
+                    inRateTitle.setCellValue("上报率");
+                    inRateTitle.setCellStyle(top2Style);
                     
-                    HSSFCell aveTitle = row.createCell(3, XSSFCell.CELL_TYPE_STRING);
-                    aveTitle.setCellValue("平均");
-                    aveTitle.setCellStyle(top2Style);
+                    HSSFCell coreInRateTitle = row.createCell(columnNum++, XSSFCell.CELL_TYPE_STRING);
+                    coreInRateTitle.setCellValue("Core医院上报率");
+                    coreInRateTitle.setCellStyle(top2Style);
+                    sheet.setColumnWidth(columnNum-1, 20*256);
+                    
+                    HSSFCell emergingInRateTitle = row.createCell(columnNum++, XSSFCell.CELL_TYPE_STRING);
+                    emergingInRateTitle.setCellValue("Emerging医院上报率");
+                    emergingInRateTitle.setCellStyle(top2Style);
+                    sheet.setColumnWidth(columnNum-1, 20*256);
+                    
+                    HSSFCell whRateTitle = row.createCell(columnNum++, XSSFCell.CELL_TYPE_STRING);
+                    whRateTitle.setCellValue("雾化率");
+                    whRateTitle.setCellStyle(top2Style);
+                    
+                    HSSFCell coreWhRateTitle = row.createCell(columnNum++, XSSFCell.CELL_TYPE_STRING);
+                    coreWhRateTitle.setCellValue("Core医院雾化率");
+                    coreWhRateTitle.setCellStyle(top2Style);
+                    sheet.setColumnWidth(columnNum-1, 20*256);
+                    
+                    HSSFCell emergingWhRateTitle = row.createCell(columnNum++, XSSFCell.CELL_TYPE_STRING);
+                    emergingWhRateTitle.setCellValue("Emerging医院雾化率");
+                    emergingWhRateTitle.setCellStyle(top2Style);
+                    sheet.setColumnWidth(columnNum-1, 20*256);
+                    
+                    switch(department){
+	                    case "1":
+	                    	HSSFCell pnumTitle = row.createCell(columnNum++, XSSFCell.CELL_TYPE_STRING);
+	                    	pnumTitle.setCellValue("病房病人数");
+	                    	pnumTitle.setCellStyle(top2Style);
+	                    	
+	                    	HSSFCell aenumTitle = row.createCell(columnNum++, XSSFCell.CELL_TYPE_STRING);
+	                    	aenumTitle.setCellValue("病房内AECOPD人数");
+	                    	aenumTitle.setCellStyle(top2Style);
+	                    	sheet.setColumnWidth(columnNum-1, 15*256);
+	                    	break;
+	                    case "3":
+	                    	HSSFCell chenumTitle = row.createCell(columnNum++, XSSFCell.CELL_TYPE_STRING);
+	                    	chenumTitle.setCellValue("病房病人数");
+	                    	chenumTitle.setCellStyle(top2Style);
+	                    	sheet.setColumnWidth(columnNum-1, 10*256);
+	                    	
+	                    	HSSFCell risknumTitle = row.createCell(columnNum++, XSSFCell.CELL_TYPE_STRING);
+	                    	risknumTitle.setCellValue("病房内合并COPD或哮喘的手术病人数");
+	                    	risknumTitle.setCellStyle(top2Style);
+	                    	sheet.setColumnWidth(columnNum-1, 20*256);
+	                    	break;
+	                    case "2":
+	                    	HSSFCell pednumTitle = row.createCell(columnNum++, XSSFCell.CELL_TYPE_STRING);
+	                    	pednumTitle.setCellValue("门诊人数");
+	                    	pednumTitle.setCellStyle(top2Style);
+	                    	break;
+                    	default:
+	                    		break;
+                    }
+                    
+                    HSSFCell lsnumTitle = row.createCell(columnNum++, XSSFCell.CELL_TYPE_STRING);
+                    lsnumTitle.setCellValue("雾化令舒人数");
+                    lsnumTitle.setCellStyle(top2Style);
+                    sheet.setColumnWidth(columnNum-1, 10*256);
+                    
+                    HSSFCell averageDoseTitle = row.createCell(columnNum++, XSSFCell.CELL_TYPE_STRING);
+                    averageDoseTitle.setCellValue("平均计量");
+                    averageDoseTitle.setCellStyle(top2Style);
                     
                     String beginDuraion = DateUtils.getMonthInRateBeginDuration(inRateDate);
                     String endDuraion = DateUtils.getMonthInRateEndDuration(inRateDate);
                     
                     logger.info(String.format("begin to get monthly inRate during %s and %s", beginDuraion,endDuraion));
+                    List<MonthlyStatisticsData> monthlyStatistics = new ArrayList<MonthlyStatisticsData>();
+                    Map<String,MonthlyStatisticsData> coreMonthlyStatistics = new HashMap<String,MonthlyStatisticsData>();
+                    Map<String,MonthlyStatisticsData> emergingMonthlyStatistics = new HashMap<String,MonthlyStatisticsData>();
+                    MonthlyStatisticsData monthlyCountryStatistics = new MonthlyStatisticsData();
+                    MonthlyStatisticsData coreMonthlyCountryStatistics = new MonthlyStatisticsData();
+                    MonthlyStatisticsData emergingMonthlyCountryStatistics = new MonthlyStatisticsData();
                     
-                    Map<String, MonthlyInRateData> monthlyInRates = hospitalService.getMonthlyInRateData(beginDuraion,endDuraion,level);
-                    logger.info("get monthly inRate data end...");
+                    switch(department){
+	                    case "1":
+	                    	//呼吸科
+	                    	monthlyStatistics = respirologyService.getMonthlyStatisticsData(beginDuraion,endDuraion,level);
+	                    	coreMonthlyStatistics = respirologyService.getCoreOrEmergingMonthlyStatisticsData(beginDuraion,endDuraion,level,"Core");
+	                    	emergingMonthlyStatistics = respirologyService.getCoreOrEmergingMonthlyStatisticsData(beginDuraion,endDuraion,level,"Emerging");
+	                    	
+	                    	monthlyCountryStatistics = respirologyService.getMonthlyStatisticsCountryData(beginDuraion, endDuraion);
+	                    	coreMonthlyCountryStatistics = respirologyService.getCoreOrEmergingMonthlyStatisticsCountryData(beginDuraion, endDuraion,"Core");
+	                    	emergingMonthlyCountryStatistics = respirologyService.getCoreOrEmergingMonthlyStatisticsCountryData(beginDuraion, endDuraion,"Emerging");
+	                    	break;
+	                    case "2":
+	                    	//儿科
+	                    	coreMonthlyStatistics = pediatricsService.getCoreOrEmergingMonthlyStatisticsData(beginDuraion,endDuraion,level,"Core");
+	                    	emergingMonthlyStatistics = pediatricsService.getCoreOrEmergingMonthlyStatisticsData(beginDuraion,endDuraion,level,"Emerging");
+	                    	monthlyStatistics = pediatricsService.getMonthlyStatisticsData(beginDuraion,endDuraion,level);
+	                    	
+	                    	monthlyCountryStatistics = pediatricsService.getMonthlyStatisticsCountryData(beginDuraion, endDuraion);
+	                    	coreMonthlyCountryStatistics = pediatricsService.getCoreOrEmergingMonthlyStatisticsCountryData(beginDuraion, endDuraion,"Core");
+	                    	emergingMonthlyCountryStatistics = pediatricsService.getCoreOrEmergingMonthlyStatisticsCountryData(beginDuraion, endDuraion,"Emerging");
+	                    	break;
+	                    case "3":
+	                    	//胸外科
+	                    	coreMonthlyStatistics = chestSurgeryService.getCoreOrEmergingMonthlyStatisticsData(beginDuraion,endDuraion,level,"Core");
+	                    	emergingMonthlyStatistics = chestSurgeryService.getCoreOrEmergingMonthlyStatisticsData(beginDuraion,endDuraion,level,"Emerging");
+	                    	monthlyStatistics = chestSurgeryService.getMonthlyStatisticsData(beginDuraion,endDuraion,level);
+	                    	
+	                    	monthlyCountryStatistics = chestSurgeryService.getMonthlyStatisticsCountryData(beginDuraion, endDuraion);
+	                    	coreMonthlyCountryStatistics = chestSurgeryService.getCoreOrEmergingMonthlyStatisticsCountryData(beginDuraion, endDuraion,"Core");
+	                    	emergingMonthlyCountryStatistics = chestSurgeryService.getCoreOrEmergingMonthlyStatisticsCountryData(beginDuraion, endDuraion,"Emerging");
+	                    	break;
+                    }
+                    logger.info("get monthly statistics data end...");
                     
-                    Set<String> levelUsers = monthlyInRates.keySet();
-                    Iterator<String> userIterator = levelUsers.iterator();
                     
-                    while(userIterator.hasNext()){
-                    	String user = userIterator.next();
-                    	MonthlyInRateData inRateData = monthlyInRates.get(user);
+                    monthlyStatistics.add(monthlyCountryStatistics);
+                    
+                    for( MonthlyStatisticsData sData : monthlyStatistics){
                     	
                     	row = sheet.createRow(currentRowNum++);
-                    	row.createCell(0, XSSFCell.CELL_TYPE_STRING).setCellValue(user);
+                    	int column = 0;
+                    	String name = "";
+                    	switch(level){
+	                    	case LsAttributes.USER_LEVEL_RSD:
+	                    		name = sData.getRsd();
+	                    		row.createCell(column++, XSSFCell.CELL_TYPE_STRING).setCellValue(name==null||"".equalsIgnoreCase(name)?"全国":name);
+	                    		break;
+	                    	case LsAttributes.USER_LEVEL_RSM:
+	                    		name = sData.getRsm();
+	                    		row.createCell(column++, XSSFCell.CELL_TYPE_STRING).setCellValue(name==null||"".equalsIgnoreCase(name)?"全国":name);
+	                    		break;
+	                    	case LsAttributes.USER_LEVEL_DSM:
+	                    		name = sData.getRsd()+sData.getRsm()+sData.getDsmCode();
+	                    		row.createCell(column++, XSSFCell.CELL_TYPE_STRING).setCellValue(name==null||"".equalsIgnoreCase(name)?"全国":sData.getDsmName());
+	                    		break;
+                    	}
                     	
-                    	HSSFCell resRateCell = row.createCell(1, XSSFCell.CELL_TYPE_NUMERIC);
-                    	resRateCell.setCellValue(inRateData.getResInRate());
-                    	resRateCell.setCellStyle(percentCellStyle);
+                    	if( LsAttributes.USER_LEVEL_DSM.equalsIgnoreCase(level) ){
+                    		row.createCell(column++, XSSFCell.CELL_TYPE_STRING).setCellValue(sData.getRsm());
+                    	}
+                    	
+                    	HSSFCell inRateCell = row.createCell(column++, XSSFCell.CELL_TYPE_NUMERIC);
+                    	inRateCell.setCellValue(sData.getInRate());
+                    	inRateCell.setCellStyle(percentCellStyle);
+                    	
+                    	HSSFCell coreRateCell = row.createCell(column++, XSSFCell.CELL_TYPE_NUMERIC);
+                    	if( null != coreMonthlyStatistics && null != coreMonthlyStatistics.get(name) ){
+                    		coreRateCell.setCellValue(coreMonthlyStatistics.get(name).getCoreInRate());
+                    	}else if(null==name||"".equalsIgnoreCase(name)){
+                    		coreRateCell.setCellValue(coreMonthlyCountryStatistics.getCoreInRate());
+                    	}else{
+                    		coreRateCell.setCellValue(0);
+                    	}
+                    	coreRateCell.setCellStyle(percentCellStyle);
+                    	
+                    	HSSFCell emergingRateCell = row.createCell(column++, XSSFCell.CELL_TYPE_NUMERIC);
+                    	if( null != emergingMonthlyStatistics && null != emergingMonthlyStatistics.get(name) ){
+                    		emergingRateCell.setCellValue(emergingMonthlyStatistics.get(name).getEmergingInRate());
+                    	}else if(null==name||"".equalsIgnoreCase(name)){
+                    		emergingRateCell.setCellValue(emergingMonthlyCountryStatistics.getEmergingInRate());
+                    	}else{
+                    		emergingRateCell.setCellValue(0);
+                    	}
+                    	emergingRateCell.setCellStyle(percentCellStyle);
+                    	
+                    	HSSFCell whRateCell = row.createCell(column++, XSSFCell.CELL_TYPE_NUMERIC);
+                    	whRateCell.setCellValue(sData.getWhRate());
+                    	whRateCell.setCellStyle(percentCellStyle);
+                    	
+                    	HSSFCell coreWhRateCell = row.createCell(column++, XSSFCell.CELL_TYPE_NUMERIC);
+                    	if( null != coreMonthlyStatistics && null != coreMonthlyStatistics.get(name) ){
+                    		coreWhRateCell.setCellValue(coreMonthlyStatistics.get(name).getCoreWhRate());
+                    	}else if(null==name||"".equalsIgnoreCase(name)){
+                    		coreWhRateCell.setCellValue(coreMonthlyCountryStatistics.getCoreWhRate());
+                    	}else{
+                    		coreWhRateCell.setCellValue(0);
+                    	}
+                    	coreWhRateCell.setCellStyle(percentCellStyle);
+                    	
+                    	HSSFCell emergingwhRateCell = row.createCell(column++, XSSFCell.CELL_TYPE_NUMERIC);
+                    	if( null != emergingMonthlyStatistics && null != emergingMonthlyStatistics.get(name) ){
+                    		emergingwhRateCell.setCellValue(emergingMonthlyStatistics.get(name).getEmergingWhRate());
+                    	}else if(null==name||"".equalsIgnoreCase(name)){
+                    		emergingwhRateCell.setCellValue(emergingMonthlyCountryStatistics.getEmergingWhRate());
+                    	}else{
+                    		emergingwhRateCell.setCellValue(0);
+                    	}
+                    	emergingwhRateCell.setCellStyle(percentCellStyle);
+                    	
+                    	HSSFCell pnumCell = row.createCell(column++, XSSFCell.CELL_TYPE_NUMERIC);
+                    	pnumCell.setCellValue(sData.getPnum());
+                    	pnumCell.setCellStyle(numberCellStyle);
+                    	
+                    	switch(department){
+		                    case "1":
+		                    	HSSFCell aenumCell = row.createCell(column++, XSSFCell.CELL_TYPE_NUMERIC);
+		                    	aenumCell.setCellValue(sData.getAenum());
+		                    	aenumCell.setCellStyle(numberCellStyle);
+		                    	break;
+		                    case "3":
+		                    	HSSFCell risknumCell = row.createCell(column++, XSSFCell.CELL_TYPE_NUMERIC);
+		                    	risknumCell.setCellValue(sData.getRisknum());
+		                    	risknumCell.setCellStyle(numberCellStyle);
+		                    	break;
+	                    	default:
+	                    		break;
+	                    }
                         
-                        HSSFCell pedRateCell = row.createCell(2, XSSFCell.CELL_TYPE_NUMERIC);
-                        pedRateCell.setCellValue(inRateData.getPedInRate());
-                        pedRateCell.setCellStyle(percentCellStyle);
+                        HSSFCell lsnumCell = row.createCell(column++, XSSFCell.CELL_TYPE_NUMERIC);
+                        lsnumCell.setCellValue(sData.getLsnum());
+                        lsnumCell.setCellStyle(numberCellStyle);
                         
-                        HSSFCell aveRateCell = row.createCell(3, XSSFCell.CELL_TYPE_NUMERIC);
-                        aveRateCell.setCellValue((inRateData.getPedInRate()+inRateData.getResInRate())/2);
-                        aveRateCell.setCellStyle(percentCellStyle);
-                        
+                        HSSFCell averageDoseCell = row.createCell(column++, XSSFCell.CELL_TYPE_NUMERIC);
+                        averageDoseCell.setCellValue(sData.getAverageDose());
+                        averageDoseCell.setCellStyle(averageDoseCellStyle);
                     }
                     logger.info("begin to write the export file.");
                     workbook.write(fOut);

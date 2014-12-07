@@ -1,7 +1,7 @@
 package com.chalet.lskpi.service;
 
 import java.util.ArrayList;
-import java.util.Comparator;
+import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -15,10 +15,15 @@ import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.dao.IncorrectResultSizeDataAccessException;
 import org.springframework.stereotype.Service;
 
+import com.chalet.lskpi.comparator.DailyReportDataAverageComparator;
+import com.chalet.lskpi.comparator.DailyReportDataInRateComparator;
+import com.chalet.lskpi.comparator.DailyReportDataWhRateComparator;
+import com.chalet.lskpi.comparator.RateElementComparator;
 import com.chalet.lskpi.dao.PediatricsDAO;
 import com.chalet.lskpi.model.DailyReportData;
 import com.chalet.lskpi.model.Hospital;
 import com.chalet.lskpi.model.MobilePEDDailyData;
+import com.chalet.lskpi.model.MonthlyStatisticsData;
 import com.chalet.lskpi.model.PediatricsData;
 import com.chalet.lskpi.model.RateElement;
 import com.chalet.lskpi.model.ReportProcessData;
@@ -790,120 +795,73 @@ public class PediatricsServiceImpl implements PediatricsService {
         return count>0;
     }
     
-    static class RateElementComparator implements Comparator<RateElement>{
+	@Override
+	public List<MonthlyStatisticsData> getMonthlyStatisticsData(
+			String beginDuraion, String endDuraion, String level)
+			throws Exception {
+		try{
+			return pediatricsDAO.getMonthlyStatisticsData(beginDuraion, endDuraion, level);
+		}catch(EmptyResultDataAccessException erd){
+			return Collections.emptyList();
+		}
+	}
 
-		@Override
-		public int compare(RateElement o1, RateElement o2) {
-			Double o1value = o1.getRateNum();
-			Double o2value = o2.getRateNum();
-			if( o1value.compareTo(o2value) != 0 ){
-				return o2value.compareTo(o1value);
+	@Override
+	public Map<String, MonthlyStatisticsData> getCoreOrEmergingMonthlyStatisticsData(
+			String beginDuraion, String endDuraion, String level, String dragonType)
+			throws Exception {
+		List<MonthlyStatisticsData> dbStatisticsData = new ArrayList<MonthlyStatisticsData>();
+		try{
+			if( "Core".equalsIgnoreCase(dragonType) ){
+				dbStatisticsData = pediatricsDAO.getCoreMonthlyStatisticsData(beginDuraion, endDuraion, level);
 			}else{
-				Integer o1type = o1.getRateType();
-				Integer o2type = o2.getRateType();
-				return o2type.compareTo(o1type);
+				dbStatisticsData = pediatricsDAO.getEmergingMonthlyStatisticsData(beginDuraion, endDuraion, level);
 			}
+			
+			Map<String, MonthlyStatisticsData> statisticsDataMap = new HashMap<String, MonthlyStatisticsData>();
+			
+			if( null != dbStatisticsData && !dbStatisticsData.isEmpty() ){
+				for( MonthlyStatisticsData data : dbStatisticsData ){
+					switch(level){
+						case LsAttributes.USER_LEVEL_DSM:
+							statisticsDataMap.put(data.getRsd()+data.getRsm()+data.getDsmCode(), data);
+							break;
+						case LsAttributes.USER_LEVEL_RSM:
+							statisticsDataMap.put(data.getRsm(), data);
+							break;
+						case LsAttributes.USER_LEVEL_RSD:
+							statisticsDataMap.put(data.getRsd(), data);
+							break;
+					}
+				}
+			}
+			return statisticsDataMap;
+		}catch(EmptyResultDataAccessException erd){
+			return Collections.emptyMap();
 		}
-    }
-    
-    static class DailyReportDataInRateComparator implements Comparator<DailyReportData>{
+	}
 
-		@Override
-		public int compare(DailyReportData o1, DailyReportData o2) {
-			Double o1value = o1.getInRate();
-			Double o2value = o2.getInRate();
-			return o2value.compareTo(o1value);
+	@Override
+	public MonthlyStatisticsData getMonthlyStatisticsCountryData(
+			String beginDuraion, String endDuraion) throws Exception {
+		try{
+			return pediatricsDAO.getMonthlyStatisticsCountryData(beginDuraion, endDuraion);
+		}catch(EmptyResultDataAccessException erd){
+			return new MonthlyStatisticsData();
 		}
-    }
-    
-    static class DailyReportDataWhRateComparator implements Comparator<DailyReportData>{
-    	
-    	@Override
-    	public int compare(DailyReportData o1, DailyReportData o2) {
-    		Double o1value = o1.getWhRate();
-    		Double o2value = o2.getWhRate();
-    		return o2value.compareTo(o1value);
-    	}
-    }
-    
-    static class DailyReportDataAverageComparator implements Comparator<DailyReportData>{
-    	
-    	@Override
-    	public int compare(DailyReportData o1, DailyReportData o2) {
-    		Double o1value = o1.getAverageDose();
-    		Double o2value = o2.getAverageDose();
-			return o2value.compareTo(o1value);
-    	}
-    }
-    
-    public static void main(String[] args){
-    	/**
-    	 * 
-    	List<RateElement> rates = new ArrayList<RateElement>();
-    	RateElement re1 = new RateElement();
-    	re1.setRateType(1);
-    	re1.setRateNum(0.30);
-    	
-    	RateElement re2 = new RateElement();
-    	re2.setRateType(2);
-    	re2.setRateNum(0.10);
-    	
-    	RateElement re3 = new RateElement();
-    	re3.setRateType(3);
-    	re3.setRateNum(0.30);
-    	
-    	RateElement re4 = new RateElement();
-    	re4.setRateType(4);
-    	re4.setRateNum(0.30);
-        
-        rates.add(re1);
-        rates.add(re2);
-        rates.add(re3);
-        rates.add(re4);
-        
-        for( RateElement re : rates ){
-        	System.out.println(re.getRateType()+"--"+re.getRateNum());
-        }
-        
-        java.util.Collections.sort(rates, new RateElementComparator());
-        System.out.println("------------------split--------------------");
-        for( RateElement re : rates ){
-        	System.out.println(re.getRateType()+"--"+re.getRateNum());
-        }
-    	 */
-    	List<DailyReportData> allRSMData = new ArrayList<DailyReportData>();
-    	DailyReportData d1 = new DailyReportData();
-    	d1.setRsmName("a");
-    	d1.setInRate(0.54);
-    	d1.setWhRate(0.11);
-    	d1.setAverageDose(1.35f);
-    	
-    	DailyReportData d2 = new DailyReportData();
-    	d2.setRsmName("b");
-    	d2.setInRate(0.90);
-    	d2.setWhRate(0.33);
-    	d2.setAverageDose(1.8f);
-    	
-    	DailyReportData d3 = new DailyReportData();
-    	d3.setRsmName("c");
-    	d3.setInRate(0.30);
-    	d3.setWhRate(0.12);
-    	d3.setAverageDose(3.3f);
-    	
-    	allRSMData.add(d1);
-    	allRSMData.add(d2);
-    	allRSMData.add(d3);
-    	
-    	java.util.Collections.sort(allRSMData, new DailyReportDataInRateComparator());
-    	System.out.println(allRSMData.get(0).getRsmName());
-    	System.out.println(allRSMData.get(2).getRsmName());
-    	System.out.println("-------------------------wh--------");
-    	java.util.Collections.sort(allRSMData, new DailyReportDataWhRateComparator());
-    	System.out.println(allRSMData.get(0).getRsmName());
-    	System.out.println(allRSMData.get(2).getRsmName());
-    	System.out.println("-------------------------average--------");
-    	java.util.Collections.sort(allRSMData, new DailyReportDataAverageComparator());
-    	System.out.println(allRSMData.get(0).getRsmName());
-    	System.out.println(allRSMData.get(2).getRsmName());
-    }
+	}
+	
+	@Override
+	public MonthlyStatisticsData getCoreOrEmergingMonthlyStatisticsCountryData(
+			String beginDuraion, String endDuraion, String dragonType) throws Exception {
+		try{
+			if( "Core".equalsIgnoreCase(dragonType) ){
+				return pediatricsDAO.getCoreMonthlyStatisticsCountryData(beginDuraion, endDuraion);
+			}else{
+				return pediatricsDAO.getEmergingMonthlyStatisticsCountryData(beginDuraion, endDuraion);
+			}
+		}catch(EmptyResultDataAccessException erd){
+			return new MonthlyStatisticsData();
+		}
+	}
 }

@@ -1,7 +1,9 @@
 package com.chalet.lskpi.service;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.LinkedHashSet;
 import java.util.List;
@@ -16,10 +18,15 @@ import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.dao.IncorrectResultSizeDataAccessException;
 import org.springframework.stereotype.Service;
 
+import com.chalet.lskpi.comparator.DailyReportDataAverageComparator;
+import com.chalet.lskpi.comparator.DailyReportDataInRateComparator;
+import com.chalet.lskpi.comparator.DailyReportDataWhRateComparator;
+import com.chalet.lskpi.comparator.RateElementComparator;
 import com.chalet.lskpi.dao.RespirologyDAO;
 import com.chalet.lskpi.model.DailyReportData;
 import com.chalet.lskpi.model.Hospital;
 import com.chalet.lskpi.model.MobileRESDailyData;
+import com.chalet.lskpi.model.MonthlyStatisticsData;
 import com.chalet.lskpi.model.RateElement;
 import com.chalet.lskpi.model.ReportProcessData;
 import com.chalet.lskpi.model.ReportProcessDataDetail;
@@ -30,10 +37,6 @@ import com.chalet.lskpi.model.RespirologyMonthDBData;
 import com.chalet.lskpi.model.TopAndBottomRSMData;
 import com.chalet.lskpi.model.UserInfo;
 import com.chalet.lskpi.model.WeeklyRatioData;
-import com.chalet.lskpi.service.PediatricsServiceImpl.DailyReportDataAverageComparator;
-import com.chalet.lskpi.service.PediatricsServiceImpl.DailyReportDataInRateComparator;
-import com.chalet.lskpi.service.PediatricsServiceImpl.DailyReportDataWhRateComparator;
-import com.chalet.lskpi.service.PediatricsServiceImpl.RateElementComparator;
 import com.chalet.lskpi.utils.DateUtils;
 import com.chalet.lskpi.utils.LsAttributes;
 
@@ -971,4 +974,75 @@ public class RespirologyServiceImpl implements RespirologyService {
         
         return exportData;
     }
+
+	@Override
+	public List<MonthlyStatisticsData> getMonthlyStatisticsData(
+			String beginDuraion, String endDuraion, String level)
+			throws Exception {
+		try{
+			return respirologyDAO.getMonthlyStatisticsData(beginDuraion, endDuraion, level);
+		}catch(EmptyResultDataAccessException erd){
+			return Collections.emptyList();
+		}
+	}
+
+	@Override
+	public MonthlyStatisticsData getMonthlyStatisticsCountryData(
+			String beginDuraion, String endDuraion) throws Exception {
+		try{
+			return respirologyDAO.getMonthlyStatisticsCountryData(beginDuraion, endDuraion);
+		}catch(EmptyResultDataAccessException erd){
+			return new MonthlyStatisticsData();
+		}
+	}
+
+	@Override
+	public MonthlyStatisticsData getCoreOrEmergingMonthlyStatisticsCountryData(
+			String beginDuraion, String endDuraion, String dragonType)
+			throws Exception {
+		try{
+			if( "Core".equalsIgnoreCase(dragonType) ){
+				return respirologyDAO.getCoreMonthlyStatisticsCountryData(beginDuraion, endDuraion);
+			}else{
+				return respirologyDAO.getEmergingMonthlyStatisticsCountryData(beginDuraion, endDuraion);
+			}
+		}catch(EmptyResultDataAccessException erd){
+			return new MonthlyStatisticsData();
+		}
+	}
+
+	@Override
+	public Map<String, MonthlyStatisticsData> getCoreOrEmergingMonthlyStatisticsData(
+			String beginDuraion, String endDuraion, String level,
+			String dragonType) throws Exception {
+		List<MonthlyStatisticsData> dbStatisticsData = new ArrayList<MonthlyStatisticsData>();
+		try{
+			if( "Core".equalsIgnoreCase(dragonType) ){
+				dbStatisticsData = respirologyDAO.getCoreMonthlyStatisticsData(beginDuraion, endDuraion, level);
+			}else{
+				dbStatisticsData = respirologyDAO.getEmergingMonthlyStatisticsData(beginDuraion, endDuraion, level);
+			}
+			
+			Map<String, MonthlyStatisticsData> statisticsDataMap = new HashMap<String, MonthlyStatisticsData>();
+			
+			if( null != dbStatisticsData && !dbStatisticsData.isEmpty() ){
+				for( MonthlyStatisticsData data : dbStatisticsData ){
+					switch(level){
+						case LsAttributes.USER_LEVEL_DSM:
+							statisticsDataMap.put(data.getRsd()+data.getRsm()+data.getDsmCode(), data);
+							break;
+						case LsAttributes.USER_LEVEL_RSM:
+							statisticsDataMap.put(data.getRsm(), data);
+							break;
+						case LsAttributes.USER_LEVEL_RSD:
+							statisticsDataMap.put(data.getRsd(), data);
+							break;
+					}
+				}
+			}
+			return statisticsDataMap;
+		}catch(EmptyResultDataAccessException erd){
+			return Collections.emptyMap();
+		}
+	}
 }

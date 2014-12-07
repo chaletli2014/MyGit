@@ -2,9 +2,11 @@ package com.chalet.lskpi.service;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 import com.chalet.lskpi.model.Hospital;
 import com.chalet.lskpi.model.MobilePEDDailyData;
+import com.chalet.lskpi.model.MonthlyStatisticsData;
 import com.chalet.lskpi.model.PediatricsData;
 import com.chalet.lskpi.model.ReportProcessData;
 import com.chalet.lskpi.model.ReportProcessDataDetail;
@@ -58,4 +60,9 @@ public interface PediatricsService {
     public boolean hasLastWeeklyPEDData() throws Exception;
     
     public List<MobilePEDDailyData> getDailyPEDData4MobileByRegion(String region) throws Exception;
+    
+    public List<MonthlyStatisticsData> getMonthlyStatisticsData(String beginDuraion, String endDuraion, String level) throws Exception;
+    public MonthlyStatisticsData getMonthlyStatisticsCountryData(String beginDuraion, String endDuraion) throws Exception;
+    public MonthlyStatisticsData getCoreOrEmergingMonthlyStatisticsCountryData(String beginDuraion, String endDuraion, String dragonType) throws Exception;
+    public Map<String,MonthlyStatisticsData> getCoreOrEmergingMonthlyStatisticsData(String beginDuraion, String endDuraion, String level, String dragonType) throws Exception;
 }

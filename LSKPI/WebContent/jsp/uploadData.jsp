@@ -411,15 +411,23 @@
             </div>
 			</c:if>
 			<div class="element_block">
-				<div class="element_title">每月上报率统计</div>
+				<div class="element_title">每月汇总数据统计</div>
 				<div>
 					<form action="doDownloadMonthlyInRateData" id="downloadMonthlyInRateData" method="post" enctype="multipart/form-data" data-ajax="false" accept-charset="UTF-8">
 						选择日期：<input id="datepicker_monthlyInRate" type="text" name="chooseDate_monthlyInRate" class="ls_datepicker" readonly="readonly"/>
 						<br/>
                         <span>选择级别：</span>
                         <select name="level">
-                        	<option value="RSM">RSM</option>
                         	<option value="RSD">RSD</option>
+                        	<option value="RSM">RSM</option>
+                        	<option value="DSM">DSM</option>
+                        </select>
+                        <br/>
+                        <span>选择科室：</span>
+                        <select name="department">
+                        	<option value="2">儿科</option>
+							<option value="1">呼吸科</option>
+							<option value="3">胸外科</option>
                         </select>
                         <br/>
 						<img alt="" src="<%=basePath%>images/button_submit.png" style="cursor: pointer; vertical-align: middle;" onclick="downloadMonthlyInRateData()" />

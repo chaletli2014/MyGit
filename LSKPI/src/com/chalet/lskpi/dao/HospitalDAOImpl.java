@@ -27,7 +27,7 @@ import com.chalet.lskpi.mapper.KPIHospitalRowMapper;
 import com.chalet.lskpi.mapper.Monthly12DataRowMapper;
 import com.chalet.lskpi.mapper.MonthlyCollectionDataRowMapper;
 import com.chalet.lskpi.mapper.MonthlyDataRowMapper;
-import com.chalet.lskpi.mapper.MonthlyInRateDataRowMapper;
+import com.chalet.lskpi.mapper.MonthlyStatisticsDataRowMapper;
 import com.chalet.lskpi.mapper.MonthlyRatioDataRowMapper;
 import com.chalet.lskpi.mapper.UserInfoRowMapper;
 import com.chalet.lskpi.model.Hospital;
@@ -36,7 +36,7 @@ import com.chalet.lskpi.model.HospitalSalesQueryParam;
 import com.chalet.lskpi.model.KPIHospital4Export;
 import com.chalet.lskpi.model.Monthly12Data;
 import com.chalet.lskpi.model.MonthlyData;
-import com.chalet.lskpi.model.MonthlyInRateData;
+import com.chalet.lskpi.model.MonthlyStatisticsData;
 import com.chalet.lskpi.model.MonthlyRatioData;
 import com.chalet.lskpi.model.UserInfo;
 import com.chalet.lskpi.model.WeeklyDataOfHospital;
@@ -541,7 +541,7 @@ public class HospitalDAOImpl implements HospitalDAO {
     }
 	
 	@Override
-	public List<MonthlyInRateData> getMonthlyInRateData(String beginDuraion,
+	public List<MonthlyStatisticsData> getMonthlyInRateData(String beginDuraion,
 			String endDuraion, String level) throws Exception {
 		StringBuffer inRateSQL = new StringBuffer("");
 	    if( null != level && "RSM".equalsIgnoreCase(level) ){
@@ -549,12 +549,12 @@ public class HospitalDAOImpl implements HospitalDAO {
             .append(" from ( ")
             .append(LsAttributes.SQL_MONTHLY_INRATE_SELECTION)
             .append(" from tbl_respirology_data_weekly, tbl_hospital h ")
-            .append(LsAttributes.SQL_MONTHLY_INRATE_RSM_CONDITION)
+            .append(LsAttributes.SQL_MONTHLY_STATISTICS_RSM_CONDITION)
             .append(") resData ")
             .append(",( ")
             .append(LsAttributes.SQL_MONTHLY_INRATE_SELECTION)
             .append(" from tbl_pediatrics_data_weekly, tbl_hospital h ")
-            .append(LsAttributes.SQL_MONTHLY_INRATE_RSM_CONDITION)
+            .append(LsAttributes.SQL_MONTHLY_STATISTICS_RSM_CONDITION)
             .append(") pedData ")
             .append(" where resData.duration = pedData.duration ")
             .append(" and resData.region = pedData.region ")
@@ -565,18 +565,18 @@ public class HospitalDAOImpl implements HospitalDAO {
             .append(" from ( ")
             .append(LsAttributes.SQL_MONTHLY_INRATE_SELECTION)
             .append(" from tbl_respirology_data_weekly, tbl_hospital h ")
-            .append(LsAttributes.SQL_MONTHLY_INRATE_RSD_CONDITION)
+            .append(LsAttributes.SQL_MONTHLY_STATISTICS_RSD_CONDITION)
             .append(") resData ")
             .append(",( ")
             .append(LsAttributes.SQL_MONTHLY_INRATE_SELECTION)
             .append(" from tbl_pediatrics_data_weekly, tbl_hospital h ")
-            .append(LsAttributes.SQL_MONTHLY_INRATE_RSD_CONDITION)
+            .append(LsAttributes.SQL_MONTHLY_STATISTICS_RSD_CONDITION)
             .append(") pedData ")
             .append(" where resData.duration = pedData.duration ")
             .append(" and resData.region = pedData.region ")
             .append(" order by region asc, duration desc");
 	    }
-        return dataBean.getJdbcTemplate().query(inRateSQL.toString(), new Object[]{beginDuraion,endDuraion,beginDuraion,endDuraion},new MonthlyInRateDataRowMapper());
+        return dataBean.getJdbcTemplate().query(inRateSQL.toString(), new Object[]{beginDuraion,endDuraion,beginDuraion,endDuraion},new MonthlyStatisticsDataRowMapper());
 	}
 	
 	@Override

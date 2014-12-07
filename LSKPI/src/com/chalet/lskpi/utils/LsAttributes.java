@@ -882,13 +882,58 @@ public class LsAttributes {
             .append(" IFNULL(dailyData.emgRate,0) as emgRate ");
     
     public static final StringBuffer SQL_MONTHLY_INRATE_SELECTION
-		    = new StringBuffer(" select duration, h.region, h.rsmRegion, IFNULL(sum(least(innum,3)),0) / (count(1)*3) as inRate ");
-    public static final StringBuffer SQL_MONTHLY_INRATE_RSM_CONDITION
-		    = new StringBuffer(" where duration between ? and ? and hospitalCode = h.code ")
-		    .append(" group by h.region, h.rsmRegion, duration ");
-    public static final StringBuffer SQL_MONTHLY_INRATE_RSD_CONDITION
-		    = new StringBuffer(" where duration between ? and ? and hospitalCode = h.code ")
-		    .append(" group by h.region, duration ");
+		    = new StringBuffer(" select duration, h.region, h.rsmRegion , IFNULL(sum(least(innum,3)),0) / (count(1)*3) as inRate ");
+    
+    public static final StringBuffer SQL_MONTHLY_STATISTICS_SELECTION
+    	= new StringBuffer(" , IFNULL(round(sum(lsnum)/sum(pnum),4),0) as whRate ")
+		    .append(" , IFNULL(sum(pnum),0) as pnum ")
+		    .append(" , IFNULL(sum(lsnum),0) as lsnum ")
+		    .append(" , IFNULL(round(sum(averageDose*lsnum)/sum(lsnum),4),0) as averageDose ");
+    
+    public static final StringBuffer SQL_MONTHLY_STATISTICS_CORE_EMERGING_SELECTION
+	    = new StringBuffer(", IFNULL(sum(least(innum,3)),0) / (count(1)*3) as inRate ")
+		.append(", IFNULL(round(sum(lsnum)/sum(pnum),4),0) as whRate ");
+    
+    public static final StringBuffer SQL_MONTHLY_STATISTICS_CORE_EMERGING_SELECTION_RES
+	    = new StringBuffer("")
+	    .append(" ,IFNULL( sum(  ")
+	    .append("   case ")
+	    .append("       when h.dragonType='Emerging' then least(innum*3,3) ")
+	    .append("       when h.dragonType='Core' then least(innum,3) ")
+	    .append(" 	end")
+	    .append(" ) ")
+	    .append(" / (count(1)*3),0 ) as inRate ")
+	    .append(", IFNULL(round(sum(lsnum)/sum(pnum),4),0) as whRate ");
+    
+    public static final StringBuffer SQL_MONTHLY_STATISTICS_DSM_CONDITION
+    	= new StringBuffer(" where duration between ? and ? and hospitalCode = h.code ")
+    	.append(" group by h.region, h.rsmRegion, h.dsmCode");
+    public static final StringBuffer SQL_MONTHLY_STATISTICS_RSM_CONDITION
+	    = new StringBuffer(" where duration between ? and ? and hospitalCode = h.code ")
+	    .append(" group by h.region, h.rsmRegion");
+    public static final StringBuffer SQL_MONTHLY_STATISTICS_RSD_CONDITION
+	    = new StringBuffer(" where duration between ? and ? and hospitalCode = h.code ")
+	    .append(" group by h.region");
+    
+    public static final StringBuffer SQL_MONTHLY_STATISTICS_CORE_DSM_CONDITION
+	    = new StringBuffer(" where duration between ? and ? and hospitalCode = h.code and h.dragonType='Core' ")
+	    .append(" group by h.region, h.rsmRegion, h.dsmCode");
+    public static final StringBuffer SQL_MONTHLY_STATISTICS_CORE_RSM_CONDITION
+	    = new StringBuffer(" where duration between ? and ? and hospitalCode = h.code and h.dragonType='Core' ")
+	    .append(" group by h.region, h.rsmRegion");
+    public static final StringBuffer SQL_MONTHLY_STATISTICS_CORE_RSD_CONDITION
+	    = new StringBuffer(" where duration between ? and ? and hospitalCode = h.code and h.dragonType='Core' ")
+	    .append(" group by h.region");
+    
+    public static final StringBuffer SQL_MONTHLY_STATISTICS_EMERGING_DSM_CONDITION
+	    = new StringBuffer(" where duration between ? and ? and hospitalCode = h.code and h.dragonType='Emerging' ")
+	    .append(" group by h.region, h.rsmRegion, h.dsmCode");
+    public static final StringBuffer SQL_MONTHLY_STATISTICS_EMERGING_RSM_CONDITION
+	    = new StringBuffer(" where duration between ? and ? and hospitalCode = h.code and h.dragonType='Emerging' ")
+	    .append(" group by h.region, h.rsmRegion");
+    public static final StringBuffer SQL_MONTHLY_STATISTICS_EMERGING_RSD_CONDITION
+	    = new StringBuffer(" where duration between ? and ? and hospitalCode = h.code and h.dragonType='Emerging' ")
+	    .append(" group by h.region");
     
     public static final StringBuffer SQL_HOME_WEEKLY_DATA_SELECTION
             = new StringBuffer("")

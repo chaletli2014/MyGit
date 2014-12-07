@@ -20,11 +20,15 @@ import org.springframework.stereotype.Repository;
 
 import com.chalet.lskpi.mapper.ChestSurgeryMobileRowMapper;
 import com.chalet.lskpi.mapper.ChestSurgeryRowMapper;
+import com.chalet.lskpi.mapper.MonthlyStatisticsCoreDataRowMapper;
+import com.chalet.lskpi.mapper.MonthlyStatisticsDataRowMapper;
+import com.chalet.lskpi.mapper.MonthlyStatisticsEmergingDataRowMapper;
 import com.chalet.lskpi.mapper.TopAndBottomRSMDataRowMapper;
 import com.chalet.lskpi.mapper.WeeklyHospitalDataRowMapper;
 import com.chalet.lskpi.model.ChestSurgeryData;
 import com.chalet.lskpi.model.Hospital;
 import com.chalet.lskpi.model.MobileCHEDailyData;
+import com.chalet.lskpi.model.MonthlyStatisticsData;
 import com.chalet.lskpi.model.ReportProcessData;
 import com.chalet.lskpi.model.ReportProcessDataDetail;
 import com.chalet.lskpi.model.TopAndBottomRSMData;
@@ -922,5 +926,137 @@ public class ChestSurgeryDAOImpl implements ChestSurgeryDAO {
           .append(" where duration = CONCAT(DATE_FORMAT(DATE_SUB(?, Interval 6 day),'%Y.%m.%d'), '-',DATE_FORMAT(?,'%Y.%m.%d'))");
         return dataBean.getJdbcTemplate().query(sb.toString(), new Object[]{lastweekDay,lastweekDay}, new WeeklyHospitalDataRowMapper());
     }
+
+	@Override
+	public List<MonthlyStatisticsData> getMonthlyStatisticsData(
+			String beginDuraion, String endDuraion, String level)
+			throws Exception {
+		StringBuffer inRateSQL = new StringBuffer("");
+		switch(level){
+			case LsAttributes.USER_LEVEL_RSD:
+				inRateSQL.append(" select h.region, '' as rsmRegion, '' as dsmCode, '' as dsmName ")
+	            .append(", IFNULL(sum(least(innum,3)),0) / (count(1)*3) as inRate ")
+	            .append(", 0 as aenum ")
+	            .append(", IFNULL(sum(risknum),0) as risknum ")
+				.append(LsAttributes.SQL_MONTHLY_STATISTICS_SELECTION)
+	            .append(" from tbl_chestSurgery_data_weekly, tbl_hospital h ")
+	            .append(LsAttributes.SQL_MONTHLY_STATISTICS_RSD_CONDITION);
+				break;
+			case LsAttributes.USER_LEVEL_RSM:
+				inRateSQL.append(" select h.region, h.rsmRegion as rsmRegion, '' as dsmCode, '' as dsmName ")
+	            .append(", IFNULL(sum(least(innum,3)),0) / (count(1)*3) as inRate ")
+	            .append(", 0 as aenum ")
+	            .append(", IFNULL(sum(risknum),0) as risknum ")
+				.append(LsAttributes.SQL_MONTHLY_STATISTICS_SELECTION)
+	            .append(" from tbl_chestSurgery_data_weekly, tbl_hospital h ")
+	            .append(LsAttributes.SQL_MONTHLY_STATISTICS_RSM_CONDITION);
+				break;
+			case LsAttributes.USER_LEVEL_DSM:
+				inRateSQL.append(" select h.region, h.rsmRegion as rsmRegion, h.dsmCode as dsmCode ")
+	            .append(", (select distinct name from tbl_userinfo u where u.userCode = h.dsmCode and u.region = h.rsmRegion and u.regionCenter = h.region ) as dsmName")
+				.append(", IFNULL(sum(least(innum,3)),0) / (count(1)*3) as inRate ")
+				.append(", 0 as aenum ")
+	            .append(", IFNULL(sum(risknum),0) as risknum ")
+				.append(LsAttributes.SQL_MONTHLY_STATISTICS_SELECTION)
+	            .append(" from tbl_chestSurgery_data_weekly, tbl_hospital h ")
+		        .append(LsAttributes.SQL_MONTHLY_STATISTICS_DSM_CONDITION);
+				break;
+		}
+        return dataBean.getJdbcTemplate().query(inRateSQL.toString(), new Object[]{beginDuraion,endDuraion},new MonthlyStatisticsDataRowMapper());
+	}
+
+	@Override
+	public List<MonthlyStatisticsData> getCoreMonthlyStatisticsData(
+			String beginDuraion, String endDuraion, String level)
+			throws Exception {
+		StringBuffer inRateSQL = new StringBuffer("");
+		switch(level){
+			case LsAttributes.USER_LEVEL_RSD:
+				inRateSQL.append(" select h.region, '' as rsmRegion, '' as dsmCode, '' as dsmName ")
+	            .append(LsAttributes.SQL_MONTHLY_STATISTICS_CORE_EMERGING_SELECTION)
+	            .append(" from tbl_chestSurgery_data_weekly, tbl_hospital h ")
+	            .append(LsAttributes.SQL_MONTHLY_STATISTICS_CORE_RSD_CONDITION);
+				break;
+			case LsAttributes.USER_LEVEL_RSM:
+				inRateSQL.append(" select h.region, h.rsmRegion as rsmRegion, '' as dsmCode, '' as dsmName ")
+	            .append(LsAttributes.SQL_MONTHLY_STATISTICS_CORE_EMERGING_SELECTION)
+	            .append(" from tbl_chestSurgery_data_weekly, tbl_hospital h ")
+	            .append(LsAttributes.SQL_MONTHLY_STATISTICS_CORE_RSM_CONDITION);
+				break;
+			case LsAttributes.USER_LEVEL_DSM:
+				inRateSQL.append(" select h.region, h.rsmRegion as rsmRegion, h.dsmCode as dsmCode ")
+	            .append(", (select distinct name from tbl_userinfo u where u.userCode = h.dsmCode and u.region = h.rsmRegion and u.regionCenter = h.region ) as dsmName")
+				.append(LsAttributes.SQL_MONTHLY_STATISTICS_CORE_EMERGING_SELECTION)
+	            .append(" from tbl_chestSurgery_data_weekly, tbl_hospital h ")
+		        .append(LsAttributes.SQL_MONTHLY_STATISTICS_CORE_DSM_CONDITION);
+				break;
+		}
+        return dataBean.getJdbcTemplate().query(inRateSQL.toString(), new Object[]{beginDuraion,endDuraion},new MonthlyStatisticsCoreDataRowMapper());
+	}
+
+	@Override
+	public List<MonthlyStatisticsData> getEmergingMonthlyStatisticsData(
+			String beginDuraion, String endDuraion, String level)
+			throws Exception {
+		StringBuffer inRateSQL = new StringBuffer("");
+		switch(level){
+			case LsAttributes.USER_LEVEL_RSD:
+				inRateSQL.append(" select h.region, '' as rsmRegion, '' as dsmCode, '' as dsmName ")
+	            .append(LsAttributes.SQL_MONTHLY_STATISTICS_CORE_EMERGING_SELECTION)
+	            .append(" from tbl_chestSurgery_data_weekly, tbl_hospital h ")
+	            .append(LsAttributes.SQL_MONTHLY_STATISTICS_EMERGING_RSD_CONDITION);
+				break;
+			case LsAttributes.USER_LEVEL_RSM:
+				inRateSQL.append(" select h.region, h.rsmRegion as rsmRegion, '' as dsmCode, '' as dsmName ")
+	            .append(LsAttributes.SQL_MONTHLY_STATISTICS_CORE_EMERGING_SELECTION)
+	            .append(" from tbl_chestSurgery_data_weekly, tbl_hospital h ")
+	            .append(LsAttributes.SQL_MONTHLY_STATISTICS_EMERGING_RSM_CONDITION);
+				break;
+			case LsAttributes.USER_LEVEL_DSM:
+				inRateSQL.append(" select h.region, h.rsmRegion as rsmRegion, h.dsmCode as dsmCode ")
+	            .append(", (select distinct name from tbl_userinfo u where u.userCode = h.dsmCode and u.region = h.rsmRegion and u.regionCenter = h.region ) as dsmName")
+	            .append(LsAttributes.SQL_MONTHLY_STATISTICS_CORE_EMERGING_SELECTION)
+	            .append(" from tbl_chestSurgery_data_weekly, tbl_hospital h ")
+		        .append(LsAttributes.SQL_MONTHLY_STATISTICS_EMERGING_DSM_CONDITION);
+				break;
+		}
+        return dataBean.getJdbcTemplate().query(inRateSQL.toString(), new Object[]{beginDuraion,endDuraion},new MonthlyStatisticsEmergingDataRowMapper());
+	}
+
+	@Override
+	public MonthlyStatisticsData getMonthlyStatisticsCountryData(
+			String beginDuraion, String endDuraion) throws Exception {
+		StringBuffer inRateSQL = new StringBuffer("");
+		inRateSQL.append(" select '' as region, '' as rsmRegion, '' as dsmCode, '' as dsmName ")
+        .append(", IFNULL(sum(least(innum,3)),0) / (count(1)*3) as inRate ")
+        .append(", 0 as aenum ")
+        .append(", IFNULL(sum(risknum),0) as risknum ")
+		.append(LsAttributes.SQL_MONTHLY_STATISTICS_SELECTION)
+        .append(" from tbl_chestSurgery_data_weekly ")
+        .append(" where duration between ? and ? ");
+        return dataBean.getJdbcTemplate().queryForObject(inRateSQL.toString(), new Object[]{beginDuraion,endDuraion},new MonthlyStatisticsDataRowMapper());
+	}
+
+	@Override
+	public MonthlyStatisticsData getCoreMonthlyStatisticsCountryData(
+			String beginDuraion, String endDuraion) throws Exception {
+		StringBuffer inRateSQL = new StringBuffer("");
+		inRateSQL.append(" select '' as region, '' as rsmRegion, '' as dsmCode, '' as dsmName ")
+        .append(LsAttributes.SQL_MONTHLY_STATISTICS_CORE_EMERGING_SELECTION)
+        .append(" from tbl_chestSurgery_data_weekly, tbl_hospital h  ")
+        .append(" where duration between ? and ? and hospitalCode = h.code and h.dragonType='Core' ");
+        return dataBean.getJdbcTemplate().queryForObject(inRateSQL.toString(), new Object[]{beginDuraion,endDuraion},new MonthlyStatisticsCoreDataRowMapper());
+	}
+
+	@Override
+	public MonthlyStatisticsData getEmergingMonthlyStatisticsCountryData(
+			String beginDuraion, String endDuraion) throws Exception {
+		StringBuffer inRateSQL = new StringBuffer("");
+		inRateSQL.append(" select '' as region, '' as rsmRegion, '' as dsmCode, '' as dsmName ")
+        .append(LsAttributes.SQL_MONTHLY_STATISTICS_CORE_EMERGING_SELECTION)
+        .append(" from tbl_chestSurgery_data_weekly, tbl_hospital h  ")
+        .append(" where duration between ? and ? and hospitalCode = h.code and h.dragonType='Emerging' ");
+        return dataBean.getJdbcTemplate().queryForObject(inRateSQL.toString(), new Object[]{beginDuraion,endDuraion},new MonthlyStatisticsEmergingDataRowMapper());
+	}
 
 }
