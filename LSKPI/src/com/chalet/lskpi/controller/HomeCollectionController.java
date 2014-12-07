@@ -319,8 +319,7 @@ public class HomeCollectionController extends BaseController{
             return "redirect:doctorapproval";
         }
         
-        if( !(LsAttributes.USER_LEVEL_BM.equalsIgnoreCase(currentUser.getLevel()) 
-                || LsAttributes.USER_LEVEL_DSM.equalsIgnoreCase(currentUser.getLevel())) ){
+        if( !LsAttributes.USER_LEVEL_BM.equalsIgnoreCase(currentUser.getLevel())){
             request.getSession().setAttribute(LsAttributes.COLLECT_HOMEDATA_MESSAGE, LsAttributes.RETURNED_MESSAGE_3);
             return "redirect:doctorapproval";
         }
@@ -372,8 +371,7 @@ public class HomeCollectionController extends BaseController{
     		return "redirect:doctorapproval";
     	}
     	
-    	if( !(LsAttributes.USER_LEVEL_BM.equalsIgnoreCase(currentUser.getLevel()) 
-    			|| LsAttributes.USER_LEVEL_DSM.equalsIgnoreCase(currentUser.getLevel())) ){
+    	if( !LsAttributes.USER_LEVEL_BM.equalsIgnoreCase(currentUser.getLevel())){
     		request.getSession().setAttribute(LsAttributes.COLLECT_HOMEDATA_MESSAGE, LsAttributes.RETURNED_MESSAGE_3);
     		return "redirect:doctorapproval";
     	}

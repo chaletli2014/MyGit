@@ -109,25 +109,29 @@ input.approvalDr{
 	                            <td>${doctor.drName}</td>
 	                            <td>${doctor.deleteReason}</td>
 	                            <td>
-                                   <a href="javascript:void(0)" onclick="confirmDeleteSingleDr(${doctor.drId})">
-                                   		<img alt="" src="<%=basePath%>images/button_submit_140.png" style="cursor: pointer;" />
-                                   </a>
-		                           <a href="javascript:void(0)" onclick="confirmRejectSingleDr(${doctor.drId})">
-					                    <img alt="" src="<%=basePath%>images/button_reject.png" style="cursor: pointer;" />
-					               </a>
+	                            	<c:if test="${currentUser.level=='BM'}">
+	                                   <a href="javascript:void(0)" onclick="confirmDeleteSingleDr(${doctor.drId})">
+	                                   		<img alt="" src="<%=basePath%>images/button_submit_140.png" style="cursor: pointer;" />
+	                                   </a>
+			                           <a href="javascript:void(0)" onclick="confirmRejectSingleDr(${doctor.drId})">
+						                    <img alt="" src="<%=basePath%>images/button_reject.png" style="cursor: pointer;" />
+						               </a>
+	                            	</c:if>
 	                            </td>
 	                        </tr>
 	                    </c:forEach>
-	                    <tr>
-	                    	<td colspan="5" align="right">
-		                    	<a href="javascript:void(0)" onclick="confirmDeleteDr()">
-	                           		<img alt="" src="<%=basePath%>images/button_submit_all.png" style="cursor: pointer;" />
-		                    	</a>
-		                    	<a href="javascript:void(0)" onclick="confirmRejectDr()">
-	                            	<img alt="" src="<%=basePath%>images/button_reject_all.png" style="cursor: pointer;" />
-		                    	</a>
-	                    	</td>
-	                   	</tr>
+	                    <c:if test="${currentUser.level=='BM'}">
+		                    <tr>
+		                    	<td colspan="5" align="right">
+			                    	<a href="javascript:void(0)" onclick="confirmDeleteDr()">
+		                           		<img alt="" src="<%=basePath%>images/button_submit_all.png" style="cursor: pointer;" />
+			                    	</a>
+			                    	<a href="javascript:void(0)" onclick="confirmRejectDr()">
+		                            	<img alt="" src="<%=basePath%>images/button_reject_all.png" style="cursor: pointer;" />
+			                    	</a>
+		                    	</td>
+		                   	</tr>
+	                    </c:if>
                     </table>
 	        	</div>
             </c:if>

@@ -103,31 +103,37 @@ input.approvalDr{
 	                        <td width="10%">操作</td>
 	                    </tr>
 	                    <c:forEach items="${doctors}" var="doctor" varStatus="status">
-	                        <tr class="mobileReport_table_body <c:if test="${status.count%2==0}">mobileReport_tr_even</c:if>">
-	                            <td><input type="checkbox" name="doctorsToBeDeleted" class="approvalDr" value="${doctor.drId}"/>${status.count}</td>
+	                        <tr class="mobileReport_table_body <c:if test="${status.count%2==0}">mobileReport_tr_even</c:if>" style="height:40px;">
+	                            <td>
+	                            	<input type="checkbox" name="doctorsToBeDeleted" class="approvalDr" value="${doctor.drId}"/>${status.count}
+	                            </td>
 	                            <td>${doctor.hospitalName}</td>
 	                            <td>${doctor.drName}</td>
 	                            <td>${doctor.deleteReason}</td>
 	                            <td>
-                                   <a href="javascript:void(0)" onclick="confirmDeleteSingleDr(${doctor.drId})">
-                                   		<img alt="" src="<%=basePath%>images/button_submit_140.png" style="cursor: pointer;" />
-                                   </a>
-		                           <a href="javascript:void(0)" onclick="confirmRejectSingleDr(${doctor.drId})">
-					                    <img alt="" src="<%=basePath%>images/button_reject.png" style="cursor: pointer;" />
-					               </a>
+	                            	<c:if test="${currentUser.level=='BM'}">
+	                                   <a href="javascript:void(0)" onclick="confirmDeleteSingleDr(${doctor.drId})">
+	                                   		<img alt="" src="<%=basePath%>images/button_submit_140.png" style="cursor: pointer;" />
+	                                   </a>
+			                           <a href="javascript:void(0)" onclick="confirmRejectSingleDr(${doctor.drId})">
+						                    <img alt="" src="<%=basePath%>images/button_reject.png" style="cursor: pointer;" />
+						               </a>
+					               </c:if>
 	                            </td>
 	                        </tr>
 	                    </c:forEach>
-	                    <tr>
-	                    	<td colspan="5" align="right">
-		                    	<a href="javascript:void(0)" onclick="confirmDeleteDr()">
-	                           		<img alt="" src="<%=basePath%>images/button_submit_all.png" style="cursor: pointer;" />
-		                    	</a>
-		                    	<a href="javascript:void(0)" onclick="confirmRejectDr()">
-	                            	<img alt="" src="<%=basePath%>images/button_reject_all.png" style="cursor: pointer;" />
-		                    	</a>
-	                    	</td>
-	                   	</tr>
+	                    <c:if test="${currentUser.level=='BM'}">
+		                    <tr>
+		                    	<td colspan="5" align="right">
+			                    	<a href="javascript:void(0)" onclick="confirmDeleteDr()">
+		                           		<img alt="" src="<%=basePath%>images/button_submit_all.png" style="cursor: pointer;" />
+			                    	</a>
+			                    	<a href="javascript:void(0)" onclick="confirmRejectDr()">
+		                            	<img alt="" src="<%=basePath%>images/button_reject_all.png" style="cursor: pointer;" />
+			                    	</a>
+		                    	</td>
+		                   	</tr>
+	                    </c:if>
                     </table>
 	        	</div>
             </c:if>
