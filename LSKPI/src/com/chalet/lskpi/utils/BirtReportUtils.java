@@ -403,7 +403,7 @@ public class BirtReportUtils {
         try{
             config = new EngineConfig( );  
             config.setBIRTHome("");//
-            config.setLogConfig(CustomizedProperty.getContextProperty("birt_log_path", "d:/chalet/birt/logs"), Level.FINE);
+            config.setLogConfig(CustomizedProperty.getContextProperty("birt_log_path", "c:/chalet/birt/logs"), Level.FINE);
             Platform.startup( config );  
             IReportEngineFactory factory = (IReportEngineFactory) Platform.createFactoryObject( IReportEngineFactory.EXTENSION_REPORT_ENGINE_FACTORY );  
             engine = factory.createReportEngine( config );  
@@ -416,7 +416,7 @@ public class BirtReportUtils {
     	try{
     		config = new EngineConfig( );  
     		config.setBIRTHome("");//
-    		config.setLogConfig("d:/chalet/birt/logs", Level.FINE);
+    		config.setLogConfig(CustomizedProperty.getContextProperty("birt_log_path", "c:/chalet/birt/logs"), Level.FINE);
     		HTMLEmitterConfig emitterConfig = new HTMLEmitterConfig( ); 
     		emitterConfig.setActionHandler( new HTMLActionHandler( ) ); 
     		HTMLServerImageHandler imageHandler = new HTMLServerImageHandler( ); 
