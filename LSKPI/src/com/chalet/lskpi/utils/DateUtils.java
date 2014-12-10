@@ -130,6 +130,15 @@ public class DateUtils {
         return formatter.format(cal.getTime());
     }
     
+    public static String getLast2Month(){
+    	SimpleDateFormat formatter = new SimpleDateFormat("MM-yyyy");
+    	
+    	Calendar cal = Calendar.getInstance();
+    	cal.setTime(new Date());
+    	cal.add(Calendar.MONTH, -2);
+    	return formatter.format(cal.getTime());
+    }
+    
     public static String getYesterDay(){
         Date date = populateParamDate(new Date());
         SimpleDateFormat formatter = new SimpleDateFormat("MM-dd-yyyy");

@@ -472,17 +472,20 @@ public class ReportThread extends Thread {
         String weeklyHtmlCHEReportFileName = basePath + "weeklyHTMLReport/"+lastThursday+"/weeklyCHEReport-"+userLevel+"-"+telephone+"-"+DateUtils.getDirectoryNameOfLastDuration()+".html";
         String weeklyHtmlCHEBUReportFileName = basePath + "weeklyHTMLReport/"+lastThursday+"/weeklyCHEReport-"+userLevel+"-"+DateUtils.getDirectoryNameOfLastDuration()+".html";
         
+        String reportImagesBasePath = new StringBuilder(basePath).append("/reportImages-").append(lastThursday).toString();
+        String reportImagesContextPath = new StringBuilder(contextPath).append("/reportImages-").append(lastThursday).toString();
+        
         switch(userLevel){
             case LsAttributes.USER_LEVEL_RSD:
                 if( !new File(weeklyHtmlPEDReportFileName).exists() ){
-                    html.runReport( basePath + "reportDesigns/weeklyPEDReportForMobile.rptdesign",telephone,"","",weeklyHtmlPEDReportFileName,"html",basePath+"/reportImages",contextPath+"/reportImages");
+                    html.runReport( basePath + "reportDesigns/weeklyPEDReportForMobile.rptdesign",telephone,"","",weeklyHtmlPEDReportFileName,"html",reportImagesBasePath,reportImagesContextPath);
                     logger.info("the weekly html PED report to RSD is done.");
                 }else{
                     logger.info("The weekly html ped report for RSD is already generated, no need to do again.");
                 }
                 if( 1 == Integer.parseInt(CustomizedProperty.getContextProperty("generate_res_weekly_report", "0")) ){
                 	if( !new File(weeklyHtmlRESReportFileName).exists() ){
-                		html.runReport( basePath + "reportDesigns/weeklyRESReportForMobile.rptdesign",telephone,"","",weeklyHtmlRESReportFileName,"html",basePath+"/reportImages",contextPath+"/reportImages");
+                		html.runReport( basePath + "reportDesigns/weeklyRESReportForMobile.rptdesign",telephone,"","",weeklyHtmlRESReportFileName,"html",reportImagesBasePath,reportImagesContextPath);
                 		logger.info("the weekly html RES report to RSD is done.");
                 	}else{
                 		logger.info("The weekly html res report for RSD is already generated, no need to do again.");
@@ -490,7 +493,7 @@ public class ReportThread extends Thread {
                 }
                 
                 if( !new File(weeklyHtmlCHEReportFileName).exists() ){
-                    html.runReport( basePath + "reportDesigns/weeklyCHEReportForMobile.rptdesign",telephone,"","",weeklyHtmlCHEReportFileName,"html",basePath+"/reportImages",contextPath+"/reportImages");
+                    html.runReport( basePath + "reportDesigns/weeklyCHEReportForMobile.rptdesign",telephone,"","",weeklyHtmlCHEReportFileName,"html",reportImagesBasePath,reportImagesContextPath);
                     logger.info("the weekly html chest surgery report to RSD is done.");
                 }else{
                     logger.info("The weekly html chest surgery report for RSD is already generated, no need to do again.");
@@ -499,7 +502,7 @@ public class ReportThread extends Thread {
             
             case LsAttributes.USER_LEVEL_RSM:
                 if( !new File(weeklyHtmlPEDReportFileName).exists() ){
-                    html.runReport( basePath + "reportDesigns/weeklyPEDReportForMobileRSM.rptdesign",telephone,"","",weeklyHtmlPEDReportFileName,"html",basePath+"/reportImages",contextPath+"/reportImages");
+                    html.runReport( basePath + "reportDesigns/weeklyPEDReportForMobileRSM.rptdesign",telephone,"","",weeklyHtmlPEDReportFileName,"html",reportImagesBasePath,reportImagesContextPath);
                     logger.info("the weekly html PED report to RSM is done.");
                 }else{
                     logger.info("The weekly html ped report for RSM is already generated, no need to do again.");
@@ -507,7 +510,7 @@ public class ReportThread extends Thread {
                 
                 if( 1 == Integer.parseInt(CustomizedProperty.getContextProperty("generate_res_weekly_report", "0")) ){
                 	if( !new File(weeklyHtmlRESReportFileName).exists() ){
-                		html.runReport( basePath + "reportDesigns/weeklyRESReportForMobileRSM.rptdesign",telephone,"","",weeklyHtmlRESReportFileName,"html",basePath+"/reportImages",contextPath+"/reportImages");
+                		html.runReport( basePath + "reportDesigns/weeklyRESReportForMobileRSM.rptdesign",telephone,"","",weeklyHtmlRESReportFileName,"html",reportImagesBasePath,reportImagesContextPath);
                 		logger.info("the weekly html RES report to RSM is done.");
                 	}else{
                 		logger.info("The weekly html res report for RSM is already generated, no need to do again.");
@@ -515,7 +518,7 @@ public class ReportThread extends Thread {
                 }
                 
                 if( !new File(weeklyHtmlCHEReportFileName).exists() ){
-                    html.runReport( basePath + "reportDesigns/weeklyCHEReportForMobileRSM.rptdesign",telephone,"","",weeklyHtmlCHEReportFileName,"html",basePath+"/reportImages",contextPath+"/reportImages");
+                    html.runReport( basePath + "reportDesigns/weeklyCHEReportForMobileRSM.rptdesign",telephone,"","",weeklyHtmlCHEReportFileName,"html",reportImagesBasePath,reportImagesContextPath);
                     logger.info("the weekly html chest surgery report to RSM is done.");
                 }else{
                     logger.info("The weekly html chest surgery report for RSM is already generated, no need to do again.");
@@ -524,14 +527,14 @@ public class ReportThread extends Thread {
                 
             case LsAttributes.USER_LEVEL_DSM:
                 if( !new File(weeklyHtmlPEDReportFileName).exists() ){
-                    html.runReport( basePath + "reportDesigns/weeklyPEDReportForMobileDSM.rptdesign",telephone,"","",weeklyHtmlPEDReportFileName,"html",basePath+"/reportImages",contextPath+"/reportImages");
+                    html.runReport( basePath + "reportDesigns/weeklyPEDReportForMobileDSM.rptdesign",telephone,"","",weeklyHtmlPEDReportFileName,"html",reportImagesBasePath,reportImagesContextPath);
                     logger.info("the weekly html PED report to DSM is done.");
                 }else{
                     logger.info("The weekly html ped report for DSM is already generated, no need to do again.");
                 }
                 if( 1 == Integer.parseInt(CustomizedProperty.getContextProperty("generate_res_weekly_report", "0")) ){
                 	if( !new File(weeklyHtmlRESReportFileName).exists() ){
-                		html.runReport( basePath + "reportDesigns/weeklyRESReportForMobileDSM.rptdesign",telephone,"","",weeklyHtmlRESReportFileName,"html",basePath+"/reportImages",contextPath+"/reportImages");
+                		html.runReport( basePath + "reportDesigns/weeklyRESReportForMobileDSM.rptdesign",telephone,"","",weeklyHtmlRESReportFileName,"html",reportImagesBasePath,reportImagesContextPath);
                 		logger.info("the weekly html RES report to DSM is done.");
                 	}else{
                 		logger.info("The weekly html res report for DSM is already generated, no need to do again.");
@@ -539,7 +542,7 @@ public class ReportThread extends Thread {
                 }
                 
                 if( !new File(weeklyHtmlCHEReportFileName).exists() ){
-                    html.runReport( basePath + "reportDesigns/weeklyCHEReportForMobileDSM.rptdesign",telephone,"","",weeklyHtmlCHEReportFileName,"html",basePath+"/reportImages",contextPath+"/reportImages");
+                    html.runReport( basePath + "reportDesigns/weeklyCHEReportForMobileDSM.rptdesign",telephone,"","",weeklyHtmlCHEReportFileName,"html",reportImagesBasePath,reportImagesContextPath);
                     logger.info("the weekly html chest surgery report to DSM is done.");
                 }else{
                     logger.info("The weekly html chest surgery report for DSM is already generated, no need to do again.");
@@ -547,7 +550,7 @@ public class ReportThread extends Thread {
                 break;
             case LsAttributes.USER_LEVEL_BM:
                 if( !new File(weeklyHtmlPEDBUReportFileName).exists() ){
-                    html.runReport( basePath + "reportDesigns/weeklyPEDReportForMobileBU.rptdesign",telephone,"","",weeklyHtmlPEDBUReportFileName,"html",basePath+"/reportImages",contextPath+"/reportImages");
+                    html.runReport( basePath + "reportDesigns/weeklyPEDReportForMobileBU.rptdesign",telephone,"","",weeklyHtmlPEDBUReportFileName,"html",reportImagesBasePath,reportImagesContextPath);
                     logger.info("the weekly html PED report to BU Head is done.");
                 }else{
                     logger.info("The weekly html ped report for BU Head is already generated, no need to do again.");
@@ -555,7 +558,7 @@ public class ReportThread extends Thread {
                 
                 if( 1 == Integer.parseInt(CustomizedProperty.getContextProperty("generate_res_weekly_report", "0")) ){
                 	if( !new File(weeklyHtmlRESBUReportFileName).exists() ){
-                		html.runReport( basePath + "reportDesigns/weeklyRESReportForMobileBU.rptdesign",telephone,"","",weeklyHtmlRESBUReportFileName,"html",basePath+"/reportImages",contextPath+"/reportImages");
+                		html.runReport( basePath + "reportDesigns/weeklyRESReportForMobileBU.rptdesign",telephone,"","",weeklyHtmlRESBUReportFileName,"html",reportImagesBasePath,reportImagesContextPath);
                 		logger.info("the weekly html RES report to BU Head is done.");
                 	}else{
                 		logger.info("The weekly html res report for BU Head is already generated, no need to do again.");
@@ -563,7 +566,7 @@ public class ReportThread extends Thread {
                 }
 
                 if( !new File(weeklyHtmlCHEBUReportFileName).exists() ){
-                    html.runReport( basePath + "reportDesigns/weeklyCHEReportForMobileBU.rptdesign",telephone,"","",weeklyHtmlCHEBUReportFileName,"html",basePath+"/reportImages",contextPath+"/reportImages");
+                    html.runReport( basePath + "reportDesigns/weeklyCHEReportForMobileBU.rptdesign",telephone,"","",weeklyHtmlCHEBUReportFileName,"html",reportImagesBasePath,reportImagesContextPath);
                     logger.info("the weekly html chest surgery report to BU is done.");
                 }else{
                     logger.info("The weekly html chest surgery report for BU is already generated, no need to do again.");
@@ -585,10 +588,13 @@ public class ReportThread extends Thread {
     	String weeklyHtmlCHEReportFileName = basePath + "weeklyHTMLReportForWeb/"+reportGenerateDate+"/weeklyCHEReport-"+userLevel+"-"+telephone+"-"+reportGenerateDate+".html";
     	String weeklyHtmlCHEBUReportFileName = basePath + "weeklyHTMLReportForWeb/"+reportGenerateDate+"/weeklyCHEReport-"+userLevel+"-"+reportGenerateDate+".html";
         
+        String reportImagesBasePath = new StringBuilder(basePath).append("/reportImages-").append(reportGenerateDate).toString();
+        String reportImagesContextPath = new StringBuilder(contextPath).append("/reportImages-").append(reportGenerateDate).toString();
+    	
         switch(userLevel){
             case LsAttributes.USER_LEVEL_RSD:
                 if( !new File(weeklyHtmlPEDReportFileName).exists() ){
-                    html.runReport( basePath + "reportDesigns/weeklyPEDReportForWeb.rptdesign",telephone,"","",weeklyHtmlPEDReportFileName,"html",basePath+"/reportImages",contextPath+"/reportImages");
+                    html.runReport( basePath + "reportDesigns/weeklyPEDReportForWeb.rptdesign",telephone,"","",weeklyHtmlPEDReportFileName,"html",reportImagesBasePath,reportImagesContextPath);
                     logger.info("the web weekly html PED report to RSD is done.");
                 }else{
                     logger.info("The web weekly html ped report for RSD is already generated, no need to do again.");
@@ -596,7 +602,7 @@ public class ReportThread extends Thread {
                 
                 if( 1 == Integer.parseInt(CustomizedProperty.getContextProperty("generate_res_weekly_report", "0")) ){
                 	if( !new File(weeklyHtmlRESReportFileName).exists() ){
-                		html.runReport( basePath + "reportDesigns/weeklyRESReportForWeb.rptdesign",telephone,"","",weeklyHtmlRESReportFileName,"html",basePath+"/reportImages",contextPath+"/reportImages");
+                		html.runReport( basePath + "reportDesigns/weeklyRESReportForWeb.rptdesign",telephone,"","",weeklyHtmlRESReportFileName,"html",reportImagesBasePath,reportImagesContextPath);
                 		logger.info("the web weekly html RES report to RSD is done.");
                 	}else{
                 		logger.info("The web weekly html res report for RSD is already generated, no need to do again.");
@@ -604,7 +610,7 @@ public class ReportThread extends Thread {
                 }
                 
                 if( !new File(weeklyHtmlCHEReportFileName).exists() ){
-                    html.runReport( basePath + "reportDesigns/weeklyCHEReportForWeb.rptdesign",telephone,"","",weeklyHtmlCHEReportFileName,"html",basePath+"/reportImages",contextPath+"/reportImages");
+                    html.runReport( basePath + "reportDesigns/weeklyCHEReportForWeb.rptdesign",telephone,"","",weeklyHtmlCHEReportFileName,"html",reportImagesBasePath,reportImagesContextPath);
                     logger.info("the web weekly html chest surgery report to RSD is done.");
                 }else{
                     logger.info("The web weekly html chest surgery report for RSD is already generated, no need to do again.");
@@ -613,7 +619,7 @@ public class ReportThread extends Thread {
                 
             case LsAttributes.USER_LEVEL_RSM:
                 if( !new File(weeklyHtmlPEDReportFileName).exists() ){
-                    html.runReport( basePath + "reportDesigns/weeklyPEDReportForWebRSM.rptdesign",telephone,"","",weeklyHtmlPEDReportFileName,"html",basePath+"/reportImages",contextPath+"/reportImages");
+                    html.runReport( basePath + "reportDesigns/weeklyPEDReportForWebRSM.rptdesign",telephone,"","",weeklyHtmlPEDReportFileName,"html",reportImagesBasePath,reportImagesContextPath);
                     logger.info("the web weekly html PED report to RSM is done.");
                 }else{
                     logger.info("The web weekly html ped report for RSM is already generated, no need to do again.");
@@ -621,7 +627,7 @@ public class ReportThread extends Thread {
                 
                 if( 1 == Integer.parseInt(CustomizedProperty.getContextProperty("generate_res_weekly_report", "0")) ){
                 	if( !new File(weeklyHtmlRESReportFileName).exists() ){
-                		html.runReport( basePath + "reportDesigns/weeklyRESReportForWebRSM.rptdesign",telephone,"","",weeklyHtmlRESReportFileName,"html",basePath+"/reportImages",contextPath+"/reportImages");
+                		html.runReport( basePath + "reportDesigns/weeklyRESReportForWebRSM.rptdesign",telephone,"","",weeklyHtmlRESReportFileName,"html",reportImagesBasePath,reportImagesContextPath);
                 		logger.info("the web weekly html RES report to RSM is done.");
                 	}else{
                 		logger.info("The web weekly html res report for RSM is already generated, no need to do again.");
@@ -629,7 +635,7 @@ public class ReportThread extends Thread {
                 }
 
                 if( !new File(weeklyHtmlCHEReportFileName).exists() ){
-                    html.runReport( basePath + "reportDesigns/weeklyCHEReportForWebRSM.rptdesign",telephone,"","",weeklyHtmlCHEReportFileName,"html",basePath+"/reportImages",contextPath+"/reportImages");
+                    html.runReport( basePath + "reportDesigns/weeklyCHEReportForWebRSM.rptdesign",telephone,"","",weeklyHtmlCHEReportFileName,"html",reportImagesBasePath,reportImagesContextPath);
                     logger.info("the web weekly html chest surgery report to RSM is done.");
                 }else{
                     logger.info("The web weekly html chest surgery report for RSM is already generated, no need to do again.");
@@ -638,7 +644,7 @@ public class ReportThread extends Thread {
                 
             case LsAttributes.USER_LEVEL_DSM:
                 if( !new File(weeklyHtmlPEDReportFileName).exists() ){
-                    html.runReport( basePath + "reportDesigns/weeklyPEDReportForWebDSM.rptdesign",telephone,"","",weeklyHtmlPEDReportFileName,"html",basePath+"/reportImages",contextPath+"/reportImages");
+                    html.runReport( basePath + "reportDesigns/weeklyPEDReportForWebDSM.rptdesign",telephone,"","",weeklyHtmlPEDReportFileName,"html",reportImagesBasePath,reportImagesContextPath);
                     logger.info("the web weekly html PED report to DSM is done.");
                 }else{
                     logger.info("The web weekly html ped report for DSM is already generated, no need to do again.");
@@ -646,7 +652,7 @@ public class ReportThread extends Thread {
                 
                 if( 1 == Integer.parseInt(CustomizedProperty.getContextProperty("generate_res_weekly_report", "0")) ){
                 	if( !new File(weeklyHtmlRESReportFileName).exists() ){
-                		html.runReport( basePath + "reportDesigns/weeklyRESReportForWebDSM.rptdesign",telephone,"","",weeklyHtmlRESReportFileName,"html",basePath+"/reportImages",contextPath+"/reportImages");
+                		html.runReport( basePath + "reportDesigns/weeklyRESReportForWebDSM.rptdesign",telephone,"","",weeklyHtmlRESReportFileName,"html",reportImagesBasePath,reportImagesContextPath);
                 		logger.info("the web weekly html RES report to DSM is done.");
                 	}else{
                 		logger.info("The web weekly html res report for DSM is already generated, no need to do again.");
@@ -654,7 +660,7 @@ public class ReportThread extends Thread {
                 }
 
                 if( !new File(weeklyHtmlCHEReportFileName).exists() ){
-                    html.runReport( basePath + "reportDesigns/weeklyCHEReportForWebDSM.rptdesign",telephone,"","",weeklyHtmlCHEReportFileName,"html",basePath+"/reportImages",contextPath+"/reportImages");
+                    html.runReport( basePath + "reportDesigns/weeklyCHEReportForWebDSM.rptdesign",telephone,"","",weeklyHtmlCHEReportFileName,"html",reportImagesBasePath,reportImagesContextPath);
                     logger.info("the web weekly html chest surgery report to DSM is done.");
                 }else{
                     logger.info("The web weekly html chest surgery report for DSM is already generated, no need to do again.");
@@ -662,7 +668,7 @@ public class ReportThread extends Thread {
                 break;
             case LsAttributes.USER_LEVEL_BM:
                 if( !new File(weeklyHtmlPEDBUReportFileName).exists() ){
-                    html.runReport( basePath + "reportDesigns/weeklyPEDReportForWebBU.rptdesign",telephone,"","",weeklyHtmlPEDBUReportFileName,"html",basePath+"/reportImages",contextPath+"/reportImages");
+                    html.runReport( basePath + "reportDesigns/weeklyPEDReportForWebBU.rptdesign",telephone,"","",weeklyHtmlPEDBUReportFileName,"html",reportImagesBasePath,reportImagesContextPath);
                     logger.info("the web weekly html PED report to BU Head is done.");
                 }else{
                     logger.info("The web weekly html ped report for BU Head is already generated, no need to do again.");
@@ -670,7 +676,7 @@ public class ReportThread extends Thread {
                 
                 if( 1 == Integer.parseInt(CustomizedProperty.getContextProperty("generate_res_weekly_report", "0")) ){
                 	if( !new File(weeklyHtmlRESBUReportFileName).exists() ){
-                		html.runReport( basePath + "reportDesigns/weeklyRESReportForWebBU.rptdesign",telephone,"","",weeklyHtmlRESBUReportFileName,"html",basePath+"/reportImages",contextPath+"/reportImages");
+                		html.runReport( basePath + "reportDesigns/weeklyRESReportForWebBU.rptdesign",telephone,"","",weeklyHtmlRESBUReportFileName,"html",reportImagesBasePath,reportImagesContextPath);
                 		logger.info("the web weekly html RES report to BU Head is done.");
                 	}else{
                 		logger.info("The web weekly html res report for BU Head is already generated, no need to do again.");
@@ -678,7 +684,7 @@ public class ReportThread extends Thread {
                 }
 
                 if( !new File(weeklyHtmlCHEBUReportFileName).exists() ){
-                    html.runReport( basePath + "reportDesigns/weeklyCHEReportForWebBU.rptdesign",telephone,"","",weeklyHtmlCHEBUReportFileName,"html",basePath+"/reportImages",contextPath+"/reportImages");
+                    html.runReport( basePath + "reportDesigns/weeklyCHEReportForWebBU.rptdesign",telephone,"","",weeklyHtmlCHEBUReportFileName,"html",reportImagesBasePath,reportImagesContextPath);
                     logger.info("the web weekly html chest surgery report to BU is done.");
                 }else{
                     logger.info("The web weekly html chest surgery report for BU is already generated, no need to do again.");
@@ -702,27 +708,30 @@ public class ReportThread extends Thread {
         		endDuration = DateUtils.getThursdayHome12WeeksEndDuration();
         	}
         	
+            String reportImagesBasePath = new StringBuilder(basePath).append("/reportImages-").append(reportGenerateDate).toString();
+            String reportImagesContextPath = new StringBuilder(contextPath).append("/reportImages-").append(reportGenerateDate).toString();
+        	
         	switch(userLevel){
     	    	case LsAttributes.USER_LEVEL_BM:
-	    			html.runHomeReport( basePath + "reportDesigns/weeklyHomeReportForMobileBU.rptdesign",telephone,startDuration,endDuration,weeklyHtmlHomeBUReportFileName,"html",basePath+"/reportImages",contextPath+"/reportImages");
+	    			html.runHomeReport( basePath + "reportDesigns/weeklyHomeReportForMobileBU.rptdesign",telephone,startDuration,endDuration,weeklyHtmlHomeBUReportFileName,"html",reportImagesBasePath,reportImagesContextPath);
 	    			logger.info("the weekly html HOME report to BU Head is done.");
     	    		break;
     	    	case LsAttributes.USER_LEVEL_RSD:
-	    			html.runHomeReport( basePath + "reportDesigns/weeklyHomeReportForMobileRSD.rptdesign",telephone,startDuration,endDuration,weeklyHtmlHomeReportFileName,"html",basePath+"/reportImages",contextPath+"/reportImages");
+	    			html.runHomeReport( basePath + "reportDesigns/weeklyHomeReportForMobileRSD.rptdesign",telephone,startDuration,endDuration,weeklyHtmlHomeReportFileName,"html",reportImagesBasePath,reportImagesContextPath);
 	    			logger.info("the weekly html HOME report to RSD is done.");
     	    		break;
     	    		
     	    	case LsAttributes.USER_LEVEL_RSM:
-	    			html.runHomeReport( basePath + "reportDesigns/weeklyHomeReportForMobileRSM.rptdesign",telephone,startDuration,endDuration,weeklyHtmlHomeReportFileName,"html",basePath+"/reportImages",contextPath+"/reportImages");
+	    			html.runHomeReport( basePath + "reportDesigns/weeklyHomeReportForMobileRSM.rptdesign",telephone,startDuration,endDuration,weeklyHtmlHomeReportFileName,"html",reportImagesBasePath,reportImagesContextPath);
 	    			logger.info("the weekly html HOME report to RSM is done.");
     	    		break;
     	    		
     	    	case LsAttributes.USER_LEVEL_DSM:
-	    			html.runHomeReport( basePath + "reportDesigns/weeklyHomeReportForMobileDSM.rptdesign",telephone,startDuration,endDuration,weeklyHtmlHomeReportFileName,"html",basePath+"/reportImages",contextPath+"/reportImages");
+	    			html.runHomeReport( basePath + "reportDesigns/weeklyHomeReportForMobileDSM.rptdesign",telephone,startDuration,endDuration,weeklyHtmlHomeReportFileName,"html",reportImagesBasePath,reportImagesContextPath);
 	    			logger.info("the weekly html HOME report to DSM is done.");
     	    		break;
     	        case LsAttributes.USER_LEVEL_REP:
-	                html.runHomeReport( basePath + "reportDesigns/weeklyHomeReportForMobileREP.rptdesign",telephone,startDuration,endDuration,weeklyHtmlHomeReportFileName,"html",basePath+"/reportImages",contextPath+"/reportImages");
+	                html.runHomeReport( basePath + "reportDesigns/weeklyHomeReportForMobileREP.rptdesign",telephone,startDuration,endDuration,weeklyHtmlHomeReportFileName,"html",reportImagesBasePath,reportImagesContextPath);
 	                logger.info("the weekly html HOME report to REP is done.");
     	            break;
     	    	default:
@@ -746,25 +755,28 @@ public class ReportThread extends Thread {
         		endDuration = DateUtils.getThursdayHome12WeeksEndDuration();
         	}
         	
+            String reportImagesBasePath = new StringBuilder(basePath).append("/reportImages-").append(reportGenerateDate).toString();
+            String reportImagesContextPath = new StringBuilder(contextPath).append("/reportImages-").append(reportGenerateDate).toString();
+        	
         	switch(userLevel){
     	    	case LsAttributes.USER_LEVEL_BM:
-	    			html.runHomeReport( basePath + "reportDesigns/weeklyHomeReportForWebBU.rptdesign",telephone,startDuration,endDuration,weeklyHtmlHomeBUReportFileName,"html",basePath+"/reportImages",contextPath+"/reportImages");
+	    			html.runHomeReport( basePath + "reportDesigns/weeklyHomeReportForWebBU.rptdesign",telephone,startDuration,endDuration,weeklyHtmlHomeBUReportFileName,"html",reportImagesBasePath,reportImagesContextPath);
 	    			logger.info("the web weekly html HOME report to BU Head is done.");
     	    		break;
     	    	case LsAttributes.USER_LEVEL_RSD:
-	    			html.runHomeReport( basePath + "reportDesigns/weeklyHomeReportForWebRSD.rptdesign",telephone,startDuration,endDuration,weeklyHtmlHomeReportFileName,"html",basePath+"/reportImages",contextPath+"/reportImages");
+	    			html.runHomeReport( basePath + "reportDesigns/weeklyHomeReportForWebRSD.rptdesign",telephone,startDuration,endDuration,weeklyHtmlHomeReportFileName,"html",reportImagesBasePath,reportImagesContextPath);
 	    			logger.info("the web weekly html HOME report to RSD is done.");
     	    		break;
     	    	case LsAttributes.USER_LEVEL_RSM:
-	    			html.runHomeReport( basePath + "reportDesigns/weeklyHomeReportForWebRSM.rptdesign",telephone,startDuration,endDuration,weeklyHtmlHomeReportFileName,"html",basePath+"/reportImages",contextPath+"/reportImages");
+	    			html.runHomeReport( basePath + "reportDesigns/weeklyHomeReportForWebRSM.rptdesign",telephone,startDuration,endDuration,weeklyHtmlHomeReportFileName,"html",reportImagesBasePath,reportImagesContextPath);
 	    			logger.info("the web weekly html HOME report to RSM is done.");
     	    		break;
     	    	case LsAttributes.USER_LEVEL_DSM:
-	    			html.runHomeReport( basePath + "reportDesigns/weeklyHomeReportForWebDSM.rptdesign",telephone,startDuration,endDuration,weeklyHtmlHomeReportFileName,"html",basePath+"/reportImages",contextPath+"/reportImages");
+	    			html.runHomeReport( basePath + "reportDesigns/weeklyHomeReportForWebDSM.rptdesign",telephone,startDuration,endDuration,weeklyHtmlHomeReportFileName,"html",reportImagesBasePath,reportImagesContextPath);
 	    			logger.info("the web weekly html HOME report to DSM is done.");
     	    		break;
     	        case LsAttributes.USER_LEVEL_REP:
-	                html.runHomeReport( basePath + "reportDesigns/weeklyHomeReportForWebREP.rptdesign",telephone,startDuration,endDuration,weeklyHtmlHomeReportFileName,"html",basePath+"/reportImages",contextPath+"/reportImages");
+	                html.runHomeReport( basePath + "reportDesigns/weeklyHomeReportForWebREP.rptdesign",telephone,startDuration,endDuration,weeklyHtmlHomeReportFileName,"html",reportImagesBasePath,reportImagesContextPath);
 	                logger.info("the web weekly html HOME report to REP is done.");
     	            break;
     	    	default:
@@ -781,10 +793,13 @@ public class ReportThread extends Thread {
         String weeklyHtmlRESReportFileName = basePath + "lowerWeeklyReport/"+lastThursday+"/lowerWeeklyRESReport-"+userLevel+"-"+userCode+"-"+DateUtils.getDirectoryNameOfLastDuration()+".html";
         String weeklyHtmlCHEReportFileName = basePath + "lowerWeeklyReport/"+lastThursday+"/lowerWeeklyCHEReport-"+userLevel+"-"+userCode+"-"+DateUtils.getDirectoryNameOfLastDuration()+".html";
         
+        String reportImagesBasePath = new StringBuilder(basePath).append("/reportImages-").append(lastThursday).toString();
+		String reportImagesContextPath = new StringBuilder(contextPath).append("/reportImages-").append(lastThursday).toString();
+        
         switch(userLevel){
             case LsAttributes.USER_LEVEL_RSM:
                 if( !new File(weeklyHtmlPEDReportFileName).exists() ){
-                    html.runReport( basePath + "reportDesigns/weeklyPEDReportForSingleRSM.rptdesign","",userCode,"",weeklyHtmlPEDReportFileName,"html",basePath+"/reportImages",contextPath+"/reportImages");
+                    html.runReport( basePath + "reportDesigns/weeklyPEDReportForSingleRSM.rptdesign","",userCode,"",weeklyHtmlPEDReportFileName,"html",reportImagesBasePath,reportImagesContextPath);
                     logger.info("the lower weekly html PED report to RSM is done.");
                 }else{
                     logger.info("The lower weekly html ped report for RSM is already generated, no need to do again.");
@@ -792,7 +807,7 @@ public class ReportThread extends Thread {
                 
                 if( 1 == Integer.parseInt(CustomizedProperty.getContextProperty("generate_res_weekly_report", "0")) ){
                 	if( !new File(weeklyHtmlRESReportFileName).exists() ){
-                		html.runReport( basePath + "reportDesigns/weeklyRESReportForSingleRSM.rptdesign","",userCode,"",weeklyHtmlRESReportFileName,"html",basePath+"/reportImages",contextPath+"/reportImages");
+                		html.runReport( basePath + "reportDesigns/weeklyRESReportForSingleRSM.rptdesign","",userCode,"",weeklyHtmlRESReportFileName,"html",reportImagesBasePath,reportImagesContextPath);
                 		logger.info("the lower weekly html RES report to RSM is done.");
                 	}else{
                 		logger.info("The lower weekly html res report for RSM is already generated, no need to do again.");
@@ -800,7 +815,7 @@ public class ReportThread extends Thread {
                 }
                 
                 if( !new File(weeklyHtmlCHEReportFileName).exists() ){
-                    html.runReport( basePath + "reportDesigns/weeklyCHEReportForSingleRSM.rptdesign","",userCode,"",weeklyHtmlCHEReportFileName,"html",basePath+"/reportImages",contextPath+"/reportImages");
+                    html.runReport( basePath + "reportDesigns/weeklyCHEReportForSingleRSM.rptdesign","",userCode,"",weeklyHtmlCHEReportFileName,"html",reportImagesBasePath,reportImagesContextPath);
                     logger.info("the lower weekly html chest surgery report to RSM is done.");
                 }else{
                     logger.info("The lower weekly html chest surgery report for RSM is already generated, no need to do again.");
@@ -809,7 +824,7 @@ public class ReportThread extends Thread {
                 
             case LsAttributes.USER_LEVEL_DSM:
                 if( !new File(weeklyHtmlPEDReportFileName).exists() ){
-                    html.runReport( basePath + "reportDesigns/weeklyPEDReportForSingleDSM.rptdesign","",userCode,"",weeklyHtmlPEDReportFileName,"html",basePath+"/reportImages",contextPath+"/reportImages");
+                    html.runReport( basePath + "reportDesigns/weeklyPEDReportForSingleDSM.rptdesign","",userCode,"",weeklyHtmlPEDReportFileName,"html",reportImagesBasePath,reportImagesContextPath);
                     logger.info("the lower weekly html PED report to DSM is done.");
                 }else{
                     logger.info("The lower weekly html ped report for DSM is already generated, no need to do again.");
@@ -817,7 +832,7 @@ public class ReportThread extends Thread {
                 
                 if( 1 == Integer.parseInt(CustomizedProperty.getContextProperty("generate_res_weekly_report", "0")) ){
                 	if( !new File(weeklyHtmlRESReportFileName).exists() ){
-                		html.runReport( basePath + "reportDesigns/weeklyRESReportForSingleDSM.rptdesign","",userCode,"",weeklyHtmlRESReportFileName,"html",basePath+"/reportImages",contextPath+"/reportImages");
+                		html.runReport( basePath + "reportDesigns/weeklyRESReportForSingleDSM.rptdesign","",userCode,"",weeklyHtmlRESReportFileName,"html",reportImagesBasePath,reportImagesContextPath);
                 		logger.info("the lower weekly html RES report to DSM is done.");
                 	}else{
                 		logger.info("The lower weekly html res report for DSM is already generated, no need to do again.");
@@ -825,7 +840,7 @@ public class ReportThread extends Thread {
                 }
 
                 if( !new File(weeklyHtmlCHEReportFileName).exists() ){
-                    html.runReport( basePath + "reportDesigns/weeklyCHEReportForSingleDSM.rptdesign","",userCode,"",weeklyHtmlCHEReportFileName,"html",basePath+"/reportImages",contextPath+"/reportImages");
+                    html.runReport( basePath + "reportDesigns/weeklyCHEReportForSingleDSM.rptdesign","",userCode,"",weeklyHtmlCHEReportFileName,"html",reportImagesBasePath,reportImagesContextPath);
                     logger.info("the lower weekly html chest surgery report to DSM is done.");
                 }else{
                     logger.info("The lower weekly html chest surgery report for DSM is already generated, no need to do again.");
@@ -833,7 +848,7 @@ public class ReportThread extends Thread {
                 break;
             case LsAttributes.USER_LEVEL_REP:
                 if( !new File(weeklyHtmlPEDReportFileName).exists() ){
-                    html.runReport( basePath + "reportDesigns/weeklyPEDReportForSingleREP.rptdesign","",userCode,"",weeklyHtmlPEDReportFileName,"html",basePath+"/reportImages",contextPath+"/reportImages");
+                    html.runReport( basePath + "reportDesigns/weeklyPEDReportForSingleREP.rptdesign","",userCode,"",weeklyHtmlPEDReportFileName,"html",reportImagesBasePath,reportImagesContextPath);
                     logger.info("the lower weekly html PED report to REP is done.");
                 }else{
                     logger.info("The lower weekly html ped report for REP is already generated, no need to do again.");
@@ -841,7 +856,7 @@ public class ReportThread extends Thread {
                 
                 if( 1 == Integer.parseInt(CustomizedProperty.getContextProperty("generate_res_weekly_report", "0")) ){
                 	if( !new File(weeklyHtmlRESReportFileName).exists() ){
-                		html.runReport( basePath + "reportDesigns/weeklyRESReportForSingleREP.rptdesign","",userCode,"",weeklyHtmlRESReportFileName,"html",basePath+"/reportImages",contextPath+"/reportImages");
+                		html.runReport( basePath + "reportDesigns/weeklyRESReportForSingleREP.rptdesign","",userCode,"",weeklyHtmlRESReportFileName,"html",reportImagesBasePath,reportImagesContextPath);
                 		logger.info("the lower weekly html RES report to REP is done.");
                 	}else{
                 		logger.info("The lower weekly html res report for REP is already generated, no need to do again.");
@@ -849,7 +864,7 @@ public class ReportThread extends Thread {
                 }
 
                 if( !new File(weeklyHtmlCHEReportFileName).exists() ){
-                    html.runReport( basePath + "reportDesigns/weeklyCHEReportForSingleREP.rptdesign","",userCode,"",weeklyHtmlCHEReportFileName,"html",basePath+"/reportImages",contextPath+"/reportImages");
+                    html.runReport( basePath + "reportDesigns/weeklyCHEReportForSingleREP.rptdesign","",userCode,"",weeklyHtmlCHEReportFileName,"html",reportImagesBasePath,reportImagesContextPath);
                     logger.info("the lower weekly html chest surgery report to REP is done.");
                 }else{
                     logger.info("The lower weekly html chest surgery report for REP is already generated, no need to do again.");
@@ -867,10 +882,13 @@ public class ReportThread extends Thread {
         String weeklyHtmlRESReportFileName = basePath + "lowerWeeklyReportForWeb/"+lastThursday+"/lowerWeeklyRESReport-"+userLevel+"-"+userCode+"-"+DateUtils.getDirectoryNameOfLastDuration()+".html";
         String weeklyHtmlCHEReportFileName = basePath + "lowerWeeklyReportForWeb/"+lastThursday+"/lowerWeeklyCHEReport-"+userLevel+"-"+userCode+"-"+DateUtils.getDirectoryNameOfLastDuration()+".html";
         
+        String reportImagesBasePath = new StringBuilder().append(basePath).append("/reportImages-").append(lastThursday).toString();
+		String reportImagesContextPath = new StringBuilder().append(contextPath).append("/reportImages-").append(lastThursday).toString();
+        
         switch(userLevel){
             case LsAttributes.USER_LEVEL_RSM:
                 if( !new File(weeklyHtmlPEDReportFileName).exists() ){
-                    html.runReport( basePath + "reportDesigns/weeklyPEDReportForWebSingleRSM.rptdesign","",userCode,"",weeklyHtmlPEDReportFileName,"html",basePath+"/reportImages",contextPath+"/reportImages");
+                    html.runReport( basePath + "reportDesigns/weeklyPEDReportForWebSingleRSM.rptdesign","",userCode,"",weeklyHtmlPEDReportFileName,"html",reportImagesBasePath,reportImagesContextPath);
                     logger.info("the Web lower weekly html PED report to RSM is done.");
                 }else{
                     logger.info("The Web lower weekly html ped report for RSM is already generated, no need to do again.");
@@ -878,7 +896,7 @@ public class ReportThread extends Thread {
                 
                 if( 1 == Integer.parseInt(CustomizedProperty.getContextProperty("generate_res_weekly_report", "0")) ){
                 	if( !new File(weeklyHtmlRESReportFileName).exists() ){
-                		html.runReport( basePath + "reportDesigns/weeklyRESReportForWebSingleRSM.rptdesign","",userCode,"",weeklyHtmlRESReportFileName,"html",basePath+"/reportImages",contextPath+"/reportImages");
+                		html.runReport( basePath + "reportDesigns/weeklyRESReportForWebSingleRSM.rptdesign","",userCode,"",weeklyHtmlRESReportFileName,"html",reportImagesBasePath,reportImagesContextPath);
                 		logger.info("the Web lower weekly html RES report to RSM is done.");
                 	}else{
                 		logger.info("The Web lower weekly html res report for RSM is already generated, no need to do again.");
@@ -886,7 +904,7 @@ public class ReportThread extends Thread {
                 }
                 
                 if( !new File(weeklyHtmlCHEReportFileName).exists() ){
-                    html.runReport( basePath + "reportDesigns/weeklyCHEReportForWebSingleRSM.rptdesign","",userCode,"",weeklyHtmlCHEReportFileName,"html",basePath+"/reportImages",contextPath+"/reportImages");
+                    html.runReport( basePath + "reportDesigns/weeklyCHEReportForWebSingleRSM.rptdesign","",userCode,"",weeklyHtmlCHEReportFileName,"html",reportImagesBasePath,reportImagesContextPath);
                     logger.info("the Web lower weekly html chest surgery report to RSM is done.");
                 }else{
                     logger.info("The Web lower weekly html chest surgery report for RSM is already generated, no need to do again.");
@@ -895,7 +913,7 @@ public class ReportThread extends Thread {
                 
             case LsAttributes.USER_LEVEL_DSM:
                 if( !new File(weeklyHtmlPEDReportFileName).exists() ){
-                    html.runReport( basePath + "reportDesigns/weeklyPEDReportForWebSingleDSM.rptdesign","",userCode,"",weeklyHtmlPEDReportFileName,"html",basePath+"/reportImages",contextPath+"/reportImages");
+                    html.runReport( basePath + "reportDesigns/weeklyPEDReportForWebSingleDSM.rptdesign","",userCode,"",weeklyHtmlPEDReportFileName,"html",reportImagesBasePath,reportImagesContextPath);
                     logger.info("the Web lower weekly html PED report to DSM is done.");
                 }else{
                     logger.info("The Web lower weekly html ped report for DSM is already generated, no need to do again.");
@@ -903,7 +921,7 @@ public class ReportThread extends Thread {
                 
                 if( 1 == Integer.parseInt(CustomizedProperty.getContextProperty("generate_res_weekly_report", "0")) ){
                 	if( !new File(weeklyHtmlRESReportFileName).exists() ){
-                		html.runReport( basePath + "reportDesigns/weeklyRESReportForWebSingleDSM.rptdesign","",userCode,"",weeklyHtmlRESReportFileName,"html",basePath+"/reportImages",contextPath+"/reportImages");
+                		html.runReport( basePath + "reportDesigns/weeklyRESReportForWebSingleDSM.rptdesign","",userCode,"",weeklyHtmlRESReportFileName,"html",reportImagesBasePath,reportImagesContextPath);
                 		logger.info("the Web lower weekly html RES report to DSM is done.");
                 	}else{
                 		logger.info("The Web lower weekly html res report for DSM is already generated, no need to do again.");
@@ -911,7 +929,7 @@ public class ReportThread extends Thread {
                 }
 
                 if( !new File(weeklyHtmlCHEReportFileName).exists() ){
-                    html.runReport( basePath + "reportDesigns/weeklyCHEReportForWebSingleDSM.rptdesign","",userCode,"",weeklyHtmlCHEReportFileName,"html",basePath+"/reportImages",contextPath+"/reportImages");
+                    html.runReport( basePath + "reportDesigns/weeklyCHEReportForWebSingleDSM.rptdesign","",userCode,"",weeklyHtmlCHEReportFileName,"html",reportImagesBasePath,reportImagesContextPath);
                     logger.info("the Web lower weekly html chest surgery report to DSM is done.");
                 }else{
                     logger.info("The Web lower weekly html chest surgery report for DSM is already generated, no need to do again.");
@@ -919,7 +937,7 @@ public class ReportThread extends Thread {
                 break;
             case LsAttributes.USER_LEVEL_REP:
                 if( !new File(weeklyHtmlPEDReportFileName).exists() ){
-                    html.runReport( basePath + "reportDesigns/weeklyPEDReportForWebSingleREP.rptdesign","",userCode,"",weeklyHtmlPEDReportFileName,"html",basePath+"/reportImages",contextPath+"/reportImages");
+                    html.runReport( basePath + "reportDesigns/weeklyPEDReportForWebSingleREP.rptdesign","",userCode,"",weeklyHtmlPEDReportFileName,"html",reportImagesBasePath,reportImagesContextPath);
                     logger.info("the Web lower weekly html PED report to REP is done.");
                 }else{
                     logger.info("The Web lower weekly html ped report for REP is already generated, no need to do again.");
@@ -927,7 +945,7 @@ public class ReportThread extends Thread {
                 
                 if( 1 == Integer.parseInt(CustomizedProperty.getContextProperty("generate_res_weekly_report", "0")) ){
                 	if( !new File(weeklyHtmlRESReportFileName).exists() ){
-                		html.runReport( basePath + "reportDesigns/weeklyRESReportForWebSingleREP.rptdesign","",userCode,"",weeklyHtmlRESReportFileName,"html",basePath+"/reportImages",contextPath+"/reportImages");
+                		html.runReport( basePath + "reportDesigns/weeklyRESReportForWebSingleREP.rptdesign","",userCode,"",weeklyHtmlRESReportFileName,"html",reportImagesBasePath,reportImagesContextPath);
                 		logger.info("the Web lower weekly html RES report to REP is done.");
                 	}else{
                 		logger.info("The Web lower weekly html res report for REP is already generated, no need to do again.");
@@ -935,7 +953,7 @@ public class ReportThread extends Thread {
                 }
 
                 if( !new File(weeklyHtmlCHEReportFileName).exists() ){
-                    html.runReport( basePath + "reportDesigns/weeklyCHEReportForWebSingleREP.rptdesign","",userCode,"",weeklyHtmlCHEReportFileName,"html",basePath+"/reportImages",contextPath+"/reportImages");
+                    html.runReport( basePath + "reportDesigns/weeklyCHEReportForWebSingleREP.rptdesign","",userCode,"",weeklyHtmlCHEReportFileName,"html",reportImagesBasePath,reportImagesContextPath);
                     logger.info("the Web lower weekly html chest surgery report to REP is done.");
                 }else{
                     logger.info("The Web lower weekly html chest surgery report for REP is already generated, no need to do again.");
@@ -951,10 +969,13 @@ public class ReportThread extends Thread {
     private void createHTMLMonthlyReport(BirtReportUtils html, String userLevel,String telephone, String basePath, String contextPath, String lastMonth){
         String monthlyHtmlReportFileName = basePath + "monthlyHTMLReport/"+lastMonth+"/monthlyReport-"+userLevel+"-"+telephone+"-"+DateUtils.getLastMonth()+".html";
         
+        String reportImagesBasePath = new StringBuilder(basePath).append("/reportImages-").append(lastMonth).toString();
+        String reportImagesContextPath = new StringBuilder(contextPath).append("/reportImages-").append(lastMonth).toString();
+        
         switch(userLevel){
             case LsAttributes.USER_LEVEL_RSD:
                 if( !new File(monthlyHtmlReportFileName).exists() ){
-                    html.runReport( basePath + "reportDesigns/monthlyReportRSD.rptdesign",telephone,"","",monthlyHtmlReportFileName,"html",basePath+"/reportImages",contextPath+"/reportImages");
+                    html.runReport( basePath + "reportDesigns/monthlyReportRSD.rptdesign",telephone,"","",monthlyHtmlReportFileName,"html",reportImagesBasePath,reportImagesContextPath);
                     logger.info("the weekly html PED report to RSD is done.");
                 }else{
                     logger.info("The weekly html ped report for RSD is already generated, no need to do again.");
@@ -963,7 +984,7 @@ public class ReportThread extends Thread {
             
             case LsAttributes.USER_LEVEL_RSM:
                 if( !new File(monthlyHtmlReportFileName).exists() ){
-                    html.runReport( basePath + "reportDesigns/monthlyReportRSM.rptdesign",telephone,"","",monthlyHtmlReportFileName,"html",basePath+"/reportImages",contextPath+"/reportImages");
+                    html.runReport( basePath + "reportDesigns/monthlyReportRSM.rptdesign",telephone,"","",monthlyHtmlReportFileName,"html",reportImagesBasePath,reportImagesContextPath);
                     logger.info("the weekly html PED report to RSM is done.");
                 }else{
                     logger.info("The weekly html ped report for RSM is already generated, no need to do again.");
@@ -972,7 +993,7 @@ public class ReportThread extends Thread {
                 
             case LsAttributes.USER_LEVEL_DSM:
                 if( !new File(monthlyHtmlReportFileName).exists() ){
-                    html.runReport( basePath + "reportDesigns/monthlyReportDSM.rptdesign",telephone,"","",monthlyHtmlReportFileName,"html",basePath+"/reportImages",contextPath+"/reportImages");
+                    html.runReport( basePath + "reportDesigns/monthlyReportDSM.rptdesign",telephone,"","",monthlyHtmlReportFileName,"html",reportImagesBasePath,reportImagesContextPath);
                     logger.info("the weekly html PED report to DSM is done.");
                 }else{
                     logger.info("The weekly html ped report for DSM is already generated, no need to do again.");
@@ -980,7 +1001,7 @@ public class ReportThread extends Thread {
                 break;
             case LsAttributes.USER_LEVEL_BM:
                 if( !new File(monthlyHtmlReportFileName).exists() ){
-                    html.runReport( basePath + "reportDesigns/monthlyReportBU.rptdesign","","","",monthlyHtmlReportFileName,"html",basePath+"/reportImages",contextPath+"/reportImages");
+                    html.runReport( basePath + "reportDesigns/monthlyReportBU.rptdesign","","","",monthlyHtmlReportFileName,"html",reportImagesBasePath,reportImagesContextPath);
                     logger.info("the weekly html PED report to BU Head is done.");
                 }else{
                     logger.info("The weekly html ped report for BU Head is already generated, no need to do again.");
@@ -995,10 +1016,13 @@ public class ReportThread extends Thread {
     private void createHTMLMonthlyReportForWeb(BirtReportUtils html, String userLevel,String telephone, String basePath, String contextPath, String lastMonth){
         String monthlyHtmlReportFileName = basePath + "monthlyHTMLReportForWeb/"+lastMonth+"/monthlyReport-"+userLevel+"-"+telephone+"-"+DateUtils.getLastMonth()+".html";
         
+        String reportImagesBasePath = new StringBuilder(basePath).append("/reportImages-").append(lastMonth).toString();
+        String reportImagesContextPath = new StringBuilder(contextPath).append("/reportImages-").append(lastMonth).toString();
+        
         switch(userLevel){
             case LsAttributes.USER_LEVEL_RSD:
                 if( !new File(monthlyHtmlReportFileName).exists() ){
-                    html.runReport( basePath + "reportDesigns/monthlyReportForWebRSD.rptdesign",telephone,"","",monthlyHtmlReportFileName,"html",basePath+"/reportImages",contextPath+"/reportImages");
+                    html.runReport( basePath + "reportDesigns/monthlyReportForWebRSD.rptdesign",telephone,"","",monthlyHtmlReportFileName,"html",reportImagesBasePath,reportImagesContextPath);
                     logger.info("the web weekly html PED report to RSD is done.");
                 }else{
                     logger.info("The web weekly html ped report for RSD is already generated, no need to do again.");
@@ -1007,7 +1031,7 @@ public class ReportThread extends Thread {
                 
             case LsAttributes.USER_LEVEL_RSM:
                 if( !new File(monthlyHtmlReportFileName).exists() ){
-                    html.runReport( basePath + "reportDesigns/monthlyReportForWebRSM.rptdesign",telephone,"","",monthlyHtmlReportFileName,"html",basePath+"/reportImages",contextPath+"/reportImages");
+                    html.runReport( basePath + "reportDesigns/monthlyReportForWebRSM.rptdesign",telephone,"","",monthlyHtmlReportFileName,"html",reportImagesBasePath,reportImagesContextPath);
                     logger.info("the web weekly html PED report to RSM is done.");
                 }else{
                     logger.info("The web weekly html ped report for RSM is already generated, no need to do again.");
@@ -1016,7 +1040,7 @@ public class ReportThread extends Thread {
                 
             case LsAttributes.USER_LEVEL_DSM:
                 if( !new File(monthlyHtmlReportFileName).exists() ){
-                    html.runReport( basePath + "reportDesigns/monthlyReportForWebDSM.rptdesign",telephone,"","",monthlyHtmlReportFileName,"html",basePath+"/reportImages",contextPath+"/reportImages");
+                    html.runReport( basePath + "reportDesigns/monthlyReportForWebDSM.rptdesign",telephone,"","",monthlyHtmlReportFileName,"html",reportImagesBasePath,reportImagesContextPath);
                     logger.info("the web weekly html PED report to DSM is done.");
                 }else{
                     logger.info("The web weekly html ped report for DSM is already generated, no need to do again.");
@@ -1024,7 +1048,7 @@ public class ReportThread extends Thread {
                 break;
             case LsAttributes.USER_LEVEL_BM:
                 if( !new File(monthlyHtmlReportFileName).exists() ){
-                    html.runReport( basePath + "reportDesigns/monthlyReportForWebBU.rptdesign","","","",monthlyHtmlReportFileName,"html",basePath+"/reportImages",contextPath+"/reportImages");
+                    html.runReport( basePath + "reportDesigns/monthlyReportForWebBU.rptdesign","","","",monthlyHtmlReportFileName,"html",reportImagesBasePath,reportImagesContextPath);
                     logger.info("the web weekly html PED report to BU Head is done.");
                 }else{
                     logger.info("The web weekly html ped report for BU Head is already generated, no need to do again.");
@@ -1039,8 +1063,11 @@ public class ReportThread extends Thread {
     private void createHTMLWeeklyReportOfHospital(BirtReportUtils html, String hospitalCode, String basePath, String contextPath, String lastThursday){
         String hospitalHTMLReport = basePath + "hospitalHTMLReport/"+lastThursday+"/hospitalReport-"+hospitalCode+"-"+DateUtils.getDirectoryNameOfLastDuration()+".html";
         
+        String reportImagesBasePath = new StringBuilder(basePath).append("/reportImages-").append(lastThursday).toString();
+        String reportImagesContextPath = new StringBuilder(contextPath).append("/reportImages-").append(lastThursday).toString();
+        
         if( !new File(hospitalHTMLReport).exists() ){
-            html.runReport( basePath + "reportDesigns/hospitalReport.rptdesign","","",hospitalCode,hospitalHTMLReport,"html",basePath+"/reportImages",contextPath+"/reportImages");
+            html.runReport( basePath + "reportDesigns/hospitalReport.rptdesign","","",hospitalCode,hospitalHTMLReport,"html",reportImagesBasePath,reportImagesContextPath);
             logger.info("the weekly html hospital report is done.");
         }else{
             logger.info("The weekly html hospital report is already generated, no need to do again.");
@@ -1050,8 +1077,11 @@ public class ReportThread extends Thread {
     private void createHTMLWeeklyReportOfHospitalForWeb(BirtReportUtils html, String hospitalCode, String basePath, String contextPath, String lastThursday){
         String hospitalHTMLReport = basePath + "hospitalHTMLReportForWeb/"+lastThursday+"/hospitalReport-"+hospitalCode+"-"+DateUtils.getDirectoryNameOfLastDuration()+".html";
         
+        String reportImagesBasePath = new StringBuilder(basePath).append("/reportImages-").append(lastThursday).toString();
+        String reportImagesContextPath = new StringBuilder(contextPath).append("/reportImages-").append(lastThursday).toString();
+        
         if( !new File(hospitalHTMLReport).exists() ){
-            html.runReport( basePath + "reportDesigns/hospitalReportForWeb.rptdesign","","",hospitalCode,hospitalHTMLReport,"html",basePath+"/reportImages",contextPath+"/reportImages");
+            html.runReport( basePath + "reportDesigns/hospitalReportForWeb.rptdesign","","",hospitalCode,hospitalHTMLReport,"html",reportImagesBasePath,reportImagesContextPath);
             logger.info("the web weekly html hospital report is done.");
         }else{
             logger.info("The web weekly html hospital report is already generated, no need to do again.");

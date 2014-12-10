@@ -1788,7 +1788,36 @@ public class ReportController extends BaseController{
         if( reportfile.exists() ){
             view.addObject("monthlyReportFile", remoteReportFile.toString());
         }else{
-            view.addObject("monthlyReportFile", basePath+"jsp/weeklyReport_404.html");
+        	logger.info("can not get the monthly report of last month, then get the last 2 month report.");
+        	
+        	localReportFile = new StringBuffer(localPath);
+            remoteReportFile = new StringBuffer(basePath);
+            
+        	remoteReportFile.append(directory).append(DateUtils.getLast2Month()).append("/")
+            .append("monthlyReport-")
+            .append(currentUser.getLevel())
+            .append("-")
+            .append(currentUserTel)
+            .append("-")
+            .append(DateUtils.getLast2Month())
+            .append(".html");
+            
+            localReportFile.append(directory).append(DateUtils.getLast2Month()).append("/")
+                .append("monthlyReport-")
+                .append(currentUser.getLevel())
+                .append("-")
+                .append(currentUserTel)
+                .append("-")
+                .append(DateUtils.getLast2Month())
+                .append(".html");
+        	
+            reportfile = new File(localReportFile.toString());
+            
+            if( reportfile.exists() ){
+                view.addObject("monthlyReportFile", remoteReportFile.toString());
+            }else{
+            	view.addObject("monthlyReportFile", basePath+"jsp/weeklyReport_404.html");
+            }
         }
         
         view.setViewName("monthlyCollectionReport");
