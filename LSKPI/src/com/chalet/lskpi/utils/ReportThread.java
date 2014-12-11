@@ -155,6 +155,8 @@ public class ReportThread extends Thread {
                     	logger.info("end to generate the home html weekly report");
                     }
                     
+                    reportGenerateDate = DateUtils.getDirectoryNameOfLastDuration();
+                    
                     if( dayInWeek == Integer.parseInt(CustomizedProperty.getContextProperty("weekly_report_day", "1")) ){
                         logger.info("today is Thursday, generate the last week data first");
                         
@@ -713,25 +715,35 @@ public class ReportThread extends Thread {
         	
         	switch(userLevel){
     	    	case LsAttributes.USER_LEVEL_BM:
-	    			html.runHomeReport( basePath + "reportDesigns/weeklyHomeReportForMobileBU.rptdesign",telephone,startDuration,endDuration,weeklyHtmlHomeBUReportFileName,"html",reportImagesBasePath,reportImagesContextPath);
+    	    		if( !new File(weeklyHtmlHomeBUReportFileName).exists() ){
+    	    			html.runHomeReport( basePath + "reportDesigns/weeklyHomeReportForMobileBU.rptdesign",telephone,startDuration,endDuration,weeklyHtmlHomeBUReportFileName,"html",reportImagesBasePath,reportImagesContextPath);
+    	    		}
 	    			logger.info("the weekly html HOME report to BU Head is done.");
     	    		break;
     	    	case LsAttributes.USER_LEVEL_RSD:
-	    			html.runHomeReport( basePath + "reportDesigns/weeklyHomeReportForMobileRSD.rptdesign",telephone,startDuration,endDuration,weeklyHtmlHomeReportFileName,"html",reportImagesBasePath,reportImagesContextPath);
+    	    		if( !new File(weeklyHtmlHomeReportFileName).exists() ){
+    	    			html.runHomeReport( basePath + "reportDesigns/weeklyHomeReportForMobileRSD.rptdesign",telephone,startDuration,endDuration,weeklyHtmlHomeReportFileName,"html",reportImagesBasePath,reportImagesContextPath);
+    	    		}
 	    			logger.info("the weekly html HOME report to RSD is done.");
     	    		break;
     	    		
     	    	case LsAttributes.USER_LEVEL_RSM:
-	    			html.runHomeReport( basePath + "reportDesigns/weeklyHomeReportForMobileRSM.rptdesign",telephone,startDuration,endDuration,weeklyHtmlHomeReportFileName,"html",reportImagesBasePath,reportImagesContextPath);
+    	    		if( !new File(weeklyHtmlHomeReportFileName).exists() ){
+    	    			html.runHomeReport( basePath + "reportDesigns/weeklyHomeReportForMobileRSM.rptdesign",telephone,startDuration,endDuration,weeklyHtmlHomeReportFileName,"html",reportImagesBasePath,reportImagesContextPath);
+    	    		}
 	    			logger.info("the weekly html HOME report to RSM is done.");
     	    		break;
     	    		
     	    	case LsAttributes.USER_LEVEL_DSM:
-	    			html.runHomeReport( basePath + "reportDesigns/weeklyHomeReportForMobileDSM.rptdesign",telephone,startDuration,endDuration,weeklyHtmlHomeReportFileName,"html",reportImagesBasePath,reportImagesContextPath);
+    	    		if( !new File(weeklyHtmlHomeReportFileName).exists() ){
+    	    			html.runHomeReport( basePath + "reportDesigns/weeklyHomeReportForMobileDSM.rptdesign",telephone,startDuration,endDuration,weeklyHtmlHomeReportFileName,"html",reportImagesBasePath,reportImagesContextPath);
+    	    		}
 	    			logger.info("the weekly html HOME report to DSM is done.");
     	    		break;
     	        case LsAttributes.USER_LEVEL_REP:
-	                html.runHomeReport( basePath + "reportDesigns/weeklyHomeReportForMobileREP.rptdesign",telephone,startDuration,endDuration,weeklyHtmlHomeReportFileName,"html",reportImagesBasePath,reportImagesContextPath);
+    	        	if( !new File(weeklyHtmlHomeReportFileName).exists() ){
+    	        		html.runHomeReport( basePath + "reportDesigns/weeklyHomeReportForMobileREP.rptdesign",telephone,startDuration,endDuration,weeklyHtmlHomeReportFileName,"html",reportImagesBasePath,reportImagesContextPath);
+    	        	}
 	                logger.info("the weekly html HOME report to REP is done.");
     	            break;
     	    	default:
@@ -760,23 +772,33 @@ public class ReportThread extends Thread {
         	
         	switch(userLevel){
     	    	case LsAttributes.USER_LEVEL_BM:
-	    			html.runHomeReport( basePath + "reportDesigns/weeklyHomeReportForWebBU.rptdesign",telephone,startDuration,endDuration,weeklyHtmlHomeBUReportFileName,"html",reportImagesBasePath,reportImagesContextPath);
+    	    		if( !new File(weeklyHtmlHomeBUReportFileName).exists() ){
+    	    			html.runHomeReport( basePath + "reportDesigns/weeklyHomeReportForWebBU.rptdesign",telephone,startDuration,endDuration,weeklyHtmlHomeBUReportFileName,"html",reportImagesBasePath,reportImagesContextPath);
+    	    		}
 	    			logger.info("the web weekly html HOME report to BU Head is done.");
     	    		break;
     	    	case LsAttributes.USER_LEVEL_RSD:
-	    			html.runHomeReport( basePath + "reportDesigns/weeklyHomeReportForWebRSD.rptdesign",telephone,startDuration,endDuration,weeklyHtmlHomeReportFileName,"html",reportImagesBasePath,reportImagesContextPath);
+    	    		if( !new File(weeklyHtmlHomeReportFileName).exists() ){
+    	    			html.runHomeReport( basePath + "reportDesigns/weeklyHomeReportForWebRSD.rptdesign",telephone,startDuration,endDuration,weeklyHtmlHomeReportFileName,"html",reportImagesBasePath,reportImagesContextPath);
+    	    		}
 	    			logger.info("the web weekly html HOME report to RSD is done.");
     	    		break;
     	    	case LsAttributes.USER_LEVEL_RSM:
-	    			html.runHomeReport( basePath + "reportDesigns/weeklyHomeReportForWebRSM.rptdesign",telephone,startDuration,endDuration,weeklyHtmlHomeReportFileName,"html",reportImagesBasePath,reportImagesContextPath);
+    	    		if( !new File(weeklyHtmlHomeReportFileName).exists() ){
+    	    			html.runHomeReport( basePath + "reportDesigns/weeklyHomeReportForWebRSM.rptdesign",telephone,startDuration,endDuration,weeklyHtmlHomeReportFileName,"html",reportImagesBasePath,reportImagesContextPath);
+    	    		}
 	    			logger.info("the web weekly html HOME report to RSM is done.");
     	    		break;
     	    	case LsAttributes.USER_LEVEL_DSM:
-	    			html.runHomeReport( basePath + "reportDesigns/weeklyHomeReportForWebDSM.rptdesign",telephone,startDuration,endDuration,weeklyHtmlHomeReportFileName,"html",reportImagesBasePath,reportImagesContextPath);
+    	    		if( !new File(weeklyHtmlHomeReportFileName).exists() ){
+    	    			html.runHomeReport( basePath + "reportDesigns/weeklyHomeReportForWebDSM.rptdesign",telephone,startDuration,endDuration,weeklyHtmlHomeReportFileName,"html",reportImagesBasePath,reportImagesContextPath);
+    	    		}
 	    			logger.info("the web weekly html HOME report to DSM is done.");
     	    		break;
     	        case LsAttributes.USER_LEVEL_REP:
-	                html.runHomeReport( basePath + "reportDesigns/weeklyHomeReportForWebREP.rptdesign",telephone,startDuration,endDuration,weeklyHtmlHomeReportFileName,"html",reportImagesBasePath,reportImagesContextPath);
+    	        	if( !new File(weeklyHtmlHomeReportFileName).exists() ){
+    	        		html.runHomeReport( basePath + "reportDesigns/weeklyHomeReportForWebREP.rptdesign",telephone,startDuration,endDuration,weeklyHtmlHomeReportFileName,"html",reportImagesBasePath,reportImagesContextPath);
+    	        	}
 	                logger.info("the web weekly html HOME report to REP is done.");
     	            break;
     	    	default:
