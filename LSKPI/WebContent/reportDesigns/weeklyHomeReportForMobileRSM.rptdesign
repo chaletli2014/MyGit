@@ -666,7 +666,7 @@ group by hd.duration, h.dsmCode;]]></xml-property>
             <xml-property name="queryText"><![CDATA[select 
 hd.duration,
 (select distinct name from tbl_userinfo ui where ui.userCode = h.dsmCode and ui.region = h.rsmRegion and ui.regionCenter = h.region) as name,
-IFNULL(sum(hd.lttnum) / sum(lsnum),0) as reachRate  
+IFNULL(sum(hd.lttnum),0)  as reachRate  
 from tbl_home_data hd, tbl_hospital h 
 where hd.duration between ? and ? and hd.duration >= '2014.09.15-2014.09.21' 
 and h.code = hd.hospitalCode 
@@ -1782,7 +1782,7 @@ group by hd.duration, h.rsmRegion;]]></xml-property>
             <xml-property name="queryText"><![CDATA[select 
 hd.duration,
 h.rsmRegion,
-IFNULL(sum(hd.lttnum) / sum(lsnum),0) as reachRate  
+IFNULL(sum(hd.lttnum),0)  as reachRate  
 from tbl_home_data hd, tbl_hospital h 
 where hd.duration between ? and ? and hd.duration >= '2014.09.15-2014.09.21' 
 and h.code = hd.hospitalCode 
@@ -7019,7 +7019,7 @@ group by hd.duration, h.rsmRegion;]]></xml-property>
       <Visible>true</Visible>
       <Label>
         <Caption>
-          <Value>家庭雾化疗程达标率（DOT≥30天）</Value>
+          <Value>家庭雾化疗程达标人次（DOT≥30天）</Value>
           <Font>
             <Name>Microsoft YaHei UI</Name>
             <Size>16.0</Size>
@@ -7703,7 +7703,7 @@ group by hd.duration, h.rsmRegion;]]></xml-property>
         <Visible>true</Visible>
       </Label>
       <FormatSpecifier xsi:type="attribute:JavaNumberFormatSpecifier">
-        <Pattern>##.#%</Pattern>
+        <Pattern>##.###</Pattern>
       </FormatSpecifier>
       <LabelPosition>Left</LabelPosition>
       <MajorGrid>
@@ -13383,7 +13383,7 @@ group by hd.duration, h.rsmRegion;]]></xml-property>
       <Visible>true</Visible>
       <Label>
         <Caption>
-          <Value>家庭雾化疗程达标率（DOT≥30天）</Value>
+          <Value>家庭雾化疗程达标人次（DOT≥30天）</Value>
           <Font>
             <Name>Microsoft YaHei UI</Name>
             <Size>16.0</Size>
@@ -14067,7 +14067,7 @@ group by hd.duration, h.rsmRegion;]]></xml-property>
         <Visible>true</Visible>
       </Label>
       <FormatSpecifier xsi:type="attribute:JavaNumberFormatSpecifier">
-        <Pattern>##.#%</Pattern>
+        <Pattern>##.###</Pattern>
       </FormatSpecifier>
       <LabelPosition>Left</LabelPosition>
       <MajorGrid>

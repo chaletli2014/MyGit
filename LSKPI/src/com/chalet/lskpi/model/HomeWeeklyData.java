@@ -30,7 +30,7 @@ public class HomeWeeklyData {
     private double lsRate;
     
     /**
-     * 家庭雾化疗程达标率（DOT>=30天）.
+     * 家庭雾化疗程达标人次（DOT>=30天）.
      * “DOT>=30天,病人次”统加/“维持期病人中推荐使用令舒的人次”统加
      */
     private double reachRate;

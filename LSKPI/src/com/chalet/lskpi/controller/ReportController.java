@@ -1050,7 +1050,7 @@ public class ReportController extends BaseController{
     			hosNameCell.setCellStyle(top2Style);
     			
     			HSSFCell drNameCell = row.createCell(9, XSSFCell.CELL_TYPE_STRING);
-    			drNameCell.setCellValue("家庭雾化疗程达标率（DOT>=30天）");
+    			drNameCell.setCellValue("家庭雾化疗程达标人次（DOT>=30天）");
     			drNameCell.setCellStyle(top2Style);
     			
     			int dateColumnWidth = 15;

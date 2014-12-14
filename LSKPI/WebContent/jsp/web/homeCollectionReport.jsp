@@ -35,7 +35,7 @@
 					    <%--
 					    <td width="12%">维持期令舒比例</td>
 					     --%>
-					    <td width="12%">家庭雾化疗程达标率（DOT>=30天）</td>
+					    <td width="12%">家庭雾化疗程达标人次（DOT>=30天）</td>
 					</tr>
                    <c:forEach items="${homeWeeklyDataList}" var="homeWeeklyData" varStatus="status">
                        <tr class="mobileReport_table_body <c:if test="${status.count%2==0}">mobileReport_tr_even</c:if>">
@@ -93,7 +93,7 @@
 						    <%--
 						    <td width="12%">维持期令舒比例</td>
 						     --%>
-						    <td width="12%">家庭雾化疗程达标率（DOT>=30天）</td>
+						    <td width="12%">家庭雾化疗程达标人次（DOT>=30天）</td>
 	                      </tr>
 	                   <c:forEach items="${lowerHomeWeeklyDataList}" var="homeWeeklyData" varStatus="status">
 	                       <tr class="mobileReport_table_body <c:if test="${status.count%2==0}">mobileReport_tr_even</c:if>">
@@ -138,7 +138,7 @@
 					    <%--
 					    <td width="12%">维持期令舒比例</td>
 					     --%>
-					    <td width="12%">家庭雾化疗程达标率（DOT>=30天）</td>
+					    <td width="12%">家庭雾化疗程达标人次（DOT>=30天）</td>
 					  </tr>
                    <c:forEach items="${rsmReportData}" var="homeWeeklyData" varStatus="status">
                        <tr class="mobileReport_table_body <c:if test="${status.count%2==0}">mobileReport_tr_even</c:if>">
