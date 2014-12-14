@@ -5278,7 +5278,7 @@ group by hd.duration, h.rsmRegion;]]></xml-property>
       <Visible>true</Visible>
       <Label>
         <Caption>
-          <Value>维持期推荐使用令舒的人次</Value>
+          <Value>维持期使用令舒的人次</Value>
           <Font>
             <Name>Microsoft YaHei UI</Name>
             <Size>16.0</Size>
@@ -11638,7 +11638,7 @@ group by hd.duration, h.rsmRegion;]]></xml-property>
       <Visible>true</Visible>
       <Label>
         <Caption>
-          <Value>维持期推荐使用令舒的人次</Value>
+          <Value>维持期使用令舒的人次</Value>
           <Font>
             <Name>Microsoft YaHei UI</Name>
             <Size>16.0</Size>

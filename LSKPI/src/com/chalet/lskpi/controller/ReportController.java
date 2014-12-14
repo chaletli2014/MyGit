@@ -819,7 +819,7 @@ public class ReportController extends BaseController{
                 num2Cell.setCellStyle(top2Style);
                 
                 HSSFCell num3Cell = row.createCell(12, XSSFCell.CELL_TYPE_STRING);
-                num3Cell.setCellValue("维持期推荐使用令舒的人次");
+                num3Cell.setCellValue("维持期使用令舒的人次");
                 num3Cell.setCellStyle(top2Style);
                 
                 HSSFCell num4Cell = row.createCell(13, XSSFCell.CELL_TYPE_STRING);
@@ -1042,7 +1042,7 @@ public class ReportController extends BaseController{
     			psrCell.setCellStyle(top2Style);
     			
     			HSSFCell hosCodeCell = row.createCell(7, XSSFCell.CELL_TYPE_STRING);
-    			hosCodeCell.setCellValue("维持期推荐使用令舒的人次");
+    			hosCodeCell.setCellValue("维持期使用令舒的人次");
     			hosCodeCell.setCellStyle(top2Style);
     			
     			HSSFCell hosNameCell = row.createCell(8, XSSFCell.CELL_TYPE_STRING);

@@ -18,7 +18,7 @@ public class HomeWeeklyData {
     private double cureRate;
     
     /**
-     * 维持期推荐使用令舒的人次.
+     * 维持期使用令舒的人次.
      * “维持期病人中推荐使用令舒的人次”统加
      */
     private double lsnum;
@@ -94,7 +94,7 @@ public class HomeWeeklyData {
     }
 
     /**
-     * 维持期推荐使用令舒的人次.
+     * 维持期使用令舒的人次.
      * “维持期病人中推荐使用令舒的人次”统加
      * @return double
      */
@@ -103,7 +103,7 @@ public class HomeWeeklyData {
     }
 
     /**
-     * 维持期推荐使用令舒的人次.
+     * 维持期使用令舒的人次.
      * @param lsnum
      */
     public void setLsnum(double lsnum) {
