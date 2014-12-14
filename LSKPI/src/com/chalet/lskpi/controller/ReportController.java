@@ -807,7 +807,7 @@ public class ReportController extends BaseController{
                 drIdCell.setCellStyle(top2Style);
                 
                 HSSFCell saleNumCell = row.createCell(9, XSSFCell.CELL_TYPE_STRING);
-                saleNumCell.setCellValue("卖/赠泵数量");
+                saleNumCell.setCellValue("每周新病人人次");
                 saleNumCell.setCellStyle(top2Style);
                 
                 HSSFCell num1Cell = row.createCell(10, XSSFCell.CELL_TYPE_STRING);
@@ -1034,7 +1034,7 @@ public class ReportController extends BaseController{
     			inRateCell.setCellStyle(top2Style);
     			
     			HSSFCell dsmCell = row.createCell(5, XSSFCell.CELL_TYPE_STRING);
-    			dsmCell.setCellValue("卖/赠泵数量");
+    			dsmCell.setCellValue("每周新病人人次");
     			dsmCell.setCellStyle(top2Style);
     			
     			HSSFCell psrCell = row.createCell(6, XSSFCell.CELL_TYPE_STRING);

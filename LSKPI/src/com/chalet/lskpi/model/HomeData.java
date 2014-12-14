@@ -14,7 +14,7 @@ public class HomeData {
     private int doctorId;
     private String drName;
     /**
-     * 卖/赠泵数量.
+     * 每周新病人人次.
      */
     private int salenum;
     /**
@@ -58,7 +58,7 @@ public class HomeData {
     }
     
     /**
-     * 卖/赠泵数量.
+     * 每周新病人人次.
      * @return int
      */
     public int getSalenum() {
@@ -66,7 +66,7 @@ public class HomeData {
     }
     
     /**
-     * 卖/赠泵数量.
+     * 每周新病人人次.
      * @param salenum int
      */
     public void setSalenum(int salenum) {

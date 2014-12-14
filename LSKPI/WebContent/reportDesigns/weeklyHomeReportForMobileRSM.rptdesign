@@ -3849,7 +3849,7 @@ group by hd.duration, h.rsmRegion;]]></xml-property>
       <Visible>true</Visible>
       <Label>
         <Caption>
-          <Value>卖/赠泵数量</Value>
+          <Value>每周新病人人次</Value>
           <Font>
             <Name>Microsoft YaHei UI</Name>
             <Size>16.0</Size>
@@ -10213,7 +10213,7 @@ group by hd.duration, h.rsmRegion;]]></xml-property>
       <Visible>true</Visible>
       <Label>
         <Caption>
-          <Value>卖/赠泵数量</Value>
+          <Value>每周新病人人次</Value>
           <Font>
             <Name>Microsoft YaHei UI</Name>
             <Size>16.0</Size>

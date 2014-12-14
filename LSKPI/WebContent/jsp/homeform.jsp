@@ -82,7 +82,7 @@ function checkForm(){
 	                </select>
 	            </div>
 	            <div data-role="fieldcontain" class="formCollection">
-	                <label for="salenum" id="salenum_label">卖/赠泵数量</label>
+	                <label for="salenum" id="salenum_label">每周新病人人次</label>
 	                <input type="number" name="salenum" id="salenum" value="${existedData.salenum==null?0:existedData.salenum}" <%if(noInput){%>readonly="readonly" disabled="disabled"<%}%>/>
 	            </div>
 	            <div data-role="fieldcontain" class="formCollection">

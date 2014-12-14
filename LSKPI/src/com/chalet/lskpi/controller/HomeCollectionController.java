@@ -589,7 +589,7 @@ public class HomeCollectionController extends BaseController{
     }
     
     private void populateHomeData(HttpServletRequest request, HomeData homeData){
-      //卖/赠泵数量
+      //每周新病人人次
         int salenum = StringUtils.getIntegerFromString(request.getParameter("salenum"));
         //哮喘*患者人次.
         int asthmanum = StringUtils.getIntegerFromString(request.getParameter("asthmanum"));

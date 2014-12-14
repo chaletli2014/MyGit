@@ -7,7 +7,7 @@ public class HomeWeeklyData {
     private int newDrNum;
     /**
      * 上周家庭雾化新病人次量.
-     * “卖/赠泵数量”统加
+     * “每周新病人人次”统加
      */
     private double newWhNum;
     
@@ -59,7 +59,7 @@ public class HomeWeeklyData {
 
     /**
      * 上周家庭雾化新病人次量.
-     * “卖/赠泵数量”统加
+     * “每周新病人人次”统加
      * @return double
      */
     public double getNewWhNum() {
@@ -68,7 +68,7 @@ public class HomeWeeklyData {
 
     /**
      * 上周家庭雾化新病人次量.
-     * “卖/赠泵数量”统加
+     * “每周新病人人次”统加
      * @param newWhNum double
      */
     public void setNewWhNum(double newWhNum) {
