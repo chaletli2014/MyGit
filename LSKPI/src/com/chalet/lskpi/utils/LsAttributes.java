@@ -950,7 +950,7 @@ public class LsAttributes {
             .append(" , sum(hd.ltenum)/sum(hd.asthmanum) as cureRate ")
             .append(" , sum(hd.lsnum) as lsnum ")
             .append(" , sum(hd.lsnum)/sum(hd.ltenum) as lsRate ")
-            .append(" , IFNULL(sum(hd.lttnum),) as reachRate ");
+            .append(" , IFNULL(sum(hd.lttnum),0) as reachRate ");
     
     public static final StringBuffer SQL_HOME_WEEKLY_DATA_SUB_FROM
     = new StringBuffer(" from tbl_home_data hd, tbl_userinfo u ");
