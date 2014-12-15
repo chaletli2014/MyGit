@@ -51,7 +51,7 @@
                           <%--
                           <td class="report_data_number" ><fmt:formatNumber value="${homeWeeklyData.lsRate}" type="percent" pattern="#0%"/></td>
                            --%>
-                          <td class="report_data_number" ><fmt:formatNumber value="${homeWeeklyData.reachRate}" type="percent" pattern="#0%"/></td>
+                          <td class="report_data_number" ><fmt:formatNumber value="${homeWeeklyData.reachRate}" pattern="#,###"/></td>
                         </tr>
                    </c:forEach>
                    <tr class="mobileReport_table_body <c:if test="${fn:length(homeWeeklyDataList)%2 != 0}">mobileReport_tr_even</c:if>">
@@ -67,7 +67,7 @@
                           <%--
                           <td class="report_data_number" ><fmt:formatNumber value="${upperHomeWeeklyData.lsRate}" type="percent" pattern="#0%"/></td>
                            --%>
-                          <td class="report_data_number" ><fmt:formatNumber value="${upperHomeWeeklyData.reachRate}" type="percent" pattern="#0%"/></td>
+                          <td class="report_data_number" ><fmt:formatNumber value="${upperHomeWeeklyData.reachRate}" pattern="#,###"/></td>
                    </tr>
                 </table>
             </div>
@@ -109,7 +109,7 @@
 	                          <%--
 	                          <td class="report_data_number" ><fmt:formatNumber value="${homeWeeklyData.lsRate}" type="percent" pattern="#0%"/></td>
 	                           --%>
-	                          <td class="report_data_number" ><fmt:formatNumber value="${homeWeeklyData.reachRate}" type="percent" pattern="#0%"/></td>
+	                          <td class="report_data_number" ><fmt:formatNumber value="${homeWeeklyData.reachRate}" pattern="#,###"/></td>
 	                        </tr>
 	                   </c:forEach>
 	                </table>
@@ -154,7 +154,7 @@
                           <%--
                           <td class="report_data_number" ><fmt:formatNumber value="${homeWeeklyData.lsRate}" type="percent" pattern="#0%"/></td>
                            --%>
-                          <td class="report_data_number" ><fmt:formatNumber value="${homeWeeklyData.reachRate}" type="percent" pattern="#0%"/></td>
+                          <td class="report_data_number" ><fmt:formatNumber value="${homeWeeklyData.reachRate}" pattern="#,###"/></td>
                         </tr>
                    </c:forEach>
                 </table>

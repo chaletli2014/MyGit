@@ -1133,7 +1133,7 @@ public class ReportController extends BaseController{
                     
                     HSSFCell value8Cell = row.createCell(9, XSSFCell.CELL_TYPE_NUMERIC);
                     value8Cell.setCellValue(rsmDate.getReachRate());
-                    value8Cell.setCellStyle(percentCellStyle);
+                    value8Cell.setCellStyle(numberCellStyle);
     			}
     			
     			workbook.createSheet("未上报家庭雾化医生名单");
