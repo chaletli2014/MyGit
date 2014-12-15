@@ -29,7 +29,9 @@ import com.chalet.lskpi.mapper.PediatricsMobileRowMapper;
 import com.chalet.lskpi.mapper.PediatricsRowMapper;
 import com.chalet.lskpi.mapper.PediatricsWhPortRowMapper;
 import com.chalet.lskpi.mapper.PediatricsWithPortNumRowMapper;
-import com.chalet.lskpi.mapper.TopAndBottomRSMDataRowMapper;
+import com.chalet.lskpi.mapper.TopAndBottomAverageDoseRSMDataRowMapper;
+import com.chalet.lskpi.mapper.TopAndBottomInRateRSMDataRowMapper;
+import com.chalet.lskpi.mapper.TopAndBottomWhRateRSMDataRowMapper;
 import com.chalet.lskpi.model.DailyReportData;
 import com.chalet.lskpi.model.Hospital;
 import com.chalet.lskpi.model.MobilePEDDailyData;
@@ -487,22 +489,14 @@ public class PediatricsDAOImpl implements PediatricsDAO {
 	}
 	
 	@Override
-	public TopAndBottomRSMData getTopAndBottomRSMData() throws Exception {
+	public TopAndBottomRSMData getTopAndBottomInRateRSMData(TopAndBottomRSMData rsmData) throws Exception {
 		StringBuffer sb = new StringBuffer();
 		Date date = new Date();
 	    Timestamp paramDate = new Timestamp(DateUtils.populateParamDate(date).getTime());
 	    sb.append("select inRateMinT.inRateMin, ")
 	    	.append(" inRateMinT.inRateMinUser, ")
 	    	.append(" inRateMaxT.inRateMax, ")
-	    	.append(" inRateMaxT.inRateMaxUser, ")
-	    	.append(" whRateMinT.whRateMin, ")
-	    	.append(" whRateMinT.whRateMinUser, ")
-	    	.append(" whRateMaxT.whRateMax, ")
-	    	.append(" whRateMaxT.whRateMaxUser, ")
-	    	.append(" averageDoseMinT.averageDoseMin, ")
-	    	.append(" averageDoseMinT.averageDoseMinUser, ")
-	    	.append(" averageDoseMaxT.averageDoseMax, ")
-	    	.append(" averageDoseMaxT.averageDoseMaxUser ")
+	    	.append(" inRateMaxT.inRateMaxUser ")
 	    	.append(" from ") 
 	    	.append(" ( select (inNumTemp.inNum/hosNumTemp.hosNum) as inRateMin,hosNumTemp.name as inRateMinUser ") 
 	    	.append("	from ( ") 
@@ -550,88 +544,134 @@ public class PediatricsDAOImpl implements PediatricsDAO {
 	    	.append("	where hosNumTemp.rsmRegion = inNumTemp.rsmRegion ")
 	    	.append("	order by inNumTemp.inNum/hosNumTemp.hosNum desc ")
 	    	.append("	limit 1	")
-	    	.append(") inRateMaxT, ")
-	    	.append("( 	select IFNULL(lsNumTemp.lsNum/pNumTemp.pNum,0) as whRateMin,pNumTemp.name as whRateMinUser ")
-	    	.append("	from ( ")
-	    	.append("			select IFNULL(pNum1.pNum,0) as pNum, u.region as rsmRegion, u.name from ( ")
-	    	.append("				select IFNULL(sum(pd.pnum),0) as pNum, h.rsmRegion ")
-	    	.append("				from tbl_pediatrics_data pd, tbl_hospital h ")
-	    	.append("				where pd.hospitalName = h.name ")
-	    	.append("				and TO_DAYS(?) = TO_DAYS(pd.createdate) ")
-	    	.append("				and h.isPedAssessed='1' ")
-	    	.append("				group by h.rsmRegion ")
-	    	.append("			) pNum1 right join tbl_userinfo u on pNum1.rsmRegion = u.region ")
-	    	.append("			where u.level='RSM' ")
-	    	.append("		) pNumTemp, ")
-	    	.append("		( select IFNULL(lsNum1.lsNum,0) as lsNum, u.region as rsmRegion, u.name from ( ")
-	    	.append("			select IFNULL(sum(pd.lsnum),0) as lsNum, h.rsmRegion ")
-	    	.append("			from tbl_pediatrics_data pd, tbl_hospital h ")
-	    	.append("			where pd.hospitalName = h.name ")
-	    	.append("			and TO_DAYS(?) = TO_DAYS(pd.createdate) ")
-	    	.append("			and h.isPedAssessed='1' ")
-	    	.append("			group by h.rsmRegion ")
-	    	.append("			) lsNum1 right join tbl_userinfo u on lsNum1.rsmRegion = u.region ")
-	    	.append("			where u.level='RSM' ")
-	    	.append("		) lsNumTemp")
-	    	.append("		where pNumTemp.rsmRegion = lsNumTemp.rsmRegion ")
-	    	.append("		order by lsNumTemp.lsNum/pNumTemp.pNum ")
-	    	.append("		limit 1	")
-	    	.append(") whRateMinT,")
-	    	.append("( 	select IFNULL(lsNumTemp.lsNum/pNumTemp.pNum,0) as whRateMax,pNumTemp.name as whRateMaxUser ")
-	    	.append("	from ( ")
-	    	.append("			select IFNULL(pNum1.pNum,0) as pNum, u.region as rsmRegion, u.name from (")
-	    	.append("				select IFNULL(sum(pd.pnum),0) as pNum, h.rsmRegion ")
-	    	.append("				from tbl_pediatrics_data pd, tbl_hospital h ")
-	    	.append("				where pd.hospitalName = h.name ")
-	    	.append("				and TO_DAYS(?) = TO_DAYS(pd.createdate)")
-	    	.append("				and h.isPedAssessed='1' ")
-	    	.append("				group by h.rsmRegion ")
-	    	.append("			) pNum1 right join tbl_userinfo u on pNum1.rsmRegion = u.region ")
-	    	.append("			where u.level='RSM' ")
-	    	.append("		) pNumTemp, ")
-	    	.append("		( select IFNULL(lsNum1.lsNum,0) as lsNum, u.region as rsmRegion, u.name from ( ")
-	    	.append("				select IFNULL(sum(pd.lsnum),0) as lsNum, h.rsmRegion ")
-	    	.append("				from tbl_pediatrics_data pd, tbl_hospital h ")
-	    	.append("				where pd.hospitalName = h.name ")
-	    	.append("				and TO_DAYS(?) = TO_DAYS(pd.createdate)")
-	    	.append("				and h.isPedAssessed='1' ")
-	    	.append("				group by h.rsmRegion ")
-	    	.append("			) lsNum1 right join tbl_userinfo u on lsNum1.rsmRegion = u.region ")
-	    	.append("			where u.level='RSM' ")
-	    	.append("		) lsNumTemp ")
-	    	.append("		where pNumTemp.rsmRegion = lsNumTemp.rsmRegion ")
-	    	.append("		order by lsNumTemp.lsNum/pNumTemp.pNum desc ")
-	    	.append("		limit 1	")
-	    	.append(") whRateMaxT,")
-	    	.append("( ")
-	    	.append("	select IFNULL(av1.averageDose,0) as averageDoseMin, u.name as averageDoseMinUser from ")
-	    	.append("		( ")
-	    	.append("			select IFNULL( sum( ( ( 0.5*IFNULL(pd.hqd,0) + 0.5*2*IFNULL(pd.hbid,0) + 1*1*IFNULL(pd.oqd,0) + 1*2*IFNULL(pd.obid,0) + 2*1*IFNULL(pd.tqd,0) + 2*2*IFNULL(pd.tbid,0) ) / 100 ) * IFNULL(pd.lsnum,0) ) / IFNULL(sum(pd.lsnum),0),0 ) as averageDose, h.rsmRegion")
-	    	.append("			from tbl_pediatrics_data pd, tbl_hospital h ")
-	    	.append("			where pd.hospitalName = h.name ")
-	    	.append("			and TO_DAYS(?) = TO_DAYS(pd.createdate) ")
-	    	.append("			and h.isPedAssessed='1' ")
-	    	.append("			group by h.rsmRegion ")
-	    	.append("		) av1 right join tbl_userinfo u on u.region = av1.rsmRegion ")
-	    	.append("		where u.level='RSM' ")
-	    	.append("		order by av1.averageDose")
-	    	.append("		limit 1	")
-	    	.append(") averageDoseMinT,")
-	    	.append("( ")
-	    	.append("	select IFNULL(av2.averageDose,0) as averageDoseMax, u.name as averageDoseMaxUser from ")
-	    	.append("		( ")
-	    	.append("			select IFNULL( sum( ( ( 0.5*IFNULL(pd.hqd,0) + 0.5*2*IFNULL(pd.hbid,0) + 1*1*IFNULL(pd.oqd,0) + 1*2*IFNULL(pd.obid,0) + 2*1*IFNULL(pd.tqd,0) + 2*2*IFNULL(pd.tbid,0) ) / 100 ) * IFNULL(pd.lsnum,0) ) / IFNULL(sum(pd.lsnum),0),0 ) as averageDose, h.rsmRegion")
-	    	.append("			from tbl_pediatrics_data pd, tbl_hospital h")
-	    	.append("			where pd.hospitalName = h.name ")
-	    	.append("			and TO_DAYS(?) = TO_DAYS(pd.createdate) ")
-	    	.append("			and h.isPedAssessed='1' ")
-	    	.append("			group by h.rsmRegion ")
-	    	.append("		) av2 right join tbl_userinfo u on u.region = av2.rsmRegion ")
-	    	.append("		where u.level='RSM' ")
-	    	.append("		order by av2.averageDose desc ")
-	    	.append("		limit 1	")
-	    	.append(") averageDoseMaxT");
-	    return dataBean.getJdbcTemplate().queryForObject(sb.toString(), new Object[]{paramDate,paramDate,paramDate,paramDate,paramDate,paramDate,paramDate,paramDate},new TopAndBottomRSMDataRowMapper());
+	    	.append(") inRateMaxT ");
+	    TopAndBottomRSMData dbData = dataBean.getJdbcTemplate().queryForObject(sb.toString(), new Object[]{paramDate,paramDate},new TopAndBottomInRateRSMDataRowMapper());
+	    rsmData.setTopInRate(dbData.getTopInRate());
+	    rsmData.setTopInRateRSMName(dbData.getTopInRateRSMName());
+	    rsmData.setBottomInRate(dbData.getBottomInRate());
+	    rsmData.setBottomInRateRSMName(dbData.getBottomInRateRSMName());
+	    
+	    return rsmData;
+	}
+	
+	@Override
+	public TopAndBottomRSMData getTopAndBottomWhRateRSMData(TopAndBottomRSMData rsmData) throws Exception {
+		StringBuffer sb = new StringBuffer();
+		Date date = new Date();
+		Timestamp paramDate = new Timestamp(DateUtils.populateParamDate(date).getTime());
+		sb.append("select whRateMinT.whRateMin, ")
+		.append(" whRateMinT.whRateMinUser, ")
+		.append(" whRateMaxT.whRateMax, ")
+		.append(" whRateMaxT.whRateMaxUser ")
+		.append(" from ") 
+		.append("( 	select IFNULL(lsNumTemp.lsNum/pNumTemp.pNum,0) as whRateMin,pNumTemp.name as whRateMinUser ")
+		.append("	from ( ")
+		.append("			select IFNULL(pNum1.pNum,0) as pNum, u.region as rsmRegion, u.name from ( ")
+		.append("				select IFNULL(sum(pd.pnum),0) as pNum, h.rsmRegion ")
+		.append("				from tbl_pediatrics_data pd, tbl_hospital h ")
+		.append("				where pd.hospitalName = h.name ")
+		.append("				and TO_DAYS(?) = TO_DAYS(pd.createdate) ")
+		.append("				and h.isPedAssessed='1' ")
+		.append("				group by h.rsmRegion ")
+		.append("			) pNum1 right join tbl_userinfo u on pNum1.rsmRegion = u.region ")
+		.append("			where u.level='RSM' ")
+		.append("		) pNumTemp, ")
+		.append("		( select IFNULL(lsNum1.lsNum,0) as lsNum, u.region as rsmRegion, u.name from ( ")
+		.append("			select IFNULL(sum(pd.lsnum),0) as lsNum, h.rsmRegion ")
+		.append("			from tbl_pediatrics_data pd, tbl_hospital h ")
+		.append("			where pd.hospitalName = h.name ")
+		.append("			and TO_DAYS(?) = TO_DAYS(pd.createdate) ")
+		.append("			and h.isPedAssessed='1' ")
+		.append("			group by h.rsmRegion ")
+		.append("			) lsNum1 right join tbl_userinfo u on lsNum1.rsmRegion = u.region ")
+		.append("			where u.level='RSM' ")
+		.append("		) lsNumTemp")
+		.append("		where pNumTemp.rsmRegion = lsNumTemp.rsmRegion ")
+		.append("		order by lsNumTemp.lsNum/pNumTemp.pNum ")
+		.append("		limit 1	")
+		.append(") whRateMinT,")
+		.append("( 	select IFNULL(lsNumTemp.lsNum/pNumTemp.pNum,0) as whRateMax,pNumTemp.name as whRateMaxUser ")
+		.append("	from ( ")
+		.append("			select IFNULL(pNum1.pNum,0) as pNum, u.region as rsmRegion, u.name from (")
+		.append("				select IFNULL(sum(pd.pnum),0) as pNum, h.rsmRegion ")
+		.append("				from tbl_pediatrics_data pd, tbl_hospital h ")
+		.append("				where pd.hospitalName = h.name ")
+		.append("				and TO_DAYS(?) = TO_DAYS(pd.createdate)")
+		.append("				and h.isPedAssessed='1' ")
+		.append("				group by h.rsmRegion ")
+		.append("			) pNum1 right join tbl_userinfo u on pNum1.rsmRegion = u.region ")
+		.append("			where u.level='RSM' ")
+		.append("		) pNumTemp, ")
+		.append("		( select IFNULL(lsNum1.lsNum,0) as lsNum, u.region as rsmRegion, u.name from ( ")
+		.append("				select IFNULL(sum(pd.lsnum),0) as lsNum, h.rsmRegion ")
+		.append("				from tbl_pediatrics_data pd, tbl_hospital h ")
+		.append("				where pd.hospitalName = h.name ")
+		.append("				and TO_DAYS(?) = TO_DAYS(pd.createdate)")
+		.append("				and h.isPedAssessed='1' ")
+		.append("				group by h.rsmRegion ")
+		.append("			) lsNum1 right join tbl_userinfo u on lsNum1.rsmRegion = u.region ")
+		.append("			where u.level='RSM' ")
+		.append("		) lsNumTemp ")
+		.append("		where pNumTemp.rsmRegion = lsNumTemp.rsmRegion ")
+		.append("		order by lsNumTemp.lsNum/pNumTemp.pNum desc ")
+		.append("		limit 1	")
+		.append(") whRateMaxT ");
+		TopAndBottomRSMData dbData = dataBean.getJdbcTemplate().queryForObject(sb.toString(), new Object[]{paramDate,paramDate,paramDate,paramDate},new TopAndBottomWhRateRSMDataRowMapper());
+		
+	    rsmData.setTopWhRate(dbData.getTopWhRate());
+	    rsmData.setTopWhRateRSMName(dbData.getTopWhRateRSMName());
+	    rsmData.setBottomWhRate(dbData.getBottomWhRate());
+	    rsmData.setBottomWhRateRSMName(dbData.getBottomWhRateRSMName());
+	    
+	    return rsmData;
+	}
+	
+	@Override
+	public TopAndBottomRSMData getTopAndBottomAverageDoseRSMData(TopAndBottomRSMData rsmData) throws Exception {
+		StringBuffer sb = new StringBuffer();
+		Date date = new Date();
+		Timestamp paramDate = new Timestamp(DateUtils.populateParamDate(date).getTime());
+		sb.append("select averageDoseMinT.averageDoseMin, ")
+		.append(" averageDoseMinT.averageDoseMinUser, ")
+		.append(" averageDoseMaxT.averageDoseMax, ")
+		.append(" averageDoseMaxT.averageDoseMaxUser ")
+		.append(" from ") 
+		.append("( ")
+		.append("	select IFNULL(av1.averageDose,0) as averageDoseMin, u.name as averageDoseMinUser from ")
+		.append("		( ")
+		.append("			select IFNULL( sum( ( ( 0.5*IFNULL(pd.hqd,0) + 0.5*2*IFNULL(pd.hbid,0) + 1*1*IFNULL(pd.oqd,0) + 1*2*IFNULL(pd.obid,0) + 2*1*IFNULL(pd.tqd,0) + 2*2*IFNULL(pd.tbid,0) ) / 100 ) * IFNULL(pd.lsnum,0) ) / IFNULL(sum(pd.lsnum),0),0 ) as averageDose, h.rsmRegion")
+		.append("			from tbl_pediatrics_data pd, tbl_hospital h ")
+		.append("			where pd.hospitalName = h.name ")
+		.append("			and TO_DAYS(?) = TO_DAYS(pd.createdate) ")
+		.append("			and h.isPedAssessed='1' ")
+		.append("			group by h.rsmRegion ")
+		.append("		) av1 right join tbl_userinfo u on u.region = av1.rsmRegion ")
+		.append("		where u.level='RSM' ")
+		.append("		order by av1.averageDose")
+		.append("		limit 1	")
+		.append(") averageDoseMinT,")
+		.append("( ")
+		.append("	select IFNULL(av2.averageDose,0) as averageDoseMax, u.name as averageDoseMaxUser from ")
+		.append("		( ")
+		.append("			select IFNULL( sum( ( ( 0.5*IFNULL(pd.hqd,0) + 0.5*2*IFNULL(pd.hbid,0) + 1*1*IFNULL(pd.oqd,0) + 1*2*IFNULL(pd.obid,0) + 2*1*IFNULL(pd.tqd,0) + 2*2*IFNULL(pd.tbid,0) ) / 100 ) * IFNULL(pd.lsnum,0) ) / IFNULL(sum(pd.lsnum),0),0 ) as averageDose, h.rsmRegion")
+		.append("			from tbl_pediatrics_data pd, tbl_hospital h")
+		.append("			where pd.hospitalName = h.name ")
+		.append("			and TO_DAYS(?) = TO_DAYS(pd.createdate) ")
+		.append("			and h.isPedAssessed='1' ")
+		.append("			group by h.rsmRegion ")
+		.append("		) av2 right join tbl_userinfo u on u.region = av2.rsmRegion ")
+		.append("		where u.level='RSM' ")
+		.append("		order by av2.averageDose desc ")
+		.append("		limit 1	")
+		.append(") averageDoseMaxT");
+		TopAndBottomRSMData dbData =  dataBean.getJdbcTemplate().queryForObject(sb.toString(), new Object[]{paramDate,paramDate},new TopAndBottomAverageDoseRSMDataRowMapper());
+		
+		rsmData.setTopAverageDose(dbData.getTopAverageDose());
+	    rsmData.setTopAvRSMName(dbData.getTopAvRSMName());
+	    rsmData.setBottomAverageDose(dbData.getBottomAverageDose());
+	    rsmData.setBottomAvRSMName(dbData.getBottomAvRSMName());
+	    
+	    return rsmData;
 	}
 	
 	@Override

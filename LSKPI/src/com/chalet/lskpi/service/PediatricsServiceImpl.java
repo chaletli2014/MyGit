@@ -501,7 +501,12 @@ public class PediatricsServiceImpl implements PediatricsService {
 	@Override
 	@Cacheable(value="getTopAndBottomRSMData")
 	public TopAndBottomRSMData getTopAndBottomRSMData() throws Exception {
-		TopAndBottomRSMData topAndBottomRSMData = pediatricsDAO.getTopAndBottomRSMData();
+		TopAndBottomRSMData topAndBottomRSMData = new TopAndBottomRSMData();
+		
+		topAndBottomRSMData = pediatricsDAO.getTopAndBottomInRateRSMData(topAndBottomRSMData);
+		topAndBottomRSMData = pediatricsDAO.getTopAndBottomWhRateRSMData(topAndBottomRSMData);
+		topAndBottomRSMData = pediatricsDAO.getTopAndBottomAverageDoseRSMData(topAndBottomRSMData);
+		
 		TopAndBottomRSMData coreRSMData = pediatricsDAO.getCoreTopAndBottomRSMData();
 		TopAndBottomRSMData coreWhRateData = pediatricsDAO.getCoreTopAndBottomRSMWhRateData();
 		

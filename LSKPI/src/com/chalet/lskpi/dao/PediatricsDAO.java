@@ -60,7 +60,9 @@ public interface PediatricsDAO {
 	
 	public List<DailyReportData> getAllRSMDataByTelephone() throws Exception;
 	
-	public TopAndBottomRSMData getTopAndBottomRSMData() throws Exception;
+	public TopAndBottomRSMData getTopAndBottomInRateRSMData(TopAndBottomRSMData rsmData) throws Exception;
+	public TopAndBottomRSMData getTopAndBottomWhRateRSMData(TopAndBottomRSMData rsmData) throws Exception;
+	public TopAndBottomRSMData getTopAndBottomAverageDoseRSMData(TopAndBottomRSMData rsmData) throws Exception;
 	public TopAndBottomRSMData getCoreTopAndBottomRSMData() throws Exception;
 	public TopAndBottomRSMData getCoreTopAndBottomRSMWhRateData() throws Exception;
 	
