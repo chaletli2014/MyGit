@@ -12,6 +12,14 @@ public class DateUtils {
 	 */
     private static SimpleDateFormat formatter_1 = new SimpleDateFormat("yyyy.MM.dd");
     
+    public static Date parseString2Date(String dateStr) throws ParseException{
+    	return formatter_1.parse(dateStr);
+    }
+    
+    public static String parseDate2String(Date date) throws ParseException{
+    	return formatter_1.format(date);
+    }
+    
     public static Date populateParamDate(Date date){
         Calendar calendar = Calendar.getInstance();
         calendar.setTime(date);
@@ -228,6 +236,18 @@ public class DateUtils {
         return formatter_1.format(endDate);
     }
     
+    /**
+     * 修正新的统计周期，起始日期为参数所在周的周天
+     * @param refreshDate
+     * @return 参数 refreshDate所在周的周天
+     */
+    public static String getTheEndDateOfRefreshDate4ReportTable(Date refreshDate){
+    	// 0 sunday
+    	Date endDate = getGenerateWeeklyReportDate(refreshDate);
+    	endDate = new Date(endDate.getTime() + 1 * 24 * 60 * 60 * 1000);
+    	return formatter_1.format(endDate);
+    }
+    
     public static String getMonthInCN(Date chooseDate){
         String monthInCN = "";
         Calendar cal = Calendar.getInstance();
@@ -433,6 +453,20 @@ public class DateUtils {
     	cal.add(Calendar.DATE, 6);
     	Date last12EndDate = cal.getTime();
     	return formatter_1.format(last12StartDate)+"-"+formatter_1.format(last12EndDate);
+    }
+    
+    public static String getThursdayHomeLast2WeekEndDuration(String startDuration) throws ParseException{
+    	
+    	Date startDate_d = formatter_1.parse(startDuration.substring(0, 10));
+    	
+    	Calendar cal = Calendar.getInstance();
+    	cal.setTime(startDate_d);
+    	cal.add(Calendar.DAY_OF_YEAR,-7);
+    	
+    	Date last2StartDate = cal.getTime();
+    	cal.add(Calendar.DATE, 6);
+    	Date last2EndDate = cal.getTime();
+    	return formatter_1.format(last2StartDate)+"-"+formatter_1.format(last2EndDate);
     }
     
     public static String getHome12WeeksBeginDuration(Date date){

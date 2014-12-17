@@ -182,6 +182,8 @@ public class ReportUtils {
     	String startDuration = "";
     	String endDuration = "";
     	
+    	String lastWeek2Duration = "";
+    			
     	if( isScheduledFresh ){
         	Calendar cal = Calendar.getInstance();
         	cal.setTime(new Date());
@@ -190,12 +192,26 @@ public class ReportUtils {
     		directoryName = DateUtils.getDirectoryNameOfLastDuration(cal.getTime());
         	startDuration = DateUtils.getThursdayHome12WeeksBeginDuration();
     		endDuration = DateUtils.getThursdayHome12WeeksEndDuration();
-    		logger.info(String.format("this is the scheduled refresh, directoryName is %s,startDuration is %s, endDuration is %s",directoryName,startDuration,endDuration));
+    		
+            lastWeek2Duration = DateUtils.getThursdayHomeLast2WeekEndDuration(startDuration);
+            
+            cal.add(Calendar.DAY_OF_YEAR,-14);
+            startDate = DateUtils.getTheBeginDateOfRefreshDate(cal.getTime());
+            endDate = DateUtils.getTheEndDateOfRefreshDate4ReportTable(cal.getTime());
+    		logger.info(String.format("this is the scheduled refresh, directoryName is %s,startDuration is %s, endDuration is %s, lastWeek2Duration is %s ",directoryName,startDuration,endDuration,lastWeek2Duration));
     	}else{
     		startDuration = startDate+"-"+endDate;
     		endDuration = DateUtils.getThursdayHome12WeeksEndDuration(startDuration);
     		
-    		logger.info(String.format("this is the manual refresh, directoryName is %s,startDuration is %s, endDuration is %s",directoryName,startDuration,endDuration));
+    		lastWeek2Duration = DateUtils.getThursdayHomeLast2WeekEndDuration(startDuration);
+    		
+    		Date end_date = DateUtils.parseString2Date(endDate);
+        	Calendar cal = Calendar.getInstance();
+        	cal.setTime(end_date);
+        	cal.add(Calendar.DAY_OF_YEAR,1);
+    		endDate = DateUtils.parseDate2String(cal.getTime());
+    		
+    		logger.info(String.format("this is the manual refresh, directoryName is %s,startDuration is %s, endDuration is %s, lastWeek2Duration is %s",directoryName,startDuration,endDuration,lastWeek2Duration));
     	}
     	
     	String homeFileNamePre = basePath + "weeklyReport/"+directoryName+"/家庭雾化周报-"+fileSubName+"-"+directoryName;
@@ -206,7 +222,7 @@ public class ReportUtils {
     	case LsAttributes.USER_LEVEL_RSD:
     		//RSD
     		if( !new File(weeklyPDFHomeReportFileName).exists() || ( !checkFileExists && new File(weeklyPDFHomeReportFileName).exists()) ){
-    			html.runHomePDFReport( basePath + "reportDesigns/weeklyHomePDFReportForRSD.rptdesign",telephone,startDuration,endDuration,weeklyPDFHomeReportFileName);
+    			html.runHomePDFReport( basePath + "reportDesigns/weeklyHomePDFReportForRSD.rptdesign",telephone,startDuration,endDuration,startDate, endDate, lastWeek2Duration, weeklyPDFHomeReportFileName);
     			logger.info("the weekly home report for RSD is done.");
     		}else{
     			logger.info(String.format(LOG_MESSAGE, fileSubName));
@@ -216,7 +232,7 @@ public class ReportUtils {
     	case LsAttributes.USER_LEVEL_RSM:
     		//RSM
     		if( !new File(weeklyPDFHomeReportFileName).exists() || ( !checkFileExists && new File(weeklyPDFHomeReportFileName).exists()) ){
-    			html.runHomePDFReport( basePath + "reportDesigns/weeklyHomePDFReportForRSM.rptdesign",telephone,startDuration,endDuration,weeklyPDFHomeReportFileName);
+    			html.runHomePDFReport( basePath + "reportDesigns/weeklyHomePDFReportForRSM.rptdesign",telephone,startDuration,endDuration,startDate, endDate, lastWeek2Duration, weeklyPDFHomeReportFileName);
     			logger.info("the weekly home report for RSM is done.");
     		}else{
     			logger.info(String.format(LOG_MESSAGE, fileSubName));
@@ -225,7 +241,7 @@ public class ReportUtils {
     	case LsAttributes.USER_LEVEL_DSM:
     		//DSM
     		if( !new File(weeklyPDFHomeReportFileName).exists() || ( !checkFileExists && new File(weeklyPDFHomeReportFileName).exists()) ){
-    			html.runHomePDFReport( basePath + "reportDesigns/weeklyHomePDFReportForDSM.rptdesign",telephone,startDuration,endDuration,weeklyPDFHomeReportFileName);
+    			html.runHomePDFReport( basePath + "reportDesigns/weeklyHomePDFReportForDSM.rptdesign",telephone,startDuration,endDuration,startDate, endDate, lastWeek2Duration, weeklyPDFHomeReportFileName);
     			logger.info("the weekly home report for DSM is done.");
     		}else{
     			logger.info(String.format(LOG_MESSAGE, fileSubName));
@@ -234,7 +250,7 @@ public class ReportUtils {
     	case LsAttributes.USER_LEVEL_REP:
     		//REP
     		if( !new File(weeklyPDFHomeReportFileName).exists() || ( !checkFileExists && new File(weeklyPDFHomeReportFileName).exists()) ){
-    			html.runHomePDFReport( basePath + "reportDesigns/weeklyHomePDFReportForREP.rptdesign",telephone,startDuration,endDuration,weeklyPDFHomeReportFileName);
+    			html.runHomePDFReport( basePath + "reportDesigns/weeklyHomePDFReportForREP.rptdesign",telephone,startDuration,endDuration,startDate, endDate, lastWeek2Duration, weeklyPDFHomeReportFileName);
     			logger.info("the weekly home report for REP is done.");
     		}else{
     			logger.info(String.format(LOG_MESSAGE, fileSubName));
@@ -242,7 +258,7 @@ public class ReportUtils {
     		break;
     	case LsAttributes.USER_LEVEL_BM:
     		if( !new File(weeklyPDFHomeReportFileName).exists() || (isFirstRefresh && !checkFileExists)  ){
-    			html.runHomePDFReport( basePath + "reportDesigns/weeklyHomePDFReportForBU.rptdesign",telephone,startDuration,endDuration,weeklyPDFHomeReportFileName);
+    			html.runHomePDFReport( basePath + "reportDesigns/weeklyHomePDFReportForBU.rptdesign",telephone,startDuration,endDuration,startDate, endDate, lastWeek2Duration, weeklyPDFHomeReportFileName);
     			logger.info("the home weekly report for BU is done.");
     		}else{
     			logger.info("The home weekly report for BU is already generated, no need to do again.");

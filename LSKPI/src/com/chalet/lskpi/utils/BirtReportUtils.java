@@ -313,7 +313,7 @@ public class BirtReportUtils {
      * @param reportImgPath
      * @param baseImgPath
      */
-    public void runHomePDFReport(String designPath, String telephone, String startDuration, String endDuration, String reportFileName){
+    public void runHomePDFReport(String designPath, String telephone, String startDuration, String endDuration, String startDate, String endDate, String last2Duration, String reportFileName){
     	try{
     		logger.info(String.format("run the birt home pdf report, the file name is %s",reportFileName));
     		IReportRunnable design = null;  
@@ -344,6 +344,33 @@ public class BirtReportUtils {
     			Collection parameters = paramTask.getParameterDefns(false);
     			Map paramValues = new HashMap();
     			paramValues.put("endDuration", endDuration);
+    			evaluateParameterValues(parameterMap,parameters,paramValues);
+    		}
+    		
+    		if( null != startDate ){
+    			logger.info(String.format("populdate the param startDate %s", startDate));
+    			IGetParameterDefinitionTask paramTask = engine.createGetParameterDefinitionTask(design);
+    			Collection parameters = paramTask.getParameterDefns(false);
+    			Map paramValues = new HashMap();
+    			paramValues.put("startDate", startDate);
+    			evaluateParameterValues(parameterMap,parameters,paramValues);
+    		}
+    		
+    		if( null != endDate ){
+    			logger.info(String.format("populdate the param endDate %s", endDate));
+    			IGetParameterDefinitionTask paramTask = engine.createGetParameterDefinitionTask(design);
+    			Collection parameters = paramTask.getParameterDefns(false);
+    			Map paramValues = new HashMap();
+    			paramValues.put("endDate", endDate);
+    			evaluateParameterValues(parameterMap,parameters,paramValues);
+    		}
+    		
+    		if( null != last2Duration ){
+    			logger.info(String.format("populdate the param last2Duration %s", last2Duration));
+    			IGetParameterDefinitionTask paramTask = engine.createGetParameterDefinitionTask(design);
+    			Collection parameters = paramTask.getParameterDefns(false);
+    			Map paramValues = new HashMap();
+    			paramValues.put("last2Duration", last2Duration);
     			evaluateParameterValues(parameterMap,parameters,paramValues);
     		}
     		
