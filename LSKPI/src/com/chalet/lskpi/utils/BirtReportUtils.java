@@ -407,6 +407,12 @@ public class BirtReportUtils {
     			evaluateParameterValues(parameterMap,parameters,paramValues);
     		}
     		
+    		IGetParameterDefinitionTask paramTask = engine.createGetParameterDefinitionTask(design);
+			Collection parameters = paramTask.getParameterDefns(false);
+			Map paramValues = new HashMap();
+			paramValues.put("portRateBase", CustomizedProperty.getContextProperty("portRateBase", "24"));
+			evaluateParameterValues(parameterMap,parameters,paramValues);
+    		
     		IRunAndRenderTask task = engine.createRunAndRenderTask(design);  
     		logger.info("create and render the task");
     		IRenderOption options = null;
