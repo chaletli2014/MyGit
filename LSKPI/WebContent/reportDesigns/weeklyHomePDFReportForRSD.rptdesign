@@ -2849,7 +2849,14 @@ group by hd.duration, h.rsmRegion;]]></xml-property>
         </TickAttributes>
       </MinorGrid>
       <Scale>
+        <Min xsi:type="data:NumberDataElement">
+          <Value>0.0</Value>
+        </Min>
+        <Max xsi:type="data:NumberDataElement">
+          <Value>1.0</Value>
+        </Max>
         <MinorGridsPerUnit>5</MinorGridsPerUnit>
+        <AutoExpand>true</AutoExpand>
       </Scale>
       <Origin>
         <Type>Min</Type>
@@ -9210,7 +9217,14 @@ group by hd.duration, h.rsmRegion;]]></xml-property>
         </TickAttributes>
       </MinorGrid>
       <Scale>
+        <Min xsi:type="data:NumberDataElement">
+          <Value>0.0</Value>
+        </Min>
+        <Max xsi:type="data:NumberDataElement">
+          <Value>1.0</Value>
+        </Max>
         <MinorGridsPerUnit>5</MinorGridsPerUnit>
+        <AutoExpand>true</AutoExpand>
       </Scale>
       <Origin>
         <Type>Min</Type>
