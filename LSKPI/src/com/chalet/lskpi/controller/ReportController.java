@@ -2679,7 +2679,7 @@ public class ReportController extends BaseController{
 	                    	break;
 	                    case "2":
 	                    	HSSFCell pednumTitle = row.createCell(columnNum++, XSSFCell.CELL_TYPE_STRING);
-	                    	pednumTitle.setCellValue("门诊人数");
+	                    	pednumTitle.setCellValue("门诊人次");
 	                    	pednumTitle.setCellStyle(top2Style);
 	                    	break;
                     	default:

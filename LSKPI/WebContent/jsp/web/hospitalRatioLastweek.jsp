@@ -22,7 +22,7 @@
                        <td width="20%">上报率</td>
                        <td width="20%">雾化率</td>
                        <td width="20%">平均剂量</td>
-                       <td width="20%">门诊人数</td>
+                       <td width="20%">门诊人次</td>
                        <td width="20%">雾化人次</td>
 	               </tr>
 	               <tr class="mobileReport_table_body">

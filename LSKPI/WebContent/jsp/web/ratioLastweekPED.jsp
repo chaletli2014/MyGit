@@ -37,7 +37,7 @@ function checkForm(){
 						<td width="16%">上报率</td>
 						<td width="16%">雾化率</td>
 						<td width="16%">平均剂量</td>
-						<td width="16%">门诊人数</td>
+						<td width="16%">门诊人次</td>
 						<td width="16%">雾化人次</td>
 	               </tr>
 	               <c:forEach items="${weeklyRatioData}" var="ratioData" varStatus="status">

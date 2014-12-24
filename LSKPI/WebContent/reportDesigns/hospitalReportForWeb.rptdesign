@@ -4489,7 +4489,7 @@ limit 0,12;]]></xml-property>
       <Visible>true</Visible>
       <Label>
         <Caption>
-          <Value>住院/门诊人数</Value>
+          <Value>住院/门诊人次</Value>
           <Font>
             <Name>Microsoft YaHei UI</Name>
             <Size>16.0</Size>

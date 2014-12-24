@@ -2781,7 +2781,7 @@ dataSetRow["inNum"]/dataSetRow["hosNum"]&#13;
                         <property name="textAlign">center</property>
                         <property name="verticalAlign">middle</property>
                         <label id="568">
-                            <text-property name="text">门诊人数</text-property>
+                            <text-property name="text">门诊人次</text-property>
                         </label>
                     </cell>
                     <cell id="508">
@@ -2801,7 +2801,7 @@ dataSetRow["inNum"]/dataSetRow["hosNum"]&#13;
                         <property name="textAlign">center</property>
                         <property name="verticalAlign">middle</property>
                         <label id="569">
-                            <text-property name="text">雾化令舒人数</text-property>
+                            <text-property name="text">雾化令舒人次</text-property>
                         </label>
                     </cell>
                     <cell id="515">
@@ -3716,7 +3716,7 @@ dataSetRow["inNum"]/dataSetRow["hosNum"]&#13;
                         <property name="textAlign">center</property>
                         <property name="verticalAlign">middle</property>
                         <label id="740">
-                            <text-property name="text">门诊人数</text-property>
+                            <text-property name="text">门诊人次</text-property>
                         </label>
                     </cell>
                     <cell id="770">
@@ -3736,7 +3736,7 @@ dataSetRow["inNum"]/dataSetRow["hosNum"]&#13;
                         <property name="textAlign">center</property>
                         <property name="verticalAlign">middle</property>
                         <label id="741">
-                            <text-property name="text">雾化令舒人数</text-property>
+                            <text-property name="text">雾化令舒人次</text-property>
                         </label>
                     </cell>
                     <cell id="866">

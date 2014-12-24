@@ -2067,7 +2067,7 @@ dataSetRow["inNum"]/dataSetRow["hosNum"]&#13;
                         <property name="borderTopWidth">1px</property>
                         <property name="textAlign">center</property>
                         <label id="568">
-                            <text-property name="text">门诊人数</text-property>
+                            <text-property name="text">门诊人次</text-property>
                         </label>
                     </cell>
                     <cell id="515">
@@ -2086,7 +2086,7 @@ dataSetRow["inNum"]/dataSetRow["hosNum"]&#13;
                         <property name="borderTopWidth">1px</property>
                         <property name="textAlign">center</property>
                         <label id="569">
-                            <text-property name="text">雾化令舒人数</text-property>
+                            <text-property name="text">雾化令舒人次</text-property>
                         </label>
                     </cell>
                     <cell id="522">

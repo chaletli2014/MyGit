@@ -27,7 +27,7 @@
                        <td width="8%">雾化率</td>
                        <td width="12%">雾化端口使用率</td>
                        <td width="14%">平均剂量</td>
-                       <td width="14%">门诊人数</td>
+                       <td width="14%">门诊人次</td>
                        <td width="12%">雾化人次</td>
 	               </tr>
 	               <c:forEach items="${mobileDailyReportData}" var="reportData" varStatus="status">
@@ -71,7 +71,7 @@
 	                       	<td width="8%">雾化率</td>
 	                       	<td width="12%">雾化端口使用率</td>
 	                       	<td width="14%">平均剂量</td>
-	                       	<td width="14%">门诊人数</td>
+	                       	<td width="14%">门诊人次</td>
 	                       	<td width="12%">雾化人次</td>
 						</tr>
 						<c:forEach items="${rsmReportData}" var="reportData" varStatus="status">
@@ -119,7 +119,7 @@
                        	<td width="8%">雾化率</td>
                        	<td width="12%">雾化端口使用率</td>
                        	<td width="14%">平均剂量</td>
-                       	<td width="14%">门诊人数</td>
+                       	<td width="14%">门诊人次</td>
                        	<td width="12%">雾化人次</td>
 					</tr>
 					<c:forEach items="${mobileDailyReportChildData}" var="reportData" varStatus="status">

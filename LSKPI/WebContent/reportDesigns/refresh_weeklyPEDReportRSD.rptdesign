@@ -6829,7 +6829,7 @@ dataSetRow["inNum"]/dataSetRow["hosNum"]&#13;
                             <property name="fontWeight">normal</property>
                             <property name="color">white</property>
                             <property name="textAlign">center</property>
-                            <text-property name="text">门诊人数</text-property>
+                            <text-property name="text">门诊人次</text-property>
                         </label>
                     </cell>
                     <cell id="3691">
@@ -6849,7 +6849,7 @@ dataSetRow["inNum"]/dataSetRow["hosNum"]&#13;
                             <property name="fontWeight">normal</property>
                             <property name="color">white</property>
                             <property name="textAlign">center</property>
-                            <text-property name="text">雾化令舒人数</text-property>
+                            <text-property name="text">雾化令舒人次</text-property>
                         </label>
                     </cell>
                     <cell id="4457">
@@ -20471,7 +20471,7 @@ dataSetRow["inNum"]/dataSetRow["hosNum"]&#13;
                             <property name="fontWeight">normal</property>
                             <property name="color">white</property>
                             <property name="textAlign">center</property>
-                            <text-property name="text">门诊人数</text-property>
+                            <text-property name="text">门诊人次</text-property>
                         </label>
                     </cell>
                     <cell id="1321">
@@ -20491,7 +20491,7 @@ dataSetRow["inNum"]/dataSetRow["hosNum"]&#13;
                             <property name="fontWeight">normal</property>
                             <property name="color">white</property>
                             <property name="textAlign">center</property>
-                            <text-property name="text">雾化令舒人数</text-property>
+                            <text-property name="text">雾化令舒人次</text-property>
                         </label>
                     </cell>
                     <cell id="4464">
