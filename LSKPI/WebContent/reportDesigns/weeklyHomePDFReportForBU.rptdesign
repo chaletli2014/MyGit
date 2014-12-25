@@ -9642,7 +9642,7 @@ and ui.regionCenter = 'West GRA';]]></xml-property>
     <page-setup>
         <simple-master-page name="Simple MasterPage" id="2">
             <property name="type">custom</property>
-            <property name="height">20in</property>
+            <property name="height">21in</property>
             <property name="width">11in</property>
         </simple-master-page>
     </page-setup>
@@ -22942,6 +22942,7 @@ this.getStyle().backgroundColor = "#FFFFFF";
         <label id="3970">
             <property name="fontFamily">"Microsoft YaHei UI"</property>
             <property name="fontSize">14pt</property>
+            <property name="marginBottom">10pt</property>
             <property name="textAlign">center</property>
             <structure name="toc">
                 <expression name="expressionValue" type="javascript">'中区'</expression>
@@ -23552,12 +23553,14 @@ this.getStyle().backgroundColor = "#FFFFFF";
             </footer>
         </table>
         <grid id="3973">
-            <property name="height">4.822916666666667in</property>
+            <property name="height">3.9479166666666665in</property>
             <column id="3974"/>
             <column id="3975"/>
             <row id="3976">
-                <property name="height">4.822916666666667in</property>
+                <property name="height">3.9479166666666665in</property>
                 <cell id="3977">
+                    <property name="colSpan">2</property>
+                    <property name="rowSpan">1</property>
                     <property name="textAlign">center</property>
                     <property name="verticalAlign">middle</property>
                     <extended-item extensionName="Chart" id="4064">
@@ -25118,8 +25121,8 @@ this.getStyle().backgroundColor = "#FFFFFF";
 ]]></xml-property>
                         <property name="outputFormat">JPG</property>
                         <property name="inheritColumns">false</property>
-                        <property name="height">3.6in</property>
-                        <property name="width">5in</property>
+                        <property name="height">3.8in</property>
+                        <property name="width">6.2in</property>
                         <property name="dataSet">rsmCentralWeeklyHomeInRateDataSet</property>
                         <list-property name="boundDataColumns">
                             <structure>
@@ -25140,10 +25143,20 @@ this.getStyle().backgroundColor = "#FFFFFF";
                         </list-property>
                     </extended-item>
                 </cell>
-                <cell id="3978">
+            </row>
+        </grid>
+        <grid id="4932">
+            <property name="height">3.9479166666666665in</property>
+            <column id="4933"/>
+            <column id="4934"/>
+            <row id="4935">
+                <property name="height">3.9479166666666665in</property>
+                <cell id="4936">
+                    <property name="colSpan">2</property>
+                    <property name="rowSpan">1</property>
                     <property name="textAlign">center</property>
                     <property name="verticalAlign">middle</property>
-                    <extended-item extensionName="Chart" id="4065">
+                    <extended-item extensionName="Chart" id="4939">
                         <xml-property name="xmlRepresentation"><![CDATA[<model:ChartWithAxes xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:attribute="http://www.birt.eclipse.org/ChartModelAttribute" xmlns:data="http://www.birt.eclipse.org/ChartModelData" xmlns:layout="http://www.birt.eclipse.org/ChartModelLayout" xmlns:model="http://www.birt.eclipse.org/ChartModel" xmlns:type="http://www.birt.eclipse.org/ChartModelType">
   <Version>2.6.1</Version>
   <Type>Line Chart</Type>
@@ -26694,8 +26707,8 @@ this.getStyle().backgroundColor = "#FFFFFF";
 ]]></xml-property>
                         <property name="outputFormat">JPG</property>
                         <property name="inheritColumns">false</property>
-                        <property name="height">3.6in</property>
-                        <property name="width">5in</property>
+                        <property name="height">3.8in</property>
+                        <property name="width">6.2in</property>
                         <property name="dataSet">rsmCentralWeeklyHomeSalesNumDataSet</property>
                         <list-property name="boundDataColumns">
                             <structure>
@@ -26719,13 +26732,15 @@ this.getStyle().backgroundColor = "#FFFFFF";
             </row>
         </grid>
         <grid id="4022">
-            <property name="pageBreakAfter">always</property>
-            <property name="height">4.822916666666667in</property>
+            <property name="pageBreakAfter">auto</property>
+            <property name="height">3.9479166666666665in</property>
             <column id="4023"/>
             <column id="4024"/>
             <row id="4025">
-                <property name="height">4.822916666666667in</property>
+                <property name="height">3.9479166666666665in</property>
                 <cell id="4026">
+                    <property name="colSpan">2</property>
+                    <property name="rowSpan">1</property>
                     <property name="textAlign">center</property>
                     <property name="verticalAlign">middle</property>
                     <extended-item extensionName="Chart" id="2277">
@@ -28279,8 +28294,8 @@ this.getStyle().backgroundColor = "#FFFFFF";
 ]]></xml-property>
                         <property name="outputFormat">JPG</property>
                         <property name="inheritColumns">false</property>
-                        <property name="height">3.6in</property>
-                        <property name="width">5in</property>
+                        <property name="height">3.8in</property>
+                        <property name="width">6.2in</property>
                         <property name="dataSet">rsmCentralWeeklyHomeLsNumDataSet</property>
                         <list-property name="boundDataColumns">
                             <structure>
@@ -28301,10 +28316,21 @@ this.getStyle().backgroundColor = "#FFFFFF";
                         </list-property>
                     </extended-item>
                 </cell>
-                <cell id="4027">
+            </row>
+        </grid>
+        <grid id="4924">
+            <property name="pageBreakAfter">always</property>
+            <property name="height">3.9479166666666665in</property>
+            <column id="4925"/>
+            <column id="4926"/>
+            <row id="4927">
+                <property name="height">3.9479166666666665in</property>
+                <cell id="4928">
+                    <property name="colSpan">2</property>
+                    <property name="rowSpan">1</property>
                     <property name="textAlign">center</property>
                     <property name="verticalAlign">middle</property>
-                    <extended-item extensionName="Chart" id="2287">
+                    <extended-item extensionName="Chart" id="4931">
                         <xml-property name="xmlRepresentation"><![CDATA[<model:ChartWithAxes xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:attribute="http://www.birt.eclipse.org/ChartModelAttribute" xmlns:data="http://www.birt.eclipse.org/ChartModelData" xmlns:layout="http://www.birt.eclipse.org/ChartModelLayout" xmlns:model="http://www.birt.eclipse.org/ChartModel" xmlns:type="http://www.birt.eclipse.org/ChartModelType">
   <Version>2.6.1</Version>
   <Type>Line Chart</Type>
@@ -29855,8 +29881,8 @@ this.getStyle().backgroundColor = "#FFFFFF";
 ]]></xml-property>
                         <property name="outputFormat">JPG</property>
                         <property name="inheritColumns">false</property>
-                        <property name="height">3.6in</property>
-                        <property name="width">5in</property>
+                        <property name="height">3.8in</property>
+                        <property name="width">6.2in</property>
                         <property name="dataSet">rsmCentralWeeklyHomeReachRateDataSet</property>
                         <list-property name="boundDataColumns">
                             <structure>
@@ -29882,6 +29908,7 @@ this.getStyle().backgroundColor = "#FFFFFF";
         <label id="3979">
             <property name="fontFamily">"Microsoft YaHei UI"</property>
             <property name="fontSize">14pt</property>
+            <property name="marginBottom">10pt</property>
             <property name="textAlign">center</property>
             <structure name="toc">
                 <expression name="expressionValue" type="javascript">'东1区'</expression>
@@ -30492,12 +30519,14 @@ this.getStyle().backgroundColor = "#FFFFFF";
             </footer>
         </table>
         <grid id="3980">
-            <property name="height">4.822916666666667in</property>
+            <property name="height">3.9479166666666665in</property>
             <column id="3981"/>
             <column id="3982"/>
             <row id="3983">
-                <property name="height">4.822916666666667in</property>
+                <property name="height">3.9479166666666665in</property>
                 <cell id="3984">
+                    <property name="colSpan">2</property>
+                    <property name="rowSpan">1</property>
                     <property name="textAlign">center</property>
                     <property name="verticalAlign">middle</property>
                     <extended-item extensionName="Chart" id="4073">
@@ -32058,8 +32087,8 @@ this.getStyle().backgroundColor = "#FFFFFF";
 ]]></xml-property>
                         <property name="outputFormat">JPG</property>
                         <property name="inheritColumns">false</property>
-                        <property name="height">3.6in</property>
-                        <property name="width">5in</property>
+                        <property name="height">3.8in</property>
+                        <property name="width">6.2in</property>
                         <property name="dataSet">rsmEast1WeeklyHomeInRateDataSet</property>
                         <list-property name="boundDataColumns">
                             <structure>
@@ -32080,10 +32109,20 @@ this.getStyle().backgroundColor = "#FFFFFF";
                         </list-property>
                     </extended-item>
                 </cell>
-                <cell id="3985">
+            </row>
+        </grid>
+        <grid id="4940">
+            <property name="height">3.9479166666666665in</property>
+            <column id="4941"/>
+            <column id="4942"/>
+            <row id="4943">
+                <property name="height">3.9479166666666665in</property>
+                <cell id="4944">
+                    <property name="colSpan">2</property>
+                    <property name="rowSpan">1</property>
                     <property name="textAlign">center</property>
                     <property name="verticalAlign">middle</property>
-                    <extended-item extensionName="Chart" id="4072">
+                    <extended-item extensionName="Chart" id="4947">
                         <xml-property name="xmlRepresentation"><![CDATA[<model:ChartWithAxes xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:attribute="http://www.birt.eclipse.org/ChartModelAttribute" xmlns:data="http://www.birt.eclipse.org/ChartModelData" xmlns:layout="http://www.birt.eclipse.org/ChartModelLayout" xmlns:model="http://www.birt.eclipse.org/ChartModel" xmlns:type="http://www.birt.eclipse.org/ChartModelType">
   <Version>2.6.1</Version>
   <Type>Line Chart</Type>
@@ -33634,8 +33673,8 @@ this.getStyle().backgroundColor = "#FFFFFF";
 ]]></xml-property>
                         <property name="outputFormat">JPG</property>
                         <property name="inheritColumns">false</property>
-                        <property name="height">3.6in</property>
-                        <property name="width">5in</property>
+                        <property name="height">3.8in</property>
+                        <property name="width">6.2in</property>
                         <property name="dataSet">rsmEast1WeeklyHomeSalesNumDataSet</property>
                         <list-property name="boundDataColumns">
                             <structure>
@@ -33659,13 +33698,15 @@ this.getStyle().backgroundColor = "#FFFFFF";
             </row>
         </grid>
         <grid id="4028">
-            <property name="pageBreakAfter">always</property>
-            <property name="height">4.822916666666667in</property>
+            <property name="pageBreakAfter">auto</property>
+            <property name="height">3.9479166666666665in</property>
             <column id="4029"/>
             <column id="4030"/>
             <row id="4031">
-                <property name="height">4.822916666666667in</property>
+                <property name="height">3.9479166666666665in</property>
                 <cell id="4032">
+                    <property name="colSpan">2</property>
+                    <property name="rowSpan">1</property>
                     <property name="textAlign">center</property>
                     <property name="verticalAlign">middle</property>
                     <extended-item extensionName="Chart" id="4071">
@@ -35219,8 +35260,8 @@ this.getStyle().backgroundColor = "#FFFFFF";
 ]]></xml-property>
                         <property name="outputFormat">JPG</property>
                         <property name="inheritColumns">false</property>
-                        <property name="height">3.6in</property>
-                        <property name="width">5in</property>
+                        <property name="height">3.8in</property>
+                        <property name="width">6.2in</property>
                         <property name="dataSet">rsmEast1WeeklyHomeLsNumDataSet</property>
                         <list-property name="boundDataColumns">
                             <structure>
@@ -35241,10 +35282,21 @@ this.getStyle().backgroundColor = "#FFFFFF";
                         </list-property>
                     </extended-item>
                 </cell>
-                <cell id="4033">
+            </row>
+        </grid>
+        <grid id="4948">
+            <property name="pageBreakAfter">always</property>
+            <property name="height">3.9479166666666665in</property>
+            <column id="4949"/>
+            <column id="4950"/>
+            <row id="4951">
+                <property name="height">3.9479166666666665in</property>
+                <cell id="4952">
+                    <property name="colSpan">2</property>
+                    <property name="rowSpan">1</property>
                     <property name="textAlign">center</property>
                     <property name="verticalAlign">middle</property>
-                    <extended-item extensionName="Chart" id="4070">
+                    <extended-item extensionName="Chart" id="4955">
                         <xml-property name="xmlRepresentation"><![CDATA[<model:ChartWithAxes xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:attribute="http://www.birt.eclipse.org/ChartModelAttribute" xmlns:data="http://www.birt.eclipse.org/ChartModelData" xmlns:layout="http://www.birt.eclipse.org/ChartModelLayout" xmlns:model="http://www.birt.eclipse.org/ChartModel" xmlns:type="http://www.birt.eclipse.org/ChartModelType">
   <Version>2.6.1</Version>
   <Type>Line Chart</Type>
@@ -36795,8 +36847,8 @@ this.getStyle().backgroundColor = "#FFFFFF";
 ]]></xml-property>
                         <property name="outputFormat">JPG</property>
                         <property name="inheritColumns">false</property>
-                        <property name="height">3.6in</property>
-                        <property name="width">5in</property>
+                        <property name="height">3.8in</property>
+                        <property name="width">6.2in</property>
                         <property name="dataSet">rsmEast1WeeklyHomeReachRateDataSet</property>
                         <list-property name="boundDataColumns">
                             <structure>
@@ -36822,6 +36874,7 @@ this.getStyle().backgroundColor = "#FFFFFF";
         <label id="3986">
             <property name="fontFamily">"Microsoft YaHei UI"</property>
             <property name="fontSize">14pt</property>
+            <property name="marginBottom">10pt</property>
             <property name="textAlign">center</property>
             <structure name="toc">
                 <expression name="expressionValue" type="javascript">'东2区'</expression>
@@ -37432,12 +37485,14 @@ this.getStyle().backgroundColor = "#FFFFFF";
             </footer>
         </table>
         <grid id="3987">
-            <property name="height">4.822916666666667in</property>
+            <property name="height">3.9479166666666665in</property>
             <column id="3988"/>
             <column id="3989"/>
             <row id="3990">
-                <property name="height">4.822916666666667in</property>
+                <property name="height">3.9479166666666665in</property>
                 <cell id="3991">
+                    <property name="colSpan">2</property>
+                    <property name="rowSpan">1</property>
                     <property name="textAlign">center</property>
                     <property name="verticalAlign">middle</property>
                     <extended-item extensionName="Chart" id="4078">
@@ -38998,8 +39053,8 @@ this.getStyle().backgroundColor = "#FFFFFF";
 ]]></xml-property>
                         <property name="outputFormat">JPG</property>
                         <property name="inheritColumns">false</property>
-                        <property name="height">3.6in</property>
-                        <property name="width">5in</property>
+                        <property name="height">3.8in</property>
+                        <property name="width">6.2in</property>
                         <property name="dataSet">rsmEast2WeeklyHomeInRateDataSet</property>
                         <list-property name="boundDataColumns">
                             <structure>
@@ -39020,10 +39075,20 @@ this.getStyle().backgroundColor = "#FFFFFF";
                         </list-property>
                     </extended-item>
                 </cell>
-                <cell id="3992">
+            </row>
+        </grid>
+        <grid id="4956">
+            <property name="height">3.9479166666666665in</property>
+            <column id="4957"/>
+            <column id="4958"/>
+            <row id="4959">
+                <property name="height">3.9479166666666665in</property>
+                <cell id="4960">
+                    <property name="colSpan">2</property>
+                    <property name="rowSpan">1</property>
                     <property name="textAlign">center</property>
                     <property name="verticalAlign">middle</property>
-                    <extended-item extensionName="Chart" id="4079">
+                    <extended-item extensionName="Chart" id="4963">
                         <xml-property name="xmlRepresentation"><![CDATA[<model:ChartWithAxes xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:attribute="http://www.birt.eclipse.org/ChartModelAttribute" xmlns:data="http://www.birt.eclipse.org/ChartModelData" xmlns:layout="http://www.birt.eclipse.org/ChartModelLayout" xmlns:model="http://www.birt.eclipse.org/ChartModel" xmlns:type="http://www.birt.eclipse.org/ChartModelType">
   <Version>2.6.1</Version>
   <Type>Line Chart</Type>
@@ -40574,8 +40639,8 @@ this.getStyle().backgroundColor = "#FFFFFF";
 ]]></xml-property>
                         <property name="outputFormat">JPG</property>
                         <property name="inheritColumns">false</property>
-                        <property name="height">3.6in</property>
-                        <property name="width">5in</property>
+                        <property name="height">3.8in</property>
+                        <property name="width">6.2in</property>
                         <property name="dataSet">rsmEast2WeeklyHomeSalesNumDataSet</property>
                         <list-property name="boundDataColumns">
                             <structure>
@@ -40599,13 +40664,15 @@ this.getStyle().backgroundColor = "#FFFFFF";
             </row>
         </grid>
         <grid id="4034">
-            <property name="pageBreakAfter">always</property>
-            <property name="height">4.822916666666667in</property>
+            <property name="pageBreakAfter">auto</property>
+            <property name="height">3.9479166666666665in</property>
             <column id="4035"/>
             <column id="4036"/>
             <row id="4037">
-                <property name="height">4.822916666666667in</property>
+                <property name="height">3.9479166666666665in</property>
                 <cell id="4038">
+                    <property name="colSpan">2</property>
+                    <property name="rowSpan">1</property>
                     <property name="textAlign">center</property>
                     <property name="verticalAlign">middle</property>
                     <extended-item extensionName="Chart" id="4080">
@@ -42159,8 +42226,8 @@ this.getStyle().backgroundColor = "#FFFFFF";
 ]]></xml-property>
                         <property name="outputFormat">JPG</property>
                         <property name="inheritColumns">false</property>
-                        <property name="height">3.6in</property>
-                        <property name="width">5in</property>
+                        <property name="height">3.8in</property>
+                        <property name="width">6.2in</property>
                         <property name="dataSet">rsmEast2WeeklyHomeLsNumDataSet</property>
                         <list-property name="boundDataColumns">
                             <structure>
@@ -42181,10 +42248,21 @@ this.getStyle().backgroundColor = "#FFFFFF";
                         </list-property>
                     </extended-item>
                 </cell>
-                <cell id="4039">
+            </row>
+        </grid>
+        <grid id="4964">
+            <property name="pageBreakAfter">always</property>
+            <property name="height">3.9479166666666665in</property>
+            <column id="4965"/>
+            <column id="4966"/>
+            <row id="4967">
+                <property name="height">3.9479166666666665in</property>
+                <cell id="4968">
+                    <property name="colSpan">2</property>
+                    <property name="rowSpan">1</property>
                     <property name="textAlign">center</property>
                     <property name="verticalAlign">middle</property>
-                    <extended-item extensionName="Chart" id="4081">
+                    <extended-item extensionName="Chart" id="4971">
                         <xml-property name="xmlRepresentation"><![CDATA[<model:ChartWithAxes xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:attribute="http://www.birt.eclipse.org/ChartModelAttribute" xmlns:data="http://www.birt.eclipse.org/ChartModelData" xmlns:layout="http://www.birt.eclipse.org/ChartModelLayout" xmlns:model="http://www.birt.eclipse.org/ChartModel" xmlns:type="http://www.birt.eclipse.org/ChartModelType">
   <Version>2.6.1</Version>
   <Type>Line Chart</Type>
@@ -43735,8 +43813,8 @@ this.getStyle().backgroundColor = "#FFFFFF";
 ]]></xml-property>
                         <property name="outputFormat">JPG</property>
                         <property name="inheritColumns">false</property>
-                        <property name="height">3.6in</property>
-                        <property name="width">5in</property>
+                        <property name="height">3.8in</property>
+                        <property name="width">6.2in</property>
                         <property name="dataSet">rsmEast2WeeklyHomeReachRateDataSet</property>
                         <list-property name="boundDataColumns">
                             <structure>
@@ -43762,6 +43840,7 @@ this.getStyle().backgroundColor = "#FFFFFF";
         <label id="3993">
             <property name="fontFamily">"Microsoft YaHei UI"</property>
             <property name="fontSize">14pt</property>
+            <property name="marginBottom">10pt</property>
             <property name="textAlign">center</property>
             <structure name="toc">
                 <expression name="expressionValue" type="javascript">'北1区'</expression>
@@ -44372,12 +44451,14 @@ this.getStyle().backgroundColor = "#FFFFFF";
             </footer>
         </table>
         <grid id="3994">
-            <property name="height">4.822916666666667in</property>
+            <property name="height">3.9479166666666665in</property>
             <column id="3995"/>
             <column id="3996"/>
             <row id="3997">
-                <property name="height">4.822916666666667in</property>
+                <property name="height">3.9479166666666665in</property>
                 <cell id="3998">
+                    <property name="colSpan">2</property>
+                    <property name="rowSpan">1</property>
                     <property name="textAlign">center</property>
                     <property name="verticalAlign">middle</property>
                     <extended-item extensionName="Chart" id="4089">
@@ -45938,8 +46019,8 @@ this.getStyle().backgroundColor = "#FFFFFF";
 ]]></xml-property>
                         <property name="outputFormat">JPG</property>
                         <property name="inheritColumns">false</property>
-                        <property name="height">3.6in</property>
-                        <property name="width">5in</property>
+                        <property name="height">3.8in</property>
+                        <property name="width">6.2in</property>
                         <property name="dataSet">rsmNorth1WeeklyHomeInRateDataSet</property>
                         <list-property name="boundDataColumns">
                             <structure>
@@ -45960,10 +46041,20 @@ this.getStyle().backgroundColor = "#FFFFFF";
                         </list-property>
                     </extended-item>
                 </cell>
-                <cell id="3999">
+            </row>
+        </grid>
+        <grid id="4972">
+            <property name="height">3.9479166666666665in</property>
+            <column id="4973"/>
+            <column id="4974"/>
+            <row id="4975">
+                <property name="height">3.9479166666666665in</property>
+                <cell id="4976">
+                    <property name="colSpan">2</property>
+                    <property name="rowSpan">1</property>
                     <property name="textAlign">center</property>
                     <property name="verticalAlign">middle</property>
-                    <extended-item extensionName="Chart" id="4088">
+                    <extended-item extensionName="Chart" id="4979">
                         <xml-property name="xmlRepresentation"><![CDATA[<model:ChartWithAxes xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:attribute="http://www.birt.eclipse.org/ChartModelAttribute" xmlns:data="http://www.birt.eclipse.org/ChartModelData" xmlns:layout="http://www.birt.eclipse.org/ChartModelLayout" xmlns:model="http://www.birt.eclipse.org/ChartModel" xmlns:type="http://www.birt.eclipse.org/ChartModelType">
   <Version>2.6.1</Version>
   <Type>Line Chart</Type>
@@ -47514,8 +47605,8 @@ this.getStyle().backgroundColor = "#FFFFFF";
 ]]></xml-property>
                         <property name="outputFormat">JPG</property>
                         <property name="inheritColumns">false</property>
-                        <property name="height">3.6in</property>
-                        <property name="width">5in</property>
+                        <property name="height">3.8in</property>
+                        <property name="width">6.2in</property>
                         <property name="dataSet">rsmNorth1WeeklyHomeSalesNumDataSet</property>
                         <list-property name="boundDataColumns">
                             <structure>
@@ -47539,13 +47630,15 @@ this.getStyle().backgroundColor = "#FFFFFF";
             </row>
         </grid>
         <grid id="4040">
-            <property name="pageBreakAfter">always</property>
-            <property name="height">4.822916666666667in</property>
+            <property name="pageBreakAfter">auto</property>
+            <property name="height">3.9479166666666665in</property>
             <column id="4041"/>
             <column id="4042"/>
             <row id="4043">
-                <property name="height">4.822916666666667in</property>
+                <property name="height">3.9479166666666665in</property>
                 <cell id="4044">
+                    <property name="colSpan">2</property>
+                    <property name="rowSpan">1</property>
                     <property name="textAlign">center</property>
                     <property name="verticalAlign">middle</property>
                     <extended-item extensionName="Chart" id="4087">
@@ -49099,8 +49192,8 @@ this.getStyle().backgroundColor = "#FFFFFF";
 ]]></xml-property>
                         <property name="outputFormat">JPG</property>
                         <property name="inheritColumns">false</property>
-                        <property name="height">3.6in</property>
-                        <property name="width">5in</property>
+                        <property name="height">3.8in</property>
+                        <property name="width">6.2in</property>
                         <property name="dataSet">rsmNorth1WeeklyHomeLsNumDataSet</property>
                         <list-property name="boundDataColumns">
                             <structure>
@@ -49121,10 +49214,21 @@ this.getStyle().backgroundColor = "#FFFFFF";
                         </list-property>
                     </extended-item>
                 </cell>
-                <cell id="4045">
+            </row>
+        </grid>
+        <grid id="4980">
+            <property name="pageBreakAfter">always</property>
+            <property name="height">3.9479166666666665in</property>
+            <column id="4981"/>
+            <column id="4982"/>
+            <row id="4983">
+                <property name="height">3.9479166666666665in</property>
+                <cell id="4984">
+                    <property name="colSpan">2</property>
+                    <property name="rowSpan">1</property>
                     <property name="textAlign">center</property>
                     <property name="verticalAlign">middle</property>
-                    <extended-item extensionName="Chart" id="4086">
+                    <extended-item extensionName="Chart" id="4987">
                         <xml-property name="xmlRepresentation"><![CDATA[<model:ChartWithAxes xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:attribute="http://www.birt.eclipse.org/ChartModelAttribute" xmlns:data="http://www.birt.eclipse.org/ChartModelData" xmlns:layout="http://www.birt.eclipse.org/ChartModelLayout" xmlns:model="http://www.birt.eclipse.org/ChartModel" xmlns:type="http://www.birt.eclipse.org/ChartModelType">
   <Version>2.6.1</Version>
   <Type>Line Chart</Type>
@@ -50675,8 +50779,8 @@ this.getStyle().backgroundColor = "#FFFFFF";
 ]]></xml-property>
                         <property name="outputFormat">JPG</property>
                         <property name="inheritColumns">false</property>
-                        <property name="height">3.6in</property>
-                        <property name="width">5in</property>
+                        <property name="height">3.8in</property>
+                        <property name="width">6.2in</property>
                         <property name="dataSet">rsmNorth1WeeklyHomeReachRateDataSet</property>
                         <list-property name="boundDataColumns">
                             <structure>
@@ -50702,6 +50806,7 @@ this.getStyle().backgroundColor = "#FFFFFF";
         <label id="4000">
             <property name="fontFamily">"Microsoft YaHei UI"</property>
             <property name="fontSize">14pt</property>
+            <property name="marginBottom">10pt</property>
             <property name="textAlign">center</property>
             <structure name="toc">
                 <expression name="expressionValue" type="javascript">'北2区'</expression>
@@ -51312,12 +51417,14 @@ this.getStyle().backgroundColor = "#FFFFFF";
             </footer>
         </table>
         <grid id="4001">
-            <property name="height">4.822916666666667in</property>
+            <property name="height">3.9479166666666665in</property>
             <column id="4002"/>
             <column id="4003"/>
             <row id="4004">
-                <property name="height">4.822916666666667in</property>
+                <property name="height">3.9479166666666665in</property>
                 <cell id="4005">
+                    <property name="colSpan">2</property>
+                    <property name="rowSpan">1</property>
                     <property name="textAlign">center</property>
                     <property name="verticalAlign">middle</property>
                     <extended-item extensionName="Chart" id="4094">
@@ -52878,8 +52985,8 @@ this.getStyle().backgroundColor = "#FFFFFF";
 ]]></xml-property>
                         <property name="outputFormat">JPG</property>
                         <property name="inheritColumns">false</property>
-                        <property name="height">3.6in</property>
-                        <property name="width">5in</property>
+                        <property name="height">3.8in</property>
+                        <property name="width">6.2in</property>
                         <property name="dataSet">rsmNorth2WeeklyHomeInRateDataSet</property>
                         <list-property name="boundDataColumns">
                             <structure>
@@ -52900,10 +53007,20 @@ this.getStyle().backgroundColor = "#FFFFFF";
                         </list-property>
                     </extended-item>
                 </cell>
-                <cell id="4006">
+            </row>
+        </grid>
+        <grid id="4988">
+            <property name="height">3.9479166666666665in</property>
+            <column id="4989"/>
+            <column id="4990"/>
+            <row id="4991">
+                <property name="height">3.9479166666666665in</property>
+                <cell id="4992">
+                    <property name="colSpan">2</property>
+                    <property name="rowSpan">1</property>
                     <property name="textAlign">center</property>
                     <property name="verticalAlign">middle</property>
-                    <extended-item extensionName="Chart" id="4095">
+                    <extended-item extensionName="Chart" id="4995">
                         <xml-property name="xmlRepresentation"><![CDATA[<model:ChartWithAxes xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:attribute="http://www.birt.eclipse.org/ChartModelAttribute" xmlns:data="http://www.birt.eclipse.org/ChartModelData" xmlns:layout="http://www.birt.eclipse.org/ChartModelLayout" xmlns:model="http://www.birt.eclipse.org/ChartModel" xmlns:type="http://www.birt.eclipse.org/ChartModelType">
   <Version>2.6.1</Version>
   <Type>Line Chart</Type>
@@ -54454,8 +54571,8 @@ this.getStyle().backgroundColor = "#FFFFFF";
 ]]></xml-property>
                         <property name="outputFormat">JPG</property>
                         <property name="inheritColumns">false</property>
-                        <property name="height">3.6in</property>
-                        <property name="width">5in</property>
+                        <property name="height">3.8in</property>
+                        <property name="width">6.2in</property>
                         <property name="dataSet">rsmNorth2WeeklyHomeSalesNumDataSet</property>
                         <list-property name="boundDataColumns">
                             <structure>
@@ -54479,13 +54596,15 @@ this.getStyle().backgroundColor = "#FFFFFF";
             </row>
         </grid>
         <grid id="4046">
-            <property name="pageBreakAfter">always</property>
-            <property name="height">4.822916666666667in</property>
+            <property name="pageBreakAfter">auto</property>
+            <property name="height">3.9479166666666665in</property>
             <column id="4047"/>
             <column id="4048"/>
             <row id="4049">
-                <property name="height">4.822916666666667in</property>
+                <property name="height">3.9479166666666665in</property>
                 <cell id="4050">
+                    <property name="colSpan">2</property>
+                    <property name="rowSpan">1</property>
                     <property name="textAlign">center</property>
                     <property name="verticalAlign">middle</property>
                     <extended-item extensionName="Chart" id="4096">
@@ -56039,8 +56158,8 @@ this.getStyle().backgroundColor = "#FFFFFF";
 ]]></xml-property>
                         <property name="outputFormat">JPG</property>
                         <property name="inheritColumns">false</property>
-                        <property name="height">3.6in</property>
-                        <property name="width">5in</property>
+                        <property name="height">3.8in</property>
+                        <property name="width">6.2in</property>
                         <property name="dataSet">rsmNorth2WeeklyHomeLsNumDataSet</property>
                         <list-property name="boundDataColumns">
                             <structure>
@@ -56061,10 +56180,21 @@ this.getStyle().backgroundColor = "#FFFFFF";
                         </list-property>
                     </extended-item>
                 </cell>
-                <cell id="4051">
+            </row>
+        </grid>
+        <grid id="4996">
+            <property name="pageBreakAfter">always</property>
+            <property name="height">3.9479166666666665in</property>
+            <column id="4997"/>
+            <column id="4998"/>
+            <row id="4999">
+                <property name="height">3.9479166666666665in</property>
+                <cell id="5000">
+                    <property name="colSpan">2</property>
+                    <property name="rowSpan">1</property>
                     <property name="textAlign">center</property>
                     <property name="verticalAlign">middle</property>
-                    <extended-item extensionName="Chart" id="4097">
+                    <extended-item extensionName="Chart" id="5003">
                         <xml-property name="xmlRepresentation"><![CDATA[<model:ChartWithAxes xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:attribute="http://www.birt.eclipse.org/ChartModelAttribute" xmlns:data="http://www.birt.eclipse.org/ChartModelData" xmlns:layout="http://www.birt.eclipse.org/ChartModelLayout" xmlns:model="http://www.birt.eclipse.org/ChartModel" xmlns:type="http://www.birt.eclipse.org/ChartModelType">
   <Version>2.6.1</Version>
   <Type>Line Chart</Type>
@@ -57615,8 +57745,8 @@ this.getStyle().backgroundColor = "#FFFFFF";
 ]]></xml-property>
                         <property name="outputFormat">JPG</property>
                         <property name="inheritColumns">false</property>
-                        <property name="height">3.6in</property>
-                        <property name="width">5in</property>
+                        <property name="height">3.8in</property>
+                        <property name="width">6.2in</property>
                         <property name="dataSet">rsmNorth2WeeklyHomeReachRateDataSet</property>
                         <list-property name="boundDataColumns">
                             <structure>
@@ -57642,6 +57772,7 @@ this.getStyle().backgroundColor = "#FFFFFF";
         <label id="4007">
             <property name="fontFamily">"Microsoft YaHei UI"</property>
             <property name="fontSize">14pt</property>
+            <property name="marginBottom">10pt</property>
             <property name="textAlign">center</property>
             <structure name="toc">
                 <expression name="expressionValue" type="javascript">'南区'</expression>
@@ -58252,12 +58383,14 @@ this.getStyle().backgroundColor = "#FFFFFF";
             </footer>
         </table>
         <grid id="4008">
-            <property name="height">4.822916666666667in</property>
+            <property name="height">3.9479166666666665in</property>
             <column id="4009"/>
             <column id="4010"/>
             <row id="4011">
-                <property name="height">4.822916666666667in</property>
+                <property name="height">3.9479166666666665in</property>
                 <cell id="4012">
+                    <property name="colSpan">2</property>
+                    <property name="rowSpan">1</property>
                     <property name="textAlign">center</property>
                     <property name="verticalAlign">middle</property>
                     <extended-item extensionName="Chart" id="4105">
@@ -59818,8 +59951,8 @@ this.getStyle().backgroundColor = "#FFFFFF";
 ]]></xml-property>
                         <property name="outputFormat">JPG</property>
                         <property name="inheritColumns">false</property>
-                        <property name="height">3.6in</property>
-                        <property name="width">5in</property>
+                        <property name="height">3.8in</property>
+                        <property name="width">6.2in</property>
                         <property name="dataSet">rsmSouthWeeklyHomeInRateDataSet</property>
                         <list-property name="boundDataColumns">
                             <structure>
@@ -59840,10 +59973,20 @@ this.getStyle().backgroundColor = "#FFFFFF";
                         </list-property>
                     </extended-item>
                 </cell>
-                <cell id="4013">
+            </row>
+        </grid>
+        <grid id="5004">
+            <property name="height">3.9479166666666665in</property>
+            <column id="5005"/>
+            <column id="5006"/>
+            <row id="5007">
+                <property name="height">3.9479166666666665in</property>
+                <cell id="5008">
+                    <property name="colSpan">2</property>
+                    <property name="rowSpan">1</property>
                     <property name="textAlign">center</property>
                     <property name="verticalAlign">middle</property>
-                    <extended-item extensionName="Chart" id="4104">
+                    <extended-item extensionName="Chart" id="5011">
                         <xml-property name="xmlRepresentation"><![CDATA[<model:ChartWithAxes xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:attribute="http://www.birt.eclipse.org/ChartModelAttribute" xmlns:data="http://www.birt.eclipse.org/ChartModelData" xmlns:layout="http://www.birt.eclipse.org/ChartModelLayout" xmlns:model="http://www.birt.eclipse.org/ChartModel" xmlns:type="http://www.birt.eclipse.org/ChartModelType">
   <Version>2.6.1</Version>
   <Type>Line Chart</Type>
@@ -61394,8 +61537,8 @@ this.getStyle().backgroundColor = "#FFFFFF";
 ]]></xml-property>
                         <property name="outputFormat">JPG</property>
                         <property name="inheritColumns">false</property>
-                        <property name="height">3.6in</property>
-                        <property name="width">5in</property>
+                        <property name="height">3.8in</property>
+                        <property name="width">6.2in</property>
                         <property name="dataSet">rsmSouthWeeklyHomeSalesNumDataSet</property>
                         <list-property name="boundDataColumns">
                             <structure>
@@ -61419,13 +61562,15 @@ this.getStyle().backgroundColor = "#FFFFFF";
             </row>
         </grid>
         <grid id="4052">
-            <property name="pageBreakAfter">always</property>
-            <property name="height">4.822916666666667in</property>
+            <property name="pageBreakAfter">auto</property>
+            <property name="height">3.9479166666666665in</property>
             <column id="4053"/>
             <column id="4054"/>
             <row id="4055">
-                <property name="height">4.822916666666667in</property>
+                <property name="height">3.9479166666666665in</property>
                 <cell id="4056">
+                    <property name="colSpan">2</property>
+                    <property name="rowSpan">1</property>
                     <property name="textAlign">center</property>
                     <property name="verticalAlign">middle</property>
                     <extended-item extensionName="Chart" id="4103">
@@ -62979,8 +63124,8 @@ this.getStyle().backgroundColor = "#FFFFFF";
 ]]></xml-property>
                         <property name="outputFormat">JPG</property>
                         <property name="inheritColumns">false</property>
-                        <property name="height">3.6in</property>
-                        <property name="width">5in</property>
+                        <property name="height">3.8in</property>
+                        <property name="width">6.2in</property>
                         <property name="dataSet">rsmSouthWeeklyHomeLsNumDataSet</property>
                         <list-property name="boundDataColumns">
                             <structure>
@@ -63001,10 +63146,21 @@ this.getStyle().backgroundColor = "#FFFFFF";
                         </list-property>
                     </extended-item>
                 </cell>
-                <cell id="4057">
+            </row>
+        </grid>
+        <grid id="5012">
+            <property name="pageBreakAfter">always</property>
+            <property name="height">3.9479166666666665in</property>
+            <column id="5013"/>
+            <column id="5014"/>
+            <row id="5015">
+                <property name="height">3.9479166666666665in</property>
+                <cell id="5016">
+                    <property name="colSpan">2</property>
+                    <property name="rowSpan">1</property>
                     <property name="textAlign">center</property>
                     <property name="verticalAlign">middle</property>
-                    <extended-item extensionName="Chart" id="4102">
+                    <extended-item extensionName="Chart" id="5019">
                         <xml-property name="xmlRepresentation"><![CDATA[<model:ChartWithAxes xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:attribute="http://www.birt.eclipse.org/ChartModelAttribute" xmlns:data="http://www.birt.eclipse.org/ChartModelData" xmlns:layout="http://www.birt.eclipse.org/ChartModelLayout" xmlns:model="http://www.birt.eclipse.org/ChartModel" xmlns:type="http://www.birt.eclipse.org/ChartModelType">
   <Version>2.6.1</Version>
   <Type>Line Chart</Type>
@@ -64555,8 +64711,8 @@ this.getStyle().backgroundColor = "#FFFFFF";
 ]]></xml-property>
                         <property name="outputFormat">JPG</property>
                         <property name="inheritColumns">false</property>
-                        <property name="height">3.6in</property>
-                        <property name="width">5in</property>
+                        <property name="height">3.8in</property>
+                        <property name="width">6.2in</property>
                         <property name="dataSet">rsmSouthWeeklyHomeReachRateDataSet</property>
                         <list-property name="boundDataColumns">
                             <structure>
@@ -64582,6 +64738,7 @@ this.getStyle().backgroundColor = "#FFFFFF";
         <label id="4014">
             <property name="fontFamily">"Microsoft YaHei UI"</property>
             <property name="fontSize">14pt</property>
+            <property name="marginBottom">10pt</property>
             <property name="textAlign">center</property>
             <structure name="toc">
                 <expression name="expressionValue" type="javascript">'西区'</expression>
@@ -65192,12 +65349,14 @@ this.getStyle().backgroundColor = "#FFFFFF";
             </footer>
         </table>
         <grid id="4015">
-            <property name="height">4.822916666666667in</property>
+            <property name="height">3.9479166666666665in</property>
             <column id="4016"/>
             <column id="4017"/>
             <row id="4018">
-                <property name="height">4.822916666666667in</property>
+                <property name="height">3.9479166666666665in</property>
                 <cell id="4019">
+                    <property name="colSpan">2</property>
+                    <property name="rowSpan">1</property>
                     <property name="textAlign">center</property>
                     <property name="verticalAlign">middle</property>
                     <extended-item extensionName="Chart" id="4110">
@@ -66758,8 +66917,8 @@ this.getStyle().backgroundColor = "#FFFFFF";
 ]]></xml-property>
                         <property name="outputFormat">JPG</property>
                         <property name="inheritColumns">false</property>
-                        <property name="height">3.6in</property>
-                        <property name="width">5in</property>
+                        <property name="height">3.8in</property>
+                        <property name="width">6.2in</property>
                         <property name="dataSet">rsmWestWeeklyHomeInRateDataSet</property>
                         <list-property name="boundDataColumns">
                             <structure>
@@ -66780,10 +66939,20 @@ this.getStyle().backgroundColor = "#FFFFFF";
                         </list-property>
                     </extended-item>
                 </cell>
-                <cell id="4020">
+            </row>
+        </grid>
+        <grid id="5020">
+            <property name="height">3.9479166666666665in</property>
+            <column id="5021"/>
+            <column id="5022"/>
+            <row id="5023">
+                <property name="height">3.9479166666666665in</property>
+                <cell id="5024">
+                    <property name="colSpan">2</property>
+                    <property name="rowSpan">1</property>
                     <property name="textAlign">center</property>
                     <property name="verticalAlign">middle</property>
-                    <extended-item extensionName="Chart" id="4111">
+                    <extended-item extensionName="Chart" id="5027">
                         <xml-property name="xmlRepresentation"><![CDATA[<model:ChartWithAxes xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:attribute="http://www.birt.eclipse.org/ChartModelAttribute" xmlns:data="http://www.birt.eclipse.org/ChartModelData" xmlns:layout="http://www.birt.eclipse.org/ChartModelLayout" xmlns:model="http://www.birt.eclipse.org/ChartModel" xmlns:type="http://www.birt.eclipse.org/ChartModelType">
   <Version>2.6.1</Version>
   <Type>Line Chart</Type>
@@ -68334,8 +68503,8 @@ this.getStyle().backgroundColor = "#FFFFFF";
 ]]></xml-property>
                         <property name="outputFormat">JPG</property>
                         <property name="inheritColumns">false</property>
-                        <property name="height">3.6in</property>
-                        <property name="width">5in</property>
+                        <property name="height">3.8in</property>
+                        <property name="width">6.2in</property>
                         <property name="dataSet">rsmWestWeeklyHomeSalesNumDataSet</property>
                         <list-property name="boundDataColumns">
                             <structure>
@@ -68359,13 +68528,15 @@ this.getStyle().backgroundColor = "#FFFFFF";
             </row>
         </grid>
         <grid id="4058">
-            <property name="pageBreakAfter">always</property>
-            <property name="height">4.822916666666667in</property>
+            <property name="pageBreakAfter">auto</property>
+            <property name="height">3.9479166666666665in</property>
             <column id="4059"/>
             <column id="4060"/>
             <row id="4061">
-                <property name="height">4.822916666666667in</property>
+                <property name="height">3.9479166666666665in</property>
                 <cell id="4062">
+                    <property name="colSpan">2</property>
+                    <property name="rowSpan">1</property>
                     <property name="textAlign">center</property>
                     <property name="verticalAlign">middle</property>
                     <extended-item extensionName="Chart" id="4112">
@@ -69919,8 +70090,8 @@ this.getStyle().backgroundColor = "#FFFFFF";
 ]]></xml-property>
                         <property name="outputFormat">JPG</property>
                         <property name="inheritColumns">false</property>
-                        <property name="height">3.6in</property>
-                        <property name="width">5in</property>
+                        <property name="height">3.8in</property>
+                        <property name="width">6.2in</property>
                         <property name="dataSet">rsmWestWeeklyHomeLsNumDataSet</property>
                         <list-property name="boundDataColumns">
                             <structure>
@@ -69941,10 +70112,21 @@ this.getStyle().backgroundColor = "#FFFFFF";
                         </list-property>
                     </extended-item>
                 </cell>
-                <cell id="4063">
+            </row>
+        </grid>
+        <grid id="5028">
+            <property name="pageBreakAfter">always</property>
+            <property name="height">3.9479166666666665in</property>
+            <column id="5029"/>
+            <column id="5030"/>
+            <row id="5031">
+                <property name="height">3.9479166666666665in</property>
+                <cell id="5032">
+                    <property name="colSpan">2</property>
+                    <property name="rowSpan">1</property>
                     <property name="textAlign">center</property>
                     <property name="verticalAlign">middle</property>
-                    <extended-item extensionName="Chart" id="4113">
+                    <extended-item extensionName="Chart" id="5035">
                         <xml-property name="xmlRepresentation"><![CDATA[<model:ChartWithAxes xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:attribute="http://www.birt.eclipse.org/ChartModelAttribute" xmlns:data="http://www.birt.eclipse.org/ChartModelData" xmlns:layout="http://www.birt.eclipse.org/ChartModelLayout" xmlns:model="http://www.birt.eclipse.org/ChartModel" xmlns:type="http://www.birt.eclipse.org/ChartModelType">
   <Version>2.6.1</Version>
   <Type>Line Chart</Type>
@@ -71495,8 +71677,8 @@ this.getStyle().backgroundColor = "#FFFFFF";
 ]]></xml-property>
                         <property name="outputFormat">JPG</property>
                         <property name="inheritColumns">false</property>
-                        <property name="height">3.6in</property>
-                        <property name="width">5in</property>
+                        <property name="height">3.8in</property>
+                        <property name="width">6.2in</property>
                         <property name="dataSet">rsmWestWeeklyHomeReachRateDataSet</property>
                         <list-property name="boundDataColumns">
                             <structure>
