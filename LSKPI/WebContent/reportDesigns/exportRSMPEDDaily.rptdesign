@@ -88,104 +88,7 @@ new Date(currentDate.getFullYear(),month,currentDate.getDate());</value>
                     </list-property>
                 </structure>
             </list-property>
-            <list-property name="columnHints">
-                <structure>
-                    <property name="columnName">name</property>
-                    <property name="analysis">dimension</property>
-                    <text-property name="displayName">name</text-property>
-                    <text-property name="heading">name</text-property>
-                </structure>
-                <structure>
-                    <property name="columnName">userCode</property>
-                    <property name="analysis">dimension</property>
-                    <text-property name="displayName">userCode</text-property>
-                    <text-property name="heading">userCode</text-property>
-                </structure>
-                <structure>
-                    <property name="columnName">regionCenter</property>
-                    <property name="analysis">dimension</property>
-                    <text-property name="displayName">regionCenter</text-property>
-                    <text-property name="heading">regionCenter</text-property>
-                </structure>
-                <structure>
-                    <property name="columnName">region</property>
-                    <property name="analysis">dimension</property>
-                    <text-property name="displayName">region</text-property>
-                    <text-property name="heading">region</text-property>
-                </structure>
-                <structure>
-                    <property name="columnName">level</property>
-                    <property name="analysis">dimension</property>
-                    <text-property name="displayName">level</text-property>
-                    <text-property name="heading">level</text-property>
-                </structure>
-                <structure>
-                    <property name="columnName">hosNum</property>
-                    <property name="analysis">measure</property>
-                    <text-property name="displayName">hosNum</text-property>
-                    <text-property name="heading">hosNum</text-property>
-                </structure>
-                <structure>
-                    <property name="columnName">inNum</property>
-                    <property name="analysis">measure</property>
-                    <text-property name="displayName">inNum</text-property>
-                    <text-property name="heading">inNum</text-property>
-                </structure>
-                <structure>
-                    <property name="columnName">pnum</property>
-                    <property name="analysis">measure</property>
-                    <text-property name="displayName">pnum</text-property>
-                    <text-property name="heading">pnum</text-property>
-                </structure>
-                <structure>
-                    <property name="columnName">whnum</property>
-                    <property name="analysis">measure</property>
-                    <text-property name="displayName">whnum</text-property>
-                    <text-property name="heading">whnum</text-property>
-                </structure>
-                <structure>
-                    <property name="columnName">lsnum</property>
-                    <property name="analysis">measure</property>
-                    <text-property name="displayName">lsnum</text-property>
-                    <text-property name="heading">lsnum</text-property>
-                </structure>
-                <structure>
-                    <property name="columnName">portNum</property>
-                    <property name="analysis">measure</property>
-                    <text-property name="displayName">portNum</text-property>
-                    <text-property name="heading">portNum</text-property>
-                </structure>
-                <structure>
-                    <property name="columnName">averageDose</property>
-                    <property name="analysis">measure</property>
-                    <text-property name="displayName">averageDose</text-property>
-                    <text-property name="heading">averageDose</text-property>
-                </structure>
-                <structure>
-                    <property name="columnName">hmgRate</property>
-                    <property name="analysis">measure</property>
-                    <text-property name="displayName">hmgRate</text-property>
-                    <text-property name="heading">hmgRate</text-property>
-                </structure>
-                <structure>
-                    <property name="columnName">omgRate</property>
-                    <property name="analysis">measure</property>
-                    <text-property name="displayName">omgRate</text-property>
-                    <text-property name="heading">omgRate</text-property>
-                </structure>
-                <structure>
-                    <property name="columnName">tmgRate</property>
-                    <property name="analysis">measure</property>
-                    <text-property name="displayName">tmgRate</text-property>
-                    <text-property name="heading">tmgRate</text-property>
-                </structure>
-                <structure>
-                    <property name="columnName">fmgRate</property>
-                    <property name="analysis">measure</property>
-                    <text-property name="displayName">fmgRate</text-property>
-                    <text-property name="heading">fmgRate</text-property>
-                </structure>
-            </list-property>
+            <list-property name="columnHints"/>
             <list-property name="parameters">
                 <structure>
                     <property name="name">param_1</property>
@@ -266,36 +169,41 @@ new Date(currentDate.getFullYear(),month,currentDate.getDate());</value>
                     </structure>
                     <structure>
                         <property name="position">11</property>
+                        <property name="name">portlsnum</property>
+                        <property name="dataType">decimal</property>
+                    </structure>
+                    <structure>
+                        <property name="position">12</property>
                         <property name="name">portNum</property>
                         <property name="dataType">float</property>
                     </structure>
                     <structure>
-                        <property name="position">12</property>
+                        <property name="position">13</property>
                         <property name="name">averageDose</property>
                         <property name="dataType">decimal</property>
                     </structure>
                     <structure>
-                        <property name="position">13</property>
+                        <property name="position">14</property>
                         <property name="name">hmgRate</property>
                         <property name="dataType">decimal</property>
                     </structure>
                     <structure>
-                        <property name="position">14</property>
+                        <property name="position">15</property>
                         <property name="name">omgRate</property>
                         <property name="dataType">decimal</property>
                     </structure>
                     <structure>
-                        <property name="position">15</property>
+                        <property name="position">16</property>
                         <property name="name">tmgRate</property>
                         <property name="dataType">decimal</property>
                     </structure>
                     <structure>
-                        <property name="position">16</property>
+                        <property name="position">17</property>
                         <property name="name">fmgRate</property>
                         <property name="dataType">decimal</property>
                     </structure>
                     <structure>
-                        <property name="position">17</property>
+                        <property name="position">18</property>
                         <property name="name">numRate</property>
                         <property name="dataType">float</property>
                     </structure>
@@ -308,112 +216,102 @@ new Date(currentDate.getFullYear(),month,currentDate.getDate());</value>
                     <property name="name">name</property>
                     <property name="nativeName">name</property>
                     <property name="dataType">string</property>
-                    <property name="nativeDataType">12</property>
                 </structure>
                 <structure>
                     <property name="position">2</property>
                     <property name="name">userCode</property>
                     <property name="nativeName">userCode</property>
                     <property name="dataType">string</property>
-                    <property name="nativeDataType">12</property>
                 </structure>
                 <structure>
                     <property name="position">3</property>
                     <property name="name">regionCenter</property>
                     <property name="nativeName">regionCenter</property>
                     <property name="dataType">string</property>
-                    <property name="nativeDataType">12</property>
                 </structure>
                 <structure>
                     <property name="position">4</property>
                     <property name="name">region</property>
                     <property name="nativeName">region</property>
                     <property name="dataType">string</property>
-                    <property name="nativeDataType">12</property>
                 </structure>
                 <structure>
                     <property name="position">5</property>
                     <property name="name">level</property>
                     <property name="nativeName">level</property>
                     <property name="dataType">string</property>
-                    <property name="nativeDataType">12</property>
                 </structure>
                 <structure>
                     <property name="position">6</property>
                     <property name="name">hosNum</property>
                     <property name="nativeName">hosNum</property>
                     <property name="dataType">decimal</property>
-                    <property name="nativeDataType">-5</property>
                 </structure>
                 <structure>
                     <property name="position">7</property>
                     <property name="name">inNum</property>
                     <property name="nativeName">inNum</property>
                     <property name="dataType">decimal</property>
-                    <property name="nativeDataType">-5</property>
                 </structure>
                 <structure>
                     <property name="position">8</property>
                     <property name="name">pnum</property>
                     <property name="nativeName">pnum</property>
                     <property name="dataType">decimal</property>
-                    <property name="nativeDataType">3</property>
                 </structure>
                 <structure>
                     <property name="position">9</property>
                     <property name="name">whnum</property>
                     <property name="nativeName">whnum</property>
                     <property name="dataType">decimal</property>
-                    <property name="nativeDataType">3</property>
                 </structure>
                 <structure>
                     <property name="position">10</property>
                     <property name="name">lsnum</property>
                     <property name="nativeName">lsnum</property>
                     <property name="dataType">decimal</property>
-                    <property name="nativeDataType">3</property>
                 </structure>
                 <structure>
                     <property name="position">11</property>
-                    <property name="name">portNum</property>
-                    <property name="nativeName">portNum</property>
-                    <property name="dataType">float</property>
-                    <property name="nativeDataType">8</property>
+                    <property name="name">portlsnum</property>
+                    <property name="nativeName">portlsnum</property>
+                    <property name="dataType">decimal</property>
                 </structure>
                 <structure>
                     <property name="position">12</property>
-                    <property name="name">averageDose</property>
-                    <property name="nativeName">averageDose</property>
-                    <property name="dataType">decimal</property>
-                    <property name="nativeDataType">3</property>
+                    <property name="name">portNum</property>
+                    <property name="nativeName">portNum</property>
+                    <property name="dataType">float</property>
                 </structure>
                 <structure>
                     <property name="position">13</property>
-                    <property name="name">hmgRate</property>
-                    <property name="nativeName">hmgRate</property>
+                    <property name="name">averageDose</property>
+                    <property name="nativeName">averageDose</property>
                     <property name="dataType">decimal</property>
-                    <property name="nativeDataType">3</property>
                 </structure>
                 <structure>
                     <property name="position">14</property>
-                    <property name="name">omgRate</property>
-                    <property name="nativeName">omgRate</property>
+                    <property name="name">hmgRate</property>
+                    <property name="nativeName">hmgRate</property>
                     <property name="dataType">decimal</property>
-                    <property name="nativeDataType">3</property>
                 </structure>
                 <structure>
                     <property name="position">15</property>
-                    <property name="name">tmgRate</property>
-                    <property name="nativeName">tmgRate</property>
+                    <property name="name">omgRate</property>
+                    <property name="nativeName">omgRate</property>
                     <property name="dataType">decimal</property>
-                    <property name="nativeDataType">3</property>
                 </structure>
                 <structure>
                     <property name="position">16</property>
+                    <property name="name">tmgRate</property>
+                    <property name="nativeName">tmgRate</property>
+                    <property name="dataType">decimal</property>
+                </structure>
+                <structure>
+                    <property name="position">17</property>
                     <property name="name">fmgRate</property>
                     <property name="nativeName">fmgRate</property>
                     <property name="dataType">decimal</property>
-                    <property name="nativeDataType">3</property>
                 </structure>
             </list-property>
             <xml-property name="queryText"><![CDATA[select ui.name,ui.userCode
@@ -425,6 +323,7 @@ new Date(currentDate.getFullYear(),month,currentDate.getDate());</value>
 ,IFNULL(data_tmp.pnum,0) as pnum
 ,IFNULL(data_tmp.whnum,0) as whnum
 ,IFNULL(data_tmp.lsnum,0) as lsnum
+,IFNULL(data_tmp.portlsnum,0) as portlsnum 
 ,IFNULL(data_tmp.portNum*?,0) as portNum
 ,IFNULL(data_tmp.averageDose,0) as averageDose
 ,ROUND(IFNULL(data_tmp.hmgRate,0),4) as hmgRate
@@ -438,6 +337,11 @@ from
 	,IFNULL(sum(pd.pnum),0) as pnum
 	,IFNULL(sum(pd.whnum),0) as whnum
 	,IFNULL(sum(pd.lsnum),0) as lsnum
+	,IFNULL(sum( 
+		case 
+			when pd.portNum = 0 then 0 
+			else pd.lsnum 
+		end ),0) as portlsnum
 	,IFNULL(sum(pd.portNum),0) as portNum
 	,IFNULL( sum( ( ( 0.5*IFNULL(pd.hqd,0) + 0.5*2*IFNULL(pd.hbid,0) + 1*1*IFNULL(pd.oqd,0) + 1*2*IFNULL(pd.obid,0) + 2*1*IFNULL(pd.tqd,0) + 2*2*IFNULL(pd.tbid,0) ) / 100 ) * IFNULL(pd.lsnum,0) ) / IFNULL(sum(pd.lsnum),0),0 ) as averageDose
 	,IFNULL( sum( IFNULL(pd.hqd,0)/100*IFNULL(pd.lsnum,0) ) / sum( IFNULL(pd.lsnum,0) ),0 ) as hmgRate
@@ -516,104 +420,7 @@ where ui.level='RSD';]]></xml-property>
                     </list-property>
                 </structure>
             </list-property>
-            <list-property name="columnHints">
-                <structure>
-                    <property name="columnName">name</property>
-                    <property name="analysis">dimension</property>
-                    <text-property name="displayName">name</text-property>
-                    <text-property name="heading">name</text-property>
-                </structure>
-                <structure>
-                    <property name="columnName">userCode</property>
-                    <property name="analysis">dimension</property>
-                    <text-property name="displayName">userCode</text-property>
-                    <text-property name="heading">userCode</text-property>
-                </structure>
-                <structure>
-                    <property name="columnName">regionCenter</property>
-                    <property name="analysis">dimension</property>
-                    <text-property name="displayName">regionCenter</text-property>
-                    <text-property name="heading">regionCenter</text-property>
-                </structure>
-                <structure>
-                    <property name="columnName">region</property>
-                    <property name="analysis">dimension</property>
-                    <text-property name="displayName">region</text-property>
-                    <text-property name="heading">region</text-property>
-                </structure>
-                <structure>
-                    <property name="columnName">level</property>
-                    <property name="analysis">dimension</property>
-                    <text-property name="displayName">level</text-property>
-                    <text-property name="heading">level</text-property>
-                </structure>
-                <structure>
-                    <property name="columnName">hosNum</property>
-                    <property name="analysis">measure</property>
-                    <text-property name="displayName">hosNum</text-property>
-                    <text-property name="heading">hosNum</text-property>
-                </structure>
-                <structure>
-                    <property name="columnName">inNum</property>
-                    <property name="analysis">measure</property>
-                    <text-property name="displayName">inNum</text-property>
-                    <text-property name="heading">inNum</text-property>
-                </structure>
-                <structure>
-                    <property name="columnName">pnum</property>
-                    <property name="analysis">measure</property>
-                    <text-property name="displayName">pnum</text-property>
-                    <text-property name="heading">pnum</text-property>
-                </structure>
-                <structure>
-                    <property name="columnName">whnum</property>
-                    <property name="analysis">measure</property>
-                    <text-property name="displayName">whnum</text-property>
-                    <text-property name="heading">whnum</text-property>
-                </structure>
-                <structure>
-                    <property name="columnName">lsnum</property>
-                    <property name="analysis">measure</property>
-                    <text-property name="displayName">lsnum</text-property>
-                    <text-property name="heading">lsnum</text-property>
-                </structure>
-                <structure>
-                    <property name="columnName">portNum</property>
-                    <property name="analysis">measure</property>
-                    <text-property name="displayName">portNum</text-property>
-                    <text-property name="heading">portNum</text-property>
-                </structure>
-                <structure>
-                    <property name="columnName">averageDose</property>
-                    <property name="analysis">measure</property>
-                    <text-property name="displayName">averageDose</text-property>
-                    <text-property name="heading">averageDose</text-property>
-                </structure>
-                <structure>
-                    <property name="columnName">hmgRate</property>
-                    <property name="analysis">measure</property>
-                    <text-property name="displayName">hmgRate</text-property>
-                    <text-property name="heading">hmgRate</text-property>
-                </structure>
-                <structure>
-                    <property name="columnName">omgRate</property>
-                    <property name="analysis">measure</property>
-                    <text-property name="displayName">omgRate</text-property>
-                    <text-property name="heading">omgRate</text-property>
-                </structure>
-                <structure>
-                    <property name="columnName">tmgRate</property>
-                    <property name="analysis">measure</property>
-                    <text-property name="displayName">tmgRate</text-property>
-                    <text-property name="heading">tmgRate</text-property>
-                </structure>
-                <structure>
-                    <property name="columnName">fmgRate</property>
-                    <property name="analysis">measure</property>
-                    <text-property name="displayName">fmgRate</text-property>
-                    <text-property name="heading">fmgRate</text-property>
-                </structure>
-            </list-property>
+            <list-property name="columnHints"/>
             <list-property name="filter">
                 <structure>
                     <property name="operator">gt</property>
@@ -714,36 +521,41 @@ new Date(currentDate.getFullYear(),month,currentDate.getDate());</expression>
                     </structure>
                     <structure>
                         <property name="position">11</property>
+                        <property name="name">portlsnum</property>
+                        <property name="dataType">decimal</property>
+                    </structure>
+                    <structure>
+                        <property name="position">12</property>
                         <property name="name">portNum</property>
                         <property name="dataType">float</property>
                     </structure>
                     <structure>
-                        <property name="position">12</property>
+                        <property name="position">13</property>
                         <property name="name">averageDose</property>
                         <property name="dataType">decimal</property>
                     </structure>
                     <structure>
-                        <property name="position">13</property>
+                        <property name="position">14</property>
                         <property name="name">hmgRate</property>
                         <property name="dataType">decimal</property>
                     </structure>
                     <structure>
-                        <property name="position">14</property>
+                        <property name="position">15</property>
                         <property name="name">omgRate</property>
                         <property name="dataType">decimal</property>
                     </structure>
                     <structure>
-                        <property name="position">15</property>
+                        <property name="position">16</property>
                         <property name="name">tmgRate</property>
                         <property name="dataType">decimal</property>
                     </structure>
                     <structure>
-                        <property name="position">16</property>
+                        <property name="position">17</property>
                         <property name="name">fmgRate</property>
                         <property name="dataType">decimal</property>
                     </structure>
                     <structure>
-                        <property name="position">17</property>
+                        <property name="position">18</property>
                         <property name="name">numRate</property>
                         <property name="dataType">float</property>
                     </structure>
@@ -756,112 +568,102 @@ new Date(currentDate.getFullYear(),month,currentDate.getDate());</expression>
                     <property name="name">name</property>
                     <property name="nativeName">name</property>
                     <property name="dataType">string</property>
-                    <property name="nativeDataType">12</property>
                 </structure>
                 <structure>
                     <property name="position">2</property>
                     <property name="name">userCode</property>
                     <property name="nativeName">userCode</property>
                     <property name="dataType">string</property>
-                    <property name="nativeDataType">12</property>
                 </structure>
                 <structure>
                     <property name="position">3</property>
                     <property name="name">regionCenter</property>
                     <property name="nativeName">regionCenter</property>
                     <property name="dataType">string</property>
-                    <property name="nativeDataType">12</property>
                 </structure>
                 <structure>
                     <property name="position">4</property>
                     <property name="name">region</property>
                     <property name="nativeName">region</property>
                     <property name="dataType">string</property>
-                    <property name="nativeDataType">12</property>
                 </structure>
                 <structure>
                     <property name="position">5</property>
                     <property name="name">level</property>
                     <property name="nativeName">level</property>
                     <property name="dataType">string</property>
-                    <property name="nativeDataType">12</property>
                 </structure>
                 <structure>
                     <property name="position">6</property>
                     <property name="name">hosNum</property>
                     <property name="nativeName">hosNum</property>
                     <property name="dataType">decimal</property>
-                    <property name="nativeDataType">-5</property>
                 </structure>
                 <structure>
                     <property name="position">7</property>
                     <property name="name">inNum</property>
                     <property name="nativeName">inNum</property>
                     <property name="dataType">decimal</property>
-                    <property name="nativeDataType">-5</property>
                 </structure>
                 <structure>
                     <property name="position">8</property>
                     <property name="name">pnum</property>
                     <property name="nativeName">pnum</property>
                     <property name="dataType">decimal</property>
-                    <property name="nativeDataType">3</property>
                 </structure>
                 <structure>
                     <property name="position">9</property>
                     <property name="name">whnum</property>
                     <property name="nativeName">whnum</property>
                     <property name="dataType">decimal</property>
-                    <property name="nativeDataType">3</property>
                 </structure>
                 <structure>
                     <property name="position">10</property>
                     <property name="name">lsnum</property>
                     <property name="nativeName">lsnum</property>
                     <property name="dataType">decimal</property>
-                    <property name="nativeDataType">3</property>
                 </structure>
                 <structure>
                     <property name="position">11</property>
-                    <property name="name">portNum</property>
-                    <property name="nativeName">portNum</property>
-                    <property name="dataType">float</property>
-                    <property name="nativeDataType">8</property>
+                    <property name="name">portlsnum</property>
+                    <property name="nativeName">portlsnum</property>
+                    <property name="dataType">decimal</property>
                 </structure>
                 <structure>
                     <property name="position">12</property>
-                    <property name="name">averageDose</property>
-                    <property name="nativeName">averageDose</property>
-                    <property name="dataType">decimal</property>
-                    <property name="nativeDataType">3</property>
+                    <property name="name">portNum</property>
+                    <property name="nativeName">portNum</property>
+                    <property name="dataType">float</property>
                 </structure>
                 <structure>
                     <property name="position">13</property>
-                    <property name="name">hmgRate</property>
-                    <property name="nativeName">hmgRate</property>
+                    <property name="name">averageDose</property>
+                    <property name="nativeName">averageDose</property>
                     <property name="dataType">decimal</property>
-                    <property name="nativeDataType">3</property>
                 </structure>
                 <structure>
                     <property name="position">14</property>
-                    <property name="name">omgRate</property>
-                    <property name="nativeName">omgRate</property>
+                    <property name="name">hmgRate</property>
+                    <property name="nativeName">hmgRate</property>
                     <property name="dataType">decimal</property>
-                    <property name="nativeDataType">3</property>
                 </structure>
                 <structure>
                     <property name="position">15</property>
-                    <property name="name">tmgRate</property>
-                    <property name="nativeName">tmgRate</property>
+                    <property name="name">omgRate</property>
+                    <property name="nativeName">omgRate</property>
                     <property name="dataType">decimal</property>
-                    <property name="nativeDataType">3</property>
                 </structure>
                 <structure>
                     <property name="position">16</property>
+                    <property name="name">tmgRate</property>
+                    <property name="nativeName">tmgRate</property>
+                    <property name="dataType">decimal</property>
+                </structure>
+                <structure>
+                    <property name="position">17</property>
                     <property name="name">fmgRate</property>
                     <property name="nativeName">fmgRate</property>
                     <property name="dataType">decimal</property>
-                    <property name="nativeDataType">3</property>
                 </structure>
             </list-property>
             <xml-property name="queryText"><![CDATA[select ui.name,ui.userCode,ui.regionCenter,ui.region,ui.level, ( 
@@ -873,7 +675,8 @@ new Date(currentDate.getFullYear(),month,currentDate.getDate());</expression>
 ,IFNULL(data_tmp.pnum,0) as pnum
 ,IFNULL(data_tmp.whnum,0) as whnum
 ,IFNULL(data_tmp.lsnum,0) as lsnum
-,IFNULL(data_tmp.portNum*?,0) as portNum
+,IFNULL(data_tmp.portlsnum,0) as portlsnum 
+,IFNULL(data_tmp.portNum*?,0) as portNum 
 ,IFNULL(data_tmp.averageDose,0) as averageDose
 ,IFNULL(data_tmp.hmgRate,0) as hmgRate
 ,IFNULL(data_tmp.omgRate,0) as omgRate
@@ -886,6 +689,11 @@ from
 	,IFNULL(sum(pd.pnum),0) as pnum
 	,IFNULL(sum(pd.whnum),0) as whnum
 	,IFNULL(sum(pd.lsnum),0) as lsnum
+	,IFNULL(sum( 
+		case 
+			when pd.portNum = 0 then 0 
+			else pd.lsnum 
+		end ),0) as portlsnum
 	,IFNULL(sum(pd.portNum),0) as portNum
 	,IFNULL( sum( ( ( 0.5*IFNULL(pd.hqd,0) + 0.5*2*IFNULL(pd.hbid,0) + 1*1*IFNULL(pd.oqd,0) + 1*2*IFNULL(pd.obid,0) + 2*1*IFNULL(pd.tqd,0) + 2*2*IFNULL(pd.tbid,0) ) / 100 ) * IFNULL(pd.lsnum,0) ) / IFNULL(sum(pd.lsnum),0),0 ) as averageDose
 	,IFNULL( sum( IFNULL(pd.hqd,0)/100*IFNULL(pd.lsnum,0) ) / sum( IFNULL(pd.lsnum,0) ),0 ) as hmgRate
@@ -895,7 +703,7 @@ from
 	from tbl_pediatrics_data pd, tbl_hospital h1, tbl_userinfo u 
     where pd.hospitalName = h1.name 
     and h1.rsmRegion = u.region 
-    and DATE_FORMAT(pd.createdate,'%m-%d-%Y') = ? 
+    and DATE_FORMAT(pd.createdate,'%m-%d-%Y') = ?  
     and h1.isPedAssessed='1' 
 	and u.level='RSM' 
 	and u.regionCenter = 'Central GRA' 
@@ -903,7 +711,8 @@ from
 ) data_tmp 
 right join tbl_userinfo ui on data_tmp.userCode = ui.userCode 
 where ui.level='RSM' 
-and ui.regionCenter = 'Central GRA';]]></xml-property>
+and ui.regionCenter = 'Central GRA' 
+order by ui.region;]]></xml-property>
             <xml-property name="designerValues"><![CDATA[<?xml version="1.0" encoding="UTF-8"?>
 <model:DesignValues xmlns:design="http://www.eclipse.org/datatools/connectivity/oda/design" xmlns:model="http://www.eclipse.org/birt/report/model/adapter/odaModel">
   <Version>2.0</Version>
@@ -966,104 +775,7 @@ and ui.regionCenter = 'Central GRA';]]></xml-property>
                     </list-property>
                 </structure>
             </list-property>
-            <list-property name="columnHints">
-                <structure>
-                    <property name="columnName">name</property>
-                    <property name="analysis">dimension</property>
-                    <text-property name="displayName">name</text-property>
-                    <text-property name="heading">name</text-property>
-                </structure>
-                <structure>
-                    <property name="columnName">userCode</property>
-                    <property name="analysis">dimension</property>
-                    <text-property name="displayName">userCode</text-property>
-                    <text-property name="heading">userCode</text-property>
-                </structure>
-                <structure>
-                    <property name="columnName">regionCenter</property>
-                    <property name="analysis">dimension</property>
-                    <text-property name="displayName">regionCenter</text-property>
-                    <text-property name="heading">regionCenter</text-property>
-                </structure>
-                <structure>
-                    <property name="columnName">region</property>
-                    <property name="analysis">dimension</property>
-                    <text-property name="displayName">region</text-property>
-                    <text-property name="heading">region</text-property>
-                </structure>
-                <structure>
-                    <property name="columnName">level</property>
-                    <property name="analysis">dimension</property>
-                    <text-property name="displayName">level</text-property>
-                    <text-property name="heading">level</text-property>
-                </structure>
-                <structure>
-                    <property name="columnName">hosNum</property>
-                    <property name="analysis">measure</property>
-                    <text-property name="displayName">hosNum</text-property>
-                    <text-property name="heading">hosNum</text-property>
-                </structure>
-                <structure>
-                    <property name="columnName">inNum</property>
-                    <property name="analysis">measure</property>
-                    <text-property name="displayName">inNum</text-property>
-                    <text-property name="heading">inNum</text-property>
-                </structure>
-                <structure>
-                    <property name="columnName">pnum</property>
-                    <property name="analysis">measure</property>
-                    <text-property name="displayName">pnum</text-property>
-                    <text-property name="heading">pnum</text-property>
-                </structure>
-                <structure>
-                    <property name="columnName">whnum</property>
-                    <property name="analysis">measure</property>
-                    <text-property name="displayName">whnum</text-property>
-                    <text-property name="heading">whnum</text-property>
-                </structure>
-                <structure>
-                    <property name="columnName">lsnum</property>
-                    <property name="analysis">measure</property>
-                    <text-property name="displayName">lsnum</text-property>
-                    <text-property name="heading">lsnum</text-property>
-                </structure>
-                <structure>
-                    <property name="columnName">portNum</property>
-                    <property name="analysis">measure</property>
-                    <text-property name="displayName">portNum</text-property>
-                    <text-property name="heading">portNum</text-property>
-                </structure>
-                <structure>
-                    <property name="columnName">averageDose</property>
-                    <property name="analysis">measure</property>
-                    <text-property name="displayName">averageDose</text-property>
-                    <text-property name="heading">averageDose</text-property>
-                </structure>
-                <structure>
-                    <property name="columnName">hmgRate</property>
-                    <property name="analysis">measure</property>
-                    <text-property name="displayName">hmgRate</text-property>
-                    <text-property name="heading">hmgRate</text-property>
-                </structure>
-                <structure>
-                    <property name="columnName">omgRate</property>
-                    <property name="analysis">measure</property>
-                    <text-property name="displayName">omgRate</text-property>
-                    <text-property name="heading">omgRate</text-property>
-                </structure>
-                <structure>
-                    <property name="columnName">tmgRate</property>
-                    <property name="analysis">measure</property>
-                    <text-property name="displayName">tmgRate</text-property>
-                    <text-property name="heading">tmgRate</text-property>
-                </structure>
-                <structure>
-                    <property name="columnName">fmgRate</property>
-                    <property name="analysis">measure</property>
-                    <text-property name="displayName">fmgRate</text-property>
-                    <text-property name="heading">fmgRate</text-property>
-                </structure>
-            </list-property>
+            <list-property name="columnHints"/>
             <list-property name="filter">
                 <structure>
                     <property name="operator">gt</property>
@@ -1164,36 +876,41 @@ new Date(currentDate.getFullYear(),month,currentDate.getDate());</expression>
                     </structure>
                     <structure>
                         <property name="position">11</property>
+                        <property name="name">portlsnum</property>
+                        <property name="dataType">decimal</property>
+                    </structure>
+                    <structure>
+                        <property name="position">12</property>
                         <property name="name">portNum</property>
                         <property name="dataType">float</property>
                     </structure>
                     <structure>
-                        <property name="position">12</property>
+                        <property name="position">13</property>
                         <property name="name">averageDose</property>
                         <property name="dataType">decimal</property>
                     </structure>
                     <structure>
-                        <property name="position">13</property>
+                        <property name="position">14</property>
                         <property name="name">hmgRate</property>
                         <property name="dataType">decimal</property>
                     </structure>
                     <structure>
-                        <property name="position">14</property>
+                        <property name="position">15</property>
                         <property name="name">omgRate</property>
                         <property name="dataType">decimal</property>
                     </structure>
                     <structure>
-                        <property name="position">15</property>
+                        <property name="position">16</property>
                         <property name="name">tmgRate</property>
                         <property name="dataType">decimal</property>
                     </structure>
                     <structure>
-                        <property name="position">16</property>
+                        <property name="position">17</property>
                         <property name="name">fmgRate</property>
                         <property name="dataType">decimal</property>
                     </structure>
                     <structure>
-                        <property name="position">17</property>
+                        <property name="position">18</property>
                         <property name="name">numRate</property>
                         <property name="dataType">float</property>
                     </structure>
@@ -1206,112 +923,102 @@ new Date(currentDate.getFullYear(),month,currentDate.getDate());</expression>
                     <property name="name">name</property>
                     <property name="nativeName">name</property>
                     <property name="dataType">string</property>
-                    <property name="nativeDataType">12</property>
                 </structure>
                 <structure>
                     <property name="position">2</property>
                     <property name="name">userCode</property>
                     <property name="nativeName">userCode</property>
                     <property name="dataType">string</property>
-                    <property name="nativeDataType">12</property>
                 </structure>
                 <structure>
                     <property name="position">3</property>
                     <property name="name">regionCenter</property>
                     <property name="nativeName">regionCenter</property>
                     <property name="dataType">string</property>
-                    <property name="nativeDataType">12</property>
                 </structure>
                 <structure>
                     <property name="position">4</property>
                     <property name="name">region</property>
                     <property name="nativeName">region</property>
                     <property name="dataType">string</property>
-                    <property name="nativeDataType">12</property>
                 </structure>
                 <structure>
                     <property name="position">5</property>
                     <property name="name">level</property>
                     <property name="nativeName">level</property>
                     <property name="dataType">string</property>
-                    <property name="nativeDataType">12</property>
                 </structure>
                 <structure>
                     <property name="position">6</property>
                     <property name="name">hosNum</property>
                     <property name="nativeName">hosNum</property>
                     <property name="dataType">decimal</property>
-                    <property name="nativeDataType">-5</property>
                 </structure>
                 <structure>
                     <property name="position">7</property>
                     <property name="name">inNum</property>
                     <property name="nativeName">inNum</property>
                     <property name="dataType">decimal</property>
-                    <property name="nativeDataType">-5</property>
                 </structure>
                 <structure>
                     <property name="position">8</property>
                     <property name="name">pnum</property>
                     <property name="nativeName">pnum</property>
                     <property name="dataType">decimal</property>
-                    <property name="nativeDataType">3</property>
                 </structure>
                 <structure>
                     <property name="position">9</property>
                     <property name="name">whnum</property>
                     <property name="nativeName">whnum</property>
                     <property name="dataType">decimal</property>
-                    <property name="nativeDataType">3</property>
                 </structure>
                 <structure>
                     <property name="position">10</property>
                     <property name="name">lsnum</property>
                     <property name="nativeName">lsnum</property>
                     <property name="dataType">decimal</property>
-                    <property name="nativeDataType">3</property>
                 </structure>
                 <structure>
                     <property name="position">11</property>
-                    <property name="name">portNum</property>
-                    <property name="nativeName">portNum</property>
-                    <property name="dataType">float</property>
-                    <property name="nativeDataType">8</property>
+                    <property name="name">portlsnum</property>
+                    <property name="nativeName">portlsnum</property>
+                    <property name="dataType">decimal</property>
                 </structure>
                 <structure>
                     <property name="position">12</property>
-                    <property name="name">averageDose</property>
-                    <property name="nativeName">averageDose</property>
-                    <property name="dataType">decimal</property>
-                    <property name="nativeDataType">3</property>
+                    <property name="name">portNum</property>
+                    <property name="nativeName">portNum</property>
+                    <property name="dataType">float</property>
                 </structure>
                 <structure>
                     <property name="position">13</property>
-                    <property name="name">hmgRate</property>
-                    <property name="nativeName">hmgRate</property>
+                    <property name="name">averageDose</property>
+                    <property name="nativeName">averageDose</property>
                     <property name="dataType">decimal</property>
-                    <property name="nativeDataType">3</property>
                 </structure>
                 <structure>
                     <property name="position">14</property>
-                    <property name="name">omgRate</property>
-                    <property name="nativeName">omgRate</property>
+                    <property name="name">hmgRate</property>
+                    <property name="nativeName">hmgRate</property>
                     <property name="dataType">decimal</property>
-                    <property name="nativeDataType">3</property>
                 </structure>
                 <structure>
                     <property name="position">15</property>
-                    <property name="name">tmgRate</property>
-                    <property name="nativeName">tmgRate</property>
+                    <property name="name">omgRate</property>
+                    <property name="nativeName">omgRate</property>
                     <property name="dataType">decimal</property>
-                    <property name="nativeDataType">3</property>
                 </structure>
                 <structure>
                     <property name="position">16</property>
+                    <property name="name">tmgRate</property>
+                    <property name="nativeName">tmgRate</property>
+                    <property name="dataType">decimal</property>
+                </structure>
+                <structure>
+                    <property name="position">17</property>
                     <property name="name">fmgRate</property>
                     <property name="nativeName">fmgRate</property>
                     <property name="dataType">decimal</property>
-                    <property name="nativeDataType">3</property>
                 </structure>
             </list-property>
             <xml-property name="queryText"><![CDATA[select ui.name,ui.userCode,ui.regionCenter,ui.region,ui.level, ( 
@@ -1323,7 +1030,8 @@ new Date(currentDate.getFullYear(),month,currentDate.getDate());</expression>
 ,IFNULL(data_tmp.pnum,0) as pnum
 ,IFNULL(data_tmp.whnum,0) as whnum
 ,IFNULL(data_tmp.lsnum,0) as lsnum
-,IFNULL(data_tmp.portNum*?,0) as portNum
+,IFNULL(data_tmp.portlsnum,0) as portlsnum 
+,IFNULL(data_tmp.portNum*?,0) as portNum 
 ,IFNULL(data_tmp.averageDose,0) as averageDose
 ,IFNULL(data_tmp.hmgRate,0) as hmgRate
 ,IFNULL(data_tmp.omgRate,0) as omgRate
@@ -1336,6 +1044,11 @@ from
 	,IFNULL(sum(pd.pnum),0) as pnum
 	,IFNULL(sum(pd.whnum),0) as whnum
 	,IFNULL(sum(pd.lsnum),0) as lsnum
+	,IFNULL(sum( 
+		case 
+			when pd.portNum = 0 then 0 
+			else pd.lsnum 
+		end ),0) as portlsnum
 	,IFNULL(sum(pd.portNum),0) as portNum
 	,IFNULL( sum( ( ( 0.5*IFNULL(pd.hqd,0) + 0.5*2*IFNULL(pd.hbid,0) + 1*1*IFNULL(pd.oqd,0) + 1*2*IFNULL(pd.obid,0) + 2*1*IFNULL(pd.tqd,0) + 2*2*IFNULL(pd.tbid,0) ) / 100 ) * IFNULL(pd.lsnum,0) ) / IFNULL(sum(pd.lsnum),0),0 ) as averageDose
 	,IFNULL( sum( IFNULL(pd.hqd,0)/100*IFNULL(pd.lsnum,0) ) / sum( IFNULL(pd.lsnum,0) ),0 ) as hmgRate
@@ -1345,7 +1058,7 @@ from
 	from tbl_pediatrics_data pd, tbl_hospital h1, tbl_userinfo u 
     where pd.hospitalName = h1.name 
     and h1.rsmRegion = u.region 
-    and DATE_FORMAT(pd.createdate,'%m-%d-%Y') = ? 
+    and DATE_FORMAT(pd.createdate,'%m-%d-%Y') = ?  
     and h1.isPedAssessed='1' 
 	and u.level='RSM' 
 	and u.regionCenter = 'East1 GRA' 
@@ -1353,7 +1066,8 @@ from
 ) data_tmp 
 right join tbl_userinfo ui on data_tmp.userCode = ui.userCode 
 where ui.level='RSM' 
-and ui.regionCenter = 'East1 GRA';]]></xml-property>
+and ui.regionCenter = 'East1 GRA' 
+order by ui.region;]]></xml-property>
             <xml-property name="designerValues"><![CDATA[<?xml version="1.0" encoding="UTF-8"?>
 <model:DesignValues xmlns:design="http://www.eclipse.org/datatools/connectivity/oda/design" xmlns:model="http://www.eclipse.org/birt/report/model/adapter/odaModel">
   <Version>2.0</Version>
@@ -1416,104 +1130,7 @@ and ui.regionCenter = 'East1 GRA';]]></xml-property>
                     </list-property>
                 </structure>
             </list-property>
-            <list-property name="columnHints">
-                <structure>
-                    <property name="columnName">name</property>
-                    <property name="analysis">dimension</property>
-                    <text-property name="displayName">name</text-property>
-                    <text-property name="heading">name</text-property>
-                </structure>
-                <structure>
-                    <property name="columnName">userCode</property>
-                    <property name="analysis">dimension</property>
-                    <text-property name="displayName">userCode</text-property>
-                    <text-property name="heading">userCode</text-property>
-                </structure>
-                <structure>
-                    <property name="columnName">regionCenter</property>
-                    <property name="analysis">dimension</property>
-                    <text-property name="displayName">regionCenter</text-property>
-                    <text-property name="heading">regionCenter</text-property>
-                </structure>
-                <structure>
-                    <property name="columnName">region</property>
-                    <property name="analysis">dimension</property>
-                    <text-property name="displayName">region</text-property>
-                    <text-property name="heading">region</text-property>
-                </structure>
-                <structure>
-                    <property name="columnName">level</property>
-                    <property name="analysis">dimension</property>
-                    <text-property name="displayName">level</text-property>
-                    <text-property name="heading">level</text-property>
-                </structure>
-                <structure>
-                    <property name="columnName">hosNum</property>
-                    <property name="analysis">measure</property>
-                    <text-property name="displayName">hosNum</text-property>
-                    <text-property name="heading">hosNum</text-property>
-                </structure>
-                <structure>
-                    <property name="columnName">inNum</property>
-                    <property name="analysis">measure</property>
-                    <text-property name="displayName">inNum</text-property>
-                    <text-property name="heading">inNum</text-property>
-                </structure>
-                <structure>
-                    <property name="columnName">pnum</property>
-                    <property name="analysis">measure</property>
-                    <text-property name="displayName">pnum</text-property>
-                    <text-property name="heading">pnum</text-property>
-                </structure>
-                <structure>
-                    <property name="columnName">whnum</property>
-                    <property name="analysis">measure</property>
-                    <text-property name="displayName">whnum</text-property>
-                    <text-property name="heading">whnum</text-property>
-                </structure>
-                <structure>
-                    <property name="columnName">lsnum</property>
-                    <property name="analysis">measure</property>
-                    <text-property name="displayName">lsnum</text-property>
-                    <text-property name="heading">lsnum</text-property>
-                </structure>
-                <structure>
-                    <property name="columnName">portNum</property>
-                    <property name="analysis">measure</property>
-                    <text-property name="displayName">portNum</text-property>
-                    <text-property name="heading">portNum</text-property>
-                </structure>
-                <structure>
-                    <property name="columnName">averageDose</property>
-                    <property name="analysis">measure</property>
-                    <text-property name="displayName">averageDose</text-property>
-                    <text-property name="heading">averageDose</text-property>
-                </structure>
-                <structure>
-                    <property name="columnName">hmgRate</property>
-                    <property name="analysis">measure</property>
-                    <text-property name="displayName">hmgRate</text-property>
-                    <text-property name="heading">hmgRate</text-property>
-                </structure>
-                <structure>
-                    <property name="columnName">omgRate</property>
-                    <property name="analysis">measure</property>
-                    <text-property name="displayName">omgRate</text-property>
-                    <text-property name="heading">omgRate</text-property>
-                </structure>
-                <structure>
-                    <property name="columnName">tmgRate</property>
-                    <property name="analysis">measure</property>
-                    <text-property name="displayName">tmgRate</text-property>
-                    <text-property name="heading">tmgRate</text-property>
-                </structure>
-                <structure>
-                    <property name="columnName">fmgRate</property>
-                    <property name="analysis">measure</property>
-                    <text-property name="displayName">fmgRate</text-property>
-                    <text-property name="heading">fmgRate</text-property>
-                </structure>
-            </list-property>
+            <list-property name="columnHints"/>
             <list-property name="filter">
                 <structure>
                     <property name="operator">gt</property>
@@ -1614,36 +1231,41 @@ new Date(currentDate.getFullYear(),month,currentDate.getDate());</expression>
                     </structure>
                     <structure>
                         <property name="position">11</property>
+                        <property name="name">portlsnum</property>
+                        <property name="dataType">decimal</property>
+                    </structure>
+                    <structure>
+                        <property name="position">12</property>
                         <property name="name">portNum</property>
                         <property name="dataType">float</property>
                     </structure>
                     <structure>
-                        <property name="position">12</property>
+                        <property name="position">13</property>
                         <property name="name">averageDose</property>
                         <property name="dataType">decimal</property>
                     </structure>
                     <structure>
-                        <property name="position">13</property>
+                        <property name="position">14</property>
                         <property name="name">hmgRate</property>
                         <property name="dataType">decimal</property>
                     </structure>
                     <structure>
-                        <property name="position">14</property>
+                        <property name="position">15</property>
                         <property name="name">omgRate</property>
                         <property name="dataType">decimal</property>
                     </structure>
                     <structure>
-                        <property name="position">15</property>
+                        <property name="position">16</property>
                         <property name="name">tmgRate</property>
                         <property name="dataType">decimal</property>
                     </structure>
                     <structure>
-                        <property name="position">16</property>
+                        <property name="position">17</property>
                         <property name="name">fmgRate</property>
                         <property name="dataType">decimal</property>
                     </structure>
                     <structure>
-                        <property name="position">17</property>
+                        <property name="position">18</property>
                         <property name="name">numRate</property>
                         <property name="dataType">float</property>
                     </structure>
@@ -1656,112 +1278,102 @@ new Date(currentDate.getFullYear(),month,currentDate.getDate());</expression>
                     <property name="name">name</property>
                     <property name="nativeName">name</property>
                     <property name="dataType">string</property>
-                    <property name="nativeDataType">12</property>
                 </structure>
                 <structure>
                     <property name="position">2</property>
                     <property name="name">userCode</property>
                     <property name="nativeName">userCode</property>
                     <property name="dataType">string</property>
-                    <property name="nativeDataType">12</property>
                 </structure>
                 <structure>
                     <property name="position">3</property>
                     <property name="name">regionCenter</property>
                     <property name="nativeName">regionCenter</property>
                     <property name="dataType">string</property>
-                    <property name="nativeDataType">12</property>
                 </structure>
                 <structure>
                     <property name="position">4</property>
                     <property name="name">region</property>
                     <property name="nativeName">region</property>
                     <property name="dataType">string</property>
-                    <property name="nativeDataType">12</property>
                 </structure>
                 <structure>
                     <property name="position">5</property>
                     <property name="name">level</property>
                     <property name="nativeName">level</property>
                     <property name="dataType">string</property>
-                    <property name="nativeDataType">12</property>
                 </structure>
                 <structure>
                     <property name="position">6</property>
                     <property name="name">hosNum</property>
                     <property name="nativeName">hosNum</property>
                     <property name="dataType">decimal</property>
-                    <property name="nativeDataType">-5</property>
                 </structure>
                 <structure>
                     <property name="position">7</property>
                     <property name="name">inNum</property>
                     <property name="nativeName">inNum</property>
                     <property name="dataType">decimal</property>
-                    <property name="nativeDataType">-5</property>
                 </structure>
                 <structure>
                     <property name="position">8</property>
                     <property name="name">pnum</property>
                     <property name="nativeName">pnum</property>
                     <property name="dataType">decimal</property>
-                    <property name="nativeDataType">3</property>
                 </structure>
                 <structure>
                     <property name="position">9</property>
                     <property name="name">whnum</property>
                     <property name="nativeName">whnum</property>
                     <property name="dataType">decimal</property>
-                    <property name="nativeDataType">3</property>
                 </structure>
                 <structure>
                     <property name="position">10</property>
                     <property name="name">lsnum</property>
                     <property name="nativeName">lsnum</property>
                     <property name="dataType">decimal</property>
-                    <property name="nativeDataType">3</property>
                 </structure>
                 <structure>
                     <property name="position">11</property>
-                    <property name="name">portNum</property>
-                    <property name="nativeName">portNum</property>
-                    <property name="dataType">float</property>
-                    <property name="nativeDataType">8</property>
+                    <property name="name">portlsnum</property>
+                    <property name="nativeName">portlsnum</property>
+                    <property name="dataType">decimal</property>
                 </structure>
                 <structure>
                     <property name="position">12</property>
-                    <property name="name">averageDose</property>
-                    <property name="nativeName">averageDose</property>
-                    <property name="dataType">decimal</property>
-                    <property name="nativeDataType">3</property>
+                    <property name="name">portNum</property>
+                    <property name="nativeName">portNum</property>
+                    <property name="dataType">float</property>
                 </structure>
                 <structure>
                     <property name="position">13</property>
-                    <property name="name">hmgRate</property>
-                    <property name="nativeName">hmgRate</property>
+                    <property name="name">averageDose</property>
+                    <property name="nativeName">averageDose</property>
                     <property name="dataType">decimal</property>
-                    <property name="nativeDataType">3</property>
                 </structure>
                 <structure>
                     <property name="position">14</property>
-                    <property name="name">omgRate</property>
-                    <property name="nativeName">omgRate</property>
+                    <property name="name">hmgRate</property>
+                    <property name="nativeName">hmgRate</property>
                     <property name="dataType">decimal</property>
-                    <property name="nativeDataType">3</property>
                 </structure>
                 <structure>
                     <property name="position">15</property>
-                    <property name="name">tmgRate</property>
-                    <property name="nativeName">tmgRate</property>
+                    <property name="name">omgRate</property>
+                    <property name="nativeName">omgRate</property>
                     <property name="dataType">decimal</property>
-                    <property name="nativeDataType">3</property>
                 </structure>
                 <structure>
                     <property name="position">16</property>
+                    <property name="name">tmgRate</property>
+                    <property name="nativeName">tmgRate</property>
+                    <property name="dataType">decimal</property>
+                </structure>
+                <structure>
+                    <property name="position">17</property>
                     <property name="name">fmgRate</property>
                     <property name="nativeName">fmgRate</property>
                     <property name="dataType">decimal</property>
-                    <property name="nativeDataType">3</property>
                 </structure>
             </list-property>
             <xml-property name="queryText"><![CDATA[select ui.name,ui.userCode,ui.regionCenter,ui.region,ui.level, ( 
@@ -1773,7 +1385,8 @@ new Date(currentDate.getFullYear(),month,currentDate.getDate());</expression>
 ,IFNULL(data_tmp.pnum,0) as pnum
 ,IFNULL(data_tmp.whnum,0) as whnum
 ,IFNULL(data_tmp.lsnum,0) as lsnum
-,IFNULL(data_tmp.portNum*?,0) as portNum
+,IFNULL(data_tmp.portlsnum,0) as portlsnum 
+,IFNULL(data_tmp.portNum*?,0) as portNum 
 ,IFNULL(data_tmp.averageDose,0) as averageDose
 ,IFNULL(data_tmp.hmgRate,0) as hmgRate
 ,IFNULL(data_tmp.omgRate,0) as omgRate
@@ -1786,6 +1399,11 @@ from
 	,IFNULL(sum(pd.pnum),0) as pnum
 	,IFNULL(sum(pd.whnum),0) as whnum
 	,IFNULL(sum(pd.lsnum),0) as lsnum
+	,IFNULL(sum( 
+		case 
+			when pd.portNum = 0 then 0 
+			else pd.lsnum 
+		end ),0) as portlsnum
 	,IFNULL(sum(pd.portNum),0) as portNum
 	,IFNULL( sum( ( ( 0.5*IFNULL(pd.hqd,0) + 0.5*2*IFNULL(pd.hbid,0) + 1*1*IFNULL(pd.oqd,0) + 1*2*IFNULL(pd.obid,0) + 2*1*IFNULL(pd.tqd,0) + 2*2*IFNULL(pd.tbid,0) ) / 100 ) * IFNULL(pd.lsnum,0) ) / IFNULL(sum(pd.lsnum),0),0 ) as averageDose
 	,IFNULL( sum( IFNULL(pd.hqd,0)/100*IFNULL(pd.lsnum,0) ) / sum( IFNULL(pd.lsnum,0) ),0 ) as hmgRate
@@ -1795,7 +1413,7 @@ from
 	from tbl_pediatrics_data pd, tbl_hospital h1, tbl_userinfo u 
     where pd.hospitalName = h1.name 
     and h1.rsmRegion = u.region 
-    and DATE_FORMAT(pd.createdate,'%m-%d-%Y') = ? 
+    and DATE_FORMAT(pd.createdate,'%m-%d-%Y') = ?  
     and h1.isPedAssessed='1' 
 	and u.level='RSM' 
 	and u.regionCenter = 'East2 GRA' 
@@ -1803,7 +1421,8 @@ from
 ) data_tmp 
 right join tbl_userinfo ui on data_tmp.userCode = ui.userCode 
 where ui.level='RSM' 
-and ui.regionCenter = 'East2 GRA';]]></xml-property>
+and ui.regionCenter = 'East2 GRA' 
+order by ui.region;]]></xml-property>
             <xml-property name="designerValues"><![CDATA[<?xml version="1.0" encoding="UTF-8"?>
 <model:DesignValues xmlns:design="http://www.eclipse.org/datatools/connectivity/oda/design" xmlns:model="http://www.eclipse.org/birt/report/model/adapter/odaModel">
   <Version>2.0</Version>
@@ -1866,104 +1485,7 @@ and ui.regionCenter = 'East2 GRA';]]></xml-property>
                     </list-property>
                 </structure>
             </list-property>
-            <list-property name="columnHints">
-                <structure>
-                    <property name="columnName">name</property>
-                    <property name="analysis">dimension</property>
-                    <text-property name="displayName">name</text-property>
-                    <text-property name="heading">name</text-property>
-                </structure>
-                <structure>
-                    <property name="columnName">userCode</property>
-                    <property name="analysis">dimension</property>
-                    <text-property name="displayName">userCode</text-property>
-                    <text-property name="heading">userCode</text-property>
-                </structure>
-                <structure>
-                    <property name="columnName">regionCenter</property>
-                    <property name="analysis">dimension</property>
-                    <text-property name="displayName">regionCenter</text-property>
-                    <text-property name="heading">regionCenter</text-property>
-                </structure>
-                <structure>
-                    <property name="columnName">region</property>
-                    <property name="analysis">dimension</property>
-                    <text-property name="displayName">region</text-property>
-                    <text-property name="heading">region</text-property>
-                </structure>
-                <structure>
-                    <property name="columnName">level</property>
-                    <property name="analysis">dimension</property>
-                    <text-property name="displayName">level</text-property>
-                    <text-property name="heading">level</text-property>
-                </structure>
-                <structure>
-                    <property name="columnName">hosNum</property>
-                    <property name="analysis">measure</property>
-                    <text-property name="displayName">hosNum</text-property>
-                    <text-property name="heading">hosNum</text-property>
-                </structure>
-                <structure>
-                    <property name="columnName">inNum</property>
-                    <property name="analysis">measure</property>
-                    <text-property name="displayName">inNum</text-property>
-                    <text-property name="heading">inNum</text-property>
-                </structure>
-                <structure>
-                    <property name="columnName">pnum</property>
-                    <property name="analysis">measure</property>
-                    <text-property name="displayName">pnum</text-property>
-                    <text-property name="heading">pnum</text-property>
-                </structure>
-                <structure>
-                    <property name="columnName">whnum</property>
-                    <property name="analysis">measure</property>
-                    <text-property name="displayName">whnum</text-property>
-                    <text-property name="heading">whnum</text-property>
-                </structure>
-                <structure>
-                    <property name="columnName">lsnum</property>
-                    <property name="analysis">measure</property>
-                    <text-property name="displayName">lsnum</text-property>
-                    <text-property name="heading">lsnum</text-property>
-                </structure>
-                <structure>
-                    <property name="columnName">portNum</property>
-                    <property name="analysis">measure</property>
-                    <text-property name="displayName">portNum</text-property>
-                    <text-property name="heading">portNum</text-property>
-                </structure>
-                <structure>
-                    <property name="columnName">averageDose</property>
-                    <property name="analysis">measure</property>
-                    <text-property name="displayName">averageDose</text-property>
-                    <text-property name="heading">averageDose</text-property>
-                </structure>
-                <structure>
-                    <property name="columnName">hmgRate</property>
-                    <property name="analysis">measure</property>
-                    <text-property name="displayName">hmgRate</text-property>
-                    <text-property name="heading">hmgRate</text-property>
-                </structure>
-                <structure>
-                    <property name="columnName">omgRate</property>
-                    <property name="analysis">measure</property>
-                    <text-property name="displayName">omgRate</text-property>
-                    <text-property name="heading">omgRate</text-property>
-                </structure>
-                <structure>
-                    <property name="columnName">tmgRate</property>
-                    <property name="analysis">measure</property>
-                    <text-property name="displayName">tmgRate</text-property>
-                    <text-property name="heading">tmgRate</text-property>
-                </structure>
-                <structure>
-                    <property name="columnName">fmgRate</property>
-                    <property name="analysis">measure</property>
-                    <text-property name="displayName">fmgRate</text-property>
-                    <text-property name="heading">fmgRate</text-property>
-                </structure>
-            </list-property>
+            <list-property name="columnHints"/>
             <list-property name="filter">
                 <structure>
                     <property name="operator">gt</property>
@@ -2064,36 +1586,41 @@ new Date(currentDate.getFullYear(),month,currentDate.getDate());</expression>
                     </structure>
                     <structure>
                         <property name="position">11</property>
+                        <property name="name">portlsnum</property>
+                        <property name="dataType">decimal</property>
+                    </structure>
+                    <structure>
+                        <property name="position">12</property>
                         <property name="name">portNum</property>
                         <property name="dataType">float</property>
                     </structure>
                     <structure>
-                        <property name="position">12</property>
+                        <property name="position">13</property>
                         <property name="name">averageDose</property>
                         <property name="dataType">decimal</property>
                     </structure>
                     <structure>
-                        <property name="position">13</property>
+                        <property name="position">14</property>
                         <property name="name">hmgRate</property>
                         <property name="dataType">decimal</property>
                     </structure>
                     <structure>
-                        <property name="position">14</property>
+                        <property name="position">15</property>
                         <property name="name">omgRate</property>
                         <property name="dataType">decimal</property>
                     </structure>
                     <structure>
-                        <property name="position">15</property>
+                        <property name="position">16</property>
                         <property name="name">tmgRate</property>
                         <property name="dataType">decimal</property>
                     </structure>
                     <structure>
-                        <property name="position">16</property>
+                        <property name="position">17</property>
                         <property name="name">fmgRate</property>
                         <property name="dataType">decimal</property>
                     </structure>
                     <structure>
-                        <property name="position">17</property>
+                        <property name="position">18</property>
                         <property name="name">numRate</property>
                         <property name="dataType">float</property>
                     </structure>
@@ -2106,112 +1633,102 @@ new Date(currentDate.getFullYear(),month,currentDate.getDate());</expression>
                     <property name="name">name</property>
                     <property name="nativeName">name</property>
                     <property name="dataType">string</property>
-                    <property name="nativeDataType">12</property>
                 </structure>
                 <structure>
                     <property name="position">2</property>
                     <property name="name">userCode</property>
                     <property name="nativeName">userCode</property>
                     <property name="dataType">string</property>
-                    <property name="nativeDataType">12</property>
                 </structure>
                 <structure>
                     <property name="position">3</property>
                     <property name="name">regionCenter</property>
                     <property name="nativeName">regionCenter</property>
                     <property name="dataType">string</property>
-                    <property name="nativeDataType">12</property>
                 </structure>
                 <structure>
                     <property name="position">4</property>
                     <property name="name">region</property>
                     <property name="nativeName">region</property>
                     <property name="dataType">string</property>
-                    <property name="nativeDataType">12</property>
                 </structure>
                 <structure>
                     <property name="position">5</property>
                     <property name="name">level</property>
                     <property name="nativeName">level</property>
                     <property name="dataType">string</property>
-                    <property name="nativeDataType">12</property>
                 </structure>
                 <structure>
                     <property name="position">6</property>
                     <property name="name">hosNum</property>
                     <property name="nativeName">hosNum</property>
                     <property name="dataType">decimal</property>
-                    <property name="nativeDataType">-5</property>
                 </structure>
                 <structure>
                     <property name="position">7</property>
                     <property name="name">inNum</property>
                     <property name="nativeName">inNum</property>
                     <property name="dataType">decimal</property>
-                    <property name="nativeDataType">-5</property>
                 </structure>
                 <structure>
                     <property name="position">8</property>
                     <property name="name">pnum</property>
                     <property name="nativeName">pnum</property>
                     <property name="dataType">decimal</property>
-                    <property name="nativeDataType">3</property>
                 </structure>
                 <structure>
                     <property name="position">9</property>
                     <property name="name">whnum</property>
                     <property name="nativeName">whnum</property>
                     <property name="dataType">decimal</property>
-                    <property name="nativeDataType">3</property>
                 </structure>
                 <structure>
                     <property name="position">10</property>
                     <property name="name">lsnum</property>
                     <property name="nativeName">lsnum</property>
                     <property name="dataType">decimal</property>
-                    <property name="nativeDataType">3</property>
                 </structure>
                 <structure>
                     <property name="position">11</property>
-                    <property name="name">portNum</property>
-                    <property name="nativeName">portNum</property>
-                    <property name="dataType">float</property>
-                    <property name="nativeDataType">8</property>
+                    <property name="name">portlsnum</property>
+                    <property name="nativeName">portlsnum</property>
+                    <property name="dataType">decimal</property>
                 </structure>
                 <structure>
                     <property name="position">12</property>
-                    <property name="name">averageDose</property>
-                    <property name="nativeName">averageDose</property>
-                    <property name="dataType">decimal</property>
-                    <property name="nativeDataType">3</property>
+                    <property name="name">portNum</property>
+                    <property name="nativeName">portNum</property>
+                    <property name="dataType">float</property>
                 </structure>
                 <structure>
                     <property name="position">13</property>
-                    <property name="name">hmgRate</property>
-                    <property name="nativeName">hmgRate</property>
+                    <property name="name">averageDose</property>
+                    <property name="nativeName">averageDose</property>
                     <property name="dataType">decimal</property>
-                    <property name="nativeDataType">3</property>
                 </structure>
                 <structure>
                     <property name="position">14</property>
-                    <property name="name">omgRate</property>
-                    <property name="nativeName">omgRate</property>
+                    <property name="name">hmgRate</property>
+                    <property name="nativeName">hmgRate</property>
                     <property name="dataType">decimal</property>
-                    <property name="nativeDataType">3</property>
                 </structure>
                 <structure>
                     <property name="position">15</property>
-                    <property name="name">tmgRate</property>
-                    <property name="nativeName">tmgRate</property>
+                    <property name="name">omgRate</property>
+                    <property name="nativeName">omgRate</property>
                     <property name="dataType">decimal</property>
-                    <property name="nativeDataType">3</property>
                 </structure>
                 <structure>
                     <property name="position">16</property>
+                    <property name="name">tmgRate</property>
+                    <property name="nativeName">tmgRate</property>
+                    <property name="dataType">decimal</property>
+                </structure>
+                <structure>
+                    <property name="position">17</property>
                     <property name="name">fmgRate</property>
                     <property name="nativeName">fmgRate</property>
                     <property name="dataType">decimal</property>
-                    <property name="nativeDataType">3</property>
                 </structure>
             </list-property>
             <xml-property name="queryText"><![CDATA[select ui.name,ui.userCode,ui.regionCenter,ui.region,ui.level, ( 
@@ -2223,7 +1740,8 @@ new Date(currentDate.getFullYear(),month,currentDate.getDate());</expression>
 ,IFNULL(data_tmp.pnum,0) as pnum
 ,IFNULL(data_tmp.whnum,0) as whnum
 ,IFNULL(data_tmp.lsnum,0) as lsnum
-,IFNULL(data_tmp.portNum*?,0) as portNum
+,IFNULL(data_tmp.portlsnum,0) as portlsnum 
+,IFNULL(data_tmp.portNum*?,0) as portNum 
 ,IFNULL(data_tmp.averageDose,0) as averageDose
 ,IFNULL(data_tmp.hmgRate,0) as hmgRate
 ,IFNULL(data_tmp.omgRate,0) as omgRate
@@ -2236,6 +1754,11 @@ from
 	,IFNULL(sum(pd.pnum),0) as pnum
 	,IFNULL(sum(pd.whnum),0) as whnum
 	,IFNULL(sum(pd.lsnum),0) as lsnum
+	,IFNULL(sum( 
+		case 
+			when pd.portNum = 0 then 0 
+			else pd.lsnum 
+		end ),0) as portlsnum
 	,IFNULL(sum(pd.portNum),0) as portNum
 	,IFNULL( sum( ( ( 0.5*IFNULL(pd.hqd,0) + 0.5*2*IFNULL(pd.hbid,0) + 1*1*IFNULL(pd.oqd,0) + 1*2*IFNULL(pd.obid,0) + 2*1*IFNULL(pd.tqd,0) + 2*2*IFNULL(pd.tbid,0) ) / 100 ) * IFNULL(pd.lsnum,0) ) / IFNULL(sum(pd.lsnum),0),0 ) as averageDose
 	,IFNULL( sum( IFNULL(pd.hqd,0)/100*IFNULL(pd.lsnum,0) ) / sum( IFNULL(pd.lsnum,0) ),0 ) as hmgRate
@@ -2245,7 +1768,7 @@ from
 	from tbl_pediatrics_data pd, tbl_hospital h1, tbl_userinfo u 
     where pd.hospitalName = h1.name 
     and h1.rsmRegion = u.region 
-    and DATE_FORMAT(pd.createdate,'%m-%d-%Y') = ? 
+    and DATE_FORMAT(pd.createdate,'%m-%d-%Y') = ?  
     and h1.isPedAssessed='1' 
 	and u.level='RSM' 
 	and u.regionCenter = 'North1 GRA' 
@@ -2253,7 +1776,8 @@ from
 ) data_tmp 
 right join tbl_userinfo ui on data_tmp.userCode = ui.userCode 
 where ui.level='RSM' 
-and ui.regionCenter = 'North1 GRA';]]></xml-property>
+and ui.regionCenter = 'North1 GRA' 
+order by ui.region;]]></xml-property>
             <xml-property name="designerValues"><![CDATA[<?xml version="1.0" encoding="UTF-8"?>
 <model:DesignValues xmlns:design="http://www.eclipse.org/datatools/connectivity/oda/design" xmlns:model="http://www.eclipse.org/birt/report/model/adapter/odaModel">
   <Version>2.0</Version>
@@ -2316,104 +1840,7 @@ and ui.regionCenter = 'North1 GRA';]]></xml-property>
                     </list-property>
                 </structure>
             </list-property>
-            <list-property name="columnHints">
-                <structure>
-                    <property name="columnName">name</property>
-                    <property name="analysis">dimension</property>
-                    <text-property name="displayName">name</text-property>
-                    <text-property name="heading">name</text-property>
-                </structure>
-                <structure>
-                    <property name="columnName">userCode</property>
-                    <property name="analysis">dimension</property>
-                    <text-property name="displayName">userCode</text-property>
-                    <text-property name="heading">userCode</text-property>
-                </structure>
-                <structure>
-                    <property name="columnName">regionCenter</property>
-                    <property name="analysis">dimension</property>
-                    <text-property name="displayName">regionCenter</text-property>
-                    <text-property name="heading">regionCenter</text-property>
-                </structure>
-                <structure>
-                    <property name="columnName">region</property>
-                    <property name="analysis">dimension</property>
-                    <text-property name="displayName">region</text-property>
-                    <text-property name="heading">region</text-property>
-                </structure>
-                <structure>
-                    <property name="columnName">level</property>
-                    <property name="analysis">dimension</property>
-                    <text-property name="displayName">level</text-property>
-                    <text-property name="heading">level</text-property>
-                </structure>
-                <structure>
-                    <property name="columnName">hosNum</property>
-                    <property name="analysis">measure</property>
-                    <text-property name="displayName">hosNum</text-property>
-                    <text-property name="heading">hosNum</text-property>
-                </structure>
-                <structure>
-                    <property name="columnName">inNum</property>
-                    <property name="analysis">measure</property>
-                    <text-property name="displayName">inNum</text-property>
-                    <text-property name="heading">inNum</text-property>
-                </structure>
-                <structure>
-                    <property name="columnName">pnum</property>
-                    <property name="analysis">measure</property>
-                    <text-property name="displayName">pnum</text-property>
-                    <text-property name="heading">pnum</text-property>
-                </structure>
-                <structure>
-                    <property name="columnName">whnum</property>
-                    <property name="analysis">measure</property>
-                    <text-property name="displayName">whnum</text-property>
-                    <text-property name="heading">whnum</text-property>
-                </structure>
-                <structure>
-                    <property name="columnName">lsnum</property>
-                    <property name="analysis">measure</property>
-                    <text-property name="displayName">lsnum</text-property>
-                    <text-property name="heading">lsnum</text-property>
-                </structure>
-                <structure>
-                    <property name="columnName">portNum</property>
-                    <property name="analysis">measure</property>
-                    <text-property name="displayName">portNum</text-property>
-                    <text-property name="heading">portNum</text-property>
-                </structure>
-                <structure>
-                    <property name="columnName">averageDose</property>
-                    <property name="analysis">measure</property>
-                    <text-property name="displayName">averageDose</text-property>
-                    <text-property name="heading">averageDose</text-property>
-                </structure>
-                <structure>
-                    <property name="columnName">hmgRate</property>
-                    <property name="analysis">measure</property>
-                    <text-property name="displayName">hmgRate</text-property>
-                    <text-property name="heading">hmgRate</text-property>
-                </structure>
-                <structure>
-                    <property name="columnName">omgRate</property>
-                    <property name="analysis">measure</property>
-                    <text-property name="displayName">omgRate</text-property>
-                    <text-property name="heading">omgRate</text-property>
-                </structure>
-                <structure>
-                    <property name="columnName">tmgRate</property>
-                    <property name="analysis">measure</property>
-                    <text-property name="displayName">tmgRate</text-property>
-                    <text-property name="heading">tmgRate</text-property>
-                </structure>
-                <structure>
-                    <property name="columnName">fmgRate</property>
-                    <property name="analysis">measure</property>
-                    <text-property name="displayName">fmgRate</text-property>
-                    <text-property name="heading">fmgRate</text-property>
-                </structure>
-            </list-property>
+            <list-property name="columnHints"/>
             <list-property name="filter">
                 <structure>
                     <property name="operator">gt</property>
@@ -2514,36 +1941,41 @@ new Date(currentDate.getFullYear(),month,currentDate.getDate());</expression>
                     </structure>
                     <structure>
                         <property name="position">11</property>
+                        <property name="name">portlsnum</property>
+                        <property name="dataType">decimal</property>
+                    </structure>
+                    <structure>
+                        <property name="position">12</property>
                         <property name="name">portNum</property>
                         <property name="dataType">float</property>
                     </structure>
                     <structure>
-                        <property name="position">12</property>
+                        <property name="position">13</property>
                         <property name="name">averageDose</property>
                         <property name="dataType">decimal</property>
                     </structure>
                     <structure>
-                        <property name="position">13</property>
+                        <property name="position">14</property>
                         <property name="name">hmgRate</property>
                         <property name="dataType">decimal</property>
                     </structure>
                     <structure>
-                        <property name="position">14</property>
+                        <property name="position">15</property>
                         <property name="name">omgRate</property>
                         <property name="dataType">decimal</property>
                     </structure>
                     <structure>
-                        <property name="position">15</property>
+                        <property name="position">16</property>
                         <property name="name">tmgRate</property>
                         <property name="dataType">decimal</property>
                     </structure>
                     <structure>
-                        <property name="position">16</property>
+                        <property name="position">17</property>
                         <property name="name">fmgRate</property>
                         <property name="dataType">decimal</property>
                     </structure>
                     <structure>
-                        <property name="position">17</property>
+                        <property name="position">18</property>
                         <property name="name">numRate</property>
                         <property name="dataType">float</property>
                     </structure>
@@ -2556,112 +1988,102 @@ new Date(currentDate.getFullYear(),month,currentDate.getDate());</expression>
                     <property name="name">name</property>
                     <property name="nativeName">name</property>
                     <property name="dataType">string</property>
-                    <property name="nativeDataType">12</property>
                 </structure>
                 <structure>
                     <property name="position">2</property>
                     <property name="name">userCode</property>
                     <property name="nativeName">userCode</property>
                     <property name="dataType">string</property>
-                    <property name="nativeDataType">12</property>
                 </structure>
                 <structure>
                     <property name="position">3</property>
                     <property name="name">regionCenter</property>
                     <property name="nativeName">regionCenter</property>
                     <property name="dataType">string</property>
-                    <property name="nativeDataType">12</property>
                 </structure>
                 <structure>
                     <property name="position">4</property>
                     <property name="name">region</property>
                     <property name="nativeName">region</property>
                     <property name="dataType">string</property>
-                    <property name="nativeDataType">12</property>
                 </structure>
                 <structure>
                     <property name="position">5</property>
                     <property name="name">level</property>
                     <property name="nativeName">level</property>
                     <property name="dataType">string</property>
-                    <property name="nativeDataType">12</property>
                 </structure>
                 <structure>
                     <property name="position">6</property>
                     <property name="name">hosNum</property>
                     <property name="nativeName">hosNum</property>
                     <property name="dataType">decimal</property>
-                    <property name="nativeDataType">-5</property>
                 </structure>
                 <structure>
                     <property name="position">7</property>
                     <property name="name">inNum</property>
                     <property name="nativeName">inNum</property>
                     <property name="dataType">decimal</property>
-                    <property name="nativeDataType">-5</property>
                 </structure>
                 <structure>
                     <property name="position">8</property>
                     <property name="name">pnum</property>
                     <property name="nativeName">pnum</property>
                     <property name="dataType">decimal</property>
-                    <property name="nativeDataType">3</property>
                 </structure>
                 <structure>
                     <property name="position">9</property>
                     <property name="name">whnum</property>
                     <property name="nativeName">whnum</property>
                     <property name="dataType">decimal</property>
-                    <property name="nativeDataType">3</property>
                 </structure>
                 <structure>
                     <property name="position">10</property>
                     <property name="name">lsnum</property>
                     <property name="nativeName">lsnum</property>
                     <property name="dataType">decimal</property>
-                    <property name="nativeDataType">3</property>
                 </structure>
                 <structure>
                     <property name="position">11</property>
-                    <property name="name">portNum</property>
-                    <property name="nativeName">portNum</property>
-                    <property name="dataType">float</property>
-                    <property name="nativeDataType">8</property>
+                    <property name="name">portlsnum</property>
+                    <property name="nativeName">portlsnum</property>
+                    <property name="dataType">decimal</property>
                 </structure>
                 <structure>
                     <property name="position">12</property>
-                    <property name="name">averageDose</property>
-                    <property name="nativeName">averageDose</property>
-                    <property name="dataType">decimal</property>
-                    <property name="nativeDataType">3</property>
+                    <property name="name">portNum</property>
+                    <property name="nativeName">portNum</property>
+                    <property name="dataType">float</property>
                 </structure>
                 <structure>
                     <property name="position">13</property>
-                    <property name="name">hmgRate</property>
-                    <property name="nativeName">hmgRate</property>
+                    <property name="name">averageDose</property>
+                    <property name="nativeName">averageDose</property>
                     <property name="dataType">decimal</property>
-                    <property name="nativeDataType">3</property>
                 </structure>
                 <structure>
                     <property name="position">14</property>
-                    <property name="name">omgRate</property>
-                    <property name="nativeName">omgRate</property>
+                    <property name="name">hmgRate</property>
+                    <property name="nativeName">hmgRate</property>
                     <property name="dataType">decimal</property>
-                    <property name="nativeDataType">3</property>
                 </structure>
                 <structure>
                     <property name="position">15</property>
-                    <property name="name">tmgRate</property>
-                    <property name="nativeName">tmgRate</property>
+                    <property name="name">omgRate</property>
+                    <property name="nativeName">omgRate</property>
                     <property name="dataType">decimal</property>
-                    <property name="nativeDataType">3</property>
                 </structure>
                 <structure>
                     <property name="position">16</property>
+                    <property name="name">tmgRate</property>
+                    <property name="nativeName">tmgRate</property>
+                    <property name="dataType">decimal</property>
+                </structure>
+                <structure>
+                    <property name="position">17</property>
                     <property name="name">fmgRate</property>
                     <property name="nativeName">fmgRate</property>
                     <property name="dataType">decimal</property>
-                    <property name="nativeDataType">3</property>
                 </structure>
             </list-property>
             <xml-property name="queryText"><![CDATA[select ui.name,ui.userCode,ui.regionCenter,ui.region,ui.level, ( 
@@ -2673,7 +2095,8 @@ new Date(currentDate.getFullYear(),month,currentDate.getDate());</expression>
 ,IFNULL(data_tmp.pnum,0) as pnum
 ,IFNULL(data_tmp.whnum,0) as whnum
 ,IFNULL(data_tmp.lsnum,0) as lsnum
-,IFNULL(data_tmp.portNum*?,0) as portNum
+,IFNULL(data_tmp.portlsnum,0) as portlsnum 
+,IFNULL(data_tmp.portNum*?,0) as portNum 
 ,IFNULL(data_tmp.averageDose,0) as averageDose
 ,IFNULL(data_tmp.hmgRate,0) as hmgRate
 ,IFNULL(data_tmp.omgRate,0) as omgRate
@@ -2686,6 +2109,11 @@ from
 	,IFNULL(sum(pd.pnum),0) as pnum
 	,IFNULL(sum(pd.whnum),0) as whnum
 	,IFNULL(sum(pd.lsnum),0) as lsnum
+	,IFNULL(sum( 
+		case 
+			when pd.portNum = 0 then 0 
+			else pd.lsnum 
+		end ),0) as portlsnum
 	,IFNULL(sum(pd.portNum),0) as portNum
 	,IFNULL( sum( ( ( 0.5*IFNULL(pd.hqd,0) + 0.5*2*IFNULL(pd.hbid,0) + 1*1*IFNULL(pd.oqd,0) + 1*2*IFNULL(pd.obid,0) + 2*1*IFNULL(pd.tqd,0) + 2*2*IFNULL(pd.tbid,0) ) / 100 ) * IFNULL(pd.lsnum,0) ) / IFNULL(sum(pd.lsnum),0),0 ) as averageDose
 	,IFNULL( sum( IFNULL(pd.hqd,0)/100*IFNULL(pd.lsnum,0) ) / sum( IFNULL(pd.lsnum,0) ),0 ) as hmgRate
@@ -2695,7 +2123,7 @@ from
 	from tbl_pediatrics_data pd, tbl_hospital h1, tbl_userinfo u 
     where pd.hospitalName = h1.name 
     and h1.rsmRegion = u.region 
-    and DATE_FORMAT(pd.createdate,'%m-%d-%Y') = ? 
+    and DATE_FORMAT(pd.createdate,'%m-%d-%Y') = ?  
     and h1.isPedAssessed='1' 
 	and u.level='RSM' 
 	and u.regionCenter = 'North2 GRA' 
@@ -2703,7 +2131,8 @@ from
 ) data_tmp 
 right join tbl_userinfo ui on data_tmp.userCode = ui.userCode 
 where ui.level='RSM' 
-and ui.regionCenter = 'North2 GRA';]]></xml-property>
+and ui.regionCenter = 'North2 GRA' 
+order by ui.region;]]></xml-property>
             <xml-property name="designerValues"><![CDATA[<?xml version="1.0" encoding="UTF-8"?>
 <model:DesignValues xmlns:design="http://www.eclipse.org/datatools/connectivity/oda/design" xmlns:model="http://www.eclipse.org/birt/report/model/adapter/odaModel">
   <Version>2.0</Version>
@@ -2766,104 +2195,7 @@ and ui.regionCenter = 'North2 GRA';]]></xml-property>
                     </list-property>
                 </structure>
             </list-property>
-            <list-property name="columnHints">
-                <structure>
-                    <property name="columnName">name</property>
-                    <property name="analysis">dimension</property>
-                    <text-property name="displayName">name</text-property>
-                    <text-property name="heading">name</text-property>
-                </structure>
-                <structure>
-                    <property name="columnName">userCode</property>
-                    <property name="analysis">dimension</property>
-                    <text-property name="displayName">userCode</text-property>
-                    <text-property name="heading">userCode</text-property>
-                </structure>
-                <structure>
-                    <property name="columnName">regionCenter</property>
-                    <property name="analysis">dimension</property>
-                    <text-property name="displayName">regionCenter</text-property>
-                    <text-property name="heading">regionCenter</text-property>
-                </structure>
-                <structure>
-                    <property name="columnName">region</property>
-                    <property name="analysis">dimension</property>
-                    <text-property name="displayName">region</text-property>
-                    <text-property name="heading">region</text-property>
-                </structure>
-                <structure>
-                    <property name="columnName">level</property>
-                    <property name="analysis">dimension</property>
-                    <text-property name="displayName">level</text-property>
-                    <text-property name="heading">level</text-property>
-                </structure>
-                <structure>
-                    <property name="columnName">hosNum</property>
-                    <property name="analysis">measure</property>
-                    <text-property name="displayName">hosNum</text-property>
-                    <text-property name="heading">hosNum</text-property>
-                </structure>
-                <structure>
-                    <property name="columnName">inNum</property>
-                    <property name="analysis">measure</property>
-                    <text-property name="displayName">inNum</text-property>
-                    <text-property name="heading">inNum</text-property>
-                </structure>
-                <structure>
-                    <property name="columnName">pnum</property>
-                    <property name="analysis">measure</property>
-                    <text-property name="displayName">pnum</text-property>
-                    <text-property name="heading">pnum</text-property>
-                </structure>
-                <structure>
-                    <property name="columnName">whnum</property>
-                    <property name="analysis">measure</property>
-                    <text-property name="displayName">whnum</text-property>
-                    <text-property name="heading">whnum</text-property>
-                </structure>
-                <structure>
-                    <property name="columnName">lsnum</property>
-                    <property name="analysis">measure</property>
-                    <text-property name="displayName">lsnum</text-property>
-                    <text-property name="heading">lsnum</text-property>
-                </structure>
-                <structure>
-                    <property name="columnName">portNum</property>
-                    <property name="analysis">measure</property>
-                    <text-property name="displayName">portNum</text-property>
-                    <text-property name="heading">portNum</text-property>
-                </structure>
-                <structure>
-                    <property name="columnName">averageDose</property>
-                    <property name="analysis">measure</property>
-                    <text-property name="displayName">averageDose</text-property>
-                    <text-property name="heading">averageDose</text-property>
-                </structure>
-                <structure>
-                    <property name="columnName">hmgRate</property>
-                    <property name="analysis">measure</property>
-                    <text-property name="displayName">hmgRate</text-property>
-                    <text-property name="heading">hmgRate</text-property>
-                </structure>
-                <structure>
-                    <property name="columnName">omgRate</property>
-                    <property name="analysis">measure</property>
-                    <text-property name="displayName">omgRate</text-property>
-                    <text-property name="heading">omgRate</text-property>
-                </structure>
-                <structure>
-                    <property name="columnName">tmgRate</property>
-                    <property name="analysis">measure</property>
-                    <text-property name="displayName">tmgRate</text-property>
-                    <text-property name="heading">tmgRate</text-property>
-                </structure>
-                <structure>
-                    <property name="columnName">fmgRate</property>
-                    <property name="analysis">measure</property>
-                    <text-property name="displayName">fmgRate</text-property>
-                    <text-property name="heading">fmgRate</text-property>
-                </structure>
-            </list-property>
+            <list-property name="columnHints"/>
             <list-property name="filter">
                 <structure>
                     <property name="operator">gt</property>
@@ -2964,36 +2296,41 @@ new Date(currentDate.getFullYear(),month,currentDate.getDate());</expression>
                     </structure>
                     <structure>
                         <property name="position">11</property>
+                        <property name="name">portlsnum</property>
+                        <property name="dataType">decimal</property>
+                    </structure>
+                    <structure>
+                        <property name="position">12</property>
                         <property name="name">portNum</property>
                         <property name="dataType">float</property>
                     </structure>
                     <structure>
-                        <property name="position">12</property>
+                        <property name="position">13</property>
                         <property name="name">averageDose</property>
                         <property name="dataType">decimal</property>
                     </structure>
                     <structure>
-                        <property name="position">13</property>
+                        <property name="position">14</property>
                         <property name="name">hmgRate</property>
                         <property name="dataType">decimal</property>
                     </structure>
                     <structure>
-                        <property name="position">14</property>
+                        <property name="position">15</property>
                         <property name="name">omgRate</property>
                         <property name="dataType">decimal</property>
                     </structure>
                     <structure>
-                        <property name="position">15</property>
+                        <property name="position">16</property>
                         <property name="name">tmgRate</property>
                         <property name="dataType">decimal</property>
                     </structure>
                     <structure>
-                        <property name="position">16</property>
+                        <property name="position">17</property>
                         <property name="name">fmgRate</property>
                         <property name="dataType">decimal</property>
                     </structure>
                     <structure>
-                        <property name="position">17</property>
+                        <property name="position">18</property>
                         <property name="name">numRate</property>
                         <property name="dataType">float</property>
                     </structure>
@@ -3006,112 +2343,102 @@ new Date(currentDate.getFullYear(),month,currentDate.getDate());</expression>
                     <property name="name">name</property>
                     <property name="nativeName">name</property>
                     <property name="dataType">string</property>
-                    <property name="nativeDataType">12</property>
                 </structure>
                 <structure>
                     <property name="position">2</property>
                     <property name="name">userCode</property>
                     <property name="nativeName">userCode</property>
                     <property name="dataType">string</property>
-                    <property name="nativeDataType">12</property>
                 </structure>
                 <structure>
                     <property name="position">3</property>
                     <property name="name">regionCenter</property>
                     <property name="nativeName">regionCenter</property>
                     <property name="dataType">string</property>
-                    <property name="nativeDataType">12</property>
                 </structure>
                 <structure>
                     <property name="position">4</property>
                     <property name="name">region</property>
                     <property name="nativeName">region</property>
                     <property name="dataType">string</property>
-                    <property name="nativeDataType">12</property>
                 </structure>
                 <structure>
                     <property name="position">5</property>
                     <property name="name">level</property>
                     <property name="nativeName">level</property>
                     <property name="dataType">string</property>
-                    <property name="nativeDataType">12</property>
                 </structure>
                 <structure>
                     <property name="position">6</property>
                     <property name="name">hosNum</property>
                     <property name="nativeName">hosNum</property>
                     <property name="dataType">decimal</property>
-                    <property name="nativeDataType">-5</property>
                 </structure>
                 <structure>
                     <property name="position">7</property>
                     <property name="name">inNum</property>
                     <property name="nativeName">inNum</property>
                     <property name="dataType">decimal</property>
-                    <property name="nativeDataType">-5</property>
                 </structure>
                 <structure>
                     <property name="position">8</property>
                     <property name="name">pnum</property>
                     <property name="nativeName">pnum</property>
                     <property name="dataType">decimal</property>
-                    <property name="nativeDataType">3</property>
                 </structure>
                 <structure>
                     <property name="position">9</property>
                     <property name="name">whnum</property>
                     <property name="nativeName">whnum</property>
                     <property name="dataType">decimal</property>
-                    <property name="nativeDataType">3</property>
                 </structure>
                 <structure>
                     <property name="position">10</property>
                     <property name="name">lsnum</property>
                     <property name="nativeName">lsnum</property>
                     <property name="dataType">decimal</property>
-                    <property name="nativeDataType">3</property>
                 </structure>
                 <structure>
                     <property name="position">11</property>
-                    <property name="name">portNum</property>
-                    <property name="nativeName">portNum</property>
-                    <property name="dataType">float</property>
-                    <property name="nativeDataType">8</property>
+                    <property name="name">portlsnum</property>
+                    <property name="nativeName">portlsnum</property>
+                    <property name="dataType">decimal</property>
                 </structure>
                 <structure>
                     <property name="position">12</property>
-                    <property name="name">averageDose</property>
-                    <property name="nativeName">averageDose</property>
-                    <property name="dataType">decimal</property>
-                    <property name="nativeDataType">3</property>
+                    <property name="name">portNum</property>
+                    <property name="nativeName">portNum</property>
+                    <property name="dataType">float</property>
                 </structure>
                 <structure>
                     <property name="position">13</property>
-                    <property name="name">hmgRate</property>
-                    <property name="nativeName">hmgRate</property>
+                    <property name="name">averageDose</property>
+                    <property name="nativeName">averageDose</property>
                     <property name="dataType">decimal</property>
-                    <property name="nativeDataType">3</property>
                 </structure>
                 <structure>
                     <property name="position">14</property>
-                    <property name="name">omgRate</property>
-                    <property name="nativeName">omgRate</property>
+                    <property name="name">hmgRate</property>
+                    <property name="nativeName">hmgRate</property>
                     <property name="dataType">decimal</property>
-                    <property name="nativeDataType">3</property>
                 </structure>
                 <structure>
                     <property name="position">15</property>
-                    <property name="name">tmgRate</property>
-                    <property name="nativeName">tmgRate</property>
+                    <property name="name">omgRate</property>
+                    <property name="nativeName">omgRate</property>
                     <property name="dataType">decimal</property>
-                    <property name="nativeDataType">3</property>
                 </structure>
                 <structure>
                     <property name="position">16</property>
+                    <property name="name">tmgRate</property>
+                    <property name="nativeName">tmgRate</property>
+                    <property name="dataType">decimal</property>
+                </structure>
+                <structure>
+                    <property name="position">17</property>
                     <property name="name">fmgRate</property>
                     <property name="nativeName">fmgRate</property>
                     <property name="dataType">decimal</property>
-                    <property name="nativeDataType">3</property>
                 </structure>
             </list-property>
             <xml-property name="queryText"><![CDATA[select ui.name,ui.userCode,ui.regionCenter,ui.region,ui.level, ( 
@@ -3123,7 +2450,8 @@ new Date(currentDate.getFullYear(),month,currentDate.getDate());</expression>
 ,IFNULL(data_tmp.pnum,0) as pnum
 ,IFNULL(data_tmp.whnum,0) as whnum
 ,IFNULL(data_tmp.lsnum,0) as lsnum
-,IFNULL(data_tmp.portNum*?,0) as portNum
+,IFNULL(data_tmp.portlsnum,0) as portlsnum 
+,IFNULL(data_tmp.portNum*?,0) as portNum 
 ,IFNULL(data_tmp.averageDose,0) as averageDose
 ,IFNULL(data_tmp.hmgRate,0) as hmgRate
 ,IFNULL(data_tmp.omgRate,0) as omgRate
@@ -3136,6 +2464,11 @@ from
 	,IFNULL(sum(pd.pnum),0) as pnum
 	,IFNULL(sum(pd.whnum),0) as whnum
 	,IFNULL(sum(pd.lsnum),0) as lsnum
+	,IFNULL(sum( 
+		case 
+			when pd.portNum = 0 then 0 
+			else pd.lsnum 
+		end ),0) as portlsnum
 	,IFNULL(sum(pd.portNum),0) as portNum
 	,IFNULL( sum( ( ( 0.5*IFNULL(pd.hqd,0) + 0.5*2*IFNULL(pd.hbid,0) + 1*1*IFNULL(pd.oqd,0) + 1*2*IFNULL(pd.obid,0) + 2*1*IFNULL(pd.tqd,0) + 2*2*IFNULL(pd.tbid,0) ) / 100 ) * IFNULL(pd.lsnum,0) ) / IFNULL(sum(pd.lsnum),0),0 ) as averageDose
 	,IFNULL( sum( IFNULL(pd.hqd,0)/100*IFNULL(pd.lsnum,0) ) / sum( IFNULL(pd.lsnum,0) ),0 ) as hmgRate
@@ -3145,7 +2478,7 @@ from
 	from tbl_pediatrics_data pd, tbl_hospital h1, tbl_userinfo u 
     where pd.hospitalName = h1.name 
     and h1.rsmRegion = u.region 
-    and DATE_FORMAT(pd.createdate,'%m-%d-%Y') = ? 
+    and DATE_FORMAT(pd.createdate,'%m-%d-%Y') = ?  
     and h1.isPedAssessed='1' 
 	and u.level='RSM' 
 	and u.regionCenter = 'South GRA' 
@@ -3153,7 +2486,8 @@ from
 ) data_tmp 
 right join tbl_userinfo ui on data_tmp.userCode = ui.userCode 
 where ui.level='RSM' 
-and ui.regionCenter = 'South GRA';]]></xml-property>
+and ui.regionCenter = 'South GRA' 
+order by ui.region;]]></xml-property>
             <xml-property name="designerValues"><![CDATA[<?xml version="1.0" encoding="UTF-8"?>
 <model:DesignValues xmlns:design="http://www.eclipse.org/datatools/connectivity/oda/design" xmlns:model="http://www.eclipse.org/birt/report/model/adapter/odaModel">
   <Version>2.0</Version>
@@ -3216,104 +2550,7 @@ and ui.regionCenter = 'South GRA';]]></xml-property>
                     </list-property>
                 </structure>
             </list-property>
-            <list-property name="columnHints">
-                <structure>
-                    <property name="columnName">name</property>
-                    <property name="analysis">dimension</property>
-                    <text-property name="displayName">name</text-property>
-                    <text-property name="heading">name</text-property>
-                </structure>
-                <structure>
-                    <property name="columnName">userCode</property>
-                    <property name="analysis">dimension</property>
-                    <text-property name="displayName">userCode</text-property>
-                    <text-property name="heading">userCode</text-property>
-                </structure>
-                <structure>
-                    <property name="columnName">regionCenter</property>
-                    <property name="analysis">dimension</property>
-                    <text-property name="displayName">regionCenter</text-property>
-                    <text-property name="heading">regionCenter</text-property>
-                </structure>
-                <structure>
-                    <property name="columnName">region</property>
-                    <property name="analysis">dimension</property>
-                    <text-property name="displayName">region</text-property>
-                    <text-property name="heading">region</text-property>
-                </structure>
-                <structure>
-                    <property name="columnName">level</property>
-                    <property name="analysis">dimension</property>
-                    <text-property name="displayName">level</text-property>
-                    <text-property name="heading">level</text-property>
-                </structure>
-                <structure>
-                    <property name="columnName">hosNum</property>
-                    <property name="analysis">measure</property>
-                    <text-property name="displayName">hosNum</text-property>
-                    <text-property name="heading">hosNum</text-property>
-                </structure>
-                <structure>
-                    <property name="columnName">inNum</property>
-                    <property name="analysis">measure</property>
-                    <text-property name="displayName">inNum</text-property>
-                    <text-property name="heading">inNum</text-property>
-                </structure>
-                <structure>
-                    <property name="columnName">pnum</property>
-                    <property name="analysis">measure</property>
-                    <text-property name="displayName">pnum</text-property>
-                    <text-property name="heading">pnum</text-property>
-                </structure>
-                <structure>
-                    <property name="columnName">whnum</property>
-                    <property name="analysis">measure</property>
-                    <text-property name="displayName">whnum</text-property>
-                    <text-property name="heading">whnum</text-property>
-                </structure>
-                <structure>
-                    <property name="columnName">lsnum</property>
-                    <property name="analysis">measure</property>
-                    <text-property name="displayName">lsnum</text-property>
-                    <text-property name="heading">lsnum</text-property>
-                </structure>
-                <structure>
-                    <property name="columnName">portNum</property>
-                    <property name="analysis">measure</property>
-                    <text-property name="displayName">portNum</text-property>
-                    <text-property name="heading">portNum</text-property>
-                </structure>
-                <structure>
-                    <property name="columnName">averageDose</property>
-                    <property name="analysis">measure</property>
-                    <text-property name="displayName">averageDose</text-property>
-                    <text-property name="heading">averageDose</text-property>
-                </structure>
-                <structure>
-                    <property name="columnName">hmgRate</property>
-                    <property name="analysis">measure</property>
-                    <text-property name="displayName">hmgRate</text-property>
-                    <text-property name="heading">hmgRate</text-property>
-                </structure>
-                <structure>
-                    <property name="columnName">omgRate</property>
-                    <property name="analysis">measure</property>
-                    <text-property name="displayName">omgRate</text-property>
-                    <text-property name="heading">omgRate</text-property>
-                </structure>
-                <structure>
-                    <property name="columnName">tmgRate</property>
-                    <property name="analysis">measure</property>
-                    <text-property name="displayName">tmgRate</text-property>
-                    <text-property name="heading">tmgRate</text-property>
-                </structure>
-                <structure>
-                    <property name="columnName">fmgRate</property>
-                    <property name="analysis">measure</property>
-                    <text-property name="displayName">fmgRate</text-property>
-                    <text-property name="heading">fmgRate</text-property>
-                </structure>
-            </list-property>
+            <list-property name="columnHints"/>
             <list-property name="filter">
                 <structure>
                     <property name="operator">gt</property>
@@ -3414,36 +2651,41 @@ new Date(currentDate.getFullYear(),month,currentDate.getDate());</expression>
                     </structure>
                     <structure>
                         <property name="position">11</property>
+                        <property name="name">portlsnum</property>
+                        <property name="dataType">decimal</property>
+                    </structure>
+                    <structure>
+                        <property name="position">12</property>
                         <property name="name">portNum</property>
                         <property name="dataType">float</property>
                     </structure>
                     <structure>
-                        <property name="position">12</property>
+                        <property name="position">13</property>
                         <property name="name">averageDose</property>
                         <property name="dataType">decimal</property>
                     </structure>
                     <structure>
-                        <property name="position">13</property>
+                        <property name="position">14</property>
                         <property name="name">hmgRate</property>
                         <property name="dataType">decimal</property>
                     </structure>
                     <structure>
-                        <property name="position">14</property>
+                        <property name="position">15</property>
                         <property name="name">omgRate</property>
                         <property name="dataType">decimal</property>
                     </structure>
                     <structure>
-                        <property name="position">15</property>
+                        <property name="position">16</property>
                         <property name="name">tmgRate</property>
                         <property name="dataType">decimal</property>
                     </structure>
                     <structure>
-                        <property name="position">16</property>
+                        <property name="position">17</property>
                         <property name="name">fmgRate</property>
                         <property name="dataType">decimal</property>
                     </structure>
                     <structure>
-                        <property name="position">17</property>
+                        <property name="position">18</property>
                         <property name="name">numRate</property>
                         <property name="dataType">float</property>
                     </structure>
@@ -3456,112 +2698,102 @@ new Date(currentDate.getFullYear(),month,currentDate.getDate());</expression>
                     <property name="name">name</property>
                     <property name="nativeName">name</property>
                     <property name="dataType">string</property>
-                    <property name="nativeDataType">12</property>
                 </structure>
                 <structure>
                     <property name="position">2</property>
                     <property name="name">userCode</property>
                     <property name="nativeName">userCode</property>
                     <property name="dataType">string</property>
-                    <property name="nativeDataType">12</property>
                 </structure>
                 <structure>
                     <property name="position">3</property>
                     <property name="name">regionCenter</property>
                     <property name="nativeName">regionCenter</property>
                     <property name="dataType">string</property>
-                    <property name="nativeDataType">12</property>
                 </structure>
                 <structure>
                     <property name="position">4</property>
                     <property name="name">region</property>
                     <property name="nativeName">region</property>
                     <property name="dataType">string</property>
-                    <property name="nativeDataType">12</property>
                 </structure>
                 <structure>
                     <property name="position">5</property>
                     <property name="name">level</property>
                     <property name="nativeName">level</property>
                     <property name="dataType">string</property>
-                    <property name="nativeDataType">12</property>
                 </structure>
                 <structure>
                     <property name="position">6</property>
                     <property name="name">hosNum</property>
                     <property name="nativeName">hosNum</property>
                     <property name="dataType">decimal</property>
-                    <property name="nativeDataType">-5</property>
                 </structure>
                 <structure>
                     <property name="position">7</property>
                     <property name="name">inNum</property>
                     <property name="nativeName">inNum</property>
                     <property name="dataType">decimal</property>
-                    <property name="nativeDataType">-5</property>
                 </structure>
                 <structure>
                     <property name="position">8</property>
                     <property name="name">pnum</property>
                     <property name="nativeName">pnum</property>
                     <property name="dataType">decimal</property>
-                    <property name="nativeDataType">3</property>
                 </structure>
                 <structure>
                     <property name="position">9</property>
                     <property name="name">whnum</property>
                     <property name="nativeName">whnum</property>
                     <property name="dataType">decimal</property>
-                    <property name="nativeDataType">3</property>
                 </structure>
                 <structure>
                     <property name="position">10</property>
                     <property name="name">lsnum</property>
                     <property name="nativeName">lsnum</property>
                     <property name="dataType">decimal</property>
-                    <property name="nativeDataType">3</property>
                 </structure>
                 <structure>
                     <property name="position">11</property>
-                    <property name="name">portNum</property>
-                    <property name="nativeName">portNum</property>
-                    <property name="dataType">float</property>
-                    <property name="nativeDataType">8</property>
+                    <property name="name">portlsnum</property>
+                    <property name="nativeName">portlsnum</property>
+                    <property name="dataType">decimal</property>
                 </structure>
                 <structure>
                     <property name="position">12</property>
-                    <property name="name">averageDose</property>
-                    <property name="nativeName">averageDose</property>
-                    <property name="dataType">decimal</property>
-                    <property name="nativeDataType">3</property>
+                    <property name="name">portNum</property>
+                    <property name="nativeName">portNum</property>
+                    <property name="dataType">float</property>
                 </structure>
                 <structure>
                     <property name="position">13</property>
-                    <property name="name">hmgRate</property>
-                    <property name="nativeName">hmgRate</property>
+                    <property name="name">averageDose</property>
+                    <property name="nativeName">averageDose</property>
                     <property name="dataType">decimal</property>
-                    <property name="nativeDataType">3</property>
                 </structure>
                 <structure>
                     <property name="position">14</property>
-                    <property name="name">omgRate</property>
-                    <property name="nativeName">omgRate</property>
+                    <property name="name">hmgRate</property>
+                    <property name="nativeName">hmgRate</property>
                     <property name="dataType">decimal</property>
-                    <property name="nativeDataType">3</property>
                 </structure>
                 <structure>
                     <property name="position">15</property>
-                    <property name="name">tmgRate</property>
-                    <property name="nativeName">tmgRate</property>
+                    <property name="name">omgRate</property>
+                    <property name="nativeName">omgRate</property>
                     <property name="dataType">decimal</property>
-                    <property name="nativeDataType">3</property>
                 </structure>
                 <structure>
                     <property name="position">16</property>
+                    <property name="name">tmgRate</property>
+                    <property name="nativeName">tmgRate</property>
+                    <property name="dataType">decimal</property>
+                </structure>
+                <structure>
+                    <property name="position">17</property>
                     <property name="name">fmgRate</property>
                     <property name="nativeName">fmgRate</property>
                     <property name="dataType">decimal</property>
-                    <property name="nativeDataType">3</property>
                 </structure>
             </list-property>
             <xml-property name="queryText"><![CDATA[select ui.name,ui.userCode,ui.regionCenter,ui.region,ui.level, ( 
@@ -3573,7 +2805,8 @@ new Date(currentDate.getFullYear(),month,currentDate.getDate());</expression>
 ,IFNULL(data_tmp.pnum,0) as pnum
 ,IFNULL(data_tmp.whnum,0) as whnum
 ,IFNULL(data_tmp.lsnum,0) as lsnum
-,IFNULL(data_tmp.portNum*?,0) as portNum
+,IFNULL(data_tmp.portlsnum,0) as portlsnum 
+,IFNULL(data_tmp.portNum*?,0) as portNum 
 ,IFNULL(data_tmp.averageDose,0) as averageDose
 ,IFNULL(data_tmp.hmgRate,0) as hmgRate
 ,IFNULL(data_tmp.omgRate,0) as omgRate
@@ -3586,6 +2819,11 @@ from
 	,IFNULL(sum(pd.pnum),0) as pnum
 	,IFNULL(sum(pd.whnum),0) as whnum
 	,IFNULL(sum(pd.lsnum),0) as lsnum
+	,IFNULL(sum( 
+		case 
+			when pd.portNum = 0 then 0 
+			else pd.lsnum 
+		end ),0) as portlsnum
 	,IFNULL(sum(pd.portNum),0) as portNum
 	,IFNULL( sum( ( ( 0.5*IFNULL(pd.hqd,0) + 0.5*2*IFNULL(pd.hbid,0) + 1*1*IFNULL(pd.oqd,0) + 1*2*IFNULL(pd.obid,0) + 2*1*IFNULL(pd.tqd,0) + 2*2*IFNULL(pd.tbid,0) ) / 100 ) * IFNULL(pd.lsnum,0) ) / IFNULL(sum(pd.lsnum),0),0 ) as averageDose
 	,IFNULL( sum( IFNULL(pd.hqd,0)/100*IFNULL(pd.lsnum,0) ) / sum( IFNULL(pd.lsnum,0) ),0 ) as hmgRate
@@ -3595,7 +2833,7 @@ from
 	from tbl_pediatrics_data pd, tbl_hospital h1, tbl_userinfo u 
     where pd.hospitalName = h1.name 
     and h1.rsmRegion = u.region 
-    and DATE_FORMAT(pd.createdate,'%m-%d-%Y') = ? 
+    and DATE_FORMAT(pd.createdate,'%m-%d-%Y') = ?  
     and h1.isPedAssessed='1' 
 	and u.level='RSM' 
 	and u.regionCenter = 'West GRA' 
@@ -3603,7 +2841,8 @@ from
 ) data_tmp 
 right join tbl_userinfo ui on data_tmp.userCode = ui.userCode 
 where ui.level='RSM' 
-and ui.regionCenter = 'West GRA';]]></xml-property>
+and ui.regionCenter = 'West GRA' 
+order by ui.region;]]></xml-property>
             <xml-property name="designerValues"><![CDATA[<?xml version="1.0" encoding="UTF-8"?>
 <model:DesignValues xmlns:design="http://www.eclipse.org/datatools/connectivity/oda/design" xmlns:model="http://www.eclipse.org/birt/report/model/adapter/odaModel">
   <Version>2.0</Version>
@@ -4042,7 +3281,7 @@ dataSetRow["inNum"]/dataSetRow["hosNum"]&#13;
                     <expression name="expression" type="javascript">if( dataSetRow["portNum"] == 0 ){&#13;
 	0&#13;
 }else{&#13;
-	dataSetRow["lsnum"]/dataSetRow["portNum"]&#13;
+	dataSetRow["portlsnum"]/dataSetRow["portNum"]&#13;
 }</expression>
                     <property name="dataType">float</property>
                     <property name="allowExport">true</property>
@@ -4099,9 +3338,29 @@ dataSetRow["inNum"]/dataSetRow["hosNum"]&#13;
                     <expression name="expression" type="javascript">if( row["portNumTotal"] == 0 ){&#13;
 	0&#13;
 }else{&#13;
-	row["lsnumTotal"]/row["portNumTotal"]&#13;
+	row["portlsnumTotal"]/row["portNumTotal"]&#13;
 }</expression>
                     <property name="dataType">float</property>
+                    <property name="allowExport">true</property>
+                </structure>
+                <structure>
+                    <property name="name">portlsnum</property>
+                    <text-property name="displayName">portlsnum</text-property>
+                    <expression name="expression" type="javascript">dataSetRow["portlsnum"]</expression>
+                    <property name="dataType">integer</property>
+                    <property name="allowExport">true</property>
+                </structure>
+                <structure>
+                    <property name="name">portlsnumTotal</property>
+                    <text-property name="displayName">portlsnumTotal</text-property>
+                    <property name="dataType">float</property>
+                    <property name="aggregateFunction">SUM</property>
+                    <list-property name="arguments">
+                        <structure>
+                            <property name="name">Expression</property>
+                            <expression name="value" type="javascript">row["portlsnum"]</expression>
+                        </structure>
+                    </list-property>
                     <property name="allowExport">true</property>
                 </structure>
             </list-property>
@@ -5236,7 +4495,7 @@ dataSetRow["inNum"]/dataSetRow["hosNum"]&#13;
                     <expression name="expression" type="javascript">if( dataSetRow["portNum"] == 0 ){&#13;
 	0&#13;
 }else{&#13;
-	dataSetRow["lsnum"]/dataSetRow["portNum"]&#13;
+	dataSetRow["portlsnum"]/dataSetRow["portNum"]&#13;
 }</expression>
                     <property name="dataType">float</property>
                     <property name="allowExport">true</property>
@@ -5281,9 +4540,29 @@ dataSetRow["inNum"]/dataSetRow["hosNum"]&#13;
                     <expression name="expression" type="javascript">if( row["portNumTotal"] == 0 ){&#13;
 	0&#13;
 }else{&#13;
-	row["lsnumTotal"]/row["portNumTotal"]&#13;
+	row["portlsnumTotal"]/row["portNumTotal"]&#13;
 }</expression>
                     <property name="dataType">float</property>
+                    <property name="allowExport">true</property>
+                </structure>
+                <structure>
+                    <property name="name">portlsnum</property>
+                    <text-property name="displayName">portlsnum</text-property>
+                    <expression name="expression" type="javascript">dataSetRow["portlsnum"]</expression>
+                    <property name="dataType">integer</property>
+                    <property name="allowExport">true</property>
+                </structure>
+                <structure>
+                    <property name="name">portlsnumTotal</property>
+                    <text-property name="displayName">portlsnumTotal</text-property>
+                    <property name="dataType">float</property>
+                    <property name="aggregateFunction">SUM</property>
+                    <list-property name="arguments">
+                        <structure>
+                            <property name="name">Expression</property>
+                            <expression name="value" type="javascript">row["portlsnum"]</expression>
+                        </structure>
+                    </list-property>
                     <property name="allowExport">true</property>
                 </structure>
             </list-property>
@@ -6465,7 +5744,7 @@ dataSetRow["inNum"]/dataSetRow["hosNum"]&#13;
                     <expression name="expression" type="javascript">if( dataSetRow["portNum"] == 0 ){&#13;
 	0&#13;
 }else{&#13;
-	dataSetRow["lsnum"]/dataSetRow["portNum"]&#13;
+	dataSetRow["portlsnum"]/dataSetRow["portNum"]&#13;
 }</expression>
                     <property name="dataType">float</property>
                     <property name="allowExport">true</property>
@@ -6514,9 +5793,29 @@ dataSetRow["inNum"]/dataSetRow["hosNum"]&#13;
                     <expression name="expression" type="javascript">if( row["portNumTotal"] == 0 ){&#13;
 	0&#13;
 }else{&#13;
-	row["lsnumTotal"]/row["portNumTotal"]&#13;
+	row["portlsnumTotal"]/row["portNumTotal"]&#13;
 }</expression>
                     <property name="dataType">float</property>
+                    <property name="allowExport">true</property>
+                </structure>
+                <structure>
+                    <property name="name">portlsnum</property>
+                    <text-property name="displayName">portlsnum</text-property>
+                    <expression name="expression" type="javascript">dataSetRow["portlsnum"]</expression>
+                    <property name="dataType">integer</property>
+                    <property name="allowExport">true</property>
+                </structure>
+                <structure>
+                    <property name="name">portlsnumTotal</property>
+                    <text-property name="displayName">portlsnumTotal</text-property>
+                    <property name="dataType">float</property>
+                    <property name="aggregateFunction">SUM</property>
+                    <list-property name="arguments">
+                        <structure>
+                            <property name="name">Expression</property>
+                            <expression name="value" type="javascript">row["portlsnum"]</expression>
+                        </structure>
+                    </list-property>
                     <property name="allowExport">true</property>
                 </structure>
             </list-property>
@@ -7704,7 +7003,7 @@ dataSetRow["inNum"]/dataSetRow["hosNum"]&#13;
                     <expression name="expression" type="javascript">if( dataSetRow["portNum"] == 0 ){&#13;
 	0&#13;
 }else{&#13;
-	dataSetRow["lsnum"]/dataSetRow["portNum"]&#13;
+	dataSetRow["portlsnum"]/dataSetRow["portNum"]&#13;
 }</expression>
                     <property name="dataType">float</property>
                     <property name="allowExport">true</property>
@@ -7747,9 +7046,35 @@ dataSetRow["inNum"]/dataSetRow["hosNum"]&#13;
                     <expression name="expression" type="javascript">if( row["portNumTotal"] == 0 ){&#13;
 	0&#13;
 }else{&#13;
-	row["lsnumTotal"]/row["portNumTotal"]&#13;
+	row["portlsnumTotal"]/row["portNumTotal"]&#13;
 }</expression>
                     <property name="dataType">float</property>
+                    <property name="allowExport">true</property>
+                </structure>
+                <structure>
+                    <property name="name">portlsnum</property>
+                    <text-property name="displayName">portlsnum</text-property>
+                    <expression name="expression" type="javascript">dataSetRow["portlsnum"]</expression>
+                    <property name="dataType">integer</property>
+                    <property name="allowExport">true</property>
+                </structure>
+                <structure>
+                    <property name="name">numRate_1</property>
+                    <text-property name="displayName">numRate</text-property>
+                    <expression name="expression" type="javascript">dataSetRow["numRate"]</expression>
+                    <property name="dataType">float</property>
+                </structure>
+                <structure>
+                    <property name="name">portlsnumTotal</property>
+                    <text-property name="displayName">portlsnumTotal</text-property>
+                    <property name="dataType">float</property>
+                    <property name="aggregateFunction">SUM</property>
+                    <list-property name="arguments">
+                        <structure>
+                            <property name="name">Expression</property>
+                            <expression name="value" type="javascript">row["portlsnum"]</expression>
+                        </structure>
+                    </list-property>
                     <property name="allowExport">true</property>
                 </structure>
             </list-property>
@@ -8937,7 +8262,7 @@ dataSetRow["inNum"]/dataSetRow["hosNum"]&#13;
                     <expression name="expression" type="javascript">if( dataSetRow["portNum"] == 0 ){&#13;
 	0&#13;
 }else{&#13;
-	dataSetRow["lsnum"]/dataSetRow["portNum"]&#13;
+	dataSetRow["portlsnum"]/dataSetRow["portNum"]&#13;
 }</expression>
                     <property name="dataType">float</property>
                     <property name="allowExport">true</property>
@@ -8980,9 +8305,35 @@ dataSetRow["inNum"]/dataSetRow["hosNum"]&#13;
                     <expression name="expression" type="javascript">if( row["portNumTotal"] == 0 ){&#13;
 	0&#13;
 }else{&#13;
-	row["lsnumTotal"]/row["portNumTotal"]&#13;
+	row["portlsnumTotal"]/row["portNumTotal"]&#13;
 }</expression>
                     <property name="dataType">float</property>
+                    <property name="allowExport">true</property>
+                </structure>
+                <structure>
+                    <property name="name">portlsnum</property>
+                    <text-property name="displayName">portlsnum</text-property>
+                    <expression name="expression" type="javascript">dataSetRow["portlsnum"]</expression>
+                    <property name="dataType">integer</property>
+                    <property name="allowExport">true</property>
+                </structure>
+                <structure>
+                    <property name="name">numRate_1</property>
+                    <text-property name="displayName">numRate</text-property>
+                    <expression name="expression" type="javascript">dataSetRow["numRate"]</expression>
+                    <property name="dataType">float</property>
+                </structure>
+                <structure>
+                    <property name="name">portlsnumTotal</property>
+                    <text-property name="displayName">portlsnumTotal</text-property>
+                    <property name="dataType">float</property>
+                    <property name="aggregateFunction">SUM</property>
+                    <list-property name="arguments">
+                        <structure>
+                            <property name="name">Expression</property>
+                            <expression name="value" type="javascript">row["portlsnum"]</expression>
+                        </structure>
+                    </list-property>
                     <property name="allowExport">true</property>
                 </structure>
             </list-property>
@@ -10170,7 +9521,7 @@ dataSetRow["inNum"]/dataSetRow["hosNum"]&#13;
                     <expression name="expression" type="javascript">if( dataSetRow["portNum"] == 0 ){&#13;
 	0&#13;
 }else{&#13;
-	dataSetRow["lsnum"]/dataSetRow["portNum"]&#13;
+	dataSetRow["portlsnum"]/dataSetRow["portNum"]&#13;
 }</expression>
                     <property name="dataType">float</property>
                     <property name="allowExport">true</property>
@@ -10219,9 +9570,29 @@ dataSetRow["inNum"]/dataSetRow["hosNum"]&#13;
                     <expression name="expression" type="javascript">if( row["portNumTotal"] == 0 ){&#13;
 	0&#13;
 }else{&#13;
-	row["lsnumTotal"]/row["portNumTotal"]&#13;
+	row["portlsnumTotal"]/row["portNumTotal"]&#13;
 }</expression>
                     <property name="dataType">float</property>
+                    <property name="allowExport">true</property>
+                </structure>
+                <structure>
+                    <property name="name">portlsnum</property>
+                    <text-property name="displayName">portlsnum</text-property>
+                    <expression name="expression" type="javascript">dataSetRow["portlsnum"]</expression>
+                    <property name="dataType">integer</property>
+                    <property name="allowExport">true</property>
+                </structure>
+                <structure>
+                    <property name="name">portlsnumTotal</property>
+                    <text-property name="displayName">portlsnumTotal</text-property>
+                    <property name="dataType">float</property>
+                    <property name="aggregateFunction">SUM</property>
+                    <list-property name="arguments">
+                        <structure>
+                            <property name="name">Expression</property>
+                            <expression name="value" type="javascript">row["portlsnum"]</expression>
+                        </structure>
+                    </list-property>
                     <property name="allowExport">true</property>
                 </structure>
             </list-property>
@@ -11409,7 +10780,7 @@ dataSetRow["inNum"]/dataSetRow["hosNum"]&#13;
                     <expression name="expression" type="javascript">if( dataSetRow["portNum"] == 0 ){&#13;
 	0&#13;
 }else{&#13;
-	dataSetRow["lsnum"]/dataSetRow["portNum"]&#13;
+	dataSetRow["portlsnum"]/dataSetRow["portNum"]&#13;
 }</expression>
                     <property name="dataType">float</property>
                     <property name="allowExport">true</property>
@@ -11458,9 +10829,29 @@ dataSetRow["inNum"]/dataSetRow["hosNum"]&#13;
                     <expression name="expression" type="javascript">if( row["portNumTotal"] == 0 ){&#13;
 	0&#13;
 }else{&#13;
-	row["lsnumTotal"]/row["portNumTotal"]&#13;
+	row["portlsnumTotal"]/row["portNumTotal"]&#13;
 }</expression>
                     <property name="dataType">float</property>
+                    <property name="allowExport">true</property>
+                </structure>
+                <structure>
+                    <property name="name">portlsnum</property>
+                    <text-property name="displayName">portlsnum</text-property>
+                    <expression name="expression" type="javascript">dataSetRow["portlsnum"]</expression>
+                    <property name="dataType">integer</property>
+                    <property name="allowExport">true</property>
+                </structure>
+                <structure>
+                    <property name="name">portlsnumTotal</property>
+                    <text-property name="displayName">portlsnumTotal</text-property>
+                    <property name="dataType">float</property>
+                    <property name="aggregateFunction">SUM</property>
+                    <list-property name="arguments">
+                        <structure>
+                            <property name="name">Expression</property>
+                            <expression name="value" type="javascript">row["portlsnum"]</expression>
+                        </structure>
+                    </list-property>
                     <property name="allowExport">true</property>
                 </structure>
             </list-property>
@@ -12648,7 +12039,7 @@ dataSetRow["inNum"]/dataSetRow["hosNum"]&#13;
                     <expression name="expression" type="javascript">if( dataSetRow["portNum"] == 0 ){&#13;
 	0&#13;
 }else{&#13;
-	dataSetRow["lsnum"]/dataSetRow["portNum"]&#13;
+	dataSetRow["portlsnum"]/dataSetRow["portNum"]&#13;
 }</expression>
                     <property name="dataType">float</property>
                     <property name="allowExport">true</property>
@@ -12697,9 +12088,29 @@ dataSetRow["inNum"]/dataSetRow["hosNum"]&#13;
                     <expression name="expression" type="javascript">if( row["portNumTotal"] == 0 ){&#13;
 	0&#13;
 }else{&#13;
-	row["lsnumTotal"]/row["portNumTotal"]&#13;
+	row["portlsnumTotal"]/row["portNumTotal"]&#13;
 }</expression>
                     <property name="dataType">float</property>
+                    <property name="allowExport">true</property>
+                </structure>
+                <structure>
+                    <property name="name">portlsnum</property>
+                    <text-property name="displayName">portlsnum</text-property>
+                    <expression name="expression" type="javascript">dataSetRow["portlsnum"]</expression>
+                    <property name="dataType">integer</property>
+                    <property name="allowExport">true</property>
+                </structure>
+                <structure>
+                    <property name="name">portlsnumTotal</property>
+                    <text-property name="displayName">portlsnumTotal</text-property>
+                    <property name="dataType">float</property>
+                    <property name="aggregateFunction">SUM</property>
+                    <list-property name="arguments">
+                        <structure>
+                            <property name="name">Expression</property>
+                            <expression name="value" type="javascript">row["portlsnum"]</expression>
+                        </structure>
+                    </list-property>
                     <property name="allowExport">true</property>
                 </structure>
             </list-property>
