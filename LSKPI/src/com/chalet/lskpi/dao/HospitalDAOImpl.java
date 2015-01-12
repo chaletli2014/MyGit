@@ -379,6 +379,8 @@ public class HospitalDAOImpl implements HospitalDAO {
                 
                 if( month > 9 ){
                     ps.setString(12, createCal.get(Calendar.YEAR)+"-"+month);
+                }if( month == 0 ){
+                	ps.setString(12, (createCal.get(Calendar.YEAR)-1)+"-12");
                 }else{
                     ps.setString(12, createCal.get(Calendar.YEAR)+"-0"+month);
                 }
