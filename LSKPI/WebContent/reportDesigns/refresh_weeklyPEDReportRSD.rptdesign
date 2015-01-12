@@ -11008,7 +11008,7 @@ this.getStyle().backgroundColor = "#FFFFFF";
       </Grouping>
       <Sorting>Ascending</Sorting>
       <SortKey>
-        <Definition>row[&quot;duration&quot;].substring(5,11) + row[&quot;duration&quot;].substring(16,21)</Definition>
+        <Definition>row[&quot;duration&quot;]</Definition>
       </SortKey>
     </SeriesDefinitions>
     <Orientation>Horizontal</Orientation>
@@ -12236,7 +12236,7 @@ this.getStyle().backgroundColor = "#FFFFFF";
       </Grouping>
       <Sorting>Ascending</Sorting>
       <SortKey>
-        <Definition>row[&quot;duration&quot;].substring(5,11) + row[&quot;duration&quot;].substring(16,21)</Definition>
+        <Definition>row[&quot;duration&quot;]</Definition>
       </SortKey>
     </SeriesDefinitions>
     <Orientation>Horizontal</Orientation>
@@ -13460,7 +13460,7 @@ this.getStyle().backgroundColor = "#FFFFFF";
       </Grouping>
       <Sorting>Ascending</Sorting>
       <SortKey>
-        <Definition>row[&quot;duration&quot;].substring(5,11) + row[&quot;duration&quot;].substring(16,21)</Definition>
+        <Definition>row[&quot;duration&quot;]</Definition>
       </SortKey>
     </SeriesDefinitions>
     <Orientation>Horizontal</Orientation>
@@ -15939,7 +15939,7 @@ this.getStyle().backgroundColor = "#FFFFFF";
       </Grouping>
       <Sorting>Ascending</Sorting>
       <SortKey>
-        <Definition>row[&quot;duration&quot;].substring(5,11) + row[&quot;duration&quot;].substring(16,21)</Definition>
+        <Definition>row[&quot;duration&quot;]</Definition>
       </SortKey>
     </SeriesDefinitions>
     <Orientation>Horizontal</Orientation>
@@ -17159,7 +17159,7 @@ this.getStyle().backgroundColor = "#FFFFFF";
       </Grouping>
       <Sorting>Ascending</Sorting>
       <SortKey>
-        <Definition>row[&quot;duration&quot;].substring(5,11) + row[&quot;duration&quot;].substring(16,21)</Definition>
+        <Definition>row[&quot;duration&quot;]</Definition>
       </SortKey>
     </SeriesDefinitions>
     <Orientation>Horizontal</Orientation>
@@ -18389,7 +18389,7 @@ this.getStyle().backgroundColor = "#FFFFFF";
       </Grouping>
       <Sorting>Ascending</Sorting>
       <SortKey>
-        <Definition>row[&quot;duration&quot;].substring(5,11) + row[&quot;duration&quot;].substring(16,21)</Definition>
+        <Definition>row[&quot;duration&quot;]</Definition>
       </SortKey>
     </SeriesDefinitions>
     <Orientation>Horizontal</Orientation>
@@ -19617,7 +19617,7 @@ this.getStyle().backgroundColor = "#FFFFFF";
       </Grouping>
       <Sorting>Ascending</Sorting>
       <SortKey>
-        <Definition>row[&quot;duration&quot;].substring(5,11) + row[&quot;duration&quot;].substring(16,21)</Definition>
+        <Definition>row[&quot;duration&quot;]</Definition>
       </SortKey>
     </SeriesDefinitions>
     <Orientation>Horizontal</Orientation>
@@ -27075,7 +27075,7 @@ dataSetRow["inNum"]/dataSetRow["hosNum"]&#13;
       </Grouping>
       <Sorting>Ascending</Sorting>
       <SortKey>
-        <Definition>row[&quot;duration&quot;].substring(5,11) + row[&quot;duration&quot;].substring(16,21)</Definition>
+        <Definition>row[&quot;duration&quot;]</Definition>
       </SortKey>
     </SeriesDefinitions>
     <Orientation>Horizontal</Orientation>
