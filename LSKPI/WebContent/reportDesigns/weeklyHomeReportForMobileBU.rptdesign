@@ -3992,7 +3992,7 @@ group by hd.duration, h.region;]]></xml-property>
       </Grouping>
       <Sorting>Ascending</Sorting>
       <SortKey>
-        <Definition>row[&quot;duration&quot;].substring(5,11) + row[&quot;duration&quot;].substring(16,21)</Definition>
+        <Definition>row[&quot;duration&quot;]</Definition>
       </SortKey>
     </SeriesDefinitions>
     <Orientation>Horizontal</Orientation>
@@ -5575,7 +5575,7 @@ group by hd.duration, h.region;]]></xml-property>
       </Grouping>
       <Sorting>Ascending</Sorting>
       <SortKey>
-        <Definition>row[&quot;duration&quot;].substring(5,11) + row[&quot;duration&quot;].substring(16,21)</Definition>
+        <Definition>row[&quot;duration&quot;]</Definition>
       </SortKey>
     </SeriesDefinitions>
     <Orientation>Horizontal</Orientation>
@@ -7162,7 +7162,7 @@ group by hd.duration, h.region;]]></xml-property>
       </Grouping>
       <Sorting>Ascending</Sorting>
       <SortKey>
-        <Definition>row[&quot;duration&quot;].substring(5,11) + row[&quot;duration&quot;].substring(16,21)</Definition>
+        <Definition>row[&quot;duration&quot;]</Definition>
       </SortKey>
     </SeriesDefinitions>
     <Orientation>Horizontal</Orientation>
