@@ -82,6 +82,8 @@ function deletedoctor(dataId,doctorname){
                                        <a href="javascript:void(0)" onclick="confirm('',${doctor.id},'${doctor.name}')">
                                          <img alt="" src="<%=basePath%>images/button_delete.png" style="cursor: pointer;" />
                                        </a>
+                                   </c:if>
+                                   <c:if test="${currentUser.level=='DSM'||currentUser.level=='BM'||currentUser.level=='REP'}">
 									   <a href="javascript:void(0)" onclick="showRefer(${doctor.id},'${doctor.name}','${doctor.hospitalName}','${doctor.salesCode}')">
                                          <img alt="" src="<%=basePath%>images/button_refer.png" style="cursor: pointer;" />
                                        </a>
