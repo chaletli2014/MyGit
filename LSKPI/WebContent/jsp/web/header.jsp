@@ -28,8 +28,8 @@
 	
 	<link rel="stylesheet" href="<%=basePath%>css/ls-theme.min.css" type="text/css"/>
 	<link rel="stylesheet" href="<%=basePath%>css/lskpi_w.css" type="text/css"/>
-	<script type="text/javascript" src="<%=basePath%>js/lskpi.js?ver=1023"></script>
-	<script type="text/javascript" src="<%=basePath%>js/homecollection.js?ver=1023"></script>
+	<script type="text/javascript" src="<%=basePath%>js/lskpi.js?ver=<%=System.currentTimeMillis()%>"></script>
+	<script type="text/javascript" src="<%=basePath%>js/homecollection.js?ver=<%=System.currentTimeMillis()%>"></script>
 	<script type="text/javascript">
 	$(document).ready(function(){
 	    var today = new Date();

@@ -41,4 +41,6 @@ public interface HomeService {
     public void storeToBeDeletedDoctor(DoctorToBeDeleted doctor,String currentUserTel) throws Exception;
     public String getDeleteReasonByDrId(int drId) throws Exception;
     public void rejectRemovingDoctor(Doctor doctor, String currentUserTel) throws Exception;
+    
+    public Doctor getDoctorByDoctorNameAndHospital(String doctorName,String hospitalCode) throws Exception;
 }

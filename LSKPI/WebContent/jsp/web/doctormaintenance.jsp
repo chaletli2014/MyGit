@@ -50,7 +50,7 @@ function deletedoctor(dataId,doctorname){
 	                    <input name="doctorname" id="doctorname"/>
 	                </div>
 	                <div style="text-align: center;">
-	                    <a class="submit_btn" href="javascript:void(0)" onclick="submitForm()">
+	                    <a class="submit_btn1" href="javascript:void(0)" onclick="checkIfDoctorExsits()">
 	                        <img alt="" src="<%=basePath%>images/button_submit.png" style="cursor: pointer;" />
 	                    </a>
 	                </div>
@@ -113,6 +113,10 @@ function deletedoctor(dataId,doctorname){
 			     </div>
 			   </div>
 		     </div>
+		     <form id="relateDoctorForm" action="doRelateDoctor" method="POST" data-ajax="false">
+		     	<input type="hidden" id="relatedDoctorName" name="relatedDoctorName" value=""/>
+		     	<input type="hidden" id="relatedHospitalCode" name="relatedHospitalCode" value=""/>
+		     </form>
 		     <%@include file="editdoctor.jsp" %>
 		     <%@include file="editRelationship.jsp" %>
         </div>

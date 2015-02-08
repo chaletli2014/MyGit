@@ -70,6 +70,15 @@ public class LsAttributes {
      */
     public static final String RETURNED_MESSAGE_12 = "家庭雾化录入周期为周一到周三，目前无法录入！";
     /**
+     * 医生重新绑定到当前用户成功。
+     */
+    public static final String RETURNED_MESSAGE_13 = "医生重新绑定成功！";
+    /**
+     * 医生添加成功。
+     */
+    public static final String RETURNED_MESSAGE_14 = "医生添加成功！";
+    
+    /**
      * 获取用户信息失败，请重新登录APP.
      */
     public static final String NO_USER_FOUND = "获取用户信息失败，请重新登录APP";

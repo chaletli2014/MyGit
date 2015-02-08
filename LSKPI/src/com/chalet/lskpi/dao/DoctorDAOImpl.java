@@ -315,6 +315,17 @@ public class DoctorDAOImpl implements DoctorDAO {
         dataBean.getJdbcTemplate().update(sql.toString(), new Object[]{status,currentUserTel,doctor.getId()});
 	}
 	
+    public Doctor getDoctorByDoctorNameAndHospital(String doctorName,String hospitalCode) throws Exception {
+        StringBuffer sb = new StringBuffer("");
+        sb.append("select d.id, d.name as drName, d.code as drCode, d.hospitalCode,")
+        .append(" '' as hospitalName, ")
+        .append(" d.salesCode, ")
+        .append(" '' as salesName")
+        .append(" from tbl_doctor d ")
+        .append(" where d.hospitalCode = ? and d.name=? ");
+        return dataBean.getJdbcTemplate().queryForObject(sb.toString(), new Object[]{hospitalCode,doctorName},new DoctorRowMapper());
+    }
+	
     public DataBean getDataBean() {
         return dataBean;
     }

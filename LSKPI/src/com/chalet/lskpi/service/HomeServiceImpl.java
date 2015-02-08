@@ -318,4 +318,9 @@ public class HomeServiceImpl implements HomeService {
 			throws Exception {
 		doctorDAO.updateApprovalStatus(doctor, currentUserTel, "2");
 	}
+
+	@Override
+	public Doctor getDoctorByDoctorNameAndHospital(String doctorName,String hospitalCode) throws Exception {
+		return doctorDAO.getDoctorByDoctorNameAndHospital(doctorName, hospitalCode);
+	}
 }

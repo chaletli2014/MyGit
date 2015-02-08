@@ -194,7 +194,7 @@ public class HomeCollectionController extends BaseController{
 //        		logger.info("end to backup the doctor weekly table.");
             }
             
-            
+            request.getSession().setAttribute(LsAttributes.COLLECT_HOMEDATA_MESSAGE, LsAttributes.RETURNED_MESSAGE_14);
         }catch(Exception e){
             logger.error("fail to add doctor,"+e.getMessage());
             request.getSession().setAttribute(LsAttributes.COLLECT_HOMEDATA_MESSAGE, LsAttributes.RETURNED_MESSAGE_1);
@@ -300,6 +300,7 @@ public class HomeCollectionController extends BaseController{
                 
                 hospitalService.updateDoctorRelationship(doctorId, relatedSales);
                 logger.info(String.format("user %s update doctor %s relationship successfully, the new salesCode is %s!", currentUserTel,doctorId,relatedSales));
+                request.getSession().setAttribute(LsAttributes.COLLECT_HOMEDATA_MESSAGE, LsAttributes.RETURNED_MESSAGE_13);
             }
         }catch(Exception e){
             logger.error("fail to edit doctor relationship,",e);

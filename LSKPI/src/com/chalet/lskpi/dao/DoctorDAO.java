@@ -33,4 +33,6 @@ public interface DoctorDAO {
     public void storeToBeDeletedDoctor(DoctorToBeDeleted doctor, String currentUserTel) throws Exception;
     public String getDeleteReasonByDrId(int drId) throws Exception;
     public void updateApprovalStatus(Doctor doctor, String currentUserTel, String status) throws Exception;
+    
+    public Doctor getDoctorByDoctorNameAndHospital(String doctorName,String hospitalCode) throws Exception;
 }

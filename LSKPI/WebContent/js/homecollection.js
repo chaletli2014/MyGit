@@ -77,3 +77,69 @@ function showRefer(doctorId,doctorname,hospitalName,salesCode) {
 	$("#popupEditRelationship #relatedSales option[value='"+salesCode+"']").attr("selected",true);
 	$("#popupEditRelationship #relatedSales").selectmenu('refresh');
 }
+
+function checkIfDoctorExsits(){
+	if( !checkIsNotNull( $("#doctorname") ) ){
+		showCustomrizedMessage("请填入医生姓名");
+		return;
+	}
+	var hospitalCode = $("#hospital").val();
+	var doctorName = $("#doctorname").val();
+	$.mobile.showPageLoadingMsg('b','医生验证中...',false);
+	$.ajax({ 
+        type: "get",
+        url: "checkIfDoctorExsits", 
+        contentType:'application/json',
+        dataType:'json',
+        data:{
+        	hospitalCode:hospitalCode,
+        	doctorName:doctorName
+        },
+        success: function (data) {
+        	if (data && data.count>0) {
+        		confirmDoctor('','popupConfirm','addDoctorForm',hospitalCode,doctorName);
+            }else{
+            	$("#addDoctorForm").submit();
+            }
+        	$.mobile.hidePageLoadingMsg();
+         }, 
+         error: function (XMLHttpRequest, textStatus, errorThrown) { 
+        	 $.mobile.hidePageLoadingMsg();
+        	 $('html').simpledialog2({
+        	        mode: 'blank',
+        	        headerText: '提示',
+        	        headerClose: true,
+        	        blankContent : 
+        	          "<label style='text-align:center;display:block'>添加医生失败</label>" + "<a rel='close' data-role='button' href='#'>关闭</a>"
+        	 });
+         } 
+	});
+}
+
+function confirmDoctor(title, popupDivID, formID, hospitalCode, doctorName) {
+    if (title == null || title == "") title = "系统信息";
+    $("#"+popupDivID+" h1").html(title);
+    $("#"+popupDivID+" p").html("该医生姓名已经存在，点击确认，则直接关联该医生，否则新建医生");
+    $("#"+popupDivID+" #delete_dr_submit").unbind("click").click(function() { 
+        $("#"+popupDivID).popup("close");
+        
+        $.mobile.showPageLoadingMsg('b','数据提交中',false);
+        
+        $("#relatedHospitalCode").val(hospitalCode);
+        $("#relatedDoctorName").val(doctorName);
+        
+		if( $('.submit_btn1') ){
+			$('.submit_btn1').removeAttr("onclick");
+		}
+		$("#relateDoctorForm").submit();
+    });
+    $("#"+popupDivID+" #delete_dr_cancel").unbind("click").click(function() { 
+    	$("#"+popupDivID).popup("close");
+    	$.mobile.showPageLoadingMsg('b','数据提交中',false);
+		if( $('.submit_btn1') ){
+			$('.submit_btn1').removeAttr("onclick");
+		}
+		$("#"+formID).submit();
+    });
+    $("#"+popupDivID).popup("open");
+}
