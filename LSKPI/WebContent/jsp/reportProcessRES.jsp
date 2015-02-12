@@ -14,7 +14,10 @@
         </jsp:include>
         <div data-role="content" data-theme="a">
         	<div class="roundCorner" style="padding:4px;">
-        	<div class="report_process_bg_description">每家考评医院每周上报至少3次</div>
+        	<div class="report_process_bg_description">
+        		Core医院每周上报至少3次<br/>
+        		Emerging医院每周上报至少1次
+        	</div>
 	            <table class="mobileReport_table">
 	               <tr class="mobileReport_table_header">
                        <td width="15%">负责医院数</td>
