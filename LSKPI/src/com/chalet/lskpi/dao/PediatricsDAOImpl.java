@@ -29,6 +29,7 @@ import com.chalet.lskpi.mapper.PediatricsMobileRowMapper;
 import com.chalet.lskpi.mapper.PediatricsRowMapper;
 import com.chalet.lskpi.mapper.PediatricsWhPortRowMapper;
 import com.chalet.lskpi.mapper.PediatricsWithPortNumRowMapper;
+import com.chalet.lskpi.mapper.ReportProcessPEDDataRowMapper;
 import com.chalet.lskpi.mapper.TopAndBottomAverageDoseRSMDataRowMapper;
 import com.chalet.lskpi.mapper.TopAndBottomInRateRSMDataRowMapper;
 import com.chalet.lskpi.mapper.TopAndBottomWhRateRSMDataRowMapper;
@@ -48,7 +49,6 @@ import com.chalet.lskpi.utils.DataBean;
 import com.chalet.lskpi.utils.DateUtils;
 import com.chalet.lskpi.utils.LsAttributes;
 import com.chalet.lskpi.utils.PEDWeeklyRatioDataRowMapper;
-import com.chalet.lskpi.utils.ReportProcessDataRowMapper;
 import com.chalet.lskpi.utils.ReportProcessDetailDataRowMapper;
 
 /**
@@ -312,8 +312,19 @@ public class PediatricsDAOImpl implements PediatricsDAO {
     public ReportProcessData getDSMSelfReportProcessPEDData(String telephone) throws Exception {
         StringBuffer sb = new StringBuffer("");
         sb.append("select count(1) as hosNum, ")
+        .append("sum( ") 
+        .append("	case ") 
+		.append("	when h.dragonType='Core' then 3 ") 
+		.append("	when h.dragonType='Emerging' then 1 ") 
+        .append("	end ") 
+        .append(" ) as hosNum_count, ") 
         .append("( select IFNULL(sum(inNum),0) as validInNum from ( ")
-        .append("       select least(count(1),3) as inNum, h1.dsmCode, h1.rsmRegion ")
+        .append("       select ")
+        .append(" 			case ")
+        .append("			when h1.dragonType='Core' then least(count(1),3) ")
+		.append("			when h1.dragonType='Emerging' then least(count(1),1) ")
+		.append("			end as inNum ")
+        .append("       , h1.dsmCode, h1.rsmRegion ")
         .append("       from tbl_pediatrics_data pd, tbl_hospital h1 ")
         .append("       where pd.hospitalName = h1.name ")
         .append("       and pd.createdate between ? and DATE_ADD(?, Interval 7 day) ")
@@ -330,7 +341,7 @@ public class PediatricsDAOImpl implements PediatricsDAO {
         .append("and telephone = ? ");
         
         Timestamp startDate = new Timestamp(DateUtils.getTheBeginDateOfCurrentWeek().getTime());
-        return dataBean.getJdbcTemplate().queryForObject(sb.toString(), new Object[]{startDate,startDate,telephone}, new ReportProcessDataRowMapper());
+        return dataBean.getJdbcTemplate().queryForObject(sb.toString(), new Object[]{startDate,startDate,telephone}, new ReportProcessPEDDataRowMapper());
     }
     
     public List<ReportProcessDataDetail> getRSMSelfReportProcessPEDDetailData(String telephone) throws Exception {
@@ -358,8 +369,19 @@ public class PediatricsDAOImpl implements PediatricsDAO {
     public ReportProcessData getRSMSelfReportProcessPEDData(String telephone) throws Exception {
     	StringBuffer sb = new StringBuffer("");
     	sb.append("select count(1) as hosNum, ")
+        .append("sum( ") 
+        .append("	case ") 
+		.append("	when h.dragonType='Core' then 3 ") 
+		.append("	when h.dragonType='Emerging' then 1 ") 
+        .append("	end ") 
+        .append(" ) as hosNum_count, ") 
     	.append("( select IFNULL(sum(inNum),0) as validInNum from ( ")
-    	.append("       select least(count(1),3) as inNum, h1.dsmCode, h1.rsmRegion ")
+    	.append("       select ")
+        .append(" 			case ")
+        .append("			when h1.dragonType='Core' then least(count(1),3) ")
+		.append("			when h1.dragonType='Emerging' then least(count(1),1) ")
+		.append("			end as inNum ")
+    	.append("       , h1.dsmCode, h1.rsmRegion ")
     	.append("       from tbl_pediatrics_data pd, tbl_hospital h1 ")
     	.append("       where pd.hospitalName = h1.name ")
     	.append("       and pd.createdate between ? and DATE_ADD(?, Interval 7 day) ")
@@ -374,15 +396,26 @@ public class PediatricsDAOImpl implements PediatricsDAO {
     	.append("and telephone = ? ");
     	
     	Timestamp startDate = new Timestamp(DateUtils.getTheBeginDateOfCurrentWeek().getTime());
-    	return dataBean.getJdbcTemplate().queryForObject(sb.toString(), new Object[]{startDate,startDate,telephone}, new ReportProcessDataRowMapper());
+    	return dataBean.getJdbcTemplate().queryForObject(sb.toString(), new Object[]{startDate,startDate,telephone}, new ReportProcessPEDDataRowMapper());
     }
     
     @Override
     public ReportProcessData getSalesSelfReportProcessPEDData(String telephone) throws Exception {
         StringBuffer sb = new StringBuffer("");
         sb.append("select count(1) as hosNum, ")
+        .append("sum( ") 
+        .append("	case ") 
+		.append("	when h.dragonType='Core' then 3 ") 
+		.append("	when h.dragonType='Emerging' then 1 ") 
+        .append("	end ") 
+        .append(" ) as hosNum_count, ") 
         .append("( select IFNULL(sum(inNum),0) as validInNum from ( ")
-        .append("       select least(count(1),3) as inNum, h1.code as hosCode, h1.dsmCode, h1.rsmRegion ")
+        .append("       select ")
+        .append(" 			case ")
+        .append("			when h1.dragonType='Core' then least(count(1),3) ")
+		.append("			when h1.dragonType='Emerging' then least(count(1),1) ")
+		.append("			end as inNum ")
+        .append("       , h1.code as hosCode,  h1.dsmCode, h1.rsmRegion ")
         .append("       from tbl_pediatrics_data pd, tbl_hospital h1 ")
         .append("       where pd.hospitalName = h1.name ")
         .append("       and pd.createdate between ? and DATE_ADD(?, Interval 7 day) ")
@@ -403,7 +436,7 @@ public class PediatricsDAOImpl implements PediatricsDAO {
         .append("and telephone = ? ");
         logger.info("getSalesSelfReportProcessPEDData telephone= "+telephone);
         Date startDate = DateUtils.getTheBeginDateOfCurrentWeek();
-        return dataBean.getJdbcTemplate().queryForObject(sb.toString(), new Object[]{new Timestamp(startDate.getTime()),new Timestamp(startDate.getTime()),telephone}, new ReportProcessDataRowMapper());
+        return dataBean.getJdbcTemplate().queryForObject(sb.toString(), new Object[]{new Timestamp(startDate.getTime()),new Timestamp(startDate.getTime()),telephone}, new ReportProcessPEDDataRowMapper());
     }
 
     public int getLastWeeklyPEDData() throws Exception {
