@@ -58,6 +58,17 @@ public interface PediatricsDAO {
 	public List<MobilePEDDailyData> getDailyCorePEDChildData4RSMMobile( String telephone ) throws Exception;
 	public List<MobilePEDDailyData> getDailyCorePEDChildData4RSDMobile( String telephone ) throws Exception;
 	
+	public MobilePEDDailyData getDailyEmergingPEDData4CountoryMobile()throws Exception;
+	public List<MobilePEDDailyData> getDailyEmergingPEDData4RSMByRegion(String region) throws Exception;
+	
+	public List<MobilePEDDailyData> getDailyEmergingPEDData4DSMMobile( String telephone ) throws Exception;
+	public List<MobilePEDDailyData> getDailyEmergingPEDData4RSMMobile( String telephone ) throws Exception;
+	public List<MobilePEDDailyData> getDailyEmergingPEDData4RSDMobile() throws Exception;
+	
+	public List<MobilePEDDailyData> getDailyEmergingPEDChildData4DSMMobile( String telephone ) throws Exception;
+	public List<MobilePEDDailyData> getDailyEmergingPEDChildData4RSMMobile( String telephone ) throws Exception;
+	public List<MobilePEDDailyData> getDailyEmergingPEDChildData4RSDMobile( String telephone ) throws Exception;
+	
 	public List<DailyReportData> getAllRSMDataByTelephone() throws Exception;
 	
 	public TopAndBottomRSMData getTopAndBottomInRateRSMData(TopAndBottomRSMData rsmData) throws Exception;

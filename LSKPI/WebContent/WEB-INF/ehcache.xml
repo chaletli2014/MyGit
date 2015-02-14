@@ -441,6 +441,15 @@
            diskSpoolBufferSizeMB="2"
            memoryStoreEvictionPolicy="LFU">
     </cache>
+    <cache name="getDailyEmergingPEDData4CountoryMobile"
+           maxElementsInMemory="100"
+           eternal="false"
+           maxElementsOnDisk="0"
+           overflowToDisk="true"
+           timeToLiveSeconds="82800"
+           diskSpoolBufferSizeMB="2"
+           memoryStoreEvictionPolicy="LFU">
+    </cache>
     <cache name="getDailyPEDWhPortData4CountoryMobile"
            maxElementsInMemory="100"
            eternal="false"
@@ -478,6 +487,15 @@
            memoryStoreEvictionPolicy="LFU">
     </cache>
     <cache name="getDailyCorePEDData4RSDMobile"
+           maxElementsInMemory="100"
+           eternal="false"
+           maxElementsOnDisk="0"
+           overflowToDisk="true"
+           timeToLiveSeconds="82800"
+           diskSpoolBufferSizeMB="2"
+           memoryStoreEvictionPolicy="LFU">
+    </cache>
+    <cache name="getDailyEmergingPEDData4RSDMobile"
            maxElementsInMemory="100"
            eternal="false"
            maxElementsOnDisk="0"

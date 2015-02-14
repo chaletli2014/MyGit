@@ -66,6 +66,9 @@ public class PediatricsServiceImpl implements PediatricsService {
             	MobilePEDDailyData pedCoreData = new MobilePEDDailyData();
         		pedCoreData = pediatricsDAO.getDailyCorePEDData4CountoryMobile();
         		
+        		MobilePEDDailyData pedEmergingData = new MobilePEDDailyData();
+        		pedEmergingData = pediatricsDAO.getDailyEmergingPEDData4CountoryMobile();
+        		
         		MobilePEDDailyData pedWhPortData = new MobilePEDDailyData();
         		pedWhPortData = pediatricsDAO.getDailyPEDWhPortData4CountoryMobile();
             	
@@ -104,6 +107,7 @@ public class PediatricsServiceImpl implements PediatricsService {
                 mpd.setCoreInRate(pedCoreData.getCoreInRate());
                 mpd.setCoreWhRate(pedCoreData.getCoreWhRate());
                 mpd.setWhPortRate(pedWhPortData.getWhPortRate());
+                mpd.setEmergingWhRate(pedEmergingData.getEmergingWhRate());
                 break;
             default:
                 mpd = null;
@@ -276,10 +280,18 @@ public class PediatricsServiceImpl implements PediatricsService {
 		Map<String,Double> pedCoreInRateMap = new HashMap<String,Double>();
 		Map<String,Double> pedCoreWhRateMap = new HashMap<String,Double>();
 		
+		List<MobilePEDDailyData> pedEmergingData = new ArrayList<MobilePEDDailyData>();
+		Map<String,Double> pedEmergingWhRateMap = new HashMap<String,Double>();
+		
 		pedCoreData = pediatricsDAO.getDailyCorePEDData4RSMByRegion(region);
 		for( MobilePEDDailyData pedCore : pedCoreData ){
 			pedCoreInRateMap.put(pedCore.getUserCode(), pedCore.getCoreInRate());
 			pedCoreWhRateMap.put(pedCore.getUserCode(), pedCore.getCoreWhRate());
+		}
+		
+		pedEmergingData = pediatricsDAO.getDailyEmergingPEDData4RSMByRegion(region);
+		for( MobilePEDDailyData pedEmerging : pedEmergingData ){
+			pedEmergingWhRateMap.put(pedEmerging.getUserCode(), pedEmerging.getEmergingWhRate());
 		}
 		
 		List<MobilePEDDailyData> pedWhPortData = new ArrayList<MobilePEDDailyData>();
@@ -322,6 +334,7 @@ public class PediatricsServiceImpl implements PediatricsService {
             
             pedDailyData.setCoreInRate(pedCoreInRateMap.get(pedDailyData.getUserCode()));
             pedDailyData.setCoreWhRate(pedCoreWhRateMap.get(pedDailyData.getUserCode()));
+            pedDailyData.setEmergingWhRate(pedEmergingWhRateMap.get(pedDailyData.getUserCode()));
             pedDailyData.setWhPortRate(pedWhPortMap.get(pedDailyData.getUserCode()));
         }
         
@@ -335,6 +348,9 @@ public class PediatricsServiceImpl implements PediatricsService {
 		Map<String,Double> pedCoreInRateMap = new HashMap<String,Double>();
 		Map<String,Double> pedCoreWhRateMap = new HashMap<String,Double>();
 		
+		List<MobilePEDDailyData> pedEmergingData = new ArrayList<MobilePEDDailyData>();
+		Map<String,Double> pedEmergingWhRateMap = new HashMap<String,Double>();
+		
 		List<MobilePEDDailyData> pedWhPortData = new ArrayList<MobilePEDDailyData>();
 		Map<String,Double> pedWhPortMap = new HashMap<String,Double>();
 		
@@ -343,15 +359,18 @@ public class PediatricsServiceImpl implements PediatricsService {
     	if( LsAttributes.USER_LEVEL_DSM.equalsIgnoreCase(currentUser.getLevel()) ){
     		pedDatas = pediatricsDAO.getDailyPEDData4DSMMobile(telephone);
     		pedCoreData = pediatricsDAO.getDailyCorePEDData4DSMMobile(telephone);
+    		pedEmergingData = pediatricsDAO.getDailyEmergingPEDData4DSMMobile(telephone);
     		pedWhPortData = pediatricsDAO.getDailyPEDWhPortData4DSMMobile(telephone);
     	}else if( LsAttributes.USER_LEVEL_RSM.equalsIgnoreCase(currentUser.getLevel()) ){
     		pedDatas = pediatricsDAO.getDailyPEDData4RSMMobile(telephone);
     		pedCoreData = pediatricsDAO.getDailyCorePEDData4RSMMobile(telephone);
+    		pedEmergingData = pediatricsDAO.getDailyEmergingPEDData4RSMMobile(telephone);
     		pedWhPortData = pediatricsDAO.getDailyPEDWhPortData4RSMMobile(telephone);
     	}else if( LsAttributes.USER_LEVEL_RSD.equalsIgnoreCase(currentUser.getLevel()) 
     			|| LsAttributes.USER_LEVEL_BM.equalsIgnoreCase(currentUser.getLevel()) ){
     		pedDatas = pediatricsDAO.getDailyPEDData4RSDMobile();
     		pedCoreData = pediatricsDAO.getDailyCorePEDData4RSDMobile();
+    		pedEmergingData = pediatricsDAO.getDailyEmergingPEDData4RSDMobile();
     		pedWhPortData = pediatricsDAO.getDailyPEDWhPortData4RSDMobile();
     	}
     	
@@ -359,6 +378,10 @@ public class PediatricsServiceImpl implements PediatricsService {
 			pedCoreInRateMap.put(pedCore.getUserCode(), pedCore.getCoreInRate());
 			pedCoreWhRateMap.put(pedCore.getUserCode(), pedCore.getCoreWhRate());
 		}
+    	
+    	for( MobilePEDDailyData pedEmerging : pedEmergingData ){
+    		pedEmergingWhRateMap.put(pedEmerging.getUserCode(), pedEmerging.getEmergingWhRate());
+    	}
     	
 		for( MobilePEDDailyData pedWhPort : pedWhPortData ){
 			pedWhPortMap.put(pedWhPort.getUserCode(), pedWhPort.getWhPortRate());
@@ -400,6 +423,7 @@ public class PediatricsServiceImpl implements PediatricsService {
         
             pedDailyData.setCoreInRate(pedCoreInRateMap.get(pedDailyData.getUserCode()));
             pedDailyData.setCoreWhRate(pedCoreWhRateMap.get(pedDailyData.getUserCode()));
+            pedDailyData.setEmergingWhRate(pedEmergingWhRateMap.get(pedDailyData.getUserCode()));
             pedDailyData.setWhPortRate(pedWhPortMap.get(pedDailyData.getUserCode()));
             
             if( pedDailyData.getHosNum() != 0 ){
@@ -430,20 +454,26 @@ public class PediatricsServiceImpl implements PediatricsService {
 		Map<String,Double> pedCoreInRateMap = new HashMap<String,Double>();
 		Map<String,Double> pedCoreWhRateMap = new HashMap<String,Double>();
 		
+		List<MobilePEDDailyData> pedEmergingData = new ArrayList<MobilePEDDailyData>();
+		Map<String,Double> pedEmergingWhRateMap = new HashMap<String,Double>();
+		
 		List<MobilePEDDailyData> pedWhPortData = new ArrayList<MobilePEDDailyData>();
 		Map<String,Double> pedWhPortMap = new HashMap<String,Double>();
         
         if( LsAttributes.USER_LEVEL_DSM.equalsIgnoreCase(currentUser.getLevel()) ){
             pedDatas = pediatricsDAO.getDailyPEDChildData4DSMMobile(telephone);
             pedCoreData = pediatricsDAO.getDailyCorePEDChildData4DSMMobile(telephone);
+            pedEmergingData = pediatricsDAO.getDailyEmergingPEDChildData4DSMMobile(telephone);
             pedWhPortData = pediatricsDAO.getDailyPEDWhPortChildData4DSMMobile(telephone);
         }else if( LsAttributes.USER_LEVEL_RSM.equalsIgnoreCase(currentUser.getLevel()) ){
             pedDatas = pediatricsDAO.getDailyPEDChildData4RSMMobile(telephone);
             pedCoreData = pediatricsDAO.getDailyCorePEDChildData4RSMMobile(telephone);
+            pedEmergingData = pediatricsDAO.getDailyEmergingPEDChildData4RSMMobile(telephone);
             pedWhPortData = pediatricsDAO.getDailyPEDWhPortChildData4RSMMobile(telephone);
         }else if( LsAttributes.USER_LEVEL_RSD.equalsIgnoreCase(currentUser.getLevel()) ){
             pedDatas = pediatricsDAO.getDailyPEDChildData4RSDMobile(telephone);
             pedCoreData = pediatricsDAO.getDailyCorePEDChildData4RSDMobile(telephone);
+            pedEmergingData = pediatricsDAO.getDailyEmergingPEDChildData4RSDMobile(telephone);
             pedWhPortData = pediatricsDAO.getDailyPEDWhPortChildData4RSDMobile(telephone);
         }
         
@@ -451,6 +481,10 @@ public class PediatricsServiceImpl implements PediatricsService {
 			pedCoreInRateMap.put(pedCore.getUserCode(), pedCore.getCoreInRate());
 			pedCoreWhRateMap.put(pedCore.getUserCode(), pedCore.getCoreWhRate());
 		}
+        
+        for( MobilePEDDailyData pedEmerging : pedEmergingData ){
+        	pedEmergingWhRateMap.put(pedEmerging.getUserCode(), pedEmerging.getEmergingWhRate());
+        }
     	
 		for( MobilePEDDailyData pedWhPort : pedWhPortData ){
 			pedWhPortMap.put(pedWhPort.getUserCode(), pedWhPort.getWhPortRate());
@@ -488,6 +522,7 @@ public class PediatricsServiceImpl implements PediatricsService {
             
             pedDailyData.setCoreInRate(pedCoreInRateMap.get(pedDailyData.getUserCode()));
             pedDailyData.setCoreWhRate(pedCoreWhRateMap.get(pedDailyData.getUserCode()));
+            pedDailyData.setEmergingWhRate(pedEmergingWhRateMap.get(pedDailyData.getUserCode()));
             pedDailyData.setWhPortRate(pedWhPortMap.get(pedDailyData.getUserCode()));
             
             if( pedDailyData.getHosNum() != 0 ){
