@@ -24,6 +24,12 @@ public class MonthlyDataRowMapper implements RowMapper<MonthlyData>{
         monthlyData.setRsmRegion(rs.getString("rsmRegion"));
         monthlyData.setRegion(rs.getString("region"));
         monthlyData.setCreateDate(rs.getTimestamp("createdate"));
+        monthlyData.setPedEmerDrugStore(rs.getDouble("ped_emer_drugstore"));
+        monthlyData.setPedEmerWh(rs.getDouble("ped_emer_wh"));
+        monthlyData.setPedRoomDrugStore(rs.getDouble("ped_room_drugstore"));
+        monthlyData.setPedRoomDrugStoreWh(rs.getDouble("ped_room_drugstore_wh"));
+        monthlyData.setResClinic(rs.getDouble("res_clinic"));
+        monthlyData.setResRoom(rs.getDouble("res_room"));
         return monthlyData;
     }
     

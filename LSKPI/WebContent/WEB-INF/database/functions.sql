@@ -69,13 +69,15 @@ and userCode = '2000002'
 order by regionCenter, region, superior, userCode;
 
 select * from tbl_respirology_data 
-where date_format(createdate,'%Y-%m-%d') = date_format('2014-06-16','%Y-%m-%d') 
-group by hospitalName 
+group by date_format(createdate,'%Y-%m-%d'), hospitalName 
 having count(1) > 1;
 
 select * from tbl_pediatrics_data 
-where date_format(createdate,'%Y-%m-%d') = date_format('2014-06-16','%Y-%m-%d') 
-group by hospitalName 
+group by date_format(createdate,'%Y-%m-%d'), hospitalName 
+having count(1) > 1;
+
+select * from tbl_chestSurgery_data 
+group by date_format(createdate,'%Y-%m-%d'), hospitalCode 
 having count(1) > 1;
 
 select rd.* from tbl_respirology_data rd, tbl_userinfo u 

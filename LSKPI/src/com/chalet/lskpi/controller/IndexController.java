@@ -191,6 +191,31 @@ public class IndexController extends BaseController{
             //外科及其它科
             double othernum = StringUtils.getDoubleFromString(request.getParameter("othernum"));
             
+        	/**
+        	 * 儿科门急诊药房
+        	 */
+            double pedEmerDrugStore = StringUtils.getDoubleFromString(request.getParameter("pedEmerDrugStore"));
+        	/**
+        	 * 儿科门急诊雾化室
+        	 */
+            double pedEmerWh = StringUtils.getDoubleFromString(request.getParameter("pedEmerWh"));
+        	/**
+        	 * 儿科病房药房
+        	 */
+            double pedRoomDrugStore = StringUtils.getDoubleFromString(request.getParameter("pedRoomDrugStore"));
+        	/**
+        	 * 儿科病房药房雾化
+        	 */
+            double pedRoomDrugStoreWh = StringUtils.getDoubleFromString(request.getParameter("pedRoomDrugStoreWh"));
+        	/**
+        	 * 呼吸科门诊
+        	 */
+            double resClinic = StringUtils.getDoubleFromString(request.getParameter("resClinic"));
+        	/**
+        	 * 呼吸科病房
+        	 */
+            double resRoom = StringUtils.getDoubleFromString(request.getParameter("resRoom"));
+            
             logger.info(String.format("get the monly data of the selected hospital - %s when collecting", hospitalCode));
             MonthlyData existedData = hospitalService.getMonthlyData(hospitalCode, new Date());
             if( (null == dataId || "".equalsIgnoreCase(dataId)) && null != existedData ){
@@ -202,10 +227,18 @@ public class IndexController extends BaseController{
             if( null == dataId || "".equalsIgnoreCase(dataId) ){
                 MonthlyData monthlyData = new MonthlyData();
                 
-                monthlyData.setPedemernum(pedemernum);
-                monthlyData.setPedroomnum(pedroomnum);
-                monthlyData.setResnum(resnum);
+//                monthlyData.setPedemernum(pedemernum);
+//                monthlyData.setPedroomnum(pedroomnum);
+//                monthlyData.setResnum(resnum);
                 monthlyData.setOthernum(othernum);
+                
+                monthlyData.setPedEmerDrugStore(pedEmerDrugStore);
+                monthlyData.setPedEmerWh(pedEmerWh);
+                monthlyData.setPedRoomDrugStore(pedRoomDrugStoreWh);
+                monthlyData.setPedRoomDrugStoreWh(pedRoomDrugStoreWh);
+                monthlyData.setResClinic(resClinic);
+                monthlyData.setResRoom(resRoom);
+                
                 monthlyData.setOperatorName(operator.getName());
                 if( null != primarySales ){
                     monthlyData.setOperatorCode(primarySales.getUserCode());
@@ -230,11 +263,18 @@ public class IndexController extends BaseController{
                 if( null == monthlyData ){
                     request.getSession().setAttribute(LsAttributes.COLLECT_MONTHLYDATA_MESSAGE, LsAttributes.RETURNED_MESSAGE_1);
                 }else{
-                    monthlyData.setPedemernum(pedemernum);
-                    monthlyData.setPedroomnum(pedroomnum);
-                    monthlyData.setResnum(resnum);
+//                    monthlyData.setPedemernum(pedemernum);
+//                    monthlyData.setPedroomnum(pedroomnum);
+//                    monthlyData.setResnum(resnum);
+                	monthlyData.setPedEmerDrugStore(pedEmerDrugStore);
+                	monthlyData.setPedEmerWh(pedEmerWh);
+                	monthlyData.setPedRoomDrugStore(pedRoomDrugStoreWh);
+                	monthlyData.setPedRoomDrugStoreWh(pedRoomDrugStoreWh);
+                	monthlyData.setResClinic(resClinic);
+                	monthlyData.setResRoom(resRoom);
                     monthlyData.setOthernum(othernum);
                     monthlyData.setOperatorName(operator.getName());
+                    
                     logger.info("update the data of monthly");
                     hospitalService.updateMonthlyData(monthlyData);
                 }

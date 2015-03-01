@@ -146,6 +146,7 @@ public class HospitalDAOImpl implements HospitalDAO {
 			throws Exception {
 		StringBuffer sql = new StringBuffer("");
 		sql.append(" select md.id, md.pedEmernum, md.pedroomnum, md.resnum, md.other, md.operatorName, md.operatorCode, md.hospitalCode,  h.region, h.rsmRegion, md.createdate ")
+			.append(" ,md.ped_emer_drugstore, md.ped_emer_wh, md.ped_room_drugstore, md.ped_room_drugstore_wh, md.res_clinic, md.res_room ")
 			.append(" ,h.dsmName, h.name as hospitalName ")
 			.append(" from tbl_month_data md, tbl_hospital h")
 			.append(" where md.hospitalCode = h.code ")
@@ -269,6 +270,7 @@ public class HospitalDAOImpl implements HospitalDAO {
 		logger.info(String.format("get the monthly data, month is %s, hospitalCode is %s", month, hospitalCode));
 		StringBuffer sql = new StringBuffer("");
 		sql.append(" select md.id, md.pedEmernum, md.pedroomnum, md.resnum, md.other, md.operatorName, md.operatorCode, md.hospitalCode,  h.region, h.rsmRegion, md.createdate ")
+			.append(" ,md.ped_emer_drugstore, md.ped_emer_wh, md.ped_room_drugstore, md.ped_room_drugstore_wh, md.res_clinic, md.res_room ")
 			.append(" ,h.dsmName, h.name as hospitalName ")
 			.append(" from tbl_month_data md, tbl_hospital h")
 			.append(" where md.hospitalCode = h.code ")
@@ -282,6 +284,7 @@ public class HospitalDAOImpl implements HospitalDAO {
 	        throws Exception {
 		StringBuffer sql = new StringBuffer("");
 		sql.append(" select md.id, md.pedEmernum, md.pedroomnum, md.resnum, md.other, md.operatorName, md.operatorCode, md.hospitalCode,  h.region, h.rsmRegion, md.createdate ")
+			.append(" ,md.ped_emer_drugstore, md.ped_emer_wh, md.ped_room_drugstore, md.ped_room_drugstore_wh, md.res_clinic, md.res_room ")
 			.append(" ,h.dsmName, h.name as hospitalName ")
 			.append(" from tbl_month_data md, tbl_hospital h")
 			.append(" where  md.hospitalCode = h.code")
@@ -354,13 +357,18 @@ public class HospitalDAOImpl implements HospitalDAO {
 	
 	@Override
 	public void insertMonthlyData(final MonthlyData monthlyData) throws Exception {
-	    final String insertSQL = "insert into tbl_month_data(id,pedEmernum,pedroomnum,resnum,other,operatorName,operatorCode,hospitalCode,dsmCode,rsmRegion,region,createdate,updatedate,countMonth) values(null,?,?,?,?,?,?,?,?,?,?,?,now(),?)";
+		final StringBuffer insertSQL = new StringBuffer("");
+		insertSQL.append(" insert into tbl_month_data( ")
+		.append(" id,pedEmernum,pedroomnum,resnum,other ")
+		.append(" ,operatorName,operatorCode,hospitalCode,dsmCode,rsmRegion,region,createdate,updatedate,countMonth ")
+		.append(" ,ped_emer_drugstore, ped_emer_wh, ped_room_drugstore, ped_room_drugstore_wh, res_clinic, res_room) ")
+		.append(" values(null,?,?,?,?,?,?,?,?,?,?,?,now(),?,?,?,?,?,?,?) ");
         KeyHolder keyHolder = new GeneratedKeyHolder();
         dataBean.getJdbcTemplate().update(new PreparedStatementCreator(){
             @Override
             public PreparedStatement createPreparedStatement(
                     Connection connection) throws SQLException {
-                PreparedStatement ps = connection.prepareStatement(insertSQL,Statement.RETURN_GENERATED_KEYS);
+                PreparedStatement ps = connection.prepareStatement(insertSQL.toString(),Statement.RETURN_GENERATED_KEYS);
                 ps.setDouble(1, monthlyData.getPedemernum());
                 ps.setDouble(2, monthlyData.getPedroomnum());
                 ps.setDouble(3, monthlyData.getResnum());
@@ -384,6 +392,14 @@ public class HospitalDAOImpl implements HospitalDAO {
                 }else{
                     ps.setString(12, createCal.get(Calendar.YEAR)+"-0"+month);
                 }
+                
+                ps.setDouble(13, monthlyData.getPedEmerDrugStore());
+                ps.setDouble(14, monthlyData.getPedEmerWh());
+                ps.setDouble(15, monthlyData.getPedRoomDrugStore());
+                ps.setDouble(16, monthlyData.getPedRoomDrugStoreWh());
+                ps.setDouble(17, monthlyData.getResClinic());
+                ps.setDouble(18, monthlyData.getResRoom());
+                
                 return ps;
             }
         }, keyHolder);

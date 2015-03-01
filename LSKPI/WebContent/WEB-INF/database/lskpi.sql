@@ -253,7 +253,7 @@ drop table tbl_home_data;
 create table tbl_home_data(
     id              int NOT NULL primary key auto_increment,
     doctorId        int NOT NULL,
-    salenum         int, /*卖/赠泵数量*/
+    salenum         int, /*每周新病人人次*/
     asthmanum       int, /*哮喘*患者人次*/
     ltenum          int, /*处方>=8天的哮喘维持期病人次*/
     lsnum           int, /*维持期病人中推荐使用令舒的人次*/
@@ -417,3 +417,15 @@ create table tbl_doctor_approval(
     createdate      datetime,
     modifydate      datetime
 );
+
+pedEmernum		int,
+pedroomnum		int,
+resnum			int,
+other			int,
+	
+alter table tbl_month_data add column ped_emer_drugstore DECIMAL(11,2);
+alter table tbl_month_data add column ped_emer_wh DECIMAL(11,2);
+alter table tbl_month_data add column ped_room_drugstore DECIMAL(11,2);
+alter table tbl_month_data add column ped_room_drugstore_wh DECIMAL(11,2);
+alter table tbl_month_data add column res_clinic DECIMAL(11,2);
+alter table tbl_month_data add column res_room DECIMAL(11,2);
