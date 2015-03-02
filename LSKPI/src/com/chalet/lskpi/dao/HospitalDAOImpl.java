@@ -300,6 +300,12 @@ public class HospitalDAOImpl implements HospitalDAO {
         .append(", resnum=? ")
         .append(", other=? ")
         .append(", operatorName=? ")
+        .append(", ped_emer_drugstore=? ")
+        .append(", ped_emer_wh=? ")
+        .append(", ped_room_drugstore=? ")
+        .append(", ped_room_drugstore_wh=? ")
+        .append(", res_clinic=? ")
+        .append(", res_room=? ")
         .append(" where id=? ");
         
         List<Object> paramList = new ArrayList<Object>();
@@ -308,6 +314,13 @@ public class HospitalDAOImpl implements HospitalDAO {
         paramList.add(monthlyData.getResnum());
         paramList.add(monthlyData.getOthernum());
         paramList.add(monthlyData.getOperatorName());
+        
+        paramList.add(monthlyData.getPedEmerDrugStore());
+        paramList.add(monthlyData.getPedEmerWh());
+        paramList.add(monthlyData.getPedRoomDrugStore());
+        paramList.add(monthlyData.getPedRoomDrugStoreWh());
+        paramList.add(monthlyData.getResClinic());
+        paramList.add(monthlyData.getResRoom());
         paramList.add(monthlyData.getId());
         
         dataBean.getJdbcTemplate().update(sql.toString(), paramList.toArray());

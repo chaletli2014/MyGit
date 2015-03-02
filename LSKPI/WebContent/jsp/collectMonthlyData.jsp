@@ -19,7 +19,7 @@ function submitForm(){
     }
 }
 function checkForm(){
-	if( !isDouble($("#pedemernum"),$("#pedroomnum"),$("#resnum"),$("#othernum"))  ){
+	if( !isDouble($("#pedEmerDrugStore"),$("#pedEmerWh"),$("#pedRoomDrugStore"),$("#pedRoomDrugStoreWh"),$("#resClinic"),$("#resRoom"),$("#othernum"))  ){
         return false;
 	}
     return true;

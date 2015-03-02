@@ -216,6 +216,8 @@ public class IndexController extends BaseController{
         	 */
             double resRoom = StringUtils.getDoubleFromString(request.getParameter("resRoom"));
             
+            logger.info(String.format("pedEmerDrugStore = %s,pedEmerWh=%s,pedRoomDrugStore=%s,pedRoomDrugStoreWh=%s,resClinic=%s,resRoom=%s",pedEmerDrugStore,pedEmerWh,pedRoomDrugStore,pedRoomDrugStoreWh,resClinic,resRoom));
+            
             logger.info(String.format("get the monly data of the selected hospital - %s when collecting", hospitalCode));
             MonthlyData existedData = hospitalService.getMonthlyData(hospitalCode, new Date());
             if( (null == dataId || "".equalsIgnoreCase(dataId)) && null != existedData ){
@@ -234,7 +236,7 @@ public class IndexController extends BaseController{
                 
                 monthlyData.setPedEmerDrugStore(pedEmerDrugStore);
                 monthlyData.setPedEmerWh(pedEmerWh);
-                monthlyData.setPedRoomDrugStore(pedRoomDrugStoreWh);
+                monthlyData.setPedRoomDrugStore(pedRoomDrugStore);
                 monthlyData.setPedRoomDrugStoreWh(pedRoomDrugStoreWh);
                 monthlyData.setResClinic(resClinic);
                 monthlyData.setResRoom(resRoom);
@@ -268,7 +270,7 @@ public class IndexController extends BaseController{
 //                    monthlyData.setResnum(resnum);
                 	monthlyData.setPedEmerDrugStore(pedEmerDrugStore);
                 	monthlyData.setPedEmerWh(pedEmerWh);
-                	monthlyData.setPedRoomDrugStore(pedRoomDrugStoreWh);
+                	monthlyData.setPedRoomDrugStore(pedRoomDrugStore);
                 	monthlyData.setPedRoomDrugStoreWh(pedRoomDrugStoreWh);
                 	monthlyData.setResClinic(resClinic);
                 	monthlyData.setResRoom(resRoom);
