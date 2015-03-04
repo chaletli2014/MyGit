@@ -22,6 +22,14 @@ function checkForm(){
 	if( !isDouble($("#pedEmerDrugStore"),$("#pedEmerWh"),$("#pedRoomDrugStore"),$("#pedRoomDrugStoreWh"),$("#resClinic"),$("#resRoom"),$("#othernum"))  ){
         return false;
 	}
+	
+	if(!obj1ltobj2("pedEmerWh","pedRoomDrugStoreWh")){
+		return false;
+	}
+	
+	if(!obj1ltobj2("pedRoomDrugStore","pedRoomDrugStoreWh")){
+		return false;
+	}
     return true;
 }
 </script>
@@ -79,11 +87,11 @@ function checkForm(){
                     <input type="number" name="pedRoomDrugStoreWh" id="pedRoomDrugStoreWh" value="${existedData.pedRoomDrugStoreWh}"/>
                 </div>
                 <div data-role="fieldcontain" spellcheck="true">
-                    <label for="resClinic" id="resClinic_label">呼吸科门诊</label>
+                    <label for="resClinic" id="resClinic_label">呼吸科（+普内科+ 老干科等）门急诊</label>
                     <input type="number" name="resClinic" id="resClinic" value="${existedData.resClinic}"/>
                 </div>
                 <div data-role="fieldcontain" spellcheck="true">
-                    <label for="resRoom" id="resRoom_label">呼吸科病房</label>
+                    <label for="resRoom" id="resRoom_label">呼吸科（+普内科+ 老干科等）病房</label>
                     <input type="number" name="resRoom" id="resRoom" value="${existedData.resRoom}"/>
                 </div>
                 <div data-role="fieldcontain" spellcheck="true">

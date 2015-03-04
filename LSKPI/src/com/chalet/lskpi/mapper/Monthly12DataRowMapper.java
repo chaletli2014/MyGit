@@ -19,6 +19,13 @@ public class Monthly12DataRowMapper implements RowMapper<Monthly12Data>{
         monthly12Data.setOthernum(rs.getInt("other"));
         monthly12Data.setTotalnum(rs.getInt("totalnum"));
         monthly12Data.setInNum(rs.getInt("innum"));
+        
+        monthly12Data.setPedEmerDrugStore(rs.getDouble("ped_emer_drugstore"));
+        monthly12Data.setPedEmerWh(rs.getDouble("ped_emer_wh"));
+        monthly12Data.setPedRoomDrugStore(rs.getDouble("ped_room_drugstore"));
+        monthly12Data.setPedRoomDrugStoreWh(rs.getDouble("ped_room_drugstore_wh"));
+        monthly12Data.setResClinic(rs.getDouble("res_clinic"));
+        monthly12Data.setResRoom(rs.getDouble("res_room"));
         return monthly12Data;
     }
     

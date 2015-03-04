@@ -51,11 +51,14 @@ $(function(){
 	            <table class="mobileReport_table">
 	               <tr class="mobileReport_table_header">
 				      <td width="10%">姓名</td>
-                      <td width="18%">儿科门急诊袋数</td>
-                      <td width="18%">儿科病房袋数</td>
-                      <td width="18%">呼吸科袋数</td>
-                      <td width="18%">其他科室袋数</td>
-                      <td width="18%">总袋数</td>
+                      <td width="12%">儿科门急诊药房发药量</td>
+                      <td width="13%">儿科门急诊雾化室使用量</td>
+                      <td width="12%">儿科病房药房发药量</td>
+                      <td width="13%">儿科病房药房雾化使用量</td>
+                      <td width="10%">呼吸科门诊</td>
+                      <td width="10%">呼吸科病房</td>
+                      <td width="10%">其他科室</td>
+                      <td width="10%">总袋数</td>
 				    </tr>
 	               <c:forEach items="${monthlyRatioList}" var="monthlyRatio" varStatus="status">
 		               <tr class="mobileReport_table_body <c:if test="${status.count%2==0}">mobileReport_tr_even</c:if>">
@@ -70,33 +73,57 @@ $(function(){
 							      ${monthlyRatio.region}
 						      </c:if>
 					      </td>
-					      <td class="report_data_number" ><fmt:formatNumber value="${monthlyRatio.pedemernum}" pattern="#,###"/></td>
-					      <td class="report_data_number" ><fmt:formatNumber value="${monthlyRatio.pedroomnum}" pattern="#,###"/></td>
-					      <td class="report_data_number" ><fmt:formatNumber value="${monthlyRatio.resnum}" pattern="#,###"/></td>
-					      <td class="report_data_number" ><fmt:formatNumber value="${monthlyRatio.othernum}" pattern="#,###"/></td>
-					      <td class="report_data_number" ><fmt:formatNumber value="${monthlyRatio.totalnum}" pattern="#,###"/></td>
+					      <td class="report_data_number" ><fmt:formatNumber value="${monthlyRatio.pedEmerDrugStore}" pattern="#,###"/></td>
+                          <td class="report_data_number" ><fmt:formatNumber value="${monthlyRatio.pedEmerWh}" pattern="#,###"/></td>
+                          <td class="report_data_number" ><fmt:formatNumber value="${monthlyRatio.pedRoomDrugStore}" pattern="#,###"/></td>
+                          <td class="report_data_number" ><fmt:formatNumber value="${monthlyRatio.pedRoomDrugStoreWh}" pattern="#,###"/></td>
+                          <td class="report_data_number" ><fmt:formatNumber value="${monthlyRatio.resClinic}" pattern="#,###"/></td>
+                          <td class="report_data_number" ><fmt:formatNumber value="${monthlyRatio.resRoom}" pattern="#,###"/></td>
+                          <td class="report_data_number" ><fmt:formatNumber value="${monthlyRatio.othernum}" pattern="#,###"/></td>
+                          <td class="report_data_number" ><fmt:formatNumber value="${monthlyRatio.totalnum}" pattern="#,###"/></td>
 					   </tr>
 					   <tr class="mobileReport_table_body <c:if test="${status.count%2==0}">mobileReport_tr_even</c:if>">
-					      <td class="report_data_number <c:if test="${monthlyRatio.pedemernumratio>0}">ratio_up</c:if><c:if test="${monthlyRatio.pedemernumratio<0}">ratio_down</c:if>" >
+					      <td class="report_data_number <c:if test="${monthlyRatio.pedEmerDrugStoreRatio>0}">ratio_up</c:if><c:if test="${monthlyRatio.pedEmerDrugStoreRatio<0}">ratio_down</c:if>" >
 					       		<span class="narrow_font">
-						    		<c:if test="${monthlyRatio.pedemernumratio>0}">+</c:if>
-			               			<c:if test="${monthlyRatio.pedemernumratio<0}">-</c:if>
+						    		<c:if test="${monthlyRatio.pedEmerDrugStoreRatio>0}">+</c:if>
+			               			<c:if test="${monthlyRatio.pedEmerDrugStoreRatio<0}">-</c:if>
 			               		</span>
-					       		<fmt:formatNumber type="percent" value="${monthlyRatio.pedemernumratio<0?-monthlyRatio.pedemernumratio:monthlyRatio.pedemernumratio}" pattern="#0%"/>
+					       		<fmt:formatNumber type="percent" value="${monthlyRatio.pedEmerDrugStoreRatio<0?-monthlyRatio.pedEmerDrugStoreRatio:monthlyRatio.pedEmerDrugStoreRatio}" pattern="#0%"/>
 					       </td>
-					      <td class="report_data_number <c:if test="${monthlyRatio.pedroomnumratio>0}">ratio_up</c:if><c:if test="${monthlyRatio.pedroomnumratio<0}">ratio_down</c:if>" >
+					      <td class="report_data_number <c:if test="${monthlyRatio.pedEmerWhRatio>0}">ratio_up</c:if><c:if test="${monthlyRatio.pedEmerWhRatio<0}">ratio_down</c:if>" >
 					       		<span class="narrow_font">
-						    		<c:if test="${monthlyRatio.pedroomnumratio>0}">+</c:if>
-			               			<c:if test="${monthlyRatio.pedroomnumratio<0}">-</c:if>
+						    		<c:if test="${monthlyRatio.pedEmerWhRatio>0}">+</c:if>
+			               			<c:if test="${monthlyRatio.pedEmerWhRatio<0}">-</c:if>
 			               		</span>
-					       		<fmt:formatNumber type="percent" value="${monthlyRatio.pedroomnumratio<0?-monthlyRatio.pedroomnumratio:monthlyRatio.pedroomnumratio}" pattern="#0%"/>
+					       		<fmt:formatNumber type="percent" value="${monthlyRatio.pedEmerWhRatio<0?-monthlyRatio.pedEmerWhRatio:monthlyRatio.pedEmerWhRatio}" pattern="#0%"/>
 					       </td>
-					      <td class="report_data_number <c:if test="${monthlyRatio.resnumratio>0}">ratio_up</c:if><c:if test="${monthlyRatio.resnumratio<0}">ratio_down</c:if>" >
+					      <td class="report_data_number <c:if test="${monthlyRatio.pedRoomDrugStoreRatio>0}">ratio_up</c:if><c:if test="${monthlyRatio.pedRoomDrugStoreRatio<0}">ratio_down</c:if>" >
 					       		<span class="narrow_font">
-						    		<c:if test="${monthlyRatio.resnumratio>0}">+</c:if>
-			               			<c:if test="${monthlyRatio.resnumratio<0}">-</c:if>
+						    		<c:if test="${monthlyRatio.pedRoomDrugStoreRatio>0}">+</c:if>
+			               			<c:if test="${monthlyRatio.pedRoomDrugStoreRatio<0}">-</c:if>
 			               		</span>
-					       		<fmt:formatNumber type="percent" value="${monthlyRatio.resnumratio<0?-monthlyRatio.resnumratio:monthlyRatio.resnumratio}" pattern="#0%"/>
+					       		<fmt:formatNumber type="percent" value="${monthlyRatio.pedRoomDrugStoreRatio<0?-monthlyRatio.pedRoomDrugStoreRatio:monthlyRatio.pedRoomDrugStoreRatio}" pattern="#0%"/>
+					       </td>
+					      <td class="report_data_number <c:if test="${monthlyRatio.pedRoomDrugStoreWhRatio>0}">ratio_up</c:if><c:if test="${monthlyRatio.pedRoomDrugStoreWhRatio<0}">ratio_down</c:if>" >
+					       		<span class="narrow_font">
+						    		<c:if test="${monthlyRatio.pedRoomDrugStoreWhRatio>0}">+</c:if>
+			               			<c:if test="${monthlyRatio.pedRoomDrugStoreWhRatio<0}">-</c:if>
+			               		</span>
+					       		<fmt:formatNumber type="percent" value="${monthlyRatio.pedRoomDrugStoreWhRatio<0?-monthlyRatio.pedRoomDrugStoreWhRatio:monthlyRatio.pedRoomDrugStoreWhRatio}" pattern="#0%"/>
+					       </td>
+					      <td class="report_data_number <c:if test="${monthlyRatio.resClinicRatio>0}">ratio_up</c:if><c:if test="${monthlyRatio.resClinicRatio<0}">ratio_down</c:if>" >
+					       		<span class="narrow_font">
+						    		<c:if test="${monthlyRatio.resClinicRatio>0}">+</c:if>
+			               			<c:if test="${monthlyRatio.resClinicRatio<0}">-</c:if>
+			               		</span>
+					       		<fmt:formatNumber type="percent" value="${monthlyRatio.resClinicRatio<0?-monthlyRatio.resClinicRatio:monthlyRatio.resClinicRatio}" pattern="#0%"/>
+					       </td>
+					      <td class="report_data_number <c:if test="${monthlyRatio.resRoomRatio>0}">ratio_up</c:if><c:if test="${monthlyRatio.resRoomRatio<0}">ratio_down</c:if>" >
+					       		<span class="narrow_font">
+						    		<c:if test="${monthlyRatio.resRoomRatio>0}">+</c:if>
+			               			<c:if test="${monthlyRatio.resRoomRatio<0}">-</c:if>
+			               		</span>
+					       		<fmt:formatNumber type="percent" value="${monthlyRatio.resRoomRatio<0?-monthlyRatio.resRoomRatio:monthlyRatio.resRoomRatio}" pattern="#0%"/>
 					       </td>
 					      <td class="report_data_number <c:if test="${monthlyRatio.othernumratio>0}">ratio_up</c:if><c:if test="${monthlyRatio.othernumratio<0}">ratio_down</c:if>" >
 					       		<span class="narrow_font">
@@ -126,34 +153,58 @@ $(function(){
 						      	全国
 					      </c:if>
                      </td>
-                     <td class="report_data_number" ><fmt:formatNumber value="${superiorMonthlyRatio.pedemernum}" pattern="#,###"/></td>
-                     <td class="report_data_number" ><fmt:formatNumber value="${superiorMonthlyRatio.pedroomnum}" pattern="#,###"/></td>
-                     <td class="report_data_number" ><fmt:formatNumber value="${superiorMonthlyRatio.resnum}" pattern="#,###"/></td>
+                     <td class="report_data_number" ><fmt:formatNumber value="${superiorMonthlyRatio.pedEmerDrugStore}" pattern="#,###"/></td>
+                     <td class="report_data_number" ><fmt:formatNumber value="${superiorMonthlyRatio.pedEmerWh}" pattern="#,###"/></td>
+                     <td class="report_data_number" ><fmt:formatNumber value="${superiorMonthlyRatio.pedRoomDrugStore}" pattern="#,###"/></td>
+                     <td class="report_data_number" ><fmt:formatNumber value="${superiorMonthlyRatio.pedRoomDrugStoreWh}" pattern="#,###"/></td>
+                     <td class="report_data_number" ><fmt:formatNumber value="${superiorMonthlyRatio.resClinic}" pattern="#,###"/></td>
+                     <td class="report_data_number" ><fmt:formatNumber value="${superiorMonthlyRatio.resRoom}" pattern="#,###"/></td>
                      <td class="report_data_number" ><fmt:formatNumber value="${superiorMonthlyRatio.othernum}" pattern="#,###"/></td>
                      <td class="report_data_number" ><fmt:formatNumber value="${superiorMonthlyRatio.totalnum}" pattern="#,###"/></td>
                  </tr>
                  <tr class="mobileReport_table_body <c:if test="${fn:length(monthlyRatioList)%2 != 0}">mobileReport_tr_even</c:if>">
-                     <td class="report_data_number <c:if test="${superiorMonthlyRatio.pedemernumratio>0}">ratio_up</c:if><c:if test="${superiorMonthlyRatio.pedemernumratio<0}">ratio_down</c:if>" >
-                      		<span class="narrow_font">
-					    		<c:if test="${superiorMonthlyRatio.pedemernumratio>0}">+</c:if>
-		               			<c:if test="${superiorMonthlyRatio.pedemernumratio<0}">-</c:if>
+                     <td class="report_data_number <c:if test="${superiorMonthlyRatio.pedEmerDrugStoreRatio>0}">ratio_up</c:if><c:if test="${superiorMonthlyRatio.pedEmerDrugStoreRatio<0}">ratio_down</c:if>" >
+				       		<span class="narrow_font">
+					    		<c:if test="${superiorMonthlyRatio.pedEmerDrugStoreRatio>0}">+</c:if>
+		               			<c:if test="${superiorMonthlyRatio.pedEmerDrugStoreRatio<0}">-</c:if>
 		               		</span>
-                      		<fmt:formatNumber type="percent" value="${superiorMonthlyRatio.pedemernumratio<0?-superiorMonthlyRatio.pedemernumratio:superiorMonthlyRatio.pedemernumratio}" pattern="#0%"/>
-                      </td>
-                     <td class="report_data_number <c:if test="${superiorMonthlyRatio.pedroomnumratio>0}">ratio_up</c:if><c:if test="${superiorMonthlyRatio.pedroomnumratio<0}">ratio_down</c:if>" >
-                      		<span class="narrow_font">
-					    		<c:if test="${superiorMonthlyRatio.pedroomnumratio>0}">+</c:if>
-		               			<c:if test="${superiorMonthlyRatio.pedroomnumratio<0}">-</c:if>
+				       		<fmt:formatNumber type="percent" value="${superiorMonthlyRatio.pedEmerDrugStoreRatio<0?-superiorMonthlyRatio.pedEmerDrugStoreRatio:superiorMonthlyRatio.pedEmerDrugStoreRatio}" pattern="#0%"/>
+				       </td>
+				      <td class="report_data_number <c:if test="${superiorMonthlyRatio.pedEmerWhRatio>0}">ratio_up</c:if><c:if test="${superiorMonthlyRatio.pedEmerWhRatio<0}">ratio_down</c:if>" >
+				       		<span class="narrow_font">
+					    		<c:if test="${superiorMonthlyRatio.pedEmerWhRatio>0}">+</c:if>
+		               			<c:if test="${superiorMonthlyRatio.pedEmerWhRatio<0}">-</c:if>
 		               		</span>
-                      		<fmt:formatNumber type="percent" value="${superiorMonthlyRatio.pedroomnumratio<0?-superiorMonthlyRatio.pedroomnumratio:superiorMonthlyRatio.pedroomnumratio}" pattern="#0%"/>
-                      </td>
-                     <td class="report_data_number <c:if test="${superiorMonthlyRatio.resnumratio>0}">ratio_up</c:if><c:if test="${superiorMonthlyRatio.resnumratio<0}">ratio_down</c:if>" >
-                      		<span class="narrow_font">
-					    		<c:if test="${superiorMonthlyRatio.resnumratio>0}">+</c:if>
-		               			<c:if test="${superiorMonthlyRatio.resnumratio<0}">-</c:if>
+				       		<fmt:formatNumber type="percent" value="${superiorMonthlyRatio.pedEmerWhRatio<0?-superiorMonthlyRatio.pedEmerWhRatio:superiorMonthlyRatio.pedEmerWhRatio}" pattern="#0%"/>
+				       </td>
+				      <td class="report_data_number <c:if test="${superiorMonthlyRatio.pedRoomDrugStoreRatio>0}">ratio_up</c:if><c:if test="${superiorMonthlyRatio.pedRoomDrugStoreRatio<0}">ratio_down</c:if>" >
+				       		<span class="narrow_font">
+					    		<c:if test="${superiorMonthlyRatio.pedRoomDrugStoreRatio>0}">+</c:if>
+		               			<c:if test="${superiorMonthlyRatio.pedRoomDrugStoreRatio<0}">-</c:if>
 		               		</span>
-                      		<fmt:formatNumber type="percent" value="${superiorMonthlyRatio.resnumratio<0?-superiorMonthlyRatio.resnumratio:superiorMonthlyRatio.resnumratio}" pattern="#0%"/>
-                      </td>
+				       		<fmt:formatNumber type="percent" value="${superiorMonthlyRatio.pedRoomDrugStoreRatio<0?-superiorMonthlyRatio.pedRoomDrugStoreRatio:superiorMonthlyRatio.pedRoomDrugStoreRatio}" pattern="#0%"/>
+				       </td>
+				      <td class="report_data_number <c:if test="${superiorMonthlyRatio.pedRoomDrugStoreWhRatio>0}">ratio_up</c:if><c:if test="${superiorMonthlyRatio.pedRoomDrugStoreWhRatio<0}">ratio_down</c:if>" >
+				       		<span class="narrow_font">
+					    		<c:if test="${superiorMonthlyRatio.pedRoomDrugStoreWhRatio>0}">+</c:if>
+		               			<c:if test="${superiorMonthlyRatio.pedRoomDrugStoreWhRatio<0}">-</c:if>
+		               		</span>
+				       		<fmt:formatNumber type="percent" value="${superiorMonthlyRatio.pedRoomDrugStoreWhRatio<0?-superiorMonthlyRatio.pedRoomDrugStoreWhRatio:superiorMonthlyRatio.pedRoomDrugStoreWhRatio}" pattern="#0%"/>
+				       </td>
+				      <td class="report_data_number <c:if test="${superiorMonthlyRatio.resClinicRatio>0}">ratio_up</c:if><c:if test="${superiorMonthlyRatio.resClinicRatio<0}">ratio_down</c:if>" >
+				       		<span class="narrow_font">
+					    		<c:if test="${superiorMonthlyRatio.resClinicRatio>0}">+</c:if>
+		               			<c:if test="${superiorMonthlyRatio.resClinicRatio<0}">-</c:if>
+		               		</span>
+				       		<fmt:formatNumber type="percent" value="${superiorMonthlyRatio.resClinicRatio<0?-superiorMonthlyRatio.resClinicRatio:superiorMonthlyRatio.resClinicRatio}" pattern="#0%"/>
+				       </td>
+				      <td class="report_data_number <c:if test="${superiorMonthlyRatio.resRoomRatio>0}">ratio_up</c:if><c:if test="${superiorMonthlyRatio.resRoomRatio<0}">ratio_down</c:if>" >
+				       		<span class="narrow_font">
+					    		<c:if test="${superiorMonthlyRatio.resRoomRatio>0}">+</c:if>
+		               			<c:if test="${superiorMonthlyRatio.resRoomRatio<0}">-</c:if>
+		               		</span>
+				       		<fmt:formatNumber type="percent" value="${superiorMonthlyRatio.resRoomRatio<0?-superiorMonthlyRatio.resRoomRatio:superiorMonthlyRatio.resRoomRatio}" pattern="#0%"/>
+				       </td>
                      <td class="report_data_number <c:if test="${superiorMonthlyRatio.othernumratio>0}">ratio_up</c:if><c:if test="${superiorMonthlyRatio.othernumratio<0}">ratio_down</c:if>" >
                       		<span class="narrow_font">
 					    		<c:if test="${superiorMonthlyRatio.othernumratio>0}">+</c:if>
@@ -172,14 +223,17 @@ $(function(){
 	            </table>
 	            <table class="mobileReport_table">
 	               <tr class="mobileReport_table_header">
-				      <td width="10%">姓名</td>
-                      <td width="15%">儿科门急诊占比</td>
-                      <td width="15%">儿科病房占比</td>
-                      <td width="15%">呼吸科占比</td>
-                      <td width="15%">其他科室占比</td>
-                      <td width="10%">袋数上报率</td>
-                      <td width="10%">上报医院数</td>
-                      <td width="10%">总医院数</td>
+				      <td width="8%">姓名</td>
+                      <td width="10%">儿科门急诊药房发药量占比</td>
+                      <td width="10%">儿科门急诊雾化室使用量占比</td>
+                      <td width="10%">儿科病房药房发药量占比</td>
+                      <td width="10%">儿科病房药房雾化使用量占比</td>
+                      <td width="10%">呼吸科门诊占比</td>
+                      <td width="10%">呼吸科病房占比</td>
+                      <td width="8%">其他科室占比</td>
+                      <td width="8%">袋数上报率</td>
+                      <td width="8%">上报医院数</td>
+                      <td width="8%">总医院数</td>
 				    </tr>
 	               <c:forEach items="${monthlyRatioList}" var="monthlyRatio" varStatus="status">
 		               <tr class="mobileReport_table_body <c:if test="${status.count%2==0}">mobileReport_tr_even</c:if>">
@@ -194,35 +248,59 @@ $(function(){
 							      ${monthlyRatio.region}
 						      </c:if>
 					      </td>
-					      <td class="report_data_number" ><fmt:formatNumber type="percent" value="${monthlyRatio.pedemernumrate}" pattern="#0%"/></td>
-					      <td class="report_data_number" ><fmt:formatNumber type="percent" value="${monthlyRatio.pedroomnumrate}" pattern="#0%"/></td>
-					      <td class="report_data_number" ><fmt:formatNumber type="percent" value="${monthlyRatio.resnumrate}" pattern="#0%"/></td>
+					      <td class="report_data_number" ><fmt:formatNumber type="percent" value="${monthlyRatio.pedEmerDrugStoreRate}" pattern="#0%"/></td>
+					      <td class="report_data_number" ><fmt:formatNumber type="percent" value="${monthlyRatio.pedEmerWhRate}" pattern="#0%"/></td>
+					      <td class="report_data_number" ><fmt:formatNumber type="percent" value="${monthlyRatio.pedRoomDrugStoreRate}" pattern="#0%"/></td>
+					      <td class="report_data_number" ><fmt:formatNumber type="percent" value="${monthlyRatio.pedRoomDrugStoreWhRate}" pattern="#0%"/></td>
+					      <td class="report_data_number" ><fmt:formatNumber type="percent" value="${monthlyRatio.resClinicRate}" pattern="#0%"/></td>
+					      <td class="report_data_number" ><fmt:formatNumber type="percent" value="${monthlyRatio.resRoomRate}" pattern="#0%"/></td>
 					      <td class="report_data_number" ><fmt:formatNumber type="percent" value="${monthlyRatio.othernumrate}" pattern="#0%"/></td>
 					      <td class="report_data_number" ><fmt:formatNumber type="percent" value="${monthlyRatio.inrate}" pattern="#0%"/></td>
 					      <td class="report_data_number"><fmt:formatNumber value="${monthlyRatio.innum}" pattern="#,###"/></td>
 	                      <td class="report_data_number"><fmt:formatNumber value="${monthlyRatio.hosnum}" pattern="#,###"/></td>
 					  </tr>
 					  <tr class="mobileReport_table_body <c:if test="${status.count%2==0}">mobileReport_tr_even</c:if>">
-					      <td class="report_data_number <c:if test="${monthlyRatio.pedemernumrateratio>0}">ratio_up</c:if><c:if test="${monthlyRatio.pedemernumrateratio<0}">ratio_down</c:if>" >
+					      <td class="report_data_number <c:if test="${monthlyRatio.pedEmerDrugStoreRateRatio>0}">ratio_up</c:if><c:if test="${monthlyRatio.pedEmerDrugStoreRateRatio<0}">ratio_down</c:if>" >
 					       		<span class="narrow_font">
-						    		<c:if test="${monthlyRatio.pedemernumrateratio>0}">+</c:if>
-			               			<c:if test="${monthlyRatio.pedemernumrateratio<0}">-</c:if>
+						    		<c:if test="${monthlyRatio.pedEmerDrugStoreRateRatio>0}">+</c:if>
+			               			<c:if test="${monthlyRatio.pedEmerDrugStoreRateRatio<0}">-</c:if>
 			               		</span>
-					       		<fmt:formatNumber type="percent" value="${monthlyRatio.pedemernumrateratio<0?-monthlyRatio.pedemernumrateratio:monthlyRatio.pedemernumrateratio}" pattern="#0%"/>
+					       		<fmt:formatNumber type="percent" value="${monthlyRatio.pedEmerDrugStoreRateRatio<0?-monthlyRatio.pedEmerDrugStoreRateRatio:monthlyRatio.pedEmerDrugStoreRateRatio}" pattern="#0%"/>
 					       </td>
-					      <td class="report_data_number <c:if test="${monthlyRatio.pedroomnumrateratio>0}">ratio_up</c:if><c:if test="${monthlyRatio.pedroomnumrateratio<0}">ratio_down</c:if>" >
+					      <td class="report_data_number <c:if test="${monthlyRatio.pedEmerWhRateRatio>0}">ratio_up</c:if><c:if test="${monthlyRatio.pedEmerWhRateRatio<0}">ratio_down</c:if>" >
 					       		<span class="narrow_font">
-						    		<c:if test="${monthlyRatio.pedroomnumrateratio>0}">+</c:if>
-			               			<c:if test="${monthlyRatio.pedroomnumrateratio<0}">-</c:if>
+						    		<c:if test="${monthlyRatio.pedEmerWhRateRatio>0}">+</c:if>
+			               			<c:if test="${monthlyRatio.pedEmerWhRateRatio<0}">-</c:if>
 			               		</span>
-					       		<fmt:formatNumber type="percent" value="${monthlyRatio.pedroomnumrateratio<0?-monthlyRatio.pedroomnumrateratio:monthlyRatio.pedroomnumrateratio}" pattern="#0%"/>
+					       		<fmt:formatNumber type="percent" value="${monthlyRatio.pedEmerWhRateRatio<0?-monthlyRatio.pedEmerWhRateRatio:monthlyRatio.pedEmerWhRateRatio}" pattern="#0%"/>
 					       </td>
-					      <td class="report_data_number <c:if test="${monthlyRatio.resnumrateratio>0}">ratio_up</c:if><c:if test="${monthlyRatio.resnumrateratio<0}">ratio_down</c:if>" >
+					      <td class="report_data_number <c:if test="${monthlyRatio.pedRoomDrugStoreRateRatio>0}">ratio_up</c:if><c:if test="${monthlyRatio.pedRoomDrugStoreRateRatio<0}">ratio_down</c:if>" >
 					       		<span class="narrow_font">
-						    		<c:if test="${monthlyRatio.resnumrateratio>0}">+</c:if>
-			               			<c:if test="${monthlyRatio.resnumrateratio<0}">-</c:if>
+						    		<c:if test="${monthlyRatio.pedRoomDrugStoreRateRatio>0}">+</c:if>
+			               			<c:if test="${monthlyRatio.pedRoomDrugStoreRateRatio<0}">-</c:if>
 			               		</span>
-					       		<fmt:formatNumber type="percent" value="${monthlyRatio.resnumrateratio<0?-monthlyRatio.resnumrateratio:monthlyRatio.resnumrateratio}" pattern="#0%"/>
+					       		<fmt:formatNumber type="percent" value="${monthlyRatio.pedRoomDrugStoreRateRatio<0?-monthlyRatio.pedRoomDrugStoreRateRatio:monthlyRatio.pedRoomDrugStoreRateRatio}" pattern="#0%"/>
+					       </td>
+					      <td class="report_data_number <c:if test="${monthlyRatio.pedRoomDrugStoreWhRateRatio>0}">ratio_up</c:if><c:if test="${monthlyRatio.pedRoomDrugStoreWhRateRatio<0}">ratio_down</c:if>" >
+					       		<span class="narrow_font">
+						    		<c:if test="${monthlyRatio.pedRoomDrugStoreWhRateRatio>0}">+</c:if>
+			               			<c:if test="${monthlyRatio.pedRoomDrugStoreWhRateRatio<0}">-</c:if>
+			               		</span>
+					       		<fmt:formatNumber type="percent" value="${monthlyRatio.pedRoomDrugStoreWhRateRatio<0?-monthlyRatio.pedRoomDrugStoreWhRateRatio:monthlyRatio.pedRoomDrugStoreWhRateRatio}" pattern="#0%"/>
+					       </td>
+					      <td class="report_data_number <c:if test="${monthlyRatio.resClinicRateRatio>0}">ratio_up</c:if><c:if test="${monthlyRatio.resClinicRateRatio<0}">ratio_down</c:if>" >
+					       		<span class="narrow_font">
+						    		<c:if test="${monthlyRatio.resClinicRateRatio>0}">+</c:if>
+			               			<c:if test="${monthlyRatio.resClinicRateRatio<0}">-</c:if>
+			               		</span>
+					       		<fmt:formatNumber type="percent" value="${monthlyRatio.resClinicRateRatio<0?-monthlyRatio.resClinicRateRatio:monthlyRatio.resClinicRateRatio}" pattern="#0%"/>
+					       </td>
+					      <td class="report_data_number <c:if test="${monthlyRatio.resRoomRateRatio>0}">ratio_up</c:if><c:if test="${monthlyRatio.resRoomRateRatio<0}">ratio_down</c:if>" >
+					       		<span class="narrow_font">
+						    		<c:if test="${monthlyRatio.resRoomRateRatio>0}">+</c:if>
+			               			<c:if test="${monthlyRatio.resRoomRateRatio<0}">-</c:if>
+			               		</span>
+					       		<fmt:formatNumber type="percent" value="${monthlyRatio.resRoomRateRatio<0?-monthlyRatio.resRoomRateRatio:monthlyRatio.resRoomRateRatio}" pattern="#0%"/>
 					       </td>
 					      <td class="report_data_number <c:if test="${monthlyRatio.othernumrateratio>0}">ratio_up</c:if><c:if test="${monthlyRatio.othernumrateratio<0}">ratio_down</c:if>" >
 					       		<span class="narrow_font">
@@ -266,36 +344,60 @@ $(function(){
 						      	全国
 					      </c:if>
                      </td>
-                     <td class="report_data_number" ><fmt:formatNumber type="percent" value="${superiorMonthlyRatio.pedemernumrate}" pattern="#0%"/></td>
-                     <td class="report_data_number" ><fmt:formatNumber type="percent" value="${superiorMonthlyRatio.pedroomnumrate}" pattern="#0%"/></td>
-                     <td class="report_data_number" ><fmt:formatNumber type="percent" value="${superiorMonthlyRatio.resnumrate}" pattern="#0%"/></td>
+                     <td class="report_data_number" ><fmt:formatNumber type="percent" value="${superiorMonthlyRatio.pedEmerDrugStoreRate}" pattern="#0%"/></td>
+				     <td class="report_data_number" ><fmt:formatNumber type="percent" value="${superiorMonthlyRatio.pedEmerWhRate}" pattern="#0%"/></td>
+				     <td class="report_data_number" ><fmt:formatNumber type="percent" value="${superiorMonthlyRatio.pedRoomDrugStoreRate}" pattern="#0%"/></td>
+				     <td class="report_data_number" ><fmt:formatNumber type="percent" value="${superiorMonthlyRatio.pedRoomDrugStoreWhRate}" pattern="#0%"/></td>
+				     <td class="report_data_number" ><fmt:formatNumber type="percent" value="${superiorMonthlyRatio.resClinicRate}" pattern="#0%"/></td>
+				     <td class="report_data_number" ><fmt:formatNumber type="percent" value="${superiorMonthlyRatio.resRoomRate}" pattern="#0%"/></td>
                      <td class="report_data_number" ><fmt:formatNumber type="percent" value="${superiorMonthlyRatio.othernumrate}" pattern="#0%"/></td>
                      <td class="report_data_number" ><fmt:formatNumber type="percent" value="${superiorMonthlyRatio.inrate}" pattern="#0%"/></td>
 				     <td class="report_data_number"><fmt:formatNumber value="${superiorMonthlyRatio.innum}" pattern="#,###"/></td>
 	                 <td class="report_data_number"><fmt:formatNumber value="${superiorMonthlyRatio.hosnum}" pattern="#,###"/></td>
 				 </tr>
 				 <tr class="mobileReport_table_body <c:if test="${fn:length(monthlyRatioList)%2 != 0}">mobileReport_tr_even</c:if>">
-                     <td class="report_data_number <c:if test="${superiorMonthlyRatio.pedemernumrateratio>0}">ratio_up</c:if><c:if test="${superiorMonthlyRatio.pedemernumrateratio<0}">ratio_down</c:if>" >
-                      		<span class="narrow_font">
-					    		<c:if test="${superiorMonthlyRatio.pedemernumrateratio>0}">+</c:if>
-		               			<c:if test="${superiorMonthlyRatio.pedemernumrateratio<0}">-</c:if>
-		               		</span>
-                      		<fmt:formatNumber type="percent" value="${superiorMonthlyRatio.pedemernumrateratio<0?-superiorMonthlyRatio.pedemernumrateratio:superiorMonthlyRatio.pedemernumrateratio}" pattern="#0%"/>
-                      </td>
-                     <td class="report_data_number <c:if test="${superiorMonthlyRatio.pedroomnumrateratio>0}">ratio_up</c:if><c:if test="${superiorMonthlyRatio.pedroomnumrateratio<0}">ratio_down</c:if>" >
-                      		<span class="narrow_font">
-					    		<c:if test="${superiorMonthlyRatio.pedroomnumrateratio>0}">+</c:if>
-		               			<c:if test="${superiorMonthlyRatio.pedroomnumrateratio<0}">-</c:if>
-		               		</span>
-                      		<fmt:formatNumber type="percent" value="${superiorMonthlyRatio.pedroomnumrateratio<0?-superiorMonthlyRatio.pedroomnumrateratio:superiorMonthlyRatio.pedroomnumrateratio}" pattern="#0%"/>
-                      </td>
-                     <td class="report_data_number <c:if test="${superiorMonthlyRatio.resnumrateratio>0}">ratio_up</c:if><c:if test="${superiorMonthlyRatio.resnumrateratio<0}">ratio_down</c:if>" >
-                      		<span class="narrow_font">
-					    		<c:if test="${superiorMonthlyRatio.resnumrateratio>0}">+</c:if>
-		               			<c:if test="${superiorMonthlyRatio.resnumrateratio<0}">-</c:if>
-		               		</span>
-                      		<fmt:formatNumber type="percent" value="${superiorMonthlyRatio.resnumrateratio<0?-superiorMonthlyRatio.resnumrateratio:superiorMonthlyRatio.resnumrateratio}" pattern="#0%"/>
-                      </td>
+                     <td class="report_data_number <c:if test="${superiorMonthlyRatio.pedEmerDrugStoreRateRatio>0}">ratio_up</c:if><c:if test="${superiorMonthlyRatio.pedEmerDrugStoreRateRatio<0}">ratio_down</c:if>" >
+			       		<span class="narrow_font">
+				    		<c:if test="${superiorMonthlyRatio.pedEmerDrugStoreRateRatio>0}">+</c:if>
+	               			<c:if test="${superiorMonthlyRatio.pedEmerDrugStoreRateRatio<0}">-</c:if>
+	               		</span>
+			       		<fmt:formatNumber type="percent" value="${superiorMonthlyRatio.pedEmerDrugStoreRateRatio<0?-superiorMonthlyRatio.pedEmerDrugStoreRateRatio:superiorMonthlyRatio.pedEmerDrugStoreRateRatio}" pattern="#0%"/>
+			       </td>
+			      <td class="report_data_number <c:if test="${superiorMonthlyRatio.pedEmerWhRateRatio>0}">ratio_up</c:if><c:if test="${superiorMonthlyRatio.pedEmerWhRateRatio<0}">ratio_down</c:if>" >
+			       		<span class="narrow_font">
+				    		<c:if test="${superiorMonthlyRatio.pedEmerWhRateRatio>0}">+</c:if>
+	               			<c:if test="${superiorMonthlyRatio.pedEmerWhRateRatio<0}">-</c:if>
+	               		</span>
+			       		<fmt:formatNumber type="percent" value="${superiorMonthlyRatio.pedEmerWhRateRatio<0?-superiorMonthlyRatio.pedEmerWhRateRatio:superiorMonthlyRatio.pedEmerWhRateRatio}" pattern="#0%"/>
+			       </td>
+			      <td class="report_data_number <c:if test="${superiorMonthlyRatio.pedRoomDrugStoreRateRatio>0}">ratio_up</c:if><c:if test="${superiorMonthlyRatio.pedRoomDrugStoreRateRatio<0}">ratio_down</c:if>" >
+			       		<span class="narrow_font">
+				    		<c:if test="${superiorMonthlyRatio.pedRoomDrugStoreRateRatio>0}">+</c:if>
+	               			<c:if test="${superiorMonthlyRatio.pedRoomDrugStoreRateRatio<0}">-</c:if>
+	               		</span>
+			       		<fmt:formatNumber type="percent" value="${superiorMonthlyRatio.pedRoomDrugStoreRateRatio<0?-superiorMonthlyRatio.pedRoomDrugStoreRateRatio:superiorMonthlyRatio.pedRoomDrugStoreRateRatio}" pattern="#0%"/>
+			       </td>
+			      <td class="report_data_number <c:if test="${superiorMonthlyRatio.pedRoomDrugStoreWhRateRatio>0}">ratio_up</c:if><c:if test="${superiorMonthlyRatio.pedRoomDrugStoreWhRateRatio<0}">ratio_down</c:if>" >
+			       		<span class="narrow_font">
+				    		<c:if test="${superiorMonthlyRatio.pedRoomDrugStoreWhRateRatio>0}">+</c:if>
+	               			<c:if test="${superiorMonthlyRatio.pedRoomDrugStoreWhRateRatio<0}">-</c:if>
+	               		</span>
+			       		<fmt:formatNumber type="percent" value="${superiorMonthlyRatio.pedRoomDrugStoreWhRateRatio<0?-superiorMonthlyRatio.pedRoomDrugStoreWhRateRatio:superiorMonthlyRatio.pedRoomDrugStoreWhRateRatio}" pattern="#0%"/>
+			       </td>
+			      <td class="report_data_number <c:if test="${superiorMonthlyRatio.resClinicRateRatio>0}">ratio_up</c:if><c:if test="${superiorMonthlyRatio.resClinicRateRatio<0}">ratio_down</c:if>" >
+			       		<span class="narrow_font">
+				    		<c:if test="${superiorMonthlyRatio.resClinicRateRatio>0}">+</c:if>
+	               			<c:if test="${superiorMonthlyRatio.resClinicRateRatio<0}">-</c:if>
+	               		</span>
+			       		<fmt:formatNumber type="percent" value="${superiorMonthlyRatio.resClinicRateRatio<0?-superiorMonthlyRatio.resClinicRateRatio:superiorMonthlyRatio.resClinicRateRatio}" pattern="#0%"/>
+			       </td>
+			      <td class="report_data_number <c:if test="${superiorMonthlyRatio.resRoomRateRatio>0}">ratio_up</c:if><c:if test="${superiorMonthlyRatio.resRoomRateRatio<0}">ratio_down</c:if>" >
+			       		<span class="narrow_font">
+				    		<c:if test="${superiorMonthlyRatio.resRoomRateRatio>0}">+</c:if>
+	               			<c:if test="${superiorMonthlyRatio.resRoomRateRatio<0}">-</c:if>
+	               		</span>
+			       		<fmt:formatNumber type="percent" value="${superiorMonthlyRatio.resRoomRateRatio<0?-superiorMonthlyRatio.resRoomRateRatio:superiorMonthlyRatio.resRoomRateRatio}" pattern="#0%"/>
+			       </td>
                      <td class="report_data_number <c:if test="${superiorMonthlyRatio.othernumrateratio>0}">ratio_up</c:if><c:if test="${superiorMonthlyRatio.othernumrateratio<0}">ratio_down</c:if>" >
                       		<span class="narrow_font">
 					    		<c:if test="${superiorMonthlyRatio.othernumrateratio>0}">+</c:if>
@@ -333,11 +435,14 @@ $(function(){
 		            <table class="mobileReport_table">
 		               <tr class="mobileReport_table_header">
 					      <td width="10%">姓名</td>
-	                      <td width="18%">儿科门急诊袋数</td>
-	                      <td width="18%">儿科病房袋数</td>
-	                      <td width="18%">呼吸科袋数</td>
-	                      <td width="18%">其他科室袋数</td>
-	                      <td width="18%">总袋数</td>
+	                      <td width="12%">儿科门急诊药房发药量</td>
+	                      <td width="13%">儿科门急诊雾化室使用量</td>
+	                      <td width="12%">儿科病房药房发药量</td>
+	                      <td width="13%">儿科病房药房雾化使用量</td>
+	                      <td width="10%">呼吸科门诊</td>
+	                      <td width="10%">呼吸科病房</td>
+	                      <td width="10%">其他科室</td>
+	                      <td width="10%">总袋数</td>
 					    </tr>
 		               <c:forEach items="${childMonthlyRatioList}" var="childMonthlyRatio" varStatus="status">
 			               <tr class="mobileReport_table_body <c:if test="${status.count%2==0}">mobileReport_tr_even</c:if>">
@@ -352,33 +457,57 @@ $(function(){
 							      ${childMonthlyRatio.rsmRegion}
 						      </c:if>
 						      </td>
-						      <td class="report_data_number" ><fmt:formatNumber value="${childMonthlyRatio.pedemernum}" pattern="#,###"/></td>
-						      <td class="report_data_number" ><fmt:formatNumber value="${childMonthlyRatio.pedroomnum}" pattern="#,###"/></td>
-						      <td class="report_data_number" ><fmt:formatNumber value="${childMonthlyRatio.resnum}" pattern="#,###"/></td>
+						      <td class="report_data_number" ><fmt:formatNumber value="${childMonthlyRatio.pedEmerDrugStore}" pattern="#,###"/></td>
+	                          <td class="report_data_number" ><fmt:formatNumber value="${childMonthlyRatio.pedEmerWh}" pattern="#,###"/></td>
+	                          <td class="report_data_number" ><fmt:formatNumber value="${childMonthlyRatio.pedRoomDrugStore}" pattern="#,###"/></td>
+	                          <td class="report_data_number" ><fmt:formatNumber value="${childMonthlyRatio.pedRoomDrugStoreWh}" pattern="#,###"/></td>
+	                          <td class="report_data_number" ><fmt:formatNumber value="${childMonthlyRatio.resClinic}" pattern="#,###"/></td>
+	                          <td class="report_data_number" ><fmt:formatNumber value="${childMonthlyRatio.resRoom}" pattern="#,###"/></td>
 						      <td class="report_data_number" ><fmt:formatNumber value="${childMonthlyRatio.othernum}" pattern="#,###"/></td>
 						      <td class="report_data_number" ><fmt:formatNumber value="${childMonthlyRatio.totalnum}" pattern="#,###"/></td>
 						    </tr>
 						    <tr class="mobileReport_table_body <c:if test="${status.count%2==0}">mobileReport_tr_even</c:if>">
-						      <td class="report_data_number <c:if test="${childMonthlyRatio.pedemernumratio>0}">ratio_up</c:if><c:if test="${childMonthlyRatio.pedemernumratio<0}">ratio_down</c:if>" >
+						      <td class="report_data_number <c:if test="${childMonthlyRatio.pedEmerDrugStoreRatio>0}">ratio_up</c:if><c:if test="${childMonthlyRatio.pedEmerDrugStoreRatio<0}">ratio_down</c:if>" >
 						       		<span class="narrow_font">
-							    		<c:if test="${childMonthlyRatio.pedemernumratio>0}">+</c:if>
-				               			<c:if test="${childMonthlyRatio.pedemernumratio<0}">-</c:if>
+							    		<c:if test="${childMonthlyRatio.pedEmerDrugStoreRatio>0}">+</c:if>
+				               			<c:if test="${childMonthlyRatio.pedEmerDrugStoreRatio<0}">-</c:if>
 				               		</span>
-						       		<fmt:formatNumber type="percent" value="${childMonthlyRatio.pedemernumratio<0?-childMonthlyRatio.pedemernumratio:childMonthlyRatio.pedemernumratio}" pattern="#0%"/>
+						       		<fmt:formatNumber type="percent" value="${childMonthlyRatio.pedEmerDrugStoreRatio<0?-childMonthlyRatio.pedEmerDrugStoreRatio:childMonthlyRatio.pedEmerDrugStoreRatio}" pattern="#0%"/>
 						       </td>
-						      <td class="report_data_number <c:if test="${childMonthlyRatio.pedroomnumratio>0}">ratio_up</c:if><c:if test="${childMonthlyRatio.pedroomnumratio<0}">ratio_down</c:if>" >
+						      <td class="report_data_number <c:if test="${childMonthlyRatio.pedEmerWhRatio>0}">ratio_up</c:if><c:if test="${childMonthlyRatio.pedEmerWhRatio<0}">ratio_down</c:if>" >
 						       		<span class="narrow_font">
-							    		<c:if test="${childMonthlyRatio.pedroomnumratio>0}">+</c:if>
-				               			<c:if test="${childMonthlyRatio.pedroomnumratio<0}">-</c:if>
+							    		<c:if test="${childMonthlyRatio.pedEmerWhRatio>0}">+</c:if>
+				               			<c:if test="${childMonthlyRatio.pedEmerWhRatio<0}">-</c:if>
 				               		</span>
-						       		<fmt:formatNumber type="percent" value="${childMonthlyRatio.pedroomnumratio<0?-childMonthlyRatio.pedroomnumratio:childMonthlyRatio.pedroomnumratio}" pattern="#0%"/>
+						       		<fmt:formatNumber type="percent" value="${childMonthlyRatio.pedEmerWhRatio<0?-childMonthlyRatio.pedEmerWhRatio:childMonthlyRatio.pedEmerWhRatio}" pattern="#0%"/>
 						       </td>
-						      <td class="report_data_number <c:if test="${childMonthlyRatio.resnumratio>0}">ratio_up</c:if><c:if test="${childMonthlyRatio.resnumratio<0}">ratio_down</c:if>" >
+						      <td class="report_data_number <c:if test="${childMonthlyRatio.pedRoomDrugStoreRatio>0}">ratio_up</c:if><c:if test="${childMonthlyRatio.pedRoomDrugStoreRatio<0}">ratio_down</c:if>" >
 						       		<span class="narrow_font">
-							    		<c:if test="${childMonthlyRatio.resnumratio>0}">+</c:if>
-				               			<c:if test="${childMonthlyRatio.resnumratio<0}">-</c:if>
+							    		<c:if test="${childMonthlyRatio.pedRoomDrugStoreRatio>0}">+</c:if>
+				               			<c:if test="${childMonthlyRatio.pedRoomDrugStoreRatio<0}">-</c:if>
 				               		</span>
-						       		<fmt:formatNumber type="percent" value="${childMonthlyRatio.resnumratio<0?-childMonthlyRatio.resnumratio:childMonthlyRatio.resnumratio}" pattern="#0%"/>
+						       		<fmt:formatNumber type="percent" value="${childMonthlyRatio.pedRoomDrugStoreRatio<0?-childMonthlyRatio.pedRoomDrugStoreRatio:childMonthlyRatio.pedRoomDrugStoreRatio}" pattern="#0%"/>
+						       </td>
+						      <td class="report_data_number <c:if test="${childMonthlyRatio.pedRoomDrugStoreWhRatio>0}">ratio_up</c:if><c:if test="${childMonthlyRatio.pedRoomDrugStoreWhRatio<0}">ratio_down</c:if>" >
+						       		<span class="narrow_font">
+							    		<c:if test="${childMonthlyRatio.pedRoomDrugStoreWhRatio>0}">+</c:if>
+				               			<c:if test="${childMonthlyRatio.pedRoomDrugStoreWhRatio<0}">-</c:if>
+				               		</span>
+						       		<fmt:formatNumber type="percent" value="${childMonthlyRatio.pedRoomDrugStoreWhRatio<0?-childMonthlyRatio.pedRoomDrugStoreWhRatio:childMonthlyRatio.pedRoomDrugStoreWhRatio}" pattern="#0%"/>
+						       </td>
+						      <td class="report_data_number <c:if test="${childMonthlyRatio.resClinicRatio>0}">ratio_up</c:if><c:if test="${childMonthlyRatio.resClinicRatio<0}">ratio_down</c:if>" >
+						       		<span class="narrow_font">
+							    		<c:if test="${childMonthlyRatio.resClinicRatio>0}">+</c:if>
+				               			<c:if test="${childMonthlyRatio.resClinicRatio<0}">-</c:if>
+				               		</span>
+						       		<fmt:formatNumber type="percent" value="${childMonthlyRatio.resClinicRatio<0?-childMonthlyRatio.resClinicRatio:childMonthlyRatio.resClinicRatio}" pattern="#0%"/>
+						       </td>
+						      <td class="report_data_number <c:if test="${childMonthlyRatio.resRoomRatio>0}">ratio_up</c:if><c:if test="${childMonthlyRatio.resRoomRatio<0}">ratio_down</c:if>" >
+						       		<span class="narrow_font">
+							    		<c:if test="${childMonthlyRatio.resRoomRatio>0}">+</c:if>
+				               			<c:if test="${childMonthlyRatio.resRoomRatio<0}">-</c:if>
+				               		</span>
+						       		<fmt:formatNumber type="percent" value="${childMonthlyRatio.resRoomRatio<0?-childMonthlyRatio.resRoomRatio:childMonthlyRatio.resRoomRatio}" pattern="#0%"/>
 						       </td>
 						      <td class="report_data_number <c:if test="${childMonthlyRatio.othernumratio>0}">ratio_up</c:if><c:if test="${childMonthlyRatio.othernumratio<0}">ratio_down</c:if>" >
 						       		<span class="narrow_font">
@@ -400,9 +529,12 @@ $(function(){
 		            <table class="mobileReport_table">
 		               	<tr class="mobileReport_table_header">
 					      <td width="10%">姓名</td>
-	                      <td width="15%">儿科门急诊占比</td>
-	                      <td width="15%">儿科病房占比</td>
-	                      <td width="15%">呼吸科占比</td>
+	                      <td width="10%">儿科门急诊药房发药量占比</td>
+	                      <td width="10%">儿科门急诊雾化室使用量占比</td>
+	                      <td width="10%">儿科病房药房发药量占比</td>
+	                      <td width="10%">儿科病房药房雾化使用量占比</td>
+	                      <td width="10%">呼吸科门诊占比</td>
+	                      <td width="10%">呼吸科病房占比</td>
 	                      <td width="15%">其他科室占比</td>
 	                      <td width="15%">总医院数</td>
 	                      <td width="15%">上报医院数</td>
@@ -420,34 +552,58 @@ $(function(){
 							      ${childMonthlyRatio.rsmRegion}
 						      </c:if>
 						      </td>
-						      <td class="report_data_number" ><fmt:formatNumber type="percent" value="${childMonthlyRatio.pedemernumrate}" pattern="#0%"/></td>
-						      <td class="report_data_number" ><fmt:formatNumber type="percent" value="${childMonthlyRatio.pedroomnumrate}" pattern="#0%"/></td>
-						      <td class="report_data_number" ><fmt:formatNumber type="percent" value="${childMonthlyRatio.resnumrate}" pattern="#0%"/></td>
+						      <td class="report_data_number" ><fmt:formatNumber type="percent" value="${childMonthlyRatio.pedEmerDrugStoreRate}" pattern="#0%"/></td>
+						      <td class="report_data_number" ><fmt:formatNumber type="percent" value="${childMonthlyRatio.pedEmerWhRate}" pattern="#0%"/></td>
+						      <td class="report_data_number" ><fmt:formatNumber type="percent" value="${childMonthlyRatio.pedRoomDrugStoreRate}" pattern="#0%"/></td>
+						      <td class="report_data_number" ><fmt:formatNumber type="percent" value="${childMonthlyRatio.pedRoomDrugStoreWhRate}" pattern="#0%"/></td>
+						      <td class="report_data_number" ><fmt:formatNumber type="percent" value="${childMonthlyRatio.resClinicRate}" pattern="#0%"/></td>
+						      <td class="report_data_number" ><fmt:formatNumber type="percent" value="${childMonthlyRatio.resRoomRate}" pattern="#0%"/></td>
 						      <td class="report_data_number" ><fmt:formatNumber type="percent" value="${childMonthlyRatio.othernumrate}" pattern="#0%"/></td>
 						      <td class="report_data_number"><fmt:formatNumber value="${childMonthlyRatio.hosnum}" pattern="#,###"/></td>
 				     		  <td class="report_data_number"><fmt:formatNumber value="${childMonthlyRatio.innum}" pattern="#,###"/></td>
 						    </tr>
 						    <tr class="mobileReport_table_body <c:if test="${status.count%2==0}">mobileReport_tr_even</c:if>">
-						      <td class="report_data_number <c:if test="${childMonthlyRatio.pedemernumrateratio>0}">ratio_up</c:if><c:if test="${childMonthlyRatio.pedemernumrateratio<0}">ratio_down</c:if>" >
+						      <td class="report_data_number <c:if test="${childMonthlyRatio.pedEmerDrugStoreRateRatio>0}">ratio_up</c:if><c:if test="${childMonthlyRatio.pedEmerDrugStoreRateRatio<0}">ratio_down</c:if>" >
 						       		<span class="narrow_font">
-							    		<c:if test="${childMonthlyRatio.pedemernumrateratio>0}">+</c:if>
-				               			<c:if test="${childMonthlyRatio.pedemernumrateratio<0}">-</c:if>
+							    		<c:if test="${childMonthlyRatio.pedEmerDrugStoreRateRatio>0}">+</c:if>
+				               			<c:if test="${childMonthlyRatio.pedEmerDrugStoreRateRatio<0}">-</c:if>
 				               		</span>
-						       		<fmt:formatNumber type="percent" value="${childMonthlyRatio.pedemernumrateratio<0?-childMonthlyRatio.pedemernumrateratio:childMonthlyRatio.pedemernumrateratio}" pattern="#0%"/>
+						       		<fmt:formatNumber type="percent" value="${childMonthlyRatio.pedEmerDrugStoreRateRatio<0?-childMonthlyRatio.pedEmerDrugStoreRateRatio:childMonthlyRatio.pedEmerDrugStoreRateRatio}" pattern="#0%"/>
 						       </td>
-						      <td class="report_data_number <c:if test="${childMonthlyRatio.pedroomnumrateratio>0}">ratio_up</c:if><c:if test="${childMonthlyRatio.pedroomnumrateratio<0}">ratio_down</c:if>" >
+						      <td class="report_data_number <c:if test="${childMonthlyRatio.pedEmerWhRateRatio>0}">ratio_up</c:if><c:if test="${childMonthlyRatio.pedEmerWhRateRatio<0}">ratio_down</c:if>" >
 						       		<span class="narrow_font">
-							    		<c:if test="${childMonthlyRatio.pedroomnumrateratio>0}">+</c:if>
-				               			<c:if test="${childMonthlyRatio.pedroomnumrateratio<0}">-</c:if>
+							    		<c:if test="${childMonthlyRatio.pedEmerWhRateRatio>0}">+</c:if>
+				               			<c:if test="${childMonthlyRatio.pedEmerWhRateRatio<0}">-</c:if>
 				               		</span>
-						       		<fmt:formatNumber type="percent" value="${childMonthlyRatio.pedroomnumrateratio<0?-childMonthlyRatio.pedroomnumrateratio:childMonthlyRatio.pedroomnumrateratio}" pattern="#0%"/>
+						       		<fmt:formatNumber type="percent" value="${childMonthlyRatio.pedEmerWhRateRatio<0?-childMonthlyRatio.pedEmerWhRateRatio:childMonthlyRatio.pedEmerWhRateRatio}" pattern="#0%"/>
 						       </td>
-						      <td class="report_data_number <c:if test="${childMonthlyRatio.resnumrateratio>0}">ratio_up</c:if><c:if test="${childMonthlyRatio.resnumrateratio<0}">ratio_down</c:if>" >
+						      <td class="report_data_number <c:if test="${childMonthlyRatio.pedRoomDrugStoreRateRatio>0}">ratio_up</c:if><c:if test="${childMonthlyRatio.pedRoomDrugStoreRateRatio<0}">ratio_down</c:if>" >
 						       		<span class="narrow_font">
-							    		<c:if test="${childMonthlyRatio.resnumrateratio>0}">+</c:if>
-				               			<c:if test="${childMonthlyRatio.resnumrateratio<0}">-</c:if>
+							    		<c:if test="${childMonthlyRatio.pedRoomDrugStoreRateRatio>0}">+</c:if>
+				               			<c:if test="${childMonthlyRatio.pedRoomDrugStoreRateRatio<0}">-</c:if>
 				               		</span>
-						       		<fmt:formatNumber type="percent" value="${childMonthlyRatio.resnumrateratio<0?-childMonthlyRatio.resnumrateratio:childMonthlyRatio.resnumrateratio}" pattern="#0%"/>
+						       		<fmt:formatNumber type="percent" value="${childMonthlyRatio.pedRoomDrugStoreRateRatio<0?-childMonthlyRatio.pedRoomDrugStoreRateRatio:childMonthlyRatio.pedRoomDrugStoreRateRatio}" pattern="#0%"/>
+						       </td>
+						      <td class="report_data_number <c:if test="${childMonthlyRatio.pedRoomDrugStoreWhRateRatio>0}">ratio_up</c:if><c:if test="${childMonthlyRatio.pedRoomDrugStoreWhRateRatio<0}">ratio_down</c:if>" >
+						       		<span class="narrow_font">
+							    		<c:if test="${childMonthlyRatio.pedRoomDrugStoreWhRateRatio>0}">+</c:if>
+				               			<c:if test="${childMonthlyRatio.pedRoomDrugStoreWhRateRatio<0}">-</c:if>
+				               		</span>
+						       		<fmt:formatNumber type="percent" value="${childMonthlyRatio.pedRoomDrugStoreWhRateRatio<0?-childMonthlyRatio.pedRoomDrugStoreWhRateRatio:childMonthlyRatio.pedRoomDrugStoreWhRateRatio}" pattern="#0%"/>
+						       </td>
+						      <td class="report_data_number <c:if test="${childMonthlyRatio.resClinicRateRatio>0}">ratio_up</c:if><c:if test="${childMonthlyRatio.resClinicRateRatio<0}">ratio_down</c:if>" >
+						       		<span class="narrow_font">
+							    		<c:if test="${childMonthlyRatio.resClinicRateRatio>0}">+</c:if>
+				               			<c:if test="${childMonthlyRatio.resClinicRateRatio<0}">-</c:if>
+				               		</span>
+						       		<fmt:formatNumber type="percent" value="${childMonthlyRatio.resClinicRateRatio<0?-childMonthlyRatio.resClinicRateRatio:childMonthlyRatio.resClinicRateRatio}" pattern="#0%"/>
+						       </td>
+						      <td class="report_data_number <c:if test="${childMonthlyRatio.resRoomRateRatio>0}">ratio_up</c:if><c:if test="${childMonthlyRatio.resRoomRateRatio<0}">ratio_down</c:if>" >
+						       		<span class="narrow_font">
+							    		<c:if test="${childMonthlyRatio.resRoomRateRatio>0}">+</c:if>
+				               			<c:if test="${childMonthlyRatio.resRoomRateRatio<0}">-</c:if>
+				               		</span>
+						       		<fmt:formatNumber type="percent" value="${childMonthlyRatio.resRoomRateRatio<0?-childMonthlyRatio.resRoomRateRatio:childMonthlyRatio.resRoomRateRatio}" pattern="#0%"/>
 						       </td>
 						      <td class="report_data_number <c:if test="${childMonthlyRatio.othernumrateratio>0}">ratio_up</c:if><c:if test="${childMonthlyRatio.othernumrateratio<0}">ratio_down</c:if>" >
 						       		<span class="narrow_font">
@@ -480,23 +636,29 @@ $(function(){
 	                <div class="dailyReport_table_Title">${monthlyDataTitle}</div>
 	                <table class="mobileReport_table">
 	                    <tr class="mobileReport_table_header">
-	                        <td width="16%">月份</td>
-	                        <td width="15%">医院数</td>
-	                        <td width="15%">上报数</td>
-	                        <td width="14%">儿科门急诊</td>
-	                        <td width="14%">儿科病房</td>
-	                        <td width="14%">呼吸科</td>
-	                        <td width="14%">其他科室</td>
-	                        <td width="14%">合计</td>
+	                        <td width="8%">月份</td>
+	                        <td width="6%">医院数</td>
+	                        <td width="6%">上报数</td>
+	                        <td width="10%">儿科门急诊药房发药量</td>
+	                      	<td width="10%">儿科门急诊雾化室使用量</td>
+	                      	<td width="10%">儿科病房药房发药量</td>
+	                      	<td width="10%">儿科病房药房雾化使用量</td>
+	                      	<td width="10%">呼吸科门诊</td>
+	                      	<td width="10%">呼吸科病房</td>
+	                        <td width="10%">其他科室</td>
+	                        <td width="10%">合计</td>
 	                    </tr>
 	                    <c:forEach items="${monthly12Datas}" var="monthly12Data">
 		                    <tr class="mobileReport_table_body">
 		                        <td>${monthly12Data.dataMonth}</td>
 		                        <td><fmt:formatNumber value="${monthly12Data.hosNum}" pattern="#,###"/></td>
 		                        <td><fmt:formatNumber value="${monthly12Data.inNum}" pattern="#,###"/></td>
-		                        <td><fmt:formatNumber value="${monthly12Data.pedemernum}" pattern="#,###"/></td>
-		                        <td><fmt:formatNumber value="${monthly12Data.pedroomnum}" pattern="#,###"/></td>
-		                        <td><fmt:formatNumber value="${monthly12Data.resnum}" pattern="#,###"/></td>
+		                        <td><fmt:formatNumber value="${monthly12Data.pedEmerDrugStore}" pattern="#,###"/></td>
+		                        <td><fmt:formatNumber value="${monthly12Data.pedEmerWh}" pattern="#,###"/></td>
+		                        <td><fmt:formatNumber value="${monthly12Data.pedRoomDrugStore}" pattern="#,###"/></td>
+		                        <td><fmt:formatNumber value="${monthly12Data.pedRoomDrugStoreWh}" pattern="#,###"/></td>
+		                        <td><fmt:formatNumber value="${monthly12Data.resClinic}" pattern="#,###"/></td>
+		                        <td><fmt:formatNumber value="${monthly12Data.resRoom}" pattern="#,###"/></td>
 		                        <td><fmt:formatNumber value="${monthly12Data.othernum}" pattern="#,###"/></td>
 		                        <td><fmt:formatNumber value="${monthly12Data.totalnum}" pattern="#,###"/></td>
 		                    </tr>

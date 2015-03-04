@@ -23,6 +23,38 @@ public class MonthlyRatioDataRowMapper implements RowMapper<MonthlyRatioData>{
         monthlyRatioData.setPedemernum(rs.getInt("pedEmernum"));
         monthlyRatioData.setPedroomnum(rs.getInt("pedroomnum"));
         monthlyRatioData.setResnum(rs.getInt("resnum"));
+        //月报分拆
+        monthlyRatioData.setPedEmerDrugStore(rs.getDouble("ped_emer_drugstore"));
+        monthlyRatioData.setPedEmerDrugStoreRate(rs.getDouble("pedEmerDtRate"));
+        monthlyRatioData.setPedEmerDrugStoreRatio(rs.getDouble("pedEmerDtRatio"));
+        monthlyRatioData.setPedEmerDrugStoreRateRatio(rs.getDouble("pedEmerDtRateRatio"));
+
+        monthlyRatioData.setPedEmerWh(rs.getDouble("ped_emer_wh"));
+        monthlyRatioData.setPedEmerWhRate(rs.getDouble("pedEmerWhRate"));
+        monthlyRatioData.setPedEmerWhRatio(rs.getDouble("pedEmerWhRatio"));
+        monthlyRatioData.setPedEmerWhRateRatio(rs.getDouble("pedEmerWhRateRatio"));
+        
+        monthlyRatioData.setPedRoomDrugStore(rs.getDouble("ped_room_drugstore"));
+        monthlyRatioData.setPedRoomDrugStoreRate(rs.getDouble("pedRoomDtRate"));
+        monthlyRatioData.setPedRoomDrugStoreRatio(rs.getDouble("pedRoomDtRatio"));
+        monthlyRatioData.setPedRoomDrugStoreRateRatio(rs.getDouble("pedRoomDtRateRatio"));
+        
+        monthlyRatioData.setPedRoomDrugStoreWh(rs.getDouble("ped_room_drugstore_wh"));
+        monthlyRatioData.setPedRoomDrugStoreWhRate(rs.getDouble("pedRoomDtWhRate"));
+        monthlyRatioData.setPedRoomDrugStoreWhRatio(rs.getDouble("pedRoomDtWhRatio"));
+        monthlyRatioData.setPedRoomDrugStoreWhRateRatio(rs.getDouble("pedRoomDtWhRateRatio"));
+        
+        monthlyRatioData.setResClinic(rs.getDouble("res_clinic"));
+        monthlyRatioData.setResClinicRate(rs.getDouble("resClinicRate"));
+        monthlyRatioData.setResClinicRatio(rs.getDouble("resClinicRatio"));
+        monthlyRatioData.setResClinicRateRatio(rs.getDouble("resClinicRateRatio"));
+        
+        monthlyRatioData.setResRoom(rs.getDouble("res_room"));
+        monthlyRatioData.setResRoomRate(rs.getDouble("resRoomRate"));
+        monthlyRatioData.setResRoomRatio(rs.getDouble("resRoomRatio"));
+        monthlyRatioData.setResRoomRateRatio(rs.getDouble("resRoomRateRatio"));
+        
+        
         monthlyRatioData.setOthernum(rs.getInt("othernum"));
         monthlyRatioData.setTotalnum(rs.getInt("totalnum"));
         

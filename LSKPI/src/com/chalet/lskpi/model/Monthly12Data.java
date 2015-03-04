@@ -17,6 +17,36 @@ public class Monthly12Data {
 	private int totalnum;
 	private int inNum;
 	
+	/**
+	 * 儿科门急诊药房
+	 */
+	private double pedEmerDrugStore;
+	
+	/**
+	 * 儿科门急诊雾化室
+	 */
+	private double pedEmerWh;
+	
+	/**
+	 * 儿科病房药房
+	 */
+	private double pedRoomDrugStore;
+	
+	/**
+	 * 儿科病房药房雾化
+	 */
+	private double pedRoomDrugStoreWh;
+	
+	/**
+	 * 呼吸科门诊
+	 */
+	private double resClinic;
+	
+	/**
+	 * 呼吸科病房
+	 */
+	private double resRoom;
+	
 	public int getPedemernum() {
 		return pedemernum;
 	}
@@ -64,5 +94,41 @@ public class Monthly12Data {
 	}
 	public void setInNum(int inNum) {
 		this.inNum = inNum;
+	}
+	public double getPedEmerDrugStore() {
+		return pedEmerDrugStore;
+	}
+	public void setPedEmerDrugStore(double pedEmerDrugStore) {
+		this.pedEmerDrugStore = pedEmerDrugStore;
+	}
+	public double getPedEmerWh() {
+		return pedEmerWh;
+	}
+	public void setPedEmerWh(double pedEmerWh) {
+		this.pedEmerWh = pedEmerWh;
+	}
+	public double getPedRoomDrugStore() {
+		return pedRoomDrugStore;
+	}
+	public void setPedRoomDrugStore(double pedRoomDrugStore) {
+		this.pedRoomDrugStore = pedRoomDrugStore;
+	}
+	public double getPedRoomDrugStoreWh() {
+		return pedRoomDrugStoreWh;
+	}
+	public void setPedRoomDrugStoreWh(double pedRoomDrugStoreWh) {
+		this.pedRoomDrugStoreWh = pedRoomDrugStoreWh;
+	}
+	public double getResClinic() {
+		return resClinic;
+	}
+	public void setResClinic(double resClinic) {
+		this.resClinic = resClinic;
+	}
+	public double getResRoom() {
+		return resRoom;
+	}
+	public void setResRoom(double resRoom) {
+		this.resRoom = resRoom;
 	}
 }

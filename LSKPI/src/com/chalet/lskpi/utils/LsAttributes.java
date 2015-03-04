@@ -425,11 +425,63 @@ public class LsAttributes {
     				.append(", IFNULL(lastMonthData.hosnum,0) as hosnum ")
     				.append(", ROUND(IFNULL((lastMonthData.hosnum-last2MonthData.hosnum)/last2MonthData.hosnum,0),2) as hosnumratio ")
     				.append(", ROUND(IFNULL(lastMonthData.innum,0)/IFNULL(lastMonthData.hosnum,0),2) as inrate ")
-    				.append(", ROUND(IFNULL(lastMonthData.innum/lastMonthData.hosnum - last2MonthData.innum/last2MonthData.hosnum,0),2) as inrateratio ");
+    				.append(", ROUND(IFNULL(lastMonthData.innum/lastMonthData.hosnum - last2MonthData.innum/last2MonthData.hosnum,0),2) as inrateratio ")
+    				
+    				.append(", IFNULL(lastMonthData.ped_emer_drugstore,0) as ped_emer_drugstore ")
+                    .append(", IFNULL(lastMonthData.ped_emer_wh,0) as ped_emer_wh ")
+                    .append(", IFNULL(lastMonthData.ped_room_drugstore,0) as ped_room_drugstore ")
+                    .append(", IFNULL(lastMonthData.ped_room_drugstore_wh,0) as ped_room_drugstore_wh ")
+                    .append(", IFNULL(lastMonthData.res_clinic,0) as res_clinic ")
+                    .append(", IFNULL(lastMonthData.res_room,0) as res_room ")
+                    //比例
+                    .append(", ROUND(IFNULL(lastMonthData.ped_emer_drugstore/lastMonthData.totalnum,0),2) as pedEmerDtRate ")
+                    .append(", ROUND(IFNULL(lastMonthData.ped_emer_wh/lastMonthData.totalnum,0),2) as pedEmerWhRate ")
+                    .append(", ROUND(IFNULL(lastMonthData.ped_room_drugstore/lastMonthData.totalnum,0),2) as pedRoomDtRate ")
+                    .append(", ROUND(IFNULL(lastMonthData.ped_room_drugstore_wh/lastMonthData.totalnum,0),2) as pedRoomDtWhRate ")
+                    .append(", ROUND(IFNULL(lastMonthData.res_clinic/lastMonthData.totalnum,0),2) as resClinicRate ")
+                    .append(", ROUND(IFNULL(lastMonthData.res_room/lastMonthData.totalnum,0),2) as resRoomRate ")
+                    //环比
+                    .append(", ROUND(IFNULL((lastMonthData.ped_emer_drugstore-last2MonthData.ped_emer_drugstore)/last2MonthData.ped_emer_drugstore,0),2) as pedEmerDtRatio ")
+                    .append(", ROUND(IFNULL((lastMonthData.ped_emer_wh-last2MonthData.ped_emer_wh)/last2MonthData.ped_emer_wh,0),2) as pedEmerWhRatio ")
+                    .append(", ROUND(IFNULL((lastMonthData.ped_room_drugstore-last2MonthData.ped_room_drugstore)/last2MonthData.ped_room_drugstore,0),2) as pedRoomDtRatio ")
+                    .append(", ROUND(IFNULL((lastMonthData.ped_room_drugstore_wh-last2MonthData.ped_room_drugstore_wh)/last2MonthData.ped_room_drugstore_wh,0),2) as pedRoomDtWhRatio ")
+                    .append(", ROUND(IFNULL((lastMonthData.res_clinic-last2MonthData.res_clinic)/last2MonthData.res_clinic,0),2) as resClinicRatio ")
+                    .append(", ROUND(IFNULL((lastMonthData.res_room-last2MonthData.res_room)/last2MonthData.res_room,0),2) as resRoomRatio ")
+                    //比例环比
+                    .append(", ROUND(IFNULL(lastMonthData.ped_emer_drugstore/lastMonthData.totalnum - last2MonthData.ped_emer_drugstore/last2MonthData.totalnum,0),2) as pedEmerDtRateRatio ")
+                    .append(", ROUND(IFNULL(lastMonthData.ped_emer_wh/lastMonthData.totalnum - last2MonthData.ped_emer_wh/last2MonthData.totalnum,0),2) as pedEmerWhRateRatio ")
+                    .append(", ROUND(IFNULL(lastMonthData.ped_room_drugstore/lastMonthData.totalnum - last2MonthData.ped_room_drugstore/last2MonthData.totalnum,0),2) as pedRoomDtRateRatio ")
+                    .append(", ROUND(IFNULL(lastMonthData.ped_room_drugstore_wh/lastMonthData.totalnum - last2MonthData.ped_room_drugstore_wh/last2MonthData.totalnum,0),2) as pedRoomDtWhRateRatio ")
+                    .append(", ROUND(IFNULL(lastMonthData.res_clinic/lastMonthData.totalnum - last2MonthData.res_clinic/last2MonthData.totalnum,0),2) as resClinicRateRatio ")
+                    .append(", ROUND(IFNULL(lastMonthData.res_room/lastMonthData.totalnum - last2MonthData.res_room/last2MonthData.totalnum,0),2) as resRoomRateRatio ");
+    
+    private static final StringBuffer SQL_MONTHLY_NEW_COLUMN_LAST_SELECT_1 
+    		= new StringBuffer(", lastMonth.ped_emer_drugstore ")
+    				.append(", lastMonth.ped_emer_wh ")
+    				.append(", lastMonth.ped_room_drugstore ")
+    				.append(", lastMonth.ped_room_drugstore_wh ")
+    				.append(", lastMonth.res_clinic ")
+    				.append(", lastMonth.res_room ");
+    private static final StringBuffer SQL_MONTHLY_NEW_COLUMN_LAST2_SELECT_1 
+		    = new StringBuffer(", last2Month.ped_emer_drugstore ")
+				    .append(", last2Month.ped_emer_wh ")
+				    .append(", last2Month.ped_room_drugstore ")
+				    .append(", last2Month.ped_room_drugstore_wh ")
+				    .append(", last2Month.res_clinic ")
+				    .append(", last2Month.res_room ");
+    
+    private static final StringBuffer SQL_MONTHLY_NEW_COLUMN_LAST2_SELECT_inner 
+    		= new StringBuffer("       , IFNULL(sum(ped_emer_drugstore),0) as ped_emer_drugstore ")
+			    .append("       , IFNULL(sum(ped_emer_wh),0) as ped_emer_wh ")
+			    .append("       , IFNULL(sum(ped_room_drugstore),0) as ped_room_drugstore ")
+			    .append("       , IFNULL(sum(ped_room_drugstore_wh),0) as ped_room_drugstore_wh ")
+			    .append("       , IFNULL(sum(res_clinic),0) as res_clinic ")
+			    .append("       , IFNULL(sum(res_room),0) as res_room ");
     
     public static final StringBuffer SQL_MONTHLY_RATIO_LASTMONTH_SELECT_REP
     		= new StringBuffer( "select lastMonth.pedEmernum ,lastMonth.pedroomnum ,lastMonth.resnum ,lastMonth.othernum ,lastMonth.totalnum " )
 				    .append(", lastMonth.innum as innum ")
+				    .append(SQL_MONTHLY_NEW_COLUMN_LAST_SELECT_1)
 					.append(", (select count(1) from tbl_hospital h where h.rsmRegion = u.region and h.dsmCode = u.superior and h.saleCode = u.userCode and h.isMonthlyAssessed='1') as hosnum " )
 					.append(", u.userCode as saleCode, u.superior as dsmCode, u.name as saleName , u.region as rsmRegion, u.regionCenter as region " )
 				    .append("    from (")
@@ -441,7 +493,10 @@ public class LsAttributes {
 				    .append("       , sum(pedroomnum) as pedroomnum ")
 				    .append("       , sum(resnum) as resnum ")
 				    .append("       , sum(other) as othernum ")
-				    .append("       , sum(pedEmernum)+sum(pedroomnum)+sum(resnum)+sum(other) as totalnum ")
+				    //月报拆分
+				    .append(SQL_MONTHLY_NEW_COLUMN_LAST2_SELECT_inner)
+		    
+				    .append("       , sum(IFNULL(ped_emer_drugstore,0)+IFNULL(ped_emer_wh,0)+IFNULL(ped_room_drugstore,0)+IFNULL(ped_room_drugstore_wh,0)+IFNULL(res_clinic,0)+IFNULL(res_room,0)+IFNULL(other,0)) as totalnum")
 				    .append("       , count(1) as innum ")
 				    .append("       from tbl_month_data md, tbl_hospital h ")
 				    .append("		where md.countMonth = DATE_FORMAT(DATE_SUB(now(), INTERVAL 1 MONTH),'%Y-%m') " )
@@ -456,6 +511,7 @@ public class LsAttributes {
     public static final StringBuffer SQL_MONTHLY_RATIO_LAST2MONTH_SELECT_REP
     		= new StringBuffer( "select last2Month.pedEmernum ,last2Month.pedroomnum ,last2Month.resnum ,last2Month.othernum ,last2Month.totalnum " )
 				    .append(", last2Month.innum as innum ")
+				    .append(SQL_MONTHLY_NEW_COLUMN_LAST2_SELECT_1)
 					.append(", (select count(1) from tbl_hospital h where h.rsmRegion = u.region and h.dsmCode = u.superior and h.saleCode = u.userCode and h.isMonthlyAssessed='1') as hosnum " )
 					.append(", u.userCode as saleCode, u.superior as dsmCode, u.name as saleName , u.region as rsmRegion, u.regionCenter as region " )
 				    .append("    from (")
@@ -467,7 +523,10 @@ public class LsAttributes {
 				    .append("       , sum(pedroomnum) as pedroomnum ")
 				    .append("       , sum(resnum) as resnum ")
 				    .append("       , sum(other) as othernum ")
-				    .append("       , sum(pedEmernum)+sum(pedroomnum)+sum(resnum)+sum(other) as totalnum ")
+				    //月报拆分
+				    .append(SQL_MONTHLY_NEW_COLUMN_LAST2_SELECT_inner)
+		    
+				    .append("       , sum(IFNULL(ped_emer_drugstore,0)+IFNULL(ped_emer_wh,0)+IFNULL(ped_room_drugstore,0)+IFNULL(ped_room_drugstore_wh,0)+IFNULL(res_clinic,0)+IFNULL(res_room,0)+IFNULL(other,0)) as totalnum")
 				    .append("       , count(1) as innum ")
 				    .append("       from tbl_month_data md, tbl_hospital h ")
 				    .append("		where md.countMonth = DATE_FORMAT(DATE_SUB(now(), INTERVAL 2 MONTH),'%Y-%m') " )
@@ -482,6 +541,7 @@ public class LsAttributes {
     public static final StringBuffer SQL_MONTHLY_RATIO_LASTMONTH_SELECT_DSM
             = new StringBuffer( "select lastMonth.pedEmernum ,lastMonth.pedroomnum ,lastMonth.resnum ,lastMonth.othernum ,lastMonth.totalnum " )
 				    .append(", lastMonth.innum as innum ")
+				    .append(SQL_MONTHLY_NEW_COLUMN_LAST_SELECT_1)
 					.append(", (select count(1) from tbl_hospital h where h.dsmCode = u.userCode and h.rsmRegion = u.region and h.isMonthlyAssessed='1') as hosnum " )
 					.append(", u.region as rsmRegion, u.regionCenter as region, u.name as dsmName " )
 				    .append("    from (")
@@ -493,7 +553,10 @@ public class LsAttributes {
                     .append("       , sum(pedroomnum) as pedroomnum ")
                     .append("       , sum(resnum) as resnum ")
                     .append("       , sum(other) as othernum ")
-                    .append("       , sum(pedEmernum)+sum(pedroomnum)+sum(resnum)+sum(other) as totalnum ")
+                    //月报拆分
+				    .append(SQL_MONTHLY_NEW_COLUMN_LAST2_SELECT_inner)
+		    
+                    .append("       , sum(IFNULL(ped_emer_drugstore,0)+IFNULL(ped_emer_wh,0)+IFNULL(ped_room_drugstore,0)+IFNULL(ped_room_drugstore_wh,0)+IFNULL(res_clinic,0)+IFNULL(res_room,0)+IFNULL(other,0)) as totalnum")
                     .append("       , count(1) as innum ")
                     .append("       from tbl_month_data md, tbl_hospital h ")
                     .append("		where md.countMonth = DATE_FORMAT(DATE_SUB(now(), INTERVAL 1 MONTH),'%Y-%m') " )
@@ -508,6 +571,7 @@ public class LsAttributes {
     public static final StringBuffer SQL_MONTHLY_RATIO_LAST2MONTH_SELECT_DSM
             = new StringBuffer( "select last2Month.pedEmernum ,last2Month.pedroomnum ,last2Month.resnum ,last2Month.othernum ,last2Month.totalnum " )
 				    .append(", last2Month.innum as innum ")
+				    .append(SQL_MONTHLY_NEW_COLUMN_LAST2_SELECT_1)
 					.append(", (select count(1) from tbl_hospital h where h.dsmCode = u.userCode and h.rsmRegion = u.region and h.isMonthlyAssessed='1') as hosnum " )
 					.append(", u.region as rsmRegion, u.regionCenter as region, u.name as dsmName " )
 				    .append("    from (")
@@ -519,7 +583,10 @@ public class LsAttributes {
                     .append("       , sum(pedroomnum) as pedroomnum ")
                     .append("       , sum(resnum) as resnum ")
                     .append("       , sum(other) as othernum ")
-                    .append("       , sum(pedEmernum)+sum(pedroomnum)+sum(resnum)+sum(other) as totalnum ")
+                    //月报拆分
+				    .append(SQL_MONTHLY_NEW_COLUMN_LAST2_SELECT_inner)
+		    
+                    .append("       , sum(IFNULL(ped_emer_drugstore,0)+IFNULL(ped_emer_wh,0)+IFNULL(ped_room_drugstore,0)+IFNULL(ped_room_drugstore_wh,0)+IFNULL(res_clinic,0)+IFNULL(res_room,0)+IFNULL(other,0)) as totalnum")
                     .append("       , count(1) as innum ")
                     .append("       from tbl_month_data md, tbl_hospital h ")
                     .append("		where md.countMonth = DATE_FORMAT(DATE_SUB(now(), INTERVAL 2 MONTH),'%Y-%m') " )
@@ -534,6 +601,7 @@ public class LsAttributes {
     public static final StringBuffer SQL_MONTHLY_RATIO_LASTMONTH_SELECT_BELONG_RSM
             = new StringBuffer( "select lastMonth.pedEmernum ,lastMonth.pedroomnum ,lastMonth.resnum ,lastMonth.othernum ,lastMonth.totalnum " )
 				    .append(", lastMonth.innum as innum ")
+				    .append(SQL_MONTHLY_NEW_COLUMN_LAST_SELECT_1)
 					.append(", (select count(1) from tbl_hospital h where h.rsmRegion = u.region and h.isMonthlyAssessed='1') as hosnum " )
 					.append(", u.region as rsmRegion , u.regionCenter as region " )
 				    .append("    from (")
@@ -543,7 +611,10 @@ public class LsAttributes {
                     .append("       , sum(pedroomnum) as pedroomnum ")
                     .append("       , sum(resnum) as resnum ")
                     .append("       , sum(other) as othernum ")
-                    .append("       , sum(pedEmernum)+sum(pedroomnum)+sum(resnum)+sum(other) as totalnum ")
+                    //月报拆分
+				    .append(SQL_MONTHLY_NEW_COLUMN_LAST2_SELECT_inner)
+		    
+                    .append("       , sum(IFNULL(ped_emer_drugstore,0)+IFNULL(ped_emer_wh,0)+IFNULL(ped_room_drugstore,0)+IFNULL(ped_room_drugstore_wh,0)+IFNULL(res_clinic,0)+IFNULL(res_room,0)+IFNULL(other,0)) as totalnum")
                     .append("       , count(1) as innum ")
                     .append("       from tbl_month_data md, tbl_hospital h ")
                     .append("		where md.countMonth = DATE_FORMAT(DATE_SUB(now(), INTERVAL 1 MONTH),'%Y-%m') " )
@@ -558,6 +629,7 @@ public class LsAttributes {
     public static final StringBuffer SQL_MONTHLY_RATIO_LAST2MONTH_SELECT_BELONG_RSM
     = new StringBuffer( "select last2Month.pedEmernum ,last2Month.pedroomnum ,last2Month.resnum ,last2Month.othernum ,last2Month.totalnum " )
 		    .append(", last2Month.innum as innum ")
+		    .append(SQL_MONTHLY_NEW_COLUMN_LAST2_SELECT_1)
 			.append(", (select count(1) from tbl_hospital h where h.rsmRegion = u.region and h.isMonthlyAssessed='1') as hosnum " )
 			.append(", u.region as rsmRegion , u.regionCenter as region " )
 		    .append("    from (")
@@ -567,7 +639,10 @@ public class LsAttributes {
             .append("       , sum(pedroomnum) as pedroomnum ")
             .append("       , sum(resnum) as resnum ")
             .append("       , sum(other) as othernum ")
-            .append("       , sum(pedEmernum)+sum(pedroomnum)+sum(resnum)+sum(other) as totalnum ")
+            //月报拆分
+		    .append(SQL_MONTHLY_NEW_COLUMN_LAST2_SELECT_inner)
+		    
+            .append("       , sum(IFNULL(ped_emer_drugstore,0)+IFNULL(ped_emer_wh,0)+IFNULL(ped_room_drugstore,0)+IFNULL(ped_room_drugstore_wh,0)+IFNULL(res_clinic,0)+IFNULL(res_room,0)+IFNULL(other,0)) as totalnum")
             .append("       , count(1) as innum ")
             .append("       from tbl_month_data md, tbl_hospital h ")
             .append("		where md.countMonth = DATE_FORMAT(DATE_SUB(now(), INTERVAL 2 MONTH),'%Y-%m') " )
@@ -582,6 +657,7 @@ public class LsAttributes {
     public static final StringBuffer SQL_MONTHLY_RATIO_LASTMONTH_SELECT_RSM
         = new StringBuffer( "select lastMonth.pedEmernum ,lastMonth.pedroomnum ,lastMonth.resnum ,lastMonth.othernum ,lastMonth.totalnum ")
         	.append(", lastMonth.innum as innum ")
+        	.append(SQL_MONTHLY_NEW_COLUMN_LAST_SELECT_1)
         	.append(", (select count(1) from tbl_hospital h where h.rsmRegion = u.region and h.isMonthlyAssessed='1') as hosnum " )
         	.append(", u.region as rsmRegion , u.regionCenter as region " )
             .append("    from (")
@@ -591,7 +667,10 @@ public class LsAttributes {
             .append("       , sum(pedroomnum) as pedroomnum ")
             .append("       , sum(resnum) as resnum ")
             .append("       , sum(other) as othernum ")
-            .append("       , sum(pedEmernum)+sum(pedroomnum)+sum(resnum)+sum(other) as totalnum ")
+            //月报拆分
+		    .append(SQL_MONTHLY_NEW_COLUMN_LAST2_SELECT_inner)
+		    
+            .append("       , sum(IFNULL(ped_emer_drugstore,0)+IFNULL(ped_emer_wh,0)+IFNULL(ped_room_drugstore,0)+IFNULL(ped_room_drugstore_wh,0)+IFNULL(res_clinic,0)+IFNULL(res_room,0)+IFNULL(other,0)) as totalnum")
             .append("       , count(1) as innum ")
             .append("       from tbl_month_data md, tbl_hospital h ")
             .append("		where md.countMonth = DATE_FORMAT(DATE_SUB(now(), INTERVAL 1 MONTH),'%Y-%m') " )
@@ -606,6 +685,7 @@ public class LsAttributes {
     public static final StringBuffer SQL_MONTHLY_RATIO_LAST2MONTH_SELECT_RSM
         = new StringBuffer( "select last2Month.pedEmernum ,last2Month.pedroomnum ,last2Month.resnum ,last2Month.othernum ,last2Month.totalnum " )
 		    .append(", last2Month.innum as innum ")
+		    .append(SQL_MONTHLY_NEW_COLUMN_LAST2_SELECT_1)
 			.append(", (select count(1) from tbl_hospital h where h.rsmRegion = u.region and h.isMonthlyAssessed='1') as hosnum " )
 			.append(", u.region as rsmRegion , u.regionCenter as region " )
     		.append("    from (")
@@ -615,7 +695,10 @@ public class LsAttributes {
             .append("       , sum(pedroomnum) as pedroomnum ")
             .append("       , sum(resnum) as resnum ")
             .append("       , sum(other) as othernum ")
-            .append("       , sum(pedEmernum)+sum(pedroomnum)+sum(resnum)+sum(other) as totalnum ")
+            //月报拆分
+		    .append(SQL_MONTHLY_NEW_COLUMN_LAST2_SELECT_inner)
+		    
+            .append("       , sum(IFNULL(ped_emer_drugstore,0)+IFNULL(ped_emer_wh,0)+IFNULL(ped_room_drugstore,0)+IFNULL(ped_room_drugstore_wh,0)+IFNULL(res_clinic,0)+IFNULL(res_room,0)+IFNULL(other,0)) as totalnum")
             .append("       , count(1) as innum ")
             .append("       from tbl_month_data md, tbl_hospital h ")
             .append("		where md.countMonth = DATE_FORMAT(DATE_SUB(now(), INTERVAL 2 MONTH),'%Y-%m') " )
@@ -630,6 +713,7 @@ public class LsAttributes {
     public static final StringBuffer SQL_MONTHLY_RATIO_LASTMONTH_SELECT_BELONG_RSD
             = new StringBuffer( "select lastMonth.pedEmernum ,lastMonth.pedroomnum ,lastMonth.resnum ,lastMonth.othernum ,lastMonth.totalnum " )
 				    .append(", lastMonth.innum as innum ")
+				    .append(SQL_MONTHLY_NEW_COLUMN_LAST_SELECT_1)
 					.append(", (select count(1) from tbl_hospital h where h.region = u.regionCenter and h.isMonthlyAssessed='1') as hosnum " )
 					.append(", u.region as rsmRegion , u.regionCenter as region " )
 				    .append("    from (")
@@ -639,7 +723,10 @@ public class LsAttributes {
                     .append("       , sum(pedroomnum) as pedroomnum ")
                     .append("       , sum(resnum) as resnum ")
                     .append("       , sum(other) as othernum ")
-                    .append("       , sum(pedEmernum)+sum(pedroomnum)+sum(resnum)+sum(other) as totalnum ")
+                    //月报拆分
+				    .append(SQL_MONTHLY_NEW_COLUMN_LAST2_SELECT_inner)
+		    
+                    .append("       , sum(IFNULL(ped_emer_drugstore,0)+IFNULL(ped_emer_wh,0)+IFNULL(ped_room_drugstore,0)+IFNULL(ped_room_drugstore_wh,0)+IFNULL(res_clinic,0)+IFNULL(res_room,0)+IFNULL(other,0)) as totalnum")
                     .append("       , count(1) as innum ")
                     .append("       from tbl_month_data md, tbl_hospital h ")
                     .append("		where md.countMonth = DATE_FORMAT(DATE_SUB(now(), INTERVAL 1 MONTH),'%Y-%m') " )
@@ -654,6 +741,7 @@ public class LsAttributes {
     public static final StringBuffer SQL_MONTHLY_RATIO_LAST2MONTH_SELECT_BELONG_RSD
     = new StringBuffer( "select last2Month.pedEmernum ,last2Month.pedroomnum ,last2Month.resnum ,last2Month.othernum ,last2Month.totalnum " )
 		    .append(", last2Month.innum as innum ")
+		    .append(SQL_MONTHLY_NEW_COLUMN_LAST2_SELECT_1)
 			.append(", (select count(1) from tbl_hospital h where h.region = u.regionCenter and h.isMonthlyAssessed='1') as hosnum " )
 			.append(", u.region as rsmRegion , u.regionCenter as region " )
 		    .append("    from (")
@@ -663,7 +751,10 @@ public class LsAttributes {
             .append("       , sum(pedroomnum) as pedroomnum ")
             .append("       , sum(resnum) as resnum ")
             .append("       , sum(other) as othernum ")
-            .append("       , sum(pedEmernum)+sum(pedroomnum)+sum(resnum)+sum(other) as totalnum ")
+            //月报拆分
+		    .append(SQL_MONTHLY_NEW_COLUMN_LAST2_SELECT_inner)
+		    
+            .append("       , sum(IFNULL(ped_emer_drugstore,0)+IFNULL(ped_emer_wh,0)+IFNULL(ped_room_drugstore,0)+IFNULL(ped_room_drugstore_wh,0)+IFNULL(res_clinic,0)+IFNULL(res_room,0)+IFNULL(other,0)) as totalnum")
             .append("       , count(1) as innum ")
             .append("       from tbl_month_data md, tbl_hospital h ")
             .append("		where md.countMonth = DATE_FORMAT(DATE_SUB(now(), INTERVAL 2 MONTH),'%Y-%m') " )
@@ -678,6 +769,7 @@ public class LsAttributes {
     public static final StringBuffer SQL_MONTHLY_RATIO_LASTMONTH_SELECT_RSD
     	= new StringBuffer( "select lastMonth.pedEmernum ,lastMonth.pedroomnum ,lastMonth.resnum ,lastMonth.othernum ,lastMonth.totalnum " )
 		    .append(", lastMonth.innum as innum ")
+		    .append(SQL_MONTHLY_NEW_COLUMN_LAST_SELECT_1)
 			.append(", (select count(1) from tbl_hospital h where h.region = u.regionCenter and h.isMonthlyAssessed='1') as hosnum " )
 			.append(", u.region as rsmRegion , u.regionCenter as region " )
 		    .append("    from (")
@@ -687,7 +779,10 @@ public class LsAttributes {
 		    .append("       , sum(pedroomnum) as pedroomnum ")
 		    .append("       , sum(resnum) as resnum ")
 		    .append("       , sum(other) as othernum ")
-		    .append("       , sum(pedEmernum)+sum(pedroomnum)+sum(resnum)+sum(other) as totalnum ")
+		    //月报拆分
+		    .append(SQL_MONTHLY_NEW_COLUMN_LAST2_SELECT_inner)
+		    
+		    .append("       , sum(IFNULL(ped_emer_drugstore,0)+IFNULL(ped_emer_wh,0)+IFNULL(ped_room_drugstore,0)+IFNULL(ped_room_drugstore_wh,0)+IFNULL(res_clinic,0)+IFNULL(res_room,0)+IFNULL(other,0)) as totalnum")
 		    .append("       , count(1) as innum ")
 		    .append("       from tbl_month_data md, tbl_hospital h ")
 		    .append("		where md.countMonth = DATE_FORMAT(DATE_SUB(now(), INTERVAL 1 MONTH),'%Y-%m') " )
@@ -700,6 +795,7 @@ public class LsAttributes {
     public static final StringBuffer SQL_MONTHLY_RATIO_LAST2MONTH_SELECT_RSD
     	= new StringBuffer( "select last2Month.pedEmernum ,last2Month.pedroomnum ,last2Month.resnum ,last2Month.othernum ,last2Month.totalnum " )
 		    .append(", last2Month.innum as innum ")
+		    .append(SQL_MONTHLY_NEW_COLUMN_LAST2_SELECT_1)
 			.append(", (select count(1) from tbl_hospital h where h.region = u.regionCenter and h.isMonthlyAssessed='1') as hosnum " )
 			.append(", u.region as rsmRegion , u.regionCenter as region " )
 		    .append("    from (")
@@ -709,7 +805,10 @@ public class LsAttributes {
 		    .append("       , sum(pedroomnum) as pedroomnum ")
 		    .append("       , sum(resnum) as resnum ")
 		    .append("       , sum(other) as othernum ")
-		    .append("       , sum(pedEmernum)+sum(pedroomnum)+sum(resnum)+sum(other) as totalnum ")
+		    //月报拆分
+		    .append(SQL_MONTHLY_NEW_COLUMN_LAST2_SELECT_inner)
+		    
+		    .append("       , sum(IFNULL(ped_emer_drugstore,0)+IFNULL(ped_emer_wh,0)+IFNULL(ped_room_drugstore,0)+IFNULL(ped_room_drugstore_wh,0)+IFNULL(res_clinic,0)+IFNULL(res_room,0)+IFNULL(other,0)) as totalnum")
 		    .append("       , count(1) as innum ")
 		    .append("       from tbl_month_data md, tbl_hospital h ")
 		    .append("		where md.countMonth = DATE_FORMAT(DATE_SUB(now(), INTERVAL 2 MONTH),'%Y-%m') " )
@@ -724,7 +823,10 @@ public class LsAttributes {
 		    .append("       , IFNULL(sum(pedroomnum),0) as pedroomnum ")
 		    .append("       , IFNULL(sum(resnum),0) as resnum ")
 		    .append("       , IFNULL(sum(other),0) as othernum ")
-		    .append("       , IFNULL(sum(pedEmernum)+sum(pedroomnum)+sum(resnum)+sum(other),0) as totalnum ")
+		    //月报拆分
+		    .append(SQL_MONTHLY_NEW_COLUMN_LAST2_SELECT_inner)
+		    
+		    .append("       , sum(IFNULL(ped_emer_drugstore,0)+IFNULL(ped_emer_wh,0)+IFNULL(ped_room_drugstore,0)+IFNULL(ped_room_drugstore_wh,0)+IFNULL(res_clinic,0)+IFNULL(res_room,0)+IFNULL(other,0)) as totalnum ")
 		    .append("       , count(1) as innum ")
 			.append("       , (select count(1) from tbl_hospital h where h.isMonthlyAssessed='1') as hosnum ")
 		    .append("       from tbl_month_data md, tbl_hospital h ")
@@ -736,7 +838,9 @@ public class LsAttributes {
 		    .append("       , IFNULL(sum(pedroomnum),0) as pedroomnum ")
 		    .append("       , IFNULL(sum(resnum),0) as resnum ")
 		    .append("       , IFNULL(sum(other),0) as othernum ")
-		    .append("       , IFNULL(sum(pedEmernum)+sum(pedroomnum)+sum(resnum)+sum(other),0) as totalnum ")
+		    //月报拆分
+		    .append(SQL_MONTHLY_NEW_COLUMN_LAST2_SELECT_inner)
+		    .append("       , sum(IFNULL(ped_emer_drugstore,0)+IFNULL(ped_emer_wh,0)+IFNULL(ped_room_drugstore,0)+IFNULL(ped_room_drugstore_wh,0)+IFNULL(res_clinic,0)+IFNULL(res_room,0)+IFNULL(other,0)) as totalnum ")
 		    .append("       , count(1) as innum ")
 			.append("       , (select count(1) from tbl_hospital h where h.isMonthlyAssessed='1') as hosnum ")
 		    .append("       from tbl_month_data md, tbl_hospital h ")
@@ -748,7 +852,9 @@ public class LsAttributes {
 		    .append(" , sum(md.pedroomnum) as pedroomnum")
 		    .append(" , sum(md.resnum) as resnum")
 		    .append(" , sum(md.other) as other")
-		    .append(" , sum( md.pedEmernum + md.pedroomnum + md.resnum + md.other ) as totalnum ");
+		    //月报拆分
+		    .append(SQL_MONTHLY_NEW_COLUMN_LAST2_SELECT_inner)
+		    .append(" , sum(IFNULL(ped_emer_drugstore,0)+IFNULL(ped_emer_wh,0)+IFNULL(ped_room_drugstore,0)+IFNULL(ped_room_drugstore_wh,0)+IFNULL(res_clinic,0)+IFNULL(res_room,0)+IFNULL(other,0)) as totalnum ");
     
     public static final StringBuffer SQL_MONTHLY_12_GROUP
     	= new StringBuffer(" group by dataMonth ")

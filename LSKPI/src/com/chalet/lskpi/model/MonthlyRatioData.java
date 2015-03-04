@@ -43,6 +43,54 @@ public class MonthlyRatioData {
 	private double inrate;
 	private double inrateratio;
 	
+	/**
+	 * 儿科门急诊药房
+	 */
+	private double pedEmerDrugStore;
+	private double pedEmerDrugStoreRate;
+	private double pedEmerDrugStoreRatio;
+	private double pedEmerDrugStoreRateRatio;
+	
+	/**
+	 * 儿科门急诊雾化室
+	 */
+	private double pedEmerWh;
+	private double pedEmerWhRate;
+	private double pedEmerWhRatio;
+	private double pedEmerWhRateRatio;
+	
+	/**
+	 * 儿科病房药房
+	 */
+	private double pedRoomDrugStore;
+	private double pedRoomDrugStoreRate;
+	private double pedRoomDrugStoreRatio;
+	private double pedRoomDrugStoreRateRatio;
+	
+	/**
+	 * 儿科病房药房雾化
+	 */
+	private double pedRoomDrugStoreWh;
+	private double pedRoomDrugStoreWhRate;
+	private double pedRoomDrugStoreWhRatio;
+	private double pedRoomDrugStoreWhRateRatio;
+	
+	/**
+	 * 呼吸科门诊
+	 */
+	private double resClinic;
+	private double resClinicRate;
+	private double resClinicRatio;
+	private double resClinicRateRatio;
+	
+	/**
+	 * 呼吸科病房
+	 */
+	private double resRoom;
+	private double resRoomRate;
+	private double resRoomRatio;
+	private double resRoomRateRatio;
+	
 	public int getPedemernum() {
 		return pedemernum;
 	}
@@ -217,4 +265,148 @@ public class MonthlyRatioData {
     public void setInrateratio(double inrateratio) {
         this.inrateratio = inrateratio;
     }
+	public double getPedEmerDrugStore() {
+		return pedEmerDrugStore;
+	}
+	public void setPedEmerDrugStore(double pedEmerDrugStore) {
+		this.pedEmerDrugStore = pedEmerDrugStore;
+	}
+	public double getPedEmerDrugStoreRate() {
+		return pedEmerDrugStoreRate;
+	}
+	public void setPedEmerDrugStoreRate(double pedEmerDrugStoreRate) {
+		this.pedEmerDrugStoreRate = pedEmerDrugStoreRate;
+	}
+	public double getPedEmerDrugStoreRatio() {
+		return pedEmerDrugStoreRatio;
+	}
+	public void setPedEmerDrugStoreRatio(double pedEmerDrugStoreRatio) {
+		this.pedEmerDrugStoreRatio = pedEmerDrugStoreRatio;
+	}
+	public double getPedEmerDrugStoreRateRatio() {
+		return pedEmerDrugStoreRateRatio;
+	}
+	public void setPedEmerDrugStoreRateRatio(double pedEmerDrugStoreRateRatio) {
+		this.pedEmerDrugStoreRateRatio = pedEmerDrugStoreRateRatio;
+	}
+	public double getPedEmerWh() {
+		return pedEmerWh;
+	}
+	public void setPedEmerWh(double pedEmerWh) {
+		this.pedEmerWh = pedEmerWh;
+	}
+	public double getPedEmerWhRate() {
+		return pedEmerWhRate;
+	}
+	public void setPedEmerWhRate(double pedEmerWhRate) {
+		this.pedEmerWhRate = pedEmerWhRate;
+	}
+	public double getPedEmerWhRatio() {
+		return pedEmerWhRatio;
+	}
+	public void setPedEmerWhRatio(double pedEmerWhRatio) {
+		this.pedEmerWhRatio = pedEmerWhRatio;
+	}
+	public double getPedEmerWhRateRatio() {
+		return pedEmerWhRateRatio;
+	}
+	public void setPedEmerWhRateRatio(double pedEmerWhRateRatio) {
+		this.pedEmerWhRateRatio = pedEmerWhRateRatio;
+	}
+	public double getPedRoomDrugStore() {
+		return pedRoomDrugStore;
+	}
+	public void setPedRoomDrugStore(double pedRoomDrugStore) {
+		this.pedRoomDrugStore = pedRoomDrugStore;
+	}
+	public double getPedRoomDrugStoreRate() {
+		return pedRoomDrugStoreRate;
+	}
+	public void setPedRoomDrugStoreRate(double pedRoomDrugStoreRate) {
+		this.pedRoomDrugStoreRate = pedRoomDrugStoreRate;
+	}
+	public double getPedRoomDrugStoreRatio() {
+		return pedRoomDrugStoreRatio;
+	}
+	public void setPedRoomDrugStoreRatio(double pedRoomDrugStoreRatio) {
+		this.pedRoomDrugStoreRatio = pedRoomDrugStoreRatio;
+	}
+	public double getPedRoomDrugStoreRateRatio() {
+		return pedRoomDrugStoreRateRatio;
+	}
+	public void setPedRoomDrugStoreRateRatio(double pedRoomDrugStoreRateRatio) {
+		this.pedRoomDrugStoreRateRatio = pedRoomDrugStoreRateRatio;
+	}
+	public double getPedRoomDrugStoreWh() {
+		return pedRoomDrugStoreWh;
+	}
+	public void setPedRoomDrugStoreWh(double pedRoomDrugStoreWh) {
+		this.pedRoomDrugStoreWh = pedRoomDrugStoreWh;
+	}
+	public double getPedRoomDrugStoreWhRate() {
+		return pedRoomDrugStoreWhRate;
+	}
+	public void setPedRoomDrugStoreWhRate(double pedRoomDrugStoreWhRate) {
+		this.pedRoomDrugStoreWhRate = pedRoomDrugStoreWhRate;
+	}
+	public double getPedRoomDrugStoreWhRatio() {
+		return pedRoomDrugStoreWhRatio;
+	}
+	public void setPedRoomDrugStoreWhRatio(double pedRoomDrugStoreWhRatio) {
+		this.pedRoomDrugStoreWhRatio = pedRoomDrugStoreWhRatio;
+	}
+	public double getPedRoomDrugStoreWhRateRatio() {
+		return pedRoomDrugStoreWhRateRatio;
+	}
+	public void setPedRoomDrugStoreWhRateRatio(double pedRoomDrugStoreWhRateRatio) {
+		this.pedRoomDrugStoreWhRateRatio = pedRoomDrugStoreWhRateRatio;
+	}
+	public double getResClinic() {
+		return resClinic;
+	}
+	public void setResClinic(double resClinic) {
+		this.resClinic = resClinic;
+	}
+	public double getResClinicRate() {
+		return resClinicRate;
+	}
+	public void setResClinicRate(double resClinicRate) {
+		this.resClinicRate = resClinicRate;
+	}
+	public double getResClinicRatio() {
+		return resClinicRatio;
+	}
+	public void setResClinicRatio(double resClinicRatio) {
+		this.resClinicRatio = resClinicRatio;
+	}
+	public double getResClinicRateRatio() {
+		return resClinicRateRatio;
+	}
+	public void setResClinicRateRatio(double resClinicRateRatio) {
+		this.resClinicRateRatio = resClinicRateRatio;
+	}
+	public double getResRoom() {
+		return resRoom;
+	}
+	public void setResRoom(double resRoom) {
+		this.resRoom = resRoom;
+	}
+	public double getResRoomRate() {
+		return resRoomRate;
+	}
+	public void setResRoomRate(double resRoomRate) {
+		this.resRoomRate = resRoomRate;
+	}
+	public double getResRoomRatio() {
+		return resRoomRatio;
+	}
+	public void setResRoomRatio(double resRoomRatio) {
+		this.resRoomRatio = resRoomRatio;
+	}
+	public double getResRoomRateRatio() {
+		return resRoomRateRatio;
+	}
+	public void setResRoomRateRatio(double resRoomRateRatio) {
+		this.resRoomRateRatio = resRoomRateRatio;
+	}
 }
