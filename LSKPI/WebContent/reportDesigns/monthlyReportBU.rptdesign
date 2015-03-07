@@ -78,22 +78,44 @@
                 </structure>
             </list-property>
             <xml-property name="queryText"><![CDATA[select 
-'儿科门急诊' as numType
-, IFNULL(sum(pedEmernum),0) as num
+'儿科门急诊药房发药量' as numType
+, IFNULL(sum(ped_emer_drugstore),0) as num
 from tbl_month_data md, tbl_hospital h 
 where md.countMonth = DATE_FORMAT(DATE_SUB(now(), INTERVAL 1 MONTH),'%Y-%m') 
 and md.hospitalCode = h.code 
 and h.isMonthlyAssessed='1'
 union all
-select '儿科病房' as numType
-, IFNULL(sum(pedroomnum),0) as num 
+select 
+'儿科门急诊雾化室使用量' as numType
+, IFNULL(sum(ped_emer_wh),0) as num
 from tbl_month_data md, tbl_hospital h 
 where md.countMonth = DATE_FORMAT(DATE_SUB(now(), INTERVAL 1 MONTH),'%Y-%m') 
 and md.hospitalCode = h.code 
 and h.isMonthlyAssessed='1'
 union all
-select '呼吸科' as numType
-, IFNULL(sum(resnum),0) as resnum 
+select '儿科病房药房发药量' as numType
+, IFNULL(sum(ped_room_drugstore),0) as num 
+from tbl_month_data md, tbl_hospital h 
+where md.countMonth = DATE_FORMAT(DATE_SUB(now(), INTERVAL 1 MONTH),'%Y-%m') 
+and md.hospitalCode = h.code 
+and h.isMonthlyAssessed='1'
+union all
+select '儿科病房药房雾化使用量' as numType
+, IFNULL(sum(ped_room_drugstore_wh),0) as num 
+from tbl_month_data md, tbl_hospital h 
+where md.countMonth = DATE_FORMAT(DATE_SUB(now(), INTERVAL 1 MONTH),'%Y-%m') 
+and md.hospitalCode = h.code 
+and h.isMonthlyAssessed='1'
+union all
+select '呼吸科（+普内科+ 老干科等）门急诊' as numType
+, IFNULL(sum(res_clinic),0) as num 
+from tbl_month_data md, tbl_hospital h 
+where md.countMonth = DATE_FORMAT(DATE_SUB(now(), INTERVAL 1 MONTH),'%Y-%m') 
+and md.hospitalCode = h.code 
+and h.isMonthlyAssessed='1'
+union all
+select '呼吸科（+普内科+ 老干科等）病房' as numType
+, IFNULL(sum(res_room),0) as resnum 
 from tbl_month_data md, tbl_hospital h 
 where md.countMonth = DATE_FORMAT(DATE_SUB(now(), INTERVAL 1 MONTH),'%Y-%m') 
 and md.hospitalCode = h.code 
@@ -197,17 +219,17 @@ and h.isMonthlyAssessed='1' ]]></xml-property>
     <page-setup>
         <simple-master-page name="Simple MasterPage" id="2">
             <property name="type">custom</property>
-            <property name="height">5in</property>
+            <property name="height">7in</property>
             <property name="width">3.78in</property>
         </simple-master-page>
     </page-setup>
     <body>
         <grid id="166">
             <property name="marginTop">10pt</property>
-            <property name="height">3.96875in</property>
+            <property name="height">6.114583333333333in</property>
             <column id="167"/>
             <row id="168">
-                <property name="height">3.96875in</property>
+                <property name="height">6.114583333333333in</property>
                 <cell id="169">
                     <property name="textAlign">center</property>
                     <label id="176">
@@ -1116,7 +1138,7 @@ and h.isMonthlyAssessed='1' ]]></xml-property>
 ]]></xml-property>
                         <property name="outputFormat">JPG</property>
                         <property name="inheritColumns">false</property>
-                        <property name="height">3.4in</property>
+                        <property name="height">5.489583333333333in</property>
                         <property name="width">3in</property>
                         <property name="dataSet">wholeCountoryMonthlyData</property>
                         <list-property name="boundDataColumns">

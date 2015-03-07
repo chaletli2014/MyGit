@@ -31,6 +31,24 @@ public class MonthlyCollectionDataRowMapper implements RowMapper<MonthlyRatioDat
         monthlyRatioData.setResnumrate(rs.getDouble("resnumrate"));
         monthlyRatioData.setOthernumrate(rs.getDouble("othernumrate"));
         
+        monthlyRatioData.setPedEmerDrugStore(rs.getDouble("ped_emer_drugstore"));
+        monthlyRatioData.setPedEmerDrugStoreRate(rs.getDouble("pedEmerDtRate"));
+
+        monthlyRatioData.setPedEmerWh(rs.getDouble("ped_emer_wh"));
+        monthlyRatioData.setPedEmerWhRate(rs.getDouble("pedEmerWhRate"));
+        
+        monthlyRatioData.setPedRoomDrugStore(rs.getDouble("ped_room_drugstore"));
+        monthlyRatioData.setPedRoomDrugStoreRate(rs.getDouble("pedRoomDtRate"));
+        
+        monthlyRatioData.setPedRoomDrugStoreWh(rs.getDouble("ped_room_drugstore_wh"));
+        monthlyRatioData.setPedRoomDrugStoreWhRate(rs.getDouble("pedRoomDtWhRate"));
+        
+        monthlyRatioData.setResClinic(rs.getDouble("res_clinic"));
+        monthlyRatioData.setResClinicRate(rs.getDouble("resClinicRate"));
+        
+        monthlyRatioData.setResRoom(rs.getDouble("res_room"));
+        monthlyRatioData.setResRoomRate(rs.getDouble("resRoomRate"));
+        
 		monthlyRatioData.setHosnum(rs.getInt("hosnum"));
         monthlyRatioData.setInnum(rs.getInt("innum"));
         monthlyRatioData.setInrate(rs.getDouble("innum")/rs.getInt("hosnum"));

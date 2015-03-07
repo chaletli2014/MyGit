@@ -105,7 +105,7 @@ public class ReportThread extends Thread {
                     checkAndCreateFileFolder(basePath + "weeklyHTMLReport/"+reportGenerateDate);
                     checkAndCreateFileFolder(basePath + "lowerWeeklyReport/"+reportGenerateDate);
                     checkAndCreateFileFolder(basePath + "hospitalHTMLReport/"+reportGenerateDate);
-                    checkAndCreateFileFolder(basePath + "monthlyHTMLReport/"+reportGenerateDate);
+                    checkAndCreateFileFolder(basePath + "monthlyHTMLReport/"+lastMonth);
                     
                     checkAndCreateFileFolder(basePath + "weeklyHTMLReportForWeb/"+reportGenerateDate);
                     checkAndCreateFileFolder(basePath + "lowerWeeklyReportForWeb/"+reportGenerateDate);
@@ -989,7 +989,10 @@ public class ReportThread extends Thread {
     }
 
     private void createHTMLMonthlyReport(BirtReportUtils html, String userLevel,String telephone, String basePath, String contextPath, String lastMonth){
-        String monthlyHtmlReportFileName = basePath + "monthlyHTMLReport/"+lastMonth+"/monthlyReport-"+userLevel+"-"+telephone+"-"+DateUtils.getLastMonth()+".html";
+    	String monthlyHtmlReportFileName = basePath + "monthlyHTMLReport/"+lastMonth+"/monthlyReport-"+userLevel+"-"+telephone+"-"+DateUtils.getLastMonth()+".html";
+        if( userLevel.equalsIgnoreCase("BM") ){
+        	monthlyHtmlReportFileName = basePath + "monthlyHTMLReport/"+lastMonth+"/monthlyReport-"+userLevel+"-"+DateUtils.getLastMonth()+".html";
+        }
         
         String reportImagesBasePath = new StringBuilder(basePath).append("/reportImages-").append(lastMonth).toString();
         String reportImagesContextPath = new StringBuilder(contextPath).append("/reportImages-").append(lastMonth).toString();
@@ -998,35 +1001,35 @@ public class ReportThread extends Thread {
             case LsAttributes.USER_LEVEL_RSD:
                 if( !new File(monthlyHtmlReportFileName).exists() ){
                     html.runReport( basePath + "reportDesigns/monthlyReportRSD.rptdesign",telephone,"","",monthlyHtmlReportFileName,"html",reportImagesBasePath,reportImagesContextPath);
-                    logger.info("the weekly html PED report to RSD is done.");
+                    logger.info("the monthly html report to RSD is done.");
                 }else{
-                    logger.info("The weekly html ped report for RSD is already generated, no need to do again.");
+                    logger.info("the monthly html report for RSD is already generated, no need to do again.");
                 }
                 break;
             
             case LsAttributes.USER_LEVEL_RSM:
                 if( !new File(monthlyHtmlReportFileName).exists() ){
                     html.runReport( basePath + "reportDesigns/monthlyReportRSM.rptdesign",telephone,"","",monthlyHtmlReportFileName,"html",reportImagesBasePath,reportImagesContextPath);
-                    logger.info("the weekly html PED report to RSM is done.");
+                    logger.info("the monthly html report to RSM is done.");
                 }else{
-                    logger.info("The weekly html ped report for RSM is already generated, no need to do again.");
+                    logger.info("the monthly html report for RSM is already generated, no need to do again.");
                 }
                 break;
                 
             case LsAttributes.USER_LEVEL_DSM:
                 if( !new File(monthlyHtmlReportFileName).exists() ){
                     html.runReport( basePath + "reportDesigns/monthlyReportDSM.rptdesign",telephone,"","",monthlyHtmlReportFileName,"html",reportImagesBasePath,reportImagesContextPath);
-                    logger.info("the weekly html PED report to DSM is done.");
+                    logger.info("the monthly html report to DSM is done.");
                 }else{
-                    logger.info("The weekly html ped report for DSM is already generated, no need to do again.");
+                    logger.info("the monthly html report for DSM is already generated, no need to do again.");
                 }
                 break;
             case LsAttributes.USER_LEVEL_BM:
                 if( !new File(monthlyHtmlReportFileName).exists() ){
                     html.runReport( basePath + "reportDesigns/monthlyReportBU.rptdesign","","","",monthlyHtmlReportFileName,"html",reportImagesBasePath,reportImagesContextPath);
-                    logger.info("the weekly html PED report to BU Head is done.");
+                    logger.info("the monthly html report to BU Head is done.");
                 }else{
-                    logger.info("The weekly html ped report for BU Head is already generated, no need to do again.");
+                    logger.info("the monthly html report for BU Head is already generated, no need to do again.");
                 }
                 break;
             default:
@@ -1038,6 +1041,10 @@ public class ReportThread extends Thread {
     private void createHTMLMonthlyReportForWeb(BirtReportUtils html, String userLevel,String telephone, String basePath, String contextPath, String lastMonth){
         String monthlyHtmlReportFileName = basePath + "monthlyHTMLReportForWeb/"+lastMonth+"/monthlyReport-"+userLevel+"-"+telephone+"-"+DateUtils.getLastMonth()+".html";
         
+        if( userLevel.equalsIgnoreCase("BM") ){
+        	monthlyHtmlReportFileName = basePath + "monthlyHTMLReportForWeb/"+lastMonth+"/monthlyReport-"+userLevel+"-"+DateUtils.getLastMonth()+".html";
+        }
+        
         String reportImagesBasePath = new StringBuilder(basePath).append("/reportImages-").append(lastMonth).toString();
         String reportImagesContextPath = new StringBuilder(contextPath).append("/reportImages-").append(lastMonth).toString();
         
@@ -1045,35 +1052,35 @@ public class ReportThread extends Thread {
             case LsAttributes.USER_LEVEL_RSD:
                 if( !new File(monthlyHtmlReportFileName).exists() ){
                     html.runReport( basePath + "reportDesigns/monthlyReportForWebRSD.rptdesign",telephone,"","",monthlyHtmlReportFileName,"html",reportImagesBasePath,reportImagesContextPath);
-                    logger.info("the web weekly html PED report to RSD is done.");
+                    logger.info("the web monthly html report to RSD is done.");
                 }else{
-                    logger.info("The web weekly html ped report for RSD is already generated, no need to do again.");
+                    logger.info("the web monthly html report for RSD is already generated, no need to do again.");
                 }
                 break;
                 
             case LsAttributes.USER_LEVEL_RSM:
                 if( !new File(monthlyHtmlReportFileName).exists() ){
                     html.runReport( basePath + "reportDesigns/monthlyReportForWebRSM.rptdesign",telephone,"","",monthlyHtmlReportFileName,"html",reportImagesBasePath,reportImagesContextPath);
-                    logger.info("the web weekly html PED report to RSM is done.");
+                    logger.info("the web monthly html report to RSM is done.");
                 }else{
-                    logger.info("The web weekly html ped report for RSM is already generated, no need to do again.");
+                    logger.info("the web monthly html report for RSM is already generated, no need to do again.");
                 }
                 break;
                 
             case LsAttributes.USER_LEVEL_DSM:
                 if( !new File(monthlyHtmlReportFileName).exists() ){
                     html.runReport( basePath + "reportDesigns/monthlyReportForWebDSM.rptdesign",telephone,"","",monthlyHtmlReportFileName,"html",reportImagesBasePath,reportImagesContextPath);
-                    logger.info("the web weekly html PED report to DSM is done.");
+                    logger.info("the web monthly html report to DSM is done.");
                 }else{
-                    logger.info("The web weekly html ped report for DSM is already generated, no need to do again.");
+                    logger.info("the web monthly html report for DSM is already generated, no need to do again.");
                 }
                 break;
             case LsAttributes.USER_LEVEL_BM:
                 if( !new File(monthlyHtmlReportFileName).exists() ){
                     html.runReport( basePath + "reportDesigns/monthlyReportForWebBU.rptdesign","","","",monthlyHtmlReportFileName,"html",reportImagesBasePath,reportImagesContextPath);
-                    logger.info("the web weekly html PED report to BU Head is done.");
+                    logger.info("the web monthly html report to BU Head is done.");
                 }else{
-                    logger.info("The web weekly html ped report for BU Head is already generated, no need to do again.");
+                    logger.info("The web monthly html report for BU Head is already generated, no need to do again.");
                 }
                 break;
             default:

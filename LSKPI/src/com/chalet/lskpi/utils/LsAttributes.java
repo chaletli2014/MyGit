@@ -470,13 +470,30 @@ public class LsAttributes {
 				    .append(", last2Month.res_clinic ")
 				    .append(", last2Month.res_room ");
     
-    private static final StringBuffer SQL_MONTHLY_NEW_COLUMN_LAST2_SELECT_inner 
+    public static final StringBuffer SQL_MONTHLY_NEW_COLUMN_LAST2_SELECT_inner 
     		= new StringBuffer("       , IFNULL(sum(ped_emer_drugstore),0) as ped_emer_drugstore ")
 			    .append("       , IFNULL(sum(ped_emer_wh),0) as ped_emer_wh ")
 			    .append("       , IFNULL(sum(ped_room_drugstore),0) as ped_room_drugstore ")
 			    .append("       , IFNULL(sum(ped_room_drugstore_wh),0) as ped_room_drugstore_wh ")
 			    .append("       , IFNULL(sum(res_clinic),0) as res_clinic ")
 			    .append("       , IFNULL(sum(res_room),0) as res_room ");
+    
+    public static final StringBuffer SQL_MONTHLY_NEW_COLUMN_SELECT
+		    = new StringBuffer(", ped_emer_drugstore ")
+				.append(", ped_emer_wh ")
+				.append(", ped_room_drugstore ")
+				.append(", ped_room_drugstore_wh ")
+				.append(", res_clinic ")
+				.append(", res_room ");
+    
+    
+    public static final StringBuffer SQL_MONTHLY_NEW_COLUMN_RATE_SELECT
+		    = new StringBuffer(", ROUND(IFNULL(chooseMonth.ped_emer_drugstore/chooseMonth.totalnum,0),2) as pedEmerDtRate ")
+			    .append(", ROUND(IFNULL(chooseMonth.ped_emer_wh/chooseMonth.totalnum,0),2) as pedEmerWhRate ")
+			    .append(", ROUND(IFNULL(chooseMonth.ped_room_drugstore/chooseMonth.totalnum,0),2) as pedRoomDtRate ")
+			    .append(", ROUND(IFNULL(chooseMonth.ped_room_drugstore_wh/chooseMonth.totalnum,0),2) as pedRoomDtWhRate ")
+			    .append(", ROUND(IFNULL(chooseMonth.res_clinic/chooseMonth.totalnum,0),2) as resClinicRate ")
+			    .append(", ROUND(IFNULL(chooseMonth.res_room/chooseMonth.totalnum,0),2) as resRoomRate ");
     
     public static final StringBuffer SQL_MONTHLY_RATIO_LASTMONTH_SELECT_REP
     		= new StringBuffer( "select lastMonth.pedEmernum ,lastMonth.pedroomnum ,lastMonth.resnum ,lastMonth.othernum ,lastMonth.totalnum " )

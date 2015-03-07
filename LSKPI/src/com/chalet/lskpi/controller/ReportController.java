@@ -628,35 +628,44 @@ public class ReportController extends BaseController{
                     workbook.createSheet("每月采集数据");
                     HSSFSheet sheet = workbook.getSheetAt(0);
                     int currentRowNum = 0;
+                    int columnCount = 0;
                     
                     //build the header
                     HSSFRow row = sheet.createRow(currentRowNum++);
-                    row.createCell(0, XSSFCell.CELL_TYPE_STRING).setCellValue("编号");
-                    row.createCell(1, XSSFCell.CELL_TYPE_STRING).setCellValue("录入月份");
-                    row.createCell(2, XSSFCell.CELL_TYPE_STRING).setCellValue("医院编号");
-                    row.createCell(3, XSSFCell.CELL_TYPE_STRING).setCellValue("医院名称");
-                    row.createCell(4, XSSFCell.CELL_TYPE_STRING).setCellValue("儿科门急诊");
-                    row.createCell(5, XSSFCell.CELL_TYPE_STRING).setCellValue("儿科病房");
-                    row.createCell(6, XSSFCell.CELL_TYPE_STRING).setCellValue("呼吸科");
-                    row.createCell(7, XSSFCell.CELL_TYPE_STRING).setCellValue("其他科室");
-                    row.createCell(8, XSSFCell.CELL_TYPE_STRING).setCellValue("销售代表姓名");
-                    row.createCell(9, XSSFCell.CELL_TYPE_STRING).setCellValue("所属DSM");
-                    row.createCell(10, XSSFCell.CELL_TYPE_STRING).setCellValue("所属RSM Region");
-                    row.createCell(11, XSSFCell.CELL_TYPE_STRING).setCellValue("所属Region");
+                    
+                    row.createCell(columnCount++, XSSFCell.CELL_TYPE_STRING).setCellValue("编号");
+                    row.createCell(columnCount++, XSSFCell.CELL_TYPE_STRING).setCellValue("录入月份");
+                    row.createCell(columnCount++, XSSFCell.CELL_TYPE_STRING).setCellValue("医院编号");
+                    row.createCell(columnCount++, XSSFCell.CELL_TYPE_STRING).setCellValue("医院名称");
+                    row.createCell(columnCount++, XSSFCell.CELL_TYPE_STRING).setCellValue("儿科门急诊药房发药量");
+                    row.createCell(columnCount++, XSSFCell.CELL_TYPE_STRING).setCellValue("儿科门急诊雾化室使用量");
+                    row.createCell(columnCount++, XSSFCell.CELL_TYPE_STRING).setCellValue("儿科病房药房发药量");
+                    row.createCell(columnCount++, XSSFCell.CELL_TYPE_STRING).setCellValue("儿科病房药房雾化使用量");
+                    row.createCell(columnCount++, XSSFCell.CELL_TYPE_STRING).setCellValue("呼吸科（+普内科+ 老干科等）门急诊");
+                    row.createCell(columnCount++, XSSFCell.CELL_TYPE_STRING).setCellValue("呼吸科（+普内科+ 老干科等）病房");
+                    row.createCell(columnCount++, XSSFCell.CELL_TYPE_STRING).setCellValue("其他科室");
+                    row.createCell(columnCount++, XSSFCell.CELL_TYPE_STRING).setCellValue("销售代表姓名");
+                    row.createCell(columnCount++, XSSFCell.CELL_TYPE_STRING).setCellValue("所属DSM");
+                    row.createCell(columnCount++, XSSFCell.CELL_TYPE_STRING).setCellValue("所属RSM Region");
+                    row.createCell(columnCount++, XSSFCell.CELL_TYPE_STRING).setCellValue("所属Region");
                     for( MonthlyData monthlyData : dbMonthlyData ){
                         row = sheet.createRow(currentRowNum++);
-                        row.createCell(0, XSSFCell.CELL_TYPE_NUMERIC).setCellValue(currentRowNum-1);
-                        row.createCell(1, XSSFCell.CELL_TYPE_STRING).setCellValue(exportdateformat.format(monthlyData.getCreateDate()));
-                        row.createCell(2, XSSFCell.CELL_TYPE_STRING).setCellValue(monthlyData.getHospitalCode());
-                        row.createCell(3, XSSFCell.CELL_TYPE_STRING).setCellValue(monthlyData.getHospitalName());
-                        row.createCell(4, XSSFCell.CELL_TYPE_NUMERIC).setCellValue(monthlyData.getPedemernum());
-                        row.createCell(5, XSSFCell.CELL_TYPE_NUMERIC).setCellValue(monthlyData.getPedroomnum());
-                        row.createCell(6, XSSFCell.CELL_TYPE_NUMERIC).setCellValue(monthlyData.getResnum());
-                        row.createCell(7, XSSFCell.CELL_TYPE_STRING).setCellValue(monthlyData.getOthernum());
-                        row.createCell(8, XSSFCell.CELL_TYPE_STRING).setCellValue(monthlyData.getOperatorName());
-                        row.createCell(9, XSSFCell.CELL_TYPE_STRING).setCellValue(monthlyData.getDsmName());
-                        row.createCell(10, XSSFCell.CELL_TYPE_STRING).setCellValue(monthlyData.getRsmRegion());
-                        row.createCell(11, XSSFCell.CELL_TYPE_NUMERIC).setCellValue(monthlyData.getRegion());
+                        columnCount = 0;
+                        row.createCell(columnCount++, XSSFCell.CELL_TYPE_NUMERIC).setCellValue(currentRowNum-1);
+                        row.createCell(columnCount++, XSSFCell.CELL_TYPE_STRING).setCellValue(exportdateformat.format(monthlyData.getCreateDate()));
+                        row.createCell(columnCount++, XSSFCell.CELL_TYPE_STRING).setCellValue(monthlyData.getHospitalCode());
+                        row.createCell(columnCount++, XSSFCell.CELL_TYPE_STRING).setCellValue(monthlyData.getHospitalName());
+                        row.createCell(columnCount++, XSSFCell.CELL_TYPE_NUMERIC).setCellValue(monthlyData.getPedEmerDrugStore());
+                        row.createCell(columnCount++, XSSFCell.CELL_TYPE_NUMERIC).setCellValue(monthlyData.getPedEmerWh());
+                        row.createCell(columnCount++, XSSFCell.CELL_TYPE_NUMERIC).setCellValue(monthlyData.getPedRoomDrugStore());
+                        row.createCell(columnCount++, XSSFCell.CELL_TYPE_NUMERIC).setCellValue(monthlyData.getPedRoomDrugStoreWh());
+                        row.createCell(columnCount++, XSSFCell.CELL_TYPE_NUMERIC).setCellValue(monthlyData.getResClinic());
+                        row.createCell(columnCount++, XSSFCell.CELL_TYPE_NUMERIC).setCellValue(monthlyData.getResRoom());
+                        row.createCell(columnCount++, XSSFCell.CELL_TYPE_NUMERIC).setCellValue(monthlyData.getOthernum());
+                        row.createCell(columnCount++, XSSFCell.CELL_TYPE_STRING).setCellValue(monthlyData.getOperatorName());
+                        row.createCell(columnCount++, XSSFCell.CELL_TYPE_STRING).setCellValue(monthlyData.getDsmName());
+                        row.createCell(columnCount++, XSSFCell.CELL_TYPE_STRING).setCellValue(monthlyData.getRsmRegion());
+                        row.createCell(columnCount++, XSSFCell.CELL_TYPE_NUMERIC).setCellValue(monthlyData.getRegion());
                     }
                     workbook.write(fOut);
                 }
@@ -1768,19 +1777,27 @@ public class ReportController extends BaseController{
         
         remoteReportFile.append(directory).append(DateUtils.getLastMonth()).append("/")
         .append("monthlyReport-")
-        .append(currentUser.getLevel())
-        .append("-")
-        .append(currentUserTel)
-        .append("-")
+        .append(currentUser.getLevel());
+        
+        if( !LsAttributes.USER_LEVEL_BM.equalsIgnoreCase(currentUser.getLevel()) ){
+        	remoteReportFile.append("-")
+        	.append(currentUserTel);
+        }
+        
+        remoteReportFile.append("-")
         .append(DateUtils.getLastMonth())
         .append(".html");
         
         localReportFile.append(directory).append(DateUtils.getLastMonth()).append("/")
             .append("monthlyReport-")
-            .append(currentUser.getLevel())
-            .append("-")
-            .append(currentUserTel)
-            .append("-")
+            .append(currentUser.getLevel());
+        
+        if( !LsAttributes.USER_LEVEL_BM.equalsIgnoreCase(currentUser.getLevel()) ){
+        	localReportFile.append("-")
+        	.append(currentUserTel);
+        }
+        
+        localReportFile.append("-")
             .append(DateUtils.getLastMonth())
             .append(".html");
         
@@ -1795,19 +1812,27 @@ public class ReportController extends BaseController{
             
         	remoteReportFile.append(directory).append(DateUtils.getLast2Month()).append("/")
             .append("monthlyReport-")
-            .append(currentUser.getLevel())
-            .append("-")
-            .append(currentUserTel)
-            .append("-")
+            .append(currentUser.getLevel());
+        	
+        	if( !LsAttributes.USER_LEVEL_BM.equalsIgnoreCase(currentUser.getLevel()) ){
+        		remoteReportFile.append("-")
+            	.append(currentUserTel);
+            }
+        	
+        	remoteReportFile.append("-")
             .append(DateUtils.getLast2Month())
             .append(".html");
             
             localReportFile.append(directory).append(DateUtils.getLast2Month()).append("/")
                 .append("monthlyReport-")
-                .append(currentUser.getLevel())
-                .append("-")
-                .append(currentUserTel)
-                .append("-")
+                .append(currentUser.getLevel());
+            
+            if( !LsAttributes.USER_LEVEL_BM.equalsIgnoreCase(currentUser.getLevel()) ){
+            	localReportFile.append("-")
+            	.append(currentUserTel);
+            }
+            
+            localReportFile.append("-")
                 .append(DateUtils.getLast2Month())
                 .append(".html");
         	
@@ -2993,59 +3018,87 @@ public class ReportController extends BaseController{
     				
     				//build the header
     				HSSFRow row = sheet.createRow(currentRowNum++);
-    				HSSFCell userCell = row.createCell(0, XSSFCell.CELL_TYPE_STRING);
+    				
+    				int columnCount = 0;
+    				
+    				HSSFCell userCell = row.createCell(columnCount++, XSSFCell.CELL_TYPE_STRING);
     				userCell.setCellValue("RSM");
     				userCell.setCellStyle(topStyle);
     				
-    				HSSFCell pedEmerNumTitle = row.createCell(1, XSSFCell.CELL_TYPE_STRING);
-    				pedEmerNumTitle.setCellValue("儿科门急诊");
-    				pedEmerNumTitle.setCellStyle(topStyle);
+    				HSSFCell pedEmerDtNumTitle = row.createCell(columnCount++, XSSFCell.CELL_TYPE_STRING);
+    				pedEmerDtNumTitle.setCellValue("儿科门急诊药房发药量");
+    				pedEmerDtNumTitle.setCellStyle(topStyle);
     				
-    				HSSFCell pedEmerRateTitle = row.createCell(2, XSSFCell.CELL_TYPE_STRING);
-    				pedEmerRateTitle.setCellValue("儿科门急诊占比");
-    				pedEmerRateTitle.setCellStyle(topStyle);
+    				HSSFCell pedEmerDtRateTitle = row.createCell(columnCount++, XSSFCell.CELL_TYPE_STRING);
+    				pedEmerDtRateTitle.setCellValue("儿科门急诊药房发药量占比");
+    				pedEmerDtRateTitle.setCellStyle(topStyle);
     				
-    				HSSFCell pedRoomNumTitle = row.createCell(3, XSSFCell.CELL_TYPE_STRING);
-    				pedRoomNumTitle.setCellValue("儿科病房");
-    				pedRoomNumTitle.setCellStyle(topStyle);
     				
-    				HSSFCell pedRoomRateTitle = row.createCell(4, XSSFCell.CELL_TYPE_STRING);
-    				pedRoomRateTitle.setCellValue("儿科病房占比");
-    				pedRoomRateTitle.setCellStyle(topStyle);
+    				HSSFCell pedEmerWhNumTitle = row.createCell(columnCount++, XSSFCell.CELL_TYPE_STRING);
+    				pedEmerWhNumTitle.setCellValue("儿科门急诊雾化室使用量");
+    				pedEmerWhNumTitle.setCellStyle(topStyle);
     				
-    				HSSFCell resNumTitle = row.createCell(5, XSSFCell.CELL_TYPE_STRING);
-    				resNumTitle.setCellValue("呼吸科");
-    				resNumTitle.setCellStyle(topStyle);
+    				HSSFCell pedEmerWhRateTitle = row.createCell(columnCount++, XSSFCell.CELL_TYPE_STRING);
+    				pedEmerWhRateTitle.setCellValue("儿科门急诊雾化室使用量占比");
+    				pedEmerWhRateTitle.setCellStyle(topStyle);
     				
-    				HSSFCell resRateTitle = row.createCell(6, XSSFCell.CELL_TYPE_STRING);
-    				resRateTitle.setCellValue("呼吸科占比");
-    				resRateTitle.setCellStyle(topStyle);
+    				HSSFCell pedRoomDtNumTitle = row.createCell(columnCount++, XSSFCell.CELL_TYPE_STRING);
+    				pedRoomDtNumTitle.setCellValue("儿科病房药房发药量");
+    				pedRoomDtNumTitle.setCellStyle(topStyle);
     				
-    				HSSFCell otherNumTitle = row.createCell(7, XSSFCell.CELL_TYPE_STRING);
+    				HSSFCell pedRoomDtRateTitle = row.createCell(columnCount++, XSSFCell.CELL_TYPE_STRING);
+    				pedRoomDtRateTitle.setCellValue("儿科病房药房发药量占比");
+    				pedRoomDtRateTitle.setCellStyle(topStyle);
+    				
+    				HSSFCell pedRoomDtWhNumTitle = row.createCell(columnCount++, XSSFCell.CELL_TYPE_STRING);
+    				pedRoomDtWhNumTitle.setCellValue("儿科病房药房雾化使用量");
+    				pedRoomDtWhNumTitle.setCellStyle(topStyle);
+    				
+    				HSSFCell pedRoomDtWhRateTitle = row.createCell(columnCount++, XSSFCell.CELL_TYPE_STRING);
+    				pedRoomDtWhRateTitle.setCellValue("儿科病房药房雾化使用量占比");
+    				pedRoomDtWhRateTitle.setCellStyle(topStyle);
+    				
+    				HSSFCell resClinicNumTitle = row.createCell(columnCount++, XSSFCell.CELL_TYPE_STRING);
+    				resClinicNumTitle.setCellValue("呼吸科（+普内科+ 老干科等）门急诊");
+    				resClinicNumTitle.setCellStyle(topStyle);
+    				
+    				HSSFCell resClinicRateTitle = row.createCell(columnCount++, XSSFCell.CELL_TYPE_STRING);
+    				resClinicRateTitle.setCellValue("呼吸科（+普内科+ 老干科等）门急诊占比");
+    				resClinicRateTitle.setCellStyle(topStyle);
+
+    				HSSFCell resRoomNumTitle = row.createCell(columnCount++, XSSFCell.CELL_TYPE_STRING);
+    				resRoomNumTitle.setCellValue("呼吸科（+普内科+ 老干科等）病房");
+    				resRoomNumTitle.setCellStyle(topStyle);
+    				
+    				HSSFCell resRoomRateTitle = row.createCell(columnCount++, XSSFCell.CELL_TYPE_STRING);
+    				resRoomRateTitle.setCellValue("呼吸科（+普内科+ 老干科等）病房占比");
+    				resRoomRateTitle.setCellStyle(topStyle);
+    				
+    				HSSFCell otherNumTitle = row.createCell(columnCount++, XSSFCell.CELL_TYPE_STRING);
     				otherNumTitle.setCellValue("其他科室");
     				otherNumTitle.setCellStyle(topStyle);
     				
-    				HSSFCell otherRateTitle = row.createCell(8, XSSFCell.CELL_TYPE_STRING);
+    				HSSFCell otherRateTitle = row.createCell(columnCount++, XSSFCell.CELL_TYPE_STRING);
     				otherRateTitle.setCellValue("其他科室占比");
     				otherRateTitle.setCellStyle(topStyle);
     				
-    				HSSFCell sumNumTitle = row.createCell(9, XSSFCell.CELL_TYPE_STRING);
+    				HSSFCell sumNumTitle = row.createCell(columnCount++, XSSFCell.CELL_TYPE_STRING);
     				sumNumTitle.setCellValue("总袋数");
     				sumNumTitle.setCellStyle(topStyle);
     				
-    				HSSFCell inHosNumTitle = row.createCell(10, XSSFCell.CELL_TYPE_STRING);
+    				HSSFCell inHosNumTitle = row.createCell(columnCount++, XSSFCell.CELL_TYPE_STRING);
     				inHosNumTitle.setCellValue("上报医院数量");
     				inHosNumTitle.setCellStyle(topStyle);
     				
-    				HSSFCell hosNumTitle = row.createCell(11, XSSFCell.CELL_TYPE_STRING);
+    				HSSFCell hosNumTitle = row.createCell(columnCount++, XSSFCell.CELL_TYPE_STRING);
     				hosNumTitle.setCellValue("负责医院数量");
     				hosNumTitle.setCellStyle(topStyle);
     				
-    				HSSFCell inRateTitle = row.createCell(12, XSSFCell.CELL_TYPE_STRING);
+    				HSSFCell inRateTitle = row.createCell(columnCount++, XSSFCell.CELL_TYPE_STRING);
     				inRateTitle.setCellValue("上报率");
     				inRateTitle.setCellStyle(topStyle);
     				
-    				for( int i = 0; i < 13; i++ ){
+    				for( int i = 0; i < 19; i++ ){
     					sheet.setColumnWidth(i, 16*256);
     				}
     				
@@ -3053,8 +3106,10 @@ public class ReportController extends BaseController{
     				
     				for( MonthlyRatioData data : monthlyCollectionData ){
     					
+    					int sumColumnCount = 0;
+    					
     					row = sheet.createRow(currentRowNum++);
-    					HSSFCell rsmCell = row.createCell(0, XSSFCell.CELL_TYPE_STRING);
+    					HSSFCell rsmCell = row.createCell(sumColumnCount++, XSSFCell.CELL_TYPE_STRING);
     					rsmCell.setCellValue(data.getRsmRegion());
     					if( currentRowNum%2 == 0 ){
     						rsmCell.setCellStyle(evenNumCellStyle);
@@ -3062,55 +3117,103 @@ public class ReportController extends BaseController{
     						rsmCell.setCellStyle(numCellStyle);
     					}
     					
-    					HSSFCell pedEmerCell = row.createCell(1, XSSFCell.CELL_TYPE_NUMERIC);
-    					pedEmerCell.setCellValue(data.getPedemernum());
+    					HSSFCell pedEmerDtCell = row.createCell(sumColumnCount++, XSSFCell.CELL_TYPE_NUMERIC);
+    					pedEmerDtCell.setCellValue(data.getPedEmerDrugStore());
     					if( currentRowNum%2 == 0 ){
-    						pedEmerCell.setCellStyle(evenNumCellStyle);
+    						pedEmerDtCell.setCellStyle(evenNumCellStyle);
     					}else{
-    						pedEmerCell.setCellStyle(numCellStyle);
+    						pedEmerDtCell.setCellStyle(numCellStyle);
     					}
     					
-    					HSSFCell pedEmerRateCell = row.createCell(2, XSSFCell.CELL_TYPE_NUMERIC);
-    					pedEmerRateCell.setCellValue(data.getPedemernumrate());
+    					HSSFCell pedEmerDtRateCell = row.createCell(sumColumnCount++, XSSFCell.CELL_TYPE_NUMERIC);
+    					pedEmerDtRateCell.setCellValue(data.getPedEmerDrugStoreRate());
     					if( currentRowNum%2 == 0 ){
-    						pedEmerRateCell.setCellStyle(evenPercentCellStyle);
+    						pedEmerDtRateCell.setCellStyle(evenPercentCellStyle);
     					}else{
-    						pedEmerRateCell.setCellStyle(percentCellStyle);
+    						pedEmerDtRateCell.setCellStyle(percentCellStyle);
     					}
     					
-    					HSSFCell pedRoomCell = row.createCell(3, XSSFCell.CELL_TYPE_NUMERIC);
-    					pedRoomCell.setCellValue(data.getPedroomnum());
+    					HSSFCell pedEmerWhCell = row.createCell(sumColumnCount++, XSSFCell.CELL_TYPE_NUMERIC);
+    					pedEmerWhCell.setCellValue(data.getPedEmerWh());
     					if( currentRowNum%2 == 0 ){
-    						pedRoomCell.setCellStyle(evenNumCellStyle);
+    						pedEmerWhCell.setCellStyle(evenNumCellStyle);
     					}else{
-    						pedRoomCell.setCellStyle(numCellStyle);
+    						pedEmerWhCell.setCellStyle(numCellStyle);
     					}
     					
-    					HSSFCell pedRoomRateCell = row.createCell(4, XSSFCell.CELL_TYPE_NUMERIC);
-    					pedRoomRateCell.setCellValue(data.getPedroomnumrate());
+    					HSSFCell pedEmerWhRateCell = row.createCell(sumColumnCount++, XSSFCell.CELL_TYPE_NUMERIC);
+    					pedEmerWhRateCell.setCellValue(data.getPedEmerWhRate());
     					if( currentRowNum%2 == 0 ){
-    						pedRoomRateCell.setCellStyle(evenPercentCellStyle);
+    						pedEmerWhRateCell.setCellStyle(evenPercentCellStyle);
     					}else{
-    						pedRoomRateCell.setCellStyle(percentCellStyle);
+    						pedEmerWhRateCell.setCellStyle(percentCellStyle);
     					}
     					
-    					HSSFCell resCell = row.createCell(5, XSSFCell.CELL_TYPE_NUMERIC);
-    					resCell.setCellValue(data.getResnum());
+    					HSSFCell pedRoomDtCell = row.createCell(sumColumnCount++, XSSFCell.CELL_TYPE_NUMERIC);
+    					pedRoomDtCell.setCellValue(data.getPedRoomDrugStore());
     					if( currentRowNum%2 == 0 ){
-    						resCell.setCellStyle(evenNumCellStyle);
+    						pedRoomDtCell.setCellStyle(evenNumCellStyle);
     					}else{
-    						resCell.setCellStyle(numCellStyle);
+    						pedRoomDtCell.setCellStyle(numCellStyle);
     					}
     					
-    					HSSFCell resRateCell = row.createCell(6, XSSFCell.CELL_TYPE_NUMERIC);
-    					resRateCell.setCellValue(data.getResnumrate());
+    					HSSFCell pedRoomDtRateCell = row.createCell(sumColumnCount++, XSSFCell.CELL_TYPE_NUMERIC);
+    					pedRoomDtRateCell.setCellValue(data.getPedRoomDrugStoreRate());
     					if( currentRowNum%2 == 0 ){
-    						resRateCell.setCellStyle(evenPercentCellStyle);
+    						pedRoomDtRateCell.setCellStyle(evenPercentCellStyle);
     					}else{
-    						resRateCell.setCellStyle(percentCellStyle);
+    						pedRoomDtRateCell.setCellStyle(percentCellStyle);
+    					}
+
+    					HSSFCell pedRoomDtWhCell = row.createCell(sumColumnCount++, XSSFCell.CELL_TYPE_NUMERIC);
+    					pedRoomDtWhCell.setCellValue(data.getPedRoomDrugStoreWh());
+    					if( currentRowNum%2 == 0 ){
+    						pedRoomDtWhCell.setCellStyle(evenNumCellStyle);
+    					}else{
+    						pedRoomDtWhCell.setCellStyle(numCellStyle);
     					}
     					
-    					HSSFCell otherCell = row.createCell(7, XSSFCell.CELL_TYPE_NUMERIC);
+    					HSSFCell pedRoomDtWhRateCell = row.createCell(sumColumnCount++, XSSFCell.CELL_TYPE_NUMERIC);
+    					pedRoomDtWhRateCell.setCellValue(data.getPedRoomDrugStoreWhRate());
+    					if( currentRowNum%2 == 0 ){
+    						pedRoomDtWhRateCell.setCellStyle(evenPercentCellStyle);
+    					}else{
+    						pedRoomDtWhRateCell.setCellStyle(percentCellStyle);
+    					}
+    					
+    					HSSFCell resClinicCell = row.createCell(sumColumnCount++, XSSFCell.CELL_TYPE_NUMERIC);
+    					resClinicCell.setCellValue(data.getResClinic());
+    					if( currentRowNum%2 == 0 ){
+    						resClinicCell.setCellStyle(evenNumCellStyle);
+    					}else{
+    						resClinicCell.setCellStyle(numCellStyle);
+    					}
+    					
+    					HSSFCell resClinicRateCell = row.createCell(sumColumnCount++, XSSFCell.CELL_TYPE_NUMERIC);
+    					resClinicRateCell.setCellValue(data.getResClinicRate());
+    					if( currentRowNum%2 == 0 ){
+    						resClinicRateCell.setCellStyle(evenPercentCellStyle);
+    					}else{
+    						resClinicRateCell.setCellStyle(percentCellStyle);
+    					}
+
+    					HSSFCell resRoomCell = row.createCell(sumColumnCount++, XSSFCell.CELL_TYPE_NUMERIC);
+    					resRoomCell.setCellValue(data.getResRoom());
+    					if( currentRowNum%2 == 0 ){
+    						resRoomCell.setCellStyle(evenNumCellStyle);
+    					}else{
+    						resRoomCell.setCellStyle(numCellStyle);
+    					}
+    					
+    					HSSFCell resRoomRateCell = row.createCell(sumColumnCount++, XSSFCell.CELL_TYPE_NUMERIC);
+    					resRoomRateCell.setCellValue(data.getResRoomRate());
+    					if( currentRowNum%2 == 0 ){
+    						resRoomRateCell.setCellStyle(evenPercentCellStyle);
+    					}else{
+    						resRoomRateCell.setCellStyle(percentCellStyle);
+    					}
+    					
+    					HSSFCell otherCell = row.createCell(sumColumnCount++, XSSFCell.CELL_TYPE_NUMERIC);
     					otherCell.setCellValue(data.getOthernum());
     					if( currentRowNum%2 == 0 ){
     						otherCell.setCellStyle(evenNumCellStyle);
@@ -3118,7 +3221,7 @@ public class ReportController extends BaseController{
     						otherCell.setCellStyle(numCellStyle);
     					}
     					
-    					HSSFCell otherRateCell = row.createCell(8, XSSFCell.CELL_TYPE_NUMERIC);
+    					HSSFCell otherRateCell = row.createCell(sumColumnCount++, XSSFCell.CELL_TYPE_NUMERIC);
     					otherRateCell.setCellValue(data.getOthernumrate());
     					if( currentRowNum%2 == 0 ){
     						otherRateCell.setCellStyle(evenPercentCellStyle);
@@ -3126,7 +3229,7 @@ public class ReportController extends BaseController{
     						otherRateCell.setCellStyle(percentCellStyle);
     					}
 
-    					HSSFCell sumCell = row.createCell(9, XSSFCell.CELL_TYPE_NUMERIC);
+    					HSSFCell sumCell = row.createCell(sumColumnCount++, XSSFCell.CELL_TYPE_NUMERIC);
     					sumCell.setCellValue(data.getTotalnum());
     					if( currentRowNum%2 == 0 ){
     						sumCell.setCellStyle(evenNumCellStyle);
@@ -3134,7 +3237,7 @@ public class ReportController extends BaseController{
     						sumCell.setCellStyle(numCellStyle);
     					}
     					
-    					HSSFCell inHosNumCell = row.createCell(10, XSSFCell.CELL_TYPE_NUMERIC);
+    					HSSFCell inHosNumCell = row.createCell(sumColumnCount++, XSSFCell.CELL_TYPE_NUMERIC);
     					inHosNumCell.setCellValue(data.getInnum());
     					if( currentRowNum%2 == 0 ){
     						inHosNumCell.setCellStyle(evenNumCellStyle);
@@ -3142,7 +3245,7 @@ public class ReportController extends BaseController{
     						inHosNumCell.setCellStyle(numCellStyle);
     					}
     					
-    					HSSFCell hosNumCell = row.createCell(11, XSSFCell.CELL_TYPE_NUMERIC);
+    					HSSFCell hosNumCell = row.createCell(sumColumnCount++, XSSFCell.CELL_TYPE_NUMERIC);
     					hosNumCell.setCellValue(data.getHosnum());
     					if( currentRowNum%2 == 0 ){
     						hosNumCell.setCellStyle(evenNumCellStyle);
@@ -3150,7 +3253,7 @@ public class ReportController extends BaseController{
     						hosNumCell.setCellStyle(numCellStyle);
     					}
     					
-    					HSSFCell inRateCell = row.createCell(12, XSSFCell.CELL_TYPE_NUMERIC);
+    					HSSFCell inRateCell = row.createCell(sumColumnCount++, XSSFCell.CELL_TYPE_NUMERIC);
     					inRateCell.setCellValue(data.getInrate());
     					if( currentRowNum%2 == 0 ){
     						inRateCell.setCellStyle(evenPercentCellStyle);
@@ -3162,7 +3265,10 @@ public class ReportController extends BaseController{
     				MonthlyRatioData monthlySumData = hospitalService.getMonthlyCollectionSumData(collectionDate);
     				int rsmDataCount = monthlyCollectionData.size();
     				row = sheet.createRow(currentRowNum++);
-					HSSFCell rsmCell = row.createCell(0, XSSFCell.CELL_TYPE_STRING);
+    				
+    				columnCount = 0;
+    				
+					HSSFCell rsmCell = row.createCell(columnCount++, XSSFCell.CELL_TYPE_STRING);
 					rsmCell.setCellValue("总计");
 					if( rsmDataCount%2 == 0 ){
 						rsmCell.setCellStyle(evenNumCellStyle);
@@ -3170,55 +3276,103 @@ public class ReportController extends BaseController{
 						rsmCell.setCellStyle(numCellStyle);
 					}
 					
-					HSSFCell pedEmerCell = row.createCell(1, XSSFCell.CELL_TYPE_NUMERIC);
-					pedEmerCell.setCellValue(monthlySumData.getPedemernum());
-					if( rsmDataCount%2 == 0 ){
-						pedEmerCell.setCellStyle(evenNumCellStyle);
+					HSSFCell pedEmerDtCell = row.createCell(columnCount++, XSSFCell.CELL_TYPE_NUMERIC);
+					pedEmerDtCell.setCellValue(monthlySumData.getPedEmerDrugStore());
+					if( currentRowNum%2 == 0 ){
+						pedEmerDtCell.setCellStyle(evenNumCellStyle);
 					}else{
-						pedEmerCell.setCellStyle(numCellStyle);
+						pedEmerDtCell.setCellStyle(numCellStyle);
 					}
 					
-					HSSFCell pedEmerRateCell = row.createCell(2, XSSFCell.CELL_TYPE_NUMERIC);
-					pedEmerRateCell.setCellValue(monthlySumData.getPedemernumrate());
-					if( rsmDataCount%2 == 0 ){
-						pedEmerRateCell.setCellStyle(evenPercentCellStyle);
+					HSSFCell pedEmerDtRateCell = row.createCell(columnCount++, XSSFCell.CELL_TYPE_NUMERIC);
+					pedEmerDtRateCell.setCellValue(monthlySumData.getPedEmerDrugStoreRate());
+					if( currentRowNum%2 == 0 ){
+						pedEmerDtRateCell.setCellStyle(evenPercentCellStyle);
 					}else{
-						pedEmerRateCell.setCellStyle(percentCellStyle);
+						pedEmerDtRateCell.setCellStyle(percentCellStyle);
 					}
 					
-					HSSFCell pedRoomCell = row.createCell(3, XSSFCell.CELL_TYPE_NUMERIC);
-					pedRoomCell.setCellValue(monthlySumData.getPedroomnum());
-					if( rsmDataCount%2 == 0 ){
-						pedRoomCell.setCellStyle(evenNumCellStyle);
+					HSSFCell pedEmerWhCell = row.createCell(columnCount++, XSSFCell.CELL_TYPE_NUMERIC);
+					pedEmerWhCell.setCellValue(monthlySumData.getPedEmerWh());
+					if( currentRowNum%2 == 0 ){
+						pedEmerWhCell.setCellStyle(evenNumCellStyle);
 					}else{
-						pedRoomCell.setCellStyle(numCellStyle);
+						pedEmerWhCell.setCellStyle(numCellStyle);
 					}
 					
-					HSSFCell pedRoomRateCell = row.createCell(4, XSSFCell.CELL_TYPE_NUMERIC);
-					pedRoomRateCell.setCellValue(monthlySumData.getPedroomnumrate());
-					if( rsmDataCount%2 == 0 ){
-						pedRoomRateCell.setCellStyle(evenPercentCellStyle);
+					HSSFCell pedEmerWhRateCell = row.createCell(columnCount++, XSSFCell.CELL_TYPE_NUMERIC);
+					pedEmerWhRateCell.setCellValue(monthlySumData.getPedEmerWhRate());
+					if( currentRowNum%2 == 0 ){
+						pedEmerWhRateCell.setCellStyle(evenPercentCellStyle);
 					}else{
-						pedRoomRateCell.setCellStyle(percentCellStyle);
+						pedEmerWhRateCell.setCellStyle(percentCellStyle);
 					}
 					
-					HSSFCell resCell = row.createCell(5, XSSFCell.CELL_TYPE_NUMERIC);
-					resCell.setCellValue(monthlySumData.getResnum());
-					if( rsmDataCount%2 == 0 ){
-						resCell.setCellStyle(evenNumCellStyle);
+					HSSFCell pedRoomDtCell = row.createCell(columnCount++, XSSFCell.CELL_TYPE_NUMERIC);
+					pedRoomDtCell.setCellValue(monthlySumData.getPedRoomDrugStore());
+					if( currentRowNum%2 == 0 ){
+						pedRoomDtCell.setCellStyle(evenNumCellStyle);
 					}else{
-						resCell.setCellStyle(numCellStyle);
+						pedRoomDtCell.setCellStyle(numCellStyle);
 					}
 					
-					HSSFCell resRateCell = row.createCell(6, XSSFCell.CELL_TYPE_NUMERIC);
-					resRateCell.setCellValue(monthlySumData.getResnumrate());
-					if( rsmDataCount%2 == 0 ){
-						resRateCell.setCellStyle(evenPercentCellStyle);
+					HSSFCell pedRoomDtRateCell = row.createCell(columnCount++, XSSFCell.CELL_TYPE_NUMERIC);
+					pedRoomDtRateCell.setCellValue(monthlySumData.getPedRoomDrugStoreRate());
+					if( currentRowNum%2 == 0 ){
+						pedRoomDtRateCell.setCellStyle(evenPercentCellStyle);
 					}else{
-						resRateCell.setCellStyle(percentCellStyle);
+						pedRoomDtRateCell.setCellStyle(percentCellStyle);
+					}
+
+					HSSFCell pedRoomDtWhCell = row.createCell(columnCount++, XSSFCell.CELL_TYPE_NUMERIC);
+					pedRoomDtWhCell.setCellValue(monthlySumData.getPedRoomDrugStoreWh());
+					if( currentRowNum%2 == 0 ){
+						pedRoomDtWhCell.setCellStyle(evenNumCellStyle);
+					}else{
+						pedRoomDtWhCell.setCellStyle(numCellStyle);
 					}
 					
-					HSSFCell otherCell = row.createCell(7, XSSFCell.CELL_TYPE_NUMERIC);
+					HSSFCell pedRoomDtWhRateCell = row.createCell(columnCount++, XSSFCell.CELL_TYPE_NUMERIC);
+					pedRoomDtWhRateCell.setCellValue(monthlySumData.getPedRoomDrugStoreWhRate());
+					if( currentRowNum%2 == 0 ){
+						pedRoomDtWhRateCell.setCellStyle(evenPercentCellStyle);
+					}else{
+						pedRoomDtWhRateCell.setCellStyle(percentCellStyle);
+					}
+					
+					HSSFCell resClinicCell = row.createCell(columnCount++, XSSFCell.CELL_TYPE_NUMERIC);
+					resClinicCell.setCellValue(monthlySumData.getResClinic());
+					if( currentRowNum%2 == 0 ){
+						resClinicCell.setCellStyle(evenNumCellStyle);
+					}else{
+						resClinicCell.setCellStyle(numCellStyle);
+					}
+					
+					HSSFCell resClinicRateCell = row.createCell(columnCount++, XSSFCell.CELL_TYPE_NUMERIC);
+					resClinicRateCell.setCellValue(monthlySumData.getResClinicRate());
+					if( currentRowNum%2 == 0 ){
+						resClinicRateCell.setCellStyle(evenPercentCellStyle);
+					}else{
+						resClinicRateCell.setCellStyle(percentCellStyle);
+					}
+
+					HSSFCell resRoomCell = row.createCell(columnCount++, XSSFCell.CELL_TYPE_NUMERIC);
+					resRoomCell.setCellValue(monthlySumData.getResRoom());
+					if( currentRowNum%2 == 0 ){
+						resRoomCell.setCellStyle(evenNumCellStyle);
+					}else{
+						resRoomCell.setCellStyle(numCellStyle);
+					}
+					
+					HSSFCell resRoomRateCell = row.createCell(columnCount++, XSSFCell.CELL_TYPE_NUMERIC);
+					resRoomRateCell.setCellValue(monthlySumData.getResRoomRate());
+					if( currentRowNum%2 == 0 ){
+						resRoomRateCell.setCellStyle(evenPercentCellStyle);
+					}else{
+						resRoomRateCell.setCellStyle(percentCellStyle);
+					}
+					
+					HSSFCell otherCell = row.createCell(columnCount++, XSSFCell.CELL_TYPE_NUMERIC);
 					otherCell.setCellValue(monthlySumData.getOthernum());
 					if( rsmDataCount%2 == 0 ){
 						otherCell.setCellStyle(evenNumCellStyle);
@@ -3226,7 +3380,7 @@ public class ReportController extends BaseController{
 						otherCell.setCellStyle(numCellStyle);
 					}
 					
-					HSSFCell otherRateCell = row.createCell(8, XSSFCell.CELL_TYPE_NUMERIC);
+					HSSFCell otherRateCell = row.createCell(columnCount++, XSSFCell.CELL_TYPE_NUMERIC);
 					otherRateCell.setCellValue(monthlySumData.getOthernumrate());
 					if( rsmDataCount%2 == 0 ){
 						otherRateCell.setCellStyle(evenPercentCellStyle);
@@ -3234,7 +3388,7 @@ public class ReportController extends BaseController{
 						otherRateCell.setCellStyle(percentCellStyle);
 					}
 
-					HSSFCell sumCell = row.createCell(9, XSSFCell.CELL_TYPE_NUMERIC);
+					HSSFCell sumCell = row.createCell(columnCount++, XSSFCell.CELL_TYPE_NUMERIC);
 					sumCell.setCellValue(monthlySumData.getTotalnum());
 					if( rsmDataCount%2 == 0 ){
 						sumCell.setCellStyle(evenNumCellStyle);
@@ -3242,7 +3396,7 @@ public class ReportController extends BaseController{
 						sumCell.setCellStyle(numCellStyle);
 					}
 					
-					HSSFCell inHosNumCell = row.createCell(10, XSSFCell.CELL_TYPE_NUMERIC);
+					HSSFCell inHosNumCell = row.createCell(columnCount++, XSSFCell.CELL_TYPE_NUMERIC);
 					inHosNumCell.setCellValue(monthlySumData.getInnum());
 					if( rsmDataCount%2 == 0 ){
 						inHosNumCell.setCellStyle(evenNumCellStyle);
@@ -3250,7 +3404,7 @@ public class ReportController extends BaseController{
 						inHosNumCell.setCellStyle(numCellStyle);
 					}
 					
-					HSSFCell hosNumCell = row.createCell(11, XSSFCell.CELL_TYPE_NUMERIC);
+					HSSFCell hosNumCell = row.createCell(columnCount++, XSSFCell.CELL_TYPE_NUMERIC);
 					hosNumCell.setCellValue(monthlySumData.getHosnum());
 					if( rsmDataCount%2 == 0 ){
 						hosNumCell.setCellStyle(evenNumCellStyle);
@@ -3258,7 +3412,7 @@ public class ReportController extends BaseController{
 						hosNumCell.setCellStyle(numCellStyle);
 					}
 					
-					HSSFCell inRateCell = row.createCell(12, XSSFCell.CELL_TYPE_NUMERIC);
+					HSSFCell inRateCell = row.createCell(columnCount++, XSSFCell.CELL_TYPE_NUMERIC);
 					inRateCell.setCellValue(monthlySumData.getInrate());
 					if( rsmDataCount%2 == 0 ){
 						inRateCell.setCellStyle(evenPercentCellStyle);

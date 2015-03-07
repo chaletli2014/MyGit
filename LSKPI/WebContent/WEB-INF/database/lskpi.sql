@@ -429,3 +429,5 @@ alter table tbl_month_data add column ped_room_drugstore DECIMAL(11,2);
 alter table tbl_month_data add column ped_room_drugstore_wh DECIMAL(11,2);
 alter table tbl_month_data add column res_clinic DECIMAL(11,2);
 alter table tbl_month_data add column res_room DECIMAL(11,2);
+
+ALTER  TABLE tbl_month_data ADD INDEX INDEX_MONTH_COUNTMONTH (countMonth);
