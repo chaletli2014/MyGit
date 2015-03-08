@@ -23,7 +23,7 @@ function checkForm(){
         return false;
 	}
 	
-	if(!obj1ltobj2("pedEmerWh","pedRoomDrugStoreWh")){
+	if(!obj1ltobj2("pedEmerDrugStore","pedEmerWh")){
 		return false;
 	}
 	
