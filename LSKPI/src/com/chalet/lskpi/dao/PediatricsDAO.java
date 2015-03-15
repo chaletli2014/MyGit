@@ -76,6 +76,19 @@ public interface PediatricsDAO {
 	public TopAndBottomRSMData getTopAndBottomAverageDoseRSMData(TopAndBottomRSMData rsmData) throws Exception;
 	public TopAndBottomRSMData getCoreTopAndBottomRSMData() throws Exception;
 	public TopAndBottomRSMData getCoreTopAndBottomRSMWhRateData() throws Exception;
+	/**
+	 * 获取全国最大最小RSM Emerging医院雾化率指标
+	 * @return
+	 * @throws Exception
+	 */
+	public TopAndBottomRSMData getEmergingTopAndBottomRSMWhRateData() throws Exception;
+	/**
+	 * 获取全国最大最小RSM 雾化端口使用率指标
+	 * @param rsmData
+	 * @return
+	 * @throws Exception
+	 */
+	public TopAndBottomRSMData getTopAndBottomWhPortRateRSMData(TopAndBottomRSMData rsmData) throws Exception;
 	
 	public void generateWeeklyPEDDataOfHospital() throws Exception;
 	public int removeOldWeeklyPEDData(String duration) throws Exception;

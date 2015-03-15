@@ -37,6 +37,22 @@ public class TopAndBottomRSMData {
 	private double coreTopWhRate;
 	private double coreBottomWhRate;
 	
+	/**
+	 * Emerging医院雾化率指标
+	 */
+	private String topEmergingWhRateRSMName;
+	private double topEmergingWhRate;
+	private String bottomEmergingWhRateRSMName;
+	private double bottomEmergingWhRate;
+	
+	/**
+	 * 雾化端口指标
+	 */
+	private String topWhPortRateRSMName;
+	private double topWhPortRate;
+	private String bottomWhPortRateRSMName;
+	private double bottomWhPortRate;
+	
 	public String getTopRSMName() {
 		return topRSMName;
 	}
@@ -192,6 +208,54 @@ public class TopAndBottomRSMData {
 	}
 	public void setCoreBottomWhRateRSMName(String coreBottomWhRateRSMName) {
 		this.coreBottomWhRateRSMName = coreBottomWhRateRSMName;
+	}
+	public String getTopEmergingWhRateRSMName() {
+		return topEmergingWhRateRSMName;
+	}
+	public void setTopEmergingWhRateRSMName(String topEmergingWhRateRSMName) {
+		this.topEmergingWhRateRSMName = topEmergingWhRateRSMName;
+	}
+	public double getTopEmergingWhRate() {
+		return topEmergingWhRate;
+	}
+	public void setTopEmergingWhRate(double topEmergingWhRate) {
+		this.topEmergingWhRate = topEmergingWhRate;
+	}
+	public String getBottomEmergingWhRateRSMName() {
+		return bottomEmergingWhRateRSMName;
+	}
+	public void setBottomEmergingWhRateRSMName(String bottomEmergingWhRateRSMName) {
+		this.bottomEmergingWhRateRSMName = bottomEmergingWhRateRSMName;
+	}
+	public double getBottomEmergingWhRate() {
+		return bottomEmergingWhRate;
+	}
+	public void setBottomEmergingWhRate(double bottomEmergingWhRate) {
+		this.bottomEmergingWhRate = bottomEmergingWhRate;
+	}
+	public String getTopWhPortRateRSMName() {
+		return topWhPortRateRSMName;
+	}
+	public void setTopWhPortRateRSMName(String topWhPortRateRSMName) {
+		this.topWhPortRateRSMName = topWhPortRateRSMName;
+	}
+	public double getTopWhPortRate() {
+		return topWhPortRate;
+	}
+	public void setTopWhPortRate(double topWhPortRate) {
+		this.topWhPortRate = topWhPortRate;
+	}
+	public String getBottomWhPortRateRSMName() {
+		return bottomWhPortRateRSMName;
+	}
+	public void setBottomWhPortRateRSMName(String bottomWhPortRateRSMName) {
+		this.bottomWhPortRateRSMName = bottomWhPortRateRSMName;
+	}
+	public double getBottomWhPortRate() {
+		return bottomWhPortRate;
+	}
+	public void setBottomWhPortRate(double bottomWhPortRate) {
+		this.bottomWhPortRate = bottomWhPortRate;
 	}
 
 }

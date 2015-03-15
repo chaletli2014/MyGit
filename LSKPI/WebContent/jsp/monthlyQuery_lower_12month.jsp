@@ -18,23 +18,29 @@
                 <div class="dailyReport_table_Title">${monthlyDataTitle}</div>
                 <table class="mobileReport_table">
                     <tr class="mobileReport_table_header">
-                        <td width="16%">月份</td>
-                        <td width="15%">医院数</td>
-                        <td width="15%">上报数</td>
-                        <td width="14%">儿科门急诊</td>
-                        <td width="14%">儿科病房</td>
-                        <td width="14%">呼吸科</td>
-                        <td width="14%">其他科室</td>
-                        <td width="14%">合计</td>
+                        <td width="8%">月份</td>
+                        <td width="6%">医院数</td>
+                        <td width="6%">上报数</td>
+                        <td width="10%">儿科门急诊药房发药量</td>
+                      	<td width="10%">儿科门急诊雾化室使用量</td>
+                      	<td width="10%">儿科病房药房发药量</td>
+                      	<td width="10%">儿科病房药房雾化使用量</td>
+                      	<td width="10%">呼吸科门诊</td>
+                      	<td width="10%">呼吸科病房</td>
+                        <td width="10%">其他科室</td>
+                        <td width="10%">合计</td>
                     </tr>
                     <c:forEach items="${monthly12Datas}" var="monthly12Data">
 	                    <tr class="mobileReport_table_body">
 	                        <td>${monthly12Data.dataMonth}</td>
 	                        <td><fmt:formatNumber value="${monthly12Data.hosNum}" pattern="#,###"/></td>
 	                        <td><fmt:formatNumber value="${monthly12Data.inNum}" pattern="#,###"/></td>
-	                        <td><fmt:formatNumber value="${monthly12Data.pedemernum}" pattern="#,###"/></td>
-	                        <td><fmt:formatNumber value="${monthly12Data.pedroomnum}" pattern="#,###"/></td>
-	                        <td><fmt:formatNumber value="${monthly12Data.resnum}" pattern="#,###"/></td>
+	                        <td><fmt:formatNumber value="${monthly12Data.pedEmerDrugStore}" pattern="#,###"/></td>
+	                        <td><fmt:formatNumber value="${monthly12Data.pedEmerWh}" pattern="#,###"/></td>
+	                        <td><fmt:formatNumber value="${monthly12Data.pedRoomDrugStore}" pattern="#,###"/></td>
+	                        <td><fmt:formatNumber value="${monthly12Data.pedRoomDrugStoreWh}" pattern="#,###"/></td>
+	                        <td><fmt:formatNumber value="${monthly12Data.resClinic}" pattern="#,###"/></td>
+	                        <td><fmt:formatNumber value="${monthly12Data.resRoom}" pattern="#,###"/></td>
 	                        <td><fmt:formatNumber value="${monthly12Data.othernum}" pattern="#,###"/></td>
 	                        <td><fmt:formatNumber value="${monthly12Data.totalnum}" pattern="#,###"/></td>
 	                    </tr>
@@ -48,4 +54,4 @@
         </jsp:include>
     </div>
 </body>  
-</html>  
+</html>  s

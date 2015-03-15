@@ -152,6 +152,7 @@
 	                       <td width="35%" colspan="2">Top RSM</td>
 	                       <td width="35%" colspan="2">Bottom RSM</td>
 	                   </tr>
+	                   <%--
 	                   <tr class="mobileReport_table_body">
 		                   <td>Core医院上报率</td>
 		                   <td>${rsmData.coreTopInRateRSMName}</td>
@@ -159,6 +160,7 @@
 		                   <td>${rsmData.coreBottomInRateRSMName}</td>
 		                   <td class="report_data_number"><fmt:formatNumber type="percent" value="${rsmData.coreBottomInRate}" pattern="#0.00%"/></td>
 		               </tr>
+	                    --%>
 		               <tr class="mobileReport_table_body">
 		                   <td>上报率</td>
 		                   <td>${rsmData.topInRateRSMName}</td>
@@ -174,11 +176,18 @@
 		                   <td class="report_data_number"><fmt:formatNumber type="percent" value="${rsmData.coreBottomWhRate}" pattern="#0.00%"/></td>
 		               </tr>
 		               <tr class="mobileReport_table_body">
-		                   <td >雾化率</td>
-		                   <td>${rsmData.topWhRateRSMName}</td>
-		                   <td class="report_data_number"><fmt:formatNumber type="percent" value="${rsmData.topWhRate}" pattern="#0.00%"/></td>
-		                   <td>${rsmData.bottomWhRateRSMName}</td>
-		                   <td class="report_data_number"><fmt:formatNumber type="percent" value="${rsmData.bottomWhRate}" pattern="#0.00%"/></td>
+		                   <td >Emerging医院雾化率</td>
+		                   <td>${rsmData.topEmergingWhRateRSMName}</td>
+		                   <td class="report_data_number"><fmt:formatNumber type="percent" value="${rsmData.topEmergingWhRate}" pattern="#0.00%"/></td>
+		                   <td>${rsmData.bottomEmergingWhRateRSMName}</td>
+		                   <td class="report_data_number"><fmt:formatNumber type="percent" value="${rsmData.bottomEmergingWhRate}" pattern="#0.00%"/></td>
+		               </tr>
+		               <tr class="mobileReport_table_body">
+		                   <td >雾化端口使用率</td>
+		                   <td>${rsmData.topWhPortRateRSMName}</td>
+		                   <td class="report_data_number"><fmt:formatNumber type="percent" value="${rsmData.topWhPortRate}" pattern="#0.00%"/></td>
+		                   <td>${rsmData.bottomWhPortRateRSMName}</td>
+		                   <td class="report_data_number"><fmt:formatNumber type="percent" value="${rsmData.bottomWhPortRate}" pattern="#0.00%"/></td>
 		               </tr>
 		               <tr class="mobileReport_table_body">
 		                   <td >平均剂量</td>

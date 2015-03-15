@@ -539,11 +539,21 @@ public class PediatricsServiceImpl implements PediatricsService {
 		TopAndBottomRSMData topAndBottomRSMData = new TopAndBottomRSMData();
 		
 		topAndBottomRSMData = pediatricsDAO.getTopAndBottomInRateRSMData(topAndBottomRSMData);
+		logger.info("inRate end");
 		topAndBottomRSMData = pediatricsDAO.getTopAndBottomWhRateRSMData(topAndBottomRSMData);
+		logger.info("whRate end");
 		topAndBottomRSMData = pediatricsDAO.getTopAndBottomAverageDoseRSMData(topAndBottomRSMData);
+		logger.info("averageDose end");
+		topAndBottomRSMData = pediatricsDAO.getTopAndBottomWhPortRateRSMData(topAndBottomRSMData);
+		logger.info("whPortRate end");
 		
 		TopAndBottomRSMData coreRSMData = pediatricsDAO.getCoreTopAndBottomRSMData();
+		logger.info("core end");
 		TopAndBottomRSMData coreWhRateData = pediatricsDAO.getCoreTopAndBottomRSMWhRateData();
+		logger.info("coreWhRate end");
+		
+		TopAndBottomRSMData emergingWhRateData = pediatricsDAO.getEmergingTopAndBottomRSMWhRateData();
+		logger.info("emergingWhRate end");
 		
 		topAndBottomRSMData.setCoreBottomInRate(coreRSMData.getCoreBottomInRate());
 		topAndBottomRSMData.setCoreBottomInRateRSMName(coreRSMData.getCoreBottomInRateRSMName());
@@ -554,6 +564,13 @@ public class PediatricsServiceImpl implements PediatricsService {
 		topAndBottomRSMData.setCoreBottomWhRateRSMName(coreWhRateData.getCoreBottomWhRateRSMName());
 		topAndBottomRSMData.setCoreTopWhRate(coreWhRateData.getCoreTopWhRate());
 		topAndBottomRSMData.setCoreTopWhRateRSMName(coreWhRateData.getCoreTopWhRateRSMName());
+		
+		topAndBottomRSMData.setTopEmergingWhRate(emergingWhRateData.getTopEmergingWhRate());
+		topAndBottomRSMData.setTopEmergingWhRateRSMName(emergingWhRateData.getTopEmergingWhRateRSMName());
+		topAndBottomRSMData.setBottomEmergingWhRate(emergingWhRateData.getBottomEmergingWhRate());
+		topAndBottomRSMData.setBottomEmergingWhRateRSMName(emergingWhRateData.getBottomEmergingWhRateRSMName());
+		
+		
 		return topAndBottomRSMData;
 	}
     

@@ -120,18 +120,6 @@
                     <property name="isInput">true</property>
                     <property name="isOutput">false</property>
                 </structure>
-                <structure>
-                    <property name="name">param_7</property>
-                    <property name="paramName">userTel</property>
-                    <property name="nativeName"></property>
-                    <property name="dataType">string</property>
-                    <property name="nativeDataType">-3</property>
-                    <property name="position">7</property>
-                    <property name="isOptional">true</property>
-                    <property name="allowNull">true</property>
-                    <property name="isInput">true</property>
-                    <property name="isOutput">false</property>
-                </structure>
             </list-property>
             <structure name="cachedMetaData">
                 <list-property name="resultSet">
@@ -173,19 +161,7 @@
                     <property name="dataType">string</property>
                 </structure>
             </list-property>
-            <xml-property name="queryText"><![CDATA[select 
-'儿科门急诊药房发药量' as numType
-, IFNULL(sum(ped_emer_drugstore),0) as num
-, u.name 
-from tbl_month_data md, tbl_userinfo u, tbl_hospital h 
-where md.countMonth = DATE_FORMAT(DATE_SUB(now(), INTERVAL 1 MONTH),'%Y-%m') 
-and h.dsmCode = u.userCode 
-and md.hospitalCode = h.code 
-and h.isMonthlyAssessed='1' 
-and u.telephone=?
-union all
-select 
-'儿科门急诊雾化室使用量' as numType
+            <xml-property name="queryText"><![CDATA[select '儿科门急诊' as numType
 , IFNULL(sum(ped_emer_wh),0) as num
 , u.name 
 from tbl_month_data md, tbl_userinfo u, tbl_hospital h 
@@ -195,17 +171,7 @@ and md.hospitalCode = h.code
 and h.isMonthlyAssessed='1' 
 and u.telephone=?
 union all
-select '儿科病房药房发药量' as numType
-, IFNULL(sum(ped_room_drugstore),0) as num 
-, u.name 
-from tbl_month_data md, tbl_userinfo u, tbl_hospital h 
-where md.countMonth = DATE_FORMAT(DATE_SUB(now(), INTERVAL 1 MONTH),'%Y-%m') 
-and h.dsmCode = u.userCode 
-and md.hospitalCode = h.code 
-and h.isMonthlyAssessed='1' 
-and u.telephone=?
-union all
-select '儿科病房药房雾化使用量' as numType
+select '儿科病房' as numType
 , IFNULL(sum(ped_room_drugstore_wh),0) as num 
 , u.name 
 from tbl_month_data md, tbl_userinfo u, tbl_hospital h 
@@ -215,7 +181,18 @@ and md.hospitalCode = h.code
 and h.isMonthlyAssessed='1' 
 and u.telephone=?
 union all
-select '呼吸科（+普内科+ 老干科等）门急诊' as numType
+select '家庭雾化' as numType
+, ( ( IFNULL(sum(ped_room_drugstore),0) - IFNULL(sum(ped_room_drugstore_wh),0) )
+  + ( IFNULL(sum(ped_emer_drugstore),0) - IFNULL(sum(ped_emer_wh),0) ) ) as num 
+, u.name 
+from tbl_month_data md, tbl_userinfo u, tbl_hospital h 
+where md.countMonth = DATE_FORMAT(DATE_SUB(now(), INTERVAL 1 MONTH),'%Y-%m') 
+and h.dsmCode = u.userCode 
+and md.hospitalCode = h.code 
+and h.isMonthlyAssessed='1' 
+and u.telephone=?
+union all
+select '呼吸科门急诊' as numType
 , IFNULL(sum(res_clinic),0) as num 
 , u.name 
 from tbl_month_data md, tbl_userinfo u, tbl_hospital h 
@@ -225,7 +202,7 @@ and md.hospitalCode = h.code
 and h.isMonthlyAssessed='1' 
 and u.telephone=?
 union all
-select '呼吸科（+普内科+ 老干科等）病房' as numType
+select '呼吸科病房' as numType
 , IFNULL(sum(res_room),0) as resnum 
 , u.name 
 from tbl_month_data md, tbl_userinfo u, tbl_hospital h 
@@ -355,26 +332,6 @@ and u.telephone=?]]></xml-property>
           <design:identifier>
             <design:name></design:name>
             <design:position>6</design:position>
-          </design:identifier>
-          <design:nativeDataTypeCode>-3</design:nativeDataTypeCode>
-          <design:precision>0</design:precision>
-          <design:scale>0</design:scale>
-          <design:nullability>Nullable</design:nullability>
-        </design:attributes>
-        <design:inputAttributes>
-          <design:elementAttributes>
-            <design:optional>true</design:optional>
-          </design:elementAttributes>
-        </design:inputAttributes>
-      </design:ParameterDefinition>
-    </parameter>
-    <parameter>
-      <design:ParameterDefinition>
-        <design:inOutMode>In</design:inOutMode>
-        <design:attributes>
-          <design:identifier>
-            <design:name></design:name>
-            <design:position>7</design:position>
           </design:identifier>
           <design:nativeDataTypeCode>-3</design:nativeDataTypeCode>
           <design:precision>0</design:precision>
@@ -540,18 +497,6 @@ where telephone=?]]></xml-property>
                     <property name="isInput">true</property>
                     <property name="isOutput">false</property>
                 </structure>
-                <structure>
-                    <property name="name">param_7</property>
-                    <property name="paramName">userTel</property>
-                    <property name="nativeName"></property>
-                    <property name="dataType">string</property>
-                    <property name="nativeDataType">-3</property>
-                    <property name="position">7</property>
-                    <property name="isOptional">true</property>
-                    <property name="allowNull">true</property>
-                    <property name="isInput">true</property>
-                    <property name="isOutput">false</property>
-                </structure>
             </list-property>
             <structure name="cachedMetaData">
                 <list-property name="resultSet">
@@ -582,17 +527,7 @@ where telephone=?]]></xml-property>
                     <property name="dataType">decimal</property>
                 </structure>
             </list-property>
-            <xml-property name="queryText"><![CDATA[select 
-'儿科门急诊药房发药量' as numType
-, IFNULL(sum(ped_emer_drugstore),0) as num
-from tbl_month_data md, tbl_hospital h 
-where md.countMonth = DATE_FORMAT(DATE_SUB(now(), INTERVAL 1 MONTH),'%Y-%m') 
-and h.rsmRegion = (select region from tbl_userinfo where telephone=?) 
-and md.hospitalCode = h.code 
-and h.isMonthlyAssessed='1'
-union all
-select 
-'儿科门急诊雾化室使用量' as numType
+            <xml-property name="queryText"><![CDATA[select '儿科门急诊' as numType
 , IFNULL(sum(ped_emer_wh),0) as num
 from tbl_month_data md, tbl_hospital h 
 where md.countMonth = DATE_FORMAT(DATE_SUB(now(), INTERVAL 1 MONTH),'%Y-%m') 
@@ -600,15 +535,7 @@ and h.rsmRegion = (select region from tbl_userinfo where telephone=?)
 and md.hospitalCode = h.code 
 and h.isMonthlyAssessed='1'
 union all
-select '儿科病房药房发药量' as numType
-, IFNULL(sum(ped_room_drugstore),0) as num 
-from tbl_month_data md, tbl_hospital h 
-where md.countMonth = DATE_FORMAT(DATE_SUB(now(), INTERVAL 1 MONTH),'%Y-%m') 
-and h.rsmRegion = (select region from tbl_userinfo where telephone=?) 
-and md.hospitalCode = h.code 
-and h.isMonthlyAssessed='1'
-union all
-select '儿科病房药房雾化使用量' as numType
+select '儿科病房' as numType
 , IFNULL(sum(ped_room_drugstore_wh),0) as num 
 from tbl_month_data md, tbl_hospital h 
 where md.countMonth = DATE_FORMAT(DATE_SUB(now(), INTERVAL 1 MONTH),'%Y-%m') 
@@ -616,7 +543,16 @@ and h.rsmRegion = (select region from tbl_userinfo where telephone=?)
 and md.hospitalCode = h.code 
 and h.isMonthlyAssessed='1'
 union all
-select '呼吸科（+普内科+ 老干科等）门急诊' as numType
+select '家庭雾化' as numType
+, ( ( IFNULL(sum(ped_room_drugstore),0) - IFNULL(sum(ped_room_drugstore_wh),0) )
+  + ( IFNULL(sum(ped_emer_drugstore),0) - IFNULL(sum(ped_emer_wh),0) ) ) as num 
+from tbl_month_data md, tbl_hospital h 
+where md.countMonth = DATE_FORMAT(DATE_SUB(now(), INTERVAL 1 MONTH),'%Y-%m') 
+and h.rsmRegion = (select region from tbl_userinfo where telephone=?) 
+and md.hospitalCode = h.code 
+and h.isMonthlyAssessed='1'
+union all
+select '呼吸科门急诊' as numType
 , IFNULL(sum(res_clinic),0) as num 
 from tbl_month_data md, tbl_hospital h 
 where md.countMonth = DATE_FORMAT(DATE_SUB(now(), INTERVAL 1 MONTH),'%Y-%m') 
@@ -624,7 +560,7 @@ and h.rsmRegion = (select region from tbl_userinfo where telephone=?)
 and md.hospitalCode = h.code 
 and h.isMonthlyAssessed='1'
 union all
-select '呼吸科（+普内科+ 老干科等）病房' as numType
+select '呼吸科病房' as numType
 , IFNULL(sum(res_room),0) as resnum 
 from tbl_month_data md, tbl_hospital h 
 where md.countMonth = DATE_FORMAT(DATE_SUB(now(), INTERVAL 1 MONTH),'%Y-%m') 
@@ -750,26 +686,6 @@ and h.isMonthlyAssessed='1']]></xml-property>
           <design:identifier>
             <design:name></design:name>
             <design:position>6</design:position>
-          </design:identifier>
-          <design:nativeDataTypeCode>-3</design:nativeDataTypeCode>
-          <design:precision>0</design:precision>
-          <design:scale>0</design:scale>
-          <design:nullability>Nullable</design:nullability>
-        </design:attributes>
-        <design:inputAttributes>
-          <design:elementAttributes>
-            <design:optional>true</design:optional>
-          </design:elementAttributes>
-        </design:inputAttributes>
-      </design:ParameterDefinition>
-    </parameter>
-    <parameter>
-      <design:ParameterDefinition>
-        <design:inOutMode>In</design:inOutMode>
-        <design:attributes>
-          <design:identifier>
-            <design:name></design:name>
-            <design:position>7</design:position>
           </design:identifier>
           <design:nativeDataTypeCode>-3</design:nativeDataTypeCode>
           <design:precision>0</design:precision>
@@ -1758,6 +1674,10 @@ and h.isMonthlyAssessed='1']]></xml-property>
       <GroupType>Text</GroupType>
       <AggregateExpression>Sum</AggregateExpression>
     </Grouping>
+    <Sorting>Ascending</Sorting>
+    <SortKey>
+      <Definition>row[&quot;numType&quot;]</Definition>
+    </SortKey>
   </SeriesDefinitions>
   <MinSlicePercent>false</MinSlicePercent>
   <Coverage>0.7</Coverage>
@@ -2733,6 +2653,10 @@ and h.isMonthlyAssessed='1']]></xml-property>
       <GroupType>Text</GroupType>
       <AggregateExpression>Sum</AggregateExpression>
     </Grouping>
+    <Sorting>Ascending</Sorting>
+    <SortKey>
+      <Definition>row[&quot;numType&quot;]</Definition>
+    </SortKey>
   </SeriesDefinitions>
   <MinSlicePercent>false</MinSlicePercent>
   <Coverage>0.7</Coverage>

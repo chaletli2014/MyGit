@@ -476,7 +476,8 @@ public class LsAttributes {
 			    .append("       , IFNULL(sum(ped_room_drugstore),0) as ped_room_drugstore ")
 			    .append("       , IFNULL(sum(ped_room_drugstore_wh),0) as ped_room_drugstore_wh ")
 			    .append("       , IFNULL(sum(res_clinic),0) as res_clinic ")
-			    .append("       , IFNULL(sum(res_room),0) as res_room ");
+			    .append("       , IFNULL(sum(res_room),0) as res_room ")
+			    .append("       , sum(IFNULL(ped_emer_drugstore,0)+IFNULL(ped_room_drugstore,0)+IFNULL(res_clinic,0)+IFNULL(res_room,0)+IFNULL(other,0)) as totalnum");
     
     public static final StringBuffer SQL_MONTHLY_NEW_COLUMN_SELECT
 		    = new StringBuffer(", ped_emer_drugstore ")
@@ -512,8 +513,6 @@ public class LsAttributes {
 				    .append("       , sum(other) as othernum ")
 				    //月报拆分
 				    .append(SQL_MONTHLY_NEW_COLUMN_LAST2_SELECT_inner)
-		    
-				    .append("       , sum(IFNULL(ped_emer_drugstore,0)+IFNULL(ped_emer_wh,0)+IFNULL(ped_room_drugstore,0)+IFNULL(ped_room_drugstore_wh,0)+IFNULL(res_clinic,0)+IFNULL(res_room,0)+IFNULL(other,0)) as totalnum")
 				    .append("       , count(1) as innum ")
 				    .append("       from tbl_month_data md, tbl_hospital h ")
 				    .append("		where md.countMonth = DATE_FORMAT(DATE_SUB(now(), INTERVAL 1 MONTH),'%Y-%m') " )
@@ -542,8 +541,6 @@ public class LsAttributes {
 				    .append("       , sum(other) as othernum ")
 				    //月报拆分
 				    .append(SQL_MONTHLY_NEW_COLUMN_LAST2_SELECT_inner)
-		    
-				    .append("       , sum(IFNULL(ped_emer_drugstore,0)+IFNULL(ped_emer_wh,0)+IFNULL(ped_room_drugstore,0)+IFNULL(ped_room_drugstore_wh,0)+IFNULL(res_clinic,0)+IFNULL(res_room,0)+IFNULL(other,0)) as totalnum")
 				    .append("       , count(1) as innum ")
 				    .append("       from tbl_month_data md, tbl_hospital h ")
 				    .append("		where md.countMonth = DATE_FORMAT(DATE_SUB(now(), INTERVAL 2 MONTH),'%Y-%m') " )
@@ -572,8 +569,6 @@ public class LsAttributes {
                     .append("       , sum(other) as othernum ")
                     //月报拆分
 				    .append(SQL_MONTHLY_NEW_COLUMN_LAST2_SELECT_inner)
-		    
-                    .append("       , sum(IFNULL(ped_emer_drugstore,0)+IFNULL(ped_emer_wh,0)+IFNULL(ped_room_drugstore,0)+IFNULL(ped_room_drugstore_wh,0)+IFNULL(res_clinic,0)+IFNULL(res_room,0)+IFNULL(other,0)) as totalnum")
                     .append("       , count(1) as innum ")
                     .append("       from tbl_month_data md, tbl_hospital h ")
                     .append("		where md.countMonth = DATE_FORMAT(DATE_SUB(now(), INTERVAL 1 MONTH),'%Y-%m') " )
@@ -602,8 +597,6 @@ public class LsAttributes {
                     .append("       , sum(other) as othernum ")
                     //月报拆分
 				    .append(SQL_MONTHLY_NEW_COLUMN_LAST2_SELECT_inner)
-		    
-                    .append("       , sum(IFNULL(ped_emer_drugstore,0)+IFNULL(ped_emer_wh,0)+IFNULL(ped_room_drugstore,0)+IFNULL(ped_room_drugstore_wh,0)+IFNULL(res_clinic,0)+IFNULL(res_room,0)+IFNULL(other,0)) as totalnum")
                     .append("       , count(1) as innum ")
                     .append("       from tbl_month_data md, tbl_hospital h ")
                     .append("		where md.countMonth = DATE_FORMAT(DATE_SUB(now(), INTERVAL 2 MONTH),'%Y-%m') " )
@@ -630,8 +623,6 @@ public class LsAttributes {
                     .append("       , sum(other) as othernum ")
                     //月报拆分
 				    .append(SQL_MONTHLY_NEW_COLUMN_LAST2_SELECT_inner)
-		    
-                    .append("       , sum(IFNULL(ped_emer_drugstore,0)+IFNULL(ped_emer_wh,0)+IFNULL(ped_room_drugstore,0)+IFNULL(ped_room_drugstore_wh,0)+IFNULL(res_clinic,0)+IFNULL(res_room,0)+IFNULL(other,0)) as totalnum")
                     .append("       , count(1) as innum ")
                     .append("       from tbl_month_data md, tbl_hospital h ")
                     .append("		where md.countMonth = DATE_FORMAT(DATE_SUB(now(), INTERVAL 1 MONTH),'%Y-%m') " )
@@ -658,8 +649,6 @@ public class LsAttributes {
             .append("       , sum(other) as othernum ")
             //月报拆分
 		    .append(SQL_MONTHLY_NEW_COLUMN_LAST2_SELECT_inner)
-		    
-            .append("       , sum(IFNULL(ped_emer_drugstore,0)+IFNULL(ped_emer_wh,0)+IFNULL(ped_room_drugstore,0)+IFNULL(ped_room_drugstore_wh,0)+IFNULL(res_clinic,0)+IFNULL(res_room,0)+IFNULL(other,0)) as totalnum")
             .append("       , count(1) as innum ")
             .append("       from tbl_month_data md, tbl_hospital h ")
             .append("		where md.countMonth = DATE_FORMAT(DATE_SUB(now(), INTERVAL 2 MONTH),'%Y-%m') " )
@@ -686,8 +675,6 @@ public class LsAttributes {
             .append("       , sum(other) as othernum ")
             //月报拆分
 		    .append(SQL_MONTHLY_NEW_COLUMN_LAST2_SELECT_inner)
-		    
-            .append("       , sum(IFNULL(ped_emer_drugstore,0)+IFNULL(ped_emer_wh,0)+IFNULL(ped_room_drugstore,0)+IFNULL(ped_room_drugstore_wh,0)+IFNULL(res_clinic,0)+IFNULL(res_room,0)+IFNULL(other,0)) as totalnum")
             .append("       , count(1) as innum ")
             .append("       from tbl_month_data md, tbl_hospital h ")
             .append("		where md.countMonth = DATE_FORMAT(DATE_SUB(now(), INTERVAL 1 MONTH),'%Y-%m') " )
@@ -714,8 +701,6 @@ public class LsAttributes {
             .append("       , sum(other) as othernum ")
             //月报拆分
 		    .append(SQL_MONTHLY_NEW_COLUMN_LAST2_SELECT_inner)
-		    
-            .append("       , sum(IFNULL(ped_emer_drugstore,0)+IFNULL(ped_emer_wh,0)+IFNULL(ped_room_drugstore,0)+IFNULL(ped_room_drugstore_wh,0)+IFNULL(res_clinic,0)+IFNULL(res_room,0)+IFNULL(other,0)) as totalnum")
             .append("       , count(1) as innum ")
             .append("       from tbl_month_data md, tbl_hospital h ")
             .append("		where md.countMonth = DATE_FORMAT(DATE_SUB(now(), INTERVAL 2 MONTH),'%Y-%m') " )
@@ -742,8 +727,6 @@ public class LsAttributes {
                     .append("       , sum(other) as othernum ")
                     //月报拆分
 				    .append(SQL_MONTHLY_NEW_COLUMN_LAST2_SELECT_inner)
-		    
-                    .append("       , sum(IFNULL(ped_emer_drugstore,0)+IFNULL(ped_emer_wh,0)+IFNULL(ped_room_drugstore,0)+IFNULL(ped_room_drugstore_wh,0)+IFNULL(res_clinic,0)+IFNULL(res_room,0)+IFNULL(other,0)) as totalnum")
                     .append("       , count(1) as innum ")
                     .append("       from tbl_month_data md, tbl_hospital h ")
                     .append("		where md.countMonth = DATE_FORMAT(DATE_SUB(now(), INTERVAL 1 MONTH),'%Y-%m') " )
@@ -770,8 +753,6 @@ public class LsAttributes {
             .append("       , sum(other) as othernum ")
             //月报拆分
 		    .append(SQL_MONTHLY_NEW_COLUMN_LAST2_SELECT_inner)
-		    
-            .append("       , sum(IFNULL(ped_emer_drugstore,0)+IFNULL(ped_emer_wh,0)+IFNULL(ped_room_drugstore,0)+IFNULL(ped_room_drugstore_wh,0)+IFNULL(res_clinic,0)+IFNULL(res_room,0)+IFNULL(other,0)) as totalnum")
             .append("       , count(1) as innum ")
             .append("       from tbl_month_data md, tbl_hospital h ")
             .append("		where md.countMonth = DATE_FORMAT(DATE_SUB(now(), INTERVAL 2 MONTH),'%Y-%m') " )
@@ -798,8 +779,6 @@ public class LsAttributes {
 		    .append("       , sum(other) as othernum ")
 		    //月报拆分
 		    .append(SQL_MONTHLY_NEW_COLUMN_LAST2_SELECT_inner)
-		    
-		    .append("       , sum(IFNULL(ped_emer_drugstore,0)+IFNULL(ped_emer_wh,0)+IFNULL(ped_room_drugstore,0)+IFNULL(ped_room_drugstore_wh,0)+IFNULL(res_clinic,0)+IFNULL(res_room,0)+IFNULL(other,0)) as totalnum")
 		    .append("       , count(1) as innum ")
 		    .append("       from tbl_month_data md, tbl_hospital h ")
 		    .append("		where md.countMonth = DATE_FORMAT(DATE_SUB(now(), INTERVAL 1 MONTH),'%Y-%m') " )
@@ -824,8 +803,6 @@ public class LsAttributes {
 		    .append("       , sum(other) as othernum ")
 		    //月报拆分
 		    .append(SQL_MONTHLY_NEW_COLUMN_LAST2_SELECT_inner)
-		    
-		    .append("       , sum(IFNULL(ped_emer_drugstore,0)+IFNULL(ped_emer_wh,0)+IFNULL(ped_room_drugstore,0)+IFNULL(ped_room_drugstore_wh,0)+IFNULL(res_clinic,0)+IFNULL(res_room,0)+IFNULL(other,0)) as totalnum")
 		    .append("       , count(1) as innum ")
 		    .append("       from tbl_month_data md, tbl_hospital h ")
 		    .append("		where md.countMonth = DATE_FORMAT(DATE_SUB(now(), INTERVAL 2 MONTH),'%Y-%m') " )
@@ -842,8 +819,6 @@ public class LsAttributes {
 		    .append("       , IFNULL(sum(other),0) as othernum ")
 		    //月报拆分
 		    .append(SQL_MONTHLY_NEW_COLUMN_LAST2_SELECT_inner)
-		    
-		    .append("       , sum(IFNULL(ped_emer_drugstore,0)+IFNULL(ped_emer_wh,0)+IFNULL(ped_room_drugstore,0)+IFNULL(ped_room_drugstore_wh,0)+IFNULL(res_clinic,0)+IFNULL(res_room,0)+IFNULL(other,0)) as totalnum ")
 		    .append("       , count(1) as innum ")
 			.append("       , (select count(1) from tbl_hospital h where h.isMonthlyAssessed='1') as hosnum ")
 		    .append("       from tbl_month_data md, tbl_hospital h ")
@@ -857,7 +832,6 @@ public class LsAttributes {
 		    .append("       , IFNULL(sum(other),0) as othernum ")
 		    //月报拆分
 		    .append(SQL_MONTHLY_NEW_COLUMN_LAST2_SELECT_inner)
-		    .append("       , sum(IFNULL(ped_emer_drugstore,0)+IFNULL(ped_emer_wh,0)+IFNULL(ped_room_drugstore,0)+IFNULL(ped_room_drugstore_wh,0)+IFNULL(res_clinic,0)+IFNULL(res_room,0)+IFNULL(other,0)) as totalnum ")
 		    .append("       , count(1) as innum ")
 			.append("       , (select count(1) from tbl_hospital h where h.isMonthlyAssessed='1') as hosnum ")
 		    .append("       from tbl_month_data md, tbl_hospital h ")
@@ -870,8 +844,7 @@ public class LsAttributes {
 		    .append(" , sum(md.resnum) as resnum")
 		    .append(" , sum(md.other) as other")
 		    //月报拆分
-		    .append(SQL_MONTHLY_NEW_COLUMN_LAST2_SELECT_inner)
-		    .append(" , sum(IFNULL(ped_emer_drugstore,0)+IFNULL(ped_emer_wh,0)+IFNULL(ped_room_drugstore,0)+IFNULL(ped_room_drugstore_wh,0)+IFNULL(res_clinic,0)+IFNULL(res_room,0)+IFNULL(other,0)) as totalnum ");
+		    .append(SQL_MONTHLY_NEW_COLUMN_LAST2_SELECT_inner);
     
     public static final StringBuffer SQL_MONTHLY_12_GROUP
     	= new StringBuffer(" group by dataMonth ")
