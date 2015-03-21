@@ -76,6 +76,14 @@ public class MonthlyRatioData {
 	private double pedRoomDrugStoreWhRateRatio;
 	
 	/**
+	 * 家庭雾化
+	 */
+	private double homeWh;
+	private double homeWhRate;
+	private double homeWhRatio;
+	private double homeWhRateRatio;
+	
+	/**
 	 * 呼吸科门诊
 	 */
 	private double resClinic;
@@ -408,5 +416,29 @@ public class MonthlyRatioData {
 	}
 	public void setResRoomRateRatio(double resRoomRateRatio) {
 		this.resRoomRateRatio = resRoomRateRatio;
+	}
+	public double getHomeWh() {
+		return homeWh;
+	}
+	public void setHomeWh(double homeWh) {
+		this.homeWh = homeWh;
+	}
+	public double getHomeWhRate() {
+		return homeWhRate;
+	}
+	public void setHomeWhRate(double homeWhRate) {
+		this.homeWhRate = homeWhRate;
+	}
+	public double getHomeWhRatio() {
+		return homeWhRatio;
+	}
+	public void setHomeWhRatio(double homeWhRatio) {
+		this.homeWhRatio = homeWhRatio;
+	}
+	public double getHomeWhRateRatio() {
+		return homeWhRateRatio;
+	}
+	public void setHomeWhRateRatio(double homeWhRateRatio) {
+		this.homeWhRateRatio = homeWhRateRatio;
 	}
 }

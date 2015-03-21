@@ -433,6 +433,7 @@ public class LsAttributes {
                     .append(", IFNULL(lastMonthData.ped_room_drugstore_wh,0) as ped_room_drugstore_wh ")
                     .append(", IFNULL(lastMonthData.res_clinic,0) as res_clinic ")
                     .append(", IFNULL(lastMonthData.res_room,0) as res_room ")
+                    .append(", IFNULL(lastMonthData.home_wh,0) as home_wh ")
                     //比例
                     .append(", ROUND(IFNULL(lastMonthData.ped_emer_drugstore/lastMonthData.totalnum,0),2) as pedEmerDtRate ")
                     .append(", ROUND(IFNULL(lastMonthData.ped_emer_wh/lastMonthData.totalnum,0),2) as pedEmerWhRate ")
@@ -440,6 +441,7 @@ public class LsAttributes {
                     .append(", ROUND(IFNULL(lastMonthData.ped_room_drugstore_wh/lastMonthData.totalnum,0),2) as pedRoomDtWhRate ")
                     .append(", ROUND(IFNULL(lastMonthData.res_clinic/lastMonthData.totalnum,0),2) as resClinicRate ")
                     .append(", ROUND(IFNULL(lastMonthData.res_room/lastMonthData.totalnum,0),2) as resRoomRate ")
+                    .append(", ROUND(IFNULL(lastMonthData.home_wh/lastMonthData.totalnum,0),2) as homeWhRate ")
                     //环比
                     .append(", ROUND(IFNULL((lastMonthData.ped_emer_drugstore-last2MonthData.ped_emer_drugstore)/last2MonthData.ped_emer_drugstore,0),2) as pedEmerDtRatio ")
                     .append(", ROUND(IFNULL((lastMonthData.ped_emer_wh-last2MonthData.ped_emer_wh)/last2MonthData.ped_emer_wh,0),2) as pedEmerWhRatio ")
@@ -447,13 +449,15 @@ public class LsAttributes {
                     .append(", ROUND(IFNULL((lastMonthData.ped_room_drugstore_wh-last2MonthData.ped_room_drugstore_wh)/last2MonthData.ped_room_drugstore_wh,0),2) as pedRoomDtWhRatio ")
                     .append(", ROUND(IFNULL((lastMonthData.res_clinic-last2MonthData.res_clinic)/last2MonthData.res_clinic,0),2) as resClinicRatio ")
                     .append(", ROUND(IFNULL((lastMonthData.res_room-last2MonthData.res_room)/last2MonthData.res_room,0),2) as resRoomRatio ")
+                    .append(", ROUND(IFNULL((lastMonthData.home_wh-last2MonthData.home_wh)/last2MonthData.home_wh,0),2) as homeWhRatio ")
                     //比例环比
                     .append(", ROUND(IFNULL(lastMonthData.ped_emer_drugstore/lastMonthData.totalnum - last2MonthData.ped_emer_drugstore/last2MonthData.totalnum,0),2) as pedEmerDtRateRatio ")
                     .append(", ROUND(IFNULL(lastMonthData.ped_emer_wh/lastMonthData.totalnum - last2MonthData.ped_emer_wh/last2MonthData.totalnum,0),2) as pedEmerWhRateRatio ")
                     .append(", ROUND(IFNULL(lastMonthData.ped_room_drugstore/lastMonthData.totalnum - last2MonthData.ped_room_drugstore/last2MonthData.totalnum,0),2) as pedRoomDtRateRatio ")
                     .append(", ROUND(IFNULL(lastMonthData.ped_room_drugstore_wh/lastMonthData.totalnum - last2MonthData.ped_room_drugstore_wh/last2MonthData.totalnum,0),2) as pedRoomDtWhRateRatio ")
                     .append(", ROUND(IFNULL(lastMonthData.res_clinic/lastMonthData.totalnum - last2MonthData.res_clinic/last2MonthData.totalnum,0),2) as resClinicRateRatio ")
-                    .append(", ROUND(IFNULL(lastMonthData.res_room/lastMonthData.totalnum - last2MonthData.res_room/last2MonthData.totalnum,0),2) as resRoomRateRatio ");
+                    .append(", ROUND(IFNULL(lastMonthData.res_room/lastMonthData.totalnum - last2MonthData.res_room/last2MonthData.totalnum,0),2) as resRoomRateRatio ")
+    				.append(", ROUND(IFNULL(lastMonthData.home_wh/lastMonthData.totalnum - last2MonthData.home_wh/last2MonthData.totalnum,0),2) as homeWhRateRatio ");
     
     private static final StringBuffer SQL_MONTHLY_NEW_COLUMN_LAST_SELECT_1 
     		= new StringBuffer(", lastMonth.ped_emer_drugstore ")
@@ -461,14 +465,16 @@ public class LsAttributes {
     				.append(", lastMonth.ped_room_drugstore ")
     				.append(", lastMonth.ped_room_drugstore_wh ")
     				.append(", lastMonth.res_clinic ")
-    				.append(", lastMonth.res_room ");
+    				.append(", lastMonth.res_room ")
+    				.append(", lastMonth.home_wh ");
     private static final StringBuffer SQL_MONTHLY_NEW_COLUMN_LAST2_SELECT_1 
 		    = new StringBuffer(", last2Month.ped_emer_drugstore ")
 				    .append(", last2Month.ped_emer_wh ")
 				    .append(", last2Month.ped_room_drugstore ")
 				    .append(", last2Month.ped_room_drugstore_wh ")
 				    .append(", last2Month.res_clinic ")
-				    .append(", last2Month.res_room ");
+				    .append(", last2Month.res_room ")
+				    .append(", last2Month.home_wh ");
     
     public static final StringBuffer SQL_MONTHLY_NEW_COLUMN_LAST2_SELECT_inner 
     		= new StringBuffer("       , IFNULL(sum(ped_emer_drugstore),0) as ped_emer_drugstore ")
@@ -477,7 +483,8 @@ public class LsAttributes {
 			    .append("       , IFNULL(sum(ped_room_drugstore_wh),0) as ped_room_drugstore_wh ")
 			    .append("       , IFNULL(sum(res_clinic),0) as res_clinic ")
 			    .append("       , IFNULL(sum(res_room),0) as res_room ")
-			    .append("       , sum(IFNULL(ped_emer_drugstore,0)+IFNULL(ped_room_drugstore,0)+IFNULL(res_clinic,0)+IFNULL(res_room,0)+IFNULL(other,0)) as totalnum");
+			    .append("       , IFNULL(sum(home_wh),0) as home_wh ")
+			    .append("       , sum(IFNULL(ped_emer_wh,0)+IFNULL(ped_room_drugstore_wh,0)+IFNULL(home_wh,0)+IFNULL(res_clinic,0)+IFNULL(res_room,0)+IFNULL(other,0)) as totalnum");
     
     public static final StringBuffer SQL_MONTHLY_NEW_COLUMN_SELECT
 		    = new StringBuffer(", ped_emer_drugstore ")
@@ -485,7 +492,8 @@ public class LsAttributes {
 				.append(", ped_room_drugstore ")
 				.append(", ped_room_drugstore_wh ")
 				.append(", res_clinic ")
-				.append(", res_room ");
+				.append(", res_room ")
+				.append(", home_wh ");
     
     
     public static final StringBuffer SQL_MONTHLY_NEW_COLUMN_RATE_SELECT
@@ -494,7 +502,8 @@ public class LsAttributes {
 			    .append(", ROUND(IFNULL(chooseMonth.ped_room_drugstore/chooseMonth.totalnum,0),2) as pedRoomDtRate ")
 			    .append(", ROUND(IFNULL(chooseMonth.ped_room_drugstore_wh/chooseMonth.totalnum,0),2) as pedRoomDtWhRate ")
 			    .append(", ROUND(IFNULL(chooseMonth.res_clinic/chooseMonth.totalnum,0),2) as resClinicRate ")
-			    .append(", ROUND(IFNULL(chooseMonth.res_room/chooseMonth.totalnum,0),2) as resRoomRate ");
+			    .append(", ROUND(IFNULL(chooseMonth.res_room/chooseMonth.totalnum,0),2) as resRoomRate ")
+			    .append(", ROUND(IFNULL(chooseMonth.home_wh/chooseMonth.totalnum,0),2) as homeWhRate ");
     
     public static final StringBuffer SQL_MONTHLY_RATIO_LASTMONTH_SELECT_REP
     		= new StringBuffer( "select lastMonth.pedEmernum ,lastMonth.pedroomnum ,lastMonth.resnum ,lastMonth.othernum ,lastMonth.totalnum " )

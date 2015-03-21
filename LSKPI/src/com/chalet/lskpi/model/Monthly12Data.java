@@ -38,6 +38,11 @@ public class Monthly12Data {
 	private double pedRoomDrugStoreWh;
 	
 	/**
+	 * 家庭雾化
+	 */
+	private double homeWh;
+	
+	/**
 	 * 呼吸科门诊
 	 */
 	private double resClinic;
@@ -130,5 +135,11 @@ public class Monthly12Data {
 	}
 	public void setResRoom(double resRoom) {
 		this.resRoom = resRoom;
+	}
+	public double getHomeWh() {
+		return homeWh;
+	}
+	public void setHomeWh(double homeWh) {
+		this.homeWh = homeWh;
 	}
 }

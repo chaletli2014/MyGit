@@ -78,43 +78,42 @@
                     <property name="nativeDataType">3</property>
                 </structure>
             </list-property>
-            <xml-property name="queryText"><![CDATA[select '儿科门急诊' as numType
-, IFNULL(sum(ped_emer_wh),0) as num
-from tbl_month_data md, tbl_hospital h 
-where md.countMonth = DATE_FORMAT(DATE_SUB(now(), INTERVAL 1 MONTH),'%Y-%m') 
-and md.hospitalCode = h.code 
-and h.isMonthlyAssessed='1'
-union all
-select '儿科病房' as numType
+            <xml-property name="queryText"><![CDATA[select '1.儿科病房' as numType
 , IFNULL(sum(ped_room_drugstore_wh),0) as num 
 from tbl_month_data md, tbl_hospital h 
 where md.countMonth = DATE_FORMAT(DATE_SUB(now(), INTERVAL 1 MONTH),'%Y-%m') 
 and md.hospitalCode = h.code 
 and h.isMonthlyAssessed='1'
 union all
-select '家庭雾化' as numType
-, ( ( IFNULL(sum(ped_room_drugstore),0) - IFNULL(sum(ped_room_drugstore_wh),0) )
-  + ( IFNULL(sum(ped_emer_drugstore),0) - IFNULL(sum(ped_emer_wh),0) ) ) as num 
+select '2.儿科门急诊' as numType
+, IFNULL(sum(ped_emer_wh),0) as num
 from tbl_month_data md, tbl_hospital h 
 where md.countMonth = DATE_FORMAT(DATE_SUB(now(), INTERVAL 1 MONTH),'%Y-%m') 
 and md.hospitalCode = h.code 
 and h.isMonthlyAssessed='1'
 union all
-select '呼吸科门急诊' as numType
-, IFNULL(sum(res_clinic),0) as num 
+select '3.家庭雾化' as numType
+, IFNULL(sum(home_wh),0) as num
 from tbl_month_data md, tbl_hospital h 
 where md.countMonth = DATE_FORMAT(DATE_SUB(now(), INTERVAL 1 MONTH),'%Y-%m') 
 and md.hospitalCode = h.code 
 and h.isMonthlyAssessed='1'
 union all
-select '呼吸科病房' as numType
+select '4.呼吸科病房' as numType
 , IFNULL(sum(res_room),0) as resnum 
 from tbl_month_data md, tbl_hospital h 
 where md.countMonth = DATE_FORMAT(DATE_SUB(now(), INTERVAL 1 MONTH),'%Y-%m') 
 and md.hospitalCode = h.code 
 and h.isMonthlyAssessed='1' 
 union all
-select '其他科室' as numType
+select '5.呼吸科门急诊' as numType
+, IFNULL(sum(res_clinic),0) as num 
+from tbl_month_data md, tbl_hospital h 
+where md.countMonth = DATE_FORMAT(DATE_SUB(now(), INTERVAL 1 MONTH),'%Y-%m') 
+and md.hospitalCode = h.code 
+and h.isMonthlyAssessed='1'
+union all
+select '6.其他科室' as numType
 , IFNULL(sum(other),0) as othernum  
 from tbl_month_data md, tbl_hospital h 
 where md.countMonth = DATE_FORMAT(DATE_SUB(now(), INTERVAL 1 MONTH),'%Y-%m') 

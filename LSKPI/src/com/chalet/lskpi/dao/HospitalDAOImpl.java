@@ -270,7 +270,7 @@ public class HospitalDAOImpl implements HospitalDAO {
 		logger.info(String.format("get the monthly data, month is %s, hospitalCode is %s", month, hospitalCode));
 		StringBuffer sql = new StringBuffer("");
 		sql.append(" select md.id, md.pedEmernum, md.pedroomnum, md.resnum, md.other, md.operatorName, md.operatorCode, md.hospitalCode,  h.region, h.rsmRegion, md.createdate ")
-			.append(" ,md.ped_emer_drugstore, md.ped_emer_wh, md.ped_room_drugstore, md.ped_room_drugstore_wh, md.res_clinic, md.res_room ")
+			.append(" ,md.ped_emer_drugstore, md.ped_emer_wh, md.ped_room_drugstore, md.ped_room_drugstore_wh, md.res_clinic, md.res_room, md.home_wh ")
 			.append(" ,h.dsmName, h.name as hospitalName ")
 			.append(" from tbl_month_data md, tbl_hospital h")
 			.append(" where md.hospitalCode = h.code ")
@@ -284,7 +284,7 @@ public class HospitalDAOImpl implements HospitalDAO {
 	        throws Exception {
 		StringBuffer sql = new StringBuffer("");
 		sql.append(" select md.id, md.pedEmernum, md.pedroomnum, md.resnum, md.other, md.operatorName, md.operatorCode, md.hospitalCode,  h.region, h.rsmRegion, md.createdate ")
-			.append(" ,md.ped_emer_drugstore, md.ped_emer_wh, md.ped_room_drugstore, md.ped_room_drugstore_wh, md.res_clinic, md.res_room ")
+			.append(" ,md.ped_emer_drugstore, md.ped_emer_wh, md.ped_room_drugstore, md.ped_room_drugstore_wh, md.res_clinic, md.res_room, md.home_wh ")
 			.append(" ,h.dsmName, h.name as hospitalName ")
 			.append(" from tbl_month_data md, tbl_hospital h")
 			.append(" where  md.hospitalCode = h.code")
@@ -306,6 +306,7 @@ public class HospitalDAOImpl implements HospitalDAO {
         .append(", ped_room_drugstore_wh=? ")
         .append(", res_clinic=? ")
         .append(", res_room=? ")
+        .append(", home_wh=? ")
         .append(" where id=? ");
         
         List<Object> paramList = new ArrayList<Object>();
@@ -321,6 +322,7 @@ public class HospitalDAOImpl implements HospitalDAO {
         paramList.add(monthlyData.getPedRoomDrugStoreWh());
         paramList.add(monthlyData.getResClinic());
         paramList.add(monthlyData.getResRoom());
+        paramList.add(monthlyData.getHomeWh());
         paramList.add(monthlyData.getId());
         
         dataBean.getJdbcTemplate().update(sql.toString(), paramList.toArray());
@@ -374,8 +376,8 @@ public class HospitalDAOImpl implements HospitalDAO {
 		insertSQL.append(" insert into tbl_month_data( ")
 		.append(" id,pedEmernum,pedroomnum,resnum,other ")
 		.append(" ,operatorName,operatorCode,hospitalCode,dsmCode,rsmRegion,region,createdate,updatedate,countMonth ")
-		.append(" ,ped_emer_drugstore, ped_emer_wh, ped_room_drugstore, ped_room_drugstore_wh, res_clinic, res_room) ")
-		.append(" values(null,?,?,?,?,?,?,?,?,?,?,?,now(),?,?,?,?,?,?,?) ");
+		.append(" ,ped_emer_drugstore, ped_emer_wh, ped_room_drugstore, ped_room_drugstore_wh, res_clinic, res_room, home_wh) ")
+		.append(" values(null,?,?,?,?,?,?,?,?,?,?,?,now(),?,?,?,?,?,?,?,?) ");
         KeyHolder keyHolder = new GeneratedKeyHolder();
         dataBean.getJdbcTemplate().update(new PreparedStatementCreator(){
             @Override
@@ -412,6 +414,7 @@ public class HospitalDAOImpl implements HospitalDAO {
                 ps.setDouble(16, monthlyData.getPedRoomDrugStoreWh());
                 ps.setDouble(17, monthlyData.getResClinic());
                 ps.setDouble(18, monthlyData.getResRoom());
+                ps.setDouble(19, monthlyData.getHomeWh());
                 
                 return ps;
             }

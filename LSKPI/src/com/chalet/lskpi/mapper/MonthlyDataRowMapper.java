@@ -30,6 +30,7 @@ public class MonthlyDataRowMapper implements RowMapper<MonthlyData>{
         monthlyData.setPedRoomDrugStoreWh(rs.getDouble("ped_room_drugstore_wh"));
         monthlyData.setResClinic(rs.getDouble("res_clinic"));
         monthlyData.setResRoom(rs.getDouble("res_room"));
+        monthlyData.setHomeWh(rs.getDouble("home_wh"));
         return monthlyData;
     }
     

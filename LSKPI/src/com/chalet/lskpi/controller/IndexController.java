@@ -207,6 +207,10 @@ public class IndexController extends BaseController{
         	 * 儿科病房药房雾化
         	 */
             double pedRoomDrugStoreWh = StringUtils.getDoubleFromString(request.getParameter("pedRoomDrugStoreWh"));
+            /**
+        	 * 家庭雾化
+        	 */
+            double homeWh = StringUtils.getDoubleFromString(request.getParameter("homeWh"));
         	/**
         	 * 呼吸科门诊
         	 */
@@ -238,6 +242,7 @@ public class IndexController extends BaseController{
                 monthlyData.setPedEmerWh(pedEmerWh);
                 monthlyData.setPedRoomDrugStore(pedRoomDrugStore);
                 monthlyData.setPedRoomDrugStoreWh(pedRoomDrugStoreWh);
+                monthlyData.setHomeWh(homeWh);
                 monthlyData.setResClinic(resClinic);
                 monthlyData.setResRoom(resRoom);
                 
@@ -272,6 +277,7 @@ public class IndexController extends BaseController{
                 	monthlyData.setPedEmerWh(pedEmerWh);
                 	monthlyData.setPedRoomDrugStore(pedRoomDrugStore);
                 	monthlyData.setPedRoomDrugStoreWh(pedRoomDrugStoreWh);
+                	monthlyData.setHomeWh(homeWh);
                 	monthlyData.setResClinic(resClinic);
                 	monthlyData.setResRoom(resRoom);
                     monthlyData.setOthernum(othernum);

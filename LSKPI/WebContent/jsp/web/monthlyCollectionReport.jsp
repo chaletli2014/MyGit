@@ -18,15 +18,14 @@
                 <div class="dailyReport_table_Title">${selfTitle}</div>
                 <table class="mobileReport_table">
                    <tr class="mobileReport_table_header">
-                      <td width="10%">姓名</td>
-                      <td width="12%">儿科门急诊药房发药量</td>
-                      <td width="13%">儿科门急诊雾化室使用量</td>
-                      <td width="12%">儿科病房药房发药量</td>
-                      <td width="13%">儿科病房药房雾化使用量</td>
-                      <td width="10%">呼吸科门诊</td>
-                      <td width="10%">呼吸科病房</td>
-                      <td width="10%">其他科室</td>
-                      <td width="10%">总袋数</td>
+                      <td width="15%">姓名</td>
+                      <td width="12%">儿科病房</td>
+                      <td width="12%">儿科门急诊</td>
+                      <td width="12%">家庭雾化</td>
+                      <td width="12%">呼吸科病房</td>
+                      <td width="12%">呼吸科门急诊</td>
+                      <td width="12%">其他科室</td>
+                      <td width="13%">总袋数</td>
                     </tr>
                    <c:forEach items="${monthlyRatioList}" var="monthlyRatio" varStatus="status">
                        <tr class="mobileReport_table_body <c:if test="${status.count%2==0}">mobileReport_tr_even</c:if>">
@@ -41,12 +40,11 @@
 	                              ${monthlyRatio.region}
 	                          </c:if>
                           </td>
-                          <td class="report_data_number" ><fmt:formatNumber value="${monthlyRatio.pedEmerDrugStore}" pattern="#,###"/></td>
-                          <td class="report_data_number" ><fmt:formatNumber value="${monthlyRatio.pedEmerWh}" pattern="#,###"/></td>
-                          <td class="report_data_number" ><fmt:formatNumber value="${monthlyRatio.pedRoomDrugStore}" pattern="#,###"/></td>
                           <td class="report_data_number" ><fmt:formatNumber value="${monthlyRatio.pedRoomDrugStoreWh}" pattern="#,###"/></td>
-                          <td class="report_data_number" ><fmt:formatNumber value="${monthlyRatio.resClinic}" pattern="#,###"/></td>
+                          <td class="report_data_number" ><fmt:formatNumber value="${monthlyRatio.pedEmerWh}" pattern="#,###"/></td>
+                          <td class="report_data_number" ><fmt:formatNumber value="${monthlyRatio.homeWh}" pattern="#,###"/></td>
                           <td class="report_data_number" ><fmt:formatNumber value="${monthlyRatio.resRoom}" pattern="#,###"/></td>
+                          <td class="report_data_number" ><fmt:formatNumber value="${monthlyRatio.resClinic}" pattern="#,###"/></td>
                           <td class="report_data_number" ><fmt:formatNumber value="${monthlyRatio.othernum}" pattern="#,###"/></td>
                           <td class="report_data_number" ><fmt:formatNumber value="${monthlyRatio.totalnum}" pattern="#,###"/></td>
                         </tr>
@@ -63,12 +61,11 @@
                                                     	全国
                           </c:if>
                      </td>
-                     <td class="report_data_number" ><fmt:formatNumber value="${superiorMonthlyRatio.pedEmerDrugStore}" pattern="#,###"/></td>
-                     <td class="report_data_number" ><fmt:formatNumber value="${superiorMonthlyRatio.pedEmerWh}" pattern="#,###"/></td>
-                     <td class="report_data_number" ><fmt:formatNumber value="${superiorMonthlyRatio.pedRoomDrugStore}" pattern="#,###"/></td>
                      <td class="report_data_number" ><fmt:formatNumber value="${superiorMonthlyRatio.pedRoomDrugStoreWh}" pattern="#,###"/></td>
-                     <td class="report_data_number" ><fmt:formatNumber value="${superiorMonthlyRatio.resClinic}" pattern="#,###"/></td>
+                     <td class="report_data_number" ><fmt:formatNumber value="${superiorMonthlyRatio.pedEmerWh}" pattern="#,###"/></td>
+                     <td class="report_data_number" ><fmt:formatNumber value="${superiorMonthlyRatio.homeWh}" pattern="#,###"/></td>
                      <td class="report_data_number" ><fmt:formatNumber value="${superiorMonthlyRatio.resRoom}" pattern="#,###"/></td>
+                     <td class="report_data_number" ><fmt:formatNumber value="${superiorMonthlyRatio.resClinic}" pattern="#,###"/></td>
                      <td class="report_data_number" ><fmt:formatNumber value="${superiorMonthlyRatio.othernum}" pattern="#,###"/></td>
                      <td class="report_data_number" ><fmt:formatNumber value="${superiorMonthlyRatio.totalnum}" pattern="#,###"/></td>
                    </tr>
@@ -76,16 +73,15 @@
                 <table class="mobileReport_table">
                    <tr class="mobileReport_table_header">
                       <td width="10%">姓名</td>
-                      <td width="10%">儿科门急诊药房发药量占比</td>
-                      <td width="10%">儿科门急诊雾化室使用量占比</td>
-                      <td width="10%">儿科病房药房发药量占比</td>
-                      <td width="10%">儿科病房药房雾化使用量占比</td>
-                      <td width="9%">呼吸科门诊占比</td>
-                      <td width="9%">呼吸科病房占比</td>
-                      <td width="8%">其他科室占比</td>
-                      <td width="8%">袋数上报率</td>
-                      <td width="8%">上报医院数</td>
-                      <td width="8%">负责医院数</td>
+                      <td width="10%">儿科病房占比</td>
+                      <td width="10%">儿科门急诊占比</td>
+                      <td width="10%">家庭雾化占比</td>
+                      <td width="10%">呼吸科病房占比</td>
+                      <td width="10%">呼吸科门急诊占比</td>
+                      <td width="10%">其他科室占比</td>
+                      <td width="10%">袋数上报率</td>
+                      <td width="10%">上报医院数</td>
+                      <td width="10%">负责医院数</td>
                     </tr>
                    <c:forEach items="${monthlyRatioList}" var="monthlyRatio" varStatus="status">
                        <tr class="mobileReport_table_body <c:if test="${status.count%2==0}">mobileReport_tr_even</c:if>">
@@ -100,12 +96,11 @@
 	                              ${monthlyRatio.region}
 	                          </c:if>
                           </td>
-                          <td class="report_data_number" ><fmt:formatNumber type="percent" value="${monthlyRatio.pedEmerDrugStoreRate}" pattern="#0%"/></td>
-                          <td class="report_data_number" ><fmt:formatNumber type="percent" value="${monthlyRatio.pedEmerWhRate}" pattern="#0%"/></td>
-                          <td class="report_data_number" ><fmt:formatNumber type="percent" value="${monthlyRatio.pedRoomDrugStoreRate}" pattern="#0%"/></td>
                           <td class="report_data_number" ><fmt:formatNumber type="percent" value="${monthlyRatio.pedRoomDrugStoreWhRate}" pattern="#0%"/></td>
-                          <td class="report_data_number" ><fmt:formatNumber type="percent" value="${monthlyRatio.resClinicRate}" pattern="#0%"/></td>
+                          <td class="report_data_number" ><fmt:formatNumber type="percent" value="${monthlyRatio.pedEmerWhRate}" pattern="#0%"/></td>
+                          <td class="report_data_number" ><fmt:formatNumber type="percent" value="${monthlyRatio.homeWhRate}" pattern="#0%"/></td>
                           <td class="report_data_number" ><fmt:formatNumber type="percent" value="${monthlyRatio.resRoomRate}" pattern="#0%"/></td>
+                          <td class="report_data_number" ><fmt:formatNumber type="percent" value="${monthlyRatio.resClinicRate}" pattern="#0%"/></td>
                           <td class="report_data_number" ><fmt:formatNumber type="percent" value="${monthlyRatio.othernumrate}" pattern="#0%"/></td>
                           <td class="report_data_number" ><fmt:formatNumber type="percent" value="${monthlyRatio.innum/monthlyRatio.hosnum}" pattern="#0%"/></td>
                        	  <td class="report_data_number" ><fmt:formatNumber value="${monthlyRatio.innum}" pattern="#,###"/></td>
@@ -124,12 +119,11 @@
                                                     	全国
                           </c:if>
                      </td>
-                     <td class="report_data_number" ><fmt:formatNumber type="percent" value="${superiorMonthlyRatio.pedEmerDrugStoreRate}" pattern="#0%"/></td>
-                     <td class="report_data_number" ><fmt:formatNumber type="percent" value="${superiorMonthlyRatio.pedEmerWhRate}" pattern="#0%"/></td>
-                     <td class="report_data_number" ><fmt:formatNumber type="percent" value="${superiorMonthlyRatio.pedRoomDrugStoreRate}" pattern="#0%"/></td>
                      <td class="report_data_number" ><fmt:formatNumber type="percent" value="${superiorMonthlyRatio.pedRoomDrugStoreWhRate}" pattern="#0%"/></td>
-                     <td class="report_data_number" ><fmt:formatNumber type="percent" value="${superiorMonthlyRatio.resClinicRate}" pattern="#0%"/></td>
+                     <td class="report_data_number" ><fmt:formatNumber type="percent" value="${superiorMonthlyRatio.pedEmerWhRate}" pattern="#0%"/></td>
+                     <td class="report_data_number" ><fmt:formatNumber type="percent" value="${superiorMonthlyRatio.homeWhRate}" pattern="#0%"/></td>
                      <td class="report_data_number" ><fmt:formatNumber type="percent" value="${superiorMonthlyRatio.resRoomRate}" pattern="#0%"/></td>
+                     <td class="report_data_number" ><fmt:formatNumber type="percent" value="${superiorMonthlyRatio.resClinicRate}" pattern="#0%"/></td>
                      <td class="report_data_number" ><fmt:formatNumber type="percent" value="${superiorMonthlyRatio.othernumrate}" pattern="#0%"/></td>
                      <td class="report_data_number" ><fmt:formatNumber type="percent" value="${superiorMonthlyRatio.innum/superiorMonthlyRatio.hosnum}" pattern="#0%"/></td>
                      <td class="report_data_number" ><fmt:formatNumber value="${superiorMonthlyRatio.innum}" pattern="#,###"/></td>

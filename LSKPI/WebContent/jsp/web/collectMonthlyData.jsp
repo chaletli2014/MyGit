@@ -19,10 +19,10 @@ function submitForm(){
     }
 }
 function checkForm(){
-	if( !isDouble($("#pedEmerDrugStore"),$("#pedEmerWh"),$("#pedRoomDrugStore"),$("#pedRoomDrugStoreWh"),$("#resClinic"),$("#resRoom"),$("#othernum"))  ){
+	if( !isDouble($("#pedEmerWh"),$("#pedRoomDrugStoreWh"),$("#homeWh"),$("#resClinic"),$("#resRoom"),$("#othernum"))  ){
         return false;
 	}
-	
+	/**
 	if(!obj1ltobj2("pedEmerDrugStore","pedEmerWh")){
 		return false;
 	}
@@ -30,6 +30,7 @@ function checkForm(){
 	if(!obj1ltobj2("pedRoomDrugStore","pedRoomDrugStoreWh")){
 		return false;
 	}
+	*/
     return true;
 }
 </script>
@@ -69,22 +70,26 @@ function checkForm(){
                     <label for="resnum" id="resnum_label">呼吸科</label>
                     <input type="number" name="resnum" id="resnum" value="${existedData.resnum}"/>
                 </div>
-                 --%>
                	<div data-role="fieldcontain" class="formCollection">
                     <label for="pedEmerDrugStore" id="pedEmerDrugStore_label">儿科门急诊药房发药量</label>
                     <input type="number" name="pedEmerDrugStore" id="pedEmerDrugStore" value="${existedData.pedEmerDrugStore}"/>
-                </div>
-              	<div data-role="fieldcontain">
-                   <label for="pedEmerWh" id="pedEmerWh_label">儿科门急诊雾化室使用量</label>
-                   <input type="number" name="pedEmerWh" id="pedEmerWh" value="${existedData.pedEmerWh}"/>
                 </div>
                 <div data-role="fieldcontain" spellcheck="true">
                     <label for="pedRoomDrugStore" id="pedRoomDrugStore_label">儿科病房药房发药量</label>
                     <input type="number" name="pedRoomDrugStore" id="pedRoomDrugStore" value="${existedData.pedRoomDrugStore}"/>
                 </div>
+                 --%>
+              	<div data-role="fieldcontain">
+                   <label for="pedEmerWh" id="pedEmerWh_label">儿科门急诊雾化室使用量</label>
+                   <input type="number" name="pedEmerWh" id="pedEmerWh" value="${existedData.pedEmerWh}"/>
+                </div>
                 <div data-role="fieldcontain" spellcheck="true">
                     <label for="pedRoomDrugStoreWh" id="pedRoomDrugStoreWh_label">儿科病房药房雾化使用量</label>
                     <input type="number" name="pedRoomDrugStoreWh" id="pedRoomDrugStoreWh" value="${existedData.pedRoomDrugStoreWh}"/>
+                </div>
+                <div data-role="fieldcontain" spellcheck="true">
+                    <label for="homeWh" id="homeWh_label">家庭雾化使用量</label>
+                    <input type="number" name="homeWh" id="homeWh" value="${existedData.homeWh}"/>
                 </div>
                 <div data-role="fieldcontain" spellcheck="true">
                     <label for="resClinic" id="resClinic_label">呼吸科（+普内科+ 老干科等）门急诊</label>

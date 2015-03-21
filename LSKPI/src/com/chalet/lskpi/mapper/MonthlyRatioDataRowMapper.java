@@ -44,6 +44,11 @@ public class MonthlyRatioDataRowMapper implements RowMapper<MonthlyRatioData>{
         monthlyRatioData.setPedRoomDrugStoreWhRatio(rs.getDouble("pedRoomDtWhRatio"));
         monthlyRatioData.setPedRoomDrugStoreWhRateRatio(rs.getDouble("pedRoomDtWhRateRatio"));
         
+        monthlyRatioData.setHomeWh(rs.getDouble("home_wh"));
+        monthlyRatioData.setHomeWhRate(rs.getDouble("homeWhRate"));
+        monthlyRatioData.setHomeWhRatio(rs.getDouble("homeWhRatio"));
+        monthlyRatioData.setHomeWhRateRatio(rs.getDouble("homeWhRateRatio"));
+        
         monthlyRatioData.setResClinic(rs.getDouble("res_clinic"));
         monthlyRatioData.setResClinicRate(rs.getDouble("resClinicRate"));
         monthlyRatioData.setResClinicRatio(rs.getDouble("resClinicRatio"));
