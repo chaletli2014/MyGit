@@ -1,5 +1,6 @@
 package com.chalet.lskpi.service;
 
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
@@ -215,7 +216,7 @@ public class ChestSurgeryServiceImpl implements ChestSurgeryService {
     }
 
     @Cacheable(value="getTopAndBottomRSMData_CHE")
-    public TopAndBottomRSMData getTopAndBottomRSMData() throws Exception {
+    public TopAndBottomRSMData getTopAndBottomRSMData(Timestamp paramDate) throws Exception {
         return chestSurgeryDAO.getTopAndBottomRSMData();
     }
     

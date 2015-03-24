@@ -1,5 +1,6 @@
 package com.chalet.lskpi.service;
 
+import java.sql.Timestamp;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
@@ -38,7 +39,7 @@ public interface PediatricsService {
 	public TopAndBottomRSMData getTopAndBottomWhRateRSMData(String telephone) throws Exception;
 	public TopAndBottomRSMData getTopAndBottomAverageRSMData(String telephone) throws Exception;
 	
-	public TopAndBottomRSMData getTopAndBottomRSMData() throws Exception;
+	public TopAndBottomRSMData getTopAndBottomRSMData(Timestamp paramDate) throws Exception;
 	
 	public ReportProcessData getSalesSelfReportProcessPEDData(String telephone) throws Exception;
     public List<ReportProcessDataDetail> getSalesSelfReportProcessPEDDetailData(String telephone) throws Exception;
@@ -59,7 +60,7 @@ public interface PediatricsService {
     public void generateWeeklyPEDDataOfHospital(Date refreshDate) throws Exception;
     public boolean hasLastWeeklyPEDData() throws Exception;
     
-    public List<MobilePEDDailyData> getDailyPEDData4MobileByRegion(String region) throws Exception;
+    public List<MobilePEDDailyData> getDailyPEDData4MobileByRegion(Timestamp paramDate, String region) throws Exception;
     
     public List<MonthlyStatisticsData> getMonthlyStatisticsData(String beginDuraion, String endDuraion, String level) throws Exception;
     public MonthlyStatisticsData getMonthlyStatisticsCountryData(String beginDuraion, String endDuraion) throws Exception;

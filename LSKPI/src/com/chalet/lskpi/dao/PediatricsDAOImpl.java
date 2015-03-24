@@ -1101,11 +1101,8 @@ public class PediatricsDAOImpl implements PediatricsDAO {
     }
 
     @Cacheable(value="getDailyPEDData4CountoryMobile")
-    public MobilePEDDailyData getDailyPEDData4CountoryMobile() throws Exception {
+    public MobilePEDDailyData getDailyPEDData4CountoryMobile(Timestamp paramDate) throws Exception {
         StringBuffer mobilePEDDailySQL = new StringBuffer();
-        
-        Date date = new Date();
-        Timestamp paramDate = new Timestamp(DateUtils.populateParamDate(date).getTime());
         
         mobilePEDDailySQL.append("select '全国' as name,null as userCode,")
             .append(" '' as regionCenterCN, ")
@@ -1190,12 +1187,9 @@ public class PediatricsDAOImpl implements PediatricsDAO {
 
 	@Override
 	@Cacheable(value="getDailyPEDData4RSDMobile")
-	public List<MobilePEDDailyData> getDailyPEDData4RSDMobile() throws Exception {
+	public List<MobilePEDDailyData> getDailyPEDData4RSDMobile(Timestamp paramDate) throws Exception {
 		StringBuffer mobilePEDDailySQL = new StringBuffer();
 	    
-        Date date = new Date();
-        Timestamp paramDate = new Timestamp(DateUtils.populateParamDate(date).getTime());
-		
 	    mobilePEDDailySQL.append("select ( select distinct property_value from tbl_property where property_name = ui.regionCenter ) as name,ui.userCode,")
 	        .append(" (select distinct property_value from tbl_property where property_name=ui.regionCenter ) as regionCenterCN, ")
 	        .append(" ( select count(1) from tbl_hospital h ")
@@ -1297,11 +1291,8 @@ public class PediatricsDAOImpl implements PediatricsDAO {
 	}
 	
 	@Cacheable(value="getDailyPEDWhPortData4CountoryMobile")
-	public MobilePEDDailyData getDailyPEDWhPortData4CountoryMobile() throws Exception {
+	public MobilePEDDailyData getDailyPEDWhPortData4CountoryMobile(Timestamp paramDate) throws Exception {
 		StringBuffer mobilePEDDailySQL = new StringBuffer();
-		
-		Date date = new Date();
-		Timestamp paramDate = new Timestamp(DateUtils.populateParamDate(date).getTime());
 		
 		mobilePEDDailySQL.append("select null as userCode,")
 		.append(" IFNULL(sum(pd.lsnum),0) as lsnum, ")
@@ -1377,11 +1368,8 @@ public class PediatricsDAOImpl implements PediatricsDAO {
 	
 	@Override
 	@Cacheable(value="getDailyPEDWhPortData4RSDMobile")
-	public List<MobilePEDDailyData> getDailyPEDWhPortData4RSDMobile() throws Exception {
+	public List<MobilePEDDailyData> getDailyPEDWhPortData4RSDMobile(Timestamp paramDate) throws Exception {
 		StringBuffer mobilePEDDailySQL = new StringBuffer();
-		
-		Date date = new Date();
-		Timestamp paramDate = new Timestamp(DateUtils.populateParamDate(date).getTime());
 		
 		mobilePEDDailySQL.append("select ui.userCode,")
 	    .append(" IFNULL(dailyData.lsnum,0) as lsnum,  ")
@@ -1517,11 +1505,8 @@ public class PediatricsDAOImpl implements PediatricsDAO {
 	}
 	
 	@Cacheable(value="getDailyCorePEDData4CountoryMobile")
-	public MobilePEDDailyData getDailyCorePEDData4CountoryMobile() throws Exception {
+	public MobilePEDDailyData getDailyCorePEDData4CountoryMobile(Timestamp paramDate) throws Exception {
 		StringBuffer mobilePEDDailySQL = new StringBuffer();
-		
-		Date date = new Date();
-		Timestamp paramDate = new Timestamp(DateUtils.populateParamDate(date).getTime());
 		
 		mobilePEDDailySQL.append("select null as userCode,")
 		.append(" (select count(1) from tbl_hospital h ")
@@ -1543,11 +1528,8 @@ public class PediatricsDAOImpl implements PediatricsDAO {
 	}
 	
 	@Cacheable(value="getDailyEmergingPEDData4CountoryMobile")
-	public MobilePEDDailyData getDailyEmergingPEDData4CountoryMobile() throws Exception {
+	public MobilePEDDailyData getDailyEmergingPEDData4CountoryMobile(Timestamp paramDate) throws Exception {
 		StringBuffer mobilePEDDailySQL = new StringBuffer();
-		
-		Date date = new Date();
-		Timestamp paramDate = new Timestamp(DateUtils.populateParamDate(date).getTime());
 		
 		mobilePEDDailySQL.append("select '' as userCode, IFNULL(sum(ped.pnum),0) as emergingPNum,IFNULL(sum(ped.lsnum),0) as emergingLsNum ")
 		.append("   from tbl_pediatrics_data ped, tbl_hospital h ")
@@ -1699,11 +1681,8 @@ public class PediatricsDAOImpl implements PediatricsDAO {
 	
 	@Override
 	@Cacheable(value="getDailyCorePEDData4RSDMobile")
-	public List<MobilePEDDailyData> getDailyCorePEDData4RSDMobile() throws Exception {
+	public List<MobilePEDDailyData> getDailyCorePEDData4RSDMobile(Timestamp paramDate) throws Exception {
 		StringBuffer mobilePEDDailySQL = new StringBuffer();
-		
-		Date date = new Date();
-		Timestamp paramDate = new Timestamp(DateUtils.populateParamDate(date).getTime());
 		
 		mobilePEDDailySQL.append("select ui.userCode,")
 		.append(" ( select count(1) from tbl_hospital h ")
@@ -1736,11 +1715,8 @@ public class PediatricsDAOImpl implements PediatricsDAO {
 	
 	@Override
 	@Cacheable(value="getDailyEmergingPEDData4RSDMobile")
-	public List<MobilePEDDailyData> getDailyEmergingPEDData4RSDMobile() throws Exception {
+	public List<MobilePEDDailyData> getDailyEmergingPEDData4RSDMobile(Timestamp paramDate) throws Exception {
 		StringBuffer mobilePEDDailySQL = new StringBuffer();
-		
-		Date date = new Date();
-		Timestamp paramDate = new Timestamp(DateUtils.populateParamDate(date).getTime());
 		
 		mobilePEDDailySQL.append("select ui.userCode ")
 		.append(" ,IFNULL(dailyData.pnum,0) as emergingPNum ")

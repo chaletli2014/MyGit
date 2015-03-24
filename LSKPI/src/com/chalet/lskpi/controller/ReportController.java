@@ -3,6 +3,7 @@ package com.chalet.lskpi.controller;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -1434,6 +1435,9 @@ public class ReportController extends BaseController{
         }
         
         try{
+        	Date date = new Date();
+    	    Timestamp paramDate = new Timestamp(DateUtils.populateParamDate(date).getTime());
+    	    
             String telephone = (String)request.getSession().getAttribute(LsAttributes.CURRENT_OPERATOR);
             logger.info("daily PED report, the current user is " + telephone);
             
@@ -1452,7 +1456,7 @@ public class ReportController extends BaseController{
                 List<String> allRegionCenters = userService.getAllRegionName();
                 List<List<MobilePEDDailyData>> allRSMMobilePEDData = new ArrayList<List<MobilePEDDailyData>>();
                 for( String regionCenter : allRegionCenters ){
-                    List<MobilePEDDailyData> mobilePEDRSMData = pediatricsService.getDailyPEDData4MobileByRegion(regionCenter);
+                    List<MobilePEDDailyData> mobilePEDRSMData = pediatricsService.getDailyPEDData4MobileByRegion(paramDate,regionCenter);
                     logger.info(String.format("get daily ped data of %s RSM end...", regionCenter));
                     allRSMMobilePEDData.add(mobilePEDRSMData);
                 }
@@ -1469,7 +1473,8 @@ public class ReportController extends BaseController{
             if( LsAttributes.USER_LEVEL_BM.equalsIgnoreCase(currentUser.getLevel())
                     || LsAttributes.USER_LEVEL_RSD.equalsIgnoreCase(currentUser.getLevel())
                     || LsAttributes.USER_LEVEL_RSM.equalsIgnoreCase(currentUser.getLevel())){
-                TopAndBottomRSMData rsmData = pediatricsService.getTopAndBottomRSMData();
+            	
+                TopAndBottomRSMData rsmData = pediatricsService.getTopAndBottomRSMData(paramDate);
                 view.addObject("rsmData", rsmData);
                 logger.info("get the top and bottom rsm data end...");
             }
@@ -1533,7 +1538,11 @@ public class ReportController extends BaseController{
             if( LsAttributes.USER_LEVEL_BM.equalsIgnoreCase(currentUser.getLevel())
                     || LsAttributes.USER_LEVEL_RSD.equalsIgnoreCase(currentUser.getLevel())
                     || LsAttributes.USER_LEVEL_RSM.equalsIgnoreCase(currentUser.getLevel())){
-                TopAndBottomRSMData rsmData = respirologyService.getTopAndBottomRSMData();
+            	
+            	Date date = new Date();
+        	    Timestamp paramDate = new Timestamp(DateUtils.populateParamDate(date).getTime());
+        	    
+                TopAndBottomRSMData rsmData = respirologyService.getTopAndBottomRSMData(paramDate);
                 view.addObject("rsmData", rsmData);
             }
             
@@ -1596,7 +1605,11 @@ public class ReportController extends BaseController{
             if( LsAttributes.USER_LEVEL_BM.equalsIgnoreCase(currentUser.getLevel())
                     || LsAttributes.USER_LEVEL_RSD.equalsIgnoreCase(currentUser.getLevel())
                     || LsAttributes.USER_LEVEL_RSM.equalsIgnoreCase(currentUser.getLevel())){
-                TopAndBottomRSMData rsmData = chestSurgeryService.getTopAndBottomRSMData();
+            	
+            	Date date = new Date();
+        	    Timestamp paramDate = new Timestamp(DateUtils.populateParamDate(date).getTime());
+            	
+                TopAndBottomRSMData rsmData = chestSurgeryService.getTopAndBottomRSMData(paramDate);
                 logger.info("get daily top and bottom rsm data end...");
                 view.addObject("rsmData", rsmData);
             }

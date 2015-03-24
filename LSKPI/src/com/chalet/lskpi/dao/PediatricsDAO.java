@@ -1,5 +1,6 @@
 package com.chalet.lskpi.dao;
 
+import java.sql.Timestamp;
 import java.util.Date;
 import java.util.List;
 
@@ -31,39 +32,39 @@ public interface PediatricsDAO {
 	public void insert(PediatricsData pediatricsData, String dsmCode) throws Exception;
 	public void update(PediatricsData pediatricsData, UserInfo operator) throws Exception;
 	
-	public MobilePEDDailyData getDailyPEDData4CountoryMobile()throws Exception;
+	public MobilePEDDailyData getDailyPEDData4CountoryMobile(Timestamp paramDate)throws Exception;
 	public List<MobilePEDDailyData> getDailyPEDData4RSMByRegion(String region) throws Exception;
 	public List<MobilePEDDailyData> getDailyPEDData4DSMMobile( String telephone ) throws Exception;
 	public List<MobilePEDDailyData> getDailyPEDData4RSMMobile( String telephone ) throws Exception;
-	public List<MobilePEDDailyData> getDailyPEDData4RSDMobile() throws Exception;
+	public List<MobilePEDDailyData> getDailyPEDData4RSDMobile(Timestamp paramDate) throws Exception;
 	public List<MobilePEDDailyData> getDailyPEDChildData4DSMMobile( String telephone ) throws Exception;
 	public List<MobilePEDDailyData> getDailyPEDChildData4RSMMobile( String telephone ) throws Exception;
 	public List<MobilePEDDailyData> getDailyPEDChildData4RSDMobile( String telephone ) throws Exception;
 	
-	public MobilePEDDailyData getDailyPEDWhPortData4CountoryMobile()throws Exception;
+	public MobilePEDDailyData getDailyPEDWhPortData4CountoryMobile(Timestamp paramDate)throws Exception;
 	public List<MobilePEDDailyData> getDailyPEDWhPortData4RSMByRegion(String region) throws Exception;
 	public List<MobilePEDDailyData> getDailyPEDWhPortData4DSMMobile( String telephone ) throws Exception;
 	public List<MobilePEDDailyData> getDailyPEDWhPortData4RSMMobile( String telephone ) throws Exception;
-	public List<MobilePEDDailyData> getDailyPEDWhPortData4RSDMobile() throws Exception;
+	public List<MobilePEDDailyData> getDailyPEDWhPortData4RSDMobile(Timestamp paramDate) throws Exception;
 	public List<MobilePEDDailyData> getDailyPEDWhPortChildData4DSMMobile( String telephone ) throws Exception;
 	public List<MobilePEDDailyData> getDailyPEDWhPortChildData4RSMMobile( String telephone ) throws Exception;
 	public List<MobilePEDDailyData> getDailyPEDWhPortChildData4RSDMobile( String telephone ) throws Exception;
 	
-	public MobilePEDDailyData getDailyCorePEDData4CountoryMobile()throws Exception;
+	public MobilePEDDailyData getDailyCorePEDData4CountoryMobile(Timestamp paramDate)throws Exception;
 	public List<MobilePEDDailyData> getDailyCorePEDData4RSMByRegion(String region) throws Exception;
 	public List<MobilePEDDailyData> getDailyCorePEDData4DSMMobile( String telephone ) throws Exception;
 	public List<MobilePEDDailyData> getDailyCorePEDData4RSMMobile( String telephone ) throws Exception;
-	public List<MobilePEDDailyData> getDailyCorePEDData4RSDMobile() throws Exception;
+	public List<MobilePEDDailyData> getDailyCorePEDData4RSDMobile(Timestamp paramDate) throws Exception;
 	public List<MobilePEDDailyData> getDailyCorePEDChildData4DSMMobile( String telephone ) throws Exception;
 	public List<MobilePEDDailyData> getDailyCorePEDChildData4RSMMobile( String telephone ) throws Exception;
 	public List<MobilePEDDailyData> getDailyCorePEDChildData4RSDMobile( String telephone ) throws Exception;
 	
-	public MobilePEDDailyData getDailyEmergingPEDData4CountoryMobile()throws Exception;
+	public MobilePEDDailyData getDailyEmergingPEDData4CountoryMobile(Timestamp paramDate)throws Exception;
 	public List<MobilePEDDailyData> getDailyEmergingPEDData4RSMByRegion(String region) throws Exception;
 	
 	public List<MobilePEDDailyData> getDailyEmergingPEDData4DSMMobile( String telephone ) throws Exception;
 	public List<MobilePEDDailyData> getDailyEmergingPEDData4RSMMobile( String telephone ) throws Exception;
-	public List<MobilePEDDailyData> getDailyEmergingPEDData4RSDMobile() throws Exception;
+	public List<MobilePEDDailyData> getDailyEmergingPEDData4RSDMobile(Timestamp paramDate) throws Exception;
 	
 	public List<MobilePEDDailyData> getDailyEmergingPEDChildData4DSMMobile( String telephone ) throws Exception;
 	public List<MobilePEDDailyData> getDailyEmergingPEDChildData4RSMMobile( String telephone ) throws Exception;

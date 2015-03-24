@@ -1,5 +1,6 @@
 package com.chalet.lskpi.service;
 
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
@@ -31,6 +32,7 @@ import com.chalet.lskpi.model.ReportProcessDataDetail;
 import com.chalet.lskpi.model.TopAndBottomRSMData;
 import com.chalet.lskpi.model.UserInfo;
 import com.chalet.lskpi.model.WeeklyRatioData;
+import com.chalet.lskpi.utils.DateUtils;
 import com.chalet.lskpi.utils.LsAttributes;
 
 /**
@@ -60,19 +62,22 @@ public class PediatricsServiceImpl implements PediatricsService {
     public MobilePEDDailyData getDailyPEDParentData4Mobile(String telephone, String level) throws Exception {
         MobilePEDDailyData mpd = new MobilePEDDailyData();
         
+        Date date = new Date();
+        Timestamp paramDate = new Timestamp(DateUtils.populateParamDate(date).getTime());
+        
         switch (level) {
             case LsAttributes.USER_LEVEL_BM:
             	
             	MobilePEDDailyData pedCoreData = new MobilePEDDailyData();
-        		pedCoreData = pediatricsDAO.getDailyCorePEDData4CountoryMobile();
+        		pedCoreData = pediatricsDAO.getDailyCorePEDData4CountoryMobile(paramDate);
         		
         		MobilePEDDailyData pedEmergingData = new MobilePEDDailyData();
-        		pedEmergingData = pediatricsDAO.getDailyEmergingPEDData4CountoryMobile();
+        		pedEmergingData = pediatricsDAO.getDailyEmergingPEDData4CountoryMobile(paramDate);
         		
         		MobilePEDDailyData pedWhPortData = new MobilePEDDailyData();
-        		pedWhPortData = pediatricsDAO.getDailyPEDWhPortData4CountoryMobile();
+        		pedWhPortData = pediatricsDAO.getDailyPEDWhPortData4CountoryMobile(paramDate);
             	
-                mpd = pediatricsDAO.getDailyPEDData4CountoryMobile();
+                mpd = pediatricsDAO.getDailyPEDData4CountoryMobile(paramDate);
                 logger.info(String.format("end to get the ped daily data of the country, current telephone is %s", telephone));
                 List<RateElement> rates = new ArrayList<RateElement>();
                 RateElement re1 = new RateElement("ped");
@@ -272,7 +277,7 @@ public class PediatricsServiceImpl implements PediatricsService {
 	}
 
 	@Cacheable(value="getDailyPEDData4MobileByRegion")
-	public List<MobilePEDDailyData> getDailyPEDData4MobileByRegion(String region) throws Exception{
+	public List<MobilePEDDailyData> getDailyPEDData4MobileByRegion(Timestamp paramDate,String region) throws Exception{
     	List<MobilePEDDailyData> pedDatas = new ArrayList<MobilePEDDailyData>();
 		pedDatas = pediatricsDAO.getDailyPEDData4RSMByRegion(region);
 		
@@ -354,7 +359,8 @@ public class PediatricsServiceImpl implements PediatricsService {
 		List<MobilePEDDailyData> pedWhPortData = new ArrayList<MobilePEDDailyData>();
 		Map<String,Double> pedWhPortMap = new HashMap<String,Double>();
 		
-
+		Date date = new Date();
+		Timestamp paramDate = new Timestamp(DateUtils.populateParamDate(date).getTime());
     	
     	if( LsAttributes.USER_LEVEL_DSM.equalsIgnoreCase(currentUser.getLevel()) ){
     		pedDatas = pediatricsDAO.getDailyPEDData4DSMMobile(telephone);
@@ -368,10 +374,10 @@ public class PediatricsServiceImpl implements PediatricsService {
     		pedWhPortData = pediatricsDAO.getDailyPEDWhPortData4RSMMobile(telephone);
     	}else if( LsAttributes.USER_LEVEL_RSD.equalsIgnoreCase(currentUser.getLevel()) 
     			|| LsAttributes.USER_LEVEL_BM.equalsIgnoreCase(currentUser.getLevel()) ){
-    		pedDatas = pediatricsDAO.getDailyPEDData4RSDMobile();
-    		pedCoreData = pediatricsDAO.getDailyCorePEDData4RSDMobile();
-    		pedEmergingData = pediatricsDAO.getDailyEmergingPEDData4RSDMobile();
-    		pedWhPortData = pediatricsDAO.getDailyPEDWhPortData4RSDMobile();
+    		pedDatas = pediatricsDAO.getDailyPEDData4RSDMobile(paramDate);
+    		pedCoreData = pediatricsDAO.getDailyCorePEDData4RSDMobile(paramDate);
+    		pedEmergingData = pediatricsDAO.getDailyEmergingPEDData4RSDMobile(paramDate);
+    		pedWhPortData = pediatricsDAO.getDailyPEDWhPortData4RSDMobile(paramDate);
     	}
     	
     	for( MobilePEDDailyData pedCore : pedCoreData ){
@@ -535,7 +541,7 @@ public class PediatricsServiceImpl implements PediatricsService {
     
 	@Override
 	@Cacheable(value="getTopAndBottomRSMData")
-	public TopAndBottomRSMData getTopAndBottomRSMData() throws Exception {
+	public TopAndBottomRSMData getTopAndBottomRSMData(Timestamp paramDate) throws Exception {
 		TopAndBottomRSMData topAndBottomRSMData = new TopAndBottomRSMData();
 		
 		topAndBottomRSMData = pediatricsDAO.getTopAndBottomInRateRSMData(topAndBottomRSMData);

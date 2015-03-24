@@ -1,5 +1,6 @@
 package com.chalet.lskpi.service;
 
+import java.sql.Timestamp;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
@@ -30,7 +31,7 @@ public interface ChestSurgeryService {
     
     public List<MobileCHEDailyData> getDailyCHEData4MobileByRegionCenter(String regionCenter) throws Exception;
     
-    public TopAndBottomRSMData getTopAndBottomRSMData() throws Exception;
+    public TopAndBottomRSMData getTopAndBottomRSMData(Timestamp paramDate) throws Exception;
     
 
 	public ReportProcessData getSalesSelfReportProcessData(String telephone) throws Exception;

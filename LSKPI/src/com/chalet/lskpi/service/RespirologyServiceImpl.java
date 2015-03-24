@@ -1,5 +1,6 @@
 package com.chalet.lskpi.service;
 
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
@@ -477,7 +478,7 @@ public class RespirologyServiceImpl implements RespirologyService {
 	
 	@Override
 	@Cacheable(value="getTopAndBottomRSMData_RES")
-	public TopAndBottomRSMData getTopAndBottomRSMData() throws Exception {
+	public TopAndBottomRSMData getTopAndBottomRSMData(Timestamp paramDate) throws Exception {
 		return respirologyDAO.getTopAndBottomRSMData();
 	}
 
