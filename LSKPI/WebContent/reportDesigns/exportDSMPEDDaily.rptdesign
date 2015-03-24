@@ -89,7 +89,98 @@ new Date(currentDate.getFullYear(),month,currentDate.getDate());</value>
                     </list-property>
                 </structure>
             </list-property>
-            <list-property name="columnHints"/>
+            <list-property name="columnHints">
+                <structure>
+                    <property name="columnName">name</property>
+                    <property name="analysis">dimension</property>
+                    <text-property name="displayName">name</text-property>
+                    <text-property name="heading">name</text-property>
+                </structure>
+                <structure>
+                    <property name="columnName">userCode</property>
+                    <property name="analysis">dimension</property>
+                    <text-property name="displayName">userCode</text-property>
+                    <text-property name="heading">userCode</text-property>
+                </structure>
+                <structure>
+                    <property name="columnName">regionCenter</property>
+                    <property name="analysis">dimension</property>
+                    <text-property name="displayName">regionCenter</text-property>
+                    <text-property name="heading">regionCenter</text-property>
+                </structure>
+                <structure>
+                    <property name="columnName">region</property>
+                    <property name="analysis">dimension</property>
+                    <text-property name="displayName">region</text-property>
+                    <text-property name="heading">region</text-property>
+                </structure>
+                <structure>
+                    <property name="columnName">level</property>
+                    <property name="analysis">dimension</property>
+                    <text-property name="displayName">level</text-property>
+                    <text-property name="heading">level</text-property>
+                </structure>
+                <structure>
+                    <property name="columnName">hosNum</property>
+                    <property name="analysis">measure</property>
+                    <text-property name="displayName">hosNum</text-property>
+                    <text-property name="heading">hosNum</text-property>
+                </structure>
+                <structure>
+                    <property name="columnName">inNum</property>
+                    <property name="analysis">measure</property>
+                    <text-property name="displayName">inNum</text-property>
+                    <text-property name="heading">inNum</text-property>
+                </structure>
+                <structure>
+                    <property name="columnName">pnum</property>
+                    <property name="analysis">measure</property>
+                    <text-property name="displayName">pnum</text-property>
+                    <text-property name="heading">pnum</text-property>
+                </structure>
+                <structure>
+                    <property name="columnName">whnum</property>
+                    <property name="analysis">measure</property>
+                    <text-property name="displayName">whnum</text-property>
+                    <text-property name="heading">whnum</text-property>
+                </structure>
+                <structure>
+                    <property name="columnName">lsnum</property>
+                    <property name="analysis">measure</property>
+                    <text-property name="displayName">lsnum</text-property>
+                    <text-property name="heading">lsnum</text-property>
+                </structure>
+                <structure>
+                    <property name="columnName">averageDose</property>
+                    <property name="analysis">measure</property>
+                    <text-property name="displayName">averageDose</text-property>
+                    <text-property name="heading">averageDose</text-property>
+                </structure>
+                <structure>
+                    <property name="columnName">hmgRate</property>
+                    <property name="analysis">measure</property>
+                    <text-property name="displayName">hmgRate</text-property>
+                    <text-property name="heading">hmgRate</text-property>
+                </structure>
+                <structure>
+                    <property name="columnName">omgRate</property>
+                    <property name="analysis">measure</property>
+                    <text-property name="displayName">omgRate</text-property>
+                    <text-property name="heading">omgRate</text-property>
+                </structure>
+                <structure>
+                    <property name="columnName">tmgRate</property>
+                    <property name="analysis">measure</property>
+                    <text-property name="displayName">tmgRate</text-property>
+                    <text-property name="heading">tmgRate</text-property>
+                </structure>
+                <structure>
+                    <property name="columnName">fmgRate</property>
+                    <property name="analysis">measure</property>
+                    <text-property name="displayName">fmgRate</text-property>
+                    <text-property name="heading">fmgRate</text-property>
+                </structure>
+            </list-property>
             <list-property name="filter">
                 <structure>
                     <property name="operator">gt</property>
@@ -204,90 +295,105 @@ new Date(currentDate.getFullYear(),month,currentDate.getDate());</value>
                     <property name="name">name</property>
                     <property name="nativeName">name</property>
                     <property name="dataType">string</property>
+                    <property name="nativeDataType">12</property>
                 </structure>
                 <structure>
                     <property name="position">2</property>
                     <property name="name">userCode</property>
                     <property name="nativeName">userCode</property>
                     <property name="dataType">string</property>
+                    <property name="nativeDataType">12</property>
                 </structure>
                 <structure>
                     <property name="position">3</property>
                     <property name="name">regionCenter</property>
                     <property name="nativeName">regionCenter</property>
                     <property name="dataType">string</property>
+                    <property name="nativeDataType">12</property>
                 </structure>
                 <structure>
                     <property name="position">4</property>
                     <property name="name">region</property>
                     <property name="nativeName">region</property>
                     <property name="dataType">string</property>
+                    <property name="nativeDataType">12</property>
                 </structure>
                 <structure>
                     <property name="position">5</property>
                     <property name="name">level</property>
                     <property name="nativeName">level</property>
                     <property name="dataType">string</property>
+                    <property name="nativeDataType">12</property>
                 </structure>
                 <structure>
                     <property name="position">6</property>
                     <property name="name">hosNum</property>
                     <property name="nativeName">hosNum</property>
                     <property name="dataType">decimal</property>
+                    <property name="nativeDataType">-5</property>
                 </structure>
                 <structure>
                     <property name="position">7</property>
                     <property name="name">inNum</property>
                     <property name="nativeName">inNum</property>
                     <property name="dataType">decimal</property>
+                    <property name="nativeDataType">-5</property>
                 </structure>
                 <structure>
                     <property name="position">8</property>
                     <property name="name">pnum</property>
                     <property name="nativeName">pnum</property>
                     <property name="dataType">decimal</property>
+                    <property name="nativeDataType">3</property>
                 </structure>
                 <structure>
                     <property name="position">9</property>
                     <property name="name">whnum</property>
                     <property name="nativeName">whnum</property>
                     <property name="dataType">decimal</property>
+                    <property name="nativeDataType">3</property>
                 </structure>
                 <structure>
                     <property name="position">10</property>
                     <property name="name">lsnum</property>
                     <property name="nativeName">lsnum</property>
                     <property name="dataType">decimal</property>
+                    <property name="nativeDataType">3</property>
                 </structure>
                 <structure>
                     <property name="position">11</property>
                     <property name="name">averageDose</property>
                     <property name="nativeName">averageDose</property>
                     <property name="dataType">decimal</property>
+                    <property name="nativeDataType">3</property>
                 </structure>
                 <structure>
                     <property name="position">12</property>
                     <property name="name">hmgRate</property>
                     <property name="nativeName">hmgRate</property>
                     <property name="dataType">decimal</property>
+                    <property name="nativeDataType">3</property>
                 </structure>
                 <structure>
                     <property name="position">13</property>
                     <property name="name">omgRate</property>
                     <property name="nativeName">omgRate</property>
                     <property name="dataType">decimal</property>
+                    <property name="nativeDataType">3</property>
                 </structure>
                 <structure>
                     <property name="position">14</property>
                     <property name="name">tmgRate</property>
                     <property name="nativeName">tmgRate</property>
                     <property name="dataType">decimal</property>
+                    <property name="nativeDataType">3</property>
                 </structure>
                 <structure>
                     <property name="position">15</property>
                     <property name="name">fmgRate</property>
                     <property name="nativeName">fmgRate</property>
                     <property name="dataType">decimal</property>
+                    <property name="nativeDataType">3</property>
                 </structure>
             </list-property>
             <xml-property name="queryText"><![CDATA[select 
@@ -297,7 +403,7 @@ ui.name,ui.userCode,ui.regionCenter,ui.region,ui.level
     from tbl_hospital h 
     where h.dsmCode = ui.userCode 
     and h.rsmRegion = ui.region 
-    and h.isPedAssessed='1' 
+    and h.isDailyReport='1' 
 ) hosNum
 ,IFNULL(ped_Data.inNum,0) as inNum
 ,IFNULL(ped_Data.pnum,0) as pnum
@@ -324,7 +430,7 @@ where pd.hospitalName = h1.name
 and h1.rsmRegion = u.region 
 and h1.dsmCode = u.userCode 
 and DATE_FORMAT(pd.createdate,'%m-%d-%Y') = ? 
-and h1.isPedAssessed='1' 
+and h1.isDailyReport='1' 
 and u.level='DSM'
 group by u.regionCenter, u.region, u.userCode 
 ) ped_Data 

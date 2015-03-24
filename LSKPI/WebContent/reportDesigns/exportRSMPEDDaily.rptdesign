@@ -509,7 +509,7 @@ new Date(currentDate.getFullYear(),month,currentDate.getDate());</value>
             <xml-property name="queryText"><![CDATA[select ui.name,ui.userCode
 ,( select distinct property_value from tbl_property where property_name = ui.regionCenter) as regionCenter 
 ,ui.region,ui.level, ( 
-    select count(1) from tbl_hospital h where h.region = ui.regionCenter and h.isPedAssessed='1' 
+    select count(1) from tbl_hospital h where h.region = ui.regionCenter and h.isDailyReport='1'  
 ) hosNum 
 ,IFNULL(data_tmp.inNum,0) as inNum
 ,IFNULL(data_tmp.pnum,0) as pnum
@@ -568,7 +568,7 @@ from
     where pd.hospitalName = h1.name 
     and h1.region = u.regionCenter 
     and DATE_FORMAT(pd.createdate,'%m-%d-%Y') = ? 
-    and h1.isPedAssessed='1' 
+    and h1.isDailyReport='1'  
 	and u.level='RSD'  
 	group by u.regionCenter 
 ) data_tmp 
@@ -1077,7 +1077,7 @@ new Date(currentDate.getFullYear(),month,currentDate.getDate());</expression>
             <xml-property name="queryText"><![CDATA[select ui.name,ui.userCode,ui.regionCenter,ui.region,ui.level, ( 
     select count(1) from tbl_hospital h 
 	where h.rsmRegion = ui.region 
-	and h.isPedAssessed='1' 
+	and h.isDailyReport='1'  
 ) hosNum 
 ,IFNULL(data_tmp.inNum,0) as inNum
 ,IFNULL(data_tmp.pnum,0) as pnum
@@ -1136,7 +1136,7 @@ from
     where pd.hospitalName = h1.name 
     and h1.rsmRegion = u.region 
     and DATE_FORMAT(pd.createdate,'%m-%d-%Y') = ?  
-    and h1.isPedAssessed='1' 
+    and h1.isDailyReport='1'  
 	and u.level='RSM' 
 	and u.regionCenter = 'Central GRA' 
 	group by u.regionCenter, u.region 
@@ -1648,7 +1648,7 @@ new Date(currentDate.getFullYear(),month,currentDate.getDate());</expression>
             <xml-property name="queryText"><![CDATA[select ui.name,ui.userCode,ui.regionCenter,ui.region,ui.level, ( 
     select count(1) from tbl_hospital h 
 	where h.rsmRegion = ui.region 
-	and h.isPedAssessed='1' 
+	and h.isDailyReport='1'  
 ) hosNum 
 ,IFNULL(data_tmp.inNum,0) as inNum
 ,IFNULL(data_tmp.pnum,0) as pnum
@@ -1708,7 +1708,7 @@ from
     where pd.hospitalName = h1.name 
     and h1.rsmRegion = u.region 
     and DATE_FORMAT(pd.createdate,'%m-%d-%Y') = ?  
-    and h1.isPedAssessed='1' 
+    and h1.isDailyReport='1'  
 	and u.level='RSM' 
 	and u.regionCenter = 'East1 GRA' 
 	group by u.regionCenter, u.region 
@@ -2220,7 +2220,7 @@ new Date(currentDate.getFullYear(),month,currentDate.getDate());</expression>
             <xml-property name="queryText"><![CDATA[select ui.name,ui.userCode,ui.regionCenter,ui.region,ui.level, ( 
     select count(1) from tbl_hospital h 
 	where h.rsmRegion = ui.region 
-	and h.isPedAssessed='1' 
+	and h.isDailyReport='1'  
 ) hosNum 
 ,IFNULL(data_tmp.inNum,0) as inNum
 ,IFNULL(data_tmp.pnum,0) as pnum
@@ -2280,7 +2280,7 @@ from
     where pd.hospitalName = h1.name 
     and h1.rsmRegion = u.region 
     and DATE_FORMAT(pd.createdate,'%m-%d-%Y') = ?  
-    and h1.isPedAssessed='1' 
+    and h1.isDailyReport='1'  
 	and u.level='RSM' 
 	and u.regionCenter = 'East2 GRA' 
 	group by u.regionCenter, u.region 
@@ -2792,7 +2792,7 @@ new Date(currentDate.getFullYear(),month,currentDate.getDate());</expression>
             <xml-property name="queryText"><![CDATA[select ui.name,ui.userCode,ui.regionCenter,ui.region,ui.level, ( 
     select count(1) from tbl_hospital h 
 	where h.rsmRegion = ui.region 
-	and h.isPedAssessed='1' 
+	and h.isDailyReport='1'  
 ) hosNum 
 ,IFNULL(data_tmp.inNum,0) as inNum
 ,IFNULL(data_tmp.pnum,0) as pnum
@@ -2852,7 +2852,7 @@ from
     where pd.hospitalName = h1.name 
     and h1.rsmRegion = u.region 
     and DATE_FORMAT(pd.createdate,'%m-%d-%Y') = ?  
-    and h1.isPedAssessed='1' 
+    and h1.isDailyReport='1'  
 	and u.level='RSM' 
 	and u.regionCenter = 'North1 GRA' 
 	group by u.regionCenter, u.region 
@@ -3364,7 +3364,7 @@ new Date(currentDate.getFullYear(),month,currentDate.getDate());</expression>
             <xml-property name="queryText"><![CDATA[select ui.name,ui.userCode,ui.regionCenter,ui.region,ui.level, ( 
     select count(1) from tbl_hospital h 
 	where h.rsmRegion = ui.region 
-	and h.isPedAssessed='1' 
+	and h.isDailyReport='1'  
 ) hosNum 
 ,IFNULL(data_tmp.inNum,0) as inNum
 ,IFNULL(data_tmp.pnum,0) as pnum
@@ -3424,7 +3424,7 @@ from
     where pd.hospitalName = h1.name 
     and h1.rsmRegion = u.region 
     and DATE_FORMAT(pd.createdate,'%m-%d-%Y') = ?  
-    and h1.isPedAssessed='1' 
+    and h1.isDailyReport='1'  
 	and u.level='RSM' 
 	and u.regionCenter = 'North2 GRA' 
 	group by u.regionCenter, u.region 
@@ -3936,7 +3936,7 @@ new Date(currentDate.getFullYear(),month,currentDate.getDate());</expression>
             <xml-property name="queryText"><![CDATA[select ui.name,ui.userCode,ui.regionCenter,ui.region,ui.level, ( 
     select count(1) from tbl_hospital h 
 	where h.rsmRegion = ui.region 
-	and h.isPedAssessed='1' 
+	and h.isDailyReport='1'  
 ) hosNum 
 ,IFNULL(data_tmp.inNum,0) as inNum
 ,IFNULL(data_tmp.pnum,0) as pnum
@@ -3996,7 +3996,7 @@ from
     where pd.hospitalName = h1.name 
     and h1.rsmRegion = u.region 
     and DATE_FORMAT(pd.createdate,'%m-%d-%Y') = ?  
-    and h1.isPedAssessed='1' 
+    and h1.isDailyReport='1'  
 	and u.level='RSM' 
 	and u.regionCenter = 'South GRA' 
 	group by u.regionCenter, u.region 
@@ -4508,7 +4508,7 @@ new Date(currentDate.getFullYear(),month,currentDate.getDate());</expression>
             <xml-property name="queryText"><![CDATA[select ui.name,ui.userCode,ui.regionCenter,ui.region,ui.level, ( 
     select count(1) from tbl_hospital h 
 	where h.rsmRegion = ui.region 
-	and h.isPedAssessed='1' 
+	and h.isDailyReport='1'  
 ) hosNum 
 ,IFNULL(data_tmp.inNum,0) as inNum
 ,IFNULL(data_tmp.pnum,0) as pnum
@@ -4568,7 +4568,7 @@ from
     where pd.hospitalName = h1.name 
     and h1.rsmRegion = u.region 
     and DATE_FORMAT(pd.createdate,'%m-%d-%Y') = ?  
-    and h1.isPedAssessed='1' 
+    and h1.isDailyReport='1'  
 	and u.level='RSM' 
 	and u.regionCenter = 'West GRA' 
 	group by u.regionCenter, u.region 

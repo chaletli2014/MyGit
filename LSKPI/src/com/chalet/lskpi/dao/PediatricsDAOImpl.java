@@ -947,7 +947,7 @@ public class PediatricsDAOImpl implements PediatricsDAO {
 		TopAndBottomRSMData dbMinData = new TopAndBottomRSMData();
 		
 		try{
-			maxSB.append("select  IFNULL(lsNumTemp.lsNum/pNumTemp.pNum,0) as whRateMin,pNumTemp.name as whRateMinUser, 0 as whRateMax, '' as whRateMaxUser ")
+			minSB.append("select  IFNULL(lsNumTemp.lsNum/pNumTemp.pNum,0) as whRateMin,pNumTemp.name as whRateMinUser, 0 as whRateMax, '' as whRateMaxUser ")
 			.append("	from ( ")
 			.append("			select IFNULL(pNum1.pNum,0) as pNum, u.region as rsmRegion, u.name from ( ")
 			.append("				select IFNULL(sum(pd.pnum),0) as pNum, h.rsmRegion ")
@@ -974,9 +974,9 @@ public class PediatricsDAOImpl implements PediatricsDAO {
 			.append("	where pNumTemp.rsmRegion = lsNumTemp.rsmRegion ")
 			.append("	order by lsNumTemp.lsNum/pNumTemp.pNum ")
 			.append("	limit 1	");
-			dbMaxData = dataBean.getJdbcTemplate().queryForObject(maxSB.toString(), new Object[]{paramDate,paramDate},new EmergingTopAndBottomRSMWhRateRowMapper());
+			dbMinData = dataBean.getJdbcTemplate().queryForObject(minSB.toString(), new Object[]{paramDate,paramDate},new EmergingTopAndBottomRSMWhRateRowMapper());
 			
-			minSB.append(" select IFNULL(lsNumTemp.lsNum/pNumTemp.pNum,0) as whRateMax,pNumTemp.name as whRateMaxUser, 0 as whRateMin, '' as whRateMinUser ")
+			maxSB.append(" select IFNULL(lsNumTemp.lsNum/pNumTemp.pNum,0) as whRateMax,pNumTemp.name as whRateMaxUser, 0 as whRateMin, '' as whRateMinUser ")
 			.append("	from ( ")
 			.append("			select IFNULL(pNum1.pNum,0) as pNum, u.region as rsmRegion, u.name from (")
 			.append("				select IFNULL(sum(pd.pnum),0) as pNum, h.rsmRegion ")
@@ -1003,7 +1003,7 @@ public class PediatricsDAOImpl implements PediatricsDAO {
 			.append("	where pNumTemp.rsmRegion = lsNumTemp.rsmRegion ")
 			.append("	order by lsNumTemp.lsNum/pNumTemp.pNum desc ")
 			.append("	limit 1	");
-			dbMinData = dataBean.getJdbcTemplate().queryForObject(minSB.toString(), new Object[]{paramDate,paramDate},new EmergingTopAndBottomRSMWhRateRowMapper());
+			dbMaxData = dataBean.getJdbcTemplate().queryForObject(maxSB.toString(), new Object[]{paramDate,paramDate},new EmergingTopAndBottomRSMWhRateRowMapper());
 		}catch(EmptyResultDataAccessException ee){
 	    	logger.warn("getEmergingTopAndBottomRSMWhRateData,data is empty");
 	    }
