@@ -433,3 +433,5 @@ alter table tbl_month_data add column res_room DECIMAL(11,2);
 ALTER  TABLE tbl_month_data ADD INDEX INDEX_MONTH_COUNTMONTH (countMonth);
 
 alter table tbl_month_data add column home_wh DECIMAL(11,2) not null default 0;
+
+alter table tbl_hospital add column isDailyReport varchar(2) not null default 0;

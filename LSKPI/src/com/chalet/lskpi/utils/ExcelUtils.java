@@ -1148,6 +1148,10 @@ public class ExcelUtils {
                 isTop100Cell.setCellType(Cell.CELL_TYPE_STRING);
                 String isTop100 = isTop100Cell.toString();
                 
+                Cell isDailyReportCell = row.getCell(hospitalHeaderColumn.get(hospitalHeaders.get(11)));
+                isDailyReportCell.setCellType(Cell.CELL_TYPE_STRING);
+                String isDailyReport = isDailyReportCell.toString();
+                
                 //collect rep info
                 Cell repCodeCell = row.getCell(repHeaderColumn.get(repHeaders.get(0)));
                 repCodeCell.setCellType(Cell.CELL_TYPE_STRING);
@@ -1242,6 +1246,7 @@ public class ExcelUtils {
                     hospital.setIsChestSurgeryAssessed(isChestSurgeryAssessed);
                     hospital.setIsTop100(isTop100);
                     hospital.setPortNum(portNum);
+                    hospital.setIsDailyReport(isDailyReport);
                     
                     hospitalMap.put(hospitalCode, hospital);
                     hospitalCodes.add(hospitalCode);

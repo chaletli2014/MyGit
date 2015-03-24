@@ -13,6 +13,7 @@ import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.cache.annotation.Cacheable;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.BatchPreparedStatementSetter;
 import org.springframework.jdbc.core.PreparedStatementCreator;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
@@ -530,15 +531,19 @@ public class PediatricsDAOImpl implements PediatricsDAO {
 		StringBuffer maxSB = new StringBuffer();
 		StringBuffer minSB = new StringBuffer();
 		
+		TopAndBottomRSMData dbMaxData = new TopAndBottomRSMData();
+		TopAndBottomRSMData dbMinData = new TopAndBottomRSMData();
+		
 		Date date = new Date();
 	    Timestamp paramDate = new Timestamp(DateUtils.populateParamDate(date).getTime());
 	    
-	    maxSB.append(" select (inNumTemp.inNum/hosNumTemp.hosNum) as inRateMax,hosNumTemp.name as inRateMaxUser,0 as inRateMin,'' as inRateMinUser ")
+	    try{
+	    	maxSB.append(" select (inNumTemp.inNum/hosNumTemp.hosNum) as inRateMax,hosNumTemp.name as inRateMaxUser,0 as inRateMin,'' as inRateMinUser ")
 	    	.append("	from ( ")
 	    	.append("		select IFNULL(count(1),0) as hosNum, h.rsmRegion, u.name ")
 	    	.append("		from tbl_hospital h, tbl_userinfo u ")
 	    	.append("		where h.rsmRegion = u.region ")
-	    	.append("		and h.isPedAssessed='1' ")
+	    	.append("		and h.").append(LsAttributes.SQL_WHERE_CONDITION_DAILYREPORT_HOSPITAL)
 	    	.append("		and u.level='RSM' ")
 	    	.append("		group by u.region ")
 	    	.append("	) hosNumTemp, ")
@@ -547,7 +552,7 @@ public class PediatricsDAOImpl implements PediatricsDAO {
 	    	.append("			from tbl_pediatrics_data pd, tbl_hospital h ")
 	    	.append("			where pd.hospitalName = h.name ")
 	    	.append("			and TO_DAYS(?) = TO_DAYS(pd.createdate)")
-	    	.append("			and h.isPedAssessed='1' ")
+	    	.append("			and h.").append(LsAttributes.SQL_WHERE_CONDITION_DAILYREPORT_HOSPITAL)
 	    	.append("			group by h.rsmRegion ")
 	    	.append("		) inNum1 right join tbl_userinfo u on inNum1.rsmRegion = u.region ")
 	    	.append("		where u.level='RSM' ")
@@ -555,33 +560,35 @@ public class PediatricsDAOImpl implements PediatricsDAO {
 	    	.append("	where hosNumTemp.rsmRegion = inNumTemp.rsmRegion ")
 	    	.append("	order by inNumTemp.inNum/hosNumTemp.hosNum desc ")
 	    	.append("	limit 1	");
-	    TopAndBottomRSMData dbMaxData = dataBean.getJdbcTemplate().queryForObject(maxSB.toString(), new Object[]{paramDate},new TopAndBottomInRateRSMDataRowMapper());
-	    
-	    minSB.append("select (inNumTemp.inNum/hosNumTemp.hosNum) as inRateMin,hosNumTemp.name as inRateMinUser,0 as inRateMax,'' as inRateMaxUser  ") 
-	    .append("	from ( ") 
-	    .append("		select IFNULL(count(1),0) as hosNum, h.rsmRegion, u.name ") 
-	    .append("		from tbl_hospital h, tbl_userinfo u ") 
-	    .append("		where h.rsmRegion = u.region ") 
-	    .append("		and h.isPedAssessed='1' ") 
-	    .append("		and u.level='RSM' ") 
-	    .append("		group by u.region ") 
-	    .append("	) hosNumTemp, ") 
-	    .append("		( ") 
-	    .append("		select IFNULL(inNum1.inNum,0) as inNum, u.region as rsmRegion, u.name from (")
-	    .append("			select IFNULL(count(1),0) as inNum, h.rsmRegion ")
-	    .append("			from tbl_pediatrics_data pd, tbl_hospital h ")
-	    .append("			where pd.hospitalName = h.name  ")
-	    .append("			and TO_DAYS(?) = TO_DAYS(pd.createdate)")
-	    .append("			and h.isPedAssessed='1' ")
-	    .append("			group by h.rsmRegion ")
-	    .append("		) inNum1 right join tbl_userinfo u on inNum1.rsmRegion = u.region ")
-	    .append("		where u.level='RSM' ")
-	    .append("	) inNumTemp")
-	    .append("	where hosNumTemp.rsmRegion = inNumTemp.rsmRegion ")
-	    .append("	order by inNumTemp.inNum/hosNumTemp.hosNum ")
-	    .append("	limit 1	");
-	    TopAndBottomRSMData dbMinData = dataBean.getJdbcTemplate().queryForObject(minSB.toString(), new Object[]{paramDate},new TopAndBottomInRateRSMDataRowMapper());
-	    
+	    	dbMaxData = dataBean.getJdbcTemplate().queryForObject(maxSB.toString(), new Object[]{paramDate},new TopAndBottomInRateRSMDataRowMapper());
+	    	
+	    	minSB.append("select (inNumTemp.inNum/hosNumTemp.hosNum) as inRateMin,hosNumTemp.name as inRateMinUser,0 as inRateMax,'' as inRateMaxUser  ") 
+	    	.append("	from ( ") 
+	    	.append("		select IFNULL(count(1),0) as hosNum, h.rsmRegion, u.name ") 
+	    	.append("		from tbl_hospital h, tbl_userinfo u ") 
+	    	.append("		where h.rsmRegion = u.region ") 
+	    	.append("		and h.").append(LsAttributes.SQL_WHERE_CONDITION_DAILYREPORT_HOSPITAL)
+	    	.append("		and u.level='RSM' ") 
+	    	.append("		group by u.region ") 
+	    	.append("	) hosNumTemp, ") 
+	    	.append("		( ") 
+	    	.append("		select IFNULL(inNum1.inNum,0) as inNum, u.region as rsmRegion, u.name from (")
+	    	.append("			select IFNULL(count(1),0) as inNum, h.rsmRegion ")
+	    	.append("			from tbl_pediatrics_data pd, tbl_hospital h ")
+	    	.append("			where pd.hospitalName = h.name  ")
+	    	.append("			and TO_DAYS(?) = TO_DAYS(pd.createdate)")
+	    	.append("			and h.").append(LsAttributes.SQL_WHERE_CONDITION_DAILYREPORT_HOSPITAL)
+	    	.append("			group by h.rsmRegion ")
+	    	.append("		) inNum1 right join tbl_userinfo u on inNum1.rsmRegion = u.region ")
+	    	.append("		where u.level='RSM' ")
+	    	.append("	) inNumTemp")
+	    	.append("	where hosNumTemp.rsmRegion = inNumTemp.rsmRegion ")
+	    	.append("	order by inNumTemp.inNum/hosNumTemp.hosNum ")
+	    	.append("	limit 1	");
+	    	dbMinData = dataBean.getJdbcTemplate().queryForObject(minSB.toString(), new Object[]{paramDate},new TopAndBottomInRateRSMDataRowMapper());
+	    }catch(EmptyResultDataAccessException ee){
+	    	logger.warn("getTopAndBottomInRateRSMData,data is empty");
+	    }
 	    
 	    rsmData.setTopInRate(dbMaxData.getTopInRate());
 	    rsmData.setTopInRateRSMName(dbMaxData.getTopInRateRSMName());
@@ -598,59 +605,66 @@ public class PediatricsDAOImpl implements PediatricsDAO {
 		Date date = new Date();
 		Timestamp paramDate = new Timestamp(DateUtils.populateParamDate(date).getTime());
 		
-		maxSB.append(" select IFNULL(lsNumTemp.lsNum/pNumTemp.pNum,0) as whRateMax,pNumTemp.name as whRateMaxUser, 0 as whRateMin,''as whRateMinUser ")
-		.append("	from ( ")
-		.append("			select IFNULL(pNum1.pNum,0) as pNum, u.region as rsmRegion, u.name from (")
-		.append("				select IFNULL(sum(pd.pnum),0) as pNum, h.rsmRegion ")
-		.append("				from tbl_pediatrics_data pd, tbl_hospital h ")
-		.append("				where pd.hospitalName = h.name ")
-		.append("				and TO_DAYS(?) = TO_DAYS(pd.createdate)")
-		.append("				and h.isPedAssessed='1' ")
-		.append("				group by h.rsmRegion ")
-		.append("			) pNum1 right join tbl_userinfo u on pNum1.rsmRegion = u.region ")
-		.append("			where u.level='RSM' ")
-		.append("		) pNumTemp, ")
-		.append("	( select IFNULL(lsNum1.lsNum,0) as lsNum, u.region as rsmRegion, u.name from ( ")
-		.append("			select IFNULL(sum(pd.lsnum),0) as lsNum, h.rsmRegion ")
-		.append("			from tbl_pediatrics_data pd, tbl_hospital h ")
-		.append("			where pd.hospitalName = h.name ")
-		.append("			and TO_DAYS(?) = TO_DAYS(pd.createdate)")
-		.append("			and h.isPedAssessed='1' ")
-		.append("			group by h.rsmRegion ")
-		.append("		) lsNum1 right join tbl_userinfo u on lsNum1.rsmRegion = u.region ")
-		.append("	where u.level='RSM' ")
-		.append("	) lsNumTemp ")
-		.append("	where pNumTemp.rsmRegion = lsNumTemp.rsmRegion ")
-		.append("	order by lsNumTemp.lsNum/pNumTemp.pNum desc ")
-		.append("	limit 1	");
-		TopAndBottomRSMData dbMaxData = dataBean.getJdbcTemplate().queryForObject(maxSB.toString(), new Object[]{paramDate,paramDate},new TopAndBottomWhRateRSMDataRowMapper());
+		TopAndBottomRSMData dbMaxData = new TopAndBottomRSMData();
+		TopAndBottomRSMData dbMinData = new TopAndBottomRSMData();
 		
-		minSB.append(" select IFNULL(lsNumTemp.lsNum/pNumTemp.pNum,0) as whRateMin,pNumTemp.name as whRateMinUser, 0 as whRateMax,''as whRateMaxUser ")
-		.append("	from ( ")
-		.append("			select IFNULL(pNum1.pNum,0) as pNum, u.region as rsmRegion, u.name from ( ")
-		.append("				select IFNULL(sum(pd.pnum),0) as pNum, h.rsmRegion ")
-		.append("				from tbl_pediatrics_data pd, tbl_hospital h ")
-		.append("				where pd.hospitalName = h.name ")
-		.append("				and TO_DAYS(?) = TO_DAYS(pd.createdate) ")
-		.append("				and h.isPedAssessed='1' ")
-		.append("				group by h.rsmRegion ")
-		.append("			) pNum1 right join tbl_userinfo u on pNum1.rsmRegion = u.region ")
-		.append("			where u.level='RSM' ")
-		.append("		) pNumTemp, ")
-		.append("		( select IFNULL(lsNum1.lsNum,0) as lsNum, u.region as rsmRegion, u.name from ( ")
-		.append("			select IFNULL(sum(pd.lsnum),0) as lsNum, h.rsmRegion ")
-		.append("			from tbl_pediatrics_data pd, tbl_hospital h ")
-		.append("			where pd.hospitalName = h.name ")
-		.append("			and TO_DAYS(?) = TO_DAYS(pd.createdate) ")
-		.append("			and h.isPedAssessed='1' ")
-		.append("			group by h.rsmRegion ")
-		.append("			) lsNum1 right join tbl_userinfo u on lsNum1.rsmRegion = u.region ")
-		.append("			where u.level='RSM' ")
-		.append("		) lsNumTemp")
-		.append("		where pNumTemp.rsmRegion = lsNumTemp.rsmRegion ")
-		.append("		order by lsNumTemp.lsNum/pNumTemp.pNum ")
-		.append("		limit 1	");
-		TopAndBottomRSMData dbMinData = dataBean.getJdbcTemplate().queryForObject(minSB.toString(), new Object[]{paramDate,paramDate},new TopAndBottomWhRateRSMDataRowMapper());
+		try{
+			maxSB.append(" select IFNULL(lsNumTemp.lsNum/pNumTemp.pNum,0) as whRateMax,pNumTemp.name as whRateMaxUser, 0 as whRateMin,''as whRateMinUser ")
+			.append("	from ( ")
+			.append("			select IFNULL(pNum1.pNum,0) as pNum, u.region as rsmRegion, u.name from (")
+			.append("				select IFNULL(sum(pd.pnum),0) as pNum, h.rsmRegion ")
+			.append("				from tbl_pediatrics_data pd, tbl_hospital h ")
+			.append("				where pd.hospitalName = h.name ")
+			.append("				and TO_DAYS(?) = TO_DAYS(pd.createdate)")
+			.append("				and h.").append(LsAttributes.SQL_WHERE_CONDITION_DAILYREPORT_HOSPITAL)
+			.append("				group by h.rsmRegion ")
+			.append("			) pNum1 right join tbl_userinfo u on pNum1.rsmRegion = u.region ")
+			.append("			where u.level='RSM' ")
+			.append("		) pNumTemp, ")
+			.append("	( select IFNULL(lsNum1.lsNum,0) as lsNum, u.region as rsmRegion, u.name from ( ")
+			.append("			select IFNULL(sum(pd.lsnum),0) as lsNum, h.rsmRegion ")
+			.append("			from tbl_pediatrics_data pd, tbl_hospital h ")
+			.append("			where pd.hospitalName = h.name ")
+			.append("			and TO_DAYS(?) = TO_DAYS(pd.createdate)")
+			.append("			and h.").append(LsAttributes.SQL_WHERE_CONDITION_DAILYREPORT_HOSPITAL)
+			.append("			group by h.rsmRegion ")
+			.append("		) lsNum1 right join tbl_userinfo u on lsNum1.rsmRegion = u.region ")
+			.append("	where u.level='RSM' ")
+			.append("	) lsNumTemp ")
+			.append("	where pNumTemp.rsmRegion = lsNumTemp.rsmRegion ")
+			.append("	order by lsNumTemp.lsNum/pNumTemp.pNum desc ")
+			.append("	limit 1	");
+			dbMaxData = dataBean.getJdbcTemplate().queryForObject(maxSB.toString(), new Object[]{paramDate,paramDate},new TopAndBottomWhRateRSMDataRowMapper());
+			
+			minSB.append(" select IFNULL(lsNumTemp.lsNum/pNumTemp.pNum,0) as whRateMin,pNumTemp.name as whRateMinUser, 0 as whRateMax,''as whRateMaxUser ")
+			.append("	from ( ")
+			.append("			select IFNULL(pNum1.pNum,0) as pNum, u.region as rsmRegion, u.name from ( ")
+			.append("				select IFNULL(sum(pd.pnum),0) as pNum, h.rsmRegion ")
+			.append("				from tbl_pediatrics_data pd, tbl_hospital h ")
+			.append("				where pd.hospitalName = h.name ")
+			.append("				and TO_DAYS(?) = TO_DAYS(pd.createdate) ")
+			.append("				and h.").append(LsAttributes.SQL_WHERE_CONDITION_DAILYREPORT_HOSPITAL)
+			.append("				group by h.rsmRegion ")
+			.append("			) pNum1 right join tbl_userinfo u on pNum1.rsmRegion = u.region ")
+			.append("			where u.level='RSM' ")
+			.append("		) pNumTemp, ")
+			.append("		( select IFNULL(lsNum1.lsNum,0) as lsNum, u.region as rsmRegion, u.name from ( ")
+			.append("			select IFNULL(sum(pd.lsnum),0) as lsNum, h.rsmRegion ")
+			.append("			from tbl_pediatrics_data pd, tbl_hospital h ")
+			.append("			where pd.hospitalName = h.name ")
+			.append("			and TO_DAYS(?) = TO_DAYS(pd.createdate) ")
+			.append("			and h.").append(LsAttributes.SQL_WHERE_CONDITION_DAILYREPORT_HOSPITAL)
+			.append("			group by h.rsmRegion ")
+			.append("			) lsNum1 right join tbl_userinfo u on lsNum1.rsmRegion = u.region ")
+			.append("			where u.level='RSM' ")
+			.append("		) lsNumTemp")
+			.append("		where pNumTemp.rsmRegion = lsNumTemp.rsmRegion ")
+			.append("		order by lsNumTemp.lsNum/pNumTemp.pNum ")
+			.append("		limit 1	");
+			dbMinData = dataBean.getJdbcTemplate().queryForObject(minSB.toString(), new Object[]{paramDate,paramDate},new TopAndBottomWhRateRSMDataRowMapper());
+		}catch(EmptyResultDataAccessException ee){
+	    	logger.warn("getTopAndBottomWhRateRSMData,data is empty");
+	    }
 		
 	    rsmData.setTopWhRate(dbMaxData.getTopWhRate());
 	    rsmData.setTopWhRateRSMName(dbMaxData.getTopWhRateRSMName());
@@ -666,34 +680,40 @@ public class PediatricsDAOImpl implements PediatricsDAO {
 		
 		Date date = new Date();
 		Timestamp paramDate = new Timestamp(DateUtils.populateParamDate(date).getTime());
-		
-		maxSB.append("select IFNULL(av2.averageDose,0) as averageDoseMax, u.name as averageDoseMaxUser, 0 as averageDoseMin, '' as averageDoseMinUser from ")
-		.append("		( ")
-		.append("			select IFNULL( sum( ( ( 0.5*IFNULL(pd.hqd,0) + 0.5*2*IFNULL(pd.hbid,0) + 1*1*IFNULL(pd.oqd,0) + 1*2*IFNULL(pd.obid,0) + 2*1*IFNULL(pd.tqd,0) + 2*2*IFNULL(pd.tbid,0) ) / 100 ) * IFNULL(pd.lsnum,0) ) / IFNULL(sum(pd.lsnum),0),0 ) as averageDose, h.rsmRegion")
-		.append("			from tbl_pediatrics_data pd, tbl_hospital h")
-		.append("			where pd.hospitalName = h.name ")
-		.append("			and TO_DAYS(?) = TO_DAYS(pd.createdate) ")
-		.append("			and h.isPedAssessed='1' ")
-		.append("			group by h.rsmRegion ")
-		.append("		) av2 right join tbl_userinfo u on u.region = av2.rsmRegion ")
-		.append("		where u.level='RSM' ")
-		.append("		order by av2.averageDose desc ")
-		.append("		limit 1	");
-		TopAndBottomRSMData dbMaxData =  dataBean.getJdbcTemplate().queryForObject(maxSB.toString(), new Object[]{paramDate},new TopAndBottomAverageDoseRSMDataRowMapper());
-		
-		minSB.append("select IFNULL(av1.averageDose,0) as averageDoseMin, u.name as averageDoseMinUser, 0 as averageDoseMax, '' as averageDoseMaxUser from ")
-		.append("		( ")
-		.append("			select IFNULL( sum( ( ( 0.5*IFNULL(pd.hqd,0) + 0.5*2*IFNULL(pd.hbid,0) + 1*1*IFNULL(pd.oqd,0) + 1*2*IFNULL(pd.obid,0) + 2*1*IFNULL(pd.tqd,0) + 2*2*IFNULL(pd.tbid,0) ) / 100 ) * IFNULL(pd.lsnum,0) ) / IFNULL(sum(pd.lsnum),0),0 ) as averageDose, h.rsmRegion")
-		.append("			from tbl_pediatrics_data pd, tbl_hospital h ")
-		.append("			where pd.hospitalName = h.name ")
-		.append("			and TO_DAYS(?) = TO_DAYS(pd.createdate) ")
-		.append("			and h.isPedAssessed='1' ")
-		.append("			group by h.rsmRegion ")
-		.append("		) av1 right join tbl_userinfo u on u.region = av1.rsmRegion ")
-		.append("		where u.level='RSM' ")
-		.append("		order by av1.averageDose")
-		.append("		limit 1	");
-		TopAndBottomRSMData dbMinData =  dataBean.getJdbcTemplate().queryForObject(minSB.toString(), new Object[]{paramDate},new TopAndBottomAverageDoseRSMDataRowMapper());
+
+		TopAndBottomRSMData dbMaxData = new TopAndBottomRSMData();
+		TopAndBottomRSMData dbMinData = new TopAndBottomRSMData();
+		try{
+			maxSB.append("select IFNULL(av2.averageDose,0) as averageDoseMax, u.name as averageDoseMaxUser, 0 as averageDoseMin, '' as averageDoseMinUser from ")
+			.append("		( ")
+			.append("			select IFNULL( sum( ( ( 0.5*IFNULL(pd.hqd,0) + 0.5*2*IFNULL(pd.hbid,0) + 1*1*IFNULL(pd.oqd,0) + 1*2*IFNULL(pd.obid,0) + 2*1*IFNULL(pd.tqd,0) + 2*2*IFNULL(pd.tbid,0) ) / 100 ) * IFNULL(pd.lsnum,0) ) / IFNULL(sum(pd.lsnum),0),0 ) as averageDose, h.rsmRegion")
+			.append("			from tbl_pediatrics_data pd, tbl_hospital h")
+			.append("			where pd.hospitalName = h.name ")
+			.append("			and TO_DAYS(?) = TO_DAYS(pd.createdate) ")
+			.append("			and h.").append(LsAttributes.SQL_WHERE_CONDITION_DAILYREPORT_HOSPITAL)
+			.append("			group by h.rsmRegion ")
+			.append("		) av2 right join tbl_userinfo u on u.region = av2.rsmRegion ")
+			.append("		where u.level='RSM' ")
+			.append("		order by av2.averageDose desc ")
+			.append("		limit 1	");
+			dbMaxData =  dataBean.getJdbcTemplate().queryForObject(maxSB.toString(), new Object[]{paramDate},new TopAndBottomAverageDoseRSMDataRowMapper());
+			
+			minSB.append("select IFNULL(av1.averageDose,0) as averageDoseMin, u.name as averageDoseMinUser, 0 as averageDoseMax, '' as averageDoseMaxUser from ")
+			.append("		( ")
+			.append("			select IFNULL( sum( ( ( 0.5*IFNULL(pd.hqd,0) + 0.5*2*IFNULL(pd.hbid,0) + 1*1*IFNULL(pd.oqd,0) + 1*2*IFNULL(pd.obid,0) + 2*1*IFNULL(pd.tqd,0) + 2*2*IFNULL(pd.tbid,0) ) / 100 ) * IFNULL(pd.lsnum,0) ) / IFNULL(sum(pd.lsnum),0),0 ) as averageDose, h.rsmRegion")
+			.append("			from tbl_pediatrics_data pd, tbl_hospital h ")
+			.append("			where pd.hospitalName = h.name ")
+			.append("			and TO_DAYS(?) = TO_DAYS(pd.createdate) ")
+			.append("			and h.").append(LsAttributes.SQL_WHERE_CONDITION_DAILYREPORT_HOSPITAL)
+			.append("			group by h.rsmRegion ")
+			.append("		) av1 right join tbl_userinfo u on u.region = av1.rsmRegion ")
+			.append("		where u.level='RSM' ")
+			.append("		order by av1.averageDose")
+			.append("		limit 1	");
+			dbMinData =  dataBean.getJdbcTemplate().queryForObject(minSB.toString(), new Object[]{paramDate},new TopAndBottomAverageDoseRSMDataRowMapper());
+		}catch(EmptyResultDataAccessException ee){
+	    	logger.warn("getTopAndBottomAverageDoseRSMData,data is empty");
+	    }
 		
 		rsmData.setTopAverageDose(dbMaxData.getTopAverageDose());
 	    rsmData.setTopAvRSMName(dbMaxData.getTopAvRSMName());
@@ -711,36 +731,43 @@ public class PediatricsDAOImpl implements PediatricsDAO {
 		Date date = new Date();
 		Timestamp paramDate = new Timestamp(DateUtils.populateParamDate(date).getTime());
 		int portRateBase = Integer.parseInt(CustomizedProperty.getContextProperty("portRateBase", "24"));
+
+		TopAndBottomRSMData dbMaxData = new TopAndBottomRSMData();
+		TopAndBottomRSMData dbMinData = new TopAndBottomRSMData();
 		
-		maxSB.append("select IFNULL(av2.whPortRate,0) as whPortRateMax, u.name as whPortRateMaxUser, 0 as whPortRateMin, '' as whPortRateMinUser from ")
-		.append("		( ")
-		.append("			select IFNULL(sum(pd.lsnum),0)/(IFNULL(sum(pd.portNum),0)*?) as whPortRate, h.rsmRegion")
-		.append("			from tbl_pediatrics_data pd, tbl_hospital h")
-		.append("			where pd.hospitalName = h.name ")
-		.append("			and TO_DAYS(?) = TO_DAYS(pd.createdate) ")
-		.append("			and h.isPedAssessed='1' ")
-		.append("			and pd.portNum != 0 ")
-		.append("			group by h.rsmRegion ")
-		.append("		) av2 right join tbl_userinfo u on u.region = av2.rsmRegion ")
-		.append("		where u.level='RSM' ")
-		.append("		order by av2.whPortRate desc ")
-		.append("		limit 1	");
-		TopAndBottomRSMData dbMaxData =  dataBean.getJdbcTemplate().queryForObject(maxSB.toString(), new Object[]{portRateBase,paramDate},new TopAndBottomWhPortRateRSMDataRowMapper());
-		
-		minSB.append("select IFNULL(av1.whPortRate,0) as whPortRateMin, u.name as whPortRateMinUser, 0 as whPortRateMax, '' as whPortRateMaxUser from ")
-		.append("		( ")
-		.append("			select IFNULL(sum(pd.lsnum),0)/(IFNULL(sum(pd.portNum),0)*?) as whPortRate, h.rsmRegion")
-		.append("			from tbl_pediatrics_data pd, tbl_hospital h ")
-		.append("			where pd.hospitalName = h.name ")
-		.append("			and TO_DAYS(?) = TO_DAYS(pd.createdate) ")
-		.append("			and pd.portNum != 0 ")
-		.append("			and h.isPedAssessed='1' ")
-		.append("			group by h.rsmRegion ")
-		.append("		) av1 right join tbl_userinfo u on u.region = av1.rsmRegion ")
-		.append("		where u.level='RSM' ")
-		.append("		order by av1.whPortRate")
-		.append("		limit 1	");
-		TopAndBottomRSMData dbMinData =  dataBean.getJdbcTemplate().queryForObject(minSB.toString(), new Object[]{portRateBase,paramDate},new TopAndBottomWhPortRateRSMDataRowMapper());
+		try{
+			maxSB.append("select IFNULL(av2.whPortRate,0) as whPortRateMax, u.name as whPortRateMaxUser, 0 as whPortRateMin, '' as whPortRateMinUser from ")
+			.append("		( ")
+			.append("			select IFNULL(sum(pd.lsnum),0)/(IFNULL(sum(pd.portNum),0)*?) as whPortRate, h.rsmRegion")
+			.append("			from tbl_pediatrics_data pd, tbl_hospital h")
+			.append("			where pd.hospitalName = h.name ")
+			.append("			and TO_DAYS(?) = TO_DAYS(pd.createdate) ")
+			.append("			and h.").append(LsAttributes.SQL_WHERE_CONDITION_DAILYREPORT_HOSPITAL)
+			.append("			and pd.portNum != 0 ")
+			.append("			group by h.rsmRegion ")
+			.append("		) av2 right join tbl_userinfo u on u.region = av2.rsmRegion ")
+			.append("		where u.level='RSM' ")
+			.append("		order by av2.whPortRate desc ")
+			.append("		limit 1	");
+			dbMaxData =  dataBean.getJdbcTemplate().queryForObject(maxSB.toString(), new Object[]{portRateBase,paramDate},new TopAndBottomWhPortRateRSMDataRowMapper());
+			
+			minSB.append("select IFNULL(av1.whPortRate,0) as whPortRateMin, u.name as whPortRateMinUser, 0 as whPortRateMax, '' as whPortRateMaxUser from ")
+			.append("		( ")
+			.append("			select IFNULL(sum(pd.lsnum),0)/(IFNULL(sum(pd.portNum),0)*?) as whPortRate, h.rsmRegion")
+			.append("			from tbl_pediatrics_data pd, tbl_hospital h ")
+			.append("			where pd.hospitalName = h.name ")
+			.append("			and TO_DAYS(?) = TO_DAYS(pd.createdate) ")
+			.append("			and pd.portNum != 0 ")
+			.append("			and h.").append(LsAttributes.SQL_WHERE_CONDITION_DAILYREPORT_HOSPITAL)
+			.append("			group by h.rsmRegion ")
+			.append("		) av1 right join tbl_userinfo u on u.region = av1.rsmRegion ")
+			.append("		where u.level='RSM' ")
+			.append("		order by av1.whPortRate")
+			.append("		limit 1	");
+			dbMinData =  dataBean.getJdbcTemplate().queryForObject(minSB.toString(), new Object[]{portRateBase,paramDate},new TopAndBottomWhPortRateRSMDataRowMapper());
+		}catch(EmptyResultDataAccessException ee){
+	    	logger.warn("getTopAndBottomWhPortRateRSMData,data is empty");
+	    }
 		
 		rsmData.setTopWhPortRate(dbMaxData.getTopWhPortRate());
 		rsmData.setTopWhPortRateRSMName(dbMaxData.getTopWhPortRateRSMName());
@@ -752,205 +779,242 @@ public class PediatricsDAOImpl implements PediatricsDAO {
 	
 	@Override
 	public TopAndBottomRSMData getCoreTopAndBottomRSMData() throws Exception {
-		StringBuffer sb = new StringBuffer();
+		StringBuffer maxSB = new StringBuffer();
+		StringBuffer minSB = new StringBuffer();
 		Date date = new Date();
 		Timestamp paramDate = new Timestamp(DateUtils.populateParamDate(date).getTime());
-		sb.append("select inRateMinT.inRateMin, ")
-		.append(" inRateMinT.inRateMinUser, ")
-		.append(" inRateMaxT.inRateMax, ")
-		.append(" inRateMaxT.inRateMaxUser ")
-		.append(" from ") 
-		.append(" ( select (inNumTemp.inNum/hosNumTemp.hosNum) as inRateMin,hosNumTemp.name as inRateMinUser ") 
-		.append("	from ( ") 
-		.append("		select IFNULL(count(1),0) as hosNum, h.rsmRegion, u.name ") 
-		.append("		from tbl_hospital h, tbl_userinfo u ") 
-		.append("		where h.rsmRegion = u.region ") 
-		.append("		and h.isPedAssessed='1' ") 
-		.append("		and h.dragonType='Core' ")
-		.append("		and u.level='RSM' ") 
-		.append("		group by u.region ") 
-		.append("	) hosNumTemp, ") 
-		.append("		( ") 
-		.append("		select IFNULL(inNum1.inNum,0) as inNum, u.region as rsmRegion, u.name from (")
-		.append("			select IFNULL(count(1),0) as inNum, h.rsmRegion ")
-		.append("			from tbl_pediatrics_data pd, tbl_hospital h ")
-		.append("			where pd.hospitalName = h.name  ")
-		.append("			and TO_DAYS(?) = TO_DAYS(pd.createdate)")
-		.append("			and h.isPedAssessed='1' ")
-		.append("			and h.dragonType='Core' ")
-		.append("			group by h.rsmRegion ")
-		.append("		) inNum1 right join tbl_userinfo u on inNum1.rsmRegion = u.region ")
-		.append("		where u.level='RSM' ")
-		.append("	) inNumTemp")
-		.append("	where hosNumTemp.rsmRegion = inNumTemp.rsmRegion ")
-		.append("	order by inNumTemp.inNum/hosNumTemp.hosNum ")
-		.append("	limit 1	")
-		.append(") inRateMinT,")
-		.append("( 	select (inNumTemp.inNum/hosNumTemp.hosNum) as inRateMax,hosNumTemp.name as inRateMaxUser ")
-		.append("	from ( ")
-		.append("		select IFNULL(count(1),0) as hosNum, h.rsmRegion, u.name ")
-		.append("		from tbl_hospital h, tbl_userinfo u ")
-		.append("		where h.rsmRegion = u.region ")
-		.append("		and h.isPedAssessed='1' ")
-		.append("		and h.dragonType='Core' ")
-		.append("		and u.level='RSM' ")
-		.append("		group by u.region ")
-		.append("	) hosNumTemp, ")
-		.append("	( select IFNULL(inNum1.inNum,0) as inNum, u.region as rsmRegion, u.name from ( ")
-		.append("			select IFNULL(count(1),0) as inNum, h.rsmRegion ")
-		.append("			from tbl_pediatrics_data pd, tbl_hospital h ")
-		.append("			where pd.hospitalName = h.name ")
-		.append("			and TO_DAYS(?) = TO_DAYS(pd.createdate)")
-		.append("			and h.isPedAssessed='1' ")
-		.append("			and h.dragonType='Core' ")
-		.append("			group by h.rsmRegion ")
-		.append("		) inNum1 right join tbl_userinfo u on inNum1.rsmRegion = u.region ")
-		.append("		where u.level='RSM' ")
-		.append("	) inNumTemp ")
-		.append("	where hosNumTemp.rsmRegion = inNumTemp.rsmRegion ")
-		.append("	order by inNumTemp.inNum/hosNumTemp.hosNum desc ")
-		.append("	limit 1	")
-		.append(") inRateMaxT ");
-		return dataBean.getJdbcTemplate().queryForObject(sb.toString(), new Object[]{paramDate,paramDate},new CoreTopAndBottomRSMDataRowMapper());
+		
+		TopAndBottomRSMData dbMaxData = new TopAndBottomRSMData();
+		TopAndBottomRSMData dbMinData = new TopAndBottomRSMData();
+		
+		try{
+			minSB.append("select  (inNumTemp.inNum/hosNumTemp.hosNum) as inRateMin,hosNumTemp.name as inRateMinUser, 0 as inRateMax, '' as inRateMaxUser ") 
+			.append("	from ( ") 
+			.append("		select IFNULL(count(1),0) as hosNum, h.rsmRegion, u.name ") 
+			.append("		from tbl_hospital h, tbl_userinfo u ") 
+			.append("		where h.rsmRegion = u.region ") 
+			.append("		and h.").append(LsAttributes.SQL_WHERE_CONDITION_DAILYREPORT_HOSPITAL)
+			.append("		and h.dragonType='Core' ")
+			.append("		and u.level='RSM' ") 
+			.append("		group by u.region ") 
+			.append("	) hosNumTemp, ") 
+			.append("	( ") 
+			.append("		select IFNULL(inNum1.inNum,0) as inNum, u.region as rsmRegion, u.name from (")
+			.append("			select IFNULL(count(1),0) as inNum, h.rsmRegion ")
+			.append("			from tbl_pediatrics_data pd, tbl_hospital h ")
+			.append("			where pd.hospitalName = h.name  ")
+			.append("			and TO_DAYS(?) = TO_DAYS(pd.createdate)")
+			.append("			and h.").append(LsAttributes.SQL_WHERE_CONDITION_DAILYREPORT_HOSPITAL)
+			.append("			and h.dragonType='Core' ")
+			.append("			group by h.rsmRegion ")
+			.append("		) inNum1 right join tbl_userinfo u on inNum1.rsmRegion = u.region ")
+			.append("		where u.level='RSM' ")
+			.append("	) inNumTemp")
+			.append("	where hosNumTemp.rsmRegion = inNumTemp.rsmRegion ")
+			.append("	order by inNumTemp.inNum/hosNumTemp.hosNum ")
+			.append("	limit 1	");
+			dbMinData = dataBean.getJdbcTemplate().queryForObject(minSB.toString(), new Object[]{paramDate},new CoreTopAndBottomRSMDataRowMapper());
+			
+			maxSB.append(" select (inNumTemp.inNum/hosNumTemp.hosNum) as inRateMax,hosNumTemp.name as inRateMaxUser, 0 as inRateMin, '' as inRateMinUser ")
+			.append("	from ( ")
+			.append("		select IFNULL(count(1),0) as hosNum, h.rsmRegion, u.name ")
+			.append("		from tbl_hospital h, tbl_userinfo u ")
+			.append("		where h.rsmRegion = u.region ")
+			.append("		and h.").append(LsAttributes.SQL_WHERE_CONDITION_DAILYREPORT_HOSPITAL)
+			.append("		and h.dragonType='Core' ")
+			.append("		and u.level='RSM' ")
+			.append("		group by u.region ")
+			.append("	) hosNumTemp, ")
+			.append("	( select IFNULL(inNum1.inNum,0) as inNum, u.region as rsmRegion, u.name from ( ")
+			.append("			select IFNULL(count(1),0) as inNum, h.rsmRegion ")
+			.append("			from tbl_pediatrics_data pd, tbl_hospital h ")
+			.append("			where pd.hospitalName = h.name ")
+			.append("			and TO_DAYS(?) = TO_DAYS(pd.createdate)")
+			.append("			and h.").append(LsAttributes.SQL_WHERE_CONDITION_DAILYREPORT_HOSPITAL)
+			.append("			and h.dragonType='Core' ")
+			.append("			group by h.rsmRegion ")
+			.append("		) inNum1 right join tbl_userinfo u on inNum1.rsmRegion = u.region ")
+			.append("		where u.level='RSM' ")
+			.append("	) inNumTemp ")
+			.append("	where hosNumTemp.rsmRegion = inNumTemp.rsmRegion ")
+			.append("	order by inNumTemp.inNum/hosNumTemp.hosNum desc ")
+			.append("	limit 1	");
+			dbMaxData = dataBean.getJdbcTemplate().queryForObject(maxSB.toString(), new Object[]{paramDate},new CoreTopAndBottomRSMDataRowMapper());
+		}catch(EmptyResultDataAccessException ee){
+	    	logger.warn("getCoreTopAndBottomRSMData,data is empty");
+	    }
+		
+		TopAndBottomRSMData rsmData = new TopAndBottomRSMData();
+		rsmData.setCoreTopInRate(dbMaxData.getCoreTopInRate());
+		rsmData.setCoreTopInRateRSMName(dbMaxData.getCoreTopInRateRSMName());
+		rsmData.setCoreBottomInRate(dbMinData.getCoreBottomInRate());
+		rsmData.setCoreBottomInRateRSMName(dbMinData.getCoreBottomInRateRSMName());
+		
+		return rsmData;
 	}
 	
 	@Override
 	public TopAndBottomRSMData getCoreTopAndBottomRSMWhRateData() throws Exception {
-		StringBuffer sb = new StringBuffer();
+		StringBuffer maxSB = new StringBuffer();
+		StringBuffer minSB = new StringBuffer();
 		Date date = new Date();
 		Timestamp paramDate = new Timestamp(DateUtils.populateParamDate(date).getTime());
-		sb.append("select whRateMinT.whRateMin, ")
-		.append(" whRateMinT.whRateMinUser, ")
-		.append(" whRateMaxT.whRateMax, ")
-		.append(" whRateMaxT.whRateMaxUser ")
-		.append(" from ") 
-		.append("( 	select IFNULL(lsNumTemp.lsNum/pNumTemp.pNum,0) as whRateMin,pNumTemp.name as whRateMinUser ")
-	    	.append("	from ( ")
-	    	.append("			select IFNULL(pNum1.pNum,0) as pNum, u.region as rsmRegion, u.name from ( ")
-	    	.append("				select IFNULL(sum(pd.pnum),0) as pNum, h.rsmRegion ")
-	    	.append("				from tbl_pediatrics_data pd, tbl_hospital h ")
-	    	.append("				where pd.hospitalName = h.name ")
-	    	.append("				and TO_DAYS(?) = TO_DAYS(pd.createdate) ")
-	    	.append("				and h.isPedAssessed='1' ")
+		
+		TopAndBottomRSMData dbMaxData = new TopAndBottomRSMData();
+		TopAndBottomRSMData dbMinData = new TopAndBottomRSMData();
+		
+		try{
+			minSB.append("select  IFNULL(lsNumTemp.lsNum/pNumTemp.pNum,0) as whRateMin,pNumTemp.name as whRateMinUser, 0 as whRateMax, '' as whRateMaxUser ")
+			.append("	from ( ")
+			.append("			select IFNULL(pNum1.pNum,0) as pNum, u.region as rsmRegion, u.name from ( ")
+			.append("				select IFNULL(sum(pd.pnum),0) as pNum, h.rsmRegion ")
+			.append("				from tbl_pediatrics_data pd, tbl_hospital h ")
+			.append("				where pd.hospitalName = h.name ")
+			.append("				and TO_DAYS(?) = TO_DAYS(pd.createdate) ")
+			.append("				and h.").append(LsAttributes.SQL_WHERE_CONDITION_DAILYREPORT_HOSPITAL)
 			.append("				and h.dragonType='Core' ")
-	    	.append("				group by h.rsmRegion ")
-	    	.append("			) pNum1 right join tbl_userinfo u on pNum1.rsmRegion = u.region ")
-	    	.append("			where u.level='RSM' ")
-	    	.append("		) pNumTemp, ")
-	    	.append("		( select IFNULL(lsNum1.lsNum,0) as lsNum, u.region as rsmRegion, u.name from ( ")
-	    	.append("			select IFNULL(sum(pd.lsnum),0) as lsNum, h.rsmRegion ")
-	    	.append("			from tbl_pediatrics_data pd, tbl_hospital h ")
-	    	.append("			where pd.hospitalName = h.name ")
-	    	.append("			and TO_DAYS(?) = TO_DAYS(pd.createdate) ")
-	    	.append("			and h.isPedAssessed='1' ")
-	    	.append("			and h.dragonType='Core' ")
-	    	.append("			group by h.rsmRegion ")
-	    	.append("			) lsNum1 right join tbl_userinfo u on lsNum1.rsmRegion = u.region ")
-	    	.append("			where u.level='RSM' ")
-	    	.append("		) lsNumTemp")
-	    	.append("		where pNumTemp.rsmRegion = lsNumTemp.rsmRegion ")
-	    	.append("		order by lsNumTemp.lsNum/pNumTemp.pNum ")
-	    	.append("		limit 1	")
-	    	.append(") whRateMinT,")
-	    	.append("( 	select IFNULL(lsNumTemp.lsNum/pNumTemp.pNum,0) as whRateMax,pNumTemp.name as whRateMaxUser ")
-	    	.append("	from ( ")
-	    	.append("			select IFNULL(pNum1.pNum,0) as pNum, u.region as rsmRegion, u.name from (")
-	    	.append("				select IFNULL(sum(pd.pnum),0) as pNum, h.rsmRegion ")
-	    	.append("				from tbl_pediatrics_data pd, tbl_hospital h ")
-	    	.append("				where pd.hospitalName = h.name ")
-	    	.append("				and TO_DAYS(?) = TO_DAYS(pd.createdate)")
-	    	.append("				and h.isPedAssessed='1' ")
-	    	.append("				and h.dragonType='Core' ")
-	    	.append("				group by h.rsmRegion ")
-	    	.append("			) pNum1 right join tbl_userinfo u on pNum1.rsmRegion = u.region ")
-	    	.append("			where u.level='RSM' ")
-	    	.append("		) pNumTemp, ")
-	    	.append("		( select IFNULL(lsNum1.lsNum,0) as lsNum, u.region as rsmRegion, u.name from ( ")
-	    	.append("				select IFNULL(sum(pd.lsnum),0) as lsNum, h.rsmRegion ")
-	    	.append("				from tbl_pediatrics_data pd, tbl_hospital h ")
-	    	.append("				where pd.hospitalName = h.name ")
-	    	.append("				and TO_DAYS(?) = TO_DAYS(pd.createdate)")
-	    	.append("				and h.isPedAssessed='1' ")
-	    	.append("				and h.dragonType='Core' ")
-	    	.append("				group by h.rsmRegion ")
-	    	.append("			) lsNum1 right join tbl_userinfo u on lsNum1.rsmRegion = u.region ")
-	    	.append("			where u.level='RSM' ")
-	    	.append("		) lsNumTemp ")
-	    	.append("		where pNumTemp.rsmRegion = lsNumTemp.rsmRegion ")
-	    	.append("		order by lsNumTemp.lsNum/pNumTemp.pNum desc ")
-	    	.append("		limit 1	")
-	    	.append(") whRateMaxT ");
-		return dataBean.getJdbcTemplate().queryForObject(sb.toString(), new Object[]{paramDate,paramDate,paramDate,paramDate},new CoreTopAndBottomRSMWhRateRowMapper());
+			.append("				group by h.rsmRegion ")
+			.append("			) pNum1 right join tbl_userinfo u on pNum1.rsmRegion = u.region ")
+			.append("			where u.level='RSM' ")
+			.append("	) pNumTemp, ")
+			.append("	( select IFNULL(lsNum1.lsNum,0) as lsNum, u.region as rsmRegion, u.name from ( ")
+			.append("			select IFNULL(sum(pd.lsnum),0) as lsNum, h.rsmRegion ")
+			.append("			from tbl_pediatrics_data pd, tbl_hospital h ")
+			.append("			where pd.hospitalName = h.name ")
+			.append("			and TO_DAYS(?) = TO_DAYS(pd.createdate) ")
+			.append("			and h.").append(LsAttributes.SQL_WHERE_CONDITION_DAILYREPORT_HOSPITAL)
+			.append("			and h.dragonType='Core' ")
+			.append("			group by h.rsmRegion ")
+			.append("			) lsNum1 right join tbl_userinfo u on lsNum1.rsmRegion = u.region ")
+			.append("			where u.level='RSM' ")
+			.append("	) lsNumTemp")
+			.append("	where pNumTemp.rsmRegion = lsNumTemp.rsmRegion ")
+			.append("	order by lsNumTemp.lsNum/pNumTemp.pNum ")
+			.append("	limit 1	");
+			
+			dbMinData = dataBean.getJdbcTemplate().queryForObject(minSB.toString(), new Object[]{paramDate,paramDate},new CoreTopAndBottomRSMWhRateRowMapper());
+			
+			maxSB.append("  select IFNULL(lsNumTemp.lsNum/pNumTemp.pNum,0) as whRateMax,pNumTemp.name as whRateMaxUser, 0 as whRateMin, '' as whRateMinUser ")
+			.append("	from ( ")
+			.append("			select IFNULL(pNum1.pNum,0) as pNum, u.region as rsmRegion, u.name from (")
+			.append("				select IFNULL(sum(pd.pnum),0) as pNum, h.rsmRegion ")
+			.append("				from tbl_pediatrics_data pd, tbl_hospital h ")
+			.append("				where pd.hospitalName = h.name ")
+			.append("				and TO_DAYS(?) = TO_DAYS(pd.createdate)")
+			.append("				and h.").append(LsAttributes.SQL_WHERE_CONDITION_DAILYREPORT_HOSPITAL)
+			.append("				and h.dragonType='Core' ")
+			.append("				group by h.rsmRegion ")
+			.append("			) pNum1 right join tbl_userinfo u on pNum1.rsmRegion = u.region ")
+			.append("			where u.level='RSM' ")
+			.append("	) pNumTemp, ")
+			.append("	( select IFNULL(lsNum1.lsNum,0) as lsNum, u.region as rsmRegion, u.name from ( ")
+			.append("				select IFNULL(sum(pd.lsnum),0) as lsNum, h.rsmRegion ")
+			.append("				from tbl_pediatrics_data pd, tbl_hospital h ")
+			.append("				where pd.hospitalName = h.name ")
+			.append("				and TO_DAYS(?) = TO_DAYS(pd.createdate)")
+			.append("				and h.").append(LsAttributes.SQL_WHERE_CONDITION_DAILYREPORT_HOSPITAL)
+			.append("				and h.dragonType='Core' ")
+			.append("				group by h.rsmRegion ")
+			.append("			) lsNum1 right join tbl_userinfo u on lsNum1.rsmRegion = u.region ")
+			.append("			where u.level='RSM' ")
+			.append("	) lsNumTemp ")
+			.append("	where pNumTemp.rsmRegion = lsNumTemp.rsmRegion ")
+			.append("	order by lsNumTemp.lsNum/pNumTemp.pNum desc ")
+			.append("	limit 1	");
+			dbMaxData = dataBean.getJdbcTemplate().queryForObject(maxSB.toString(), new Object[]{paramDate,paramDate},new CoreTopAndBottomRSMWhRateRowMapper());
+		}catch(EmptyResultDataAccessException ee){
+	    	logger.warn("getCoreTopAndBottomRSMWhRateData,data is empty");
+	    }
+
+		TopAndBottomRSMData rsmData = new TopAndBottomRSMData();
+		rsmData.setCoreTopWhRate(dbMaxData.getCoreTopWhRate());
+		rsmData.setCoreTopWhRateRSMName(dbMaxData.getCoreTopWhRateRSMName());
+		rsmData.setCoreBottomWhRate(dbMinData.getCoreBottomWhRate());
+		rsmData.setCoreBottomWhRateRSMName(dbMinData.getCoreBottomWhRateRSMName());
+		
+		return rsmData;
 	}
 	
 
 	@Override
 	public TopAndBottomRSMData getEmergingTopAndBottomRSMWhRateData() throws Exception {
-		StringBuffer sb = new StringBuffer();
+		StringBuffer maxSB = new StringBuffer();
+		StringBuffer minSB = new StringBuffer();
 		Date date = new Date();
 		Timestamp paramDate = new Timestamp(DateUtils.populateParamDate(date).getTime());
-		sb.append("select whRateMinT.whRateMin, ")
-		.append(" whRateMinT.whRateMinUser, ")
-		.append(" whRateMaxT.whRateMax, ")
-		.append(" whRateMaxT.whRateMaxUser ")
-		.append(" from ") 
-		.append("( 	select IFNULL(lsNumTemp.lsNum/pNumTemp.pNum,0) as whRateMin,pNumTemp.name as whRateMinUser ")
-	    	.append("	from ( ")
-	    	.append("			select IFNULL(pNum1.pNum,0) as pNum, u.region as rsmRegion, u.name from ( ")
-	    	.append("				select IFNULL(sum(pd.pnum),0) as pNum, h.rsmRegion ")
-	    	.append("				from tbl_pediatrics_data pd, tbl_hospital h ")
-	    	.append("				where pd.hospitalName = h.name ")
-	    	.append("				and TO_DAYS(?) = TO_DAYS(pd.createdate) ")
-	    	.append("				and h.isPedAssessed='1' ")
+		
+		TopAndBottomRSMData dbMaxData = new TopAndBottomRSMData();
+		TopAndBottomRSMData dbMinData = new TopAndBottomRSMData();
+		
+		try{
+			maxSB.append("select  IFNULL(lsNumTemp.lsNum/pNumTemp.pNum,0) as whRateMin,pNumTemp.name as whRateMinUser, 0 as whRateMax, '' as whRateMaxUser ")
+			.append("	from ( ")
+			.append("			select IFNULL(pNum1.pNum,0) as pNum, u.region as rsmRegion, u.name from ( ")
+			.append("				select IFNULL(sum(pd.pnum),0) as pNum, h.rsmRegion ")
+			.append("				from tbl_pediatrics_data pd, tbl_hospital h ")
+			.append("				where pd.hospitalName = h.name ")
+			.append("				and TO_DAYS(?) = TO_DAYS(pd.createdate) ")
+			.append("				and h.").append(LsAttributes.SQL_WHERE_CONDITION_DAILYREPORT_HOSPITAL)
 			.append("				and h.dragonType='Emerging' ")
-	    	.append("				group by h.rsmRegion ")
-	    	.append("			) pNum1 right join tbl_userinfo u on pNum1.rsmRegion = u.region ")
-	    	.append("			where u.level='RSM' ")
-	    	.append("		) pNumTemp, ")
-	    	.append("		( select IFNULL(lsNum1.lsNum,0) as lsNum, u.region as rsmRegion, u.name from ( ")
-	    	.append("			select IFNULL(sum(pd.lsnum),0) as lsNum, h.rsmRegion ")
-	    	.append("			from tbl_pediatrics_data pd, tbl_hospital h ")
-	    	.append("			where pd.hospitalName = h.name ")
-	    	.append("			and TO_DAYS(?) = TO_DAYS(pd.createdate) ")
-	    	.append("			and h.isPedAssessed='1' ")
-	    	.append("			and h.dragonType='Emerging' ")
-	    	.append("			group by h.rsmRegion ")
-	    	.append("			) lsNum1 right join tbl_userinfo u on lsNum1.rsmRegion = u.region ")
-	    	.append("			where u.level='RSM' ")
-	    	.append("		) lsNumTemp")
-	    	.append("		where pNumTemp.rsmRegion = lsNumTemp.rsmRegion ")
-	    	.append("		order by lsNumTemp.lsNum/pNumTemp.pNum ")
-	    	.append("		limit 1	")
-	    	.append(") whRateMinT,")
-	    	.append("( 	select IFNULL(lsNumTemp.lsNum/pNumTemp.pNum,0) as whRateMax,pNumTemp.name as whRateMaxUser ")
-	    	.append("	from ( ")
-	    	.append("			select IFNULL(pNum1.pNum,0) as pNum, u.region as rsmRegion, u.name from (")
-	    	.append("				select IFNULL(sum(pd.pnum),0) as pNum, h.rsmRegion ")
-	    	.append("				from tbl_pediatrics_data pd, tbl_hospital h ")
-	    	.append("				where pd.hospitalName = h.name ")
-	    	.append("				and TO_DAYS(?) = TO_DAYS(pd.createdate)")
-	    	.append("				and h.isPedAssessed='1' ")
-	    	.append("				and h.dragonType='Emerging' ")
-	    	.append("				group by h.rsmRegion ")
-	    	.append("			) pNum1 right join tbl_userinfo u on pNum1.rsmRegion = u.region ")
-	    	.append("			where u.level='RSM' ")
-	    	.append("		) pNumTemp, ")
-	    	.append("		( select IFNULL(lsNum1.lsNum,0) as lsNum, u.region as rsmRegion, u.name from ( ")
-	    	.append("				select IFNULL(sum(pd.lsnum),0) as lsNum, h.rsmRegion ")
-	    	.append("				from tbl_pediatrics_data pd, tbl_hospital h ")
-	    	.append("				where pd.hospitalName = h.name ")
-	    	.append("				and TO_DAYS(?) = TO_DAYS(pd.createdate)")
-	    	.append("				and h.isPedAssessed='1' ")
-	    	.append("				and h.dragonType='Emerging' ")
-	    	.append("				group by h.rsmRegion ")
-	    	.append("			) lsNum1 right join tbl_userinfo u on lsNum1.rsmRegion = u.region ")
-	    	.append("			where u.level='RSM' ")
-	    	.append("		) lsNumTemp ")
-	    	.append("		where pNumTemp.rsmRegion = lsNumTemp.rsmRegion ")
-	    	.append("		order by lsNumTemp.lsNum/pNumTemp.pNum desc ")
-	    	.append("		limit 1	")
-	    	.append(") whRateMaxT ");
-		return dataBean.getJdbcTemplate().queryForObject(sb.toString(), new Object[]{paramDate,paramDate,paramDate,paramDate},new EmergingTopAndBottomRSMWhRateRowMapper());
+			.append("				group by h.rsmRegion ")
+			.append("			) pNum1 right join tbl_userinfo u on pNum1.rsmRegion = u.region ")
+			.append("			where u.level='RSM' ")
+			.append("	) pNumTemp, ")
+			.append("	( select IFNULL(lsNum1.lsNum,0) as lsNum, u.region as rsmRegion, u.name from ( ")
+			.append("			select IFNULL(sum(pd.lsnum),0) as lsNum, h.rsmRegion ")
+			.append("			from tbl_pediatrics_data pd, tbl_hospital h ")
+			.append("			where pd.hospitalName = h.name ")
+			.append("			and TO_DAYS(?) = TO_DAYS(pd.createdate) ")
+			.append("			and h.").append(LsAttributes.SQL_WHERE_CONDITION_DAILYREPORT_HOSPITAL)
+			.append("			and h.dragonType='Emerging' ")
+			.append("			group by h.rsmRegion ")
+			.append("			) lsNum1 right join tbl_userinfo u on lsNum1.rsmRegion = u.region ")
+			.append("			where u.level='RSM' ")
+			.append("	) lsNumTemp")
+			.append("	where pNumTemp.rsmRegion = lsNumTemp.rsmRegion ")
+			.append("	order by lsNumTemp.lsNum/pNumTemp.pNum ")
+			.append("	limit 1	");
+			dbMaxData = dataBean.getJdbcTemplate().queryForObject(maxSB.toString(), new Object[]{paramDate,paramDate},new EmergingTopAndBottomRSMWhRateRowMapper());
+			
+			minSB.append(" select IFNULL(lsNumTemp.lsNum/pNumTemp.pNum,0) as whRateMax,pNumTemp.name as whRateMaxUser, 0 as whRateMin, '' as whRateMinUser ")
+			.append("	from ( ")
+			.append("			select IFNULL(pNum1.pNum,0) as pNum, u.region as rsmRegion, u.name from (")
+			.append("				select IFNULL(sum(pd.pnum),0) as pNum, h.rsmRegion ")
+			.append("				from tbl_pediatrics_data pd, tbl_hospital h ")
+			.append("				where pd.hospitalName = h.name ")
+			.append("				and TO_DAYS(?) = TO_DAYS(pd.createdate)")
+			.append("				and h.").append(LsAttributes.SQL_WHERE_CONDITION_DAILYREPORT_HOSPITAL)
+			.append("				and h.dragonType='Emerging' ")
+			.append("				group by h.rsmRegion ")
+			.append("			) pNum1 right join tbl_userinfo u on pNum1.rsmRegion = u.region ")
+			.append("			where u.level='RSM' ")
+			.append("	) pNumTemp, ")
+			.append("	( select IFNULL(lsNum1.lsNum,0) as lsNum, u.region as rsmRegion, u.name from ( ")
+			.append("				select IFNULL(sum(pd.lsnum),0) as lsNum, h.rsmRegion ")
+			.append("				from tbl_pediatrics_data pd, tbl_hospital h ")
+			.append("				where pd.hospitalName = h.name ")
+			.append("				and TO_DAYS(?) = TO_DAYS(pd.createdate)")
+			.append("				and h.").append(LsAttributes.SQL_WHERE_CONDITION_DAILYREPORT_HOSPITAL)
+			.append("				and h.dragonType='Emerging' ")
+			.append("				group by h.rsmRegion ")
+			.append("			) lsNum1 right join tbl_userinfo u on lsNum1.rsmRegion = u.region ")
+			.append("			where u.level='RSM' ")
+			.append("	) lsNumTemp ")
+			.append("	where pNumTemp.rsmRegion = lsNumTemp.rsmRegion ")
+			.append("	order by lsNumTemp.lsNum/pNumTemp.pNum desc ")
+			.append("	limit 1	");
+			dbMinData = dataBean.getJdbcTemplate().queryForObject(minSB.toString(), new Object[]{paramDate,paramDate},new EmergingTopAndBottomRSMWhRateRowMapper());
+		}catch(EmptyResultDataAccessException ee){
+	    	logger.warn("getEmergingTopAndBottomRSMWhRateData,data is empty");
+	    }
+
+		TopAndBottomRSMData rsmData = new TopAndBottomRSMData();
+		rsmData.setTopEmergingWhRate(dbMaxData.getTopEmergingWhRate());
+		rsmData.setTopEmergingWhRateRSMName(dbMaxData.getTopEmergingWhRateRSMName());
+		rsmData.setBottomEmergingWhRate(dbMinData.getBottomEmergingWhRate());
+		rsmData.setBottomEmergingWhRateRSMName(dbMinData.getBottomEmergingWhRateRSMName());
+		
+		return rsmData;
 	}
 	
 	@Override
@@ -960,7 +1024,10 @@ public class PediatricsDAOImpl implements PediatricsDAO {
 	    Timestamp paramDate = new Timestamp(DateUtils.populateParamDate(date).getTime());
 		
 		sb.append("select u.name,u.userCode,")
-			.append(" ( select count(1) from tbl_hospital h where h.rsmRegion = u.region and h.isPedAssessed='1' ) hosNum,")
+			.append(" ( select count(1) from tbl_hospital h ")
+			.append("	where h.rsmRegion = u.region ")
+			.append("	and h.").append(LsAttributes.SQL_WHERE_CONDITION_DAILYREPORT_HOSPITAL)
+			.append(" ) hosNum,")
 			.append(" count(1) as inNum, ")
 			.append(" IFNULL(sum(pd.pnum),0) as pnum, ")
 			.append(" IFNULL(sum(pd.whnum),0) as whnum, ")
@@ -970,7 +1037,7 @@ public class PediatricsDAOImpl implements PediatricsDAO {
 		    .append(" where pd.hospitalName = h1.name ")
     		.append(" and h1.rsmRegion = u.region ")
     		.append(" and TO_DAYS(?) = TO_DAYS(pd.createdate) ")
-    		.append(" and h1.isPedAssessed='1' ")
+    		.append(" and h1.").append(LsAttributes.SQL_WHERE_CONDITION_DAILYREPORT_HOSPITAL)
     		.append(" and u.level='RSM' ")
 		    .append(" group by u.region ");
 		
@@ -1009,7 +1076,10 @@ public class PediatricsDAOImpl implements PediatricsDAO {
         
         mobilePEDDailySQL.append("select ui.region as name, ui.userCode,")
         .append(" (select distinct property_value from tbl_property where property_name=ui.regionCenter ) as regionCenterCN, ")
-        .append(" ( select count(1) from tbl_hospital h where h.rsmRegion = ui.region and h.isPedAssessed='1' ) hosNum, ")
+        .append(" ( select count(1) from tbl_hospital h ")
+        .append("	where h.rsmRegion = ui.region ")
+        .append("	and h.").append(LsAttributes.SQL_WHERE_CONDITION_DAILYREPORT_HOSPITAL)
+        .append(" ) hosNum, ")
         .append(LsAttributes.SQL_DAILYREPORT_SELECTION_ALIAS_PED)
         .append(" from ( ")
         .append(" select u.region as name,u.userCode,")
@@ -1018,7 +1088,7 @@ public class PediatricsDAOImpl implements PediatricsDAO {
         .append(" where pd.hospitalName = h1.name ")
         .append(" and h1.rsmRegion = u.region ")
         .append(" and TO_DAYS(?) = TO_DAYS(pd.createdate) ")
-        .append(" and h1.isPedAssessed='1' ")
+        .append(" and h1.").append(LsAttributes.SQL_WHERE_CONDITION_DAILYREPORT_HOSPITAL)
         .append(" and u.level='RSM' ")
         .append(" and u.regionCenter = ? ")
         .append(" group by u.userCode ")
@@ -1039,13 +1109,15 @@ public class PediatricsDAOImpl implements PediatricsDAO {
         
         mobilePEDDailySQL.append("select '全国' as name,null as userCode,")
             .append(" '' as regionCenterCN, ")
-            .append(" (select count(1) from tbl_hospital h where h.isPedAssessed='1' ) hosNum, ")
+            .append(" (select count(1) from tbl_hospital h ")
+            .append("	where h.").append(LsAttributes.SQL_WHERE_CONDITION_DAILYREPORT_HOSPITAL)
+            .append(" ) hosNum, ")
             .append(LsAttributes.SQL_DAILYREPORT_SELECTION_PED)
             .append(" from ( ")
             .append("   select ped.* from tbl_pediatrics_data ped, tbl_hospital h ")
             .append("   where ped.hospitalName = h.name ")
             .append("   and TO_DAYS(ped.createdate) = TO_DAYS(?) ")
-            .append("   and h.isPedAssessed='1' ")
+            .append("   and h.").append(LsAttributes.SQL_WHERE_CONDITION_DAILYREPORT_HOSPITAL)
             .append(" ) pd ");
         return dataBean.getJdbcTemplate().queryForObject(mobilePEDDailySQL.toString(), new Object[]{paramDate},new PediatricsMobileRowMapper());
     }
@@ -1058,7 +1130,11 @@ public class PediatricsDAOImpl implements PediatricsDAO {
 	    
 	    mobilePEDDailySQL.append("select ui.name, ui.userCode,")
 	    .append(" (select distinct property_value from tbl_property where property_name=ui.regionCenter ) as regionCenterCN, ")
-        .append(" ( select count(1) from tbl_hospital h where h.dsmCode = ui.userCode and h.rsmRegion = ui.region and h.isPedAssessed='1' ) hosNum, ")
+        .append(" ( select count(1) from tbl_hospital h ")
+        .append("	where h.dsmCode = ui.userCode ")
+        .append("	and h.rsmRegion = ui.region ")
+        .append("	and h.").append(LsAttributes.SQL_WHERE_CONDITION_DAILYREPORT_HOSPITAL)
+        .append(" ) hosNum, ")
         .append(LsAttributes.SQL_DAILYREPORT_SELECTION_ALIAS_PED)
         .append(" from ( ")
         .append(" select u.name,u.userCode,")
@@ -1068,7 +1144,7 @@ public class PediatricsDAOImpl implements PediatricsDAO {
         .append(" and h1.rsmRegion = u.region ")
         .append(" and h1.dsmCode = u.userCode ")
         .append(" and TO_DAYS(?) = TO_DAYS(pd.createdate) ")
-        .append(" and h1.isPedAssessed='1' ")
+        .append(" and h1.").append(LsAttributes.SQL_WHERE_CONDITION_DAILYREPORT_HOSPITAL)
         .append(" and u.level='DSM' ")
         .append(" and u.region = ( select region from tbl_userinfo where telephone=? ) ")
         .append(" group by u.userCode ")
@@ -1088,7 +1164,10 @@ public class PediatricsDAOImpl implements PediatricsDAO {
 		
         mobilePEDDailySQL.append("select ui.region as name, ui.userCode,")
         .append(" (select distinct property_value from tbl_property where property_name=ui.regionCenter ) as regionCenterCN, ")
-        .append(" ( select count(1) from tbl_hospital h where h.rsmRegion = ui.region and h.isPedAssessed='1' ) hosNum, ")
+        .append(" ( select count(1) from tbl_hospital h ")
+        .append("	where h.rsmRegion = ui.region ")
+        .append("	and h.").append(LsAttributes.SQL_WHERE_CONDITION_DAILYREPORT_HOSPITAL)
+        .append(" ) hosNum, ")
         .append(LsAttributes.SQL_DAILYREPORT_SELECTION_ALIAS_PED)
         .append(" from ( ")
         .append(" select u.region as name,u.userCode,")
@@ -1097,7 +1176,7 @@ public class PediatricsDAOImpl implements PediatricsDAO {
         .append(" where pd.hospitalName = h1.name ")
         .append(" and h1.rsmRegion = u.region ")
         .append(" and TO_DAYS(?) = TO_DAYS(pd.createdate) ")
-        .append(" and h1.isPedAssessed='1' ")
+        .append(" and h1.").append(LsAttributes.SQL_WHERE_CONDITION_DAILYREPORT_HOSPITAL)
         .append(" and u.level='RSM' ")
         .append(" and u.regionCenter = ( select regionCenter from tbl_userinfo where telephone=? ) ")
         .append(" group by u.userCode ")
@@ -1119,8 +1198,11 @@ public class PediatricsDAOImpl implements PediatricsDAO {
 		
 	    mobilePEDDailySQL.append("select ( select distinct property_value from tbl_property where property_name = ui.regionCenter ) as name,ui.userCode,")
 	        .append(" (select distinct property_value from tbl_property where property_name=ui.regionCenter ) as regionCenterCN, ")
-	        .append(" ( select count(1) from tbl_hospital h where h.region = ui.regionCenter and h.isPedAssessed='1' ) hosNum, ")
-    	    .append(LsAttributes.SQL_DAILYREPORT_SELECTION_ALIAS_PED)
+	        .append(" ( select count(1) from tbl_hospital h ")
+    	    .append("	where h.region = ui.regionCenter ")
+    	    .append("	and h.").append(LsAttributes.SQL_WHERE_CONDITION_DAILYREPORT_HOSPITAL)
+    	    .append(" ) hosNum, ")
+	        .append(LsAttributes.SQL_DAILYREPORT_SELECTION_ALIAS_PED)
     	    .append(" from ( ")
     	    .append(" select u.regionCenter as name, u.userCode,")
     	    .append(LsAttributes.SQL_DAILYREPORT_SELECTION_PED)
@@ -1128,7 +1210,7 @@ public class PediatricsDAOImpl implements PediatricsDAO {
     	    .append(" where pd.hospitalName = h1.name ")
     	    .append(" and h1.region = u.regionCenter ")
     	    .append(" and TO_DAYS(?) = TO_DAYS(pd.createdate) ")
-    	    .append(" and h1.isPedAssessed='1' ")
+    	    .append(" and h1.").append(LsAttributes.SQL_WHERE_CONDITION_DAILYREPORT_HOSPITAL)
     	    .append(" and u.level='RSD' ")
     	    .append(" group by u.regionCenter ")
     	    .append(" ) dailyData ")
@@ -1146,7 +1228,12 @@ public class PediatricsDAOImpl implements PediatricsDAO {
 	    
 	    mobilePEDDailySQL.append("select ui.name,ui.userCode,")
 	    .append(" (select distinct property_value from tbl_property where property_name=ui.regionCenter ) as regionCenterCN, ")
-	    .append(" ( select count(1) from tbl_hospital h where h.saleCode = ui.userCode and h.rsmRegion = ui.region and h.dsmCode = ui.superior and h.isPedAssessed='1') hosNum, ")
+	    .append(" ( select count(1) from tbl_hospital h ")
+	    .append(" 	where h.saleCode = ui.userCode ")
+	    .append("	and h.rsmRegion = ui.region ")
+	    .append("	and h.dsmCode = ui.superior ")
+	    .append("	and h.").append(LsAttributes.SQL_WHERE_CONDITION_DAILYREPORT_HOSPITAL)
+	    .append(" ) hosNum,")
 	    .append(LsAttributes.SQL_DAILYREPORT_SELECTION_ALIAS_PED)
 	    .append(" from ( ")
 	    .append(" select u.name,u.userCode,")
@@ -1157,7 +1244,7 @@ public class PediatricsDAOImpl implements PediatricsDAO {
 	    .append(" and h1.dsmCode = u.superior ")
 	    .append(" and h1.saleCode = u.userCode ")
 	    .append(" and TO_DAYS(?) = TO_DAYS(pd.createdate) ")
-	    .append(" and h1.isPedAssessed='1' ")
+	    .append(" and h1.").append(LsAttributes.SQL_WHERE_CONDITION_DAILYREPORT_HOSPITAL)
 	    .append(" and u.level='REP' ")
 	    .append(" and u.superior = ( select userCode from tbl_userinfo where telephone=? ) ")
 	    .append(" group by u.userCode ")
@@ -1197,7 +1284,7 @@ public class PediatricsDAOImpl implements PediatricsDAO {
 		.append(" and h1.rsmRegion = u.region ")
 		.append(" and TO_DAYS(?) = TO_DAYS(pd.createdate) ")
 		.append(" and pd.portNum != 0 ")
-		.append(" and h1.isPedAssessed='1' ")
+		.append(" and h1.").append(LsAttributes.SQL_WHERE_CONDITION_DAILYREPORT_HOSPITAL)
 		.append(" and u.level='RSM' ")
 		.append(" and u.regionCenter = ? ")
 		.append(" group by u.userCode ")
@@ -1223,7 +1310,7 @@ public class PediatricsDAOImpl implements PediatricsDAO {
 		.append(" where pd.hospitalName = h.name ")
 		.append(" and TO_DAYS(pd.createdate) = TO_DAYS(?) ")
 		.append(" and pd.portNum != 0 ")
-		.append(" and h.isPedAssessed='1' ");
+		.append(" and h.").append(LsAttributes.SQL_WHERE_CONDITION_DAILYREPORT_HOSPITAL);
 		return dataBean.getJdbcTemplate().queryForObject(mobilePEDDailySQL.toString(), new Object[]{paramDate},new PediatricsWhPortRowMapper());
 	}
 	
@@ -1246,7 +1333,7 @@ public class PediatricsDAOImpl implements PediatricsDAO {
 		.append(" and h1.dsmCode = u.userCode ")
 		.append(" and TO_DAYS(?) = TO_DAYS(pd.createdate) ")
 		.append(" and pd.portNum != 0 ")
-		.append(" and h1.isPedAssessed='1' ")
+		.append(" and h1.").append(LsAttributes.SQL_WHERE_CONDITION_DAILYREPORT_HOSPITAL)
 		.append(" and u.level='DSM' ")
 		.append(" and u.region = ( select region from tbl_userinfo where telephone=? ) ")
 		.append(" group by u.userCode ")
@@ -1276,7 +1363,7 @@ public class PediatricsDAOImpl implements PediatricsDAO {
 		.append(" and h1.rsmRegion = u.region ")
 		.append(" and TO_DAYS(?) = TO_DAYS(pd.createdate) ")
 		.append(" and pd.portNum != 0 ")
-		.append(" and h1.isPedAssessed='1' ")
+		.append(" and h1.").append(LsAttributes.SQL_WHERE_CONDITION_DAILYREPORT_HOSPITAL)
 		.append(" and u.level='RSM' ")
 		.append(" and u.regionCenter = ( select regionCenter from tbl_userinfo where telephone=? ) ")
 		.append(" group by u.userCode ")
@@ -1308,7 +1395,7 @@ public class PediatricsDAOImpl implements PediatricsDAO {
 		.append(" and h1.region = u.regionCenter ")
 		.append(" and TO_DAYS(?) = TO_DAYS(pd.createdate) ")
 		.append(" and pd.portNum != 0 ")
-		.append(" and h1.isPedAssessed='1' ")
+		.append(" and h1.").append(LsAttributes.SQL_WHERE_CONDITION_DAILYREPORT_HOSPITAL)
 		.append(" and u.level='RSD' ")
 		.append(" group by u.regionCenter ")
 		.append(" ) dailyData ")
@@ -1338,7 +1425,7 @@ public class PediatricsDAOImpl implements PediatricsDAO {
 		.append(" and h1.saleCode = u.userCode ")
 		.append(" and TO_DAYS(?) = TO_DAYS(pd.createdate) ")
 		.append(" and pd.portNum != 0 ")
-		.append(" and h1.isPedAssessed='1' ")
+		.append(" and h1.").append(LsAttributes.SQL_WHERE_CONDITION_DAILYREPORT_HOSPITAL)
 		.append(" and u.level='REP' ")
 		.append(" and u.superior = ( select userCode from tbl_userinfo where telephone=? ) ")
 		.append(" group by u.userCode ")
@@ -1367,7 +1454,11 @@ public class PediatricsDAOImpl implements PediatricsDAO {
 		Timestamp paramDate = new Timestamp(DateUtils.populateParamDate(date).getTime());
 		
 		mobilePEDDailySQL.append("select ui.userCode,")
-		.append(" ( select count(1) from tbl_hospital h where h.rsmRegion = ui.region and h.isPedAssessed='1' and h.dragonType='Core' ) coreHosNum, ")
+		.append(" ( select count(1) from tbl_hospital h ")
+		.append("	where h.rsmRegion = ui.region ")
+		.append("	and h.").append(LsAttributes.SQL_WHERE_CONDITION_DAILYREPORT_HOSPITAL)
+		.append("	and h.dragonType='Core' ")
+		.append(" ) coreHosNum, ")
 		.append(" IFNULL(dailyData.inNum,0) as coreInNum ")
 		.append(" ,IFNULL(dailyData.pnum,0) as corePNum ")
 		.append(" ,IFNULL(dailyData.lsnum,0) as coreLsNum ")
@@ -1380,7 +1471,7 @@ public class PediatricsDAOImpl implements PediatricsDAO {
 		.append(" where pd.hospitalName = h1.name ")
 		.append(" and h1.rsmRegion = u.region ")
 		.append(" and TO_DAYS(?) = TO_DAYS(pd.createdate) ")
-		.append(" and h1.isPedAssessed='1' ")
+		.append(" and h1.").append(LsAttributes.SQL_WHERE_CONDITION_DAILYREPORT_HOSPITAL)
 		.append(" and h1.dragonType='Core' ")
 		.append(" and u.level='RSM' ")
 		.append(" and u.regionCenter = ? ")
@@ -1412,7 +1503,7 @@ public class PediatricsDAOImpl implements PediatricsDAO {
 		.append(" where pd.hospitalName = h1.name ")
 		.append(" and h1.rsmRegion = u.region ")
 		.append(" and TO_DAYS(?) = TO_DAYS(pd.createdate) ")
-		.append(" and h1.isPedAssessed='1' ")
+		.append(" and h1.").append(LsAttributes.SQL_WHERE_CONDITION_DAILYREPORT_HOSPITAL)
 		.append(" and h1.dragonType='Emerging' ")
 		.append(" and u.level='RSM' ")
 		.append(" and u.regionCenter = ? ")
@@ -1433,15 +1524,19 @@ public class PediatricsDAOImpl implements PediatricsDAO {
 		Timestamp paramDate = new Timestamp(DateUtils.populateParamDate(date).getTime());
 		
 		mobilePEDDailySQL.append("select null as userCode,")
-		.append(" (select count(1) from tbl_hospital h where h.isPedAssessed='1' and h.dragonType='Core' ) coreHosNum, ")
+		.append(" (select count(1) from tbl_hospital h ")
+		.append("	where h.").append(LsAttributes.SQL_WHERE_CONDITION_DAILYREPORT_HOSPITAL)
+		.append("	and h.dragonType='Core' ")
+		.append(" ) coreHosNum, ")
 		.append(" pd.coreInNum ")
 		.append(" ,IFNULL(pd.pnum,0) as corePNum ")
 		.append(" ,IFNULL(pd.lsnum,0) as coreLsNum ")
 		.append(" from ( ")
-		.append("   select count(1) as coreInNum,IFNULL(sum(ped.pnum),0) as pnum,IFNULL(sum(ped.lsnum),0) as lsnum from tbl_pediatrics_data ped, tbl_hospital h ")
+		.append("   select count(1) as coreInNum,IFNULL(sum(ped.pnum),0) as pnum,IFNULL(sum(ped.lsnum),0) as lsnum ")
+		.append(" 	from tbl_pediatrics_data ped, tbl_hospital h ")
 		.append("   where ped.hospitalName = h.name ")
 		.append("   and TO_DAYS(ped.createdate) = TO_DAYS(?) ")
-		.append("   and h.isPedAssessed='1' ")
+		.append("   and h.").append(LsAttributes.SQL_WHERE_CONDITION_DAILYREPORT_HOSPITAL)
 		.append(" 	and h.dragonType='Core' ")
 		.append(" ) pd ");
 		return dataBean.getJdbcTemplate().queryForObject(mobilePEDDailySQL.toString(), new Object[]{paramDate},new PediatricsCoreHosRowMapper());
@@ -1458,7 +1553,7 @@ public class PediatricsDAOImpl implements PediatricsDAO {
 		.append("   from tbl_pediatrics_data ped, tbl_hospital h ")
 		.append("   where ped.hospitalName = h.name ")
 		.append("   and TO_DAYS(ped.createdate) = TO_DAYS(?) ")
-		.append("   and h.isPedAssessed='1' ")
+		.append("   and h.").append(LsAttributes.SQL_WHERE_CONDITION_DAILYREPORT_HOSPITAL)
 		.append(" 	and h.dragonType='Emerging' ");
 		return dataBean.getJdbcTemplate().queryForObject(mobilePEDDailySQL.toString(), new Object[]{paramDate},new PediatricsEmergingHosRowMapper());
 	}
@@ -1470,7 +1565,12 @@ public class PediatricsDAOImpl implements PediatricsDAO {
 		Timestamp paramDate = new Timestamp(DateUtils.populateParamDate(date).getTime());
 		
 		mobilePEDDailySQL.append("select ui.userCode,")
-		.append(" ( select count(1) from tbl_hospital h where h.dsmCode = ui.userCode and h.rsmRegion = ui.region and h.isPedAssessed='1' and h.dragonType='Core' ) coreHosNum, ")
+		.append(" ( select count(1) from tbl_hospital h ")
+		.append("	where h.dsmCode = ui.userCode ")
+		.append("	and h.rsmRegion = ui.region ")
+		.append("	and h.").append(LsAttributes.SQL_WHERE_CONDITION_DAILYREPORT_HOSPITAL)
+		.append("	and h.dragonType='Core' ")
+		.append(" ) coreHosNum, ")
 		.append(" IFNULL(dailyData.inNum,0) as coreInNum ")
 		.append(" ,IFNULL(dailyData.pnum,0) as corePNum ")
 		.append(" ,IFNULL(dailyData.lsnum,0) as coreLsNum ")
@@ -1484,7 +1584,7 @@ public class PediatricsDAOImpl implements PediatricsDAO {
 		.append(" and h1.rsmRegion = u.region ")
 		.append(" and h1.dsmCode = u.userCode ")
 		.append(" and TO_DAYS(?) = TO_DAYS(pd.createdate) ")
-		.append(" and h1.isPedAssessed='1' ")
+		.append(" and h1.").append(LsAttributes.SQL_WHERE_CONDITION_DAILYREPORT_HOSPITAL)
 		.append(" and h1.dragonType='Core' ")
 		.append(" and u.level='DSM' ")
 		.append(" and u.region = ( select region from tbl_userinfo where telephone=? ) ")
@@ -1515,7 +1615,7 @@ public class PediatricsDAOImpl implements PediatricsDAO {
 		.append(" and h1.rsmRegion = u.region ")
 		.append(" and h1.dsmCode = u.userCode ")
 		.append(" and TO_DAYS(?) = TO_DAYS(pd.createdate) ")
-		.append(" and h1.isPedAssessed='1' ")
+		.append(" and h1.").append(LsAttributes.SQL_WHERE_CONDITION_DAILYREPORT_HOSPITAL)
 		.append(" and h1.dragonType='Emerging' ")
 		.append(" and u.level='DSM' ")
 		.append(" and u.region = ( select region from tbl_userinfo where telephone=? ) ")
@@ -1535,7 +1635,11 @@ public class PediatricsDAOImpl implements PediatricsDAO {
 		Timestamp paramDate = new Timestamp(DateUtils.populateParamDate(date).getTime());
 		
 		mobilePEDDailySQL.append("select ui.userCode,")
-		.append(" ( select count(1) from tbl_hospital h where h.rsmRegion = ui.region and h.isPedAssessed='1' and h.dragonType='Core' ) coreHosNum, ")
+		.append(" ( select count(1) from tbl_hospital h ")
+		.append("	where h.rsmRegion = ui.region ")
+		.append("	and h.").append(LsAttributes.SQL_WHERE_CONDITION_DAILYREPORT_HOSPITAL)
+		.append("	and h.dragonType='Core' ")
+		.append(" ) coreHosNum, ")
 		.append(" IFNULL(dailyData.inNum,0) as coreInNum ")
 		.append(" ,IFNULL(dailyData.pnum,0) as corePNum ")
 		.append(" ,IFNULL(dailyData.lsnum,0) as coreLsNum ")
@@ -1548,7 +1652,7 @@ public class PediatricsDAOImpl implements PediatricsDAO {
 		.append(" where pd.hospitalName = h1.name ")
 		.append(" and h1.rsmRegion = u.region ")
 		.append(" and TO_DAYS(?) = TO_DAYS(pd.createdate) ")
-		.append(" and h1.isPedAssessed='1' ")
+		.append(" and h1.").append(LsAttributes.SQL_WHERE_CONDITION_DAILYREPORT_HOSPITAL)
 		.append(" and h1.dragonType='Core' ")
 		.append(" and u.level='RSM' ")
 		.append(" and u.regionCenter = ( select regionCenter from tbl_userinfo where telephone=? ) ")
@@ -1580,7 +1684,7 @@ public class PediatricsDAOImpl implements PediatricsDAO {
 		.append(" where pd.hospitalName = h1.name ")
 		.append(" and h1.rsmRegion = u.region ")
 		.append(" and TO_DAYS(?) = TO_DAYS(pd.createdate) ")
-		.append(" and h1.isPedAssessed='1' ")
+		.append(" and h1.").append(LsAttributes.SQL_WHERE_CONDITION_DAILYREPORT_HOSPITAL)
 		.append(" and h1.dragonType='Emerging' ")
 		.append(" and u.level='RSM' ")
 		.append(" and u.regionCenter = ( select regionCenter from tbl_userinfo where telephone=? ) ")
@@ -1602,7 +1706,11 @@ public class PediatricsDAOImpl implements PediatricsDAO {
 		Timestamp paramDate = new Timestamp(DateUtils.populateParamDate(date).getTime());
 		
 		mobilePEDDailySQL.append("select ui.userCode,")
-		.append(" ( select count(1) from tbl_hospital h where h.region = ui.regionCenter and h.isPedAssessed='1' and h.dragonType='Core' ) coreHosNum, ")
+		.append(" ( select count(1) from tbl_hospital h ")
+		.append("	where h.region = ui.regionCenter ")
+		.append("	and h.").append(LsAttributes.SQL_WHERE_CONDITION_DAILYREPORT_HOSPITAL)
+		.append("	and h.dragonType='Core' ")
+		.append(" ) coreHosNum, ")
 		.append(" IFNULL(dailyData.inNum,0) as coreInNum ")
 		.append(" ,IFNULL(dailyData.pnum,0) as corePNum ")
 		.append(" ,IFNULL(dailyData.lsnum,0) as coreLsNum ")
@@ -1615,7 +1723,7 @@ public class PediatricsDAOImpl implements PediatricsDAO {
 		.append(" where pd.hospitalName = h1.name ")
 		.append(" and h1.region = u.regionCenter ")
 		.append(" and TO_DAYS(?) = TO_DAYS(pd.createdate) ")
-		.append(" and h1.isPedAssessed='1' ")
+		.append(" and h1.").append(LsAttributes.SQL_WHERE_CONDITION_DAILYREPORT_HOSPITAL)
 		.append(" and h1.dragonType='Core' ")
 		.append(" and u.level='RSD' ")
 		.append(" group by u.regionCenter ")
@@ -1646,7 +1754,7 @@ public class PediatricsDAOImpl implements PediatricsDAO {
 		.append(" where pd.hospitalName = h1.name ")
 		.append(" and h1.region = u.regionCenter ")
 		.append(" and TO_DAYS(?) = TO_DAYS(pd.createdate) ")
-		.append(" and h1.isPedAssessed='1' ")
+		.append(" and h1.").append(LsAttributes.SQL_WHERE_CONDITION_DAILYREPORT_HOSPITAL)
 		.append(" and h1.dragonType='Emerging' ")
 		.append(" and u.level='RSD' ")
 		.append(" group by u.regionCenter ")
@@ -1664,7 +1772,13 @@ public class PediatricsDAOImpl implements PediatricsDAO {
 		Timestamp paramDate = new Timestamp(DateUtils.populateParamDate(date).getTime());
 		
 		mobilePEDDailySQL.append("select ui.userCode,")
-		.append(" ( select count(1) from tbl_hospital h where h.saleCode = ui.userCode and h.rsmRegion = ui.region and h.dsmCode = ui.superior and h.isPedAssessed='1' and h.dragonType='Core') coreHosNum, ")
+		.append(" ( select count(1) from tbl_hospital h ")
+		.append("	where h.saleCode = ui.userCode ")
+		.append("	and h.rsmRegion = ui.region ")
+		.append("	and h.dsmCode = ui.superior ")
+		.append("	and h.").append(LsAttributes.SQL_WHERE_CONDITION_DAILYREPORT_HOSPITAL)
+		.append("	and h.dragonType='Core' ")
+		.append(" ) coreHosNum, ")
 		.append(" IFNULL(dailyData.inNum,0) as coreInNum ")
 		.append(" ,IFNULL(dailyData.pnum,0) as corePNum ")
 		.append(" ,IFNULL(dailyData.lsnum,0) as coreLsNum ")
@@ -1679,7 +1793,7 @@ public class PediatricsDAOImpl implements PediatricsDAO {
 		.append(" and h1.dsmCode = u.superior ")
 		.append(" and h1.saleCode = u.userCode ")
 		.append(" and TO_DAYS(?) = TO_DAYS(pd.createdate) ")
-		.append(" and h1.isPedAssessed='1' ")
+		.append(" and h1.").append(LsAttributes.SQL_WHERE_CONDITION_DAILYREPORT_HOSPITAL)
 		.append(" and h1.dragonType='Core' ")
 		.append(" and u.level='REP' ")
 		.append(" and u.superior = ( select userCode from tbl_userinfo where telephone=? ) ")
@@ -1711,7 +1825,7 @@ public class PediatricsDAOImpl implements PediatricsDAO {
 		.append(" and h1.dsmCode = u.superior ")
 		.append(" and h1.saleCode = u.userCode ")
 		.append(" and TO_DAYS(?) = TO_DAYS(pd.createdate) ")
-		.append(" and h1.isPedAssessed='1' ")
+		.append(" and h1.").append(LsAttributes.SQL_WHERE_CONDITION_DAILYREPORT_HOSPITAL)
 		.append(" and h1.dragonType='Emerging' ")
 		.append(" and u.level='REP' ")
 		.append(" and u.superior = ( select userCode from tbl_userinfo where telephone=? ) ")

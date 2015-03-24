@@ -22,6 +22,8 @@ public class Hospital {
     private String isChestSurgeryAssessed;
     private String isTop100;//是否在胸外科Top 100名单中（在=1，不在=0）
     
+    private String isDailyReport;
+    
     private int portNum;
     
     public int getId() {
@@ -137,5 +139,11 @@ public class Hospital {
 	}
 	public void setPortNum(int portNum) {
 		this.portNum = portNum;
+	}
+	public String getIsDailyReport() {
+		return isDailyReport;
+	}
+	public void setIsDailyReport(String isDailyReport) {
+		this.isDailyReport = isDailyReport;
 	}
 }
