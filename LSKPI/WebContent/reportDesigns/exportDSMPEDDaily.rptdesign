@@ -403,7 +403,7 @@ ui.name,ui.userCode,ui.regionCenter,ui.region,ui.level
     from tbl_hospital h 
     where h.dsmCode = ui.userCode 
     and h.rsmRegion = ui.region 
-    and h.isDailyReport='1' 
+    and h.isPedAssessed='1' 
 ) hosNum
 ,IFNULL(ped_Data.inNum,0) as inNum
 ,IFNULL(ped_Data.pnum,0) as pnum
@@ -430,7 +430,7 @@ where pd.hospitalName = h1.name
 and h1.rsmRegion = u.region 
 and h1.dsmCode = u.userCode 
 and DATE_FORMAT(pd.createdate,'%m-%d-%Y') = ? 
-and h1.isDailyReport='1' 
+and h1.isPedAssessed='1' 
 and u.level='DSM'
 group by u.regionCenter, u.region, u.userCode 
 ) ped_Data 
