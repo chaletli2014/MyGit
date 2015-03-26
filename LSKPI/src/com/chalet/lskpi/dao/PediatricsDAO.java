@@ -32,64 +32,64 @@ public interface PediatricsDAO {
 	public void insert(PediatricsData pediatricsData, String dsmCode) throws Exception;
 	public void update(PediatricsData pediatricsData, UserInfo operator) throws Exception;
 	
-	public MobilePEDDailyData getDailyPEDData4CountoryMobile(Timestamp paramDate)throws Exception;
-	public List<MobilePEDDailyData> getDailyPEDData4RSMByRegion(String region) throws Exception;
-	public List<MobilePEDDailyData> getDailyPEDData4DSMMobile( String telephone ) throws Exception;
-	public List<MobilePEDDailyData> getDailyPEDData4RSMMobile( String telephone ) throws Exception;
-	public List<MobilePEDDailyData> getDailyPEDData4RSDMobile(Timestamp paramDate) throws Exception;
-	public List<MobilePEDDailyData> getDailyPEDChildData4DSMMobile( String telephone ) throws Exception;
-	public List<MobilePEDDailyData> getDailyPEDChildData4RSMMobile( String telephone ) throws Exception;
-	public List<MobilePEDDailyData> getDailyPEDChildData4RSDMobile( String telephone ) throws Exception;
+	public MobilePEDDailyData getDailyPEDData4CountoryMobile(Timestamp paramDate, String hospitalShownFlag)throws Exception;
+	public List<MobilePEDDailyData> getDailyPEDData4RSMByRegion(String region, String hospitalShownFlag) throws Exception;
+	public List<MobilePEDDailyData> getDailyPEDData4DSMMobile( String telephone, String hospitalShownFlag ) throws Exception;
+	public List<MobilePEDDailyData> getDailyPEDData4RSMMobile( String telephone, String hospitalShownFlag ) throws Exception;
+	public List<MobilePEDDailyData> getDailyPEDData4RSDMobile(Timestamp paramDate, String hospitalShownFlag) throws Exception;
+	public List<MobilePEDDailyData> getDailyPEDChildData4DSMMobile( String telephone, String hospitalShownFlag ) throws Exception;
+	public List<MobilePEDDailyData> getDailyPEDChildData4RSMMobile( String telephone, String hospitalShownFlag ) throws Exception;
+	public List<MobilePEDDailyData> getDailyPEDChildData4RSDMobile( String telephone, String hospitalShownFlag ) throws Exception;
 	
-	public MobilePEDDailyData getDailyPEDWhPortData4CountoryMobile(Timestamp paramDate)throws Exception;
-	public List<MobilePEDDailyData> getDailyPEDWhPortData4RSMByRegion(String region) throws Exception;
-	public List<MobilePEDDailyData> getDailyPEDWhPortData4DSMMobile( String telephone ) throws Exception;
-	public List<MobilePEDDailyData> getDailyPEDWhPortData4RSMMobile( String telephone ) throws Exception;
-	public List<MobilePEDDailyData> getDailyPEDWhPortData4RSDMobile(Timestamp paramDate) throws Exception;
-	public List<MobilePEDDailyData> getDailyPEDWhPortChildData4DSMMobile( String telephone ) throws Exception;
-	public List<MobilePEDDailyData> getDailyPEDWhPortChildData4RSMMobile( String telephone ) throws Exception;
-	public List<MobilePEDDailyData> getDailyPEDWhPortChildData4RSDMobile( String telephone ) throws Exception;
+	public MobilePEDDailyData getDailyPEDWhPortData4CountoryMobile(Timestamp paramDate, String hospitalShownFlag)throws Exception;
+	public List<MobilePEDDailyData> getDailyPEDWhPortData4RSMByRegion(String region, String hospitalShownFlag) throws Exception;
+	public List<MobilePEDDailyData> getDailyPEDWhPortData4DSMMobile( String telephone, String hospitalShownFlag ) throws Exception;
+	public List<MobilePEDDailyData> getDailyPEDWhPortData4RSMMobile( String telephone, String hospitalShownFlag ) throws Exception;
+	public List<MobilePEDDailyData> getDailyPEDWhPortData4RSDMobile(Timestamp paramDate, String hospitalShownFlag) throws Exception;
+	public List<MobilePEDDailyData> getDailyPEDWhPortChildData4DSMMobile( String telephone, String hospitalShownFlag ) throws Exception;
+	public List<MobilePEDDailyData> getDailyPEDWhPortChildData4RSMMobile( String telephone, String hospitalShownFlag ) throws Exception;
+	public List<MobilePEDDailyData> getDailyPEDWhPortChildData4RSDMobile( String telephone, String hospitalShownFlag ) throws Exception;
 	
-	public MobilePEDDailyData getDailyCorePEDData4CountoryMobile(Timestamp paramDate)throws Exception;
-	public List<MobilePEDDailyData> getDailyCorePEDData4RSMByRegion(String region) throws Exception;
-	public List<MobilePEDDailyData> getDailyCorePEDData4DSMMobile( String telephone ) throws Exception;
-	public List<MobilePEDDailyData> getDailyCorePEDData4RSMMobile( String telephone ) throws Exception;
-	public List<MobilePEDDailyData> getDailyCorePEDData4RSDMobile(Timestamp paramDate) throws Exception;
-	public List<MobilePEDDailyData> getDailyCorePEDChildData4DSMMobile( String telephone ) throws Exception;
-	public List<MobilePEDDailyData> getDailyCorePEDChildData4RSMMobile( String telephone ) throws Exception;
-	public List<MobilePEDDailyData> getDailyCorePEDChildData4RSDMobile( String telephone ) throws Exception;
+	public MobilePEDDailyData getDailyCorePEDData4CountoryMobile(Timestamp paramDate, String hospitalShownFlag)throws Exception;
+	public List<MobilePEDDailyData> getDailyCorePEDData4RSMByRegion(String region, String hospitalShownFlag) throws Exception;
+	public List<MobilePEDDailyData> getDailyCorePEDData4DSMMobile( String telephone, String hospitalShownFlag ) throws Exception;
+	public List<MobilePEDDailyData> getDailyCorePEDData4RSMMobile( String telephone, String hospitalShownFlag ) throws Exception;
+	public List<MobilePEDDailyData> getDailyCorePEDData4RSDMobile(Timestamp paramDate, String hospitalShownFlag) throws Exception;
+	public List<MobilePEDDailyData> getDailyCorePEDChildData4DSMMobile( String telephone, String hospitalShownFlag ) throws Exception;
+	public List<MobilePEDDailyData> getDailyCorePEDChildData4RSMMobile( String telephone, String hospitalShownFlag ) throws Exception;
+	public List<MobilePEDDailyData> getDailyCorePEDChildData4RSDMobile( String telephone, String hospitalShownFlag ) throws Exception;
 	
-	public MobilePEDDailyData getDailyEmergingPEDData4CountoryMobile(Timestamp paramDate)throws Exception;
-	public List<MobilePEDDailyData> getDailyEmergingPEDData4RSMByRegion(String region) throws Exception;
+	public MobilePEDDailyData getDailyEmergingPEDData4CountoryMobile(Timestamp paramDate, String hospitalShownFlag)throws Exception;
+	public List<MobilePEDDailyData> getDailyEmergingPEDData4RSMByRegion(String region, String hospitalShownFlag) throws Exception;
 	
-	public List<MobilePEDDailyData> getDailyEmergingPEDData4DSMMobile( String telephone ) throws Exception;
-	public List<MobilePEDDailyData> getDailyEmergingPEDData4RSMMobile( String telephone ) throws Exception;
-	public List<MobilePEDDailyData> getDailyEmergingPEDData4RSDMobile(Timestamp paramDate) throws Exception;
+	public List<MobilePEDDailyData> getDailyEmergingPEDData4DSMMobile( String telephone, String hospitalShownFlag ) throws Exception;
+	public List<MobilePEDDailyData> getDailyEmergingPEDData4RSMMobile( String telephone, String hospitalShownFlag ) throws Exception;
+	public List<MobilePEDDailyData> getDailyEmergingPEDData4RSDMobile(Timestamp paramDate, String hospitalShownFlag) throws Exception;
 	
-	public List<MobilePEDDailyData> getDailyEmergingPEDChildData4DSMMobile( String telephone ) throws Exception;
-	public List<MobilePEDDailyData> getDailyEmergingPEDChildData4RSMMobile( String telephone ) throws Exception;
-	public List<MobilePEDDailyData> getDailyEmergingPEDChildData4RSDMobile( String telephone ) throws Exception;
+	public List<MobilePEDDailyData> getDailyEmergingPEDChildData4DSMMobile( String telephone, String hospitalShownFlag ) throws Exception;
+	public List<MobilePEDDailyData> getDailyEmergingPEDChildData4RSMMobile( String telephone, String hospitalShownFlag ) throws Exception;
+	public List<MobilePEDDailyData> getDailyEmergingPEDChildData4RSDMobile( String telephone, String hospitalShownFlag ) throws Exception;
 	
-	public List<DailyReportData> getAllRSMDataByTelephone() throws Exception;
+	public List<DailyReportData> getAllRSMDataByTelephone(String hospitalShownFlag) throws Exception;
 	
-	public TopAndBottomRSMData getTopAndBottomInRateRSMData(TopAndBottomRSMData rsmData) throws Exception;
-	public TopAndBottomRSMData getTopAndBottomWhRateRSMData(TopAndBottomRSMData rsmData) throws Exception;
-	public TopAndBottomRSMData getTopAndBottomAverageDoseRSMData(TopAndBottomRSMData rsmData) throws Exception;
-	public TopAndBottomRSMData getCoreTopAndBottomRSMData() throws Exception;
-	public TopAndBottomRSMData getCoreTopAndBottomRSMWhRateData() throws Exception;
+	public TopAndBottomRSMData getTopAndBottomInRateRSMData(TopAndBottomRSMData rsmData, String hospitalShownFlag) throws Exception;
+	public TopAndBottomRSMData getTopAndBottomWhRateRSMData(TopAndBottomRSMData rsmData, String hospitalShownFlag) throws Exception;
+	public TopAndBottomRSMData getTopAndBottomAverageDoseRSMData(TopAndBottomRSMData rsmData, String hospitalShownFlag) throws Exception;
+	public TopAndBottomRSMData getCoreTopAndBottomRSMData(String hospitalShownFlag) throws Exception;
+	public TopAndBottomRSMData getCoreTopAndBottomRSMWhRateData(String hospitalShownFlag) throws Exception;
 	/**
 	 * 获取全国最大最小RSM Emerging医院雾化率指标
 	 * @return
 	 * @throws Exception
 	 */
-	public TopAndBottomRSMData getEmergingTopAndBottomRSMWhRateData() throws Exception;
+	public TopAndBottomRSMData getEmergingTopAndBottomRSMWhRateData(String hospitalShownFlag) throws Exception;
 	/**
 	 * 获取全国最大最小RSM 雾化端口使用率指标
 	 * @param rsmData
 	 * @return
 	 * @throws Exception
 	 */
-	public TopAndBottomRSMData getTopAndBottomWhPortRateRSMData(TopAndBottomRSMData rsmData) throws Exception;
+	public TopAndBottomRSMData getTopAndBottomWhPortRateRSMData(TopAndBottomRSMData rsmData, String hospitalShownFlag) throws Exception;
 	
 	public void generateWeeklyPEDDataOfHospital() throws Exception;
 	public int removeOldWeeklyPEDData(String duration) throws Exception;

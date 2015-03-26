@@ -527,7 +527,7 @@ public class PediatricsDAOImpl implements PediatricsDAO {
 	}
 	
 	@Override
-	public TopAndBottomRSMData getTopAndBottomInRateRSMData(TopAndBottomRSMData rsmData) throws Exception {
+	public TopAndBottomRSMData getTopAndBottomInRateRSMData(TopAndBottomRSMData rsmData, String hospitalShownFlag) throws Exception {
 		StringBuffer maxSB = new StringBuffer();
 		StringBuffer minSB = new StringBuffer();
 		
@@ -543,7 +543,7 @@ public class PediatricsDAOImpl implements PediatricsDAO {
 	    	.append("		select IFNULL(count(1),0) as hosNum, h.rsmRegion, u.name ")
 	    	.append("		from tbl_hospital h, tbl_userinfo u ")
 	    	.append("		where h.rsmRegion = u.region ")
-	    	.append("		and h.").append(LsAttributes.SQL_WHERE_CONDITION_DAILYREPORT_HOSPITAL)
+	    	.append("		and h.").append(hospitalShownFlag)
 	    	.append("		and u.level='RSM' ")
 	    	.append("		group by u.region ")
 	    	.append("	) hosNumTemp, ")
@@ -552,7 +552,7 @@ public class PediatricsDAOImpl implements PediatricsDAO {
 	    	.append("			from tbl_pediatrics_data pd, tbl_hospital h ")
 	    	.append("			where pd.hospitalName = h.name ")
 	    	.append("			and TO_DAYS(?) = TO_DAYS(pd.createdate)")
-	    	.append("			and h.").append(LsAttributes.SQL_WHERE_CONDITION_DAILYREPORT_HOSPITAL)
+	    	.append("			and h.").append(hospitalShownFlag)
 	    	.append("			group by h.rsmRegion ")
 	    	.append("		) inNum1 right join tbl_userinfo u on inNum1.rsmRegion = u.region ")
 	    	.append("		where u.level='RSM' ")
@@ -567,7 +567,7 @@ public class PediatricsDAOImpl implements PediatricsDAO {
 	    	.append("		select IFNULL(count(1),0) as hosNum, h.rsmRegion, u.name ") 
 	    	.append("		from tbl_hospital h, tbl_userinfo u ") 
 	    	.append("		where h.rsmRegion = u.region ") 
-	    	.append("		and h.").append(LsAttributes.SQL_WHERE_CONDITION_DAILYREPORT_HOSPITAL)
+	    	.append("		and h.").append(hospitalShownFlag)
 	    	.append("		and u.level='RSM' ") 
 	    	.append("		group by u.region ") 
 	    	.append("	) hosNumTemp, ") 
@@ -577,7 +577,7 @@ public class PediatricsDAOImpl implements PediatricsDAO {
 	    	.append("			from tbl_pediatrics_data pd, tbl_hospital h ")
 	    	.append("			where pd.hospitalName = h.name  ")
 	    	.append("			and TO_DAYS(?) = TO_DAYS(pd.createdate)")
-	    	.append("			and h.").append(LsAttributes.SQL_WHERE_CONDITION_DAILYREPORT_HOSPITAL)
+	    	.append("			and h.").append(hospitalShownFlag)
 	    	.append("			group by h.rsmRegion ")
 	    	.append("		) inNum1 right join tbl_userinfo u on inNum1.rsmRegion = u.region ")
 	    	.append("		where u.level='RSM' ")
@@ -599,7 +599,7 @@ public class PediatricsDAOImpl implements PediatricsDAO {
 	}
 	
 	@Override
-	public TopAndBottomRSMData getTopAndBottomWhRateRSMData(TopAndBottomRSMData rsmData) throws Exception {
+	public TopAndBottomRSMData getTopAndBottomWhRateRSMData(TopAndBottomRSMData rsmData, String hospitalShownFlag) throws Exception {
 		StringBuffer maxSB = new StringBuffer();
 		StringBuffer minSB = new StringBuffer();
 		Date date = new Date();
@@ -616,7 +616,7 @@ public class PediatricsDAOImpl implements PediatricsDAO {
 			.append("				from tbl_pediatrics_data pd, tbl_hospital h ")
 			.append("				where pd.hospitalName = h.name ")
 			.append("				and TO_DAYS(?) = TO_DAYS(pd.createdate)")
-			.append("				and h.").append(LsAttributes.SQL_WHERE_CONDITION_DAILYREPORT_HOSPITAL)
+			.append("				and h.").append(hospitalShownFlag)
 			.append("				group by h.rsmRegion ")
 			.append("			) pNum1 right join tbl_userinfo u on pNum1.rsmRegion = u.region ")
 			.append("			where u.level='RSM' ")
@@ -626,7 +626,7 @@ public class PediatricsDAOImpl implements PediatricsDAO {
 			.append("			from tbl_pediatrics_data pd, tbl_hospital h ")
 			.append("			where pd.hospitalName = h.name ")
 			.append("			and TO_DAYS(?) = TO_DAYS(pd.createdate)")
-			.append("			and h.").append(LsAttributes.SQL_WHERE_CONDITION_DAILYREPORT_HOSPITAL)
+			.append("			and h.").append(hospitalShownFlag)
 			.append("			group by h.rsmRegion ")
 			.append("		) lsNum1 right join tbl_userinfo u on lsNum1.rsmRegion = u.region ")
 			.append("	where u.level='RSM' ")
@@ -643,7 +643,7 @@ public class PediatricsDAOImpl implements PediatricsDAO {
 			.append("				from tbl_pediatrics_data pd, tbl_hospital h ")
 			.append("				where pd.hospitalName = h.name ")
 			.append("				and TO_DAYS(?) = TO_DAYS(pd.createdate) ")
-			.append("				and h.").append(LsAttributes.SQL_WHERE_CONDITION_DAILYREPORT_HOSPITAL)
+			.append("				and h.").append(hospitalShownFlag)
 			.append("				group by h.rsmRegion ")
 			.append("			) pNum1 right join tbl_userinfo u on pNum1.rsmRegion = u.region ")
 			.append("			where u.level='RSM' ")
@@ -653,7 +653,7 @@ public class PediatricsDAOImpl implements PediatricsDAO {
 			.append("			from tbl_pediatrics_data pd, tbl_hospital h ")
 			.append("			where pd.hospitalName = h.name ")
 			.append("			and TO_DAYS(?) = TO_DAYS(pd.createdate) ")
-			.append("			and h.").append(LsAttributes.SQL_WHERE_CONDITION_DAILYREPORT_HOSPITAL)
+			.append("			and h.").append(hospitalShownFlag)
 			.append("			group by h.rsmRegion ")
 			.append("			) lsNum1 right join tbl_userinfo u on lsNum1.rsmRegion = u.region ")
 			.append("			where u.level='RSM' ")
@@ -674,7 +674,7 @@ public class PediatricsDAOImpl implements PediatricsDAO {
 	}
 	
 	@Override
-	public TopAndBottomRSMData getTopAndBottomAverageDoseRSMData(TopAndBottomRSMData rsmData) throws Exception {
+	public TopAndBottomRSMData getTopAndBottomAverageDoseRSMData(TopAndBottomRSMData rsmData, String hospitalShownFlag) throws Exception {
 		StringBuffer maxSB = new StringBuffer();
 		StringBuffer minSB = new StringBuffer();
 		
@@ -690,7 +690,7 @@ public class PediatricsDAOImpl implements PediatricsDAO {
 			.append("			from tbl_pediatrics_data pd, tbl_hospital h")
 			.append("			where pd.hospitalName = h.name ")
 			.append("			and TO_DAYS(?) = TO_DAYS(pd.createdate) ")
-			.append("			and h.").append(LsAttributes.SQL_WHERE_CONDITION_DAILYREPORT_HOSPITAL)
+			.append("			and h.").append(hospitalShownFlag)
 			.append("			group by h.rsmRegion ")
 			.append("		) av2 right join tbl_userinfo u on u.region = av2.rsmRegion ")
 			.append("		where u.level='RSM' ")
@@ -704,7 +704,7 @@ public class PediatricsDAOImpl implements PediatricsDAO {
 			.append("			from tbl_pediatrics_data pd, tbl_hospital h ")
 			.append("			where pd.hospitalName = h.name ")
 			.append("			and TO_DAYS(?) = TO_DAYS(pd.createdate) ")
-			.append("			and h.").append(LsAttributes.SQL_WHERE_CONDITION_DAILYREPORT_HOSPITAL)
+			.append("			and h.").append(hospitalShownFlag)
 			.append("			group by h.rsmRegion ")
 			.append("		) av1 right join tbl_userinfo u on u.region = av1.rsmRegion ")
 			.append("		where u.level='RSM' ")
@@ -724,7 +724,7 @@ public class PediatricsDAOImpl implements PediatricsDAO {
 	}
 	
 	@Override
-	public TopAndBottomRSMData getTopAndBottomWhPortRateRSMData(TopAndBottomRSMData rsmData) throws Exception {
+	public TopAndBottomRSMData getTopAndBottomWhPortRateRSMData(TopAndBottomRSMData rsmData, String hospitalShownFlag) throws Exception {
 		StringBuffer maxSB = new StringBuffer();
 		StringBuffer minSB = new StringBuffer();
 		
@@ -742,7 +742,7 @@ public class PediatricsDAOImpl implements PediatricsDAO {
 			.append("			from tbl_pediatrics_data pd, tbl_hospital h")
 			.append("			where pd.hospitalName = h.name ")
 			.append("			and TO_DAYS(?) = TO_DAYS(pd.createdate) ")
-			.append("			and h.").append(LsAttributes.SQL_WHERE_CONDITION_DAILYREPORT_HOSPITAL)
+			.append("			and h.").append(hospitalShownFlag)
 			.append("			and pd.portNum != 0 ")
 			.append("			group by h.rsmRegion ")
 			.append("		) av2 right join tbl_userinfo u on u.region = av2.rsmRegion ")
@@ -758,7 +758,7 @@ public class PediatricsDAOImpl implements PediatricsDAO {
 			.append("			where pd.hospitalName = h.name ")
 			.append("			and TO_DAYS(?) = TO_DAYS(pd.createdate) ")
 			.append("			and pd.portNum != 0 ")
-			.append("			and h.").append(LsAttributes.SQL_WHERE_CONDITION_DAILYREPORT_HOSPITAL)
+			.append("			and h.").append(hospitalShownFlag)
 			.append("			group by h.rsmRegion ")
 			.append("		) av1 right join tbl_userinfo u on u.region = av1.rsmRegion ")
 			.append("		where u.level='RSM' ")
@@ -778,7 +778,7 @@ public class PediatricsDAOImpl implements PediatricsDAO {
 	}
 	
 	@Override
-	public TopAndBottomRSMData getCoreTopAndBottomRSMData() throws Exception {
+	public TopAndBottomRSMData getCoreTopAndBottomRSMData(String hospitalShownFlag) throws Exception {
 		StringBuffer maxSB = new StringBuffer();
 		StringBuffer minSB = new StringBuffer();
 		Date date = new Date();
@@ -793,7 +793,7 @@ public class PediatricsDAOImpl implements PediatricsDAO {
 			.append("		select IFNULL(count(1),0) as hosNum, h.rsmRegion, u.name ") 
 			.append("		from tbl_hospital h, tbl_userinfo u ") 
 			.append("		where h.rsmRegion = u.region ") 
-			.append("		and h.").append(LsAttributes.SQL_WHERE_CONDITION_DAILYREPORT_HOSPITAL)
+			.append("		and h.").append(hospitalShownFlag)
 			.append("		and h.dragonType='Core' ")
 			.append("		and u.level='RSM' ") 
 			.append("		group by u.region ") 
@@ -804,7 +804,7 @@ public class PediatricsDAOImpl implements PediatricsDAO {
 			.append("			from tbl_pediatrics_data pd, tbl_hospital h ")
 			.append("			where pd.hospitalName = h.name  ")
 			.append("			and TO_DAYS(?) = TO_DAYS(pd.createdate)")
-			.append("			and h.").append(LsAttributes.SQL_WHERE_CONDITION_DAILYREPORT_HOSPITAL)
+			.append("			and h.").append(hospitalShownFlag)
 			.append("			and h.dragonType='Core' ")
 			.append("			group by h.rsmRegion ")
 			.append("		) inNum1 right join tbl_userinfo u on inNum1.rsmRegion = u.region ")
@@ -820,7 +820,7 @@ public class PediatricsDAOImpl implements PediatricsDAO {
 			.append("		select IFNULL(count(1),0) as hosNum, h.rsmRegion, u.name ")
 			.append("		from tbl_hospital h, tbl_userinfo u ")
 			.append("		where h.rsmRegion = u.region ")
-			.append("		and h.").append(LsAttributes.SQL_WHERE_CONDITION_DAILYREPORT_HOSPITAL)
+			.append("		and h.").append(hospitalShownFlag)
 			.append("		and h.dragonType='Core' ")
 			.append("		and u.level='RSM' ")
 			.append("		group by u.region ")
@@ -830,7 +830,7 @@ public class PediatricsDAOImpl implements PediatricsDAO {
 			.append("			from tbl_pediatrics_data pd, tbl_hospital h ")
 			.append("			where pd.hospitalName = h.name ")
 			.append("			and TO_DAYS(?) = TO_DAYS(pd.createdate)")
-			.append("			and h.").append(LsAttributes.SQL_WHERE_CONDITION_DAILYREPORT_HOSPITAL)
+			.append("			and h.").append(hospitalShownFlag)
 			.append("			and h.dragonType='Core' ")
 			.append("			group by h.rsmRegion ")
 			.append("		) inNum1 right join tbl_userinfo u on inNum1.rsmRegion = u.region ")
@@ -854,7 +854,7 @@ public class PediatricsDAOImpl implements PediatricsDAO {
 	}
 	
 	@Override
-	public TopAndBottomRSMData getCoreTopAndBottomRSMWhRateData() throws Exception {
+	public TopAndBottomRSMData getCoreTopAndBottomRSMWhRateData(String hospitalShownFlag) throws Exception {
 		StringBuffer maxSB = new StringBuffer();
 		StringBuffer minSB = new StringBuffer();
 		Date date = new Date();
@@ -871,7 +871,7 @@ public class PediatricsDAOImpl implements PediatricsDAO {
 			.append("				from tbl_pediatrics_data pd, tbl_hospital h ")
 			.append("				where pd.hospitalName = h.name ")
 			.append("				and TO_DAYS(?) = TO_DAYS(pd.createdate) ")
-			.append("				and h.").append(LsAttributes.SQL_WHERE_CONDITION_DAILYREPORT_HOSPITAL)
+			.append("				and h.").append(hospitalShownFlag)
 			.append("				and h.dragonType='Core' ")
 			.append("				group by h.rsmRegion ")
 			.append("			) pNum1 right join tbl_userinfo u on pNum1.rsmRegion = u.region ")
@@ -882,7 +882,7 @@ public class PediatricsDAOImpl implements PediatricsDAO {
 			.append("			from tbl_pediatrics_data pd, tbl_hospital h ")
 			.append("			where pd.hospitalName = h.name ")
 			.append("			and TO_DAYS(?) = TO_DAYS(pd.createdate) ")
-			.append("			and h.").append(LsAttributes.SQL_WHERE_CONDITION_DAILYREPORT_HOSPITAL)
+			.append("			and h.").append(hospitalShownFlag)
 			.append("			and h.dragonType='Core' ")
 			.append("			group by h.rsmRegion ")
 			.append("			) lsNum1 right join tbl_userinfo u on lsNum1.rsmRegion = u.region ")
@@ -901,7 +901,7 @@ public class PediatricsDAOImpl implements PediatricsDAO {
 			.append("				from tbl_pediatrics_data pd, tbl_hospital h ")
 			.append("				where pd.hospitalName = h.name ")
 			.append("				and TO_DAYS(?) = TO_DAYS(pd.createdate)")
-			.append("				and h.").append(LsAttributes.SQL_WHERE_CONDITION_DAILYREPORT_HOSPITAL)
+			.append("				and h.").append(hospitalShownFlag)
 			.append("				and h.dragonType='Core' ")
 			.append("				group by h.rsmRegion ")
 			.append("			) pNum1 right join tbl_userinfo u on pNum1.rsmRegion = u.region ")
@@ -912,7 +912,7 @@ public class PediatricsDAOImpl implements PediatricsDAO {
 			.append("				from tbl_pediatrics_data pd, tbl_hospital h ")
 			.append("				where pd.hospitalName = h.name ")
 			.append("				and TO_DAYS(?) = TO_DAYS(pd.createdate)")
-			.append("				and h.").append(LsAttributes.SQL_WHERE_CONDITION_DAILYREPORT_HOSPITAL)
+			.append("				and h.").append(hospitalShownFlag)
 			.append("				and h.dragonType='Core' ")
 			.append("				group by h.rsmRegion ")
 			.append("			) lsNum1 right join tbl_userinfo u on lsNum1.rsmRegion = u.region ")
@@ -937,7 +937,7 @@ public class PediatricsDAOImpl implements PediatricsDAO {
 	
 
 	@Override
-	public TopAndBottomRSMData getEmergingTopAndBottomRSMWhRateData() throws Exception {
+	public TopAndBottomRSMData getEmergingTopAndBottomRSMWhRateData(String hospitalShownFlag) throws Exception {
 		StringBuffer maxSB = new StringBuffer();
 		StringBuffer minSB = new StringBuffer();
 		Date date = new Date();
@@ -954,7 +954,7 @@ public class PediatricsDAOImpl implements PediatricsDAO {
 			.append("				from tbl_pediatrics_data pd, tbl_hospital h ")
 			.append("				where pd.hospitalName = h.name ")
 			.append("				and TO_DAYS(?) = TO_DAYS(pd.createdate) ")
-			.append("				and h.").append(LsAttributes.SQL_WHERE_CONDITION_DAILYREPORT_HOSPITAL)
+			.append("				and h.").append(hospitalShownFlag)
 			.append("				and h.dragonType='Emerging' ")
 			.append("				group by h.rsmRegion ")
 			.append("			) pNum1 right join tbl_userinfo u on pNum1.rsmRegion = u.region ")
@@ -965,7 +965,7 @@ public class PediatricsDAOImpl implements PediatricsDAO {
 			.append("			from tbl_pediatrics_data pd, tbl_hospital h ")
 			.append("			where pd.hospitalName = h.name ")
 			.append("			and TO_DAYS(?) = TO_DAYS(pd.createdate) ")
-			.append("			and h.").append(LsAttributes.SQL_WHERE_CONDITION_DAILYREPORT_HOSPITAL)
+			.append("			and h.").append(hospitalShownFlag)
 			.append("			and h.dragonType='Emerging' ")
 			.append("			group by h.rsmRegion ")
 			.append("			) lsNum1 right join tbl_userinfo u on lsNum1.rsmRegion = u.region ")
@@ -983,7 +983,7 @@ public class PediatricsDAOImpl implements PediatricsDAO {
 			.append("				from tbl_pediatrics_data pd, tbl_hospital h ")
 			.append("				where pd.hospitalName = h.name ")
 			.append("				and TO_DAYS(?) = TO_DAYS(pd.createdate)")
-			.append("				and h.").append(LsAttributes.SQL_WHERE_CONDITION_DAILYREPORT_HOSPITAL)
+			.append("				and h.").append(hospitalShownFlag)
 			.append("				and h.dragonType='Emerging' ")
 			.append("				group by h.rsmRegion ")
 			.append("			) pNum1 right join tbl_userinfo u on pNum1.rsmRegion = u.region ")
@@ -994,7 +994,7 @@ public class PediatricsDAOImpl implements PediatricsDAO {
 			.append("				from tbl_pediatrics_data pd, tbl_hospital h ")
 			.append("				where pd.hospitalName = h.name ")
 			.append("				and TO_DAYS(?) = TO_DAYS(pd.createdate)")
-			.append("				and h.").append(LsAttributes.SQL_WHERE_CONDITION_DAILYREPORT_HOSPITAL)
+			.append("				and h.").append(hospitalShownFlag)
 			.append("				and h.dragonType='Emerging' ")
 			.append("				group by h.rsmRegion ")
 			.append("			) lsNum1 right join tbl_userinfo u on lsNum1.rsmRegion = u.region ")
@@ -1018,7 +1018,7 @@ public class PediatricsDAOImpl implements PediatricsDAO {
 	}
 	
 	@Override
-	public List<DailyReportData> getAllRSMDataByTelephone() throws Exception {
+	public List<DailyReportData> getAllRSMDataByTelephone(String hospitalShownFlag) throws Exception {
 		StringBuffer sb = new StringBuffer();
 		Date date = new Date();
 	    Timestamp paramDate = new Timestamp(DateUtils.populateParamDate(date).getTime());
@@ -1026,7 +1026,7 @@ public class PediatricsDAOImpl implements PediatricsDAO {
 		sb.append("select u.name,u.userCode,")
 			.append(" ( select count(1) from tbl_hospital h ")
 			.append("	where h.rsmRegion = u.region ")
-			.append("	and h.").append(LsAttributes.SQL_WHERE_CONDITION_DAILYREPORT_HOSPITAL)
+			.append("	and h.").append(hospitalShownFlag)
 			.append(" ) hosNum,")
 			.append(" count(1) as inNum, ")
 			.append(" IFNULL(sum(pd.pnum),0) as pnum, ")
@@ -1037,7 +1037,7 @@ public class PediatricsDAOImpl implements PediatricsDAO {
 		    .append(" where pd.hospitalName = h1.name ")
     		.append(" and h1.rsmRegion = u.region ")
     		.append(" and TO_DAYS(?) = TO_DAYS(pd.createdate) ")
-    		.append(" and h1.").append(LsAttributes.SQL_WHERE_CONDITION_DAILYREPORT_HOSPITAL)
+    		.append(" and h1.").append(hospitalShownFlag)
     		.append(" and u.level='RSM' ")
 		    .append(" group by u.region ");
 		
@@ -1068,7 +1068,7 @@ public class PediatricsDAOImpl implements PediatricsDAO {
 	}
 
     @Override
-    public List<MobilePEDDailyData> getDailyPEDData4RSMByRegion(String region) throws Exception {
+    public List<MobilePEDDailyData> getDailyPEDData4RSMByRegion(String region, String hospitalShownFlag) throws Exception {
         StringBuffer mobilePEDDailySQL = new StringBuffer();
         
         Date date = new Date();
@@ -1078,7 +1078,7 @@ public class PediatricsDAOImpl implements PediatricsDAO {
         .append(" (select distinct property_value from tbl_property where property_name=ui.regionCenter ) as regionCenterCN, ")
         .append(" ( select count(1) from tbl_hospital h ")
         .append("	where h.rsmRegion = ui.region ")
-        .append("	and h.").append(LsAttributes.SQL_WHERE_CONDITION_DAILYREPORT_HOSPITAL)
+        .append("	and h.").append(hospitalShownFlag)
         .append(" ) hosNum, ")
         .append(LsAttributes.SQL_DAILYREPORT_SELECTION_ALIAS_PED)
         .append(" from ( ")
@@ -1088,7 +1088,7 @@ public class PediatricsDAOImpl implements PediatricsDAO {
         .append(" where pd.hospitalName = h1.name ")
         .append(" and h1.rsmRegion = u.region ")
         .append(" and TO_DAYS(?) = TO_DAYS(pd.createdate) ")
-        .append(" and h1.").append(LsAttributes.SQL_WHERE_CONDITION_DAILYREPORT_HOSPITAL)
+        .append(" and h1.").append(hospitalShownFlag)
         .append(" and u.level='RSM' ")
         .append(" and u.regionCenter = ? ")
         .append(" group by u.userCode ")
@@ -1101,25 +1101,25 @@ public class PediatricsDAOImpl implements PediatricsDAO {
     }
 
     @Cacheable(value="getDailyPEDData4CountoryMobile")
-    public MobilePEDDailyData getDailyPEDData4CountoryMobile(Timestamp paramDate) throws Exception {
+    public MobilePEDDailyData getDailyPEDData4CountoryMobile(Timestamp paramDate, String hospitalShownFlag) throws Exception {
         StringBuffer mobilePEDDailySQL = new StringBuffer();
         
         mobilePEDDailySQL.append("select '全国' as name,null as userCode,")
             .append(" '' as regionCenterCN, ")
             .append(" (select count(1) from tbl_hospital h ")
-            .append("	where h.").append(LsAttributes.SQL_WHERE_CONDITION_DAILYREPORT_HOSPITAL)
+            .append("	where h.").append(hospitalShownFlag)
             .append(" ) hosNum, ")
             .append(LsAttributes.SQL_DAILYREPORT_SELECTION_PED)
             .append(" from ( ")
             .append("   select ped.* from tbl_pediatrics_data ped, tbl_hospital h ")
             .append("   where ped.hospitalName = h.name ")
             .append("   and TO_DAYS(ped.createdate) = TO_DAYS(?) ")
-            .append("   and h.").append(LsAttributes.SQL_WHERE_CONDITION_DAILYREPORT_HOSPITAL)
+            .append("   and h.").append(hospitalShownFlag)
             .append(" ) pd ");
         return dataBean.getJdbcTemplate().queryForObject(mobilePEDDailySQL.toString(), new Object[]{paramDate},new PediatricsMobileRowMapper());
     }
 	
-	public List<MobilePEDDailyData> getDailyPEDData4DSMMobile(String telephone) throws Exception {
+	public List<MobilePEDDailyData> getDailyPEDData4DSMMobile(String telephone, String hospitalShownFlag) throws Exception {
 	    StringBuffer mobilePEDDailySQL = new StringBuffer();
 	    
 	    Date date = new Date();
@@ -1130,7 +1130,7 @@ public class PediatricsDAOImpl implements PediatricsDAO {
         .append(" ( select count(1) from tbl_hospital h ")
         .append("	where h.dsmCode = ui.userCode ")
         .append("	and h.rsmRegion = ui.region ")
-        .append("	and h.").append(LsAttributes.SQL_WHERE_CONDITION_DAILYREPORT_HOSPITAL)
+        .append("	and h.").append(hospitalShownFlag)
         .append(" ) hosNum, ")
         .append(LsAttributes.SQL_DAILYREPORT_SELECTION_ALIAS_PED)
         .append(" from ( ")
@@ -1141,7 +1141,7 @@ public class PediatricsDAOImpl implements PediatricsDAO {
         .append(" and h1.rsmRegion = u.region ")
         .append(" and h1.dsmCode = u.userCode ")
         .append(" and TO_DAYS(?) = TO_DAYS(pd.createdate) ")
-        .append(" and h1.").append(LsAttributes.SQL_WHERE_CONDITION_DAILYREPORT_HOSPITAL)
+        .append(" and h1.").append(hospitalShownFlag)
         .append(" and u.level='DSM' ")
         .append(" and u.region = ( select region from tbl_userinfo where telephone=? ) ")
         .append(" group by u.userCode ")
@@ -1153,7 +1153,7 @@ public class PediatricsDAOImpl implements PediatricsDAO {
     }
 	
 	@Override
-	public List<MobilePEDDailyData> getDailyPEDData4RSMMobile(String telephone)	throws Exception {
+	public List<MobilePEDDailyData> getDailyPEDData4RSMMobile(String telephone, String hospitalShownFlag)	throws Exception {
 		StringBuffer mobilePEDDailySQL = new StringBuffer();
 	    
         Date date = new Date();
@@ -1163,7 +1163,7 @@ public class PediatricsDAOImpl implements PediatricsDAO {
         .append(" (select distinct property_value from tbl_property where property_name=ui.regionCenter ) as regionCenterCN, ")
         .append(" ( select count(1) from tbl_hospital h ")
         .append("	where h.rsmRegion = ui.region ")
-        .append("	and h.").append(LsAttributes.SQL_WHERE_CONDITION_DAILYREPORT_HOSPITAL)
+        .append("	and h.").append(hospitalShownFlag)
         .append(" ) hosNum, ")
         .append(LsAttributes.SQL_DAILYREPORT_SELECTION_ALIAS_PED)
         .append(" from ( ")
@@ -1173,7 +1173,7 @@ public class PediatricsDAOImpl implements PediatricsDAO {
         .append(" where pd.hospitalName = h1.name ")
         .append(" and h1.rsmRegion = u.region ")
         .append(" and TO_DAYS(?) = TO_DAYS(pd.createdate) ")
-        .append(" and h1.").append(LsAttributes.SQL_WHERE_CONDITION_DAILYREPORT_HOSPITAL)
+        .append(" and h1.").append(hospitalShownFlag)
         .append(" and u.level='RSM' ")
         .append(" and u.regionCenter = ( select regionCenter from tbl_userinfo where telephone=? ) ")
         .append(" group by u.userCode ")
@@ -1187,14 +1187,14 @@ public class PediatricsDAOImpl implements PediatricsDAO {
 
 	@Override
 	@Cacheable(value="getDailyPEDData4RSDMobile")
-	public List<MobilePEDDailyData> getDailyPEDData4RSDMobile(Timestamp paramDate) throws Exception {
+	public List<MobilePEDDailyData> getDailyPEDData4RSDMobile(Timestamp paramDate, String hospitalShownFlag) throws Exception {
 		StringBuffer mobilePEDDailySQL = new StringBuffer();
 	    
 	    mobilePEDDailySQL.append("select ( select distinct property_value from tbl_property where property_name = ui.regionCenter ) as name,ui.userCode,")
 	        .append(" (select distinct property_value from tbl_property where property_name=ui.regionCenter ) as regionCenterCN, ")
 	        .append(" ( select count(1) from tbl_hospital h ")
     	    .append("	where h.region = ui.regionCenter ")
-    	    .append("	and h.").append(LsAttributes.SQL_WHERE_CONDITION_DAILYREPORT_HOSPITAL)
+    	    .append("	and h.").append(hospitalShownFlag)
     	    .append(" ) hosNum, ")
 	        .append(LsAttributes.SQL_DAILYREPORT_SELECTION_ALIAS_PED)
     	    .append(" from ( ")
@@ -1204,7 +1204,7 @@ public class PediatricsDAOImpl implements PediatricsDAO {
     	    .append(" where pd.hospitalName = h1.name ")
     	    .append(" and h1.region = u.regionCenter ")
     	    .append(" and TO_DAYS(?) = TO_DAYS(pd.createdate) ")
-    	    .append(" and h1.").append(LsAttributes.SQL_WHERE_CONDITION_DAILYREPORT_HOSPITAL)
+    	    .append(" and h1.").append(hospitalShownFlag)
     	    .append(" and u.level='RSD' ")
     	    .append(" group by u.regionCenter ")
     	    .append(" ) dailyData ")
@@ -1214,7 +1214,7 @@ public class PediatricsDAOImpl implements PediatricsDAO {
 	    return dataBean.getJdbcTemplate().query(mobilePEDDailySQL.toString(), new Object[]{paramDate}, new PediatricsMobileRowMapper());
 	}
 	
-	public List<MobilePEDDailyData> getDailyPEDChildData4DSMMobile(String telephone) throws Exception {
+	public List<MobilePEDDailyData> getDailyPEDChildData4DSMMobile(String telephone, String hospitalShownFlag) throws Exception {
 	    StringBuffer mobilePEDDailySQL = new StringBuffer();
 	    
 	    Date date = new Date();
@@ -1226,7 +1226,7 @@ public class PediatricsDAOImpl implements PediatricsDAO {
 	    .append(" 	where h.saleCode = ui.userCode ")
 	    .append("	and h.rsmRegion = ui.region ")
 	    .append("	and h.dsmCode = ui.superior ")
-	    .append("	and h.").append(LsAttributes.SQL_WHERE_CONDITION_DAILYREPORT_HOSPITAL)
+	    .append("	and h.").append(hospitalShownFlag)
 	    .append(" ) hosNum,")
 	    .append(LsAttributes.SQL_DAILYREPORT_SELECTION_ALIAS_PED)
 	    .append(" from ( ")
@@ -1238,7 +1238,7 @@ public class PediatricsDAOImpl implements PediatricsDAO {
 	    .append(" and h1.dsmCode = u.superior ")
 	    .append(" and h1.saleCode = u.userCode ")
 	    .append(" and TO_DAYS(?) = TO_DAYS(pd.createdate) ")
-	    .append(" and h1.").append(LsAttributes.SQL_WHERE_CONDITION_DAILYREPORT_HOSPITAL)
+	    .append(" and h1.").append(hospitalShownFlag)
 	    .append(" and u.level='REP' ")
 	    .append(" and u.superior = ( select userCode from tbl_userinfo where telephone=? ) ")
 	    .append(" group by u.userCode ")
@@ -1250,17 +1250,17 @@ public class PediatricsDAOImpl implements PediatricsDAO {
 	}
 	
 	@Override
-	public List<MobilePEDDailyData> getDailyPEDChildData4RSMMobile(String telephone)	throws Exception {
-	    return this.getDailyPEDData4DSMMobile(telephone);
+	public List<MobilePEDDailyData> getDailyPEDChildData4RSMMobile(String telephone, String hospitalShownFlag)throws Exception {
+	    return this.getDailyPEDData4DSMMobile(telephone,hospitalShownFlag);
 	}
 	
 	@Override
-	public List<MobilePEDDailyData> getDailyPEDChildData4RSDMobile(String telephone) throws Exception {
-	    return this.getDailyPEDData4RSMMobile(telephone);
+	public List<MobilePEDDailyData> getDailyPEDChildData4RSDMobile(String telephone, String hospitalShownFlag) throws Exception {
+	    return this.getDailyPEDData4RSMMobile(telephone,hospitalShownFlag);
 	}
 	
 	@Override
-	public List<MobilePEDDailyData> getDailyPEDWhPortData4RSMByRegion(String region) throws Exception {
+	public List<MobilePEDDailyData> getDailyPEDWhPortData4RSMByRegion(String region, String hospitalShownFlag) throws Exception {
 		StringBuffer mobilePEDDailySQL = new StringBuffer();
 		
 		Date date = new Date();
@@ -1278,7 +1278,7 @@ public class PediatricsDAOImpl implements PediatricsDAO {
 		.append(" and h1.rsmRegion = u.region ")
 		.append(" and TO_DAYS(?) = TO_DAYS(pd.createdate) ")
 		.append(" and pd.portNum != 0 ")
-		.append(" and h1.").append(LsAttributes.SQL_WHERE_CONDITION_DAILYREPORT_HOSPITAL)
+		.append(" and h1.").append(hospitalShownFlag)
 		.append(" and u.level='RSM' ")
 		.append(" and u.regionCenter = ? ")
 		.append(" group by u.userCode ")
@@ -1291,7 +1291,7 @@ public class PediatricsDAOImpl implements PediatricsDAO {
 	}
 	
 	@Cacheable(value="getDailyPEDWhPortData4CountoryMobile")
-	public MobilePEDDailyData getDailyPEDWhPortData4CountoryMobile(Timestamp paramDate) throws Exception {
+	public MobilePEDDailyData getDailyPEDWhPortData4CountoryMobile(Timestamp paramDate, String hospitalShownFlag) throws Exception {
 		StringBuffer mobilePEDDailySQL = new StringBuffer();
 		
 		mobilePEDDailySQL.append("select null as userCode,")
@@ -1301,11 +1301,11 @@ public class PediatricsDAOImpl implements PediatricsDAO {
 		.append(" where pd.hospitalName = h.name ")
 		.append(" and TO_DAYS(pd.createdate) = TO_DAYS(?) ")
 		.append(" and pd.portNum != 0 ")
-		.append(" and h.").append(LsAttributes.SQL_WHERE_CONDITION_DAILYREPORT_HOSPITAL);
+		.append(" and h.").append(hospitalShownFlag);
 		return dataBean.getJdbcTemplate().queryForObject(mobilePEDDailySQL.toString(), new Object[]{paramDate},new PediatricsWhPortRowMapper());
 	}
 	
-	public List<MobilePEDDailyData> getDailyPEDWhPortData4DSMMobile(String telephone) throws Exception {
+	public List<MobilePEDDailyData> getDailyPEDWhPortData4DSMMobile(String telephone, String hospitalShownFlag) throws Exception {
 		StringBuffer mobilePEDDailySQL = new StringBuffer();
 		
 		Date date = new Date();
@@ -1324,7 +1324,7 @@ public class PediatricsDAOImpl implements PediatricsDAO {
 		.append(" and h1.dsmCode = u.userCode ")
 		.append(" and TO_DAYS(?) = TO_DAYS(pd.createdate) ")
 		.append(" and pd.portNum != 0 ")
-		.append(" and h1.").append(LsAttributes.SQL_WHERE_CONDITION_DAILYREPORT_HOSPITAL)
+		.append(" and h1.").append(hospitalShownFlag)
 		.append(" and u.level='DSM' ")
 		.append(" and u.region = ( select region from tbl_userinfo where telephone=? ) ")
 		.append(" group by u.userCode ")
@@ -1336,7 +1336,7 @@ public class PediatricsDAOImpl implements PediatricsDAO {
 	}
 	
 	@Override
-	public List<MobilePEDDailyData> getDailyPEDWhPortData4RSMMobile(String telephone)	throws Exception {
+	public List<MobilePEDDailyData> getDailyPEDWhPortData4RSMMobile(String telephone, String hospitalShownFlag)	throws Exception {
 		StringBuffer mobilePEDDailySQL = new StringBuffer();
 		
 		Date date = new Date();
@@ -1354,7 +1354,7 @@ public class PediatricsDAOImpl implements PediatricsDAO {
 		.append(" and h1.rsmRegion = u.region ")
 		.append(" and TO_DAYS(?) = TO_DAYS(pd.createdate) ")
 		.append(" and pd.portNum != 0 ")
-		.append(" and h1.").append(LsAttributes.SQL_WHERE_CONDITION_DAILYREPORT_HOSPITAL)
+		.append(" and h1.").append(hospitalShownFlag)
 		.append(" and u.level='RSM' ")
 		.append(" and u.regionCenter = ( select regionCenter from tbl_userinfo where telephone=? ) ")
 		.append(" group by u.userCode ")
@@ -1368,7 +1368,7 @@ public class PediatricsDAOImpl implements PediatricsDAO {
 	
 	@Override
 	@Cacheable(value="getDailyPEDWhPortData4RSDMobile")
-	public List<MobilePEDDailyData> getDailyPEDWhPortData4RSDMobile(Timestamp paramDate) throws Exception {
+	public List<MobilePEDDailyData> getDailyPEDWhPortData4RSDMobile(Timestamp paramDate, String hospitalShownFlag) throws Exception {
 		StringBuffer mobilePEDDailySQL = new StringBuffer();
 		
 		mobilePEDDailySQL.append("select ui.userCode,")
@@ -1383,7 +1383,7 @@ public class PediatricsDAOImpl implements PediatricsDAO {
 		.append(" and h1.region = u.regionCenter ")
 		.append(" and TO_DAYS(?) = TO_DAYS(pd.createdate) ")
 		.append(" and pd.portNum != 0 ")
-		.append(" and h1.").append(LsAttributes.SQL_WHERE_CONDITION_DAILYREPORT_HOSPITAL)
+		.append(" and h1.").append(hospitalShownFlag)
 		.append(" and u.level='RSD' ")
 		.append(" group by u.regionCenter ")
 		.append(" ) dailyData ")
@@ -1393,7 +1393,7 @@ public class PediatricsDAOImpl implements PediatricsDAO {
 		return dataBean.getJdbcTemplate().query(mobilePEDDailySQL.toString(), new Object[]{paramDate}, new PediatricsWhPortRowMapper());
 	}
 	
-	public List<MobilePEDDailyData> getDailyPEDWhPortChildData4DSMMobile(String telephone) throws Exception {
+	public List<MobilePEDDailyData> getDailyPEDWhPortChildData4DSMMobile(String telephone, String hospitalShownFlag) throws Exception {
 		StringBuffer mobilePEDDailySQL = new StringBuffer();
 		
 		Date date = new Date();
@@ -1413,7 +1413,7 @@ public class PediatricsDAOImpl implements PediatricsDAO {
 		.append(" and h1.saleCode = u.userCode ")
 		.append(" and TO_DAYS(?) = TO_DAYS(pd.createdate) ")
 		.append(" and pd.portNum != 0 ")
-		.append(" and h1.").append(LsAttributes.SQL_WHERE_CONDITION_DAILYREPORT_HOSPITAL)
+		.append(" and h1.").append(hospitalShownFlag)
 		.append(" and u.level='REP' ")
 		.append(" and u.superior = ( select userCode from tbl_userinfo where telephone=? ) ")
 		.append(" group by u.userCode ")
@@ -1425,17 +1425,17 @@ public class PediatricsDAOImpl implements PediatricsDAO {
 	}
 	
 	@Override
-	public List<MobilePEDDailyData> getDailyPEDWhPortChildData4RSMMobile(String telephone)	throws Exception {
-		return this.getDailyPEDWhPortData4DSMMobile(telephone);
+	public List<MobilePEDDailyData> getDailyPEDWhPortChildData4RSMMobile(String telephone, String hospitalShownFlag )	throws Exception {
+		return this.getDailyPEDWhPortData4DSMMobile(telephone,hospitalShownFlag);
 	}
 	
 	@Override
-	public List<MobilePEDDailyData> getDailyPEDWhPortChildData4RSDMobile(String telephone) throws Exception {
-		return this.getDailyPEDWhPortData4RSMMobile(telephone);
+	public List<MobilePEDDailyData> getDailyPEDWhPortChildData4RSDMobile(String telephone, String hospitalShownFlag) throws Exception {
+		return this.getDailyPEDWhPortData4RSMMobile(telephone,hospitalShownFlag);
 	}
 	
 	@Override
-	public List<MobilePEDDailyData> getDailyCorePEDData4RSMByRegion(String region) throws Exception {
+	public List<MobilePEDDailyData> getDailyCorePEDData4RSMByRegion(String region, String hospitalShownFlag) throws Exception {
 		StringBuffer mobilePEDDailySQL = new StringBuffer();
 		
 		Date date = new Date();
@@ -1444,7 +1444,7 @@ public class PediatricsDAOImpl implements PediatricsDAO {
 		mobilePEDDailySQL.append("select ui.userCode,")
 		.append(" ( select count(1) from tbl_hospital h ")
 		.append("	where h.rsmRegion = ui.region ")
-		.append("	and h.").append(LsAttributes.SQL_WHERE_CONDITION_DAILYREPORT_HOSPITAL)
+		.append("	and h.").append(hospitalShownFlag)
 		.append("	and h.dragonType='Core' ")
 		.append(" ) coreHosNum, ")
 		.append(" IFNULL(dailyData.inNum,0) as coreInNum ")
@@ -1459,7 +1459,7 @@ public class PediatricsDAOImpl implements PediatricsDAO {
 		.append(" where pd.hospitalName = h1.name ")
 		.append(" and h1.rsmRegion = u.region ")
 		.append(" and TO_DAYS(?) = TO_DAYS(pd.createdate) ")
-		.append(" and h1.").append(LsAttributes.SQL_WHERE_CONDITION_DAILYREPORT_HOSPITAL)
+		.append(" and h1.").append(hospitalShownFlag)
 		.append(" and h1.dragonType='Core' ")
 		.append(" and u.level='RSM' ")
 		.append(" and u.regionCenter = ? ")
@@ -1473,7 +1473,7 @@ public class PediatricsDAOImpl implements PediatricsDAO {
 	}
 	
 	@Override
-	public List<MobilePEDDailyData> getDailyEmergingPEDData4RSMByRegion(String region) throws Exception {
+	public List<MobilePEDDailyData> getDailyEmergingPEDData4RSMByRegion(String region, String hospitalShownFlag) throws Exception {
 		StringBuffer mobilePEDDailySQL = new StringBuffer();
 		
 		Date date = new Date();
@@ -1491,7 +1491,7 @@ public class PediatricsDAOImpl implements PediatricsDAO {
 		.append(" where pd.hospitalName = h1.name ")
 		.append(" and h1.rsmRegion = u.region ")
 		.append(" and TO_DAYS(?) = TO_DAYS(pd.createdate) ")
-		.append(" and h1.").append(LsAttributes.SQL_WHERE_CONDITION_DAILYREPORT_HOSPITAL)
+		.append(" and h1.").append(hospitalShownFlag)
 		.append(" and h1.dragonType='Emerging' ")
 		.append(" and u.level='RSM' ")
 		.append(" and u.regionCenter = ? ")
@@ -1505,12 +1505,12 @@ public class PediatricsDAOImpl implements PediatricsDAO {
 	}
 	
 	@Cacheable(value="getDailyCorePEDData4CountoryMobile")
-	public MobilePEDDailyData getDailyCorePEDData4CountoryMobile(Timestamp paramDate) throws Exception {
+	public MobilePEDDailyData getDailyCorePEDData4CountoryMobile(Timestamp paramDate, String hospitalShownFlag) throws Exception {
 		StringBuffer mobilePEDDailySQL = new StringBuffer();
 		
 		mobilePEDDailySQL.append("select null as userCode,")
 		.append(" (select count(1) from tbl_hospital h ")
-		.append("	where h.").append(LsAttributes.SQL_WHERE_CONDITION_DAILYREPORT_HOSPITAL)
+		.append("	where h.").append(hospitalShownFlag)
 		.append("	and h.dragonType='Core' ")
 		.append(" ) coreHosNum, ")
 		.append(" pd.coreInNum ")
@@ -1521,26 +1521,26 @@ public class PediatricsDAOImpl implements PediatricsDAO {
 		.append(" 	from tbl_pediatrics_data ped, tbl_hospital h ")
 		.append("   where ped.hospitalName = h.name ")
 		.append("   and TO_DAYS(ped.createdate) = TO_DAYS(?) ")
-		.append("   and h.").append(LsAttributes.SQL_WHERE_CONDITION_DAILYREPORT_HOSPITAL)
+		.append("   and h.").append(hospitalShownFlag)
 		.append(" 	and h.dragonType='Core' ")
 		.append(" ) pd ");
 		return dataBean.getJdbcTemplate().queryForObject(mobilePEDDailySQL.toString(), new Object[]{paramDate},new PediatricsCoreHosRowMapper());
 	}
 	
 	@Cacheable(value="getDailyEmergingPEDData4CountoryMobile")
-	public MobilePEDDailyData getDailyEmergingPEDData4CountoryMobile(Timestamp paramDate) throws Exception {
+	public MobilePEDDailyData getDailyEmergingPEDData4CountoryMobile(Timestamp paramDate, String hospitalShownFlag) throws Exception {
 		StringBuffer mobilePEDDailySQL = new StringBuffer();
 		
 		mobilePEDDailySQL.append("select '' as userCode, IFNULL(sum(ped.pnum),0) as emergingPNum,IFNULL(sum(ped.lsnum),0) as emergingLsNum ")
 		.append("   from tbl_pediatrics_data ped, tbl_hospital h ")
 		.append("   where ped.hospitalName = h.name ")
 		.append("   and TO_DAYS(ped.createdate) = TO_DAYS(?) ")
-		.append("   and h.").append(LsAttributes.SQL_WHERE_CONDITION_DAILYREPORT_HOSPITAL)
+		.append("   and h.").append(hospitalShownFlag)
 		.append(" 	and h.dragonType='Emerging' ");
 		return dataBean.getJdbcTemplate().queryForObject(mobilePEDDailySQL.toString(), new Object[]{paramDate},new PediatricsEmergingHosRowMapper());
 	}
 	
-	public List<MobilePEDDailyData> getDailyCorePEDData4DSMMobile(String telephone) throws Exception {
+	public List<MobilePEDDailyData> getDailyCorePEDData4DSMMobile(String telephone, String hospitalShownFlag) throws Exception {
 		StringBuffer mobilePEDDailySQL = new StringBuffer();
 		
 		Date date = new Date();
@@ -1550,7 +1550,7 @@ public class PediatricsDAOImpl implements PediatricsDAO {
 		.append(" ( select count(1) from tbl_hospital h ")
 		.append("	where h.dsmCode = ui.userCode ")
 		.append("	and h.rsmRegion = ui.region ")
-		.append("	and h.").append(LsAttributes.SQL_WHERE_CONDITION_DAILYREPORT_HOSPITAL)
+		.append("	and h.").append(hospitalShownFlag)
 		.append("	and h.dragonType='Core' ")
 		.append(" ) coreHosNum, ")
 		.append(" IFNULL(dailyData.inNum,0) as coreInNum ")
@@ -1566,7 +1566,7 @@ public class PediatricsDAOImpl implements PediatricsDAO {
 		.append(" and h1.rsmRegion = u.region ")
 		.append(" and h1.dsmCode = u.userCode ")
 		.append(" and TO_DAYS(?) = TO_DAYS(pd.createdate) ")
-		.append(" and h1.").append(LsAttributes.SQL_WHERE_CONDITION_DAILYREPORT_HOSPITAL)
+		.append(" and h1.").append(hospitalShownFlag)
 		.append(" and h1.dragonType='Core' ")
 		.append(" and u.level='DSM' ")
 		.append(" and u.region = ( select region from tbl_userinfo where telephone=? ) ")
@@ -1578,7 +1578,7 @@ public class PediatricsDAOImpl implements PediatricsDAO {
 		return dataBean.getJdbcTemplate().query(mobilePEDDailySQL.toString(), new Object[]{paramDate,telephone,telephone},new PediatricsCoreHosRowMapper());
 	}
 	
-	public List<MobilePEDDailyData> getDailyEmergingPEDData4DSMMobile(String telephone) throws Exception {
+	public List<MobilePEDDailyData> getDailyEmergingPEDData4DSMMobile(String telephone, String hospitalShownFlag) throws Exception {
 		StringBuffer mobilePEDDailySQL = new StringBuffer();
 		
 		Date date = new Date();
@@ -1597,7 +1597,7 @@ public class PediatricsDAOImpl implements PediatricsDAO {
 		.append(" and h1.rsmRegion = u.region ")
 		.append(" and h1.dsmCode = u.userCode ")
 		.append(" and TO_DAYS(?) = TO_DAYS(pd.createdate) ")
-		.append(" and h1.").append(LsAttributes.SQL_WHERE_CONDITION_DAILYREPORT_HOSPITAL)
+		.append(" and h1.").append(hospitalShownFlag)
 		.append(" and h1.dragonType='Emerging' ")
 		.append(" and u.level='DSM' ")
 		.append(" and u.region = ( select region from tbl_userinfo where telephone=? ) ")
@@ -1610,7 +1610,7 @@ public class PediatricsDAOImpl implements PediatricsDAO {
 	}
 	
 	@Override
-	public List<MobilePEDDailyData> getDailyCorePEDData4RSMMobile(String telephone)	throws Exception {
+	public List<MobilePEDDailyData> getDailyCorePEDData4RSMMobile(String telephone, String hospitalShownFlag)	throws Exception {
 		StringBuffer mobilePEDDailySQL = new StringBuffer();
 		
 		Date date = new Date();
@@ -1619,7 +1619,7 @@ public class PediatricsDAOImpl implements PediatricsDAO {
 		mobilePEDDailySQL.append("select ui.userCode,")
 		.append(" ( select count(1) from tbl_hospital h ")
 		.append("	where h.rsmRegion = ui.region ")
-		.append("	and h.").append(LsAttributes.SQL_WHERE_CONDITION_DAILYREPORT_HOSPITAL)
+		.append("	and h.").append(hospitalShownFlag)
 		.append("	and h.dragonType='Core' ")
 		.append(" ) coreHosNum, ")
 		.append(" IFNULL(dailyData.inNum,0) as coreInNum ")
@@ -1634,7 +1634,7 @@ public class PediatricsDAOImpl implements PediatricsDAO {
 		.append(" where pd.hospitalName = h1.name ")
 		.append(" and h1.rsmRegion = u.region ")
 		.append(" and TO_DAYS(?) = TO_DAYS(pd.createdate) ")
-		.append(" and h1.").append(LsAttributes.SQL_WHERE_CONDITION_DAILYREPORT_HOSPITAL)
+		.append(" and h1.").append(hospitalShownFlag)
 		.append(" and h1.dragonType='Core' ")
 		.append(" and u.level='RSM' ")
 		.append(" and u.regionCenter = ( select regionCenter from tbl_userinfo where telephone=? ) ")
@@ -1648,7 +1648,7 @@ public class PediatricsDAOImpl implements PediatricsDAO {
 	}
 	
 	@Override
-	public List<MobilePEDDailyData> getDailyEmergingPEDData4RSMMobile(String telephone)	throws Exception {
+	public List<MobilePEDDailyData> getDailyEmergingPEDData4RSMMobile(String telephone, String hospitalShownFlag)	throws Exception {
 		StringBuffer mobilePEDDailySQL = new StringBuffer();
 		
 		Date date = new Date();
@@ -1666,7 +1666,7 @@ public class PediatricsDAOImpl implements PediatricsDAO {
 		.append(" where pd.hospitalName = h1.name ")
 		.append(" and h1.rsmRegion = u.region ")
 		.append(" and TO_DAYS(?) = TO_DAYS(pd.createdate) ")
-		.append(" and h1.").append(LsAttributes.SQL_WHERE_CONDITION_DAILYREPORT_HOSPITAL)
+		.append(" and h1.").append(hospitalShownFlag)
 		.append(" and h1.dragonType='Emerging' ")
 		.append(" and u.level='RSM' ")
 		.append(" and u.regionCenter = ( select regionCenter from tbl_userinfo where telephone=? ) ")
@@ -1681,13 +1681,13 @@ public class PediatricsDAOImpl implements PediatricsDAO {
 	
 	@Override
 	@Cacheable(value="getDailyCorePEDData4RSDMobile")
-	public List<MobilePEDDailyData> getDailyCorePEDData4RSDMobile(Timestamp paramDate) throws Exception {
+	public List<MobilePEDDailyData> getDailyCorePEDData4RSDMobile(Timestamp paramDate, String hospitalShownFlag) throws Exception {
 		StringBuffer mobilePEDDailySQL = new StringBuffer();
 		
 		mobilePEDDailySQL.append("select ui.userCode,")
 		.append(" ( select count(1) from tbl_hospital h ")
 		.append("	where h.region = ui.regionCenter ")
-		.append("	and h.").append(LsAttributes.SQL_WHERE_CONDITION_DAILYREPORT_HOSPITAL)
+		.append("	and h.").append(hospitalShownFlag)
 		.append("	and h.dragonType='Core' ")
 		.append(" ) coreHosNum, ")
 		.append(" IFNULL(dailyData.inNum,0) as coreInNum ")
@@ -1702,7 +1702,7 @@ public class PediatricsDAOImpl implements PediatricsDAO {
 		.append(" where pd.hospitalName = h1.name ")
 		.append(" and h1.region = u.regionCenter ")
 		.append(" and TO_DAYS(?) = TO_DAYS(pd.createdate) ")
-		.append(" and h1.").append(LsAttributes.SQL_WHERE_CONDITION_DAILYREPORT_HOSPITAL)
+		.append(" and h1.").append(hospitalShownFlag)
 		.append(" and h1.dragonType='Core' ")
 		.append(" and u.level='RSD' ")
 		.append(" group by u.regionCenter ")
@@ -1715,7 +1715,7 @@ public class PediatricsDAOImpl implements PediatricsDAO {
 	
 	@Override
 	@Cacheable(value="getDailyEmergingPEDData4RSDMobile")
-	public List<MobilePEDDailyData> getDailyEmergingPEDData4RSDMobile(Timestamp paramDate) throws Exception {
+	public List<MobilePEDDailyData> getDailyEmergingPEDData4RSDMobile(Timestamp paramDate, String hospitalShownFlag) throws Exception {
 		StringBuffer mobilePEDDailySQL = new StringBuffer();
 		
 		mobilePEDDailySQL.append("select ui.userCode ")
@@ -1730,7 +1730,7 @@ public class PediatricsDAOImpl implements PediatricsDAO {
 		.append(" where pd.hospitalName = h1.name ")
 		.append(" and h1.region = u.regionCenter ")
 		.append(" and TO_DAYS(?) = TO_DAYS(pd.createdate) ")
-		.append(" and h1.").append(LsAttributes.SQL_WHERE_CONDITION_DAILYREPORT_HOSPITAL)
+		.append(" and h1.").append(hospitalShownFlag)
 		.append(" and h1.dragonType='Emerging' ")
 		.append(" and u.level='RSD' ")
 		.append(" group by u.regionCenter ")
@@ -1741,7 +1741,7 @@ public class PediatricsDAOImpl implements PediatricsDAO {
 		return dataBean.getJdbcTemplate().query(mobilePEDDailySQL.toString(), new Object[]{paramDate}, new PediatricsEmergingHosRowMapper());
 	}
 	
-	public List<MobilePEDDailyData> getDailyCorePEDChildData4DSMMobile(String telephone) throws Exception {
+	public List<MobilePEDDailyData> getDailyCorePEDChildData4DSMMobile(String telephone, String hospitalShownFlag) throws Exception {
 		StringBuffer mobilePEDDailySQL = new StringBuffer();
 		
 		Date date = new Date();
@@ -1752,7 +1752,7 @@ public class PediatricsDAOImpl implements PediatricsDAO {
 		.append("	where h.saleCode = ui.userCode ")
 		.append("	and h.rsmRegion = ui.region ")
 		.append("	and h.dsmCode = ui.superior ")
-		.append("	and h.").append(LsAttributes.SQL_WHERE_CONDITION_DAILYREPORT_HOSPITAL)
+		.append("	and h.").append(hospitalShownFlag)
 		.append("	and h.dragonType='Core' ")
 		.append(" ) coreHosNum, ")
 		.append(" IFNULL(dailyData.inNum,0) as coreInNum ")
@@ -1769,7 +1769,7 @@ public class PediatricsDAOImpl implements PediatricsDAO {
 		.append(" and h1.dsmCode = u.superior ")
 		.append(" and h1.saleCode = u.userCode ")
 		.append(" and TO_DAYS(?) = TO_DAYS(pd.createdate) ")
-		.append(" and h1.").append(LsAttributes.SQL_WHERE_CONDITION_DAILYREPORT_HOSPITAL)
+		.append(" and h1.").append(hospitalShownFlag)
 		.append(" and h1.dragonType='Core' ")
 		.append(" and u.level='REP' ")
 		.append(" and u.superior = ( select userCode from tbl_userinfo where telephone=? ) ")
@@ -1781,7 +1781,7 @@ public class PediatricsDAOImpl implements PediatricsDAO {
 		return dataBean.getJdbcTemplate().query(mobilePEDDailySQL.toString(), new Object[]{paramDate,telephone,telephone},new PediatricsCoreHosRowMapper());
 	}
 	
-	public List<MobilePEDDailyData> getDailyEmergingPEDChildData4DSMMobile(String telephone) throws Exception {
+	public List<MobilePEDDailyData> getDailyEmergingPEDChildData4DSMMobile(String telephone, String hospitalShownFlag) throws Exception {
 		StringBuffer mobilePEDDailySQL = new StringBuffer();
 		
 		Date date = new Date();
@@ -1801,7 +1801,7 @@ public class PediatricsDAOImpl implements PediatricsDAO {
 		.append(" and h1.dsmCode = u.superior ")
 		.append(" and h1.saleCode = u.userCode ")
 		.append(" and TO_DAYS(?) = TO_DAYS(pd.createdate) ")
-		.append(" and h1.").append(LsAttributes.SQL_WHERE_CONDITION_DAILYREPORT_HOSPITAL)
+		.append(" and h1.").append(hospitalShownFlag)
 		.append(" and h1.dragonType='Emerging' ")
 		.append(" and u.level='REP' ")
 		.append(" and u.superior = ( select userCode from tbl_userinfo where telephone=? ) ")
@@ -1814,23 +1814,23 @@ public class PediatricsDAOImpl implements PediatricsDAO {
 	}
 	
 	@Override
-	public List<MobilePEDDailyData> getDailyCorePEDChildData4RSMMobile(String telephone)	throws Exception {
-		return this.getDailyCorePEDData4DSMMobile(telephone);
+	public List<MobilePEDDailyData> getDailyCorePEDChildData4RSMMobile(String telephone, String hospitalShownFlag) throws Exception {
+		return this.getDailyCorePEDData4DSMMobile(telephone,hospitalShownFlag);
 	}
 	
 	@Override
-	public List<MobilePEDDailyData> getDailyEmergingPEDChildData4RSMMobile(String telephone)	throws Exception {
-		return this.getDailyEmergingPEDData4DSMMobile(telephone);
+	public List<MobilePEDDailyData> getDailyEmergingPEDChildData4RSMMobile(String telephone, String hospitalShownFlag) throws Exception {
+		return this.getDailyEmergingPEDData4DSMMobile(telephone,hospitalShownFlag);
 	}
 	
 	@Override
-	public List<MobilePEDDailyData> getDailyCorePEDChildData4RSDMobile(String telephone) throws Exception {
-		return this.getDailyCorePEDData4RSMMobile(telephone);
+	public List<MobilePEDDailyData> getDailyCorePEDChildData4RSDMobile(String telephone, String hospitalShownFlag) throws Exception {
+		return this.getDailyCorePEDData4RSMMobile(telephone,hospitalShownFlag);
 	}
 	
 	@Override
-	public List<MobilePEDDailyData> getDailyEmergingPEDChildData4RSDMobile(String telephone) throws Exception {
-		return this.getDailyEmergingPEDData4RSMMobile(telephone);
+	public List<MobilePEDDailyData> getDailyEmergingPEDChildData4RSDMobile(String telephone, String hospitalShownFlag) throws Exception {
+		return this.getDailyEmergingPEDData4RSMMobile(telephone,hospitalShownFlag);
 	}
 	
 	@Override

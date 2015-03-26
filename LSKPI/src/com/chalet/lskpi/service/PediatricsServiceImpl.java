@@ -59,7 +59,7 @@ public class PediatricsServiceImpl implements PediatricsService {
 	private Logger logger = Logger.getLogger(PediatricsServiceImpl.class);
 	
 
-    public MobilePEDDailyData getDailyPEDParentData4Mobile(String telephone, String level) throws Exception {
+    public MobilePEDDailyData getDailyPEDParentData4Mobile(String telephone, String level, String hospitalShownFlag) throws Exception {
         MobilePEDDailyData mpd = new MobilePEDDailyData();
         
         Date date = new Date();
@@ -69,15 +69,15 @@ public class PediatricsServiceImpl implements PediatricsService {
             case LsAttributes.USER_LEVEL_BM:
             	
             	MobilePEDDailyData pedCoreData = new MobilePEDDailyData();
-        		pedCoreData = pediatricsDAO.getDailyCorePEDData4CountoryMobile(paramDate);
+        		pedCoreData = pediatricsDAO.getDailyCorePEDData4CountoryMobile(paramDate,hospitalShownFlag);
         		
         		MobilePEDDailyData pedEmergingData = new MobilePEDDailyData();
-        		pedEmergingData = pediatricsDAO.getDailyEmergingPEDData4CountoryMobile(paramDate);
+        		pedEmergingData = pediatricsDAO.getDailyEmergingPEDData4CountoryMobile(paramDate,hospitalShownFlag);
         		
         		MobilePEDDailyData pedWhPortData = new MobilePEDDailyData();
-        		pedWhPortData = pediatricsDAO.getDailyPEDWhPortData4CountoryMobile(paramDate);
+        		pedWhPortData = pediatricsDAO.getDailyPEDWhPortData4CountoryMobile(paramDate,hospitalShownFlag);
             	
-                mpd = pediatricsDAO.getDailyPEDData4CountoryMobile(paramDate);
+                mpd = pediatricsDAO.getDailyPEDData4CountoryMobile(paramDate,hospitalShownFlag);
                 logger.info(String.format("end to get the ped daily data of the country, current telephone is %s", telephone));
                 List<RateElement> rates = new ArrayList<RateElement>();
                 RateElement re1 = new RateElement("ped");
@@ -277,9 +277,9 @@ public class PediatricsServiceImpl implements PediatricsService {
 	}
 
 	@Cacheable(value="getDailyPEDData4MobileByRegion")
-	public List<MobilePEDDailyData> getDailyPEDData4MobileByRegion(Timestamp paramDate,String region) throws Exception{
+	public List<MobilePEDDailyData> getDailyPEDData4MobileByRegion(Timestamp paramDate,String region, String hospitalShownFlag) throws Exception{
     	List<MobilePEDDailyData> pedDatas = new ArrayList<MobilePEDDailyData>();
-		pedDatas = pediatricsDAO.getDailyPEDData4RSMByRegion(region);
+		pedDatas = pediatricsDAO.getDailyPEDData4RSMByRegion(region,hospitalShownFlag);
 		
 		List<MobilePEDDailyData> pedCoreData = new ArrayList<MobilePEDDailyData>();
 		Map<String,Double> pedCoreInRateMap = new HashMap<String,Double>();
@@ -288,13 +288,13 @@ public class PediatricsServiceImpl implements PediatricsService {
 		List<MobilePEDDailyData> pedEmergingData = new ArrayList<MobilePEDDailyData>();
 		Map<String,Double> pedEmergingWhRateMap = new HashMap<String,Double>();
 		
-		pedCoreData = pediatricsDAO.getDailyCorePEDData4RSMByRegion(region);
+		pedCoreData = pediatricsDAO.getDailyCorePEDData4RSMByRegion(region,hospitalShownFlag);
 		for( MobilePEDDailyData pedCore : pedCoreData ){
 			pedCoreInRateMap.put(pedCore.getUserCode(), pedCore.getCoreInRate());
 			pedCoreWhRateMap.put(pedCore.getUserCode(), pedCore.getCoreWhRate());
 		}
 		
-		pedEmergingData = pediatricsDAO.getDailyEmergingPEDData4RSMByRegion(region);
+		pedEmergingData = pediatricsDAO.getDailyEmergingPEDData4RSMByRegion(region,hospitalShownFlag);
 		for( MobilePEDDailyData pedEmerging : pedEmergingData ){
 			pedEmergingWhRateMap.put(pedEmerging.getUserCode(), pedEmerging.getEmergingWhRate());
 		}
@@ -302,7 +302,7 @@ public class PediatricsServiceImpl implements PediatricsService {
 		List<MobilePEDDailyData> pedWhPortData = new ArrayList<MobilePEDDailyData>();
 		Map<String,Double> pedWhPortMap = new HashMap<String,Double>();
 		
-		pedWhPortData = pediatricsDAO.getDailyPEDWhPortData4RSMByRegion(region);
+		pedWhPortData = pediatricsDAO.getDailyPEDWhPortData4RSMByRegion(region,hospitalShownFlag);
 		for( MobilePEDDailyData pedWhPort : pedWhPortData ){
 			pedWhPortMap.put(pedWhPort.getUserCode(), pedWhPort.getWhPortRate());
 		}
@@ -346,7 +346,7 @@ public class PediatricsServiceImpl implements PediatricsService {
         return pedDatas;
 	}
 	
-    public List<MobilePEDDailyData> getDailyPEDData4Mobile(String telephone, UserInfo currentUser) throws Exception {
+    public List<MobilePEDDailyData> getDailyPEDData4Mobile(String telephone, UserInfo currentUser, String hospitalShownFlag) throws Exception {
     	List<MobilePEDDailyData> pedDatas = new ArrayList<MobilePEDDailyData>();
     	
 		List<MobilePEDDailyData> pedCoreData = new ArrayList<MobilePEDDailyData>();
@@ -363,21 +363,21 @@ public class PediatricsServiceImpl implements PediatricsService {
 		Timestamp paramDate = new Timestamp(DateUtils.populateParamDate(date).getTime());
     	
     	if( LsAttributes.USER_LEVEL_DSM.equalsIgnoreCase(currentUser.getLevel()) ){
-    		pedDatas = pediatricsDAO.getDailyPEDData4DSMMobile(telephone);
-    		pedCoreData = pediatricsDAO.getDailyCorePEDData4DSMMobile(telephone);
-    		pedEmergingData = pediatricsDAO.getDailyEmergingPEDData4DSMMobile(telephone);
-    		pedWhPortData = pediatricsDAO.getDailyPEDWhPortData4DSMMobile(telephone);
+    		pedDatas = pediatricsDAO.getDailyPEDData4DSMMobile(telephone,hospitalShownFlag);
+    		pedCoreData = pediatricsDAO.getDailyCorePEDData4DSMMobile(telephone,hospitalShownFlag);
+    		pedEmergingData = pediatricsDAO.getDailyEmergingPEDData4DSMMobile(telephone,hospitalShownFlag);
+    		pedWhPortData = pediatricsDAO.getDailyPEDWhPortData4DSMMobile(telephone,hospitalShownFlag);
     	}else if( LsAttributes.USER_LEVEL_RSM.equalsIgnoreCase(currentUser.getLevel()) ){
-    		pedDatas = pediatricsDAO.getDailyPEDData4RSMMobile(telephone);
-    		pedCoreData = pediatricsDAO.getDailyCorePEDData4RSMMobile(telephone);
-    		pedEmergingData = pediatricsDAO.getDailyEmergingPEDData4RSMMobile(telephone);
-    		pedWhPortData = pediatricsDAO.getDailyPEDWhPortData4RSMMobile(telephone);
+    		pedDatas = pediatricsDAO.getDailyPEDData4RSMMobile(telephone,hospitalShownFlag);
+    		pedCoreData = pediatricsDAO.getDailyCorePEDData4RSMMobile(telephone,hospitalShownFlag);
+    		pedEmergingData = pediatricsDAO.getDailyEmergingPEDData4RSMMobile(telephone,hospitalShownFlag);
+    		pedWhPortData = pediatricsDAO.getDailyPEDWhPortData4RSMMobile(telephone,hospitalShownFlag);
     	}else if( LsAttributes.USER_LEVEL_RSD.equalsIgnoreCase(currentUser.getLevel()) 
     			|| LsAttributes.USER_LEVEL_BM.equalsIgnoreCase(currentUser.getLevel()) ){
-    		pedDatas = pediatricsDAO.getDailyPEDData4RSDMobile(paramDate);
-    		pedCoreData = pediatricsDAO.getDailyCorePEDData4RSDMobile(paramDate);
-    		pedEmergingData = pediatricsDAO.getDailyEmergingPEDData4RSDMobile(paramDate);
-    		pedWhPortData = pediatricsDAO.getDailyPEDWhPortData4RSDMobile(paramDate);
+    		pedDatas = pediatricsDAO.getDailyPEDData4RSDMobile(paramDate,hospitalShownFlag);
+    		pedCoreData = pediatricsDAO.getDailyCorePEDData4RSDMobile(paramDate,hospitalShownFlag);
+    		pedEmergingData = pediatricsDAO.getDailyEmergingPEDData4RSDMobile(paramDate,hospitalShownFlag);
+    		pedWhPortData = pediatricsDAO.getDailyPEDWhPortData4RSDMobile(paramDate,hospitalShownFlag);
     	}
     	
     	for( MobilePEDDailyData pedCore : pedCoreData ){
@@ -451,7 +451,7 @@ public class PediatricsServiceImpl implements PediatricsService {
         return orderedPedData;
     }
     
-    public List<MobilePEDDailyData> getDailyPEDChildData4Mobile(String telephone, UserInfo currentUser) throws Exception {
+    public List<MobilePEDDailyData> getDailyPEDChildData4Mobile(String telephone, UserInfo currentUser, String hospitalShownFlag) throws Exception {
         List<MobilePEDDailyData> pedDatas = new ArrayList<MobilePEDDailyData>();
         
         List<MobilePEDDailyData> filteredPedDatas = new ArrayList<MobilePEDDailyData>();
@@ -467,20 +467,20 @@ public class PediatricsServiceImpl implements PediatricsService {
 		Map<String,Double> pedWhPortMap = new HashMap<String,Double>();
         
         if( LsAttributes.USER_LEVEL_DSM.equalsIgnoreCase(currentUser.getLevel()) ){
-            pedDatas = pediatricsDAO.getDailyPEDChildData4DSMMobile(telephone);
-            pedCoreData = pediatricsDAO.getDailyCorePEDChildData4DSMMobile(telephone);
-            pedEmergingData = pediatricsDAO.getDailyEmergingPEDChildData4DSMMobile(telephone);
-            pedWhPortData = pediatricsDAO.getDailyPEDWhPortChildData4DSMMobile(telephone);
+            pedDatas = pediatricsDAO.getDailyPEDChildData4DSMMobile(telephone,hospitalShownFlag);
+            pedCoreData = pediatricsDAO.getDailyCorePEDChildData4DSMMobile(telephone,hospitalShownFlag);
+            pedEmergingData = pediatricsDAO.getDailyEmergingPEDChildData4DSMMobile(telephone,hospitalShownFlag);
+            pedWhPortData = pediatricsDAO.getDailyPEDWhPortChildData4DSMMobile(telephone,hospitalShownFlag);
         }else if( LsAttributes.USER_LEVEL_RSM.equalsIgnoreCase(currentUser.getLevel()) ){
-            pedDatas = pediatricsDAO.getDailyPEDChildData4RSMMobile(telephone);
-            pedCoreData = pediatricsDAO.getDailyCorePEDChildData4RSMMobile(telephone);
-            pedEmergingData = pediatricsDAO.getDailyEmergingPEDChildData4RSMMobile(telephone);
-            pedWhPortData = pediatricsDAO.getDailyPEDWhPortChildData4RSMMobile(telephone);
+            pedDatas = pediatricsDAO.getDailyPEDChildData4RSMMobile(telephone,hospitalShownFlag);
+            pedCoreData = pediatricsDAO.getDailyCorePEDChildData4RSMMobile(telephone,hospitalShownFlag);
+            pedEmergingData = pediatricsDAO.getDailyEmergingPEDChildData4RSMMobile(telephone,hospitalShownFlag);
+            pedWhPortData = pediatricsDAO.getDailyPEDWhPortChildData4RSMMobile(telephone,hospitalShownFlag);
         }else if( LsAttributes.USER_LEVEL_RSD.equalsIgnoreCase(currentUser.getLevel()) ){
-            pedDatas = pediatricsDAO.getDailyPEDChildData4RSDMobile(telephone);
-            pedCoreData = pediatricsDAO.getDailyCorePEDChildData4RSDMobile(telephone);
-            pedEmergingData = pediatricsDAO.getDailyEmergingPEDChildData4RSDMobile(telephone);
-            pedWhPortData = pediatricsDAO.getDailyPEDWhPortChildData4RSDMobile(telephone);
+            pedDatas = pediatricsDAO.getDailyPEDChildData4RSDMobile(telephone,hospitalShownFlag);
+            pedCoreData = pediatricsDAO.getDailyCorePEDChildData4RSDMobile(telephone,hospitalShownFlag);
+            pedEmergingData = pediatricsDAO.getDailyEmergingPEDChildData4RSDMobile(telephone,hospitalShownFlag);
+            pedWhPortData = pediatricsDAO.getDailyPEDWhPortChildData4RSDMobile(telephone,hospitalShownFlag);
         }
         
         for( MobilePEDDailyData pedCore : pedCoreData ){
@@ -541,24 +541,24 @@ public class PediatricsServiceImpl implements PediatricsService {
     
 	@Override
 	@Cacheable(value="getTopAndBottomRSMData")
-	public TopAndBottomRSMData getTopAndBottomRSMData(Timestamp paramDate) throws Exception {
+	public TopAndBottomRSMData getTopAndBottomRSMData(Timestamp paramDate, String hospitalShownFlag) throws Exception {
 		TopAndBottomRSMData topAndBottomRSMData = new TopAndBottomRSMData();
 		
-		topAndBottomRSMData = pediatricsDAO.getTopAndBottomInRateRSMData(topAndBottomRSMData);
+		topAndBottomRSMData = pediatricsDAO.getTopAndBottomInRateRSMData(topAndBottomRSMData,hospitalShownFlag);
 		logger.info("inRate end");
-		topAndBottomRSMData = pediatricsDAO.getTopAndBottomWhRateRSMData(topAndBottomRSMData);
+		topAndBottomRSMData = pediatricsDAO.getTopAndBottomWhRateRSMData(topAndBottomRSMData,hospitalShownFlag);
 		logger.info("whRate end");
-		topAndBottomRSMData = pediatricsDAO.getTopAndBottomAverageDoseRSMData(topAndBottomRSMData);
+		topAndBottomRSMData = pediatricsDAO.getTopAndBottomAverageDoseRSMData(topAndBottomRSMData,hospitalShownFlag);
 		logger.info("averageDose end");
-		topAndBottomRSMData = pediatricsDAO.getTopAndBottomWhPortRateRSMData(topAndBottomRSMData);
+		topAndBottomRSMData = pediatricsDAO.getTopAndBottomWhPortRateRSMData(topAndBottomRSMData,hospitalShownFlag);
 		logger.info("whPortRate end");
 		
-		TopAndBottomRSMData coreRSMData = pediatricsDAO.getCoreTopAndBottomRSMData();
+		TopAndBottomRSMData coreRSMData = pediatricsDAO.getCoreTopAndBottomRSMData(hospitalShownFlag);
 		logger.info("core end");
-		TopAndBottomRSMData coreWhRateData = pediatricsDAO.getCoreTopAndBottomRSMWhRateData();
+		TopAndBottomRSMData coreWhRateData = pediatricsDAO.getCoreTopAndBottomRSMWhRateData(hospitalShownFlag);
 		logger.info("coreWhRate end");
 		
-		TopAndBottomRSMData emergingWhRateData = pediatricsDAO.getEmergingTopAndBottomRSMWhRateData();
+		TopAndBottomRSMData emergingWhRateData = pediatricsDAO.getEmergingTopAndBottomRSMWhRateData(hospitalShownFlag);
 		logger.info("emergingWhRate end");
 		
 		topAndBottomRSMData.setCoreBottomInRate(coreRSMData.getCoreBottomInRate());
@@ -581,8 +581,8 @@ public class PediatricsServiceImpl implements PediatricsService {
 	}
     
     @Override
-    public TopAndBottomRSMData getTopAndBottomInRateRSMData(String telephone) throws Exception {
-    	List<DailyReportData> allRSMData = pediatricsDAO.getAllRSMDataByTelephone();
+    public TopAndBottomRSMData getTopAndBottomInRateRSMData(String telephone, String hospitalShownFlag) throws Exception {
+    	List<DailyReportData> allRSMData = pediatricsDAO.getAllRSMDataByTelephone(hospitalShownFlag);
     	java.util.Collections.sort(allRSMData, new DailyReportDataInRateComparator());
     	
     	TopAndBottomRSMData topAndBottomRSMInRateData = new TopAndBottomRSMData();
@@ -595,8 +595,8 @@ public class PediatricsServiceImpl implements PediatricsService {
     }
     
     @Override
-    public TopAndBottomRSMData getTopAndBottomWhRateRSMData(String telephone) throws Exception {
-    	List<DailyReportData> allRSMData = pediatricsDAO.getAllRSMDataByTelephone();
+    public TopAndBottomRSMData getTopAndBottomWhRateRSMData(String telephone, String hospitalShownFlag) throws Exception {
+    	List<DailyReportData> allRSMData = pediatricsDAO.getAllRSMDataByTelephone(hospitalShownFlag);
     	java.util.Collections.sort(allRSMData, new DailyReportDataWhRateComparator());
     	
     	TopAndBottomRSMData topAndBottomRSMWhRateData = new TopAndBottomRSMData();
@@ -609,8 +609,8 @@ public class PediatricsServiceImpl implements PediatricsService {
     }
     
     @Override
-    public TopAndBottomRSMData getTopAndBottomAverageRSMData(String telephone) throws Exception {
-    	List<DailyReportData> allRSMData = pediatricsDAO.getAllRSMDataByTelephone();
+    public TopAndBottomRSMData getTopAndBottomAverageRSMData(String telephone, String hospitalShownFlag) throws Exception {
+    	List<DailyReportData> allRSMData = pediatricsDAO.getAllRSMDataByTelephone(hospitalShownFlag);
     	java.util.Collections.sort(allRSMData, new DailyReportDataAverageComparator());
     	
     	TopAndBottomRSMData topAndBottomRSMAverageData = new TopAndBottomRSMData();

@@ -31,15 +31,15 @@ public interface PediatricsService {
 	public void insert(PediatricsData pediatricsData) throws Exception;
 	public void update(PediatricsData pediatricsData, UserInfo operator) throws Exception;
 	
-	public MobilePEDDailyData getDailyPEDParentData4Mobile(String telephone, String level)throws Exception;
-	public List<MobilePEDDailyData> getDailyPEDData4Mobile( String telephone, UserInfo currentUser ) throws Exception;
-	public List<MobilePEDDailyData> getDailyPEDChildData4Mobile( String telephone, UserInfo currentUser ) throws Exception;
+	public MobilePEDDailyData getDailyPEDParentData4Mobile(String telephone, String level, String hospitalShownFlag)throws Exception;
+	public List<MobilePEDDailyData> getDailyPEDData4Mobile( String telephone, UserInfo currentUser, String hospitalShownFlag) throws Exception;
+	public List<MobilePEDDailyData> getDailyPEDChildData4Mobile( String telephone, UserInfo currentUser, String hospitalShownFlag) throws Exception;
 	
-	public TopAndBottomRSMData getTopAndBottomInRateRSMData(String telephone) throws Exception;
-	public TopAndBottomRSMData getTopAndBottomWhRateRSMData(String telephone) throws Exception;
-	public TopAndBottomRSMData getTopAndBottomAverageRSMData(String telephone) throws Exception;
+	public TopAndBottomRSMData getTopAndBottomInRateRSMData(String telephone, String hospitalShownFlag) throws Exception;
+	public TopAndBottomRSMData getTopAndBottomWhRateRSMData(String telephone, String hospitalShownFlag) throws Exception;
+	public TopAndBottomRSMData getTopAndBottomAverageRSMData(String telephone, String hospitalShownFlag) throws Exception;
 	
-	public TopAndBottomRSMData getTopAndBottomRSMData(Timestamp paramDate) throws Exception;
+	public TopAndBottomRSMData getTopAndBottomRSMData(Timestamp paramDate, String hospitalShownFlag) throws Exception;
 	
 	public ReportProcessData getSalesSelfReportProcessPEDData(String telephone) throws Exception;
     public List<ReportProcessDataDetail> getSalesSelfReportProcessPEDDetailData(String telephone) throws Exception;
@@ -60,7 +60,7 @@ public interface PediatricsService {
     public void generateWeeklyPEDDataOfHospital(Date refreshDate) throws Exception;
     public boolean hasLastWeeklyPEDData() throws Exception;
     
-    public List<MobilePEDDailyData> getDailyPEDData4MobileByRegion(Timestamp paramDate, String region) throws Exception;
+    public List<MobilePEDDailyData> getDailyPEDData4MobileByRegion(Timestamp paramDate, String region, String hospitalShownFlag) throws Exception;
     
     public List<MonthlyStatisticsData> getMonthlyStatisticsData(String beginDuraion, String endDuraion, String level) throws Exception;
     public MonthlyStatisticsData getMonthlyStatisticsCountryData(String beginDuraion, String endDuraion) throws Exception;

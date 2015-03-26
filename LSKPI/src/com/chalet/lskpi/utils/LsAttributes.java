@@ -1284,6 +1284,12 @@ public class LsAttributes {
             .append("           when h1.dragonType='Core' then least(count(1),3) ")
             .append("       end  as inNum");
     
-    public static final StringBuffer SQL_WHERE_CONDITION_DAILYREPORT_HOSPITAL = new StringBuffer("isDailyReport = '1' ");
+    /**
+     * isDailyReport = '1'
+     */
+    public static final StringBuffer SQL_WHERE_CONDITION_DAILYREPORT_HOSPITAL = new StringBuffer("isDailyReport='1' ");
+    /**
+     * isPedAssessed='1'
+     */
     public static final StringBuffer SQL_WHERE_CONDITION_PED_COLLECTION_HOSPITAL = new StringBuffer("isPedAssessed='1' ");
 }
