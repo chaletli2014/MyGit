@@ -49,6 +49,9 @@ public class MonthlyCollectionDataRowMapper implements RowMapper<MonthlyRatioDat
         monthlyRatioData.setResRoom(rs.getDouble("res_room"));
         monthlyRatioData.setResRoomRate(rs.getDouble("resRoomRate"));
         
+        monthlyRatioData.setHomeWh(rs.getDouble("home_wh"));
+        monthlyRatioData.setHomeWhRate(rs.getDouble("homeWhRate"));
+        
 		monthlyRatioData.setHosnum(rs.getInt("hosnum"));
         monthlyRatioData.setInnum(rs.getInt("innum"));
         monthlyRatioData.setInrate(rs.getDouble("innum")/rs.getInt("hosnum"));
