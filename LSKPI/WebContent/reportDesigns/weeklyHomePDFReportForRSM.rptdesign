@@ -2427,7 +2427,7 @@ from (
     group by h.region,h.rsmRegion,h.dsmCode
 ) homeData
 right join tbl_userinfo ui on ui.userCode= homeData.dsmCode and ui.region = homeData.rsmRegion 
-where ui.level='DSM'
+where ui.level='DSM' 
 and ui.region = (select region from tbl_userinfo where telephone=?) 
 order by name ]]></xml-property>
         </oda-data-set>
@@ -9806,12 +9806,6 @@ this.getStyle().backgroundColor = "#FFFFFF";
         <table id="4552">
             <property name="dataSet">weeklyHomeDSMDataSet</property>
             <list-property name="boundDataColumns">
-                <structure>
-                    <property name="name">region</property>
-                    <text-property name="displayName">region</text-property>
-                    <expression name="expression" type="javascript">dataSetRow["region"]</expression>
-                    <property name="dataType">string</property>
-                </structure>
                 <structure>
                     <property name="name">newWhNum</property>
                     <text-property name="displayName">newWhNum</text-property>

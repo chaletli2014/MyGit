@@ -122,10 +122,14 @@
             </structure>
         </scalar-parameter>
         <scalar-parameter name="startDate" id="4606">
+            <text-property name="promptText">startDate</text-property>
             <property name="valueType">static</property>
             <property name="isRequired">false</property>
             <property name="dataType">string</property>
             <property name="distinct">true</property>
+            <simple-property-list name="defaultValue">
+                <value type="constant"></value>
+            </simple-property-list>
             <list-property name="selectionList"/>
             <property name="paramType">simple</property>
             <property name="concealValue">false</property>
@@ -135,10 +139,14 @@
             </structure>
         </scalar-parameter>
         <scalar-parameter name="endDate" id="4607">
+            <text-property name="promptText">endDate</text-property>
             <property name="valueType">static</property>
             <property name="isRequired">false</property>
             <property name="dataType">string</property>
             <property name="distinct">true</property>
+            <simple-property-list name="defaultValue">
+                <value type="constant"></value>
+            </simple-property-list>
             <list-property name="selectionList"/>
             <property name="paramType">simple</property>
             <property name="concealValue">false</property>
@@ -148,10 +156,14 @@
             </structure>
         </scalar-parameter>
         <scalar-parameter name="last2Duration" id="3912">
+            <text-property name="promptText">last2Duration</text-property>
             <property name="valueType">static</property>
             <property name="isRequired">false</property>
             <property name="dataType">string</property>
             <property name="distinct">true</property>
+            <simple-property-list name="defaultValue">
+                <value type="constant"></value>
+            </simple-property-list>
             <list-property name="selectionList"/>
             <property name="paramType">simple</property>
             <property name="concealValue">false</property>
@@ -2729,7 +2741,7 @@ from (
     group by h.region,h.rsmRegion,h.dsmCode
 ) homeData
 right join tbl_userinfo ui on ui.userCode= homeData.dsmCode and ui.region = homeData.rsmRegion 
-where ui.level='DSM'
+where ui.level='DSM' 
 and ui.region = (select region from tbl_userinfo where telephone=?) 
 order by name ]]></xml-property>
         </oda-data-set>
@@ -2771,7 +2783,7 @@ order by name ]]></xml-property>
     <page-setup>
         <simple-master-page name="Simple MasterPage" id="2">
             <property name="type">custom</property>
-            <property name="height">20in</property>
+            <property name="height">23in</property>
             <property name="width">11in</property>
         </simple-master-page>
     </page-setup>
@@ -2806,12 +2818,6 @@ order by name ]]></xml-property>
         <table id="4610">
             <property name="dataSet">weeklyHomeDSMDataSet</property>
             <list-property name="boundDataColumns">
-                <structure>
-                    <property name="name">region</property>
-                    <text-property name="displayName">region</text-property>
-                    <expression name="expression" type="javascript">dataSetRow["region"]</expression>
-                    <property name="dataType">string</property>
-                </structure>
                 <structure>
                     <property name="name">newWhNum</property>
                     <text-property name="displayName">newWhNum</text-property>
@@ -9780,12 +9786,6 @@ this.getStyle().backgroundColor = "#FFFFFF";
         <table id="4552">
             <property name="dataSet">weeklyHomeSalesDataSet</property>
             <list-property name="boundDataColumns">
-                <structure>
-                    <property name="name">region</property>
-                    <text-property name="displayName">region</text-property>
-                    <expression name="expression" type="javascript">dataSetRow["region"]</expression>
-                    <property name="dataType">string</property>
-                </structure>
                 <structure>
                     <property name="name">newWhNum</property>
                     <text-property name="displayName">newWhNum</text-property>
