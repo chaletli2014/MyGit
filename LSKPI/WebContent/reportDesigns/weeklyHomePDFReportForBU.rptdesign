@@ -1546,6 +1546,7 @@ group by hd.duration;]]></xml-property>
 </model:DesignValues>]]></xml-property>
         </oda-data-set>
         <oda-data-set extensionID="org.eclipse.birt.report.data.oda.jdbc.JdbcSelectDataSet" name="weeklyHomeRSDDataSet" id="2258">
+            <list-property name="columnHints"/>
             <list-property name="parameters">
                 <structure>
                     <property name="name">param_1</property>
@@ -1750,7 +1751,8 @@ from (
     group by h.region 
 ) homeData
 right join tbl_userinfo ui on ui.regionCenter = homeData.region 
-where ui.level='RSD']]></xml-property>
+where ui.level='RSD' 
+order by name ]]></xml-property>
             <xml-property name="designerValues"><![CDATA[<?xml version="1.0" encoding="UTF-8"?>
 <model:DesignValues xmlns:design="http://www.eclipse.org/datatools/connectivity/oda/design" xmlns:model="http://www.eclipse.org/birt/report/model/adapter/odaModel">
   <Version>2.0</Version>
