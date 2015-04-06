@@ -1292,4 +1292,7 @@ public class LsAttributes {
      * isPedAssessed='1'
      */
     public static final StringBuffer SQL_WHERE_CONDITION_PED_COLLECTION_HOSPITAL = new StringBuffer("isPedAssessed='1' ");
+    
+    public static final StringBuffer SQL_SELECTION_HOSPITAL = new StringBuffer("")
+    		.append(", h.city, h.province, h.region, h.rsmRegion, h.saleCode, h.saleName, h.dsmCode, h.portNum, h.isRe2 ");
 }

@@ -93,6 +93,7 @@ public class UploadController {
             hospitalHeaders.add("是否在胸外科名单中（在=1，不在=0）");
             hospitalHeaders.add("是否在胸外科Top 100名单中（在=1，不在=0）");
             hospitalHeaders.add("是否为儿科日报考核名单中（在=1，不在=0）");
+            hospitalHeaders.add("是否在呼吸科RE2名单中（在=1，不在=0）");
             
             List<String> repHeaders = new ArrayList<String>();
             repHeaders.add("Rep Code");

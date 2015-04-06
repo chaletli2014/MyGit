@@ -435,3 +435,11 @@ ALTER  TABLE tbl_month_data ADD INDEX INDEX_MONTH_COUNTMONTH (countMonth);
 alter table tbl_month_data add column home_wh DECIMAL(11,2) not null default 0;
 
 alter table tbl_hospital add column isDailyReport varchar(2) not null default 0;
+
+alter table tbl_respirology_data add column xbknum int not null default 0;
+alter table tbl_respirology_data add column xbk1num int not null default 0;
+alter table tbl_respirology_data add column xbk2num int not null default 0;
+alter table tbl_respirology_data add column xbk3num int not null default 0;
+
+alter table tbl_hospital add column isRe2 varchar(2) not null default 0;
+alter table tbl_hospital add column isXbkRe2 varchar(2) not null default 0;

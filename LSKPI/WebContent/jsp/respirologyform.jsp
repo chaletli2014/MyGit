@@ -33,6 +33,11 @@ function checkForm(){
 	if( !isInteger($("#pnum"),$("#aenum"),$("#whnum"),$("#lsnum"))  ){
 		return false;
 	}
+	
+	if( $("#xbknum") && !isInteger($("#xbknum"),$("#xbk1num"),$("#xbk2num"),$("#xbk3num")) ){
+		return false;
+	}
+	
 	if( !isLsNumAndPNumValid() ){
         return false;
 	}
@@ -40,20 +45,14 @@ function checkForm(){
 	if( !numlt9999("whnum") ){
         return false;
 	}
-	
-	/*
-	if( !obj1ltobj2("pnum","aenum") ){
+	if( !obj1ltobj2("aenum","xbknum") ){
 		return false;
 	}
 	
-	if( !obj1ltobj2("pnum","whnum") ){
+	if( Number($("#xbk1num").val())+Number($("#xbk2num").val())+Number($("#xbk3num").val()) != Number($("#xbknum").val()) ){
+		showCustomrizedMessage("信必可三种处方人数之和必须等于出院信必可带药人数");
 		return false;
 	}
-	
-	if( !obj1ltobj2("pnum","lsnum") ){
-		return false;
-	}
-	*/
 	
 	if( !percentValidate($("#oqd"),$("#tqd"),$("#otid"),$("#tbid"),$("#ttid"),$("#thbid"),$("#fbid")) ){
 		return false;
@@ -62,7 +61,7 @@ function checkForm(){
     if( hasZeroValue($("#pnum"),$("#aenum"),$("#whnum"),$("#lsnum")) ){
         return confirmTypein('','popupConfirm','respirologyForm');
     }
-	
+    
 	return true;
 }
 </script>
@@ -75,7 +74,7 @@ function checkForm(){
         </jsp:include>
         <div data-role="content" data-theme="a">
         	<div class="roundCorner">
-        	<div class="report_process_bg_description">医院名称前的 * 表示该医院在考评范围内</div>
+        	<div class="report_process_bg_description">标*为Core医院，每周填报3次；标**为Emerging医院，每周填报1次</div>
 	        <form id="respirologyForm" action="collectRespirology" method="POST" data-ajax="false" class="validate" onsubmit="return checkForm()">
 	        	<input type="hidden" name="dataId" value="${existedData.dataId}"/>
 	        	<input type="hidden" name="selectedHospital" value="${selectedHospital}"/>
@@ -165,6 +164,25 @@ function checkForm(){
 	                </select>
 	            </div>
 	             --%>
+	            <div class="roundCorner" style="margin:0px;width:90%;">
+		            <div data-role="fieldcontain" class="formCollection">
+		                <label for="xbknum" id="xbknum_label">出院信必可带药人数</label>
+		                <input type="number" name="xbknum" id="xbknum" value="${existedData.xbknum==null?0:existedData.xbknum}"/>
+		            </div>
+		            <div class="report_process_bg_description">以下三个病人数之和=出院信必可带药人数</div>
+		            <div data-role="fieldcontain" class="formCollection">
+		                <label for="xbk1num" id="xbk1num_label">出院带1支信必可人数</label>
+		                <input type="number" name="xbk1num" id="xbk1num"  value="${existedData.xbk1num==null?0:existedData.xbk1num}"/>
+		            </div>
+	               	<div data-role="fieldcontain" class="formCollection">
+		                <label for="xbk2num" id="xbk2num_label">出院带2支信必可人数</label>
+		                <input type="number" name="xbk2num" id="xbk2num"  value="${existedData.xbk2num==null?0:existedData.xbk2num}"/>
+		            </div>
+		            <div data-role="fieldcontain" class="formCollection">
+		                <label for="xbk3num" id="xbk3num_label">出院带3支及以上信必可人数</label>
+		                <input type="number" name="xbk3num" id="xbk3num"  value="${existedData.xbk3num==null?0:existedData.xbk3num}"/>
+		            </div>
+	            </div>
 	            <div style="text-align: center;">
 	            	<a class="submit_btn" href="javascript:void(0)" onclick="submitForm()">
 			            <img alt="" src="<%=basePath%>images/button_submit.png" style="cursor: pointer;" />

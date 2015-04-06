@@ -325,7 +325,7 @@ public class IndexController extends BaseController{
 			RespirologyData existedData = new RespirologyData();
 			if( (null != selectedHospital && !"".equalsIgnoreCase(selectedHospital)) ){
 			    if( selectedHospital.indexOf("*") == 0 ){
-			        hospitalName = selectedHospital.substring(2);
+			        hospitalName = selectedHospital.substring(2).trim();
 	            }else{
 	                hospitalName = selectedHospital;
 	            }
@@ -335,6 +335,9 @@ public class IndexController extends BaseController{
 			    	logger.info(String.format("init res existedData is %s", existedData.getHospitalName()));
 			    }
 			    view.addObject("selectedHospital", selectedHospital);
+			    
+			    Hospital selectedHos = hospitalService.getHospitalByName(hospitalName);
+			    view.addObject("selectedHos", selectedHos);
 			}
 			view.addObject("existedData", existedData);
 			
@@ -377,7 +380,7 @@ public class IndexController extends BaseController{
             }
             
             if( hospitalName.indexOf("*") == 0 ){
-            	hospitalName = hospitalName.substring(2);
+            	hospitalName = hospitalName.substring(2).trim();
             }
             logger.info(String.format("doing the data persistence, dataId is %s, hospital is %s", dataId,hospitalName));
             
@@ -838,7 +841,7 @@ public class IndexController extends BaseController{
     private void populateRespirologyData(HttpServletRequest request,RespirologyData respirologyData){
         String hospitalName = request.getParameter("hospital");
         if( hospitalName.indexOf("*") == 0 ){
-        	hospitalName = hospitalName.substring(2);
+        	hospitalName = hospitalName.substring(2).trim();
         }
         //当日病房病人人数
         int pnum = StringUtils.getIntegerFromString(request.getParameter("pnum"));
@@ -865,6 +868,14 @@ public class IndexController extends BaseController{
 //        //该医院主要处方方式
 //        String recipeType = request.getParameter("recipeType");
         
+        /**
+         * 信必可
+         */
+        int xbknum = StringUtils.getIntegerFromString(request.getParameter("xbknum"));
+        int xbk1num = StringUtils.getIntegerFromString(request.getParameter("xbk1num"));
+        int xbk2num = StringUtils.getIntegerFromString(request.getParameter("xbk2num"));
+        int xbk3num = StringUtils.getIntegerFromString(request.getParameter("xbk3num"));
+        
         respirologyData.setHospitalName(hospitalName);
         respirologyData.setPnum(pnum);
         respirologyData.setAenum(aenum);
@@ -878,6 +889,10 @@ public class IndexController extends BaseController{
         respirologyData.setThbid(thbid);
         respirologyData.setFbid(fbid);
 //        respirologyData.setRecipeType(recipeType);
+        respirologyData.setXbknum(xbknum);
+        respirologyData.setXbk1num(xbk1num);
+        respirologyData.setXbk2num(xbk2num);
+        respirologyData.setXbk3num(xbk3num);
     }
     
     private void populatePediatricsData(HttpServletRequest request,PediatricsData pediatricsData){

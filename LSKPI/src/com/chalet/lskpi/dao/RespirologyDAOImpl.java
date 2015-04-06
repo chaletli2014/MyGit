@@ -1048,7 +1048,12 @@ public class RespirologyDAOImpl implements RespirologyDAO {
 	public void insert(final RespirologyData respirologyData, final UserInfo operator, final Hospital hospital) throws Exception {
 		logger.info(">>RespirologyDAOImpl insert");
 		
-		final String sql = "insert into tbl_respirology_data(id,createdate,hospitalName,pnum,aenum,whnum,lsnum,etmsCode,operatorName,region,rsmRegion,oqd,tqd,otid,tbid,ttid,thbid,fbid,recipeType,updatedate,dsmCode) values(null,NOW(),?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,NOW(),?)";
+		final String sql = new StringBuffer("insert into tbl_respirology_data")
+		.append("(id,createdate,hospitalName,pnum,aenum,whnum,lsnum,etmsCode,operatorName,region,rsmRegion")
+		.append(",oqd,tqd,otid,tbid,ttid,thbid,fbid,recipeType,updatedate,dsmCode")
+		.append(",xbknum,xbk1num,xbk2num,xbk3num)")
+		.append("values(null,NOW(),?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,NOW(),?,?,?,?,?)").toString();
+		
 		KeyHolder keyHolder = new GeneratedKeyHolder();
 		dataBean.getJdbcTemplate().update(new PreparedStatementCreator(){
 			@Override
@@ -1073,6 +1078,10 @@ public class RespirologyDAOImpl implements RespirologyDAO {
 				ps.setDouble(16, respirologyData.getFbid());
 				ps.setString(17, respirologyData.getRecipeType());
 				ps.setString(18, (operator.getSuperior()==null||"".equalsIgnoreCase(operator.getSuperior()))?operator.getUserCode():operator.getSuperior());
+				ps.setInt(19, respirologyData.getXbknum());
+				ps.setInt(20, respirologyData.getXbk1num());
+				ps.setInt(21, respirologyData.getXbk2num());
+				ps.setInt(22, respirologyData.getXbk3num());
 				return ps;
 			}
 		}, keyHolder);
@@ -1083,7 +1092,12 @@ public class RespirologyDAOImpl implements RespirologyDAO {
 	public void insert(final RespirologyData respirologyData, final String dsmCode) throws Exception {
 	    logger.info(">>RespirologyDAOImpl insert - upload daily data");
 	    
-	    final String sql = "insert into tbl_respirology_data(id,createdate,hospitalName,pnum,aenum,whnum,lsnum,etmsCode,operatorName,region,rsmRegion,oqd,tqd,otid,tbid,ttid,thbid,fbid,recipeType,updatedate,dsmCode) values(null,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,NOW(),?)";
+	    final String sql = new StringBuffer("insert into tbl_respirology_data(id,createdate,hospitalName,pnum,aenum,whnum,lsnum,etmsCode,operatorName,region,rsmRegion")
+	    .append(",oqd,tqd,otid,tbid,ttid,thbid,fbid,recipeType,updatedate,dsmCode")
+	    .append(",xbknum,xbk1num,xbk2num,xbk3num)")
+	    .append("values(null,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,NOW(),?,?,?,?,?)").toString();
+	    
+	    
 	    KeyHolder keyHolder = new GeneratedKeyHolder();
 	    dataBean.getJdbcTemplate().update(new PreparedStatementCreator(){
 	        @Override
@@ -1109,6 +1123,10 @@ public class RespirologyDAOImpl implements RespirologyDAO {
 	            ps.setDouble(17, respirologyData.getFbid());
 	            ps.setString(18, respirologyData.getRecipeType());
 	            ps.setString(19, dsmCode);
+	            ps.setInt(20, respirologyData.getXbknum());
+	            ps.setInt(21, respirologyData.getXbk1num());
+	            ps.setInt(22, respirologyData.getXbk2num());
+	            ps.setInt(23, respirologyData.getXbk3num());
 	            return ps;
 	        }
 	    }, keyHolder);
@@ -1131,6 +1149,10 @@ public class RespirologyDAOImpl implements RespirologyDAO {
 	    sql.append(", thbid=? ");
 	    sql.append(", fbid=? ");
 	    sql.append(", recipeType=? ");
+	    sql.append(", xbknum=? ");
+	    sql.append(", xbk1num=? ");
+	    sql.append(", xbk2num=? ");
+	    sql.append(", xbk3num=? ");
 	    
 	    List<Object> paramList = new ArrayList<Object>();
 	    paramList.add(respirologyData.getPnum());
@@ -1145,6 +1167,10 @@ public class RespirologyDAOImpl implements RespirologyDAO {
 	    paramList.add(respirologyData.getThbid());
 	    paramList.add(respirologyData.getFbid());
 	    paramList.add(respirologyData.getRecipeType());
+	    paramList.add(respirologyData.getXbknum());
+	    paramList.add(respirologyData.getXbk1num());
+	    paramList.add(respirologyData.getXbk2num());
+	    paramList.add(respirologyData.getXbk3num());
 	    paramList.toArray();
 	    
 	    if( null == operator ){

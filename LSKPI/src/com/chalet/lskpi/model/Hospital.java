@@ -24,6 +24,11 @@ public class Hospital {
     
     private String isDailyReport;
     
+    /**
+     * 是否在RE2名单中（在=1，不在=0）
+     */
+    private String isRe2;
+    
     private int portNum;
     
     public int getId() {
@@ -145,5 +150,11 @@ public class Hospital {
 	}
 	public void setIsDailyReport(String isDailyReport) {
 		this.isDailyReport = isDailyReport;
+	}
+	public String getIsRe2() {
+		return isRe2;
+	}
+	public void setIsRe2(String isRe2) {
+		this.isRe2 = isRe2;
 	}
 }

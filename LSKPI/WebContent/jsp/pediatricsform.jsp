@@ -71,7 +71,7 @@ function checkForm(){
         </jsp:include>
         <div data-role="content"  data-theme="a">
         	<div class="roundCorner">
-        	<div class="report_process_bg_description">医院名称前的 * 表示该医院在考评范围内</div>
+        	<div class="report_process_bg_description">标*为Core医院，每周填报3次；标**为Emerging医院，每周填报1次</div>
             <form id="pediatricsForm" action="collectPediatrics" method="POST" data-ajax="false">
             	<input type="hidden" name="dataId" value="${existedData.dataId}"/>
 	        	<input type="hidden" name="selectedHospital" value="${selectedHospital}"/>

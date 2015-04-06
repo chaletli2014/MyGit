@@ -37,6 +37,14 @@ public class RespirologyData {
 	private String isResAssessed;
 	private String dragonType;
 	
+	/**
+	 * 以下录入项为信必可字段
+	 */
+	private int xbknum;
+	private int xbk1num;
+	private int xbk2num;
+	private int xbk3num;
+	
 	public String getHospitalName() {
 		return hospitalName;
 	}
@@ -175,4 +183,28 @@ public class RespirologyData {
     public void setDragonType(String dragonType) {
         this.dragonType = dragonType;
     }
+	public int getXbknum() {
+		return xbknum;
+	}
+	public void setXbknum(int xbknum) {
+		this.xbknum = xbknum;
+	}
+	public int getXbk1num() {
+		return xbk1num;
+	}
+	public void setXbk1num(int xbk1num) {
+		this.xbk1num = xbk1num;
+	}
+	public int getXbk2num() {
+		return xbk2num;
+	}
+	public void setXbk2num(int xbk2num) {
+		this.xbk2num = xbk2num;
+	}
+	public int getXbk3num() {
+		return xbk3num;
+	}
+	public void setXbk3num(int xbk3num) {
+		this.xbk3num = xbk3num;
+	}
 }

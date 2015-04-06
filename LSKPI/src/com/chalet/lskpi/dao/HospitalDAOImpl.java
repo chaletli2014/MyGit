@@ -64,7 +64,7 @@ public class HospitalDAOImpl implements HospitalDAO {
         StringBuffer sql = new StringBuffer("")
         .append(" select h.id,h.code ")
         .append(" , h.name ")
-        .append(" , h.city,h.province,h.region,h.rsmRegion,h.saleCode,h.saleName,h.dsmCode,h.portNum ")
+        .append(LsAttributes.SQL_SELECTION_HOSPITAL)
         .append(" from tbl_userinfo u, tbl_hos_user hu, tbl_hospital h ")
         .append(" where u.userCode = hu.userCode and hu.hosCode = h.code and u.telephone = ? ");
         hospitals = dataBean.getJdbcTemplate().query(sql.toString(), new Object[]{telephone}, new HospitalRowMapper());
@@ -76,7 +76,7 @@ public class HospitalDAOImpl implements HospitalDAO {
         StringBuffer sql = new StringBuffer();
         sql.append(" select h.id,h.code ")
             .append(" , h.name")
-            .append(" , h.city,h.province,h.region,h.rsmRegion,h.saleCode,h.saleName,h.dsmCode,h.portNum ")
+            .append(LsAttributes.SQL_SELECTION_HOSPITAL)
             .append(" from tbl_hospital h, tbl_userinfo ui ")
             .append(" where h.dsmCode = ui.userCode and ui.telephone = ? ")
             .append(" order by h.name asc ");
@@ -332,13 +332,12 @@ public class HospitalDAOImpl implements HospitalDAO {
 	public List<Hospital> getHospitalsByKeywords(String keywords)
 			throws Exception {
 		String searchSQL = "select * from tbl_hospital where name like '"+keywords+"' order by isResAssessed desc, isPedAssessed desc, isChestSurgeryAssessed desc,name asc";
-		logger.info("searchSQL is " + searchSQL);
 		return dataBean.getJdbcTemplate().query(searchSQL, new HospitalRowMapper());
 	}
 	
 	@Override
 	public void insert(final List<Hospital> hospitals) throws Exception {
-		String insertSQL = "insert into tbl_hospital(id,name,city,province,region,rsmRegion,level,code,dsmCode,dsmName,saleName,dragonType,isResAssessed,isPedAssessed,saleCode,isMonthlyAssessed,isChestSurgeryAssessed,isTop100,portNum,isDailyReport) values(null,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
+		String insertSQL = "insert into tbl_hospital(id,name,city,province,region,rsmRegion,level,code,dsmCode,dsmName,saleName,dragonType,isResAssessed,isPedAssessed,saleCode,isMonthlyAssessed,isChestSurgeryAssessed,isTop100,portNum,isDailyReport,isRe2) values(null,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
 		dataBean.getJdbcTemplate().batchUpdate(insertSQL, new BatchPreparedStatementSetter() {
 			
 			@Override
@@ -362,6 +361,7 @@ public class HospitalDAOImpl implements HospitalDAO {
 				ps.setString(17, hospitals.get(i).getIsTop100());
 				ps.setInt(18, hospitals.get(i).getPortNum());
 				ps.setString(19,hospitals.get(i).getIsDailyReport());
+				ps.setString(20,hospitals.get(i).getIsRe2());
 			}
 			
 			@Override
@@ -443,8 +443,7 @@ public class HospitalDAOImpl implements HospitalDAO {
 	public List<Hospital> getHospitalsByDSMTel(String telephone, String department) throws Exception {
 	    
 	    StringBuffer sb = new StringBuffer();
-        sb.append("select h.id,h.code ")
-            .append(", h.city,h.province,h.region,h.rsmRegion,h.saleCode,h.saleName,h.dsmCode ");
+        sb.append("select h.id,h.code ");
         
         if( LsAttributes.DEPARTMENT_PED.equalsIgnoreCase(department) ){
             sb.append(", case when h.isPedAssessed='1' and h.dragonType='").append(LsAttributes.DRAGON_TYPE_CORE).append("' then concat('* ',h.name) ")
@@ -452,12 +451,15 @@ public class HospitalDAOImpl implements HospitalDAO {
             .append(" else h.name ")
             .append(" end name ");
         }else if( LsAttributes.DEPARTMENT_RES.equalsIgnoreCase(department) ){
-            sb.append(", case when h.isResAssessed='1' then concat('* ',h.name) else h.name end name ");
+        	sb.append(", case when ( h.isResAssessed='1' or h.isRe2 = '1') and h.dragonType='").append(LsAttributes.DRAGON_TYPE_CORE).append("' then concat('* ',h.name) ")
+            .append(" when ( h.isResAssessed='1' or h.isRe2 = '1') and h.dragonType='").append(LsAttributes.DRAGON_TYPE_EMERGING).append("' then concat('** ',h.name) ")
+            .append(" else h.name ")
+            .append(" end name ");
         }else if( LsAttributes.DEPARTMENT_CHE.equalsIgnoreCase(department) ){
             sb.append(", case when h.isChestSurgeryAssessed='1' then concat('* ',h.name) else h.name end name");
         }
         
-        sb.append(" ,h.portNum ");
+        sb.append(LsAttributes.SQL_SELECTION_HOSPITAL);
         
         sb.append(" from tbl_userinfo u, tbl_hospital h ")
             .append(" where u.userCode = h.dsmCode and u.telephone = ? ");
@@ -478,7 +480,7 @@ public class HospitalDAOImpl implements HospitalDAO {
 	    StringBuffer sb = new StringBuffer();
 	    sb.append("select h.id,h.code ")
 	    	.append(", case when h.isMonthlyAssessed='1' then concat('* ',h.name) else h.name end name")
-	    	.append(", h.city,h.province,h.region,h.rsmRegion,h.saleCode,h.saleName,h.dsmCode,h.portNum ")
+	    	.append(LsAttributes.SQL_SELECTION_HOSPITAL)
 	        .append(" from tbl_hospital h, tbl_userinfo ui, tbl_hos_user hu ")
 	        .append(" where ui.userCode = hu.userCode and hu.hosCode = h.code and ui.telephone = ? order by h.isMonthlyAssessed desc, h.name asc");
 	    return dataBean.getJdbcTemplate().query(sb.toString(), new Object[]{telephone}, new HospitalRowMapper());
@@ -489,7 +491,7 @@ public class HospitalDAOImpl implements HospitalDAO {
 	    StringBuffer sb = new StringBuffer();
 	    sb.append("select h.id,h.code ")
     		.append(", case when h.isMonthlyAssessed='1' then concat('* ',h.name) else h.name end name")
-    		.append(", h.city,h.province,h.region,h.rsmRegion,h.saleCode,h.saleName,h.dsmCode,h.portNum ")
+    		.append(LsAttributes.SQL_SELECTION_HOSPITAL)
             .append(" from tbl_hospital h, tbl_userinfo ui ")
             .append(" where h.dsmCode = ui.userCode and ui.telephone = ? order by h.isMonthlyAssessed desc, h.name asc");
         return dataBean.getJdbcTemplate().query(sb.toString(), new Object[]{telephone}, new HospitalRowMapper());
@@ -499,8 +501,7 @@ public class HospitalDAOImpl implements HospitalDAO {
 	public List<Hospital> getHospitalsByUserTel(String telephone, String department) throws Exception {
 	    
 	    StringBuffer sb = new StringBuffer();
-        sb.append("select h.id,h.code ")
-            .append(", h.city,h.province,h.region,h.rsmRegion,h.saleCode,h.saleName,h.dsmCode ");
+        sb.append("select h.id,h.code ");
         
         if( LsAttributes.DEPARTMENT_PED.equalsIgnoreCase(department) ){
             sb.append(", case when h.isPedAssessed='1' and h.dragonType='").append(LsAttributes.DRAGON_TYPE_CORE).append("' then concat('* ',h.name) ")
@@ -508,12 +509,15 @@ public class HospitalDAOImpl implements HospitalDAO {
             .append(" else h.name ")
             .append(" end name ");
         }else if( LsAttributes.DEPARTMENT_RES.equalsIgnoreCase(department) ){
-            sb.append(", case when h.isResAssessed='1' then concat('* ',h.name) else h.name end name ");
+        	sb.append(", case when ( h.isResAssessed='1' or h.isRe2 = '1') and h.dragonType='").append(LsAttributes.DRAGON_TYPE_CORE).append("' then concat('* ',h.name) ")
+            .append(" when ( h.isResAssessed='1' or h.isRe2 = '1') and h.dragonType='").append(LsAttributes.DRAGON_TYPE_EMERGING).append("' then concat('** ',h.name) ")
+            .append(" else h.name ")
+            .append(" end name ");
         }else if( LsAttributes.DEPARTMENT_CHE.equalsIgnoreCase(department) ){
             sb.append(", case when h.isChestSurgeryAssessed='1' then concat('* ',h.name) else h.name end name ");
         }
         
-        sb.append(" , h.portNum ");
+        sb.append(LsAttributes.SQL_SELECTION_HOSPITAL);
         
         sb.append(" from tbl_userinfo u, tbl_hos_user hu, tbl_hospital h ")
             .append(" where u.userCode = hu.userCode and hu.hosCode = h.code and u.telephone = ? ");
