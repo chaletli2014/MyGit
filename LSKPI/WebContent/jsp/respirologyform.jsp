@@ -2,9 +2,17 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %> 
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
+<%@page import="com.chalet.lskpi.model.Hospital"%>
 <!DOCTYPE HTML>
 <html lang="en-US">
 <%@include file="header.jsp" %> 
+<%
+	Hospital selectedHos = null;
+
+	if( request.getAttribute("selectedHos") != null ){
+		selectedHos = (Hospital)request.getAttribute("selectedHos");
+	}
+%>
 <script type="text/javascript">
 function loadData(hospitalName){
 	$.mobile.showPageLoadingMsg('b','数据加载中',false);
@@ -33,25 +41,26 @@ function checkForm(){
 	if( !isInteger($("#pnum"),$("#aenum"),$("#whnum"),$("#lsnum"))  ){
 		return false;
 	}
-	
-	if( $("#xbknum") && !isInteger($("#xbknum"),$("#xbk1num"),$("#xbk2num"),$("#xbk3num")) ){
+	<%
+    	if( null != selectedHos && "1".equals(selectedHos.getIsRe2()) ){
+    %>
+	if( !isInteger($("#xbknum"),$("#xbk1num"),$("#xbk2num"),$("#xbk3num")) ){
 		return false;
 	}
-	
+	if( Number($("#xbk1num").val())+Number($("#xbk2num").val())+Number($("#xbk3num").val()) != Number($("#xbknum").val()) ){
+		showCustomrizedMessage("信必可三种处方人数之和必须等于出院信必可带药人数");
+		return false;
+	}
+	if( !obj1ltobj2("aenum","xbknum") ){
+		return false;
+	}
+	<%}%>
 	if( !isLsNumAndPNumValid() ){
         return false;
 	}
 	
 	if( !numlt9999("whnum") ){
         return false;
-	}
-	if( !obj1ltobj2("aenum","xbknum") ){
-		return false;
-	}
-	
-	if( Number($("#xbk1num").val())+Number($("#xbk2num").val())+Number($("#xbk3num").val()) != Number($("#xbknum").val()) ){
-		showCustomrizedMessage("信必可三种处方人数之和必须等于出院信必可带药人数");
-		return false;
 	}
 	
 	if( !percentValidate($("#oqd"),$("#tqd"),$("#otid"),$("#tbid"),$("#ttid"),$("#thbid"),$("#fbid")) ){
@@ -164,6 +173,9 @@ function checkForm(){
 	                </select>
 	            </div>
 	             --%>
+	            <%
+	            	if( null != selectedHos && "1".equals(selectedHos.getIsRe2()) ){
+	            %>
 	            <div class="roundCorner" style="margin:0px;width:90%;">
 		            <div data-role="fieldcontain" class="formCollection">
 		                <label for="xbknum" id="xbknum_label">出院信必可带药人数</label>
@@ -183,6 +195,7 @@ function checkForm(){
 		                <input type="number" name="xbk3num" id="xbk3num"  value="${existedData.xbk3num==null?0:existedData.xbk3num}"/>
 		            </div>
 	            </div>
+	            <%} %>
 	            <div style="text-align: center;">
 	            	<a class="submit_btn" href="javascript:void(0)" onclick="submitForm()">
 			            <img alt="" src="<%=basePath%>images/button_submit.png" style="cursor: pointer;" />
