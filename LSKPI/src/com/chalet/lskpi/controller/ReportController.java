@@ -4208,7 +4208,7 @@ public class ReportController extends BaseController{
                     lsAERateTitle2Cell.setCellStyle(month_week_top1Style);
                     columnCount++;
                     
-                    sheet.addMergedRegion(new Region(1, (short)lsAERateStartCount, 1, (short)(lsAERateStartCount+1)));
+                    sheet.addMergedRegion(new Region(1, (short)lsAERateStartCount, 1, (short)(columnCount-1)));
                     row.getCell(lsAERateStartCount).setCellStyle(month_week_top1Style);
                     
                     if( null != whDaysMap && whDaysMap.size() > 0 ){
@@ -4219,6 +4219,7 @@ public class ReportController extends BaseController{
                             daysIte.next();
                             HSSFCell titleCell = row.createCell(columnCount+i, XSSFCell.CELL_TYPE_STRING);
                             titleCell.setCellValue("5.雾化天数");
+                            titleCell.setCellStyle(month_week_top1Style);
                             i++;
                         }
                         columnCount += whDaysMap.size();
@@ -4375,176 +4376,181 @@ public class ReportController extends BaseController{
                             salesNumValueCell.setCellStyle(numberCellRightBorderStyle);
                         }
                         
-                        lsNumMap = res.getLsNumMap();
-                        lsNumIte = lsNumMap.keySet().iterator();
-                        whRateMap = res.getWhRateMap();
-                        whRateIte = whRateMap.keySet().iterator();
-                        whDaysMap = res.getWhDaysMap();
-                        whDaysIte = whDaysMap.keySet().iterator();
-                        inRateMap = res.getInRateMap();
-                        inRateIte = inRateMap.keySet().iterator();
-                        
-                        currentWeekAENumMap = res.getCurrentWeekAENum();
-                        currentWeekAENumIte = currentWeekAENumMap.keySet().iterator();
-                        
-                        currentWeekLsAERateMap = res.getCurrentWeekLsAERate();
-                        currentWeekLsAERateIte = currentWeekLsAERateMap.keySet().iterator();
-                        
-                        i = 0;
-                        String columnName;
-                        while( inRateIte.hasNext() ){
-                            columnName = inRateIte.next();
-                            HSSFCell inRateValueCell = row.createCell(columnCount+i, XSSFCell.CELL_TYPE_NUMERIC);
-                            inRateValueCell.setCellValue(inRateMap.get(columnName));
-                            if( i == inRateMap.size() - 1 ){
-                                if( resExportDataCount == resExportData.size()-1 ){
-                                    inRateValueCell.setCellStyle(month_week_percentBottomRightStyle);
-                                }else{
-                                    inRateValueCell.setCellStyle(percentCellRightBorderStyle);
-                                }
-                            }else{
-                                if( resExportDataCount == resExportData.size()-1 ){
-                                    inRateValueCell.setCellStyle(month_week_percentBottomStyle);
-                                }else{
-                                    inRateValueCell.setCellStyle(percentCellStyle);
-                                }
-                            }
-                            i++;
-                        }
-                        columnCount += inRateMap.size();
-                        
-                        i = 0;
-                        while( lsNumIte.hasNext() ){
-                            columnName = lsNumIte.next();
-                            HSSFCell lsNumValueCell = row.createCell(columnCount+i, XSSFCell.CELL_TYPE_NUMERIC);
-                            lsNumValueCell.setCellValue(lsNumMap.get(columnName));
-                            if( lsNumMap.size() > 3 ){
-                                if( i == lsNumMap.size()-1 ){
-                                    if( resExportDataCount == resExportData.size()-1 ){
-                                        lsNumValueCell.setCellStyle(month_week_percentBottomRightStyle);
-                                    }else{
-                                        lsNumValueCell.setCellStyle(percentCellRightBorderStyle);
-                                    }
-                                }else if( i == lsNumMap.size()-2 ){
-                                    if( resExportDataCount == resExportData.size()-1 ){
-                                        lsNumValueCell.setCellStyle(month_week_percentBottomStyle);
-                                    }else{
-                                        lsNumValueCell.setCellStyle(percentCellStyle);
-                                    }
-                                }else{
-                                    if( resExportDataCount == resExportData.size()-1 ){
-                                        lsNumValueCell.setCellStyle(month_week_numberBottomStyle);
-                                    }else{
-                                        lsNumValueCell.setCellStyle(numberCellStyle);
-                                    }
-                                }
-                            }else if( lsNumMap.size() == 3 ){
-                                if( i == 2 ){
-                                    if( resExportDataCount == resExportData.size()-1 ){
-                                        lsNumValueCell.setCellStyle(month_week_percentBottomRightStyle);
-                                    }else{
-                                        lsNumValueCell.setCellStyle(percentCellRightBorderStyle);
-                                    }
-                                }else{
-                                    if( resExportDataCount == resExportData.size()-1 ){
-                                        lsNumValueCell.setCellStyle(month_week_numberBottomStyle);
-                                    }else{
-                                        lsNumValueCell.setCellStyle(numberCellStyle);
-                                    }
-                                }
-                            }else{
-                                if( resExportDataCount == resExportData.size()-1 ){
-                                    lsNumValueCell.setCellStyle(month_week_numberBottomRightStyle);
-                                }else{
-                                    lsNumValueCell.setCellStyle(numberCellStyle);
-                                }
-                            }
-                            i++;
-                        }
-                        columnCount += lsNumMap.size();
-                        
-                        i = 0;
-                        while( whRateIte.hasNext() ){
-                            columnName = whRateIte.next();
-                            HSSFCell whRateValueCell = row.createCell(columnCount+i, XSSFCell.CELL_TYPE_NUMERIC);
-                            whRateValueCell.setCellValue(whRateMap.get(columnName));
-                            if( i == whRateMap.size() -1 ){
-                                if( resExportDataCount == resExportData.size()-1 ){
-                                    whRateValueCell.setCellStyle(month_week_percentBottomRightStyle);
-                                }else{
-                                    whRateValueCell.setCellStyle(percentCellRightBorderStyle);
-                                }
-                            }else{
-                                if( resExportDataCount == resExportData.size()-1 ){
-                                    whRateValueCell.setCellStyle(month_week_percentBottomStyle);
-                                }else{
-                                    whRateValueCell.setCellStyle(percentCellStyle);
-                                }
-                            }
-                            i++;
-                        }
-                        columnCount += whRateMap.size();
-                        
-                        i = 0;
-                        while( currentWeekAENumIte.hasNext() ){
-                            columnName = currentWeekAENumIte.next();
-                            HSSFCell currentWeekAENumValueCell = row.createCell(columnCount+i, XSSFCell.CELL_TYPE_NUMERIC);
-                            currentWeekAENumValueCell.setCellValue(currentWeekAENumMap.get(columnName));
-                            if( resExportDataCount == resExportData.size()-1 ){
-                                currentWeekAENumValueCell.setCellStyle(month_week_numberBottomStyle);
-                            }else{
-                                currentWeekAENumValueCell.setCellStyle(numberCellStyle);
-                            }
-                            i++;
-                        }
-                        columnCount += currentWeekAENumMap.size();
-                        
-                        i = 0;
-                        while( currentWeekLsAERateIte.hasNext() ){
-                            columnName = currentWeekLsAERateIte.next();
-                            HSSFCell currentWeekLsAERateValueCell = row.createCell(columnCount+i, XSSFCell.CELL_TYPE_NUMERIC);
-                            currentWeekLsAERateValueCell.setCellValue(currentWeekLsAERateMap.get(columnName));
-                            if( i == currentWeekLsAERateMap.size() -1 ){
-                                if( resExportDataCount == resExportData.size()-1 ){
-                                    currentWeekLsAERateValueCell.setCellStyle(month_week_percentBottomRightStyle);
-                                }else{
-                                    currentWeekLsAERateValueCell.setCellStyle(percentCellRightBorderStyle);
-                                }
-                            }else{
-                                if( resExportDataCount == resExportData.size()-1 ){
-                                    currentWeekLsAERateValueCell.setCellStyle(month_week_percentBottomStyle);
-                                }else{
-                                    currentWeekLsAERateValueCell.setCellStyle(percentCellStyle);
-                                }
-                            }
-                            i++;
-                        }
-                        columnCount += currentWeekLsAERateMap.size();
-                        
-                        if( null != whDaysMap && whDaysMap.size() > 0 ){
+                        if( !res.getRsmName().equalsIgnoreCase("N/A") ){
+                        	lsNumMap = res.getLsNumMap();
+                            lsNumIte = lsNumMap.keySet().iterator();
+                            whRateMap = res.getWhRateMap();
+                            whRateIte = whRateMap.keySet().iterator();
+                            whDaysMap = res.getWhDaysMap();
+                            whDaysIte = whDaysMap.keySet().iterator();
+                            inRateMap = res.getInRateMap();
+                            inRateIte = inRateMap.keySet().iterator();
+                            
+                            currentWeekAENumMap = res.getCurrentWeekAENum();
+                        	currentWeekAENumIte = currentWeekAENumMap.keySet().iterator();
+                            
+                            currentWeekLsAERateMap = res.getCurrentWeekLsAERate();
+                        	currentWeekLsAERateIte = currentWeekLsAERateMap.keySet().iterator();
+                            
                             i = 0;
-                            while( whDaysIte.hasNext() ){
-                                columnName = whDaysIte.next();
-                                HSSFCell daysValueCell = row.createCell(columnCount+i, XSSFCell.CELL_TYPE_NUMERIC);
-                                daysValueCell.setCellValue(whDaysMap.get(columnName));
-                                if( i == whDaysMap.size() -1 ){
+                            String columnName;
+                            while( inRateIte.hasNext() ){
+                                columnName = inRateIte.next();
+                                HSSFCell inRateValueCell = row.createCell(columnCount+i, XSSFCell.CELL_TYPE_NUMERIC);
+                                inRateValueCell.setCellValue(inRateMap.get(columnName));
+                                if( i == inRateMap.size() - 1 ){
                                     if( resExportDataCount == resExportData.size()-1 ){
-                                        daysValueCell.setCellStyle(month_week_averageDoseBottomRightStyle);
+                                        inRateValueCell.setCellStyle(month_week_percentBottomRightStyle);
                                     }else{
-                                        daysValueCell.setCellStyle(averageDoseRightCellStyle);
+                                        inRateValueCell.setCellStyle(percentCellRightBorderStyle);
                                     }
                                 }else{
                                     if( resExportDataCount == resExportData.size()-1 ){
-                                        daysValueCell.setCellStyle(month_week_averageDoseBottomStyle);
+                                        inRateValueCell.setCellStyle(month_week_percentBottomStyle);
                                     }else{
-                                        daysValueCell.setCellStyle(averageDoseCellStyle);
+                                        inRateValueCell.setCellStyle(percentCellStyle);
                                     }
                                 }
                                 i++;
                             }
-                            columnCount += whDaysMap.size();
+                            columnCount += inRateMap.size();
+                            
+                            i = 0;
+                            while( lsNumIte.hasNext() ){
+                                columnName = lsNumIte.next();
+                                HSSFCell lsNumValueCell = row.createCell(columnCount+i, XSSFCell.CELL_TYPE_NUMERIC);
+                                lsNumValueCell.setCellValue(lsNumMap.get(columnName));
+                                if( lsNumMap.size() > 3 ){
+                                    if( i == lsNumMap.size()-1 ){
+                                        if( resExportDataCount == resExportData.size()-1 ){
+                                            lsNumValueCell.setCellStyle(month_week_percentBottomRightStyle);
+                                        }else{
+                                            lsNumValueCell.setCellStyle(percentCellRightBorderStyle);
+                                        }
+                                    }else if( i == lsNumMap.size()-2 ){
+                                        if( resExportDataCount == resExportData.size()-1 ){
+                                            lsNumValueCell.setCellStyle(month_week_percentBottomStyle);
+                                        }else{
+                                            lsNumValueCell.setCellStyle(percentCellStyle);
+                                        }
+                                    }else{
+                                        if( resExportDataCount == resExportData.size()-1 ){
+                                            lsNumValueCell.setCellStyle(month_week_numberBottomStyle);
+                                        }else{
+                                            lsNumValueCell.setCellStyle(numberCellStyle);
+                                        }
+                                    }
+                                }else if( lsNumMap.size() == 3 ){
+                                    if( i == 2 ){
+                                        if( resExportDataCount == resExportData.size()-1 ){
+                                            lsNumValueCell.setCellStyle(month_week_percentBottomRightStyle);
+                                        }else{
+                                            lsNumValueCell.setCellStyle(percentCellRightBorderStyle);
+                                        }
+                                    }else{
+                                        if( resExportDataCount == resExportData.size()-1 ){
+                                            lsNumValueCell.setCellStyle(month_week_numberBottomStyle);
+                                        }else{
+                                            lsNumValueCell.setCellStyle(numberCellStyle);
+                                        }
+                                    }
+                                }else{
+                                    if( resExportDataCount == resExportData.size()-1 ){
+                                        lsNumValueCell.setCellStyle(month_week_numberBottomRightStyle);
+                                    }else{
+                                        lsNumValueCell.setCellStyle(numberCellStyle);
+                                    }
+                                }
+                                i++;
+                            }
+                            columnCount += lsNumMap.size();
+                            
+                            i = 0;
+                            while( whRateIte.hasNext() ){
+                                columnName = whRateIte.next();
+                                HSSFCell whRateValueCell = row.createCell(columnCount+i, XSSFCell.CELL_TYPE_NUMERIC);
+                                whRateValueCell.setCellValue(whRateMap.get(columnName));
+                                if( i == whRateMap.size() -1 ){
+                                    if( resExportDataCount == resExportData.size()-1 ){
+                                        whRateValueCell.setCellStyle(month_week_percentBottomRightStyle);
+                                    }else{
+                                        whRateValueCell.setCellStyle(percentCellRightBorderStyle);
+                                    }
+                                }else{
+                                    if( resExportDataCount == resExportData.size()-1 ){
+                                        whRateValueCell.setCellStyle(month_week_percentBottomStyle);
+                                    }else{
+                                        whRateValueCell.setCellStyle(percentCellStyle);
+                                    }
+                                }
+                                i++;
+                            }
+                            columnCount += whRateMap.size();
+                            
+                            if( null != currentWeekAENumIte ){
+                            	i = 0;
+                            	while( currentWeekAENumIte.hasNext() ){
+                            		columnName = currentWeekAENumIte.next();
+                            		HSSFCell currentWeekAENumValueCell = row.createCell(columnCount+i, XSSFCell.CELL_TYPE_NUMERIC);
+                            		currentWeekAENumValueCell.setCellValue(currentWeekAENumMap.get(columnName));
+                            		if( resExportDataCount == resExportData.size()-1 ){
+                            			currentWeekAENumValueCell.setCellStyle(month_week_numberBottomStyle);
+                            		}else{
+                            			currentWeekAENumValueCell.setCellStyle(numberCellStyle);
+                            		}
+                            		i++;
+                            	}
+                            	columnCount += currentWeekAENumMap.size();
+                            }
+                            
+                            if( null != currentWeekLsAERateIte ){
+                            	i = 0;
+                            	while( currentWeekLsAERateIte.hasNext() ){
+                            		columnName = currentWeekLsAERateIte.next();
+                            		HSSFCell currentWeekLsAERateValueCell = row.createCell(columnCount+i, XSSFCell.CELL_TYPE_NUMERIC);
+                            		currentWeekLsAERateValueCell.setCellValue(currentWeekLsAERateMap.get(columnName));
+                            		if( i == currentWeekLsAERateMap.size() -1 ){
+                            			if( resExportDataCount == resExportData.size()-1 ){
+                            				currentWeekLsAERateValueCell.setCellStyle(month_week_percentBottomRightStyle);
+                            			}else{
+                            				currentWeekLsAERateValueCell.setCellStyle(percentCellRightBorderStyle);
+                            			}
+                            		}else{
+                            			if( resExportDataCount == resExportData.size()-1 ){
+                            				currentWeekLsAERateValueCell.setCellStyle(month_week_percentBottomStyle);
+                            			}else{
+                            				currentWeekLsAERateValueCell.setCellStyle(percentCellStyle);
+                            			}
+                            		}
+                            		i++;
+                            	}
+                            	columnCount += currentWeekLsAERateMap.size();
+                            }
+                            
+                            if( null != whDaysMap && whDaysMap.size() > 0 ){
+                                i = 0;
+                                while( whDaysIte.hasNext() ){
+                                    columnName = whDaysIte.next();
+                                    HSSFCell daysValueCell = row.createCell(columnCount+i, XSSFCell.CELL_TYPE_NUMERIC);
+                                    daysValueCell.setCellValue(whDaysMap.get(columnName));
+                                    if( i == whDaysMap.size() -1 ){
+                                        if( resExportDataCount == resExportData.size()-1 ){
+                                            daysValueCell.setCellStyle(month_week_averageDoseBottomRightStyle);
+                                        }else{
+                                            daysValueCell.setCellStyle(averageDoseRightCellStyle);
+                                        }
+                                    }else{
+                                        if( resExportDataCount == resExportData.size()-1 ){
+                                            daysValueCell.setCellStyle(month_week_averageDoseBottomStyle);
+                                        }else{
+                                            daysValueCell.setCellStyle(averageDoseCellStyle);
+                                        }
+                                    }
+                                    i++;
+                                }
+                                columnCount += whDaysMap.size();
+                            }
                         }
-                        
                         resExportDataCount++;
                     }
                 }

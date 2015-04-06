@@ -841,6 +841,8 @@ public class RespirologyServiceImpl implements RespirologyService {
         Map<String, Double> whDaysMap = new LinkedHashMap<String, Double>();
         Map<String, Double> dValueMap = new LinkedHashMap<String, Double>();
         
+        String lastWeek = DateUtils.getWeeklyDurationYYYYMMDD(new Date());
+        
         for( String rsmRegion : allRSM ){
             RespirologyExportData rsmData = new RespirologyExportData();
             pNumMap = new LinkedHashMap<String, Double>();
@@ -865,38 +867,75 @@ public class RespirologyServiceImpl implements RespirologyService {
                 }
             }
             
+            String monthColumnName = "";
+            boolean isRsmRegionExists = false;
             for( RespirologyMonthDBData resData : monthDBData ){
                 if( resData.getRsmRegion().equalsIgnoreCase(rsmRegion) ){
                     
                     rsmData.setRsmName(resData.getRsmName());
-                    String columnName = resData.getDataYear()+"年"+resData.getDataMonth()+"月";
+                    monthColumnName = resData.getDataYear()+"年"+resData.getDataMonth()+"月";
                     
-                    pNumMap.put(columnName, resData.getPnum()/resData.getWeeklyCount());
-                    lsNumMap.put(columnName, resData.getLsnum()/resData.getWeeklyCount());
-                    aeNumMap.put(columnName, resData.getAenum()/resData.getWeeklyCount());
-                    inRateMap.put(columnName, resData.getInRate());
-                    whRateMap.put(columnName, resData.getWhRate());
-                    averageDoseMap.put(columnName, resData.getAverageDose());
-                    whDaysMap.put(columnName, resData.getWhDays());
-                    dValueMap.put(columnName, resData.getLsnum()/resData.getWeeklyCount()-resData.getAenum()/resData.getWeeklyCount());
+                    pNumMap.put(monthColumnName, resData.getPnum()/resData.getWeeklyCount());
+                    lsNumMap.put(monthColumnName, resData.getLsnum()/resData.getWeeklyCount());
+                    aeNumMap.put(monthColumnName, resData.getAenum()/resData.getWeeklyCount());
+                    inRateMap.put(monthColumnName, resData.getInRate());
+                    whRateMap.put(monthColumnName, resData.getWhRate());
+                    averageDoseMap.put(monthColumnName, resData.getAverageDose());
+                    whDaysMap.put(monthColumnName, resData.getWhDays());
+                    dValueMap.put(monthColumnName, resData.getLsnum()/resData.getWeeklyCount()-resData.getAenum()/resData.getWeeklyCount());
+                    isRsmRegionExists = true;
                 }
             }
+            /**
+             * RSM没有任何数据录入
+             */
+            if( !isRsmRegionExists ){
+            	logger.info(String.format("rsm %s 没有录入任何数据，所有数据默认为0", rsmRegion));
+            	 rsmData.setRsmName("N/A");
+                 
+                 pNumMap.put(monthColumnName, 0.00);
+                 lsNumMap.put(monthColumnName, 0.00);
+                 aeNumMap.put(monthColumnName, 0.00);
+                 inRateMap.put(monthColumnName, 0.00);
+                 whRateMap.put(monthColumnName, 0.00);
+                 averageDoseMap.put(monthColumnName, 0.00);
+                 whDaysMap.put(monthColumnName, 0.00);
+                 dValueMap.put(monthColumnName, 0.00);
+            }
             
+            String weeklyColumnName = "";
             if( null != monthWeeklyDBData && monthWeeklyDBData.size() > 0 ){
             	for( RespirologyMonthDBData resData : monthWeeklyDBData ){
                     if( resData.getRsmRegion().equalsIgnoreCase(rsmRegion) ){
                         rsmData.setRsmName(resData.getRsmName());
-                        String columnName = resData.getDuration().substring(5, 11)+resData.getDuration().substring(16);
+                        weeklyColumnName = resData.getDuration().substring(5, 11)+resData.getDuration().substring(16);
                         
-                        pNumMap.put(columnName, resData.getPnum());
-                        lsNumMap.put(columnName, resData.getLsnum());
-                        aeNumMap.put(columnName, resData.getAenum());
-                        inRateMap.put(columnName, resData.getInRate());
-                        whRateMap.put(columnName, resData.getWhRate());
-                        averageDoseMap.put(columnName, resData.getAverageDose());
-                        dValueMap.put(columnName, resData.getLsnum()-resData.getAenum());
+                        pNumMap.put(weeklyColumnName, resData.getPnum());
+                        lsNumMap.put(weeklyColumnName, resData.getLsnum());
+                        aeNumMap.put(weeklyColumnName, resData.getAenum());
+                        inRateMap.put(weeklyColumnName, resData.getInRate());
+                        whRateMap.put(weeklyColumnName, resData.getWhRate());
+                        averageDoseMap.put(weeklyColumnName, resData.getAverageDose());
+                        dValueMap.put(weeklyColumnName, resData.getLsnum()-resData.getAenum());
+                        isRsmRegionExists = true;
                     }
                 }
+            }
+            /**
+             * RSM没有任何数据录入
+             */
+            if( !isRsmRegionExists ){
+            	logger.info(String.format("rsm %s 没有录入任何数据，所有数据默认为0", rsmRegion));
+            	 rsmData.setRsmName("N/A");
+                 
+                 pNumMap.put(monthColumnName, 0.00);
+                 lsNumMap.put(monthColumnName, 0.00);
+                 aeNumMap.put(monthColumnName, 0.00);
+                 inRateMap.put(monthColumnName, 0.00);
+                 whRateMap.put(monthColumnName, 0.00);
+                 averageDoseMap.put(monthColumnName, 0.00);
+                 whDaysMap.put(monthColumnName, 0.00);
+                 dValueMap.put(monthColumnName, 0.00);
             }
             
             List<String> durations = new ArrayList<String>(inRateMap.keySet());
@@ -956,18 +995,25 @@ public class RespirologyServiceImpl implements RespirologyService {
             if( null == lastWeekResData ){
                 logger.error("fail to get the last week respirology data during the res month-week download");
             }else{
-                Map<String, Double> currentWeekAENum = new LinkedHashMap<String, Double>();
-                String columnName = lastWeekResData.getDuration().substring(5, 11)+lastWeekResData.getDuration().substring(16);
-                currentWeekAENum.put(columnName+"周平均AECOPD人数", lastWeekResData.getAenum());
-                rsmData.setCurrentWeekAENum(currentWeekAENum);
-                
-                Map<String, Double> currentWeekLsAERate = new LinkedHashMap<String, Double>();
-                if( 0 == lastWeekResData.getAenum() ){
-                    currentWeekLsAERate.put("当周雾化令舒人数/AE人数", 0.00);
+            	String columnName = lastWeek.substring(5, 11)+lastWeek.substring(16);
+            	
+            	if( lastWeekResData.getDuration() == null ){
+                	logger.info("rsmRegion is missing:"+rsmRegion+"--");
+                	rsmData.setCurrentWeekAENum(null);
+                	rsmData.setCurrentWeekLsAERate(null);
                 }else{
-                    currentWeekLsAERate.put("当周雾化令舒人数/AE人数", lastWeekResData.getLsnum()/lastWeekResData.getAenum());
-                }
-                rsmData.setCurrentWeekLsAERate(currentWeekLsAERate);
+            		Map<String, Double> currentWeekAENum = new LinkedHashMap<String, Double>();
+            		currentWeekAENum.put(columnName+"周平均AECOPD人数", lastWeekResData.getAenum());
+            		rsmData.setCurrentWeekAENum(currentWeekAENum);
+            		
+            		Map<String, Double> currentWeekLsAERate = new LinkedHashMap<String, Double>();
+            		if( 0 == lastWeekResData.getAenum() ){
+            			currentWeekLsAERate.put("当周雾化令舒人数/AE人数", 0.00);
+            		}else{
+            			currentWeekLsAERate.put("当周雾化令舒人数/AE人数", lastWeekResData.getLsnum()/lastWeekResData.getAenum());
+            		}
+            		rsmData.setCurrentWeekLsAERate(currentWeekLsAERate);
+            	}
             }
             
             exportData.add(rsmData);
