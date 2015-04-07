@@ -146,7 +146,7 @@ public class HospitalDAOImpl implements HospitalDAO {
 			throws Exception {
 		StringBuffer sql = new StringBuffer("");
 		sql.append(" select md.id, md.pedEmernum, md.pedroomnum, md.resnum, md.other, md.operatorName, md.operatorCode, md.hospitalCode,  h.region, h.rsmRegion, md.createdate ")
-			.append(" ,md.ped_emer_drugstore, md.ped_emer_wh, md.ped_room_drugstore, md.ped_room_drugstore_wh, md.res_clinic, md.res_room ")
+			.append(" ,md.ped_emer_drugstore, md.ped_emer_wh, md.ped_room_drugstore, md.ped_room_drugstore_wh, md.res_clinic, md.res_room, md.home_wh ")
 			.append(" ,h.dsmName, h.name as hospitalName ")
 			.append(" from tbl_month_data md, tbl_hospital h")
 			.append(" where md.hospitalCode = h.code ")
