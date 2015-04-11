@@ -72,4 +72,7 @@ public interface RespirologyService {
     public MonthlyStatisticsData getMonthlyStatisticsCountryData(String beginDuraion, String endDuraion) throws Exception;
     public MonthlyStatisticsData getCoreOrEmergingMonthlyStatisticsCountryData(String beginDuraion, String endDuraion, String dragonType) throws Exception;
     public Map<String,MonthlyStatisticsData> getCoreOrEmergingMonthlyStatisticsData(String beginDuraion, String endDuraion, String level, String dragonType) throws Exception;
+    
+    public List<MonthlyStatisticsData> getCoreAverageDoseMonthlyStatisticsData(String beginDuraion, String endDuraion, String level) throws Exception;
+    public MonthlyStatisticsData getCoreAverageDoseMonthlyStatisticsCountryData(String beginDuraion, String endDuraion) throws Exception;
 }

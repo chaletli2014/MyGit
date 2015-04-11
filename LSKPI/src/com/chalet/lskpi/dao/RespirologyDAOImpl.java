@@ -19,6 +19,7 @@ import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Repository;
 
+import com.chalet.lskpi.mapper.MonthlyStatisticsCoreAverageDoseDataRowMapper;
 import com.chalet.lskpi.mapper.MonthlyStatisticsCoreDataRowMapper;
 import com.chalet.lskpi.mapper.MonthlyStatisticsDataRowMapper;
 import com.chalet.lskpi.mapper.MonthlyStatisticsEmergingDataRowMapper;
@@ -1401,6 +1402,45 @@ public class RespirologyDAOImpl implements RespirologyDAO {
         .append(" from tbl_respirology_data_weekly, tbl_hospital h  ")
         .append(" where duration between ? and ? and hospitalCode = h.code and h.dragonType='Emerging' ");
         return dataBean.getJdbcTemplate().queryForObject(inRateSQL.toString(), new Object[]{beginDuraion,endDuraion},new MonthlyStatisticsEmergingDataRowMapper());
+	}
+	
+	@Override
+	public List<MonthlyStatisticsData> getCoreAverageDoseMonthlyStatisticsData(
+			String beginDuraion, String endDuraion, String level) throws Exception {
+		StringBuffer sql = new StringBuffer("");
+		switch(level){
+			case LsAttributes.USER_LEVEL_RSD:
+				sql.append(" select h.region, '' as rsmRegion, '' as dsmCode, '' as dsmName ")
+	            .append(LsAttributes.SQL_MONTHLY_STATISTICS_CORE_AVERAGEDOSE_SELECTION_RES)
+	            .append(" from tbl_respirology_data_weekly, tbl_hospital h ")
+	            .append(LsAttributes.SQL_MONTHLY_STATISTICS_CORE_RSD_CONDITION);
+				break;
+			case LsAttributes.USER_LEVEL_RSM:
+				sql.append(" select h.region, h.rsmRegion as rsmRegion, '' as dsmCode, '' as dsmName ")
+	            .append(LsAttributes.SQL_MONTHLY_STATISTICS_CORE_AVERAGEDOSE_SELECTION_RES)
+	            .append(" from tbl_respirology_data_weekly, tbl_hospital h ")
+	            .append(LsAttributes.SQL_MONTHLY_STATISTICS_CORE_RSM_CONDITION);
+				break;
+			case LsAttributes.USER_LEVEL_DSM:
+				sql.append(" select h.region, h.rsmRegion as rsmRegion, h.dsmCode as dsmCode ")
+	            .append(", (select distinct name from tbl_userinfo u where u.userCode = h.dsmCode and u.region = h.rsmRegion and u.regionCenter = h.region ) as dsmName")
+				.append(LsAttributes.SQL_MONTHLY_STATISTICS_CORE_AVERAGEDOSE_SELECTION_RES)
+	            .append(" from tbl_respirology_data_weekly, tbl_hospital h ")
+		        .append(LsAttributes.SQL_MONTHLY_STATISTICS_CORE_DSM_CONDITION);
+				break;
+		}
+        return dataBean.getJdbcTemplate().query(sql.toString(), new Object[]{beginDuraion,endDuraion},new MonthlyStatisticsCoreAverageDoseDataRowMapper());
+	}
+	
+	@Override
+	public MonthlyStatisticsData getCoreAverageDoseMonthlyStatisticsCountryData(
+			String beginDuraion, String endDuraion) throws Exception {
+		StringBuffer sql = new StringBuffer("");
+		sql.append(" select '' as region, '' as rsmRegion, '' as dsmCode, '' as dsmName ")
+        .append(LsAttributes.SQL_MONTHLY_STATISTICS_CORE_AVERAGEDOSE_SELECTION_RES)
+        .append(" from tbl_respirology_data_weekly, tbl_hospital h  ")
+        .append(" where duration between ? and ? and hospitalCode = h.code and h.dragonType='Core' ");
+        return dataBean.getJdbcTemplate().queryForObject(sql.toString(), new Object[]{beginDuraion,endDuraion},new MonthlyStatisticsCoreAverageDoseDataRowMapper());
 	}
     
     public DataBean getDataBean() {

@@ -99,4 +99,7 @@ public interface RespirologyDAO {
     public MonthlyStatisticsData getMonthlyStatisticsCountryData(String beginDuraion, String endDuraion) throws Exception;
     public MonthlyStatisticsData getCoreMonthlyStatisticsCountryData(String beginDuraion, String endDuraion) throws Exception;
     public MonthlyStatisticsData getEmergingMonthlyStatisticsCountryData(String beginDuraion, String endDuraion) throws Exception;
+    
+    public List<MonthlyStatisticsData> getCoreAverageDoseMonthlyStatisticsData(String beginDuraion, String endDuraion, String level) throws Exception;
+    public MonthlyStatisticsData getCoreAverageDoseMonthlyStatisticsCountryData(String beginDuraion, String endDuraion) throws Exception;
 }

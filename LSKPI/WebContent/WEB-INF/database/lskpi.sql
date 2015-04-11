@@ -442,4 +442,3 @@ alter table tbl_respirology_data add column xbk2num int not null default 0;
 alter table tbl_respirology_data add column xbk3num int not null default 0;
 
 alter table tbl_hospital add column isRe2 varchar(2) not null default 0;
-alter table tbl_hospital add column isXbkRe2 varchar(2) not null default 0;

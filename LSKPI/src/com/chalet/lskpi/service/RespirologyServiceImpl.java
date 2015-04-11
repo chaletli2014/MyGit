@@ -1092,4 +1092,24 @@ public class RespirologyServiceImpl implements RespirologyService {
 			return Collections.emptyMap();
 		}
 	}
+	
+	@Override
+	public List<MonthlyStatisticsData> getCoreAverageDoseMonthlyStatisticsData(
+			String beginDuraion, String endDuraion, String level) throws Exception {
+		try{
+			return respirologyDAO.getCoreAverageDoseMonthlyStatisticsData(beginDuraion, endDuraion, level);
+		}catch(EmptyResultDataAccessException erd){
+			return Collections.emptyList();
+		}
+	}
+	
+	@Override
+	public MonthlyStatisticsData getCoreAverageDoseMonthlyStatisticsCountryData(
+			String beginDuraion, String endDuraion) throws Exception {
+		try{
+			return respirologyDAO.getCoreAverageDoseMonthlyStatisticsCountryData(beginDuraion, endDuraion);
+		}catch(EmptyResultDataAccessException erd){
+			return new MonthlyStatisticsData();
+		}
+	}
 }
