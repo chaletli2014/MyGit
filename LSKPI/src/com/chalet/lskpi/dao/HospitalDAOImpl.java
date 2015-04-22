@@ -545,7 +545,7 @@ public class HospitalDAOImpl implements HospitalDAO {
 	    if( null != queryParam && "1".equalsIgnoreCase(queryParam.getDepartment()) ){
 	        hosSalesSQL.append(LsAttributes.SQL_WEEKLY_HOS_SALES_DATA)
             .append(" from ( ")
-            .append("   select hospitalCode, ( select name from tbl_hospital where code = hospitalCode ) as hospitalName, ")
+            .append("   select hospitalCode, h.name as hospitalName, ")
             .append(LsAttributes.SQL_WEEKLY_HOS_SALES_DATA_LASTWEEK_SELECT_RES)
             .append(") lastweekdata, ")
             .append("( ")
@@ -578,45 +578,6 @@ public class HospitalDAOImpl implements HospitalDAO {
 	    }
         return dataBean.getJdbcTemplate().query(hosSalesSQL.toString(), new HospitalSalesQueryRowMapper());
     }
-	
-	@Override
-	public List<MonthlyStatisticsData> getMonthlyInRateData(String beginDuraion,
-			String endDuraion, String level) throws Exception {
-		StringBuffer inRateSQL = new StringBuffer("");
-	    if( null != level && "RSM".equalsIgnoreCase(level) ){
-	    	inRateSQL.append("select pedData.duration,pedData.region,pedData.rsmRegion,resData.inRate as resInRate,pedData.inRate as pedInRate ")
-            .append(" from ( ")
-            .append(LsAttributes.SQL_MONTHLY_INRATE_SELECTION)
-            .append(" from tbl_respirology_data_weekly, tbl_hospital h ")
-            .append(LsAttributes.SQL_MONTHLY_STATISTICS_RSM_CONDITION)
-            .append(") resData ")
-            .append(",( ")
-            .append(LsAttributes.SQL_MONTHLY_INRATE_SELECTION)
-            .append(" from tbl_pediatrics_data_weekly, tbl_hospital h ")
-            .append(LsAttributes.SQL_MONTHLY_STATISTICS_RSM_CONDITION)
-            .append(") pedData ")
-            .append(" where resData.duration = pedData.duration ")
-            .append(" and resData.region = pedData.region ")
-            .append(" and resData.rsmRegion = pedData.rsmRegion ")
-            .append(" order by region asc, rsmRegion asc, duration desc");
-	    }else{
-	    	inRateSQL.append("select pedData.duration,pedData.region,'' as rsmRegion,resData.inRate as resInRate,pedData.inRate as pedInRate ")
-            .append(" from ( ")
-            .append(LsAttributes.SQL_MONTHLY_INRATE_SELECTION)
-            .append(" from tbl_respirology_data_weekly, tbl_hospital h ")
-            .append(LsAttributes.SQL_MONTHLY_STATISTICS_RSD_CONDITION)
-            .append(") resData ")
-            .append(",( ")
-            .append(LsAttributes.SQL_MONTHLY_INRATE_SELECTION)
-            .append(" from tbl_pediatrics_data_weekly, tbl_hospital h ")
-            .append(LsAttributes.SQL_MONTHLY_STATISTICS_RSD_CONDITION)
-            .append(") pedData ")
-            .append(" where resData.duration = pedData.duration ")
-            .append(" and resData.region = pedData.region ")
-            .append(" order by region asc, duration desc");
-	    }
-        return dataBean.getJdbcTemplate().query(inRateSQL.toString(), new Object[]{beginDuraion,endDuraion,beginDuraion,endDuraion},new MonthlyStatisticsDataRowMapper());
-	}
 	
 	@Override
 	public List<MonthlyRatioData> getMonthlyCollectionData(Date chooseDate)
@@ -858,18 +819,42 @@ public class HospitalDAOImpl implements HospitalDAO {
 	}
 	
 
-    public List<Map<String, Integer>> getKPIHosNumMap(String department) throws Exception {
+    public List<Map<String, Integer>> getKPIHosNumMap(String department, String isRe2, String level) throws Exception {
         StringBuffer sb = new StringBuffer();
-        sb.append(" select rsmRegion,count(1) as numCount ")
-          .append(" from tbl_hospital ");
+        if( LsAttributes.USER_LEVEL_RSD.equals(level) ){
+        	sb.append(" select region as title,count(1) as numCount ");
+        }else if( LsAttributes.USER_LEVEL_RSM.equals(level) ){
+        	sb.append(" select rsmRegion as title,count(1) as numCount ");
+        }else if( LsAttributes.USER_LEVEL_DSM.equals(level) ){
+        	sb.append(" select concat(rsmRegion,'-',h.dsmCode,'-',(select distinct name from tbl_userinfo u where u.userCode = h.dsmCode and u.region = h.rsmRegion )) as title,count(1) as numCount ");
+        }
+        
+        sb.append(" from tbl_hospital h ");
         switch(department){
             case LsAttributes.DEPARTMENT_RES:
-                sb.append(" where isResAssessed='1' ")
-                .append(" group by rsmRegion ")
-                .append(" union all ")
-                .append(" select '全国' as rsmRegion, count(1) as numCount ")
-                .append(" from tbl_hospital ")
-                .append(" where isResAssessed='1' ");
+            	if( "1".equals(isRe2) ){
+            		sb.append(" where isRe2='1' ");
+            	}else{
+            		sb.append(" where isResAssessed='1' ");
+            	}
+            	
+            	if( LsAttributes.USER_LEVEL_RSD.equals(level) ){
+            		sb.append(" group by region ");
+                }else if( LsAttributes.USER_LEVEL_RSM.equals(level) ){
+                	sb.append(" group by rsmRegion ");
+                }else if( LsAttributes.USER_LEVEL_DSM.equals(level) ){
+                	sb.append(" group by rsmRegion,dsmCode ");
+                }
+                
+                sb.append(" union all ")
+                .append(" select '全国' as title, count(1) as numCount ")
+                .append(" from tbl_hospital ");
+                
+                if( "1".equals(isRe2) ){
+            		sb.append(" where isRe2='1' ");
+            	}else{
+            		sb.append(" where isResAssessed='1' ");
+            	}
                 break;
             case LsAttributes.DEPARTMENT_PED:
                 break;
@@ -879,26 +864,45 @@ public class HospitalDAOImpl implements HospitalDAO {
         return dataBean.getJdbcTemplate().query(sb.toString(), new CommonMapRowMapper());
     }
 
-    public List<Map<String, Integer>> getKPISalesNumMap(String department) throws Exception {
+    public List<Map<String, Integer>> getKPISalesNumMap(String department, String isRe2, String level) throws Exception {
         StringBuffer sb = new StringBuffer();
-        sb.append(" select rsmRegion,count(1) as numCount ")
-          .append(" from ( ")
-          .append("     select distinct h.rsmRegion, hu.userCode ")
-          .append("     from tbl_hospital h, tbl_hos_user hu ");
+        sb.append(" select title,count(1) as numCount ")
+          .append(" from ( ");
+        
+        if( LsAttributes.USER_LEVEL_RSD.equals(level) ){
+    		sb.append(" select distinct h.region as title, hu.userCode  ");
+        }else if( LsAttributes.USER_LEVEL_RSM.equals(level) ){
+        	sb.append(" select distinct h.rsmRegion as title, hu.userCode  ");
+        }else if( LsAttributes.USER_LEVEL_DSM.equals(level) ){
+        	sb.append(" select distinct concat(h.rsmRegion,'-',h.dsmCode,'-',(select distinct name from tbl_userinfo u where u.userCode = h.dsmCode and u.region = h.rsmRegion )) as title, hu.userCode  ");
+        }
+        
+        sb.append("     from tbl_hospital h, tbl_hos_user hu ");
+        
         switch(department){
             case LsAttributes.DEPARTMENT_RES:
-                sb.append(LsAttributes.SQL_MONTH_WEEKLY_REPORT_SALES_NUM_CONDITION)
-                .append(" and h.isResAssessed='1' ")
-                .append(" ) temp ")
-                .append(" group by rsmRegion ") 
-                .append(" union all ")
+                sb.append(LsAttributes.SQL_MONTH_WEEKLY_REPORT_SALES_NUM_CONDITION);
+                
+                if( "1".equals(isRe2) ){
+            		sb.append(" and isRe2='1' ");
+            	}else{
+            		sb.append(" and isResAssessed='1' ");
+            	}
+                sb.append(" ) temp ");
+        		sb.append(" group by title ");
+                
+                sb.append(" union all ")
                 .append(" select '全国' as rsmRegion, count(1) as numCount ")
                 .append(" from ( ")
                 .append("     select distinct h.rsmRegion, hu.userCode ")
                 .append("     from tbl_hospital h, tbl_hos_user hu ")
-                .append(LsAttributes.SQL_MONTH_WEEKLY_REPORT_SALES_NUM_CONDITION)
-                .append(" and h.isResAssessed='1'")
-                .append(" ) temp ");
+                .append(LsAttributes.SQL_MONTH_WEEKLY_REPORT_SALES_NUM_CONDITION);
+                if( "1".equals(isRe2) ){
+            		sb.append(" and isRe2='1' ");
+            	}else{
+            		sb.append(" and isResAssessed='1' ");
+            	}
+                sb.append(" ) temp ");
                 break;
             case LsAttributes.DEPARTMENT_PED:
                 break;

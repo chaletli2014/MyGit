@@ -11,7 +11,7 @@ public class CommonMapRowMapper implements RowMapper<Map<String, Integer>> {
 
     public Map<String, Integer> mapRow(ResultSet rs, int arg1) throws SQLException {
         Map<String, Integer> resultMap = new HashMap<String, Integer>();
-        resultMap.put(rs.getString("rsmRegion"), rs.getInt("numCount"));
+        resultMap.put(rs.getString("title"), rs.getInt("numCount"));
         return resultMap;
     }
 

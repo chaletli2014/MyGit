@@ -19,7 +19,8 @@ h.saleCode,
 h.dsmCode,
 h.rsmRegion,
 h.region,
-now() 
+now(),
+h.portNum 
 from (
 SELECT 
 	h.code,	
@@ -89,7 +90,8 @@ h.saleCode,
 h.dsmCode,
 h.rsmRegion,
 h.region,
-now() 
+now(),
+h.portNum 
 from (
 SELECT 
 	h.code,	
@@ -159,7 +161,8 @@ h.saleCode,
 h.dsmCode,
 h.rsmRegion,
 h.region,
-now() 
+now(),
+h.portNum 
 from (
 SELECT 
 	h.code,	
@@ -229,7 +232,8 @@ h.saleCode,
 h.dsmCode,
 h.rsmRegion,
 h.region,
-now() 
+now(),
+h.portNum 
 from (
 SELECT 
 	h.code,	
@@ -299,7 +303,8 @@ h.saleCode,
 h.dsmCode,
 h.rsmRegion,
 h.region,
-now() 
+now(),
+h.portNum 
 from (
 SELECT 
 	h.code,	
@@ -369,7 +374,8 @@ h.saleCode,
 h.dsmCode,
 h.rsmRegion,
 h.region,
-now() 
+now(),
+h.portNum 
 from (
 SELECT 
 	h.code,	
@@ -439,7 +445,8 @@ h.saleCode,
 h.dsmCode,
 h.rsmRegion,
 h.region,
-now() 
+now(),
+h.portNum 
 from (
 SELECT 
 	h.code,	
@@ -509,7 +516,8 @@ h.saleCode,
 h.dsmCode,
 h.rsmRegion,
 h.region,
-now() 
+now(),
+h.portNum 
 from (
 SELECT 
 	h.code,	
@@ -579,7 +587,8 @@ h.saleCode,
 h.dsmCode,
 h.rsmRegion,
 h.region,
-now() 
+now(),
+h.portNum 
 from (
 SELECT 
 	h.code,	
@@ -649,7 +658,8 @@ h.saleCode,
 h.dsmCode,
 h.rsmRegion,
 h.region,
-now() 
+now(),
+h.portNum 
 from (
 SELECT 
 	h.code,	
@@ -719,7 +729,8 @@ h.saleCode,
 h.dsmCode,
 h.rsmRegion,
 h.region,
-now() 
+now(),
+h.portNum 
 from (
 SELECT 
 	h.code,	
@@ -789,7 +800,8 @@ h.saleCode,
 h.dsmCode,
 h.rsmRegion,
 h.region,
-now() 
+now(),
+h.portNum 
 from (
 SELECT 
 	h.code,	
@@ -859,7 +871,8 @@ h.saleCode,
 h.dsmCode,
 h.rsmRegion,
 h.region,
-now() 
+now(),
+h.portNum 
 from (
 SELECT 
 	h.code,	
@@ -929,7 +942,8 @@ h.saleCode,
 h.dsmCode,
 h.rsmRegion,
 h.region,
-now() 
+now(),
+h.portNum 
 from (
 SELECT 
 	h.code,	

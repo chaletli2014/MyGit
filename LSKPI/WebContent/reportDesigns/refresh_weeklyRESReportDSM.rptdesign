@@ -930,6 +930,7 @@ from tbl_respirology_data_weekly rdw, tbl_hospital h
 where h.code = rdw.hospitalCode 
 and h.rsmRegion = ( select region from tbl_userinfo where telephone=?)
 and rdw.duration = CONCAT(?,'-',?) 
+and h.isResAssessed='1' 
 group by h.rsmRegion, h.dsmCode ]]></xml-property>
             <xml-property name="designerValues"><![CDATA[<?xml version="1.0" encoding="UTF-8"?>
 <model:DesignValues xmlns:design="http://www.eclipse.org/datatools/connectivity/oda/design" xmlns:model="http://www.eclipse.org/birt/report/model/adapter/odaModel">
@@ -1143,13 +1144,11 @@ group by h.rsmRegion, h.dsmCode ]]></xml-property>
             <xml-property name="queryText"><![CDATA[select rdw.duration, 
 IFNULL((select distinct name from tbl_userinfo u where u.region = h.rsmRegion and u.userCode = h.dsmCode),'vacant') name,  
 IFNULL(sum(rdw.lsnum),0) as lsnum 
-from 
-(
-	select * from tbl_respirology_data_weekly 
-	where duration <= ? 
-	and duration >= ? 
-) rdw, tbl_hospital h 
-where h.code = rdw.hospitalCode 
+from tbl_respirology_data_weekly rdw, tbl_hospital h 
+where duration <= ? 
+and duration >= ? 
+and h.code = rdw.hospitalCode 
+and h.isResAssessed='1' 
 and h.rsmRegion = ( select region from tbl_userinfo where telephone=? )
 group by rdw.duration, h.rsmRegion, h.dsmCode 
 order by rdw.duration desc;]]></xml-property>
@@ -1396,13 +1395,11 @@ order by rdw.duration desc;]]></xml-property>
             <xml-property name="queryText"><![CDATA[select rdw.duration, 
 IFNULL((select distinct name from tbl_userinfo where region = h.rsmRegion and userCode = h.dsmCode),'vacant') name, 
 IFNULL(sum(rdw.averageDose*rdw.lsnum)/sum(rdw.lsnum),0) as averageDose 
-from 
-(
-	select * from tbl_respirology_data_weekly 
-	where duration <= ? 
-	and duration >= ? 
-) rdw, tbl_hospital h 
-where h.code = rdw.hospitalCode 
+from tbl_respirology_data_weekly rdw, tbl_hospital h 
+where duration <= ? 
+and duration >= ? 
+and h.code = rdw.hospitalCode 
+and h.isResAssessed='1' 
 and h.rsmRegion = ( select region from tbl_userinfo where telephone=? )
 group by rdw.duration, h.rsmRegion, h.dsmCode 
 order by rdw.duration desc;]]></xml-property>
@@ -1648,13 +1645,11 @@ order by rdw.duration desc;]]></xml-property>
             <xml-property name="queryText"><![CDATA[select rdw.duration, 
 IFNULL((select distinct name from tbl_userinfo where region = h.rsmRegion and userCode = h.dsmCode),'vacant') name,  
 IFNULL(sum(rdw.pnum),0) as pnum 
-from 
-(
-	select * from tbl_respirology_data_weekly 
-	where duration <= ? 
-	and duration >= ? 
-) rdw, tbl_hospital h 
-where h.code = rdw.hospitalCode 
+from tbl_respirology_data_weekly rdw, tbl_hospital h 
+where duration <= ? 
+and duration >= ? 
+and h.code = rdw.hospitalCode 
+and h.isResAssessed='1' 
 and h.rsmRegion = ( select region from tbl_userinfo where telephone=? )
 group by rdw.duration, h.rsmRegion, h.dsmCode  
 order by rdw.duration desc;]]></xml-property>
@@ -1830,13 +1825,11 @@ order by rdw.duration desc;]]></xml-property>
             <xml-property name="queryText"><![CDATA[select rdw.duration, 
 IFNULL((select distinct name from tbl_userinfo u where u.region = h.rsmRegion and u.userCode = h.dsmCode),'vacant') name,  
 IFNULL(sum(rdw.lsnum)/sum(rdw.pnum),0) as whRate 
-from 
-(
-	select * from tbl_respirology_data_weekly 
-	where duration <= ? 
-	and duration >= ? 
-) rdw, tbl_hospital h 
-where h.code = rdw.hospitalCode 
+from tbl_respirology_data_weekly rdw, tbl_hospital h 
+where duration <= ? 
+and duration >= ? 
+and h.code = rdw.hospitalCode 
+and h.isResAssessed='1' 
 and h.rsmRegion = ( select region from tbl_userinfo where telephone=? )
 group by rdw.duration, h.rsmRegion, h.dsmCode 
 order by rdw.duration desc;]]></xml-property>
@@ -2082,13 +2075,11 @@ order by rdw.duration desc;]]></xml-property>
             <xml-property name="queryText"><![CDATA[select rdw.duration, 
 IFNULL((select distinct name from tbl_userinfo where region = h.rsmRegion and userCode = h.dsmCode),'vacant') name,  
 IFNULL(sum(rdw.lsnum)/sum(rdw.pnum),0) as whRate 
-from 
-(
-	select * from tbl_respirology_data_weekly 
-	where duration <= ? 
-	and duration >= ? 
-) rdw, tbl_hospital h 
-where h.code = rdw.hospitalCode 
+from tbl_respirology_data_weekly rdw, tbl_hospital h 
+where duration <= ? 
+and duration >= ? 
+and h.code = rdw.hospitalCode 
+and h.isResAssessed='1' 
 and h.dragonType='Emerging' 
 and h.rsmRegion = ( select region from tbl_userinfo where telephone=? ) 
 group by rdw.duration, h.rsmRegion, h.dsmCode  
@@ -2335,13 +2326,11 @@ order by rdw.duration desc;]]></xml-property>
             <xml-property name="queryText"><![CDATA[select rdw.duration, 
 IFNULL((select distinct name from tbl_userinfo where region = h.rsmRegion and userCode = h.dsmCode),'vacant') name,  
 IFNULL(sum(rdw.lsnum)/sum(rdw.pnum),0) as whRate 
-from 
-(
-	select * from tbl_respirology_data_weekly 
-	where duration <= ? 
-	and duration >= ? 
-) rdw, tbl_hospital h 
-where h.code = rdw.hospitalCode 
+from tbl_respirology_data_weekly rdw, tbl_hospital h 
+where duration <= ? 
+and duration >= ? 
+and h.code = rdw.hospitalCode 
+and h.isResAssessed='1' 
 and h.dragonType='Core'
 and h.rsmRegion = ( select region from tbl_userinfo where telephone=? )
 group by rdw.duration, h.rsmRegion, h.dsmCode  

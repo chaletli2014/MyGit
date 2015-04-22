@@ -46,4 +46,6 @@ public interface UserService {
 	
 	public List<String> getAllRSMRegion() throws Exception;
 	
+	public List<String> getAllDSMName() throws Exception;
+	
 }

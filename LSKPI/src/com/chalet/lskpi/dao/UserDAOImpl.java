@@ -43,7 +43,7 @@ public class UserDAOImpl implements UserDAO {
 		switch(currentUser.getLevel()){
 			case LsAttributes.USER_LEVEL_DSM:
 				if( LsAttributes.DEPARTMENT_RES.equalsIgnoreCase(department) ){
-					sql = "select *, (select distinct property_value from tbl_property where property_name=regionCenter) as regionCenterCN from tbl_userinfo where level='REP' and superior = ? and userCode in (select distinct saleCode from tbl_respirology_data_weekly) and userCode !='"+LsAttributes.VACANT_USER_CODE+"'";
+					sql = "select *, (select distinct property_value from tbl_property where property_name=regionCenter) as regionCenterCN from tbl_userinfo where level='REP' and superior = ? and userCode in (select distinct rdw.saleCode from tbl_respirology_data_weekly rdw, tbl_hospital h where rdw.hospitalCode = h.code and h.isResAssessed='1' ) and userCode !='"+LsAttributes.VACANT_USER_CODE+"'";
 				}else{
 					sql = "select *, (select distinct property_value from tbl_property where property_name=regionCenter) as regionCenterCN from tbl_userinfo where level='REP' and superior = ? and userCode in (select distinct saleCode from tbl_pediatrics_data_weekly) and userCode !='"+LsAttributes.VACANT_USER_CODE+"'";
 				}
@@ -286,5 +286,9 @@ public class UserDAOImpl implements UserDAO {
     
     public List<String> getAllRSMRegion() throws Exception {
         return dataBean.getJdbcTemplate().queryForList("select distinct region from tbl_userinfo where region is not null order by region ", String.class);
+    }
+    
+    public List<String> getAllDSMName() throws Exception {
+    	return dataBean.getJdbcTemplate().queryForList("select distinct concat(region,'-',userCode,'-',name) from tbl_userinfo where level = 'DSM' ", String.class);
     }
 }

@@ -45,6 +45,8 @@ public class RespirologyData {
 	private int xbk2num;
 	private int xbk3num;
 	
+	private String isRe2;
+	
 	public String getHospitalName() {
 		return hospitalName;
 	}
@@ -206,5 +208,11 @@ public class RespirologyData {
 	}
 	public void setXbk3num(int xbk3num) {
 		this.xbk3num = xbk3num;
+	}
+	public String getIsRe2() {
+		return isRe2;
+	}
+	public void setIsRe2(String isRe2) {
+		this.isRe2 = isRe2;
 	}
 }

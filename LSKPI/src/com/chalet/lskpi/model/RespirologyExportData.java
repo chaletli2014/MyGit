@@ -18,6 +18,10 @@ public class RespirologyExportData {
 	
 	private Map<String, Double> dValueMap;
 	
+	private Map<String, Double> aePNumMap;
+	
+	private Map<String,Double> xbkAeNumMap;
+	
 	private int hosNum;
 	private int salesNum;
 	
@@ -117,4 +121,16 @@ public class RespirologyExportData {
     public void setCurrentWeekLsAERate(Map<String, Double> currentWeekLsAERate) {
         this.currentWeekLsAERate = currentWeekLsAERate;
     }
+	public Map<String, Double> getAePNumMap() {
+		return aePNumMap;
+	}
+	public void setAePNumMap(Map<String, Double> aePNumMap) {
+		this.aePNumMap = aePNumMap;
+	}
+	public Map<String, Double> getXbkAeNumMap() {
+		return xbkAeNumMap;
+	}
+	public void setXbkAeNumMap(Map<String, Double> xbkAeNumMap) {
+		this.xbkAeNumMap = xbkAeNumMap;
+	}
 }

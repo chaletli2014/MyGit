@@ -38,6 +38,7 @@ public class RespirologyRowMapper implements RowMapper<RespirologyData>{
         respirologyData.setXbk1num(rs.getInt("xbk1num"));
         respirologyData.setXbk2num(rs.getInt("xbk2num"));
         respirologyData.setXbk3num(rs.getInt("xbk3num"));
+        respirologyData.setIsRe2(rs.getString("isRe2"));
         return respirologyData;
     }
 }

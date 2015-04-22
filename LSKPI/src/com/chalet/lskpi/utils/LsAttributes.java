@@ -299,8 +299,10 @@ public class LsAttributes {
 				    .append("	IFNULL(sum(lastweek.fmgRate*lastweek.lsnum)/sum(lastweek.lsnum),0) as fmgRate, ")
 				    .append("	IFNULL(sum(lastweek.smgRate*lastweek.lsnum)/sum(lastweek.lsnum),0) as smgRate, ")
 				    .append("	IFNULL(sum(lastweek.emgRate*lastweek.lsnum)/sum(lastweek.lsnum),0) as emgRate ")
-				    .append("	from ( select * from tbl_respirology_data_weekly where duration = '").append(lastWeekDuration).append("' ) lastweek, tbl_hospital h ")
-				    .append("   where lastweek.hospitalCode = h.code ");
+				    .append("	from tbl_respirology_data_weekly lastweek, tbl_hospital h ")
+				    .append("   where lastweek.hospitalCode = h.code ")
+				    .append("	and lastweek.duration = '").append(lastWeekDuration).append("' ")
+				    .append(" 	and h.isResAssessed='1' ");
     public static final StringBuffer SQL_WEEKLY_PED_RATIO_DATA_LAST2WEEK_SELECT_RES 
 		    = new StringBuffer("	IFNULL(sum(last2week.pnum),0) as pnum, ")
 				    .append("	IFNULL(sum(last2week.lsnum),0) as lsnum, ")
@@ -313,8 +315,10 @@ public class LsAttributes {
 				    .append("	IFNULL(sum(last2week.fmgRate*last2week.lsnum)/sum(last2week.lsnum),0) as fmgRate, ")
 				    .append("	IFNULL(sum(last2week.smgRate*last2week.lsnum)/sum(last2week.lsnum),0) as smgRate, ")
 				    .append("	IFNULL(sum(last2week.emgRate*last2week.lsnum)/sum(last2week.lsnum),0) as emgRate ")
-				    .append("	from ( select * from tbl_respirology_data_weekly where duration = '").append(last2WeekDuration).append("' ) last2week, tbl_hospital h ")
-				    .append("   where last2week.hospitalCode = h.code ");
+				    .append("	from tbl_respirology_data_weekly last2week, tbl_hospital h ")
+				    .append("   where last2week.hospitalCode = h.code ")
+				    .append("	and last2week.duration = '").append(last2WeekDuration).append("' ")
+				    .append(" 	and h.isResAssessed='1' ");
     
     public static final StringBuffer SQL_WEEKLY_PED_RATIO_DATA_LASTWEEK_SELECT_CHE 
             = new StringBuffer(" 	IFNULL(sum(lastweek.pnum),0) as pnum, ")
@@ -357,7 +361,7 @@ public class LsAttributes {
                     .append("	IFNULL(lastweek.fmgRate,0) as fmgRate, ")
                     .append("	IFNULL(lastweek.smgRate,0) as smgRate, ")
                     .append("	IFNULL(lastweek.emgRate,0) as emgRate ")
-                    .append("	from ( select * from tbl_respirology_data_weekly where duration = '").append(lastWeekDuration).append("' ) lastweek ");
+                    .append("	from tbl_respirology_data_weekly lastweek ");
     
     public static final StringBuffer SQL_HOSPITAL_WEEKLY_PED_RATIO_DATA_LAST2WEEK_SELECT_RES 
             = new StringBuffer("	IFNULL(last2week.pnum,0) as pnum, ")
@@ -371,7 +375,7 @@ public class LsAttributes {
                     .append("	IFNULL(last2week.fmgRate,0) as fmgRate, ")
                     .append("	IFNULL(last2week.smgRate,0) as smgRate, ")
                     .append("	IFNULL(last2week.emgRate,0) as emgRate ")
-                    .append("	from ( select * from tbl_respirology_data_weekly where duration = '").append(last2WeekDuration).append("' ) last2week ");
+                    .append("	from tbl_respirology_data_weekly last2week ");
     
     public static final StringBuffer SQL_HOSPITAL_WEEKLY_PED_RATIO_DATA_LASTWEEK_SELECT_CHE 
             = new StringBuffer(" 	IFNULL(lastweek.pnum,0) as pnum, ")
@@ -890,14 +894,18 @@ public class LsAttributes {
             .append("   IFNULL(lastweek.lsnum,0) as lsnum, ")
             .append("   ROUND(IFNULL(lastweek.lsnum,0) / IFNULL(lastweek.pnum,0),2) as whRate, ")
             .append("   IFNULL(lastweek.averageDose,0) as averageDose ")
-            .append("   from ( select * from tbl_respirology_data_weekly where duration = '").append(lastWeekDuration).append("' ) lastweek ");
+            .append("   from tbl_respirology_data_weekly lastweek, tbl_hospital h ")
+            .append("   where duration = '").append(lastWeekDuration).append("' )")
+            .append("	and lastweek.hospitalCode = h.code and h.isResAssessed='1'");
     
     public static final StringBuffer SQL_WEEKLY_HOS_SALES_DATA_LAST2WEEK_SELECT_RES 
         = new StringBuffer("    IFNULL(last2week.pnum,0) as pnum, ")
             .append("   IFNULL(last2week.lsnum,0) as lsnum, ")
             .append("   ROUND(IFNULL(last2week.lsnum,0) / IFNULL(last2week.pnum,0),2) as whRate, ")
             .append("   IFNULL(last2week.averageDose,0) as averageDose ")
-            .append("   from ( select * from tbl_respirology_data_weekly where duration = '").append(last2WeekDuration).append("' ) last2week ");
+            .append("   from tbl_respirology_data_weekly last2week, tbl_hospital h ")
+            .append("   where duration = '").append(last2WeekDuration).append("' )")
+            .append("	and last2week.hospitalCode = h.code and h.isResAssessed='1'");
     
     public static final StringBuffer SQL_WEEKLY_HOS_SALES_DATA_LASTWEEK_SELECT_CHE 
     = new StringBuffer("    IFNULL(lastweek.pnum,0) as pnum, ")
@@ -1126,34 +1134,35 @@ public class LsAttributes {
     }
     
     public static final StringBuffer SQL_MONTHLY_STATISTICS_DSM_CONDITION
-    	= new StringBuffer(" where duration between ? and ? and hospitalCode = h.code ")
-    	.append(" group by h.region, h.rsmRegion, h.dsmCode");
+    	= new StringBuffer(" where duration between ? and ? and hospitalCode = h.code ");
+    public static final StringBuffer SQL_MONTHLY_STATISTICS_DSM_GROUP
+		= new StringBuffer(" group by h.region, h.rsmRegion, h.dsmCode");
+    
     public static final StringBuffer SQL_MONTHLY_STATISTICS_RSM_CONDITION
-	    = new StringBuffer(" where duration between ? and ? and hospitalCode = h.code ")
-	    .append(" group by h.region, h.rsmRegion");
+	    = new StringBuffer(" where duration between ? and ? and hospitalCode = h.code ");
+    public static final StringBuffer SQL_MONTHLY_STATISTICS_RSM_GROUP
+	    = new StringBuffer(" group by h.region, h.rsmRegion");
+    
     public static final StringBuffer SQL_MONTHLY_STATISTICS_RSD_CONDITION
-	    = new StringBuffer(" where duration between ? and ? and hospitalCode = h.code ")
-	    .append(" group by h.region");
+	    = new StringBuffer(" where duration between ? and ? and hospitalCode = h.code ");
+    public static final StringBuffer SQL_MONTHLY_STATISTICS_RSD_GROUP
+	    = new StringBuffer(" group by h.region");
     
     public static final StringBuffer SQL_MONTHLY_STATISTICS_CORE_DSM_CONDITION
-	    = new StringBuffer(" where duration between ? and ? and hospitalCode = h.code and h.dragonType='Core' ")
-	    .append(" group by h.region, h.rsmRegion, h.dsmCode");
+	    = new StringBuffer(" where duration between ? and ? and hospitalCode = h.code and h.dragonType='Core' ");
+    
     public static final StringBuffer SQL_MONTHLY_STATISTICS_CORE_RSM_CONDITION
-	    = new StringBuffer(" where duration between ? and ? and hospitalCode = h.code and h.dragonType='Core' ")
-	    .append(" group by h.region, h.rsmRegion");
+	    = new StringBuffer(" where duration between ? and ? and hospitalCode = h.code and h.dragonType='Core' ");
+    
     public static final StringBuffer SQL_MONTHLY_STATISTICS_CORE_RSD_CONDITION
-	    = new StringBuffer(" where duration between ? and ? and hospitalCode = h.code and h.dragonType='Core' ")
-	    .append(" group by h.region");
+	    = new StringBuffer(" where duration between ? and ? and hospitalCode = h.code and h.dragonType='Core' ");
     
     public static final StringBuffer SQL_MONTHLY_STATISTICS_EMERGING_DSM_CONDITION
-	    = new StringBuffer(" where duration between ? and ? and hospitalCode = h.code and h.dragonType='Emerging' ")
-	    .append(" group by h.region, h.rsmRegion, h.dsmCode");
+	    = new StringBuffer(" where duration between ? and ? and hospitalCode = h.code and h.dragonType='Emerging' ");
     public static final StringBuffer SQL_MONTHLY_STATISTICS_EMERGING_RSM_CONDITION
-	    = new StringBuffer(" where duration between ? and ? and hospitalCode = h.code and h.dragonType='Emerging' ")
-	    .append(" group by h.region, h.rsmRegion");
+	    = new StringBuffer(" where duration between ? and ? and hospitalCode = h.code and h.dragonType='Emerging' ");
     public static final StringBuffer SQL_MONTHLY_STATISTICS_EMERGING_RSD_CONDITION
-	    = new StringBuffer(" where duration between ? and ? and hospitalCode = h.code and h.dragonType='Emerging' ")
-	    .append(" group by h.region");
+	    = new StringBuffer(" where duration between ? and ? and hospitalCode = h.code and h.dragonType='Emerging' ");
     
     public static final StringBuffer SQL_HOME_WEEKLY_DATA_SELECTION
             = new StringBuffer("")
@@ -1236,147 +1245,6 @@ public class LsAttributes {
 		    .append(" , 'Vacant' as salesName ")
 		    .append(" , '#N/A' as salesTel ")
 		    .append(" , '#N/A' as salesEmail ");
-    		 
-    public static final StringBuffer SQL_MONTH_WEEKLY_REPORT_RES = new StringBuffer("")
-            .append(" select h.rsmRegion ")
-            .append(" ,(select distinct name from tbl_userinfo u where u.regionCenter = h.region and u.region = h.rsmRegion and u.level='RSM') as rsmName ")
-            .append(" ,date_MM ")
-            .append(" ,date_YYYY ")
-            .append(" ,'' as duration ")
-            .append(" ,sum(pnum) as pnum ")
-            .append(" ,sum(lsnum) as lsnum ")
-            .append(" ,sum(aenum) as aenum ")
-            .append(" ,IFNULL( sum(  ")
-            .append("   case ")
-            .append("       when h.dragonType='Emerging' then least(innum*3,3) ")
-            .append("       when h.dragonType='Core' then least(innum,3) ")
-            .append(" 	end")
-            .append(" ) ")
-            .append(" / (count(1)*3),0 ) as inRate ")
-//            .append(" ,IFNULL(sum(least(innum,3))/(count(1)*3),0) as inRate ")
-            .append(" ,IFNULL(sum(rdw.lsnum)/sum(rdw.pnum),0) as whRate ")
-            .append(" ,IFNULL(sum(rdw.averageDose*rdw.lsnum)/sum(rdw.lsnum),0) as averageDose ")
-            .append(" ,(  ")
-            .append("   select temp2.weekNum ")
-            .append("   from (")
-            .append("       select count(1) as weekNum,date_YYYY,date_MM ")
-            .append("       from (")
-            .append("           select distinct rdw2.date_YYYY,rdw2.date_MM,rdw2.duration ")
-            .append("           from tbl_respirology_data_weekly rdw2, tbl_hospital h2 ")
-            .append("           where rdw2.hospitalCode = h2.code ")
-            .append("           and ( (rdw2.date_YYYY > 2013 and rdw2.date_MM > 3)  or ( rdw2.date_YYYY > 2014 )) ")
-            .append("       ) temp ")
-            .append("       group by temp.date_YYYY,temp.date_MM ")
-            .append("   ) temp2 ")
-            .append("   where rdw.date_YYYY = temp2.date_YYYY and rdw.date_MM = temp2.date_MM ")
-            .append(" ) as weeklyCount ")
-            .append(" ,(    select sum(resnum) from tbl_month_data md, tbl_hospital h1 ")
-            .append("       where md.hospitalCode = h1.code and h1.rsmRegion = h.rsmRegion  ")
-            .append("       and md.countMonth = concat(date_YYYY,'-',LPAD(date_MM, 2, 0)) ")
-            .append(") as resMonthNum ")
-            .append(" from tbl_respirology_data_weekly rdw, tbl_hospital h ")
-            .append(" where h.code = rdw.hospitalCode ")
-            .append(" and ( (rdw.date_YYYY > 2013 and rdw.date_MM > 3)  or ( rdw.date_YYYY > 2014 )) ")
-            .append(" and rdw.duration < ? ")
-            .append(" group by date_YYYY,date_MM,h.rsmRegion ")
-            .append(" order by h.rsmRegion, date_YYYY, date_MM");
-    
-    public static final StringBuffer SQL_MONTH_WEEKLY_REPORT_RES_COUNTRY = new StringBuffer("")
-            .append(" select '全国' as rsmRegion ")
-            .append(" ,'全国' as rsmName ")
-            .append(" ,date_MM ")
-            .append(" ,date_YYYY ")
-            .append(" ,'' as duration ")
-            .append(" ,sum(pnum) as pnum ")
-            .append(" ,sum(lsnum) as lsnum ")
-            .append(" ,sum(aenum) as aenum ")
-            .append(" ,IFNULL( sum(  ")
-            .append("   case ")
-            .append("       when h.dragonType='Emerging' then least(innum*3,3) ")
-            .append("       when h.dragonType='Core' then least(innum,3) ")
-            .append(" 	end")
-            .append(" ) ")
-            .append(" / (count(1)*3),0 ) as inRate ")
-//            .append(" ,IFNULL(sum(least(innum,3))/(count(1)*3),0) as inRate ")
-            .append(" ,IFNULL(sum(rdw.lsnum)/sum(rdw.pnum),0) as whRate ")
-            .append(" ,IFNULL(sum(rdw.averageDose*rdw.lsnum)/sum(rdw.lsnum),0) as averageDose ")
-            .append(" ,(  ")
-            .append("   select temp2.weekNum ")
-            .append("   from (")
-            .append("       select count(1) as weekNum,date_YYYY,date_MM ")
-            .append("       from (")
-            .append("           select distinct rdw2.date_YYYY,rdw2.date_MM,rdw2.duration ")
-            .append("           from tbl_respirology_data_weekly rdw2, tbl_hospital h2 ")
-            .append("           where rdw2.hospitalCode = h2.code ")
-            .append("           and ( (rdw2.date_YYYY > 2013 and rdw2.date_MM > 3)  or ( rdw2.date_YYYY > 2014 )) ")
-            .append("       ) temp ")
-            .append("       group by temp.date_YYYY,temp.date_MM ")
-            .append("   ) temp2 ")
-            .append("   where rdw.date_YYYY = temp2.date_YYYY and rdw.date_MM = temp2.date_MM ")
-            .append(" ) as weeklyCount ")
-            .append(" ,(    select sum(resnum) from tbl_month_data md ")
-            .append("       where md.countMonth = concat(date_YYYY,'-',LPAD(date_MM, 2, 0)) ")
-            .append(") as resMonthNum ")
-            .append(" from tbl_respirology_data_weekly rdw, tbl_hospital h ")
-            .append(" where h.code = rdw.hospitalCode ")
-            .append(" and ( (rdw.date_YYYY > 2013 and rdw.date_MM > 3)  or ( rdw.date_YYYY > 2014 )) ")
-            .append(" and rdw.duration < ? ")
-            .append(" group by date_YYYY,date_MM ")
-            .append(" order by date_YYYY, date_MM");
-    		 
-    public static final StringBuffer SQL_MONTH_WEEKLY_REPORT_WEEKLY_RES = new StringBuffer("")
-            .append(" select h.rsmRegion ")
-            .append(" , rdw.duration ")
-            .append(" ,(select distinct name from tbl_userinfo u where u.regionCenter = h.region and u.region = h.rsmRegion and u.level='RSM') as rsmName ")
-            .append(" ,sum(pnum) as pnum ")
-            .append(" ,sum(lsnum) as lsnum ")
-            .append(" ,sum(aenum) as aenum ")
-            .append(" ,IFNULL( sum(  ")
-            .append("   case ")
-            .append("       when h.dragonType='Emerging' then least(innum*3,3) ")
-            .append("       when h.dragonType='Core' then least(innum,3) ")
-            .append(" 	end")
-            .append(" ) ")
-            .append(" / (count(1)*3),0 ) as inRate ")
-//            .append(" ,IFNULL(sum(least(innum,3))/(count(1)*3),0) as inRate ")
-            .append(" ,IFNULL(sum(rdw.lsnum)/sum(rdw.pnum),0) as whRate ")
-            .append(" ,IFNULL(sum(rdw.averageDose*rdw.lsnum)/sum(rdw.lsnum),0) as averageDose ")
-            .append(" ,'1' as weeklyCount ")
-            .append(" ,'1' as resMonthNum ")
-            .append(" ,date_MM ")
-            .append(" ,date_YYYY ")
-            .append(" from tbl_respirology_data_weekly rdw, tbl_hospital h ")
-            .append(" where rdw.hospitalCode = h.code ")
-            .append(" and rdw.duration >= ? ")
-            .append(" group by duration, h.rsmRegion ")
-            .append(" order by h.rsmRegion, duration");
-    
-    public static final StringBuffer SQL_MONTH_WEEKLY_REPORT_WEEKLY_RES_COUNTRY = new StringBuffer("")
-            .append(" select '全国' as rsmRegion ")
-            .append(" , rdw.duration ")
-            .append(" ,'全国' as rsmName ")
-            .append(" ,sum(pnum) as pnum ")
-            .append(" ,sum(lsnum) as lsnum ")
-            .append(" ,sum(aenum) as aenum ")
-            .append(" ,IFNULL( sum(  ")
-            .append("   case ")
-            .append("       when h.dragonType='Emerging' then least(innum*3,3) ")
-            .append("       when h.dragonType='Core' then least(innum,3) ")
-            .append(" 	end")
-            .append(" ) ")
-            .append(" / (count(1)*3),0 ) as inRate ")
-//            .append(" ,IFNULL(sum(least(innum,3))/(count(1)*3),0) as inRate ")
-            .append(" ,IFNULL(sum(rdw.lsnum)/sum(rdw.pnum),0) as whRate ")
-            .append(" ,IFNULL(sum(rdw.averageDose*rdw.lsnum)/sum(rdw.lsnum),0) as averageDose ")
-            .append(" ,'1' as weeklyCount ")
-            .append(" ,'1' as resMonthNum ")
-            .append(" ,date_MM ")
-            .append(" ,date_YYYY ")
-            .append(" from tbl_respirology_data_weekly rdw, tbl_hospital h ")
-            .append(" where rdw.duration >= ? ")
-            .append(" and rdw.hospitalCode = h.code ")
-            .append(" group by duration ")
-            .append(" order by duration");
     
     public static final StringBuffer SQL_MONTH_WEEKLY_REPORT_SALES_NUM_CONDITION = new StringBuffer("")
             .append(" where  h.code = hu.hosCode ")
@@ -1401,4 +1269,243 @@ public class LsAttributes {
     
     public static final StringBuffer SQL_SELECTION_HOSPITAL = new StringBuffer("")
     		.append(", h.city, h.province, h.region, h.rsmRegion, h.saleCode, h.saleName, h.dsmCode, h.portNum, h.isRe2 ");
+    
+    /**
+     * 呼吸科周周报---
+     */
+    
+    private static final StringBuffer SQL_MONTHWEEKLYREPORT_COMMON_SELECTION_1 = new StringBuffer("")
+		    .append(" ,date_MM ")
+		    .append(" ,date_YYYY ")
+		    .append(" ,'' as duration ")
+		    .append(" ,IFNULL(sum(pnum),0) as pnum ")
+		    .append(" ,IFNULL(sum(lsnum),0) as lsnum ")
+		    .append(" ,IFNULL(sum(aenum),0) as aenum ")
+		    .append(" ,IFNULL(sum(xbknum),0) as xbknum ")
+		    .append(" ,IFNULL( sum(  ")
+		    .append("   case ")
+		    .append("       when h.dragonType='Emerging' then least(innum*3,3) ")
+		    .append("       when h.dragonType='Core' then least(innum,3) ")
+		    .append(" 	end")
+		    .append(" ) ")
+		    .append(" / (count(1)*3),0 ) as inRate ")
+		    .append(" ,IFNULL(sum(rdw.lsnum)/sum(rdw.pnum),0) as whRate ")
+		    .append(" ,IFNULL(sum(rdw.averageDose*rdw.lsnum)/sum(rdw.lsnum),0) as averageDose ")
+		    .append(" ,(  ")
+	        .append("   select temp2.weekNum ")
+	        .append("   from (")
+	        .append("       select count(1) as weekNum,date_YYYY,date_MM ")
+	        .append("       from (")
+	        .append("           select distinct rdw2.date_YYYY,rdw2.date_MM,rdw2.duration ")
+	        .append("           from tbl_respirology_data_weekly rdw2, tbl_hospital h2 ")
+	        .append("           where rdw2.hospitalCode = h2.code ");
+    
+    private static final StringBuffer SQL_MONTHWEEKLYREPORT_COMMON_SELECTION_2 = new StringBuffer("")
+		    .append("       ) temp ")
+		    .append("       group by temp.date_YYYY,temp.date_MM ")
+		    .append("   ) temp2 ")
+		    .append("   where rdw.date_YYYY = temp2.date_YYYY and rdw.date_MM = temp2.date_MM ")
+		    .append(" ) as weeklyCount ");
+    
+    private static final StringBuffer getMonthWeeklyCommonSeletion(String level){
+    	StringBuffer sb = new StringBuffer("");
+    	switch(level){
+    	case LsAttributes.USER_LEVEL_RSM:
+    		sb.append(" select h.rsmRegion as title");
+    	    sb.append(" ,(select distinct name from tbl_userinfo u where u.regionCenter = h.region and u.region = h.rsmRegion and u.level='RSM') as name ");
+    	    break;
+    	case LsAttributes.USER_LEVEL_RSD:
+    		sb.append(" select h.region as title");
+    	    sb.append(" ,(select distinct name from tbl_userinfo u where u.regionCenter = h.region and u.level='RSD') as name ");
+    	    break;
+    	case LsAttributes.USER_LEVEL_DSM:
+    		sb.append(" select concat(h.rsmRegion,'-',h.dsmCode,'-',(select distinct name from tbl_userinfo u where u.regionCenter = h.region and u.region = h.rsmRegion and u.userCode = h.dsmCode and u.level='DSM')) as title");
+    	    sb.append(" ,(select distinct name from tbl_userinfo u where u.regionCenter = h.region and u.region = h.rsmRegion and u.userCode = h.dsmCode and u.level='DSM') as name ");
+    	    break;
+    	}
+    	return sb;
+    }
+    
+    private static final StringBuffer SQL_MONTHWEEKLYREPORT_COMMON_COUNTRY_SELECTION = new StringBuffer("")
+    		.append(" select '全国' as title ")
+    		.append(" ,'全国' as name ");
+    
+    public static final StringBuffer getSQLMonthWeeklyReportRes(String isRe2 , String level){
+    	StringBuffer sb = getMonthWeeklyCommonSeletion(level);
+	        
+	    sb.append(SQL_MONTHWEEKLYREPORT_COMMON_SELECTION_1);
+	    if( "1".equals(isRe2) ){
+	    	sb.append("     and ( (rdw2.date_YYYY > 2015 and rdw2.date_MM > 4)  or ( rdw2.date_YYYY > 2016 )) ");
+    		sb.append("		and h2.isRe2 = '1' ");
+    	}else{
+    		sb.append("     and ( (rdw2.date_YYYY > 2013 and rdw2.date_MM > 3)  or ( rdw2.date_YYYY > 2014 )) ");
+    		sb.append(" 	and h2.isResAssessed='1' ");
+    	}
+	    sb.append(SQL_MONTHWEEKLYREPORT_COMMON_SELECTION_2);
+	    
+	    sb.append(" ,(    select sum(res_room) from tbl_month_data md, tbl_hospital h1 ");
+	    sb.append("       where md.hospitalCode = h1.code ");
+	    switch(level){
+    	case LsAttributes.USER_LEVEL_RSM:
+    		sb.append(" and h1.rsmRegion = h.rsmRegion ");
+    	    break;
+    	case LsAttributes.USER_LEVEL_RSD:
+    		sb.append(" and h1.region = h.region ");
+    	    break;
+    	case LsAttributes.USER_LEVEL_DSM:
+    		sb.append(" and h1.rsmRegion = h.rsmRegion and h1.dsmCode = h.dsmCode ");
+    	    break;
+    	}
+	    sb.append("       and md.countMonth = concat(date_YYYY,'-',LPAD(date_MM, 2, 0)) ");
+        if( "1".equals(isRe2) ){
+    		sb.append("   and h1.isRe2 = '1' ");
+    	}else{
+    		sb.append("	  and h1.isResAssessed = '1' ");
+    	}
+	    sb.append(") as resMonthNum ");
+	    
+	    sb.append(" from tbl_respirology_data_weekly rdw, tbl_hospital h ");
+	    sb.append(" where h.code = rdw.hospitalCode ");
+	    
+	    if( "1".equals(isRe2) ){
+	    	sb.append(" and ( (rdw.date_YYYY > 2015 and rdw.date_MM > 4)  or ( rdw.date_YYYY > 2016 )) ")
+	        .append(" and rdw.duration < ? ")
+    		.append(" and h.isRe2 = '1' ");
+    	}else{
+    		sb.append(" and ( (rdw.date_YYYY > 2013 and rdw.date_MM > 3)  or ( rdw.date_YYYY > 2014 )) ")
+	        .append(" and rdw.duration < ? ")
+	        .append("and h.isResAssessed='1' ");
+    	}
+	    
+	    switch(level){
+    	case LsAttributes.USER_LEVEL_RSM:
+    		sb.append(" group by date_YYYY,date_MM,h.rsmRegion ");
+    	    sb.append(" order by h.rsmRegion, date_YYYY, date_MM");
+    	    break;
+    	case LsAttributes.USER_LEVEL_RSD:
+    		sb.append(" group by date_YYYY,date_MM,h.region ");
+    	    sb.append(" order by h.region, date_YYYY, date_MM");
+    	    break;
+    	case LsAttributes.USER_LEVEL_DSM:
+    		sb.append(" group by date_YYYY,date_MM,h.region,h.rsmRegion,h.dsmCode ");
+    	    sb.append(" order by h.region,h.rsmRegion,h.dsmCode, date_YYYY, date_MM");
+    	    break;
+    	}
+    	
+    	return sb;
+    }
+    
+    public static final StringBuffer getSQLMonthWeeklyReportResCountry( String isRe2){
+    	StringBuffer sb = new StringBuffer(SQL_MONTHWEEKLYREPORT_COMMON_COUNTRY_SELECTION);
+    	
+	    sb.append(SQL_MONTHWEEKLYREPORT_COMMON_SELECTION_1);
+    	
+    	if( "1".equals(isRe2) ){
+	    	sb.append("     and ( (rdw2.date_YYYY > 2015 and rdw2.date_MM > 4)  or ( rdw2.date_YYYY > 2016 )) ");
+    		sb.append("		and h2.isRe2 = '1' ");
+    	}else{
+    		sb.append("     and ( (rdw2.date_YYYY > 2013 and rdw2.date_MM > 3)  or ( rdw2.date_YYYY > 2014 )) ");
+    		sb.append(" 	and h2.isResAssessed='1' ");
+    	}
+    	
+	    sb.append(SQL_MONTHWEEKLYREPORT_COMMON_SELECTION_2)
+	        .append(" ,(    select sum(res_room) from tbl_month_data md, tbl_hospital h1 ")
+	        .append("		where md.hospitalCode = h1.code ")
+	        .append("       and md.countMonth = concat(date_YYYY,'-',LPAD(date_MM, 2, 0)) ");
+        if( "1".equals(isRe2) ){
+    		sb.append("		and h1.isRe2 = '1' ");
+    	}else{
+    		sb.append("		and h1.isResAssessed = '1' ");
+    	}
+	    sb.append(") as resMonthNum ")
+	        .append(" from tbl_respirology_data_weekly rdw, tbl_hospital h ")
+	        .append(" where h.code = rdw.hospitalCode ");
+	    
+        if( "1".equals(isRe2) ){
+        	sb.append(" and ( (rdw.date_YYYY > 2015 and rdw.date_MM > 4)  or ( rdw.date_YYYY > 2016 )) ")
+        	.append(" and rdw.duration < ? ")
+    		.append(" and h.isRe2 = '1' ");
+    	}else{
+    		sb.append(" and ( (rdw.date_YYYY > 2013 and rdw.date_MM > 3)  or ( rdw.date_YYYY > 2014 )) ")
+        	.append(" and rdw.duration < ? ")
+        	.append(" and h.isResAssessed='1' ");
+    	}
+        
+	    sb.append(" group by date_YYYY,date_MM ")
+	        .append(" order by date_YYYY, date_MM");
+    	return sb;
+    }
+    
+    private static final StringBuffer SQL_MONTH_WEEKLY_REPORT_WEEKLY_RES_COMMON_SELECTION = new StringBuffer()
+	    .append(" ,date_MM ")
+	    .append(" ,date_YYYY ")
+	    .append(" , rdw.duration ")
+	    .append(" ,IFNULL(sum(pnum),0) as pnum ")
+	    .append(" ,IFNULL(sum(lsnum),0) as lsnum ")
+	    .append(" ,IFNULL(sum(aenum),0) as aenum ")
+	    .append(" ,IFNULL(sum(xbknum),0) as xbknum ")
+	    .append(" ,IFNULL( sum(  ")
+	    .append("   case ")
+	    .append("       when h.dragonType='Emerging' then least(innum*3,3) ")
+	    .append("       when h.dragonType='Core' then least(innum,3) ")
+	    .append(" 	end")
+	    .append(" ) ")
+	    .append(" / (count(1)*3),0 ) as inRate ")
+	    .append(" ,IFNULL(sum(rdw.lsnum)/sum(rdw.pnum),0) as whRate ")
+	    .append(" ,IFNULL(sum(rdw.averageDose*rdw.lsnum)/sum(rdw.lsnum),0) as averageDose ")
+	    .append(" ,'1' as weeklyCount ")
+	    .append(" ,'1' as resMonthNum ");
+    
+    private static final StringBuffer SQL_MONTH_WEEKLY_REPORT_WEEKLY_RES_COMMON_CONDITION = new StringBuffer()
+	    .append(" from tbl_respirology_data_weekly rdw, tbl_hospital h ")
+	    .append(" where rdw.hospitalCode = h.code ")
+	    .append(" and rdw.duration >= ? ");
+    
+    public static final StringBuffer getSQLMonthWeeklyReportWeeklyRes( String isRe2, String level){
+    	StringBuffer sb = getMonthWeeklyCommonSeletion(level);
+    	
+        sb.append(SQL_MONTH_WEEKLY_REPORT_WEEKLY_RES_COMMON_SELECTION);
+        sb.append(SQL_MONTH_WEEKLY_REPORT_WEEKLY_RES_COMMON_CONDITION);
+        if( "1".equals(isRe2) ){
+        	sb.append(" and rdw.duration>='2015.04.13-2015.04.19' ");
+    		sb.append(" and h.isRe2 = '1' ");
+    	}else{
+    		sb.append(" and h.isResAssessed='1' ");
+    	}
+        switch(level){
+    	case LsAttributes.USER_LEVEL_RSM:
+    		sb.append(" group by h.rsmRegion, duration");
+            sb.append(" order by h.rsmRegion, duration");
+    	    break;
+    	case LsAttributes.USER_LEVEL_RSD:
+    		sb.append(" group by h.region, duration");
+            sb.append(" order by h.region, duration");
+    	    break;
+    	case LsAttributes.USER_LEVEL_DSM:
+    		sb.append(" group by h.region,h.rsmRegion,h.dsmCode, duration");
+            sb.append(" order by h.region,h.rsmRegion,h.dsmCode, duration");
+    	    break;
+    	}
+    	
+    	return sb;
+    }
+    
+    public static final StringBuffer getSQLMonthWeeklyReportWeeklyResCountry(String isRe2){
+    	StringBuffer sb = new StringBuffer(SQL_MONTHWEEKLYREPORT_COMMON_COUNTRY_SELECTION);
+	    sb.append(SQL_MONTH_WEEKLY_REPORT_WEEKLY_RES_COMMON_SELECTION);
+		sb.append(SQL_MONTH_WEEKLY_REPORT_WEEKLY_RES_COMMON_CONDITION);
+	    if( "1".equals(isRe2) ){
+	    	sb.append(" and rdw.duration>='2015.04.13-2015.04.19' ");
+    		sb.append(" and h.isRe2 = '1' ");
+    	}else{
+    		sb.append(" and h.isResAssessed='1' ");
+    	}
+		sb.append(" group by duration ")
+		    .append(" order by duration");
+	    return sb;
+    }
+    
+    /**
+     * ---呼吸科周周报
+     */
 }

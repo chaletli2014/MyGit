@@ -11,7 +11,6 @@ import com.chalet.lskpi.model.HospitalSalesQueryParam;
 import com.chalet.lskpi.model.KPIHospital4Export;
 import com.chalet.lskpi.model.Monthly12Data;
 import com.chalet.lskpi.model.MonthlyData;
-import com.chalet.lskpi.model.MonthlyStatisticsData;
 import com.chalet.lskpi.model.MonthlyRatioData;
 import com.chalet.lskpi.model.UserInfo;
 
@@ -59,8 +58,6 @@ public interface HospitalService {
 	
 	public List<HospitalSalesQueryObj> getHospitalSalesList(HospitalSalesQueryParam queryParam) throws Exception;
 	
-	public Map<String, MonthlyStatisticsData> getMonthlyInRateData(String beginDuraion, String endDuraion, String level) throws Exception;
-	
 	public List<MonthlyRatioData> getMonthlyCollectionData(Date chooseDate) throws Exception;
 	
 	public MonthlyRatioData getMonthlyCollectionSumData(Date chooseDate) throws Exception;
@@ -88,14 +85,14 @@ public interface HospitalService {
      * @return HOS count map
      * @throws Exception
      */
-    public List<Map<String, Integer>> getKPIHosNumMap(String department) throws Exception;
+    public List<Map<String, Integer>> getKPIHosNumMap(String department, String isRe2, String level) throws Exception;
     
     /**
      * 返回值是一个Map的list，Map中的键值对为<RSM,销售数>
      * @return sales count map
      * @throws Exception
      */
-    public List<Map<String, Integer>> getKPISalesNumMap(String department) throws Exception;
+    public List<Map<String, Integer>> getKPISalesNumMap(String department, String isRe2, String level) throws Exception;
     
     public void uploadPortNumData(Hospital hospitalWithPortNum) throws Exception;
 }

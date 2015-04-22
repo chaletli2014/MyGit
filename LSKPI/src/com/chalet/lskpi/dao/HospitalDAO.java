@@ -72,8 +72,6 @@ public interface HospitalDAO {
     
     public List<HospitalSalesQueryObj> getHospitalSalesList(HospitalSalesQueryParam queryParam) throws Exception;
     
-    public List<MonthlyStatisticsData> getMonthlyInRateData(String beginDuraion, String endDuraion, String level) throws Exception;
-    
     public List<MonthlyRatioData> getMonthlyCollectionData(Date chooseDate) throws Exception;
     
     public MonthlyRatioData getMonthlyCollectionSumData(Date chooseDate) throws Exception;
@@ -107,14 +105,14 @@ public interface HospitalDAO {
      * @return HOS count map
      * @throws Exception
      */
-    public List<Map<String, Integer>> getKPIHosNumMap(String department) throws Exception;
+    public List<Map<String, Integer>> getKPIHosNumMap(String department, String isRe2, String level) throws Exception;
     
     /**
      * 返回值是一个Map的list，Map中的键值对为<RSM,销售数>
      * @return sales count map
      * @throws Exception
      */
-    public List<Map<String, Integer>> getKPISalesNumMap(String department) throws Exception;
+    public List<Map<String, Integer>> getKPISalesNumMap(String department, String isRe2, String level) throws Exception;
     
     public void updatePortNum(Hospital hospitalWithPortNum) throws Exception;
 }

@@ -430,7 +430,59 @@ public class BirtReportUtils {
     	}catch( Exception ex){
     		logger.error("fail to generate the all daily report",ex);
     	}  
-    }  
+    }
+    
+
+    public void runRe2Report(String designPath, String reportFileName){
+    	try{
+    		logger.info(String.format("run the re2 report, the file name is %s",reportFileName));
+    		IReportRunnable design = null;  
+            HashMap parameterMap = new HashMap();
+            //Open the report design  
+            design = engine.openReportDesign(designPath);  
+            
+            String startDate = DateUtils.getTheBeginDateOfRefreshDate(new Date());
+            String endDate = DateUtils.getTheEndDateOfRefreshDate(new Date());
+            
+            String startDuration = startDate+"-"+endDate;
+            if( null != startDuration ){
+    			logger.info(String.format("populdate the param startDuration %s", startDuration));
+    			IGetParameterDefinitionTask paramTask = engine.createGetParameterDefinitionTask(design);
+    			Collection parameters = paramTask.getParameterDefns(false);
+    			Map paramValues = new HashMap();
+    			paramValues.put("startDuration", startDuration);
+    			evaluateParameterValues(parameterMap,parameters,paramValues);
+    		}
+    		
+            String last12WeekDuration = DateUtils.getEndDurationByStartDate(startDate);
+    		if( null != last12WeekDuration ){
+    			logger.info(String.format("populdate the param last12WeekDuration %s", last12WeekDuration));
+    			IGetParameterDefinitionTask paramTask = engine.createGetParameterDefinitionTask(design);
+    			Collection parameters = paramTask.getParameterDefns(false);
+    			Map paramValues = new HashMap();
+    			paramValues.put("endDuration", last12WeekDuration);
+    			evaluateParameterValues(parameterMap,parameters,paramValues);
+    		}
+            
+            IRunAndRenderTask task = engine.createRunAndRenderTask(design);  
+            logger.info("create and render the re2 task");
+            IRenderOption options = null;
+            options = new PDFRenderOption();
+            options.setOutputFormat("pdf");
+            options.setOutputFileName(reportFileName);
+            
+            task.setRenderOption(options);
+            task.setParameterValues(parameterMap);
+            
+    		logger.info("start to run the task");
+    		task.run();
+    		task.close();
+    		logger.info("the taks is closed.");
+    	}catch( Exception ex){
+    		logger.error("fail to generate the all daily report",ex);
+    	}  
+    }
+    
     //用于启动报表平台  
     public void startPlatform(){  
         try{

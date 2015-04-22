@@ -107,12 +107,12 @@ public class RespirologyDAOImpl implements RespirologyDAO {
         .append(" from ( ")
         .append("   select hospitalCode, hospitalName, ")
         .append(LsAttributes.SQL_HOSPITAL_WEEKLY_PED_RATIO_DATA_LASTWEEK_SELECT_RES)
-        .append("   where hospitalCode=? ")
+        .append("   where hospitalCode=? and duration = '").append(LsAttributes.lastWeekDuration).append("' ")
         .append(") lastweekdata, ")
         .append("( ")
         .append("   select hospitalCode, hospitalName, ")
         .append(LsAttributes.SQL_HOSPITAL_WEEKLY_PED_RATIO_DATA_LAST2WEEK_SELECT_RES)
-        .append("   where hospitalCode=? ")
+        .append("   where hospitalCode=? and duration = '").append(LsAttributes.last2WeekDuration).append("' ")
         .append(") last2weekdata ");
         return dataBean.getJdbcTemplate().queryForObject(mobileRESWeeklySQL.toString(),new Object[]{hospitalCode,hospitalCode},new RESWeeklyRatioDataRowMapper());
     }
@@ -559,8 +559,12 @@ public class RespirologyDAOImpl implements RespirologyDAO {
 	    Timestamp lastweekDay = new Timestamp(refreshDate.getTime());
         StringBuffer sb = new StringBuffer();
         
-        sb.append("insert into tbl_respirology_data_weekly(id,duration,hospitalName,hospitalCode,innum,pnum,aenum,whnum,lsnum,averageDose,omgRate,tmgRate,thmgRate,fmgRate,smgRate,emgRate,saleCode,dsmCode,rsmRegion,region,updatedate,date_YYYY,date_MM) ")
-            .append("select ")
+        sb.append("insert into tbl_respirology_data_weekly(id,duration,hospitalName,hospitalCode ")
+        	.append(" ,innum,pnum,aenum,whnum,lsnum ") 
+        	.append(" ,xbknum,xbk1num,xbk2num,xbk3num ") 
+        	.append(" ,averageDose,omgRate,tmgRate,thmgRate,fmgRate,smgRate,emgRate")
+        	.append(" ,saleCode,dsmCode,rsmRegion,region,updatedate,date_YYYY,date_MM )")
+        	.append("select ")
             .append("null,")
             .append(" CONCAT(DATE_FORMAT(DATE_SUB(?, Interval 6 day),'%Y.%m.%d'), '-',DATE_FORMAT(?,'%Y.%m.%d')) as duration, ")
             .append("h.name, ")
@@ -570,6 +574,10 @@ public class RespirologyDAOImpl implements RespirologyDAO {
             .append("rd_data.aenum, ")
             .append("rd_data.whnum, ")
             .append("rd_data.lsnum, ")
+            .append("rd_data.xbknum, ")
+            .append("rd_data.xbk1num, ")
+            .append("rd_data.xbk2num, ")
+            .append("rd_data.xbk3num, ")
             .append("rd_data.averageDose, ")
             .append("rd_data.omgRate, ")
             .append("rd_data.tmgRate, ")
@@ -592,6 +600,10 @@ public class RespirologyDAOImpl implements RespirologyDAO {
             .append("   (sum(rd.aenum)/count_hos.inNum)*5 as aenum, ")
             .append("   (sum(rd.whnum)/count_hos.inNum)*5 as whnum, ")
             .append("   (sum(rd.lsnum)/count_hos.inNum)*5 as lsnum, ")
+            .append("   (sum(rd.xbknum)/count_hos.inNum)*5 as xbknum, ")
+            .append("   (sum(rd.xbk1num)/count_hos.inNum)*5 as xbk1num, ")
+            .append("   (sum(rd.xbk2num)/count_hos.inNum)*5 as xbk2num, ")
+            .append("   (sum(rd.xbk3num)/count_hos.inNum)*5 as xbk3num, ")
             .append("   IFNULL( ")
             .append("       sum( ")
             .append("           ( ( 1*IFNULL(rd.oqd,0) + 2*1*IFNULL(rd.tqd,0) + 1*3*IFNULL(rd.otid,0) + 2*2*IFNULL(rd.tbid,0) + 2*3*IFNULL(rd.ttid,0) + 3*2*IFNULL(rd.thbid,0) + 4*2*IFNULL(rd.fbid,0) ) / 100 )* IFNULL(rd.lsnum,0) ")
@@ -608,17 +620,17 @@ public class RespirologyDAOImpl implements RespirologyDAO {
             .append("       from tbl_respirology_data rd, tbl_hospital h ")
             .append("       WHERE rd.createdate between DATE_SUB(?, Interval 6 day) and DATE_ADD(?, Interval 1 day) ")
             .append("       and rd.hospitalName = h.name ")
-            .append("       and h.isResAssessed='1' ")
+            .append("       and (h.isResAssessed='1' or h.isRe2='1') ")
             .append("       GROUP BY h.code ")
             .append("   ) count_hos ")
             .append("   WHERE rd.createdate between DATE_SUB(?, Interval 6 day) and DATE_ADD(?, Interval 1 day) ")
             .append("   and rd.hospitalName = h.name ")
             .append("   and h.code = count_hos.code")
-            .append("   and h.isResAssessed='1' ")
+            .append("   and (h.isResAssessed='1' or h.isRe2='1') ")
             .append("   GROUP BY h.code ")
             .append(") rd_data ")
             .append("right join tbl_hospital h on rd_data.code = h.code ")
-            .append("where h.isResAssessed='1'");
+            .append("where h.isResAssessed='1' or h.isRe2='1' ");
         int result = dataBean.getJdbcTemplate().update(sb.toString(), new Object[]{lastweekDay,lastweekDay,lastweekDay,lastweekDay,lastweekDay,lastweekDay,lastweekDay,lastweekDay});
         logger.info(String.format("finish to generate the res weekly data, the result is %s", result));
 	}
@@ -798,22 +810,22 @@ public class RespirologyDAOImpl implements RespirologyDAO {
 	
 	@Override
 	public RespirologyData getRespirologyDataByHospital(final String hospitalName) throws Exception {
-		return dataBean.getJdbcTemplate().queryForObject("select rd.*,h.code as hospitalCode,h.dsmName,h.isResAssessed, h.dragonType from tbl_respirology_data rd, tbl_hospital h where rd.hospitalName=? and DATE_FORMAT(rd.createdate,'%Y-%m-%d') = curdate() and rd.hospitalName = h.name", new Object[]{hospitalName}, new RespirologyRowMapper());
+		return dataBean.getJdbcTemplate().queryForObject("select rd.*,h.code as hospitalCode,h.dsmName,h.isResAssessed, h.dragonType, h.isRe2 from tbl_respirology_data rd, tbl_hospital h where rd.hospitalName=? and DATE_FORMAT(rd.createdate,'%Y-%m-%d') = curdate() and rd.hospitalName = h.name", new Object[]{hospitalName}, new RespirologyRowMapper());
 	}
 	
 	@Override
 	public List<RespirologyData> getRespirologyDataByDate(Date createdatebegin, Date createdateend) throws Exception {
-		String sql = "select rd.*,h.code as hospitalCode,h.dsmName,h.isResAssessed, h.dragonType from tbl_respirology_data rd, tbl_hospital h where DATE_FORMAT(createdate,'%Y-%m-%d') between DATE_FORMAT(?,'%Y-%m-%d') and DATE_FORMAT(?,'%Y-%m-%d') and rd.hospitalName = h.name order by createdate desc";
+		String sql = "select rd.*,h.code as hospitalCode,h.dsmName,h.isResAssessed, h.dragonType, h.isRe2 from tbl_respirology_data rd, tbl_hospital h where DATE_FORMAT(createdate,'%Y-%m-%d') between DATE_FORMAT(?,'%Y-%m-%d') and DATE_FORMAT(?,'%Y-%m-%d') and rd.hospitalName = h.name order by createdate desc";
 		return dataBean.getJdbcTemplate().query(sql, new Object[]{new Timestamp(createdatebegin.getTime()),new Timestamp(createdateend.getTime())},new RespirologyRowMapper());
 	}
 	
 	@Override
 	public RespirologyData getRespirologyDataByHospitalAndDate(final String hospitalName, final Date createdate) throws Exception {
-	    return dataBean.getJdbcTemplate().queryForObject("select rd.*,h.code as hospitalCode,h.dsmName,h.isResAssessed, h.dragonType from tbl_respirology_data rd, tbl_hospital h where rd.hospitalName=? and DATE_FORMAT(rd.createdate,'%Y-%m-%d') = DATE_FORMAT(?,'%Y-%m-%d') and rd.hospitalName = h.name", new Object[]{hospitalName,new Timestamp(createdate.getTime())}, new RespirologyRowMapper());
+	    return dataBean.getJdbcTemplate().queryForObject("select rd.*,h.code as hospitalCode,h.dsmName,h.isResAssessed, h.dragonType, h.isRe2 from tbl_respirology_data rd, tbl_hospital h where rd.hospitalName=? and DATE_FORMAT(rd.createdate,'%Y-%m-%d') = DATE_FORMAT(?,'%Y-%m-%d') and rd.hospitalName = h.name", new Object[]{hospitalName,new Timestamp(createdate.getTime())}, new RespirologyRowMapper());
 	}
 	
 	public RespirologyData getRespirologyDataById(int id) throws Exception {
-	    return dataBean.getJdbcTemplate().queryForObject("select rd.*,h.code as hospitalCode,h.dsmName,h.isResAssessed, h.dragonType from tbl_respirology_data rd, tbl_hospital h where rd.id=? and rd.hospitalName = h.name", new Object[]{id}, new RespirologyRowMapper());
+	    return dataBean.getJdbcTemplate().queryForObject("select rd.*,h.code as hospitalCode,h.dsmName,h.isResAssessed, h.dragonType, h.isRe2 from tbl_respirology_data rd, tbl_hospital h where rd.id=? and rd.hospitalName = h.name", new Object[]{id}, new RespirologyRowMapper());
 	}
 
     public List<MobileRESDailyData> getDailyRESData4RSMByRegion(String region) throws Exception {
@@ -1190,23 +1202,70 @@ public class RespirologyDAOImpl implements RespirologyDAO {
 		dataBean.getJdbcTemplate().update(sql.toString(), paramList.toArray());
 	}
 	
-	public List<RespirologyMonthDBData> getRESMonthReportDBData(String lastMonthDuration) throws Exception {
-        StringBuffer resMonthSQL = new StringBuffer(LsAttributes.SQL_MONTH_WEEKLY_REPORT_RES);
+	//TODO
+	public List<RespirologyMonthDBData> getRESMonthReportDBData(String lastMonthDuration, String isRe2) throws Exception {
+        StringBuffer resMonthSQL = LsAttributes.getSQLMonthWeeklyReportRes(isRe2, LsAttributes.USER_LEVEL_RSM);
        return dataBean.getJdbcTemplate().query(resMonthSQL.toString(),new Object[]{lastMonthDuration},new RespirologyMonthDataRowMapper());
     }
 	
-	public List<RespirologyMonthDBData> getRESMonthReportDBDataOfCountry(String lastMonthDuration) throws Exception {
-	    StringBuffer resMonthSQL = new StringBuffer(LsAttributes.SQL_MONTH_WEEKLY_REPORT_RES_COUNTRY);
+	public List<RespirologyMonthDBData> getRESMonthReportDBDataOfCountry(String lastMonthDuration, String isRe2) throws Exception {
+	    StringBuffer resMonthSQL = LsAttributes.getSQLMonthWeeklyReportResCountry(isRe2);
 	    return dataBean.getJdbcTemplate().query(resMonthSQL.toString(),new Object[]{lastMonthDuration},new RespirologyMonthDataRowMapper());
 	}
 	
-	public List<RespirologyMonthDBData> getRESMonthReportWeeklyDBData(String lastWeekDuration) throws Exception {
-		StringBuffer resMonthSQL = new StringBuffer(LsAttributes.SQL_MONTH_WEEKLY_REPORT_WEEKLY_RES);
+	public List<RespirologyMonthDBData> getRESMonthReportWeeklyDBData(String lastWeekDuration, String isRe2) throws Exception {
+		StringBuffer resMonthSQL = LsAttributes.getSQLMonthWeeklyReportWeeklyRes(isRe2, LsAttributes.USER_LEVEL_RSM);
 		return dataBean.getJdbcTemplate().query(resMonthSQL.toString(),new Object[]{lastWeekDuration},new RespirologyMonthDataRowMapper());
 	}
 	
-	public List<RespirologyMonthDBData> getRESMonthReportWeeklyDBDataOfCountry(String lastWeekDuration) throws Exception {
-	    StringBuffer resMonthSQL = new StringBuffer(LsAttributes.SQL_MONTH_WEEKLY_REPORT_WEEKLY_RES_COUNTRY);
+	public List<RespirologyMonthDBData> getRESMonthReportWeeklyDBDataOfCountry(String lastWeekDuration, String isRe2) throws Exception {
+	    StringBuffer resMonthSQL = LsAttributes.getSQLMonthWeeklyReportWeeklyResCountry(isRe2);
+	    return dataBean.getJdbcTemplate().query(resMonthSQL.toString(),new Object[]{lastWeekDuration},new RespirologyMonthDataRowMapper());
+	}
+	
+	/**
+	 * RSD 周周报
+	 */
+	public List<RespirologyMonthDBData> getRESMonthReportRSDData(String lastMonthDuration, String isRe2) throws Exception {
+        StringBuffer resMonthSQL = LsAttributes.getSQLMonthWeeklyReportRes(isRe2, LsAttributes.USER_LEVEL_RSD);
+       return dataBean.getJdbcTemplate().query(resMonthSQL.toString(),new Object[]{lastMonthDuration},new RespirologyMonthDataRowMapper());
+    }
+	
+	public List<RespirologyMonthDBData> getRESMonthReportRSDDataOfCountry(String lastMonthDuration, String isRe2) throws Exception {
+	    StringBuffer resMonthSQL = LsAttributes.getSQLMonthWeeklyReportResCountry(isRe2);
+	    return dataBean.getJdbcTemplate().query(resMonthSQL.toString(),new Object[]{lastMonthDuration},new RespirologyMonthDataRowMapper());
+	}
+	
+	public List<RespirologyMonthDBData> getRESMonthReportWeeklyRSDData(String lastWeekDuration, String isRe2) throws Exception {
+		StringBuffer resMonthSQL = LsAttributes.getSQLMonthWeeklyReportWeeklyRes(isRe2, LsAttributes.USER_LEVEL_RSD);
+		return dataBean.getJdbcTemplate().query(resMonthSQL.toString(),new Object[]{lastWeekDuration},new RespirologyMonthDataRowMapper());
+	}
+	
+	public List<RespirologyMonthDBData> getRESMonthReportWeeklyRSDDataOfCountry(String lastWeekDuration, String isRe2) throws Exception {
+	    StringBuffer resMonthSQL = LsAttributes.getSQLMonthWeeklyReportWeeklyResCountry(isRe2);
+	    return dataBean.getJdbcTemplate().query(resMonthSQL.toString(),new Object[]{lastWeekDuration},new RespirologyMonthDataRowMapper());
+	}
+	
+	/**
+	 * DSM 周周报
+	 */
+	public List<RespirologyMonthDBData> getRESMonthReportDSMData(String lastMonthDuration, String isRe2) throws Exception {
+        StringBuffer resMonthSQL = LsAttributes.getSQLMonthWeeklyReportRes(isRe2, LsAttributes.USER_LEVEL_DSM);
+       return dataBean.getJdbcTemplate().query(resMonthSQL.toString(),new Object[]{lastMonthDuration},new RespirologyMonthDataRowMapper());
+    }
+	
+	public List<RespirologyMonthDBData> getRESMonthReportDSMDataOfCountry(String lastMonthDuration, String isRe2) throws Exception {
+	    StringBuffer resMonthSQL = LsAttributes.getSQLMonthWeeklyReportResCountry(isRe2);
+	    return dataBean.getJdbcTemplate().query(resMonthSQL.toString(),new Object[]{lastMonthDuration},new RespirologyMonthDataRowMapper());
+	}
+	
+	public List<RespirologyMonthDBData> getRESMonthReportWeeklyDSMData(String lastWeekDuration, String isRe2) throws Exception {
+		StringBuffer resMonthSQL = LsAttributes.getSQLMonthWeeklyReportWeeklyRes(isRe2, LsAttributes.USER_LEVEL_DSM);
+		return dataBean.getJdbcTemplate().query(resMonthSQL.toString(),new Object[]{lastWeekDuration},new RespirologyMonthDataRowMapper());
+	}
+	
+	public List<RespirologyMonthDBData> getRESMonthReportWeeklyDSMDataOfCountry(String lastWeekDuration, String isRe2) throws Exception {
+	    StringBuffer resMonthSQL = LsAttributes.getSQLMonthWeeklyReportWeeklyResCountry(isRe2);
 	    return dataBean.getJdbcTemplate().query(resMonthSQL.toString(),new Object[]{lastWeekDuration},new RespirologyMonthDataRowMapper());
 	}
 	
@@ -1220,28 +1279,54 @@ public class RespirologyDAOImpl implements RespirologyDAO {
         Timestamp lastweekDay = new Timestamp(refreshDate.getTime());
         StringBuffer sb = new StringBuffer();
         sb.append(LsAttributes.SQL_HOSPITAL_WEEKLY_DATA_SELECTION)
-          .append(" from tbl_respirology_data_weekly ")
-          .append(" where duration = CONCAT(DATE_FORMAT(DATE_SUB(?, Interval 6 day),'%Y.%m.%d'), '-',DATE_FORMAT(?,'%Y.%m.%d'))");
+          .append(" from tbl_respirology_data_weekly rdw, tbl_hospital h ")
+          .append(" where duration = CONCAT(DATE_FORMAT(DATE_SUB(?, Interval 6 day),'%Y.%m.%d'), '-',DATE_FORMAT(?,'%Y.%m.%d'))")
+          .append(" and rdw.hospitalCode = h.code ")
+          .append(" and h.isResAssessed = '1' ");
         return dataBean.getJdbcTemplate().query(sb.toString(), new Object[]{lastweekDay,lastweekDay}, new WeeklyHospitalDataRowMapper());
     }
     
 
-    public RespirologyLastWeekData getLastWeekDataOfRSM(String rsmRegion) throws Exception {
+    public RespirologyLastWeekData getLastWeekData(String title, String rsmName, String isRe2, String level) throws Exception {
         StringBuffer mobileRESWeeklySQL = new StringBuffer();
         String lastWeekDuration = DateUtils.getWeeklyDurationYYYYMMDD(new Date());
         
         mobileRESWeeklySQL.append("select duration, IFNULL(sum(lastweek.lsnum),0) as lsnum ")
         .append(" , IFNULL(sum(lastweek.aenum),0) as aenum ");
         
-        if( !"全国".equalsIgnoreCase(rsmRegion) ){
-            mobileRESWeeklySQL.append(" from tbl_respirology_data_weekly lastweek, tbl_hospital h ")
-            .append(" where lastweek.hospitalCode=h.code ")
-            .append(" and h.rsmRegion=? ")
-            .append(" and duration=? ");
-            return dataBean.getJdbcTemplate().queryForObject(mobileRESWeeklySQL.toString(),new Object[]{rsmRegion,lastWeekDuration},new ResLastWeekDataRowMapper());
+        if( !"全国".equalsIgnoreCase(title) ){
+            mobileRESWeeklySQL.append(" from tbl_respirology_data_weekly lastweek, tbl_hospital h ");
+            mobileRESWeeklySQL.append(" where lastweek.hospitalCode=h.code ");
+            if( LsAttributes.USER_LEVEL_RSD.equals(level) ){
+            	mobileRESWeeklySQL.append(" and h.region=? ");
+            }else if( LsAttributes.USER_LEVEL_RSM.equals(level) ){
+            	mobileRESWeeklySQL.append(" and h.rsmRegion=? ");
+            }else if( LsAttributes.USER_LEVEL_DSM.equals(level) ){
+            	mobileRESWeeklySQL.append(" and h.rsmRegion = ? ")
+            			.append(" and exists( ")
+            			.append("		select 1 from tbl_userinfo u ")
+            			.append("		where h.dsmCode = u.userCode ")
+            			.append("		and u.region = h.rsmRegion ")
+            			.append("		and u.name = '").append(rsmName).append("' ")
+            			.append(") ");
+            }
+            
+            mobileRESWeeklySQL.append(" and duration=? ");
+            
+            if( "1".equals(isRe2) ){
+            	mobileRESWeeklySQL.append(" and h.isRe2 = '1' ");
+            }else{
+            	mobileRESWeeklySQL.append(" and h.isResAssessed = '1' ");
+            }
+            return dataBean.getJdbcTemplate().queryForObject(mobileRESWeeklySQL.toString(),new Object[]{title.split("-")[0],lastWeekDuration},new ResLastWeekDataRowMapper());
         }else{
-            mobileRESWeeklySQL.append(" from tbl_respirology_data_weekly lastweek ")
-            .append(" where duration=? ");
+            mobileRESWeeklySQL.append(" from tbl_respirology_data_weekly lastweek, tbl_hospital h ")
+            .append(" where lastweek.hospitalCode=h.code and duration=? ");
+            if( "1".equals(isRe2) ){
+            	mobileRESWeeklySQL.append(" and h.isRe2 = '1' ");
+            }else{
+            	mobileRESWeeklySQL.append(" and h.isResAssessed = '1' ");
+            }
             return dataBean.getJdbcTemplate().queryForObject(mobileRESWeeklySQL.toString(),new Object[]{lastWeekDuration},new ResLastWeekDataRowMapper());
         }
         
@@ -1267,7 +1352,9 @@ public class RespirologyDAOImpl implements RespirologyDAO {
 	            .append(", 0 as risknum ")
 				.append(LsAttributes.SQL_MONTHLY_STATISTICS_SELECTION)
 	            .append(" from tbl_respirology_data_weekly, tbl_hospital h ")
-	            .append(LsAttributes.SQL_MONTHLY_STATISTICS_RSD_CONDITION);
+	            .append(LsAttributes.SQL_MONTHLY_STATISTICS_RSD_CONDITION)
+	            .append(" and h.isResAssessed='1' ")
+	            .append(LsAttributes.SQL_MONTHLY_STATISTICS_RSD_GROUP);
 				break;
 			case LsAttributes.USER_LEVEL_RSM:
 				inRateSQL.append(" select h.region, h.rsmRegion as rsmRegion, '' as dsmCode, '' as dsmName ")
@@ -1282,7 +1369,9 @@ public class RespirologyDAOImpl implements RespirologyDAO {
 	            .append(", 0 as risknum ")
 				.append(LsAttributes.SQL_MONTHLY_STATISTICS_SELECTION)
 	            .append(" from tbl_respirology_data_weekly, tbl_hospital h ")
-	            .append(LsAttributes.SQL_MONTHLY_STATISTICS_RSM_CONDITION);
+	            .append(LsAttributes.SQL_MONTHLY_STATISTICS_RSM_CONDITION)
+	            .append(" and h.isResAssessed='1' ")
+	            .append(LsAttributes.SQL_MONTHLY_STATISTICS_RSM_GROUP);
 				break;
 			case LsAttributes.USER_LEVEL_DSM:
 				inRateSQL.append(" select h.region, h.rsmRegion as rsmRegion, h.dsmCode as dsmCode ")
@@ -1298,7 +1387,9 @@ public class RespirologyDAOImpl implements RespirologyDAO {
 	            .append(", 0 as risknum ")
 				.append(LsAttributes.SQL_MONTHLY_STATISTICS_SELECTION)
 	            .append(" from tbl_respirology_data_weekly, tbl_hospital h ")
-		        .append(LsAttributes.SQL_MONTHLY_STATISTICS_DSM_CONDITION);
+		        .append(LsAttributes.SQL_MONTHLY_STATISTICS_DSM_CONDITION)
+		        .append(" and h.isResAssessed='1' ")
+		        .append(LsAttributes.SQL_MONTHLY_STATISTICS_DSM_GROUP);
 				break;
 		}
         return dataBean.getJdbcTemplate().query(inRateSQL.toString(), new Object[]{beginDuraion,endDuraion},new MonthlyStatisticsDataRowMapper());
@@ -1314,20 +1405,26 @@ public class RespirologyDAOImpl implements RespirologyDAO {
 				inRateSQL.append(" select h.region, '' as rsmRegion, '' as dsmCode, '' as dsmName ")
 	            .append(LsAttributes.SQL_MONTHLY_STATISTICS_CORE_EMERGING_SELECTION_RES)
 	            .append(" from tbl_respirology_data_weekly, tbl_hospital h ")
-	            .append(LsAttributes.SQL_MONTHLY_STATISTICS_CORE_RSD_CONDITION);
+	            .append(LsAttributes.SQL_MONTHLY_STATISTICS_CORE_RSD_CONDITION)
+	            .append(" and h.isResAssessed='1' ")
+				.append(LsAttributes.SQL_MONTHLY_STATISTICS_RSD_GROUP);
 				break;
 			case LsAttributes.USER_LEVEL_RSM:
 				inRateSQL.append(" select h.region, h.rsmRegion as rsmRegion, '' as dsmCode, '' as dsmName ")
 	            .append(LsAttributes.SQL_MONTHLY_STATISTICS_CORE_EMERGING_SELECTION_RES)
 	            .append(" from tbl_respirology_data_weekly, tbl_hospital h ")
-	            .append(LsAttributes.SQL_MONTHLY_STATISTICS_CORE_RSM_CONDITION);
+	            .append(LsAttributes.SQL_MONTHLY_STATISTICS_CORE_RSM_CONDITION)
+	            .append(" and h.isResAssessed='1' ")
+				.append(LsAttributes.SQL_MONTHLY_STATISTICS_RSM_GROUP);
 				break;
 			case LsAttributes.USER_LEVEL_DSM:
 				inRateSQL.append(" select h.region, h.rsmRegion as rsmRegion, h.dsmCode as dsmCode ")
 	            .append(", (select distinct name from tbl_userinfo u where u.userCode = h.dsmCode and u.region = h.rsmRegion and u.regionCenter = h.region ) as dsmName")
 				.append(LsAttributes.SQL_MONTHLY_STATISTICS_CORE_EMERGING_SELECTION_RES)
 	            .append(" from tbl_respirology_data_weekly, tbl_hospital h ")
-		        .append(LsAttributes.SQL_MONTHLY_STATISTICS_CORE_DSM_CONDITION);
+		        .append(LsAttributes.SQL_MONTHLY_STATISTICS_CORE_DSM_CONDITION)
+		        .append(" and h.isResAssessed='1' ")
+				.append(LsAttributes.SQL_MONTHLY_STATISTICS_DSM_GROUP);
 				break;
 		}
         return dataBean.getJdbcTemplate().query(inRateSQL.toString(), new Object[]{beginDuraion,endDuraion},new MonthlyStatisticsCoreDataRowMapper());
@@ -1343,20 +1440,26 @@ public class RespirologyDAOImpl implements RespirologyDAO {
 				inRateSQL.append(" select h.region, '' as rsmRegion, '' as dsmCode, '' as dsmName ")
 	            .append(LsAttributes.SQL_MONTHLY_STATISTICS_CORE_EMERGING_SELECTION_RES)
 	            .append(" from tbl_respirology_data_weekly, tbl_hospital h ")
-	            .append(LsAttributes.SQL_MONTHLY_STATISTICS_EMERGING_RSD_CONDITION);
+	            .append(LsAttributes.SQL_MONTHLY_STATISTICS_EMERGING_RSD_CONDITION)
+	            .append(" and h.isAssessed='1' ")
+				.append(LsAttributes.SQL_MONTHLY_STATISTICS_RSD_GROUP);
 				break;
 			case LsAttributes.USER_LEVEL_RSM:
 				inRateSQL.append(" select h.region, h.rsmRegion as rsmRegion, '' as dsmCode, '' as dsmName ")
 	            .append(LsAttributes.SQL_MONTHLY_STATISTICS_CORE_EMERGING_SELECTION_RES)
 	            .append(" from tbl_respirology_data_weekly, tbl_hospital h ")
-	            .append(LsAttributes.SQL_MONTHLY_STATISTICS_EMERGING_RSM_CONDITION);
+	            .append(LsAttributes.SQL_MONTHLY_STATISTICS_EMERGING_RSM_CONDITION)
+				.append(" and h.isAssessed='1' ")
+				.append(LsAttributes.SQL_MONTHLY_STATISTICS_RSM_GROUP);
 				break;
 			case LsAttributes.USER_LEVEL_DSM:
 				inRateSQL.append(" select h.region, h.rsmRegion as rsmRegion, h.dsmCode as dsmCode ")
 	            .append(", (select distinct name from tbl_userinfo u where u.userCode = h.dsmCode and u.region = h.rsmRegion and u.regionCenter = h.region ) as dsmName")
 	            .append(LsAttributes.SQL_MONTHLY_STATISTICS_CORE_EMERGING_SELECTION_RES)
 	            .append(" from tbl_respirology_data_weekly, tbl_hospital h ")
-		        .append(LsAttributes.SQL_MONTHLY_STATISTICS_EMERGING_DSM_CONDITION);
+		        .append(LsAttributes.SQL_MONTHLY_STATISTICS_EMERGING_DSM_CONDITION)
+		        .append(" and h.isAssessed='1' ")
+				.append(LsAttributes.SQL_MONTHLY_STATISTICS_DSM_GROUP);
 				break;
 		}
         return dataBean.getJdbcTemplate().query(inRateSQL.toString(), new Object[]{beginDuraion,endDuraion},new MonthlyStatisticsEmergingDataRowMapper());
@@ -1378,7 +1481,7 @@ public class RespirologyDAOImpl implements RespirologyDAO {
         .append(", 0 as risknum ")
 		.append(LsAttributes.SQL_MONTHLY_STATISTICS_SELECTION)
         .append(" from tbl_respirology_data_weekly, tbl_hospital h ")
-        .append(" where duration between ? and ? and hospitalCode = h.code ");
+        .append(" where duration between ? and ? and hospitalCode = h.code and h.isResAssessed='1' ");
         return dataBean.getJdbcTemplate().queryForObject(inRateSQL.toString(), new Object[]{beginDuraion,endDuraion},new MonthlyStatisticsDataRowMapper());
 	}
 
@@ -1389,7 +1492,7 @@ public class RespirologyDAOImpl implements RespirologyDAO {
 		inRateSQL.append(" select '' as region, '' as rsmRegion, '' as dsmCode, '' as dsmName ")
         .append(LsAttributes.SQL_MONTHLY_STATISTICS_CORE_EMERGING_SELECTION_RES)
         .append(" from tbl_respirology_data_weekly, tbl_hospital h  ")
-        .append(" where duration between ? and ? and hospitalCode = h.code and h.dragonType='Core' ");
+        .append(" where duration between ? and ? and hospitalCode = h.code and h.dragonType='Core' and h.isResAssessed='1' ");
         return dataBean.getJdbcTemplate().queryForObject(inRateSQL.toString(), new Object[]{beginDuraion,endDuraion},new MonthlyStatisticsCoreDataRowMapper());
 	}
 
@@ -1400,7 +1503,7 @@ public class RespirologyDAOImpl implements RespirologyDAO {
 		inRateSQL.append(" select '' as region, '' as rsmRegion, '' as dsmCode, '' as dsmName ")
         .append(LsAttributes.SQL_MONTHLY_STATISTICS_CORE_EMERGING_SELECTION_RES)
         .append(" from tbl_respirology_data_weekly, tbl_hospital h  ")
-        .append(" where duration between ? and ? and hospitalCode = h.code and h.dragonType='Emerging' ");
+        .append(" where duration between ? and ? and hospitalCode = h.code and h.dragonType='Emerging' and h.isResAssessed='1' ");
         return dataBean.getJdbcTemplate().queryForObject(inRateSQL.toString(), new Object[]{beginDuraion,endDuraion},new MonthlyStatisticsEmergingDataRowMapper());
 	}
 	
@@ -1413,20 +1516,26 @@ public class RespirologyDAOImpl implements RespirologyDAO {
 				sql.append(" select h.region, '' as rsmRegion, '' as dsmCode, '' as dsmName ")
 	            .append(LsAttributes.SQL_MONTHLY_STATISTICS_CORE_AVERAGEDOSE_SELECTION_RES)
 	            .append(" from tbl_respirology_data_weekly, tbl_hospital h ")
-	            .append(LsAttributes.SQL_MONTHLY_STATISTICS_CORE_RSD_CONDITION);
+	            .append(LsAttributes.SQL_MONTHLY_STATISTICS_CORE_RSD_CONDITION)
+	            .append(" and h.isResAssessed='1' ")
+				.append(LsAttributes.SQL_MONTHLY_STATISTICS_RSD_GROUP);
 				break;
 			case LsAttributes.USER_LEVEL_RSM:
 				sql.append(" select h.region, h.rsmRegion as rsmRegion, '' as dsmCode, '' as dsmName ")
 	            .append(LsAttributes.SQL_MONTHLY_STATISTICS_CORE_AVERAGEDOSE_SELECTION_RES)
 	            .append(" from tbl_respirology_data_weekly, tbl_hospital h ")
-	            .append(LsAttributes.SQL_MONTHLY_STATISTICS_CORE_RSM_CONDITION);
+	            .append(LsAttributes.SQL_MONTHLY_STATISTICS_CORE_RSM_CONDITION)
+	            .append(" and h.isResAssessed='1' ")
+				.append(LsAttributes.SQL_MONTHLY_STATISTICS_RSM_GROUP);
 				break;
 			case LsAttributes.USER_LEVEL_DSM:
 				sql.append(" select h.region, h.rsmRegion as rsmRegion, h.dsmCode as dsmCode ")
 	            .append(", (select distinct name from tbl_userinfo u where u.userCode = h.dsmCode and u.region = h.rsmRegion and u.regionCenter = h.region ) as dsmName")
 				.append(LsAttributes.SQL_MONTHLY_STATISTICS_CORE_AVERAGEDOSE_SELECTION_RES)
 	            .append(" from tbl_respirology_data_weekly, tbl_hospital h ")
-		        .append(LsAttributes.SQL_MONTHLY_STATISTICS_CORE_DSM_CONDITION);
+		        .append(LsAttributes.SQL_MONTHLY_STATISTICS_CORE_DSM_CONDITION)
+		        .append(" and h.isResAssessed='1' ")
+				.append(LsAttributes.SQL_MONTHLY_STATISTICS_DSM_GROUP);
 				break;
 		}
         return dataBean.getJdbcTemplate().query(sql.toString(), new Object[]{beginDuraion,endDuraion},new MonthlyStatisticsCoreAverageDoseDataRowMapper());
@@ -1439,7 +1548,7 @@ public class RespirologyDAOImpl implements RespirologyDAO {
 		sql.append(" select '' as region, '' as rsmRegion, '' as dsmCode, '' as dsmName ")
         .append(LsAttributes.SQL_MONTHLY_STATISTICS_CORE_AVERAGEDOSE_SELECTION_RES)
         .append(" from tbl_respirology_data_weekly, tbl_hospital h  ")
-        .append(" where duration between ? and ? and hospitalCode = h.code and h.dragonType='Core' ");
+        .append(" where duration between ? and ? and hospitalCode = h.code and h.dragonType='Core' and h.isResAssessed='1' ");
         return dataBean.getJdbcTemplate().queryForObject(sql.toString(), new Object[]{beginDuraion,endDuraion},new MonthlyStatisticsCoreAverageDoseDataRowMapper());
 	}
     

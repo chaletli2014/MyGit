@@ -12,8 +12,8 @@ public class RespirologyMonthDataRowMapper implements RowMapper<RespirologyMonth
 
     public RespirologyMonthDBData mapRow(ResultSet rs, int arg1) throws SQLException {
         RespirologyMonthDBData monthData = new RespirologyMonthDBData();
-        monthData.setRsmRegion(rs.getString("rsmRegion"));
-        monthData.setRsmName(rs.getString("rsmName"));
+        monthData.setRsmRegion(rs.getString("title"));
+        monthData.setRsmName(rs.getString("name"));
         monthData.setDataMonth(rs.getString("date_MM"));
         monthData.setDataYear(rs.getString("date_YYYY"));
         monthData.setDuration(rs.getString("duration"));
@@ -24,7 +24,12 @@ public class RespirologyMonthDataRowMapper implements RowMapper<RespirologyMonth
         monthData.setWhRate(rs.getDouble("whRate"));
         monthData.setAverageDose(rs.getDouble("averageDose"));
         monthData.setWeeklyCount(rs.getInt("weeklyCount"));
-        monthData.setWhDays(((rs.getDouble("resMonthNum")/rs.getInt("weeklyCount"))*5)/rs.getDouble("averageDose")/(rs.getDouble("lsnum")/rs.getInt("weeklyCount")));
+        if( 0 == rs.getDouble("resMonthNum") || 0 == rs.getDouble("lsnum") ){
+        	monthData.setWhDays(0);
+        }else{
+        	monthData.setWhDays(((rs.getDouble("resMonthNum")/rs.getInt("weeklyCount"))*5)/rs.getDouble("averageDose")/(rs.getDouble("lsnum")/rs.getInt("weeklyCount")));
+        }
+        monthData.setXbknum(rs.getDouble("xbknum"));
         return monthData;
     }
 

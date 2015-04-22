@@ -3,11 +3,8 @@ package com.chalet.lskpi.service;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
-import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,7 +30,6 @@ import com.chalet.lskpi.model.HospitalSalesQueryParam;
 import com.chalet.lskpi.model.KPIHospital4Export;
 import com.chalet.lskpi.model.Monthly12Data;
 import com.chalet.lskpi.model.MonthlyData;
-import com.chalet.lskpi.model.MonthlyStatisticsData;
 import com.chalet.lskpi.model.MonthlyRatioData;
 import com.chalet.lskpi.model.UserInfo;
 import com.chalet.lskpi.model.WeeklyDataOfHospital;
@@ -355,54 +351,6 @@ public class HospitalServiceImpl implements HospitalService {
     }
 
 	@Override
-	public Map<String, MonthlyStatisticsData> getMonthlyInRateData(String beginDuraion, String endDuraion, String level)
-			throws Exception {
-		List<MonthlyStatisticsData> dbInRateData = hospitalDAO.getMonthlyInRateData(beginDuraion, endDuraion, level);
-		logger.info(String.format("finish to get monthly inRate during %s and %s", beginDuraion,endDuraion));
-		
-		Map<String, MonthlyStatisticsData> tempInRateResult = new HashMap<String, MonthlyStatisticsData>();
-		Map<String, List<MonthlyStatisticsData>> tempInRate = new HashMap<String, List<MonthlyStatisticsData>>();
-		String user = "";
-		for( MonthlyStatisticsData inRate : dbInRateData ){
-			if( "RSM".equalsIgnoreCase(level) ){
-				user = inRate.getRsm();
-			}else{
-				user = inRate.getRsd();
-			}
-			if( tempInRate.containsKey(user) ){
-				tempInRate.get(user).add(inRate);
-			}else{
-				List<MonthlyStatisticsData> inRateList = new ArrayList<MonthlyStatisticsData>();
-				inRateList.add(inRate);
-				tempInRate.put(user, inRateList);
-			}
-		}
-		
-		Set<String> users = tempInRate.keySet();
-		Iterator<String> userIterator = users.iterator();
-		
-		String userName = "";
-		while(userIterator.hasNext()){
-			double resInRate = 0;
-			double pedInRate = 0;
-			userName = userIterator.next();
-			List<MonthlyStatisticsData> inRateList = tempInRate.get(userName);
-			for( MonthlyStatisticsData inRateData : inRateList ){
-				resInRate = resInRate + inRateData.getResInRate();
-				pedInRate = pedInRate + inRateData.getPedInRate();
-			}
-			pedInRate = pedInRate/inRateList.size();
-			resInRate = resInRate/inRateList.size();
-			
-			MonthlyStatisticsData inRateResult = new MonthlyStatisticsData();
-			inRateResult.setPedInRate(pedInRate);
-			inRateResult.setResInRate(resInRate);
-			tempInRateResult.put(userName, inRateResult);
-		}
-		return tempInRateResult;
-	}
-
-	@Override
 	public List<MonthlyRatioData> getMonthlyCollectionData(Date chooseDate) throws Exception {
 		return hospitalDAO.getMonthlyCollectionData(chooseDate);
 	}
@@ -497,12 +445,12 @@ public class HospitalServiceImpl implements HospitalService {
 		return dbKPIHos;
 	}
 
-    public List<Map<String, Integer>> getKPIHosNumMap(String department) throws Exception {
-        return hospitalDAO.getKPIHosNumMap(department);
+    public List<Map<String, Integer>> getKPIHosNumMap(String department, String isRe2, String level) throws Exception {
+        return hospitalDAO.getKPIHosNumMap(department, isRe2, level);
     }
 
-    public List<Map<String, Integer>> getKPISalesNumMap(String department) throws Exception {
-        return hospitalDAO.getKPISalesNumMap(department);
+    public List<Map<String, Integer>> getKPISalesNumMap(String department, String isRe2, String level) throws Exception {
+        return hospitalDAO.getKPISalesNumMap(department, isRe2, level);
     }
 
 	@Override

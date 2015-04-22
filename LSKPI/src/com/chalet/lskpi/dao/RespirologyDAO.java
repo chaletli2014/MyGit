@@ -82,16 +82,29 @@ public interface RespirologyDAO {
     
     public List<MobileRESDailyData> getDailyRESData4RSMByRegion(String region) throws Exception;
     
-    public List<RespirologyMonthDBData> getRESMonthReportDBData(String lastMonthDuration) throws Exception;
-    public List<RespirologyMonthDBData> getRESMonthReportDBDataOfCountry(String lastMonthDuration) throws Exception;
-    public List<RespirologyMonthDBData> getRESMonthReportWeeklyDBData(String lastWeekDuration) throws Exception;
-    public List<RespirologyMonthDBData> getRESMonthReportWeeklyDBDataOfCountry(String lastWeekDuration) throws Exception;
+    public List<RespirologyMonthDBData> getRESMonthReportDBData(String lastMonthDuration, String isRe2) throws Exception;
+    public List<RespirologyMonthDBData> getRESMonthReportDBDataOfCountry(String lastMonthDuration, String isRe2) throws Exception;
+    public List<RespirologyMonthDBData> getRESMonthReportWeeklyDBData(String lastWeekDuration, String isRe2) throws Exception;
+    public List<RespirologyMonthDBData> getRESMonthReportWeeklyDBDataOfCountry(String lastWeekDuration, String isRe2) throws Exception;
+    
+
+    public List<RespirologyMonthDBData> getRESMonthReportRSDData(String lastMonthDuration, String isRe2) throws Exception;
+    public List<RespirologyMonthDBData> getRESMonthReportRSDDataOfCountry(String lastMonthDuration, String isRe2) throws Exception;
+    public List<RespirologyMonthDBData> getRESMonthReportWeeklyRSDData(String lastWeekDuration, String isRe2) throws Exception;
+    public List<RespirologyMonthDBData> getRESMonthReportWeeklyRSDDataOfCountry(String lastWeekDuration, String isRe2) throws Exception;
+    
+
+    public List<RespirologyMonthDBData> getRESMonthReportDSMData(String lastMonthDuration, String isRe2) throws Exception;
+    public List<RespirologyMonthDBData> getRESMonthReportDSMDataOfCountry(String lastMonthDuration, String isRe2) throws Exception;
+    public List<RespirologyMonthDBData> getRESMonthReportWeeklyDSMData(String lastWeekDuration, String isRe2) throws Exception;
+    public List<RespirologyMonthDBData> getRESMonthReportWeeklyDSMDataOfCountry(String lastWeekDuration, String isRe2) throws Exception;
+    
     
     public String getLatestDuration() throws Exception;
     
     public List<WeeklyDataOfHospital> getWeeklyDataOfHospital(Date refreshDate) throws Exception;
     
-    public RespirologyLastWeekData getLastWeekDataOfRSM(String rsmRegion) throws Exception;
+    public RespirologyLastWeekData getLastWeekData(String rsmRegion, String rsmName, String isRe2, String level) throws Exception;
     
     public List<MonthlyStatisticsData> getMonthlyStatisticsData(String beginDuraion, String endDuraion, String level) throws Exception;
     public List<MonthlyStatisticsData> getCoreMonthlyStatisticsData(String beginDuraion, String endDuraion, String level) throws Exception;

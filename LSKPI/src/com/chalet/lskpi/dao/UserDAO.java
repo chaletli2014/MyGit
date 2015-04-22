@@ -41,4 +41,5 @@ public interface UserDAO {
     public List<String> getAllRegionName() throws Exception;
     
     public List<String> getAllRSMRegion() throws Exception;
+    public List<String> getAllDSMName() throws Exception;
 }

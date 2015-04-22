@@ -4004,14 +4004,24 @@ public class ReportController extends BaseController{
     	}
     }
     
+    /**
+     * 呼吸科周周报
+     * @param request request
+     * @param response response
+     * @return 
+     * @throws IOException
+     */
     @RequestMapping("/doDownloadResMonthData")
     public String doDownloadResMonthData(HttpServletRequest request, HttpServletResponse response) throws IOException{
         logger.info("download the res month data..");
         FileOutputStream fOut = null;
         String fileName = null;
         String fromWeb = request.getParameter("fromWeb");
+        String isRe2 = request.getParameter("isRe2");
+        String selfLevel = request.getParameter("level");
+        
+        List<ReportFileObject> reportFiles = new ArrayList<ReportFileObject>();
         try{
-            
                 File resMonthData = new File(request.getRealPath("/") + "resMonthData/");
                 if( !resMonthData.exists() ){
                     resMonthData.mkdir();
@@ -4029,894 +4039,72 @@ public class ReportController extends BaseController{
                 HSSFWorkbook workbook = new HSSFWorkbook();
                 
                 HSSFCellStyle top1Style=workbook.createCellStyle();
-                top1Style.setAlignment(HSSFCellStyle.ALIGN_CENTER);
-                top1Style.setVerticalAlignment(HSSFCellStyle.VERTICAL_CENTER);
-                top1Style.setBorderLeft(HSSFCellStyle.BORDER_THIN);
-                top1Style.setBorderRight(HSSFCellStyle.BORDER_THIN);
-                top1Style.setLeftBorderColor(HSSFColor.BLACK.index);
-                top1Style.setRightBorderColor(HSSFColor.BLACK.index);
-                top1Style.setWrapText(true);
-                
                 HSSFCellStyle rsmTitleStyle=workbook.createCellStyle();
-                rsmTitleStyle.setAlignment(HSSFCellStyle.ALIGN_CENTER);
-                rsmTitleStyle.setVerticalAlignment(HSSFCellStyle.VERTICAL_CENTER);
-                rsmTitleStyle.setBorderLeft(HSSFCellStyle.BORDER_THIN);
-                rsmTitleStyle.setBorderRight(HSSFCellStyle.BORDER_THIN);
-                rsmTitleStyle.setLeftBorderColor(HSSFColor.BLACK.index);
-                rsmTitleStyle.setRightBorderColor(HSSFColor.BLACK.index);
-                
                 HSSFCellStyle rsmTitleBorderStyle=workbook.createCellStyle();
-                rsmTitleBorderStyle.setAlignment(HSSFCellStyle.ALIGN_CENTER);
-                rsmTitleBorderStyle.setVerticalAlignment(HSSFCellStyle.VERTICAL_CENTER);
-                rsmTitleBorderStyle.setBorderRight(HSSFCellStyle.BORDER_THICK);
-                rsmTitleBorderStyle.setRightBorderColor(HSSFColor.BLACK.index);
-                
                 HSSFCellStyle rsmValueStyle=workbook.createCellStyle();
-                rsmValueStyle.setAlignment(HSSFCellStyle.ALIGN_LEFT);
-                rsmValueStyle.setVerticalAlignment(HSSFCellStyle.VERTICAL_CENTER);
-                rsmValueStyle.setBorderLeft(HSSFCellStyle.BORDER_THIN);
-                rsmValueStyle.setBorderRight(HSSFCellStyle.BORDER_THIN);
-                rsmValueStyle.setLeftBorderColor(HSSFColor.BLACK.index);
-                rsmValueStyle.setRightBorderColor(HSSFColor.BLACK.index);
-                
                 HSSFCellStyle rsmValueBorderStyle=workbook.createCellStyle();
-                rsmValueBorderStyle.setAlignment(HSSFCellStyle.ALIGN_LEFT);
-                rsmValueBorderStyle.setVerticalAlignment(HSSFCellStyle.VERTICAL_CENTER);
-                rsmValueBorderStyle.setBorderRight(HSSFCellStyle.BORDER_THICK);
-                rsmValueBorderStyle.setRightBorderColor(HSSFColor.BLACK.index);
-                
                 HSSFCellStyle top2Style=workbook.createCellStyle();
-                top2Style.setAlignment(HSSFCellStyle.ALIGN_CENTER);
-                top2Style.setVerticalAlignment(HSSFCellStyle.VERTICAL_CENTER);
-                top2Style.setBorderRight(HSSFCellStyle.BORDER_THICK);
-                top2Style.setRightBorderColor(HSSFColor.BLACK.index);
-                top2Style.setWrapText(true);
-                
                 HSSFCellStyle numberCellStyle = workbook.createCellStyle();
-                numberCellStyle.setDataFormat(HSSFDataFormat.getBuiltinFormat("#,##0"));
-                numberCellStyle.setBorderRight(HSSFCellStyle.BORDER_THIN);
-                numberCellStyle.setRightBorderColor(HSSFColor.BLACK.index);
-                numberCellStyle.setBorderBottom(HSSFCellStyle.BORDER_THIN);
-                numberCellStyle.setBottomBorderColor(HSSFColor.BLACK.index);
-                numberCellStyle.setBorderLeft(HSSFCellStyle.BORDER_THIN);
-                numberCellStyle.setLeftBorderColor(HSSFColor.BLACK.index);
-                
                 HSSFCellStyle numberCellRightBorderStyle = workbook.createCellStyle();
-                numberCellRightBorderStyle.setDataFormat(HSSFDataFormat.getBuiltinFormat("#,##0"));
-                numberCellRightBorderStyle.setRightBorderColor(HSSFColor.BLACK.index);
-                numberCellRightBorderStyle.setBorderRight(HSSFCellStyle.BORDER_THICK);
-                numberCellRightBorderStyle.setBorderBottom(HSSFCellStyle.BORDER_THIN);
-                numberCellRightBorderStyle.setBottomBorderColor(HSSFColor.BLACK.index);
-                
                 HSSFCellStyle percentCellStyle = workbook.createCellStyle();
-                percentCellStyle.setDataFormat(HSSFDataFormat.getBuiltinFormat("0%"));
-                percentCellStyle.setBorderBottom(HSSFCellStyle.BORDER_THIN);
-                percentCellStyle.setBottomBorderColor(HSSFColor.BLACK.index);
-                percentCellStyle.setBorderRight(HSSFCellStyle.BORDER_THIN);
-                percentCellStyle.setRightBorderColor(HSSFColor.BLACK.index);
-
                 HSSFCellStyle percentCellRightBorderStyle = workbook.createCellStyle();
-                percentCellRightBorderStyle.setDataFormat(HSSFDataFormat.getBuiltinFormat("0%"));
-                percentCellRightBorderStyle.setRightBorderColor(HSSFColor.BLACK.index);
-                percentCellRightBorderStyle.setBorderRight(HSSFCellStyle.BORDER_THICK);
-                percentCellRightBorderStyle.setBorderBottom(HSSFCellStyle.BORDER_THIN);
-                percentCellRightBorderStyle.setBottomBorderColor(HSSFColor.BLACK.index);
-                
                 HSSFCellStyle averageDoseCellStyle = workbook.createCellStyle();
-                averageDoseCellStyle.setDataFormat(HSSFDataFormat.getBuiltinFormat("0.00"));
-                averageDoseCellStyle.setBorderBottom(HSSFCellStyle.BORDER_THIN);
-                averageDoseCellStyle.setBottomBorderColor(HSSFColor.BLACK.index);
-                averageDoseCellStyle.setBorderRight(HSSFCellStyle.BORDER_THIN);
-                averageDoseCellStyle.setRightBorderColor(HSSFColor.BLACK.index);
-                
                 HSSFCellStyle averageDoseRightCellStyle = workbook.createCellStyle();
-                averageDoseRightCellStyle.setDataFormat(HSSFDataFormat.getBuiltinFormat("0.00"));
-                averageDoseRightCellStyle.setRightBorderColor(HSSFColor.BLACK.index);
-                averageDoseRightCellStyle.setBorderRight(HSSFCellStyle.BORDER_THICK);
-                averageDoseRightCellStyle.setBorderBottom(HSSFCellStyle.BORDER_THIN);
-                averageDoseRightCellStyle.setBottomBorderColor(HSSFColor.BLACK.index);
                 
-                workbook.createSheet("上周呼吸科KPI医院原始数据");
-                HSSFSheet sheet = workbook.getSheetAt(0);
-                int currentRowNum = 0;
-                Date lastWeekEndDate = DateUtils.getGenerateWeeklyReportDate();
-                Date lastWeekStartDate = new Date(lastWeekEndDate.getTime() - 6*24*60*60*1000);
+                populateWeekMonthSheet1CellStyle(top1Style, rsmTitleStyle, rsmTitleBorderStyle, rsmValueStyle, rsmValueBorderStyle
+                		, top2Style, numberCellStyle, numberCellRightBorderStyle
+                		, percentCellStyle, percentCellRightBorderStyle
+                		, averageDoseCellStyle, averageDoseRightCellStyle);
                 
-                List<RespirologyData> dbResData = respirologyService.getRespirologyDataByDate(lastWeekStartDate,lastWeekEndDate);
+                HSSFCellStyle month_week_top1Style=workbook.createCellStyle();
+                HSSFCellStyle month_week_top2Style=workbook.createCellStyle();
+                HSSFCellStyle month_week_top2LeftStyle=workbook.createCellStyle();
+                HSSFCellStyle month_week_top2RightStyle=workbook.createCellStyle();
+                HSSFCellStyle month_week_valueLeftStyle=workbook.createCellStyle();
+                HSSFCellStyle month_week_valueRightStyle=workbook.createCellStyle();
+                HSSFCellStyle month_week_valueStyle=workbook.createCellStyle();
+                HSSFCellStyle month_week_valueBottomStyle=workbook.createCellStyle();
+                HSSFCellStyle month_week_valueBottomRightStyle=workbook.createCellStyle();
+                HSSFCellStyle month_week_valueBottomLeftStyle=workbook.createCellStyle();
+                HSSFCellStyle month_week_numberBottomStyle=workbook.createCellStyle();
+                HSSFCellStyle month_week_numberBottomRightStyle=workbook.createCellStyle();
+                HSSFCellStyle month_week_percentBottomStyle=workbook.createCellStyle();
+                HSSFCellStyle month_week_percentBottomRightStyle=workbook.createCellStyle();
+                HSSFCellStyle month_week_averageDoseBottomStyle=workbook.createCellStyle();
+                HSSFCellStyle month_week_averageDoseBottomRightStyle=workbook.createCellStyle();
                 
-                SimpleDateFormat exportdateformat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
+                populateWeekMonthSheet2CellStyle(month_week_top1Style, month_week_top2Style
+                		, month_week_top2LeftStyle, month_week_top2RightStyle
+                		, month_week_valueLeftStyle, month_week_valueRightStyle, month_week_valueStyle, month_week_valueBottomStyle
+                		, month_week_valueBottomRightStyle, month_week_valueBottomLeftStyle
+                		, month_week_numberBottomStyle, month_week_numberBottomRightStyle
+                		, month_week_percentBottomStyle, month_week_percentBottomRightStyle
+                		, month_week_averageDoseBottomStyle, month_week_averageDoseBottomRightStyle);
+                
+                String childLevel = "";
+                if( LsAttributes.USER_LEVEL_RSD.equalsIgnoreCase(selfLevel) ){
+                	childLevel = LsAttributes.USER_LEVEL_RSM;
+                }else if( LsAttributes.USER_LEVEL_RSM.equalsIgnoreCase(selfLevel) ){
+                	childLevel = LsAttributes.USER_LEVEL_DSM;
+                }
+                
+                int sheetNum = 0;
+                
+                List<RespirologyExportData> resExportData = respirologyService.getResMonthExportData(isRe2, selfLevel);
+                
+                workbook.createSheet("呼吸科周周报");
+                HSSFSheet sheet = workbook.getSheetAt(sheetNum++);
+                int currentRowNum = 1;
                 
                 //build the header
                 HSSFRow row = sheet.createRow(currentRowNum++);
                 
-                row.createCell(0, XSSFCell.CELL_TYPE_STRING).setCellValue("编号");
-                row.createCell(1, XSSFCell.CELL_TYPE_STRING).setCellValue("录入日期");
-                row.createCell(2, XSSFCell.CELL_TYPE_STRING).setCellValue("医院编号");
-                row.createCell(3, XSSFCell.CELL_TYPE_STRING).setCellValue("医院名称");
-                row.createCell(4, XSSFCell.CELL_TYPE_STRING).setCellValue("当日目标科室病房病人数");
-                row.createCell(5, XSSFCell.CELL_TYPE_STRING).setCellValue("当日病房内AECOPD人数");
-                row.createCell(6, XSSFCell.CELL_TYPE_STRING).setCellValue("当日雾化病人数");
-                row.createCell(7, XSSFCell.CELL_TYPE_STRING).setCellValue("当日雾化令舒病人数");
-                row.createCell(8, XSSFCell.CELL_TYPE_STRING).setCellValue("销售代表ETMSCode");
-                row.createCell(9, XSSFCell.CELL_TYPE_STRING).setCellValue("销售代表姓名");
-                row.createCell(10, XSSFCell.CELL_TYPE_STRING).setCellValue("所属DSM");
-                row.createCell(11, XSSFCell.CELL_TYPE_STRING).setCellValue("所属Region");
-                row.createCell(12, XSSFCell.CELL_TYPE_STRING).setCellValue("所属RSM Region");
-                row.createCell(13, XSSFCell.CELL_TYPE_STRING).setCellValue("1mg QD");
-                row.createCell(14, XSSFCell.CELL_TYPE_STRING).setCellValue("2mg QD");
-                row.createCell(15, XSSFCell.CELL_TYPE_STRING).setCellValue("1mg TID");
-                row.createCell(16, XSSFCell.CELL_TYPE_STRING).setCellValue("2mg BID");
-                row.createCell(17, XSSFCell.CELL_TYPE_STRING).setCellValue("2mg TID");
-                row.createCell(18, XSSFCell.CELL_TYPE_STRING).setCellValue("3mg BID");
-                row.createCell(19, XSSFCell.CELL_TYPE_STRING).setCellValue("4mg BID");
-                row.createCell(20, XSSFCell.CELL_TYPE_STRING).setCellValue("是否为KPI医院（在=1，不在=0）");
-                
-                for( RespirologyData resData : dbResData ){
-                    if( "1".equalsIgnoreCase(resData.getIsResAssessed()) ){
-                        row = sheet.createRow(currentRowNum++);
-                        row.createCell(0, XSSFCell.CELL_TYPE_NUMERIC).setCellValue(currentRowNum-1);
-                        row.createCell(1, XSSFCell.CELL_TYPE_STRING).setCellValue(exportdateformat.format(resData.getCreatedate()));
-                        row.createCell(2, XSSFCell.CELL_TYPE_STRING).setCellValue(resData.getHospitalCode());
-                        row.createCell(3, XSSFCell.CELL_TYPE_STRING).setCellValue(resData.getHospitalName());
-                        row.createCell(4, XSSFCell.CELL_TYPE_NUMERIC).setCellValue(resData.getPnum());
-                        row.createCell(5, XSSFCell.CELL_TYPE_NUMERIC).setCellValue(resData.getAenum());
-                        row.createCell(6, XSSFCell.CELL_TYPE_NUMERIC).setCellValue(resData.getWhnum());
-                        row.createCell(7, XSSFCell.CELL_TYPE_NUMERIC).setCellValue(resData.getLsnum());
-                        row.createCell(8, XSSFCell.CELL_TYPE_STRING).setCellValue(resData.getSalesETMSCode());
-                        row.createCell(9, XSSFCell.CELL_TYPE_STRING).setCellValue(resData.getSalesName());
-                        row.createCell(10, XSSFCell.CELL_TYPE_STRING).setCellValue(resData.getDsmName());
-                        row.createCell(11, XSSFCell.CELL_TYPE_STRING).setCellValue(resData.getRegion());
-                        row.createCell(12, XSSFCell.CELL_TYPE_STRING).setCellValue(resData.getRsmRegion());
-                        row.createCell(13, XSSFCell.CELL_TYPE_NUMERIC).setCellValue(resData.getOqd());
-                        row.createCell(14, XSSFCell.CELL_TYPE_NUMERIC).setCellValue(resData.getTqd());
-                        row.createCell(15, XSSFCell.CELL_TYPE_NUMERIC).setCellValue(resData.getOtid());
-                        row.createCell(16, XSSFCell.CELL_TYPE_NUMERIC).setCellValue(resData.getTbid());
-                        row.createCell(17, XSSFCell.CELL_TYPE_NUMERIC).setCellValue(resData.getTtid());
-                        row.createCell(18, XSSFCell.CELL_TYPE_NUMERIC).setCellValue(resData.getThbid());
-                        row.createCell(19, XSSFCell.CELL_TYPE_NUMERIC).setCellValue(resData.getFbid());
-                        row.createCell(20, XSSFCell.CELL_TYPE_STRING).setCellValue(resData.getIsResAssessed());
-                    }
-                }
-                
-                workbook.createSheet("分析总表");
-                sheet = workbook.getSheetAt(1);
-                currentRowNum = 0;
-                
-                //build the header
-                row = sheet.createRow(currentRowNum++);
-                
-                List<RespirologyExportData> resExportData = respirologyService.getResMonthExportData();
-                
                 if( null != resExportData && resExportData.size() > 0 ){
+                	int columnCount = 1;
                 	
-                	int columnCount = 0;
-                	int i = 0;
+                	currentRowNum = populateSheet1Title(row, sheet, resExportData, isRe2, currentRowNum, columnCount
+                			, month_week_top1Style, month_week_top2LeftStyle, month_week_top2RightStyle, month_week_top2Style);
                 	
-                	RespirologyExportData resData = resExportData.get(0);
-                	
-                	Map<String, Double> pNumMap = resData.getpNumMap();
-                	Iterator<String> pNumIte = pNumMap.keySet().iterator();
-                	
-                	Map<String, Double> lsNumMap = resData.getLsNumMap();
-                	Iterator<String> lsNumIte = lsNumMap.keySet().iterator();
-                	
-                	Map<String, Double> aeNumMap = resData.getAeNumMap();
-                	Iterator<String> aeNumIte = aeNumMap.keySet().iterator();
-                	
-                	Map<String, Double> inRateMap = resData.getInRateMap();
-                	Iterator<String> inRateIte = inRateMap.keySet().iterator();
-                	
-                	Map<String, Double> whRateMap = resData.getWhRateMap();
-                	Iterator<String> whRateIte = whRateMap.keySet().iterator();
-                	
-                	Map<String, Double> averageDoseMap = resData.getAverageDoseMap();
-                	Iterator<String> averageDoseIte = averageDoseMap.keySet().iterator();
-                	
-                	Map<String, Double> whDaysMap = resData.getWhDaysMap();
-                	Iterator<String> whDaysIte = whDaysMap.keySet().iterator();
-                	
-                	Map<String, Double> dValueMap = resData.getdValueMap();
-                	Iterator<String> dValueIte = dValueMap.keySet().iterator();
-                	
-                	HSSFCell rsmRegionTitleCell = row.createCell(columnCount++, XSSFCell.CELL_TYPE_STRING);
-                	rsmRegionTitleCell.setCellValue("区域");
-                	rsmRegionTitleCell.setCellStyle(rsmTitleStyle);
-                	
-                	HSSFCell rsmNameTitleCell = row.createCell(columnCount++, XSSFCell.CELL_TYPE_STRING);
-                	rsmNameTitleCell.setCellValue("RSM");
-                	rsmNameTitleCell.setCellStyle(rsmTitleBorderStyle);
-                	
-                	HSSFCell hosNumTitleCell = row.createCell(columnCount++, XSSFCell.CELL_TYPE_STRING);
-                	hosNumTitleCell.setCellValue("医院家数");
-                	hosNumTitleCell.setCellStyle(rsmTitleBorderStyle);
-                	
-                	HSSFCell salesNumTitleCell = row.createCell(columnCount++, XSSFCell.CELL_TYPE_STRING);
-                	salesNumTitleCell.setCellValue("代表数");
-                	salesNumTitleCell.setCellStyle(rsmTitleBorderStyle);
-                	
-                	i = 0;
-                    inRateIte = inRateMap.keySet().iterator();
-                    while( inRateIte.hasNext() ){
-                        String monthName = inRateIte.next();
-                        HSSFCell titleCell = row.createCell(columnCount+i, XSSFCell.CELL_TYPE_STRING);
-                        titleCell.setCellValue(monthName+"上报率");
-                        if( i == inRateMap.size()-1 ){
-                            titleCell.setCellStyle(top2Style);
-                        }else{
-                            titleCell.setCellStyle(top1Style);
-                        }
-                        i++;
-                    }
-                    columnCount += inRateMap.size();
-                	
-                	i = 0;
-                	pNumIte = pNumMap.keySet().iterator();
-                	while( pNumIte.hasNext() ){
-                	    String monthName = pNumIte.next();
-                	    HSSFCell titleCell = row.createCell(columnCount+i, XSSFCell.CELL_TYPE_STRING);
-                	    titleCell.setCellValue(new HSSFRichTextString(monthName+"周平均\r\n呼吸科住院\r\n人数"));
-                	    if( i == pNumMap.size()-1 ){
-                	    	titleCell.setCellStyle(top2Style);
-                	    }else{
-                	    	titleCell.setCellStyle(top1Style);
-                	    }
-                	    i++;
-                	}
-                	columnCount += pNumMap.size();
-                	
-                	i = 0;
-                	aeNumIte = aeNumMap.keySet().iterator();
-                	while( aeNumIte.hasNext() ){
-                	    String monthName = aeNumIte.next();
-                	    HSSFCell titleCell = row.createCell(columnCount+i, XSSFCell.CELL_TYPE_STRING);
-                	    titleCell.setCellValue(new HSSFRichTextString(monthName+"周平均\r\nAECOPD\r\n人数"));
-                	    if( i == aeNumMap.size()-1 ){
-                	    	titleCell.setCellStyle(top2Style);
-                	    }else{
-                	    	titleCell.setCellStyle(top1Style);
-                	    }
-                	    i++;
-                	}
-                	columnCount += aeNumMap.size();
-                	
-                	i = 0;
-                    lsNumIte = lsNumMap.keySet().iterator();
-                    while( lsNumIte.hasNext() ){
-                        String monthName = lsNumIte.next();
-                        HSSFCell titleCell = row.createCell(columnCount+i, XSSFCell.CELL_TYPE_STRING);
-                        titleCell.setCellValue(new HSSFRichTextString(monthName+"周平均\r\n呼吸科雾化令舒\r\n人数"));
-                        if( i == lsNumMap.size()-1 ){
-                            titleCell.setCellStyle(top2Style);
-                        }else{
-                            titleCell.setCellStyle(top1Style);
-                        }
-                        i++;
-                    }
-                    columnCount += lsNumMap.size();
-                    
-                	i = 0;
-                	whRateIte = whRateMap.keySet().iterator();
-                	while( whRateIte.hasNext() ){
-                		String monthName = whRateIte.next();
-                		HSSFCell titleCell = row.createCell(columnCount+i, XSSFCell.CELL_TYPE_STRING);
-                		titleCell.setCellValue(monthName+"雾化率");
-                		if( i == whRateMap.size()-1 ){
-                	    	titleCell.setCellStyle(top2Style);
-                	    }else{
-                	    	titleCell.setCellStyle(top1Style);
-                	    }
-                		i++;
-                	}
-                	columnCount += whRateMap.size();
-                	
-                	i = 0;
-                	averageDoseIte = averageDoseMap.keySet().iterator();
-                	while( averageDoseIte.hasNext() ){
-                	    String monthName = averageDoseIte.next();
-                	    HSSFCell titleCell = row.createCell(columnCount+i, XSSFCell.CELL_TYPE_STRING);
-                	    titleCell.setCellValue(monthName+"平均剂量");
-                	    if( i == averageDoseMap.size()-1 ){
-                	    	titleCell.setCellStyle(top2Style);
-                	    }else{
-                	    	titleCell.setCellStyle(top1Style);
-                	    }
-                	    i++;
-                	}
-                	columnCount += averageDoseMap.size();
-                	
-                	if( null != whDaysMap && whDaysMap.size() > 0 ){
-                	    i = 0;
-                	    whDaysIte = whDaysMap.keySet().iterator();
-                	    while( whDaysIte.hasNext() ){
-                	        String monthName = whDaysIte.next();
-                	        HSSFCell titleCell = row.createCell(columnCount+i, XSSFCell.CELL_TYPE_STRING);
-                	        titleCell.setCellValue(monthName+"天数");
-                	        if( i == whDaysMap.size()-1 ){
-                	            titleCell.setCellStyle(top2Style);
-                	        }else{
-                	            titleCell.setCellStyle(top1Style);
-                	        }
-                	        i++;
-                	    }
-                	    columnCount += whDaysMap.size();
-                	}
-                	
-                	i = 0;
-                	dValueIte = dValueMap.keySet().iterator();
-                    while( dValueIte.hasNext() ){
-                        String monthName = dValueIte.next();
-                        HSSFCell titleCell = row.createCell(columnCount+i, XSSFCell.CELL_TYPE_STRING);
-                        titleCell.setCellValue(monthName+"雾化令舒人数-AE人数");
-                        if( i == dValueMap.size()-1 ){
-                            titleCell.setCellStyle(top2Style);
-                        }else{
-                            titleCell.setCellStyle(top1Style);
-                        }
-                        i++;
-                    }
-                    columnCount += dValueMap.size();
-                	
-                	
-                	for( int columnNum = 1; columnNum < columnCount; columnNum++ ){
-                		sheet.setColumnWidth(columnNum, 20*256);
-                	}
-                	
-                	for( RespirologyExportData res : resExportData ){
-                		
-                		row = sheet.createRow(currentRowNum++);
-                    	columnCount = 0;
-                    	
-                    	HSSFCell rsmRegionValueCell = row.createCell(columnCount++, XSSFCell.CELL_TYPE_STRING);
-                    	rsmRegionValueCell.setCellValue(res.getRsmRegion());
-                    	rsmRegionValueCell.setCellStyle(rsmValueStyle);
-                    	
-                    	HSSFCell rsmNameValueCell = row.createCell(columnCount++, XSSFCell.CELL_TYPE_STRING);
-                    	rsmNameValueCell.setCellValue(res.getRsmName());
-                    	rsmNameValueCell.setCellStyle(rsmValueBorderStyle);
-                    	
-                    	HSSFCell hosNumValueCell = row.createCell(columnCount++, XSSFCell.CELL_TYPE_NUMERIC);
-                    	hosNumValueCell.setCellValue(res.getHosNum());
-                    	hosNumValueCell.setCellStyle(numberCellRightBorderStyle);
-                    	
-                    	HSSFCell salesNumValueCell = row.createCell(columnCount++, XSSFCell.CELL_TYPE_NUMERIC);
-                    	salesNumValueCell.setCellValue(res.getSalesNum());
-                    	salesNumValueCell.setCellStyle(numberCellRightBorderStyle);
-                    	
-                    	pNumMap = res.getpNumMap();
-                    	pNumIte = pNumMap.keySet().iterator();
-                    	
-                    	lsNumMap = res.getLsNumMap();
-                    	lsNumIte = lsNumMap.keySet().iterator();
-                    	
-                    	aeNumMap = res.getAeNumMap();
-                    	aeNumIte = aeNumMap.keySet().iterator();
-                    	
-                    	inRateMap = res.getInRateMap();
-                    	inRateIte = inRateMap.keySet().iterator();
-                    	
-                    	whRateMap = res.getWhRateMap();
-                    	whRateIte = whRateMap.keySet().iterator();
-                    	
-                    	averageDoseMap = res.getAverageDoseMap();
-                    	averageDoseIte = averageDoseMap.keySet().iterator();
-                    	
-                    	whDaysMap = res.getWhDaysMap();
-                    	whDaysIte = whDaysMap.keySet().iterator();
-                    	
-                    	dValueMap = res.getdValueMap();
-                    	dValueIte = dValueMap.keySet().iterator();
-                    	
-                    	i = 0;
-                    	String columnName;
-                        while( inRateIte.hasNext() ){
-                            columnName = inRateIte.next();
-                            HSSFCell inRateValueCell = row.createCell(columnCount+i, XSSFCell.CELL_TYPE_NUMERIC);
-                            inRateValueCell.setCellValue(inRateMap.get(columnName));
-                            if( i == inRateMap.size()-1 ){
-                                inRateValueCell.setCellStyle(percentCellRightBorderStyle);
-                            }else{
-                                inRateValueCell.setCellStyle(percentCellStyle);
-                            }
-                            i++;
-                        }
-                        columnCount += inRateMap.size();
-                    	
-                    	i = 0;
-                    	while( pNumIte.hasNext() ){
-                    	    columnName = pNumIte.next();
-                    	    HSSFCell pNumValueCell = row.createCell(columnCount+i, XSSFCell.CELL_TYPE_NUMERIC);
-                    	    pNumValueCell.setCellValue(pNumMap.get(columnName));
-                    	    if( i == pNumMap.size()-1 ){
-                    	    	pNumValueCell.setCellStyle(numberCellRightBorderStyle);
-                    	    }else{
-                    	    	pNumValueCell.setCellStyle(numberCellStyle);
-                    	    }
-                    	    i++;
-                    	}
-                    	columnCount += pNumMap.size();
-                    	
-                    	i = 0;
-                    	while( aeNumIte.hasNext() ){
-                    	    columnName = aeNumIte.next();
-                    	    HSSFCell aeNumValueCell = row.createCell(columnCount+i, XSSFCell.CELL_TYPE_NUMERIC);
-                    	    aeNumValueCell.setCellValue(aeNumMap.get(columnName));
-                    	    if( i == aeNumMap.size()-1 ){
-                    	    	aeNumValueCell.setCellStyle(numberCellRightBorderStyle);
-                    	    }else{
-                    	    	aeNumValueCell.setCellStyle(numberCellStyle);
-                    	    }
-                    	    i++;
-                    	}
-                    	columnCount += aeNumMap.size();
-                    	
-                    	i = 0;
-                        while( lsNumIte.hasNext() ){
-                            columnName = lsNumIte.next();
-                            HSSFCell lsNumValueCell = row.createCell(columnCount+i, XSSFCell.CELL_TYPE_NUMERIC);
-                            lsNumValueCell.setCellValue(lsNumMap.get(columnName));
-                            
-                            if( lsNumMap.size() > 3 ){
-                                if( i == lsNumMap.size()-1 ){
-                                    lsNumValueCell.setCellStyle(percentCellRightBorderStyle);
-                                }else if( i == lsNumMap.size()-2 ){
-                                    lsNumValueCell.setCellStyle(percentCellStyle);
-                                }else{
-                                    lsNumValueCell.setCellStyle(numberCellStyle);
-                                }
-                            }else if( lsNumMap.size() == 3 ){
-                                if( i == 2 ){
-                                    lsNumValueCell.setCellStyle(percentCellRightBorderStyle);
-                                }else if( i == 1 ){
-                                    lsNumValueCell.setCellStyle(numberCellStyle);
-                                }else{
-                                    lsNumValueCell.setCellStyle(numberCellStyle);
-                                }
-                            }else{
-                                lsNumValueCell.setCellStyle(numberCellRightBorderStyle);
-                            }
-                            
-                            i++;
-                        }
-                        columnCount += lsNumMap.size();
-                        
-                    	i = 0;
-                    	while( whRateIte.hasNext() ){
-                    		columnName = whRateIte.next();
-                    		HSSFCell whRateValueCell = row.createCell(columnCount+i, XSSFCell.CELL_TYPE_NUMERIC);
-                    		whRateValueCell.setCellValue(whRateMap.get(columnName));
-                    		if( i == whRateMap.size()-1 ){
-                    			whRateValueCell.setCellStyle(percentCellRightBorderStyle);
-                    	    }else{
-                    	    	whRateValueCell.setCellStyle(percentCellStyle);
-                    	    }
-                    		i++;
-                    	}
-                    	columnCount += whRateMap.size();
-                    	
-                    	i = 0;
-                    	while( averageDoseIte.hasNext() ){
-                    	    columnName = averageDoseIte.next();
-                    	    HSSFCell averageDoseValueCell = row.createCell(columnCount+i, XSSFCell.CELL_TYPE_NUMERIC);
-                    	    averageDoseValueCell.setCellValue(averageDoseMap.get(columnName));
-                    	    if( i == averageDoseMap.size()-1 ){
-                    	    	averageDoseValueCell.setCellStyle(averageDoseRightCellStyle);
-                    	    }else{
-                    	    	averageDoseValueCell.setCellStyle(averageDoseCellStyle);
-                    	    }
-                    	    i++;
-                    	}
-                    	columnCount += averageDoseMap.size();
-                    	
-                    	if( null != whDaysMap && whDaysMap.size() > 0 ){
-                    	    i = 0;
-                    	    while( whDaysIte.hasNext() ){
-                    	        columnName = whDaysIte.next();
-                    	        HSSFCell daysValueCell = row.createCell(columnCount+i, XSSFCell.CELL_TYPE_NUMERIC);
-                    	        daysValueCell.setCellValue(whDaysMap.get(columnName));
-                    	        if( i == whDaysMap.size()-1 ){
-                    	            daysValueCell.setCellStyle(averageDoseRightCellStyle);
-                    	        }else{
-                    	            daysValueCell.setCellStyle(averageDoseCellStyle);
-                    	        }
-                    	        i++;
-                    	    }
-                    	    columnCount += whDaysMap.size();
-                    	}
-                    	
-                    	i = 0;
-                    	dValueIte = dValueMap.keySet().iterator();
-                        while( dValueIte.hasNext() ){
-                            columnName = dValueIte.next();
-                            HSSFCell dValueCell = row.createCell(columnCount+i, XSSFCell.CELL_TYPE_NUMERIC);
-                            dValueCell.setCellValue(dValueMap.get(columnName));
-                            if( dValueMap.size() > 3 ){
-                                if( i == dValueMap.size()-1 ){
-                                    dValueCell.setCellStyle(percentCellRightBorderStyle);
-                                }else if( i == dValueMap.size()-2 ){
-                                    dValueCell.setCellStyle(percentCellStyle);
-                                }else{
-                                    dValueCell.setCellStyle(numberCellStyle);
-                                }
-                            }else if( dValueMap.size() == 3 ){
-                                if( i == 2 ){
-                                    dValueCell.setCellStyle(percentCellRightBorderStyle);
-                                }else if( i == 1 ){
-                                    dValueCell.setCellStyle(numberCellStyle);
-                                }else{
-                                    dValueCell.setCellStyle(numberCellStyle);
-                                }
-                            }else{
-                                dValueCell.setCellStyle(numberCellRightBorderStyle);
-                            }
-                            i++;
-                        }
-                        columnCount += dValueMap.size();
-
-                	}
-                }
-                
-                
-                workbook.createSheet("令舒呼吸科周周报");
-                sheet = workbook.getSheetAt(2);
-                currentRowNum = 1;
-                
-                HSSFCellStyle month_week_top1Style=workbook.createCellStyle();
-                month_week_top1Style.setAlignment(HSSFCellStyle.ALIGN_CENTER);
-                month_week_top1Style.setVerticalAlignment(HSSFCellStyle.VERTICAL_CENTER);
-                month_week_top1Style.setBorderTop(HSSFCellStyle.BORDER_THICK);
-                month_week_top1Style.setTopBorderColor(HSSFColor.BLACK.index);
-                month_week_top1Style.setBorderRight(HSSFCellStyle.BORDER_THICK);
-                month_week_top1Style.setRightBorderColor(HSSFColor.BLACK.index);
-                month_week_top1Style.setBorderBottom(HSSFCellStyle.BORDER_THIN);
-                month_week_top1Style.setBottomBorderColor(HSSFColor.BLACK.index);
-                month_week_top1Style.setBorderLeft(HSSFCellStyle.BORDER_THICK);
-                month_week_top1Style.setLeftBorderColor(HSSFColor.BLACK.index);
-                month_week_top1Style.setWrapText(true);
-                
-                HSSFCellStyle month_week_top2Style=workbook.createCellStyle();
-                month_week_top2Style.setAlignment(HSSFCellStyle.ALIGN_CENTER);
-                month_week_top2Style.setVerticalAlignment(HSSFCellStyle.VERTICAL_CENTER);
-                month_week_top2Style.setBorderRight(HSSFCellStyle.BORDER_THIN);
-                month_week_top2Style.setRightBorderColor(HSSFColor.BLACK.index);
-                month_week_top2Style.setBorderBottom(HSSFCellStyle.BORDER_THIN);
-                month_week_top2Style.setBottomBorderColor(HSSFColor.BLACK.index);
-                month_week_top2Style.setBorderLeft(HSSFCellStyle.BORDER_THIN);
-                month_week_top2Style.setLeftBorderColor(HSSFColor.BLACK.index);
-                month_week_top1Style.setWrapText(true);
-                
-                HSSFCellStyle month_week_top2LeftStyle=workbook.createCellStyle();
-                month_week_top2LeftStyle.setAlignment(HSSFCellStyle.ALIGN_CENTER);
-                month_week_top2LeftStyle.setVerticalAlignment(HSSFCellStyle.VERTICAL_CENTER);
-                month_week_top2LeftStyle.setBorderRight(HSSFCellStyle.BORDER_THIN);
-                month_week_top2LeftStyle.setRightBorderColor(HSSFColor.BLACK.index);
-                month_week_top2LeftStyle.setBorderBottom(HSSFCellStyle.BORDER_THIN);
-                month_week_top2LeftStyle.setBottomBorderColor(HSSFColor.BLACK.index);
-                month_week_top2LeftStyle.setBorderLeft(HSSFCellStyle.BORDER_THICK);
-                month_week_top2LeftStyle.setLeftBorderColor(HSSFColor.BLACK.index);
-                month_week_top1Style.setWrapText(true);
-                
-                HSSFCellStyle month_week_top2RightStyle=workbook.createCellStyle();
-                month_week_top2RightStyle.setAlignment(HSSFCellStyle.ALIGN_CENTER);
-                month_week_top2RightStyle.setVerticalAlignment(HSSFCellStyle.VERTICAL_CENTER);
-                month_week_top2RightStyle.setBorderRight(HSSFCellStyle.BORDER_THICK);
-                month_week_top2RightStyle.setRightBorderColor(HSSFColor.BLACK.index);
-                month_week_top2RightStyle.setBorderBottom(HSSFCellStyle.BORDER_THIN);
-                month_week_top2RightStyle.setBottomBorderColor(HSSFColor.BLACK.index);
-                month_week_top2RightStyle.setBorderLeft(HSSFCellStyle.BORDER_THIN);
-                month_week_top2RightStyle.setLeftBorderColor(HSSFColor.BLACK.index);
-                month_week_top1Style.setWrapText(true);
-                
-                HSSFCellStyle month_week_valueLeftStyle=workbook.createCellStyle();
-                month_week_valueLeftStyle.setBorderTop(HSSFCellStyle.BORDER_THIN);
-                month_week_valueLeftStyle.setTopBorderColor(HSSFColor.BLACK.index);
-                month_week_valueLeftStyle.setBorderRight(HSSFCellStyle.BORDER_THIN);
-                month_week_valueLeftStyle.setRightBorderColor(HSSFColor.BLACK.index);
-                month_week_valueLeftStyle.setBorderBottom(HSSFCellStyle.BORDER_THIN);
-                month_week_valueLeftStyle.setBottomBorderColor(HSSFColor.BLACK.index);
-                month_week_valueLeftStyle.setBorderLeft(HSSFCellStyle.BORDER_THICK);
-                month_week_valueLeftStyle.setLeftBorderColor(HSSFColor.BLACK.index);
-                
-                HSSFCellStyle month_week_valueRightStyle=workbook.createCellStyle();
-                month_week_valueRightStyle.setBorderTop(HSSFCellStyle.BORDER_THIN);
-                month_week_valueRightStyle.setTopBorderColor(HSSFColor.BLACK.index);
-                month_week_valueRightStyle.setBorderRight(HSSFCellStyle.BORDER_THICK);
-                month_week_valueRightStyle.setRightBorderColor(HSSFColor.BLACK.index);
-                month_week_valueRightStyle.setBorderBottom(HSSFCellStyle.BORDER_THIN);
-                month_week_valueRightStyle.setBottomBorderColor(HSSFColor.BLACK.index);
-                month_week_valueRightStyle.setBorderLeft(HSSFCellStyle.BORDER_THIN);
-                month_week_valueRightStyle.setLeftBorderColor(HSSFColor.BLACK.index);
-                
-                HSSFCellStyle month_week_valueStyle=workbook.createCellStyle();
-                month_week_valueStyle.setBorderTop(HSSFCellStyle.BORDER_THIN);
-                month_week_valueStyle.setTopBorderColor(HSSFColor.BLACK.index);
-                month_week_valueStyle.setBorderRight(HSSFCellStyle.BORDER_THIN);
-                month_week_valueStyle.setRightBorderColor(HSSFColor.BLACK.index);
-                month_week_valueStyle.setBorderBottom(HSSFCellStyle.BORDER_THIN);
-                month_week_valueStyle.setBottomBorderColor(HSSFColor.BLACK.index);
-                month_week_valueStyle.setBorderLeft(HSSFCellStyle.BORDER_THIN);
-                month_week_valueStyle.setLeftBorderColor(HSSFColor.BLACK.index);
-                
-                HSSFCellStyle month_week_valueBottomStyle=workbook.createCellStyle();
-                month_week_valueBottomStyle.setBorderBottom(HSSFCellStyle.BORDER_THICK);
-                month_week_valueBottomStyle.setBottomBorderColor(HSSFColor.BLACK.index);
-                month_week_valueBottomStyle.setBorderRight(HSSFCellStyle.BORDER_THIN);
-                month_week_valueBottomStyle.setRightBorderColor(HSSFColor.BLACK.index);
-                
-                HSSFCellStyle month_week_valueBottomRightStyle=workbook.createCellStyle();
-                month_week_valueBottomRightStyle.setBorderBottom(HSSFCellStyle.BORDER_THICK);
-                month_week_valueBottomRightStyle.setBottomBorderColor(HSSFColor.BLACK.index);
-                month_week_valueBottomRightStyle.setBorderRight(HSSFCellStyle.BORDER_THICK);
-                month_week_valueBottomRightStyle.setRightBorderColor(HSSFColor.BLACK.index);
-                
-                HSSFCellStyle month_week_valueBottomLeftStyle=workbook.createCellStyle();
-                month_week_valueBottomLeftStyle.setBorderBottom(HSSFCellStyle.BORDER_THICK);
-                month_week_valueBottomLeftStyle.setBottomBorderColor(HSSFColor.BLACK.index);
-                month_week_valueBottomLeftStyle.setBorderLeft(HSSFCellStyle.BORDER_THICK);
-                month_week_valueBottomLeftStyle.setLeftBorderColor(HSSFColor.BLACK.index);
-                month_week_valueBottomLeftStyle.setBorderRight(HSSFCellStyle.BORDER_THIN);
-                month_week_valueBottomLeftStyle.setRightBorderColor(HSSFColor.BLACK.index);
-                
-                HSSFCellStyle month_week_numberBottomStyle=workbook.createCellStyle();
-                month_week_numberBottomStyle.setBorderBottom(HSSFCellStyle.BORDER_THICK);
-                month_week_numberBottomStyle.setBottomBorderColor(HSSFColor.BLACK.index);
-                month_week_numberBottomStyle.setBorderRight(HSSFCellStyle.BORDER_THIN);
-                month_week_numberBottomStyle.setRightBorderColor(HSSFColor.BLACK.index);
-                month_week_numberBottomStyle.setDataFormat(HSSFDataFormat.getBuiltinFormat("#,##0"));
-                
-                HSSFCellStyle month_week_numberBottomRightStyle=workbook.createCellStyle();
-                month_week_numberBottomRightStyle.setBorderBottom(HSSFCellStyle.BORDER_THICK);
-                month_week_numberBottomRightStyle.setBottomBorderColor(HSSFColor.BLACK.index);
-                month_week_numberBottomRightStyle.setBorderRight(HSSFCellStyle.BORDER_THICK);
-                month_week_numberBottomRightStyle.setRightBorderColor(HSSFColor.BLACK.index);
-                month_week_numberBottomRightStyle.setDataFormat(HSSFDataFormat.getBuiltinFormat("#,##0"));
-                
-                HSSFCellStyle month_week_percentBottomStyle=workbook.createCellStyle();
-                month_week_percentBottomStyle.setBorderBottom(HSSFCellStyle.BORDER_THICK);
-                month_week_percentBottomStyle.setBottomBorderColor(HSSFColor.BLACK.index);
-                month_week_percentBottomStyle.setBorderRight(HSSFCellStyle.BORDER_THIN);
-                month_week_percentBottomStyle.setRightBorderColor(HSSFColor.BLACK.index);
-                month_week_percentBottomStyle.setDataFormat(HSSFDataFormat.getBuiltinFormat("0%"));
-                
-                HSSFCellStyle month_week_percentBottomRightStyle=workbook.createCellStyle();
-                month_week_percentBottomRightStyle.setBorderBottom(HSSFCellStyle.BORDER_THICK);
-                month_week_percentBottomRightStyle.setBottomBorderColor(HSSFColor.BLACK.index);
-                month_week_percentBottomRightStyle.setBorderRight(HSSFCellStyle.BORDER_THICK);
-                month_week_percentBottomRightStyle.setRightBorderColor(HSSFColor.BLACK.index);
-                month_week_percentBottomRightStyle.setDataFormat(HSSFDataFormat.getBuiltinFormat("0%"));
-                
-                HSSFCellStyle month_week_averageDoseBottomStyle=workbook.createCellStyle();
-                month_week_averageDoseBottomStyle.setBorderBottom(HSSFCellStyle.BORDER_THICK);
-                month_week_averageDoseBottomStyle.setBottomBorderColor(HSSFColor.BLACK.index);
-                month_week_averageDoseBottomStyle.setBorderRight(HSSFCellStyle.BORDER_THIN);
-                month_week_averageDoseBottomStyle.setRightBorderColor(HSSFColor.BLACK.index);
-                month_week_averageDoseBottomStyle.setDataFormat(HSSFDataFormat.getBuiltinFormat("0.00"));
-                
-                HSSFCellStyle month_week_averageDoseBottomRightStyle=workbook.createCellStyle();
-                month_week_averageDoseBottomRightStyle.setBorderBottom(HSSFCellStyle.BORDER_THICK);
-                month_week_averageDoseBottomRightStyle.setBottomBorderColor(HSSFColor.BLACK.index);
-                month_week_averageDoseBottomRightStyle.setBorderRight(HSSFCellStyle.BORDER_THICK);
-                month_week_averageDoseBottomRightStyle.setRightBorderColor(HSSFColor.BLACK.index);
-                month_week_averageDoseBottomRightStyle.setDataFormat(HSSFDataFormat.getBuiltinFormat("0.00"));
-                
-                //build the header
-                row = sheet.createRow(currentRowNum++);
-                
-                if( null != resExportData && resExportData.size() > 0 ){
-                    
-                    int columnCount = 1;
-                    row.createCell(columnCount++, XSSFCell.CELL_TYPE_STRING).setCellValue("呼吸科指标");
-                    row.createCell(columnCount++, XSSFCell.CELL_TYPE_STRING).setCellValue("");
-
-                    sheet.addMergedRegion(new Region(1, (short)1, 1, (short)2));
-                    row.getCell(1).setCellStyle(month_week_top1Style);
-                    row.getCell(2).setCellStyle(month_week_top1Style);
-                    
-                    HSSFCell hosNumTitleCell = row.createCell(columnCount++, XSSFCell.CELL_TYPE_STRING);
-                    hosNumTitleCell.setCellValue("医院家数");
-                    hosNumTitleCell.setCellStyle(month_week_top1Style);
-                    
-                    HSSFCell salesNumTitleCell = row.createCell(columnCount++, XSSFCell.CELL_TYPE_STRING);
-                    salesNumTitleCell.setCellValue("代表数");
-                    salesNumTitleCell.setCellStyle(month_week_top1Style);
-                    
-                    RespirologyExportData resData = resExportData.get(0);
-                    
-                    Map<String, Double> lsNumMap = resData.getLsNumMap();
-                    Iterator<String> lsNumIte = lsNumMap.keySet().iterator();
-                    
-                    Map<String, Double> whRateMap = resData.getWhRateMap();
-                    Iterator<String> whRateIte = whRateMap.keySet().iterator();
-                    
-                    Map<String, Double> whDaysMap = resData.getWhDaysMap();
-                    Iterator<String> whDaysIte = whDaysMap.keySet().iterator();
-                    
-                    Map<String, Double> inRateMap = resData.getInRateMap();
-                    Iterator<String> inRateIte = inRateMap.keySet().iterator();
-                    
-                    Map<String, Double> currentWeekAENumMap = resData.getCurrentWeekAENum();
-                    Iterator<String> currentWeekAENumIte = currentWeekAENumMap.keySet().iterator();
-                    
-                    Map<String, Double> currentWeekLsAERateMap = resData.getCurrentWeekLsAERate();
-                    Iterator<String> currentWeekLsAERateIte = currentWeekLsAERateMap.keySet().iterator();
-                    
-                    
-                    int i = 0;
-                    int inRateStartCount = columnCount;
-                    while( inRateIte.hasNext() ){
-                        inRateIte.next();
-                        HSSFCell titleCell = row.createCell(columnCount+i, XSSFCell.CELL_TYPE_STRING);
-                        titleCell.setCellValue("1.上报率");
-                        titleCell.setCellStyle(month_week_top1Style);
-                        i++;
-                    }
-                    columnCount += inRateMap.size();
-                    
-                    sheet.addMergedRegion(new Region(1, (short)inRateStartCount, 1, (short)(columnCount-1)));
-                    row.getCell(inRateStartCount).setCellStyle(month_week_top1Style);
-                    
-                    i = 0;
-                    int lsNumStartCount = columnCount;
-                    while( lsNumIte.hasNext() ){
-                        lsNumIte.next();
-                        HSSFCell titleCell = row.createCell(columnCount+i, XSSFCell.CELL_TYPE_STRING);
-                        titleCell.setCellValue("2.雾化令舒人数(周平均)");
-                        titleCell.setCellStyle(month_week_top1Style);
-                        i++;
-                    }
-                    columnCount += lsNumMap.size();
-                    
-                    sheet.addMergedRegion(new Region(1, (short)lsNumStartCount, 1, (short)(columnCount-1)));
-                    row.getCell(lsNumStartCount).setCellStyle(month_week_top1Style);
-                    
-                    i = 0;
-                    int whRateStartCount = columnCount;
-                    while( whRateIte.hasNext() ){
-                        whRateIte.next();
-                        HSSFCell titleCell = row.createCell(columnCount+i, XSSFCell.CELL_TYPE_STRING);
-                        titleCell.setCellValue("3.雾化率");
-                        titleCell.setCellStyle(month_week_top1Style);
-                        i++;
-                    }
-                    columnCount += whRateMap.size();
-                    
-                    sheet.addMergedRegion(new Region(1, (short)whRateStartCount, 1, (short)(columnCount-1)));
-                    row.getCell(whRateStartCount).setCellStyle(month_week_top1Style);
-                    
-                    int lsAERateStartCount = columnCount;
-                    HSSFCell lsAERateTitleCell = row.createCell(columnCount, XSSFCell.CELL_TYPE_STRING);
-                    lsAERateTitleCell.setCellValue("4.当周雾化令舒人数/AE人数");
-                    lsAERateTitleCell.setCellStyle(month_week_top1Style);
-                    columnCount++;
-                    
-                    HSSFCell lsAERateTitle2Cell = row.createCell(columnCount, XSSFCell.CELL_TYPE_STRING);
-                    lsAERateTitle2Cell.setCellValue("4.当周雾化令舒人数/AE人数");
-                    lsAERateTitle2Cell.setCellStyle(month_week_top1Style);
-                    columnCount++;
-                    
-                    sheet.addMergedRegion(new Region(1, (short)lsAERateStartCount, 1, (short)(columnCount-1)));
-                    row.getCell(lsAERateStartCount).setCellStyle(month_week_top1Style);
-                    
-                    if( null != whDaysMap && whDaysMap.size() > 0 ){
-                        i = 0;
-                        int daysStartCount = columnCount;
-                        Iterator<String> daysIte = whDaysMap.keySet().iterator();
-                        while( daysIte.hasNext() ){
-                            daysIte.next();
-                            HSSFCell titleCell = row.createCell(columnCount+i, XSSFCell.CELL_TYPE_STRING);
-                            titleCell.setCellValue("5.雾化天数");
-                            titleCell.setCellStyle(month_week_top1Style);
-                            i++;
-                        }
-                        columnCount += whDaysMap.size();
-                        
-                        sheet.addMergedRegion(new Region(1, (short)daysStartCount, 1, (short)(columnCount-1)));
-                        row.getCell(daysStartCount).setCellStyle(month_week_top1Style);
-                    }
-                    
-                    
-                    row = sheet.createRow(currentRowNum++);
-                    columnCount = 1;
-                    
-                    HSSFCell rsmRegionTitleCell = row.createCell(columnCount++, XSSFCell.CELL_TYPE_STRING);
-                    rsmRegionTitleCell.setCellValue("区域");
-                    rsmRegionTitleCell.setCellStyle(month_week_top2LeftStyle);
-                    
-                    HSSFCell rsmNameTitleCell = row.createCell(columnCount++, XSSFCell.CELL_TYPE_STRING);
-                    rsmNameTitleCell.setCellValue("RSM");
-                    rsmNameTitleCell.setCellStyle(month_week_top2RightStyle);
-                    
-                    HSSFCell hosNumTitle2Cell = row.createCell(columnCount++, XSSFCell.CELL_TYPE_STRING);
-                    hosNumTitle2Cell.setCellValue("");
-                    hosNumTitle2Cell.setCellStyle(month_week_top2RightStyle);
-                    
-                    HSSFCell salesNumTitle2Cell = row.createCell(columnCount++, XSSFCell.CELL_TYPE_STRING);
-                    salesNumTitle2Cell.setCellValue("");
-                    salesNumTitle2Cell.setCellStyle(month_week_top2RightStyle);
-                    
-                    i = 0;
-                    inRateIte = inRateMap.keySet().iterator();
-                    while( inRateIte.hasNext() ){
-                        String monthName = inRateIte.next();
-                        HSSFCell titleCell = row.createCell(columnCount+i, XSSFCell.CELL_TYPE_STRING);
-                        titleCell.setCellValue(monthName);
-                        if( i == inRateMap.size()-1 ){
-                            titleCell.setCellStyle(month_week_top2RightStyle);
-                        }else{
-                            titleCell.setCellStyle(month_week_top2Style);
-                        }
-                        i++;
-                    }
-                    columnCount += inRateMap.size();
-                    
-                    i = 0;
-                    lsNumIte = lsNumMap.keySet().iterator();
-                    while( lsNumIte.hasNext() ){
-                        String monthName = lsNumIte.next();
-                        HSSFCell titleCell = row.createCell(columnCount+i, XSSFCell.CELL_TYPE_STRING);
-                        titleCell.setCellValue(monthName);
-                        if( i == lsNumMap.size()-1 ){
-                        	titleCell.setCellStyle(month_week_top2RightStyle);
-                        }else{
-                        	titleCell.setCellStyle(month_week_top2Style);
-                        }
-                        i++;
-                    }
-                    columnCount += lsNumMap.size();
-                    
-                    i = 0;
-                    whRateIte = whRateMap.keySet().iterator();
-                    while( whRateIte.hasNext() ){
-                        String monthName = whRateIte.next();
-                        HSSFCell titleCell = row.createCell(columnCount+i, XSSFCell.CELL_TYPE_STRING);
-                        titleCell.setCellValue(monthName);
-                        if( i == whRateMap.size()-1 ){
-                        	titleCell.setCellStyle(month_week_top2RightStyle);
-                        }else{
-                        	titleCell.setCellStyle(month_week_top2Style);
-                        }
-                        i++;
-                    }
-                    columnCount += whRateMap.size();
-                    
-                    i = 0;
-                    currentWeekAENumIte = currentWeekAENumMap.keySet().iterator();
-                    while(currentWeekAENumIte.hasNext()){
-                        String monthName = currentWeekAENumIte.next();
-                        HSSFCell titleCell = row.createCell(columnCount+i, XSSFCell.CELL_TYPE_STRING);
-                        titleCell.setCellValue(monthName);
-                        titleCell.setCellStyle(month_week_top2Style);
-                        i++;
-                    }
-                    columnCount += currentWeekAENumMap.size();
-                    
-                    i = 0;
-                    currentWeekLsAERateIte = currentWeekLsAERateMap.keySet().iterator();
-                    while(currentWeekLsAERateIte.hasNext()){
-                        String monthName = currentWeekLsAERateIte.next();
-                        HSSFCell titleCell = row.createCell(columnCount+i, XSSFCell.CELL_TYPE_STRING);
-                        titleCell.setCellValue(monthName);
-                        titleCell.setCellStyle(month_week_top2RightStyle);
-                        i++;
-                    }
-                    columnCount += currentWeekLsAERateMap.size();
-                    
-                    if( null != whDaysMap && whDaysMap.size() > 0 ){
-                        i = 0;
-                        whDaysIte = whDaysMap.keySet().iterator();
-                        while( whDaysIte.hasNext() ){
-                            String monthName = whDaysIte.next();
-                            HSSFCell titleCell = row.createCell(columnCount+i, XSSFCell.CELL_TYPE_STRING);
-                            titleCell.setCellValue(monthName);
-                            if( i == whDaysMap.size()-1 ){
-                                titleCell.setCellStyle(month_week_top2RightStyle);
-                            }else{
-                                titleCell.setCellStyle(month_week_top2Style);
-                            }
-                            i++;
-                        }
-                        columnCount += whDaysMap.size();
-                    }
-                    
                     sheet.setColumnWidth(0, 2*256);
                     for( int columnNum = 1; columnNum < columnCount; columnNum++ ){
                 		sheet.setColumnWidth(columnNum, 16*256);
@@ -4924,221 +4112,92 @@ public class ReportController extends BaseController{
                     
                     int resExportDataCount = 0;
                     
-                    for( RespirologyExportData res : resExportData ){
+                    populateSheet1Content(resExportData, row, sheet, currentRowNum, resExportDataCount, isRe2
+                    		, month_week_valueBottomLeftStyle, month_week_valueLeftStyle, month_week_valueBottomRightStyle, month_week_valueRightStyle
+                    		, month_week_numberBottomRightStyle, numberCellRightBorderStyle
+                    		, month_week_percentBottomRightStyle, percentCellRightBorderStyle, month_week_percentBottomStyle, percentCellStyle
+                    		, month_week_numberBottomStyle, numberCellStyle
+                    		, month_week_averageDoseBottomRightStyle, averageDoseRightCellStyle
+                    		, month_week_averageDoseBottomStyle, averageDoseCellStyle);
+                }
+                
+                workbook.createSheet("分析总表");
+                sheet = workbook.getSheetAt(sheetNum++);
+                currentRowNum = 0;
+                
+                //build the header
+                row = sheet.createRow(currentRowNum++);
+                
+                if( null != resExportData && resExportData.size() > 0 ){
+                	populateSheet2Title(resExportData, isRe2, row, sheet, rsmTitleStyle, rsmTitleBorderStyle, month_week_top2Style, month_week_top1Style);
+                	
+                	populateSheet2Content(resExportData, row, sheet, currentRowNum
+                			, rsmValueStyle, rsmValueBorderStyle, numberCellRightBorderStyle, percentCellRightBorderStyle, percentCellStyle
+                			, numberCellStyle, averageDoseRightCellStyle, averageDoseCellStyle, isRe2);
+                }
+                
+                /**
+                 * 下级的周周报
+                 */
+                if( null != childLevel && !"".equals(childLevel) ){
+                	resExportData = respirologyService.getResMonthExportData(isRe2, childLevel);
+                    
+                    workbook.createSheet("下级呼吸科周周报");
+                    sheet = workbook.getSheetAt(sheetNum++);
+                    currentRowNum = 1;
+                    
+                    //build the header
+                    row = sheet.createRow(currentRowNum++);
+                    
+                    if( null != resExportData && resExportData.size() > 0 ){
+                    	int columnCount = 1;
+                    	
+                    	currentRowNum = populateSheet1Title(row, sheet, resExportData, isRe2, currentRowNum, columnCount
+                    			, month_week_top1Style, month_week_top2LeftStyle, month_week_top2RightStyle, month_week_top2Style);
+                    	
+                        sheet.setColumnWidth(0, 2*256);
+                        for( int columnNum = 1; columnNum < columnCount; columnNum++ ){
+                    		sheet.setColumnWidth(columnNum, 16*256);
+                    	}
                         
-                        row = sheet.createRow(currentRowNum++);
-                        columnCount = 1;
+                        int resExportDataCount = 0;
                         
-                        HSSFCell rsmRegionValueCell = row.createCell(columnCount++, XSSFCell.CELL_TYPE_STRING);
-                        rsmRegionValueCell.setCellValue(res.getRsmRegion());
-                        if( resExportDataCount == resExportData.size()-1 ){
-                            rsmRegionValueCell.setCellStyle(month_week_valueBottomLeftStyle);
-                        }else{
-                            rsmRegionValueCell.setCellStyle(month_week_valueLeftStyle);
-                        }
-                        
-                        HSSFCell rsmNameValueCell = row.createCell(columnCount++, XSSFCell.CELL_TYPE_STRING);
-                        rsmNameValueCell.setCellValue(res.getRsmName());
-                        if( resExportDataCount == resExportData.size()-1 ){
-                            rsmNameValueCell.setCellStyle(month_week_valueBottomRightStyle);
-                        }else{
-                            rsmNameValueCell.setCellStyle(month_week_valueRightStyle);
-                        }
-                        
-                        HSSFCell hosNumValueCell = row.createCell(columnCount++, XSSFCell.CELL_TYPE_NUMERIC);
-                        hosNumValueCell.setCellValue(res.getHosNum());
-                        if( resExportDataCount == resExportData.size()-1 ){
-                            hosNumValueCell.setCellStyle(month_week_numberBottomRightStyle);
-                        }else{
-                            hosNumValueCell.setCellStyle(numberCellRightBorderStyle);
-                        }
-                        
-                        HSSFCell salesNumValueCell = row.createCell(columnCount++, XSSFCell.CELL_TYPE_NUMERIC);
-                        salesNumValueCell.setCellValue(res.getSalesNum());
-                        if( resExportDataCount == resExportData.size()-1 ){
-                            salesNumValueCell.setCellStyle(month_week_numberBottomRightStyle);
-                        }else{
-                            salesNumValueCell.setCellStyle(numberCellRightBorderStyle);
-                        }
-                        
-                        if( !res.getRsmName().equalsIgnoreCase("N/A") ){
-                        	lsNumMap = res.getLsNumMap();
-                            lsNumIte = lsNumMap.keySet().iterator();
-                            whRateMap = res.getWhRateMap();
-                            whRateIte = whRateMap.keySet().iterator();
-                            whDaysMap = res.getWhDaysMap();
-                            whDaysIte = whDaysMap.keySet().iterator();
-                            inRateMap = res.getInRateMap();
-                            inRateIte = inRateMap.keySet().iterator();
-                            
-                            currentWeekAENumMap = res.getCurrentWeekAENum();
-                        	currentWeekAENumIte = currentWeekAENumMap.keySet().iterator();
-                            
-                            currentWeekLsAERateMap = res.getCurrentWeekLsAERate();
-                        	currentWeekLsAERateIte = currentWeekLsAERateMap.keySet().iterator();
-                            
-                            i = 0;
-                            String columnName;
-                            while( inRateIte.hasNext() ){
-                                columnName = inRateIte.next();
-                                HSSFCell inRateValueCell = row.createCell(columnCount+i, XSSFCell.CELL_TYPE_NUMERIC);
-                                inRateValueCell.setCellValue(inRateMap.get(columnName));
-                                if( i == inRateMap.size() - 1 ){
-                                    if( resExportDataCount == resExportData.size()-1 ){
-                                        inRateValueCell.setCellStyle(month_week_percentBottomRightStyle);
-                                    }else{
-                                        inRateValueCell.setCellStyle(percentCellRightBorderStyle);
-                                    }
-                                }else{
-                                    if( resExportDataCount == resExportData.size()-1 ){
-                                        inRateValueCell.setCellStyle(month_week_percentBottomStyle);
-                                    }else{
-                                        inRateValueCell.setCellStyle(percentCellStyle);
-                                    }
-                                }
-                                i++;
-                            }
-                            columnCount += inRateMap.size();
-                            
-                            i = 0;
-                            while( lsNumIte.hasNext() ){
-                                columnName = lsNumIte.next();
-                                HSSFCell lsNumValueCell = row.createCell(columnCount+i, XSSFCell.CELL_TYPE_NUMERIC);
-                                lsNumValueCell.setCellValue(lsNumMap.get(columnName));
-                                if( lsNumMap.size() > 3 ){
-                                    if( i == lsNumMap.size()-1 ){
-                                        if( resExportDataCount == resExportData.size()-1 ){
-                                            lsNumValueCell.setCellStyle(month_week_percentBottomRightStyle);
-                                        }else{
-                                            lsNumValueCell.setCellStyle(percentCellRightBorderStyle);
-                                        }
-                                    }else if( i == lsNumMap.size()-2 ){
-                                        if( resExportDataCount == resExportData.size()-1 ){
-                                            lsNumValueCell.setCellStyle(month_week_percentBottomStyle);
-                                        }else{
-                                            lsNumValueCell.setCellStyle(percentCellStyle);
-                                        }
-                                    }else{
-                                        if( resExportDataCount == resExportData.size()-1 ){
-                                            lsNumValueCell.setCellStyle(month_week_numberBottomStyle);
-                                        }else{
-                                            lsNumValueCell.setCellStyle(numberCellStyle);
-                                        }
-                                    }
-                                }else if( lsNumMap.size() == 3 ){
-                                    if( i == 2 ){
-                                        if( resExportDataCount == resExportData.size()-1 ){
-                                            lsNumValueCell.setCellStyle(month_week_percentBottomRightStyle);
-                                        }else{
-                                            lsNumValueCell.setCellStyle(percentCellRightBorderStyle);
-                                        }
-                                    }else{
-                                        if( resExportDataCount == resExportData.size()-1 ){
-                                            lsNumValueCell.setCellStyle(month_week_numberBottomStyle);
-                                        }else{
-                                            lsNumValueCell.setCellStyle(numberCellStyle);
-                                        }
-                                    }
-                                }else{
-                                    if( resExportDataCount == resExportData.size()-1 ){
-                                        lsNumValueCell.setCellStyle(month_week_numberBottomRightStyle);
-                                    }else{
-                                        lsNumValueCell.setCellStyle(numberCellStyle);
-                                    }
-                                }
-                                i++;
-                            }
-                            columnCount += lsNumMap.size();
-                            
-                            i = 0;
-                            while( whRateIte.hasNext() ){
-                                columnName = whRateIte.next();
-                                HSSFCell whRateValueCell = row.createCell(columnCount+i, XSSFCell.CELL_TYPE_NUMERIC);
-                                whRateValueCell.setCellValue(whRateMap.get(columnName));
-                                if( i == whRateMap.size() -1 ){
-                                    if( resExportDataCount == resExportData.size()-1 ){
-                                        whRateValueCell.setCellStyle(month_week_percentBottomRightStyle);
-                                    }else{
-                                        whRateValueCell.setCellStyle(percentCellRightBorderStyle);
-                                    }
-                                }else{
-                                    if( resExportDataCount == resExportData.size()-1 ){
-                                        whRateValueCell.setCellStyle(month_week_percentBottomStyle);
-                                    }else{
-                                        whRateValueCell.setCellStyle(percentCellStyle);
-                                    }
-                                }
-                                i++;
-                            }
-                            columnCount += whRateMap.size();
-                            
-                            if( null != currentWeekAENumIte ){
-                            	i = 0;
-                            	while( currentWeekAENumIte.hasNext() ){
-                            		columnName = currentWeekAENumIte.next();
-                            		HSSFCell currentWeekAENumValueCell = row.createCell(columnCount+i, XSSFCell.CELL_TYPE_NUMERIC);
-                            		currentWeekAENumValueCell.setCellValue(currentWeekAENumMap.get(columnName));
-                            		if( resExportDataCount == resExportData.size()-1 ){
-                            			currentWeekAENumValueCell.setCellStyle(month_week_numberBottomStyle);
-                            		}else{
-                            			currentWeekAENumValueCell.setCellStyle(numberCellStyle);
-                            		}
-                            		i++;
-                            	}
-                            	columnCount += currentWeekAENumMap.size();
-                            }
-                            
-                            if( null != currentWeekLsAERateIte ){
-                            	i = 0;
-                            	while( currentWeekLsAERateIte.hasNext() ){
-                            		columnName = currentWeekLsAERateIte.next();
-                            		HSSFCell currentWeekLsAERateValueCell = row.createCell(columnCount+i, XSSFCell.CELL_TYPE_NUMERIC);
-                            		currentWeekLsAERateValueCell.setCellValue(currentWeekLsAERateMap.get(columnName));
-                            		if( i == currentWeekLsAERateMap.size() -1 ){
-                            			if( resExportDataCount == resExportData.size()-1 ){
-                            				currentWeekLsAERateValueCell.setCellStyle(month_week_percentBottomRightStyle);
-                            			}else{
-                            				currentWeekLsAERateValueCell.setCellStyle(percentCellRightBorderStyle);
-                            			}
-                            		}else{
-                            			if( resExportDataCount == resExportData.size()-1 ){
-                            				currentWeekLsAERateValueCell.setCellStyle(month_week_percentBottomStyle);
-                            			}else{
-                            				currentWeekLsAERateValueCell.setCellStyle(percentCellStyle);
-                            			}
-                            		}
-                            		i++;
-                            	}
-                            	columnCount += currentWeekLsAERateMap.size();
-                            }
-                            
-                            if( null != whDaysMap && whDaysMap.size() > 0 ){
-                                i = 0;
-                                while( whDaysIte.hasNext() ){
-                                    columnName = whDaysIte.next();
-                                    HSSFCell daysValueCell = row.createCell(columnCount+i, XSSFCell.CELL_TYPE_NUMERIC);
-                                    daysValueCell.setCellValue(whDaysMap.get(columnName));
-                                    if( i == whDaysMap.size() -1 ){
-                                        if( resExportDataCount == resExportData.size()-1 ){
-                                            daysValueCell.setCellStyle(month_week_averageDoseBottomRightStyle);
-                                        }else{
-                                            daysValueCell.setCellStyle(averageDoseRightCellStyle);
-                                        }
-                                    }else{
-                                        if( resExportDataCount == resExportData.size()-1 ){
-                                            daysValueCell.setCellStyle(month_week_averageDoseBottomStyle);
-                                        }else{
-                                            daysValueCell.setCellStyle(averageDoseCellStyle);
-                                        }
-                                    }
-                                    i++;
-                                }
-                                columnCount += whDaysMap.size();
-                            }
-                        }
-                        resExportDataCount++;
+                        populateSheet1Content(resExportData, row, sheet, currentRowNum, resExportDataCount, isRe2
+                        		, month_week_valueBottomLeftStyle, month_week_valueLeftStyle, month_week_valueBottomRightStyle, month_week_valueRightStyle
+                        		, month_week_numberBottomRightStyle, numberCellRightBorderStyle
+                        		, month_week_percentBottomRightStyle, percentCellRightBorderStyle, month_week_percentBottomStyle, percentCellStyle
+                        		, month_week_numberBottomStyle, numberCellStyle
+                        		, month_week_averageDoseBottomRightStyle, averageDoseRightCellStyle
+                        		, month_week_averageDoseBottomStyle, averageDoseCellStyle);
+                    }
+                    
+                    workbook.createSheet("下级分析总表");
+                    sheet = workbook.getSheetAt(sheetNum++);
+                    currentRowNum = 0;
+                    
+                    //build the header
+                    row = sheet.createRow(currentRowNum++);
+                    
+                    if( null != resExportData && resExportData.size() > 0 ){
+                    	populateSheet2Title(resExportData, isRe2, row, sheet, rsmTitleStyle, rsmTitleBorderStyle, month_week_top2Style, month_week_top1Style);
+                    	
+                    	populateSheet2Content(resExportData, row, sheet, currentRowNum
+                    			, rsmValueStyle, rsmValueBorderStyle, numberCellRightBorderStyle, percentCellRightBorderStyle, percentCellStyle
+                    			, numberCellStyle, averageDoseRightCellStyle, averageDoseCellStyle, isRe2);
                     }
                 }
+                
+                workbook.createSheet("上周呼吸科KPI医院原始数据");
+                sheet = workbook.getSheetAt(sheetNum);
+                currentRowNum = 0;
+                Date lastWeekEndDate = DateUtils.getGenerateWeeklyReportDate();
+                Date lastWeekStartDate = new Date(lastWeekEndDate.getTime() - 6*24*60*60*1000);
+                
+                List<RespirologyData> dbResData = respirologyService.getRespirologyDataByDate(lastWeekStartDate,lastWeekEndDate);
+                
+                //build the header
+                row = sheet.createRow(currentRowNum++);
+                populateSheet3Content(row, isRe2, dbResData, sheet, currentRowNum);
                 
                 workbook.write(fOut);
         }catch(Exception e){
@@ -5149,13 +4208,1502 @@ public class ReportController extends BaseController{
             }
         }
         
-        request.getSession().setAttribute("resMonthDataFileName", fileName.substring(fileName.lastIndexOf("/")+1));
-        request.getSession().setAttribute("resMonthDataFile", fileName);
+        if( "1".equals(isRe2) ){
+        	try{
+        		String pdfFileName = "";
+        		String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+request.getContextPath()+"/";
+            	String localPath = request.getRealPath("/");
+            	StringBuffer remoteReportFile = new StringBuffer(basePath);
+            	StringBuffer localReportFile = new StringBuffer(localPath);
+            	long systemTime = System.currentTimeMillis();
+            	
+            	remoteReportFile.append("re2Report/").append("RE2医院呼吸科周周报-").append("-").append(systemTime).append(".pdf");
+            	localReportFile.append("re2Report/").append("RE2医院呼吸科周周报-").append("-").append(systemTime).append(".pdf");
+            	
+            	File reportFile = new File(localReportFile.toString());
+            	
+            	if( !reportFile.exists() ){
+            		BirtReportUtils html = new BirtReportUtils();
+            		logger.info("begin to generate RE2 report");
+            		html.startPlatform();
+            		createRe2Report(html, localPath, systemTime, selfLevel);
+            		html.stopPlatform();
+            		logger.info("end to generate RE2 report");
+            		
+            		if( !reportFile.exists() ){
+            			logger.error("fail to generate the RE2 report to export, no file is found");
+            		}else{
+            			ReportFileObject rfo = new ReportFileObject();
+            			rfo.setFileName(remoteReportFile.toString().substring(remoteReportFile.toString().lastIndexOf("/")+1));
+            			rfo.setFilePath(remoteReportFile.toString());
+            			reportFiles.add(rfo);
+            		}
+            	}
+        	}catch(Exception e){
+        		logger.error("re2 周周报 pdf生成失败",e);
+        	}
+        }
+        
+        ReportFileObject rfo = new ReportFileObject();
+        rfo.setFileName(fileName.substring(fileName.lastIndexOf("/")+1));
+        rfo.setFilePath(fileName);
+        reportFiles.add(rfo);
+        
+        if( "1".equals(isRe2) ){
+        	request.getSession().setAttribute("re2ReportFiles", reportFiles);
+        }else{
+        	request.getSession().setAttribute("resReportFiles", reportFiles);
+        }
         if( null != fromWeb && "Y".equalsIgnoreCase(fromWeb) ){
             return "redirect:showWebUploadData";
         }else{
             return "redirect:showUploadData";
         }
+    }
+    
+
+    private int populateSheet1Title(HSSFRow row, HSSFSheet sheet, List<RespirologyExportData> resExportData, String isRe2
+    		,int currentRowNum, int columnCount
+    		,HSSFCellStyle month_week_top1Style, HSSFCellStyle month_week_top2LeftStyle, HSSFCellStyle month_week_top2RightStyle
+    		,HSSFCellStyle month_week_top2Style){
+    	row.createCell(columnCount++, XSSFCell.CELL_TYPE_STRING).setCellValue("呼吸科指标");
+        row.createCell(columnCount++, XSSFCell.CELL_TYPE_STRING).setCellValue("");
+
+        sheet.addMergedRegion(new Region(1, (short)1, 1, (short)2));
+        row.getCell(1).setCellStyle(month_week_top1Style);
+        row.getCell(2).setCellStyle(month_week_top1Style);
+        
+        HSSFCell hosNumTitleCell = row.createCell(columnCount++, XSSFCell.CELL_TYPE_STRING);
+        hosNumTitleCell.setCellValue("医院家数");
+        hosNumTitleCell.setCellStyle(month_week_top1Style);
+        
+        HSSFCell salesNumTitleCell = row.createCell(columnCount++, XSSFCell.CELL_TYPE_STRING);
+        salesNumTitleCell.setCellValue("代表数");
+        salesNumTitleCell.setCellStyle(month_week_top1Style);
+        
+        RespirologyExportData resData = resExportData.get(0);
+        
+        Map<String, Double> lsNumMap = resData.getLsNumMap();
+        Iterator<String> lsNumIte = lsNumMap.keySet().iterator();
+        
+        Map<String, Double> whRateMap = resData.getWhRateMap();
+        Iterator<String> whRateIte = whRateMap.keySet().iterator();
+        
+        Map<String, Double> whDaysMap = resData.getWhDaysMap();
+        Iterator<String> whDaysIte = whDaysMap.keySet().iterator();
+        
+        Map<String, Double> inRateMap = resData.getInRateMap();
+        Iterator<String> inRateIte = inRateMap.keySet().iterator();
+        
+        Map<String, Double> averageDoseMap = resData.getAverageDoseMap();
+        Iterator<String> averageDoseIte = averageDoseMap.keySet().iterator();
+        
+        Map<String, Double> currentWeekAENumMap = resData.getCurrentWeekAENum();
+        Iterator<String> currentWeekAENumIte = currentWeekAENumMap.keySet().iterator();
+        
+        Map<String, Double> currentWeekLsAERateMap = resData.getCurrentWeekLsAERate();
+        Iterator<String> currentWeekLsAERateIte = currentWeekLsAERateMap.keySet().iterator();
+        
+    	Map<String, Double> aePNumMap = resData.getAePNumMap();
+    	Iterator<String> aePNumIte = null;
+    	if( "1".equals(isRe2) ){
+    		aePNumIte = aePNumMap.keySet().iterator();
+    	}
+
+    	Map<String, Double> xbkAeNumMap = resData.getXbkAeNumMap();
+    	Iterator<String> xbkAeNumIte = null;
+    	if( "1".equals(isRe2) ){
+    		xbkAeNumIte = xbkAeNumMap.keySet().iterator();
+    	}
+        
+        int i = 0;
+        int inRateStartCount = columnCount;
+        while( inRateIte.hasNext() ){
+            inRateIte.next();
+            HSSFCell titleCell = row.createCell(columnCount+i, XSSFCell.CELL_TYPE_STRING);
+            titleCell.setCellValue("上报率");
+            titleCell.setCellStyle(month_week_top1Style);
+            i++;
+        }
+        columnCount += inRateMap.size();
+        
+        sheet.addMergedRegion(new Region(1, (short)inRateStartCount, 1, (short)(columnCount-1)));
+        row.getCell(inRateStartCount).setCellStyle(month_week_top1Style);
+        
+        i = 0;
+        int lsNumStartCount = columnCount;
+        while( lsNumIte.hasNext() ){
+            lsNumIte.next();
+            HSSFCell titleCell = row.createCell(columnCount+i, XSSFCell.CELL_TYPE_STRING);
+            titleCell.setCellValue("雾化令舒人数(周平均)");
+            titleCell.setCellStyle(month_week_top1Style);
+            i++;
+        }
+        columnCount += lsNumMap.size();
+        
+        sheet.addMergedRegion(new Region(1, (short)lsNumStartCount, 1, (short)(columnCount-1)));
+        row.getCell(lsNumStartCount).setCellStyle(month_week_top1Style);
+        
+        i = 0;
+        int whRateStartCount = columnCount;
+        while( whRateIte.hasNext() ){
+            whRateIte.next();
+            HSSFCell titleCell = row.createCell(columnCount+i, XSSFCell.CELL_TYPE_STRING);
+            titleCell.setCellValue("雾化率");
+            titleCell.setCellStyle(month_week_top1Style);
+            i++;
+        }
+        columnCount += whRateMap.size();
+        
+        sheet.addMergedRegion(new Region(1, (short)whRateStartCount, 1, (short)(columnCount-1)));
+        row.getCell(whRateStartCount).setCellStyle(month_week_top1Style);
+        
+        i = 0;
+        int averageDoseStartCount = columnCount;
+        while( averageDoseIte.hasNext() ){
+        	averageDoseIte.next();
+            HSSFCell titleCell = row.createCell(columnCount+i, XSSFCell.CELL_TYPE_STRING);
+            titleCell.setCellValue("平均剂量");
+            titleCell.setCellStyle(month_week_top1Style);
+            i++;
+        }
+        columnCount += averageDoseMap.size();
+        
+        sheet.addMergedRegion(new Region(1, (short)averageDoseStartCount, 1, (short)(columnCount-1)));
+        row.getCell(averageDoseStartCount).setCellStyle(month_week_top1Style);
+        
+        if( "1".equals(isRe2) ){
+        	i = 0;
+        	int aePNumStartCount = columnCount;
+        	while( aePNumIte.hasNext() ){
+        		aePNumIte.next();
+        		HSSFCell titleCell = row.createCell(columnCount+i, XSSFCell.CELL_TYPE_STRING);
+        		titleCell.setCellValue("AE人数/住院人数");
+        		titleCell.setCellStyle(month_week_top1Style);
+        		i++;
+        	}
+        	columnCount += aePNumMap.size();
+        	
+        	sheet.addMergedRegion(new Region(1, (short)aePNumStartCount, 1, (short)(columnCount-1)));
+        	row.getCell(aePNumStartCount).setCellStyle(month_week_top1Style);
+        	
+        	i = 0;
+        	int xbkAeNumStartCount = columnCount;
+        	while( xbkAeNumIte.hasNext() ){
+        		xbkAeNumIte.next();
+        		HSSFCell titleCell = row.createCell(columnCount+i, XSSFCell.CELL_TYPE_STRING);
+        		titleCell.setCellValue("信必可带药率(信必可带药人数/AECOPD人数)");
+        		titleCell.setCellStyle(month_week_top1Style);
+        		i++;
+        	}
+        	columnCount += xbkAeNumMap.size();
+        	
+        	sheet.addMergedRegion(new Region(1, (short)xbkAeNumStartCount, 1, (short)(columnCount-1)));
+        	row.getCell(xbkAeNumStartCount).setCellStyle(month_week_top1Style);
+        }
+        
+        int lsAERateStartCount = columnCount;
+        HSSFCell lsAERateTitleCell = row.createCell(columnCount, XSSFCell.CELL_TYPE_STRING);
+        lsAERateTitleCell.setCellValue("当周雾化令舒人数/AE人数");
+        lsAERateTitleCell.setCellStyle(month_week_top1Style);
+        columnCount++;
+        
+        HSSFCell lsAERateTitle2Cell = row.createCell(columnCount, XSSFCell.CELL_TYPE_STRING);
+        lsAERateTitle2Cell.setCellValue("当周雾化令舒人数/AE人数");
+        lsAERateTitle2Cell.setCellStyle(month_week_top1Style);
+        columnCount++;
+        
+        sheet.addMergedRegion(new Region(1, (short)lsAERateStartCount, 1, (short)(columnCount-1)));
+        row.getCell(lsAERateStartCount).setCellStyle(month_week_top1Style);
+        
+        if( null != whDaysMap && whDaysMap.size() > 0 ){
+            i = 0;
+            int daysStartCount = columnCount;
+            Iterator<String> daysIte = whDaysMap.keySet().iterator();
+            while( daysIte.hasNext() ){
+                daysIte.next();
+                HSSFCell titleCell = row.createCell(columnCount+i, XSSFCell.CELL_TYPE_STRING);
+                titleCell.setCellValue("雾化天数");
+                titleCell.setCellStyle(month_week_top1Style);
+                i++;
+            }
+            columnCount += whDaysMap.size();
+            
+            sheet.addMergedRegion(new Region(1, (short)daysStartCount, 1, (short)(columnCount-1)));
+            row.getCell(daysStartCount).setCellStyle(month_week_top1Style);
+        }
+        
+        
+        row = sheet.createRow(currentRowNum++);
+        columnCount = 1;
+        
+        HSSFCell rsmRegionTitleCell = row.createCell(columnCount++, XSSFCell.CELL_TYPE_STRING);
+        rsmRegionTitleCell.setCellValue("区域");
+        rsmRegionTitleCell.setCellStyle(month_week_top2LeftStyle);
+        
+        HSSFCell rsmNameTitleCell = row.createCell(columnCount++, XSSFCell.CELL_TYPE_STRING);
+        rsmNameTitleCell.setCellValue("RSM");
+        rsmNameTitleCell.setCellStyle(month_week_top2RightStyle);
+        
+        HSSFCell hosNumTitle2Cell = row.createCell(columnCount++, XSSFCell.CELL_TYPE_STRING);
+        hosNumTitle2Cell.setCellValue("");
+        hosNumTitle2Cell.setCellStyle(month_week_top2RightStyle);
+        
+        HSSFCell salesNumTitle2Cell = row.createCell(columnCount++, XSSFCell.CELL_TYPE_STRING);
+        salesNumTitle2Cell.setCellValue("");
+        salesNumTitle2Cell.setCellStyle(month_week_top2RightStyle);
+        
+        i = 0;
+        inRateIte = inRateMap.keySet().iterator();
+        while( inRateIte.hasNext() ){
+            String monthName = inRateIte.next();
+            HSSFCell titleCell = row.createCell(columnCount+i, XSSFCell.CELL_TYPE_STRING);
+            titleCell.setCellValue(monthName);
+            if( i == inRateMap.size()-1 ){
+                titleCell.setCellStyle(month_week_top2RightStyle);
+            }else{
+                titleCell.setCellStyle(month_week_top2Style);
+            }
+            i++;
+        }
+        columnCount += inRateMap.size();
+        
+        i = 0;
+        lsNumIte = lsNumMap.keySet().iterator();
+        while( lsNumIte.hasNext() ){
+            String monthName = lsNumIte.next();
+            HSSFCell titleCell = row.createCell(columnCount+i, XSSFCell.CELL_TYPE_STRING);
+            titleCell.setCellValue(monthName);
+            if( i == lsNumMap.size()-1 ){
+            	titleCell.setCellStyle(month_week_top2RightStyle);
+            }else{
+            	titleCell.setCellStyle(month_week_top2Style);
+            }
+            i++;
+        }
+        columnCount += lsNumMap.size();
+        
+        i = 0;
+        whRateIte = whRateMap.keySet().iterator();
+        while( whRateIte.hasNext() ){
+            String monthName = whRateIte.next();
+            HSSFCell titleCell = row.createCell(columnCount+i, XSSFCell.CELL_TYPE_STRING);
+            titleCell.setCellValue(monthName);
+            if( i == whRateMap.size()-1 ){
+            	titleCell.setCellStyle(month_week_top2RightStyle);
+            }else{
+            	titleCell.setCellStyle(month_week_top2Style);
+            }
+            i++;
+        }
+        columnCount += whRateMap.size();
+        
+        
+        i = 0;
+        averageDoseIte = averageDoseMap.keySet().iterator();
+        while( averageDoseIte.hasNext() ){
+            String monthName = averageDoseIte.next();
+            HSSFCell titleCell = row.createCell(columnCount+i, XSSFCell.CELL_TYPE_STRING);
+            titleCell.setCellValue(monthName);
+            if( i == averageDoseMap.size()-1 ){
+            	titleCell.setCellStyle(month_week_top2RightStyle);
+            }else{
+            	titleCell.setCellStyle(month_week_top2Style);
+            }
+            i++;
+        }
+        columnCount += averageDoseMap.size();
+        
+        if( "1".equals(isRe2) ){
+        	i = 0;
+        	aePNumIte = aePNumMap.keySet().iterator();
+        	while( aePNumIte.hasNext() ){
+        		String monthName = aePNumIte.next();
+        		HSSFCell titleCell = row.createCell(columnCount+i, XSSFCell.CELL_TYPE_STRING);
+        		titleCell.setCellValue(monthName);
+        		if( i == aePNumMap.size()-1 ){
+        			titleCell.setCellStyle(month_week_top2RightStyle);
+        		}else{
+        			titleCell.setCellStyle(month_week_top2Style);
+        		}
+        		i++;
+        	}
+        	columnCount += aePNumMap.size();
+        	
+        	i = 0;
+        	xbkAeNumIte = xbkAeNumMap.keySet().iterator();
+        	while( xbkAeNumIte.hasNext() ){
+        		String monthName = xbkAeNumIte.next();
+        		HSSFCell titleCell = row.createCell(columnCount+i, XSSFCell.CELL_TYPE_STRING);
+        		titleCell.setCellValue(monthName);
+        		if( i == xbkAeNumMap.size()-1 ){
+        			titleCell.setCellStyle(month_week_top2RightStyle);
+        		}else{
+        			titleCell.setCellStyle(month_week_top2Style);
+        		}
+        		i++;
+        	}
+        	columnCount += xbkAeNumMap.size();
+        }
+        
+        i = 0;
+        currentWeekAENumIte = currentWeekAENumMap.keySet().iterator();
+        while(currentWeekAENumIte.hasNext()){
+            String monthName = currentWeekAENumIte.next();
+            HSSFCell titleCell = row.createCell(columnCount+i, XSSFCell.CELL_TYPE_STRING);
+            titleCell.setCellValue(monthName);
+            titleCell.setCellStyle(month_week_top2Style);
+            i++;
+        }
+        columnCount += currentWeekAENumMap.size();
+        
+        i = 0;
+        currentWeekLsAERateIte = currentWeekLsAERateMap.keySet().iterator();
+        while(currentWeekLsAERateIte.hasNext()){
+            String monthName = currentWeekLsAERateIte.next();
+            HSSFCell titleCell = row.createCell(columnCount+i, XSSFCell.CELL_TYPE_STRING);
+            titleCell.setCellValue(monthName);
+            titleCell.setCellStyle(month_week_top2RightStyle);
+            i++;
+        }
+        columnCount += currentWeekLsAERateMap.size();
+        
+        if( null != whDaysMap && whDaysMap.size() > 0 ){
+            i = 0;
+            whDaysIte = whDaysMap.keySet().iterator();
+            while( whDaysIte.hasNext() ){
+                String monthName = whDaysIte.next();
+                HSSFCell titleCell = row.createCell(columnCount+i, XSSFCell.CELL_TYPE_STRING);
+                titleCell.setCellValue(monthName);
+                if( i == whDaysMap.size()-1 ){
+                    titleCell.setCellStyle(month_week_top2RightStyle);
+                }else{
+                    titleCell.setCellStyle(month_week_top2Style);
+                }
+                i++;
+            }
+            columnCount += whDaysMap.size();
+        }
+        
+        return currentRowNum;
+    }
+    
+    private void populateSheet1Content(List<RespirologyExportData> resExportData, HSSFRow row, HSSFSheet sheet, int currentRowNum, int resExportDataCount
+    		,String isRe2
+    		,HSSFCellStyle month_week_valueBottomLeftStyle,HSSFCellStyle month_week_valueLeftStyle
+    		,HSSFCellStyle month_week_valueBottomRightStyle,HSSFCellStyle month_week_valueRightStyle
+    		,HSSFCellStyle month_week_numberBottomRightStyle,HSSFCellStyle numberCellRightBorderStyle
+    		,HSSFCellStyle month_week_percentBottomRightStyle,HSSFCellStyle percentCellRightBorderStyle
+    		,HSSFCellStyle month_week_percentBottomStyle,HSSFCellStyle percentCellStyle
+    		,HSSFCellStyle month_week_numberBottomStyle,HSSFCellStyle numberCellStyle
+    		,HSSFCellStyle month_week_averageDoseBottomRightStyle,HSSFCellStyle averageDoseRightCellStyle
+    		,HSSFCellStyle month_week_averageDoseBottomStyle,HSSFCellStyle averageDoseCellStyle
+    		){
+    	int columnCount = 1;
+    	
+    	Map<String, Double> pNumMap = null;
+    	Iterator<String> pNumIte = null;
+    	
+    	Map<String, Double> lsNumMap = null;
+    	Iterator<String> lsNumIte = null;
+    	
+    	Map<String, Double> aeNumMap = null;
+    	Iterator<String> aeNumIte = null;
+    	
+    	Map<String, Double> inRateMap = null;
+    	Iterator<String> inRateIte = null;
+    	
+    	Map<String, Double> whRateMap = null;
+    	Iterator<String> whRateIte = null;
+    	
+    	Map<String, Double> averageDoseMap = null;
+    	Iterator<String> averageDoseIte = null;
+    	
+    	Map<String, Double> whDaysMap = null;
+    	Iterator<String> whDaysIte = null;
+    	
+    	Map<String, Double> dValueMap = null;
+    	Iterator<String> dValueIte = null;
+    	
+		Map<String, Double> aePNumMap = null;
+		Iterator<String> aePNumIte = null;
+		
+		Map<String, Double> xbkAeNumMap = null;
+		Iterator<String> xbkAeNumIte = null;
+		
+		Map<String, Double> currentWeekAENumMap = null;
+		Iterator<String> currentWeekAENumIte = null;
+		
+		Map<String, Double> currentWeekLsAERateMap = null;
+		Iterator<String> currentWeekLsAERateIte = null;
+    	
+    	for( RespirologyExportData res : resExportData ){
+            
+        	if( !"N/A".equals(res.getRsmName()) && 0 != res.getHosNum() ){
+                row = sheet.createRow(currentRowNum++);
+                columnCount = 1;
+                
+                HSSFCell rsmRegionValueCell = row.createCell(columnCount++, XSSFCell.CELL_TYPE_STRING);
+                rsmRegionValueCell.setCellValue(res.getRsmRegion());
+                if( resExportDataCount == resExportData.size()-1 ){
+                    rsmRegionValueCell.setCellStyle(month_week_valueBottomLeftStyle);
+                }else{
+                    rsmRegionValueCell.setCellStyle(month_week_valueLeftStyle);
+                }
+                
+                HSSFCell rsmNameValueCell = row.createCell(columnCount++, XSSFCell.CELL_TYPE_STRING);
+                rsmNameValueCell.setCellValue(res.getRsmName());
+                if( resExportDataCount == resExportData.size()-1 ){
+                    rsmNameValueCell.setCellStyle(month_week_valueBottomRightStyle);
+                }else{
+                    rsmNameValueCell.setCellStyle(month_week_valueRightStyle);
+                }
+                
+                HSSFCell hosNumValueCell = row.createCell(columnCount++, XSSFCell.CELL_TYPE_NUMERIC);
+                hosNumValueCell.setCellValue(res.getHosNum());
+                if( resExportDataCount == resExportData.size()-1 ){
+                    hosNumValueCell.setCellStyle(month_week_numberBottomRightStyle);
+                }else{
+                    hosNumValueCell.setCellStyle(numberCellRightBorderStyle);
+                }
+                
+                HSSFCell salesNumValueCell = row.createCell(columnCount++, XSSFCell.CELL_TYPE_NUMERIC);
+                salesNumValueCell.setCellValue(res.getSalesNum());
+                if( resExportDataCount == resExportData.size()-1 ){
+                    salesNumValueCell.setCellStyle(month_week_numberBottomRightStyle);
+                }else{
+                    salesNumValueCell.setCellStyle(numberCellRightBorderStyle);
+                }
+            
+            	lsNumMap = res.getLsNumMap();
+                lsNumIte = lsNumMap.keySet().iterator();
+                
+                whRateMap = res.getWhRateMap();
+                whRateIte = whRateMap.keySet().iterator();
+                
+                averageDoseMap = res.getAverageDoseMap();
+                averageDoseIte = averageDoseMap.keySet().iterator();
+                
+                if( "1".equals(isRe2) ){
+                	aePNumMap = res.getAePNumMap();
+                	aePNumIte = aePNumMap.keySet().iterator();
+                	
+                	xbkAeNumMap = res.getXbkAeNumMap();
+                	xbkAeNumIte = xbkAeNumMap.keySet().iterator();
+                }
+                
+                whDaysMap = res.getWhDaysMap();
+                whDaysIte = whDaysMap.keySet().iterator();
+                
+                inRateMap = res.getInRateMap();
+                inRateIte = inRateMap.keySet().iterator();
+                
+                currentWeekAENumMap = res.getCurrentWeekAENum();
+            	currentWeekAENumIte = currentWeekAENumMap.keySet().iterator();
+                
+                currentWeekLsAERateMap = res.getCurrentWeekLsAERate();
+            	currentWeekLsAERateIte = currentWeekLsAERateMap.keySet().iterator();
+                
+                int i = 0;
+                String columnName;
+                while( inRateIte.hasNext() ){
+                    columnName = inRateIte.next();
+                    HSSFCell inRateValueCell = row.createCell(columnCount+i, XSSFCell.CELL_TYPE_NUMERIC);
+                    inRateValueCell.setCellValue(inRateMap.get(columnName));
+                    if( i == inRateMap.size() - 1 ){
+                        if( resExportDataCount == resExportData.size()-1 ){
+                            inRateValueCell.setCellStyle(month_week_percentBottomRightStyle);
+                        }else{
+                            inRateValueCell.setCellStyle(percentCellRightBorderStyle);
+                        }
+                    }else{
+                        if( resExportDataCount == resExportData.size()-1 ){
+                            inRateValueCell.setCellStyle(month_week_percentBottomStyle);
+                        }else{
+                            inRateValueCell.setCellStyle(percentCellStyle);
+                        }
+                    }
+                    i++;
+                }
+                columnCount += inRateMap.size();
+                
+                i = 0;
+                while( lsNumIte.hasNext() ){
+                    columnName = lsNumIte.next();
+                    HSSFCell lsNumValueCell = row.createCell(columnCount+i, XSSFCell.CELL_TYPE_NUMERIC);
+                    lsNumValueCell.setCellValue(lsNumMap.get(columnName));
+                    if( lsNumMap.size() > 3 ){
+                        if( i == lsNumMap.size()-1 ){
+                            if( resExportDataCount == resExportData.size()-1 ){
+                                lsNumValueCell.setCellStyle(month_week_percentBottomRightStyle);
+                            }else{
+                                lsNumValueCell.setCellStyle(percentCellRightBorderStyle);
+                            }
+                        }else if( i == lsNumMap.size()-2 ){
+                            if( resExportDataCount == resExportData.size()-1 ){
+                                lsNumValueCell.setCellStyle(month_week_percentBottomStyle);
+                            }else{
+                                lsNumValueCell.setCellStyle(percentCellStyle);
+                            }
+                        }else{
+                            if( resExportDataCount == resExportData.size()-1 ){
+                                lsNumValueCell.setCellStyle(month_week_numberBottomStyle);
+                            }else{
+                                lsNumValueCell.setCellStyle(numberCellStyle);
+                            }
+                        }
+                    }else if( lsNumMap.size() == 3 ){
+                        if( i == 2 ){
+                            if( resExportDataCount == resExportData.size()-1 ){
+                                lsNumValueCell.setCellStyle(month_week_percentBottomRightStyle);
+                            }else{
+                                lsNumValueCell.setCellStyle(percentCellRightBorderStyle);
+                            }
+                        }else{
+                            if( resExportDataCount == resExportData.size()-1 ){
+                                lsNumValueCell.setCellStyle(month_week_numberBottomStyle);
+                            }else{
+                                lsNumValueCell.setCellStyle(numberCellStyle);
+                            }
+                        }
+                    }else{
+                        if( resExportDataCount == resExportData.size()-1 ){
+                            lsNumValueCell.setCellStyle(month_week_numberBottomRightStyle);
+                        }else{
+                            lsNumValueCell.setCellStyle(numberCellStyle);
+                        }
+                    }
+                    i++;
+                }
+                columnCount += lsNumMap.size();
+                
+                i = 0;
+                while( whRateIte.hasNext() ){
+                    columnName = whRateIte.next();
+                    HSSFCell whRateValueCell = row.createCell(columnCount+i, XSSFCell.CELL_TYPE_NUMERIC);
+                    whRateValueCell.setCellValue(whRateMap.get(columnName));
+                    if( i == whRateMap.size() -1 ){
+                        if( resExportDataCount == resExportData.size()-1 ){
+                            whRateValueCell.setCellStyle(month_week_percentBottomRightStyle);
+                        }else{
+                            whRateValueCell.setCellStyle(percentCellRightBorderStyle);
+                        }
+                    }else{
+                        if( resExportDataCount == resExportData.size()-1 ){
+                            whRateValueCell.setCellStyle(month_week_percentBottomStyle);
+                        }else{
+                            whRateValueCell.setCellStyle(percentCellStyle);
+                        }
+                    }
+                    i++;
+                }
+                columnCount += whRateMap.size();
+                
+                i = 0;
+                while( averageDoseIte.hasNext() ){
+                    columnName = averageDoseIte.next();
+                    HSSFCell valueCell = row.createCell(columnCount+i, XSSFCell.CELL_TYPE_NUMERIC);
+                    valueCell.setCellValue(averageDoseMap.get(columnName));
+                    if( i == averageDoseMap.size() - 1 ){
+                        if( resExportDataCount == resExportData.size()-1 ){
+                        	valueCell.setCellStyle(month_week_averageDoseBottomRightStyle);
+                        }else{
+                        	valueCell.setCellStyle(averageDoseRightCellStyle);
+                        }
+                    }else{
+                        if( resExportDataCount == resExportData.size()-1 ){
+                        	valueCell.setCellStyle(month_week_averageDoseBottomStyle);
+                        }else{
+                        	valueCell.setCellStyle(averageDoseCellStyle);
+                        }
+                    }
+                    i++;
+                }
+                columnCount += averageDoseMap.size();
+                
+                if( "1".equals(isRe2) ){
+                	i = 0;
+                	while( aePNumIte.hasNext() ){
+                		columnName = aePNumIte.next();
+                		HSSFCell valueCell = row.createCell(columnCount+i, XSSFCell.CELL_TYPE_NUMERIC);
+                		valueCell.setCellValue(aePNumMap.get(columnName));
+                		if( i == aePNumMap.size() -1 ){
+                			if( resExportDataCount == resExportData.size()-1 ){
+                				valueCell.setCellStyle(month_week_percentBottomRightStyle);
+                			}else{
+                				valueCell.setCellStyle(percentCellRightBorderStyle);
+                			}
+                		}else{
+                			if( resExportDataCount == resExportData.size()-1 ){
+                				valueCell.setCellStyle(month_week_percentBottomStyle);
+                			}else{
+                				valueCell.setCellStyle(percentCellStyle);
+                			}
+                		}
+                		i++;
+                	}
+                	columnCount += aePNumMap.size();
+                	
+                	i = 0;
+                	while( xbkAeNumIte.hasNext() ){
+                		columnName = xbkAeNumIte.next();
+                		HSSFCell valueCell = row.createCell(columnCount+i, XSSFCell.CELL_TYPE_NUMERIC);
+                		valueCell.setCellValue(xbkAeNumMap.get(columnName));
+                		if( i == xbkAeNumMap.size() -1 ){
+                			if( resExportDataCount == resExportData.size()-1 ){
+                				valueCell.setCellStyle(month_week_percentBottomRightStyle);
+                			}else{
+                				valueCell.setCellStyle(percentCellRightBorderStyle);
+                			}
+                		}else{
+                			if( resExportDataCount == resExportData.size()-1 ){
+                				valueCell.setCellStyle(month_week_percentBottomStyle);
+                			}else{
+                				valueCell.setCellStyle(percentCellStyle);
+                			}
+                		}
+                		i++;
+                	}
+                	columnCount += xbkAeNumMap.size();
+                }
+                
+                if( null != currentWeekAENumIte ){
+                	i = 0;
+                	while( currentWeekAENumIte.hasNext() ){
+                		columnName = currentWeekAENumIte.next();
+                		HSSFCell currentWeekAENumValueCell = row.createCell(columnCount+i, XSSFCell.CELL_TYPE_NUMERIC);
+                		currentWeekAENumValueCell.setCellValue(currentWeekAENumMap.get(columnName));
+                		if( resExportDataCount == resExportData.size()-1 ){
+                			currentWeekAENumValueCell.setCellStyle(month_week_numberBottomStyle);
+                		}else{
+                			currentWeekAENumValueCell.setCellStyle(numberCellStyle);
+                		}
+                		i++;
+                	}
+                	columnCount += currentWeekAENumMap.size();
+                }
+                
+                if( null != currentWeekLsAERateIte ){
+                	i = 0;
+                	while( currentWeekLsAERateIte.hasNext() ){
+                		columnName = currentWeekLsAERateIte.next();
+                		HSSFCell currentWeekLsAERateValueCell = row.createCell(columnCount+i, XSSFCell.CELL_TYPE_NUMERIC);
+                		currentWeekLsAERateValueCell.setCellValue(currentWeekLsAERateMap.get(columnName));
+                		if( i == currentWeekLsAERateMap.size() -1 ){
+                			if( resExportDataCount == resExportData.size()-1 ){
+                				currentWeekLsAERateValueCell.setCellStyle(month_week_percentBottomRightStyle);
+                			}else{
+                				currentWeekLsAERateValueCell.setCellStyle(percentCellRightBorderStyle);
+                			}
+                		}else{
+                			if( resExportDataCount == resExportData.size()-1 ){
+                				currentWeekLsAERateValueCell.setCellStyle(month_week_percentBottomStyle);
+                			}else{
+                				currentWeekLsAERateValueCell.setCellStyle(percentCellStyle);
+                			}
+                		}
+                		i++;
+                	}
+                	columnCount += currentWeekLsAERateMap.size();
+                }
+                
+                if( null != whDaysMap && whDaysMap.size() > 0 ){
+                    i = 0;
+                    while( whDaysIte.hasNext() ){
+                        columnName = whDaysIte.next();
+                        HSSFCell daysValueCell = row.createCell(columnCount+i, XSSFCell.CELL_TYPE_NUMERIC);
+                        daysValueCell.setCellValue(whDaysMap.get(columnName));
+                        if( i == whDaysMap.size() -1 ){
+                            if( resExportDataCount == resExportData.size()-1 ){
+                                daysValueCell.setCellStyle(month_week_averageDoseBottomRightStyle);
+                            }else{
+                                daysValueCell.setCellStyle(averageDoseRightCellStyle);
+                            }
+                        }else{
+                            if( resExportDataCount == resExportData.size()-1 ){
+                                daysValueCell.setCellStyle(month_week_averageDoseBottomStyle);
+                            }else{
+                                daysValueCell.setCellStyle(averageDoseCellStyle);
+                            }
+                        }
+                        i++;
+                    }
+                    columnCount += whDaysMap.size();
+                }
+            }
+            resExportDataCount++;
+        }
+    }
+    
+    private void populateSheet2Title(List<RespirologyExportData> resExportData,String isRe2,HSSFRow row, HSSFSheet sheet
+    		,HSSFCellStyle rsmTitleStyle,HSSFCellStyle rsmTitleBorderStyle,HSSFCellStyle top2Style,HSSFCellStyle top1Style){
+    	int columnCount = 0;
+    	int i = 0;
+    	
+    	RespirologyExportData resData = resExportData.get(0);
+    	
+    	Map<String, Double> pNumMap = resData.getpNumMap();
+    	Iterator<String> pNumIte = null;
+    	
+    	Map<String, Double> lsNumMap = resData.getLsNumMap();
+    	Iterator<String> lsNumIte = null;
+    	
+    	Map<String, Double> aeNumMap = resData.getAeNumMap();
+    	Iterator<String> aeNumIte = null;
+    	
+    	Map<String, Double> inRateMap = resData.getInRateMap();
+    	Iterator<String> inRateIte = null;
+    	
+    	Map<String, Double> whRateMap = resData.getWhRateMap();
+    	Iterator<String> whRateIte = null;
+    	
+    	Map<String, Double> averageDoseMap = resData.getAverageDoseMap();
+    	Iterator<String> averageDoseIte = null;
+    	
+    	Map<String, Double> whDaysMap = resData.getWhDaysMap();
+    	Iterator<String> whDaysIte = null;
+    	
+    	Map<String, Double> dValueMap = resData.getdValueMap();
+    	Iterator<String> dValueIte = null;
+    	
+		Map<String, Double> aePNumMap = resData.getAePNumMap();
+		Iterator<String> aePNumIte = null;
+		
+		Map<String, Double> xbkAeNumMap = resData.getXbkAeNumMap();
+		Iterator<String> xbkAeNumIte = null;
+    	
+    	HSSFCell rsmRegionTitleCell = row.createCell(columnCount++, XSSFCell.CELL_TYPE_STRING);
+    	rsmRegionTitleCell.setCellValue("区域");
+    	rsmRegionTitleCell.setCellStyle(rsmTitleStyle);
+    	
+    	HSSFCell rsmNameTitleCell = row.createCell(columnCount++, XSSFCell.CELL_TYPE_STRING);
+    	rsmNameTitleCell.setCellValue("RSM");
+    	rsmNameTitleCell.setCellStyle(rsmTitleBorderStyle);
+    	
+    	HSSFCell hosNumTitleCell = row.createCell(columnCount++, XSSFCell.CELL_TYPE_STRING);
+    	hosNumTitleCell.setCellValue("医院家数");
+    	hosNumTitleCell.setCellStyle(rsmTitleBorderStyle);
+    	
+    	HSSFCell salesNumTitleCell = row.createCell(columnCount++, XSSFCell.CELL_TYPE_STRING);
+    	salesNumTitleCell.setCellValue("代表数");
+    	salesNumTitleCell.setCellStyle(rsmTitleBorderStyle);
+    	
+    	i = 0;
+        inRateIte = inRateMap.keySet().iterator();
+        while( inRateIte.hasNext() ){
+            String monthName = inRateIte.next();
+            HSSFCell titleCell = row.createCell(columnCount+i, XSSFCell.CELL_TYPE_STRING);
+            titleCell.setCellValue(monthName+"上报率");
+            if( i == inRateMap.size()-1 ){
+                titleCell.setCellStyle(top2Style);
+            }else{
+                titleCell.setCellStyle(top1Style);
+            }
+            i++;
+        }
+        columnCount += inRateMap.size();
+    	
+    	i = 0;
+    	pNumIte = pNumMap.keySet().iterator();
+    	while( pNumIte.hasNext() ){
+    	    String monthName = pNumIte.next();
+    	    HSSFCell titleCell = row.createCell(columnCount+i, XSSFCell.CELL_TYPE_STRING);
+    	    titleCell.setCellValue(new HSSFRichTextString(monthName+"周平均\r\n呼吸科住院\r\n人数"));
+    	    if( i == pNumMap.size()-1 ){
+    	    	titleCell.setCellStyle(top2Style);
+    	    }else{
+    	    	titleCell.setCellStyle(top1Style);
+    	    }
+    	    i++;
+    	}
+    	columnCount += pNumMap.size();
+    	
+    	i = 0;
+    	aeNumIte = aeNumMap.keySet().iterator();
+    	while( aeNumIte.hasNext() ){
+    	    String monthName = aeNumIte.next();
+    	    HSSFCell titleCell = row.createCell(columnCount+i, XSSFCell.CELL_TYPE_STRING);
+    	    titleCell.setCellValue(new HSSFRichTextString(monthName+"周平均\r\nAECOPD\r\n人数"));
+    	    if( i == aeNumMap.size()-1 ){
+    	    	titleCell.setCellStyle(top2Style);
+    	    }else{
+    	    	titleCell.setCellStyle(top1Style);
+    	    }
+    	    i++;
+    	}
+    	columnCount += aeNumMap.size();
+    	
+    	i = 0;
+        lsNumIte = lsNumMap.keySet().iterator();
+        while( lsNumIte.hasNext() ){
+            String monthName = lsNumIte.next();
+            HSSFCell titleCell = row.createCell(columnCount+i, XSSFCell.CELL_TYPE_STRING);
+            titleCell.setCellValue(new HSSFRichTextString(monthName+"周平均\r\n呼吸科雾化令舒\r\n人数"));
+            if( i == lsNumMap.size()-1 ){
+                titleCell.setCellStyle(top2Style);
+            }else{
+                titleCell.setCellStyle(top1Style);
+            }
+            i++;
+        }
+        columnCount += lsNumMap.size();
+        
+    	i = 0;
+    	whRateIte = whRateMap.keySet().iterator();
+    	while( whRateIte.hasNext() ){
+    		String monthName = whRateIte.next();
+    		HSSFCell titleCell = row.createCell(columnCount+i, XSSFCell.CELL_TYPE_STRING);
+    		titleCell.setCellValue(monthName+"雾化率");
+    		if( i == whRateMap.size()-1 ){
+    	    	titleCell.setCellStyle(top2Style);
+    	    }else{
+    	    	titleCell.setCellStyle(top1Style);
+    	    }
+    		i++;
+    	}
+    	columnCount += whRateMap.size();
+    	
+    	i = 0;
+    	averageDoseIte = averageDoseMap.keySet().iterator();
+    	while( averageDoseIte.hasNext() ){
+    	    String monthName = averageDoseIte.next();
+    	    HSSFCell titleCell = row.createCell(columnCount+i, XSSFCell.CELL_TYPE_STRING);
+    	    titleCell.setCellValue(monthName+"平均剂量");
+    	    if( i == averageDoseMap.size()-1 ){
+    	    	titleCell.setCellStyle(top2Style);
+    	    }else{
+    	    	titleCell.setCellStyle(top1Style);
+    	    }
+    	    i++;
+    	}
+    	columnCount += averageDoseMap.size();
+    	
+    	if( "1".equals(isRe2) ){
+    		i = 0;
+    		aePNumIte = aePNumMap.keySet().iterator();
+    		while( aePNumIte.hasNext() ){
+    			String monthName = aePNumIte.next();
+    			HSSFCell titleCell = row.createCell(columnCount+i, XSSFCell.CELL_TYPE_STRING);
+    			titleCell.setCellValue(monthName+"AE人数/住院人数");
+    			if( i == aePNumMap.size()-1 ){
+    				titleCell.setCellStyle(top2Style);
+    			}else{
+    				titleCell.setCellStyle(top1Style);
+    			}
+    			i++;
+    		}
+    		columnCount += aePNumMap.size();
+    		
+    		i = 0;
+    		xbkAeNumIte = xbkAeNumMap.keySet().iterator();
+    		while( xbkAeNumIte.hasNext() ){
+    			String monthName = xbkAeNumIte.next();
+    			HSSFCell titleCell = row.createCell(columnCount+i, XSSFCell.CELL_TYPE_STRING);
+    			titleCell.setCellValue(monthName+"信必可带药率");
+    			if( i == xbkAeNumMap.size()-1 ){
+    				titleCell.setCellStyle(top2Style);
+    			}else{
+    				titleCell.setCellStyle(top1Style);
+    			}
+    			i++;
+    		}
+    		columnCount += xbkAeNumMap.size();
+    	}
+    	
+    	if( null != whDaysMap && whDaysMap.size() > 0 ){
+    	    i = 0;
+    	    whDaysIte = whDaysMap.keySet().iterator();
+    	    while( whDaysIte.hasNext() ){
+    	        String monthName = whDaysIte.next();
+    	        HSSFCell titleCell = row.createCell(columnCount+i, XSSFCell.CELL_TYPE_STRING);
+    	        titleCell.setCellValue(monthName+"天数");
+    	        if( i == whDaysMap.size()-1 ){
+    	            titleCell.setCellStyle(top2Style);
+    	        }else{
+    	            titleCell.setCellStyle(top1Style);
+    	        }
+    	        i++;
+    	    }
+    	    columnCount += whDaysMap.size();
+    	}
+    	
+    	i = 0;
+    	dValueIte = dValueMap.keySet().iterator();
+        while( dValueIte.hasNext() ){
+            String monthName = dValueIte.next();
+            HSSFCell titleCell = row.createCell(columnCount+i, XSSFCell.CELL_TYPE_STRING);
+            titleCell.setCellValue(monthName+"雾化令舒人数-AE人数");
+            if( i == dValueMap.size()-1 ){
+                titleCell.setCellStyle(top2Style);
+            }else{
+                titleCell.setCellStyle(top1Style);
+            }
+            i++;
+        }
+        columnCount += dValueMap.size();
+    	
+    	
+    	for( int columnNum = 1; columnNum < columnCount; columnNum++ ){
+    		sheet.setColumnWidth(columnNum, 20*256);
+    	}
+    }
+    
+    private void populateSheet2Content(List<RespirologyExportData> resExportData, HSSFRow row, HSSFSheet sheet, int currentRowNum
+    		,HSSFCellStyle rsmValueStyle,HSSFCellStyle rsmValueBorderStyle,HSSFCellStyle numberCellRightBorderStyle
+    		,HSSFCellStyle percentCellRightBorderStyle,HSSFCellStyle percentCellStyle,HSSFCellStyle numberCellStyle
+    		,HSSFCellStyle averageDoseRightCellStyle,HSSFCellStyle averageDoseCellStyle
+    		,String isRe2){
+    	
+    	Map<String, Double> pNumMap = null;
+    	Iterator<String> pNumIte = null;
+    	Map<String, Double> lsNumMap = null;
+    	Iterator<String> lsNumIte = null;
+    	Map<String, Double> aeNumMap = null;
+    	Iterator<String> aeNumIte = null;
+    	Map<String, Double> inRateMap = null;
+    	Iterator<String> inRateIte = null;
+    	Map<String, Double> whRateMap = null;
+    	Iterator<String> whRateIte = null;
+    	Map<String, Double> averageDoseMap = null;
+    	Iterator<String> averageDoseIte = null;
+    	Map<String, Double> whDaysMap = null;
+    	Iterator<String> whDaysIte = null;
+    	Map<String, Double> dValueMap = null;
+    	Iterator<String> dValueIte = null;
+    	Map<String, Double> aePNumMap = null;
+    	Iterator<String> aePNumIte = null;
+    	Map<String, Double> xbkAeNumMap = null;
+    	Iterator<String> xbkAeNumIte = null;
+    	
+    	int columnCount = 0;
+    	for( RespirologyExportData res : resExportData ){
+    		if( !"N/A".equals(res.getRsmName()) && 0 != res.getHosNum() ){
+    			row = sheet.createRow(currentRowNum++);
+    			columnCount = 0;
+    			
+    			HSSFCell rsmRegionValueCell = row.createCell(columnCount++, XSSFCell.CELL_TYPE_STRING);
+    			rsmRegionValueCell.setCellValue(res.getRsmRegion());
+    			rsmRegionValueCell.setCellStyle(rsmValueStyle);
+    			
+    			HSSFCell rsmNameValueCell = row.createCell(columnCount++, XSSFCell.CELL_TYPE_STRING);
+    			rsmNameValueCell.setCellValue(res.getRsmName());
+    			rsmNameValueCell.setCellStyle(rsmValueBorderStyle);
+    			
+    			HSSFCell hosNumValueCell = row.createCell(columnCount++, XSSFCell.CELL_TYPE_NUMERIC);
+    			hosNumValueCell.setCellValue(res.getHosNum());
+    			hosNumValueCell.setCellStyle(numberCellRightBorderStyle);
+    			
+    			HSSFCell salesNumValueCell = row.createCell(columnCount++, XSSFCell.CELL_TYPE_NUMERIC);
+    			salesNumValueCell.setCellValue(res.getSalesNum());
+    			salesNumValueCell.setCellStyle(numberCellRightBorderStyle);
+    			
+    			pNumMap = res.getpNumMap();
+    			pNumIte = pNumMap.keySet().iterator();
+    			
+    			lsNumMap = res.getLsNumMap();
+    			lsNumIte = lsNumMap.keySet().iterator();
+    			
+    			aeNumMap = res.getAeNumMap();
+    			aeNumIte = aeNumMap.keySet().iterator();
+    			
+    			inRateMap = res.getInRateMap();
+    			inRateIte = inRateMap.keySet().iterator();
+    			
+    			whRateMap = res.getWhRateMap();
+    			whRateIte = whRateMap.keySet().iterator();
+    			
+    			averageDoseMap = res.getAverageDoseMap();
+    			averageDoseIte = averageDoseMap.keySet().iterator();
+    			
+    			whDaysMap = res.getWhDaysMap();
+    			whDaysIte = whDaysMap.keySet().iterator();
+    			
+    			dValueMap = res.getdValueMap();
+    			dValueIte = dValueMap.keySet().iterator();
+    			
+    			if( "1".equals(isRe2) ){
+    				aePNumMap = res.getAePNumMap();
+    				aePNumIte = aePNumMap.keySet().iterator();
+    				
+    				xbkAeNumMap = res.getXbkAeNumMap();
+    				xbkAeNumIte = xbkAeNumMap.keySet().iterator();
+    			}
+    			
+    			int i = 0;
+    			String columnName;
+    			while( inRateIte.hasNext() ){
+    				columnName = inRateIte.next();
+    				HSSFCell inRateValueCell = row.createCell(columnCount+i, XSSFCell.CELL_TYPE_NUMERIC);
+    				inRateValueCell.setCellValue(inRateMap.get(columnName));
+    				if( i == inRateMap.size()-1 ){
+    					inRateValueCell.setCellStyle(percentCellRightBorderStyle);
+    				}else{
+    					inRateValueCell.setCellStyle(percentCellStyle);
+    				}
+    				i++;
+    			}
+    			columnCount += inRateMap.size();
+    			
+    			i = 0;
+    			while( pNumIte.hasNext() ){
+    				columnName = pNumIte.next();
+    				HSSFCell pNumValueCell = row.createCell(columnCount+i, XSSFCell.CELL_TYPE_NUMERIC);
+    				pNumValueCell.setCellValue(pNumMap.get(columnName));
+    				if( i == pNumMap.size()-1 ){
+    					pNumValueCell.setCellStyle(numberCellRightBorderStyle);
+    				}else{
+    					pNumValueCell.setCellStyle(numberCellStyle);
+    				}
+    				i++;
+    			}
+    			columnCount += pNumMap.size();
+    			
+    			i = 0;
+    			while( aeNumIte.hasNext() ){
+    				columnName = aeNumIte.next();
+    				HSSFCell aeNumValueCell = row.createCell(columnCount+i, XSSFCell.CELL_TYPE_NUMERIC);
+    				aeNumValueCell.setCellValue(aeNumMap.get(columnName));
+    				if( i == aeNumMap.size()-1 ){
+    					aeNumValueCell.setCellStyle(numberCellRightBorderStyle);
+    				}else{
+    					aeNumValueCell.setCellStyle(numberCellStyle);
+    				}
+    				i++;
+    			}
+    			columnCount += aeNumMap.size();
+    			
+    			i = 0;
+    			while( lsNumIte.hasNext() ){
+    				columnName = lsNumIte.next();
+    				HSSFCell lsNumValueCell = row.createCell(columnCount+i, XSSFCell.CELL_TYPE_NUMERIC);
+    				lsNumValueCell.setCellValue(lsNumMap.get(columnName));
+    				
+    				if( lsNumMap.size() > 3 ){
+    					if( i == lsNumMap.size()-1 ){
+    						lsNumValueCell.setCellStyle(percentCellRightBorderStyle);
+    					}else if( i == lsNumMap.size()-2 ){
+    						lsNumValueCell.setCellStyle(percentCellStyle);
+    					}else{
+    						lsNumValueCell.setCellStyle(numberCellStyle);
+    					}
+    				}else if( lsNumMap.size() == 3 ){
+    					if( i == 2 ){
+    						lsNumValueCell.setCellStyle(percentCellRightBorderStyle);
+    					}else if( i == 1 ){
+    						lsNumValueCell.setCellStyle(numberCellStyle);
+    					}else{
+    						lsNumValueCell.setCellStyle(numberCellStyle);
+    					}
+    				}else{
+    					lsNumValueCell.setCellStyle(numberCellRightBorderStyle);
+    				}
+    				
+    				i++;
+    			}
+    			columnCount += lsNumMap.size();
+    			
+    			i = 0;
+    			while( whRateIte.hasNext() ){
+    				columnName = whRateIte.next();
+    				HSSFCell whRateValueCell = row.createCell(columnCount+i, XSSFCell.CELL_TYPE_NUMERIC);
+    				whRateValueCell.setCellValue(whRateMap.get(columnName));
+    				if( i == whRateMap.size()-1 ){
+    					whRateValueCell.setCellStyle(percentCellRightBorderStyle);
+    				}else{
+    					whRateValueCell.setCellStyle(percentCellStyle);
+    				}
+    				i++;
+    			}
+    			columnCount += whRateMap.size();
+    			
+    			i = 0;
+    			while( averageDoseIte.hasNext() ){
+    				columnName = averageDoseIte.next();
+    				HSSFCell averageDoseValueCell = row.createCell(columnCount+i, XSSFCell.CELL_TYPE_NUMERIC);
+    				averageDoseValueCell.setCellValue(averageDoseMap.get(columnName));
+    				if( i == averageDoseMap.size()-1 ){
+    					averageDoseValueCell.setCellStyle(averageDoseRightCellStyle);
+    				}else{
+    					averageDoseValueCell.setCellStyle(averageDoseCellStyle);
+    				}
+    				i++;
+    			}
+    			columnCount += averageDoseMap.size();
+
+    			if( "1".equals(isRe2) ){
+    				i = 0;
+    				while( aePNumIte.hasNext() ){
+    					columnName = aePNumIte.next();
+    					HSSFCell aePNumValueCell = row.createCell(columnCount+i, XSSFCell.CELL_TYPE_NUMERIC);
+    					aePNumValueCell.setCellValue(aePNumMap.get(columnName));
+    					if( i == aePNumMap.size()-1 ){
+    						aePNumValueCell.setCellStyle(percentCellRightBorderStyle);
+    					}else{
+    						aePNumValueCell.setCellStyle(percentCellStyle);
+    					}
+    					i++;
+    				}
+    				columnCount += aePNumMap.size();
+    				
+    				i = 0;
+    				while( xbkAeNumIte.hasNext() ){
+    					columnName = xbkAeNumIte.next();
+    					HSSFCell valueCell = row.createCell(columnCount+i, XSSFCell.CELL_TYPE_NUMERIC);
+    					valueCell.setCellValue(xbkAeNumMap.get(columnName));
+    					if( i == xbkAeNumMap.size()-1 ){
+    						valueCell.setCellStyle(percentCellRightBorderStyle);
+    					}else{
+    						valueCell.setCellStyle(percentCellStyle);
+    					}
+    					i++;
+    				}
+    				columnCount += xbkAeNumMap.size();
+    			}
+    			
+    			if( null != whDaysMap && whDaysMap.size() > 0 ){
+    				i = 0;
+    				while( whDaysIte.hasNext() ){
+    					columnName = whDaysIte.next();
+    					HSSFCell daysValueCell = row.createCell(columnCount+i, XSSFCell.CELL_TYPE_NUMERIC);
+    					daysValueCell.setCellValue(whDaysMap.get(columnName));
+    					if( i == whDaysMap.size()-1 ){
+    						daysValueCell.setCellStyle(averageDoseRightCellStyle);
+    					}else{
+    						daysValueCell.setCellStyle(averageDoseCellStyle);
+    					}
+    					i++;
+    				}
+    				columnCount += whDaysMap.size();
+    			}
+    			
+    			i = 0;
+    			dValueIte = dValueMap.keySet().iterator();
+    			while( dValueIte.hasNext() ){
+    				columnName = dValueIte.next();
+    				HSSFCell dValueCell = row.createCell(columnCount+i, XSSFCell.CELL_TYPE_NUMERIC);
+    				dValueCell.setCellValue(dValueMap.get(columnName));
+    				if( dValueMap.size() > 3 ){
+    					if( i == dValueMap.size()-1 ){
+    						dValueCell.setCellStyle(percentCellRightBorderStyle);
+    					}else if( i == dValueMap.size()-2 ){
+    						dValueCell.setCellStyle(percentCellStyle);
+    					}else{
+    						dValueCell.setCellStyle(numberCellStyle);
+    					}
+    				}else if( dValueMap.size() == 3 ){
+    					if( i == 2 ){
+    						dValueCell.setCellStyle(percentCellRightBorderStyle);
+    					}else if( i == 1 ){
+    						dValueCell.setCellStyle(numberCellStyle);
+    					}else{
+    						dValueCell.setCellStyle(numberCellStyle);
+    					}
+    				}else{
+    					dValueCell.setCellStyle(numberCellRightBorderStyle);
+    				}
+    				i++;
+    			}
+    			columnCount += dValueMap.size();
+    		}
+    	}
+    }
+    
+    private void populateSheet3Content(HSSFRow row, String isRe2, List<RespirologyData> dbResData, HSSFSheet sheet, int currentRowNum){
+    	SimpleDateFormat exportdateformat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
+    	
+    	row.createCell(0, XSSFCell.CELL_TYPE_STRING).setCellValue("编号");
+        row.createCell(1, XSSFCell.CELL_TYPE_STRING).setCellValue("录入日期");
+        row.createCell(2, XSSFCell.CELL_TYPE_STRING).setCellValue("医院编号");
+        row.createCell(3, XSSFCell.CELL_TYPE_STRING).setCellValue("医院名称");
+        row.createCell(4, XSSFCell.CELL_TYPE_STRING).setCellValue("当日目标科室病房病人数");
+        row.createCell(5, XSSFCell.CELL_TYPE_STRING).setCellValue("当日病房内AECOPD人数");
+        row.createCell(6, XSSFCell.CELL_TYPE_STRING).setCellValue("当日雾化病人数");
+        row.createCell(7, XSSFCell.CELL_TYPE_STRING).setCellValue("当日雾化令舒病人数");
+        row.createCell(8, XSSFCell.CELL_TYPE_STRING).setCellValue("销售代表ETMSCode");
+        row.createCell(9, XSSFCell.CELL_TYPE_STRING).setCellValue("销售代表姓名");
+        row.createCell(10, XSSFCell.CELL_TYPE_STRING).setCellValue("所属DSM");
+        row.createCell(11, XSSFCell.CELL_TYPE_STRING).setCellValue("所属Region");
+        row.createCell(12, XSSFCell.CELL_TYPE_STRING).setCellValue("所属RSM Region");
+        row.createCell(13, XSSFCell.CELL_TYPE_STRING).setCellValue("1mg QD");
+        row.createCell(14, XSSFCell.CELL_TYPE_STRING).setCellValue("2mg QD");
+        row.createCell(15, XSSFCell.CELL_TYPE_STRING).setCellValue("1mg TID");
+        row.createCell(16, XSSFCell.CELL_TYPE_STRING).setCellValue("2mg BID");
+        row.createCell(17, XSSFCell.CELL_TYPE_STRING).setCellValue("2mg TID");
+        row.createCell(18, XSSFCell.CELL_TYPE_STRING).setCellValue("3mg BID");
+        row.createCell(19, XSSFCell.CELL_TYPE_STRING).setCellValue("4mg BID");
+        if( "0".equals(isRe2) ){
+        	row.createCell(20, XSSFCell.CELL_TYPE_STRING).setCellValue("是否为KPI医院（在=1，不在=0）");
+        }else if( "1".equals(isRe2) ){
+        	row.createCell(20, XSSFCell.CELL_TYPE_STRING).setCellValue("出院信必可带药人数");
+        	row.createCell(21, XSSFCell.CELL_TYPE_STRING).setCellValue("处方1支人数");
+        	row.createCell(22, XSSFCell.CELL_TYPE_STRING).setCellValue("处方2支人数");
+        	row.createCell(23, XSSFCell.CELL_TYPE_STRING).setCellValue("处方3支及以上人数");
+        	row.createCell(24, XSSFCell.CELL_TYPE_STRING).setCellValue("是否为KPI医院（在=1，不在=0）");
+        }
+        
+        for( RespirologyData resData : dbResData ){
+            if( "0".equals(isRe2) && "1".equalsIgnoreCase(resData.getIsResAssessed()) ){
+                row = sheet.createRow(currentRowNum++);
+                row.createCell(0, XSSFCell.CELL_TYPE_NUMERIC).setCellValue(currentRowNum-1);
+                row.createCell(1, XSSFCell.CELL_TYPE_STRING).setCellValue(exportdateformat.format(resData.getCreatedate()));
+                row.createCell(2, XSSFCell.CELL_TYPE_STRING).setCellValue(resData.getHospitalCode());
+                row.createCell(3, XSSFCell.CELL_TYPE_STRING).setCellValue(resData.getHospitalName());
+                row.createCell(4, XSSFCell.CELL_TYPE_NUMERIC).setCellValue(resData.getPnum());
+                row.createCell(5, XSSFCell.CELL_TYPE_NUMERIC).setCellValue(resData.getAenum());
+                row.createCell(6, XSSFCell.CELL_TYPE_NUMERIC).setCellValue(resData.getWhnum());
+                row.createCell(7, XSSFCell.CELL_TYPE_NUMERIC).setCellValue(resData.getLsnum());
+                row.createCell(8, XSSFCell.CELL_TYPE_STRING).setCellValue(resData.getSalesETMSCode());
+                row.createCell(9, XSSFCell.CELL_TYPE_STRING).setCellValue(resData.getSalesName());
+                row.createCell(10, XSSFCell.CELL_TYPE_STRING).setCellValue(resData.getDsmName());
+                row.createCell(11, XSSFCell.CELL_TYPE_STRING).setCellValue(resData.getRegion());
+                row.createCell(12, XSSFCell.CELL_TYPE_STRING).setCellValue(resData.getRsmRegion());
+                row.createCell(13, XSSFCell.CELL_TYPE_NUMERIC).setCellValue(resData.getOqd());
+                row.createCell(14, XSSFCell.CELL_TYPE_NUMERIC).setCellValue(resData.getTqd());
+                row.createCell(15, XSSFCell.CELL_TYPE_NUMERIC).setCellValue(resData.getOtid());
+                row.createCell(16, XSSFCell.CELL_TYPE_NUMERIC).setCellValue(resData.getTbid());
+                row.createCell(17, XSSFCell.CELL_TYPE_NUMERIC).setCellValue(resData.getTtid());
+                row.createCell(18, XSSFCell.CELL_TYPE_NUMERIC).setCellValue(resData.getThbid());
+                row.createCell(19, XSSFCell.CELL_TYPE_NUMERIC).setCellValue(resData.getFbid());
+            	row.createCell(20, XSSFCell.CELL_TYPE_STRING).setCellValue(resData.getIsResAssessed());
+                	
+            }
+            
+            if( "1".equals(isRe2) && "1".equalsIgnoreCase(resData.getIsRe2()) ){
+                row = sheet.createRow(currentRowNum++);
+                row.createCell(0, XSSFCell.CELL_TYPE_NUMERIC).setCellValue(currentRowNum-1);
+                row.createCell(1, XSSFCell.CELL_TYPE_STRING).setCellValue(exportdateformat.format(resData.getCreatedate()));
+                row.createCell(2, XSSFCell.CELL_TYPE_STRING).setCellValue(resData.getHospitalCode());
+                row.createCell(3, XSSFCell.CELL_TYPE_STRING).setCellValue(resData.getHospitalName());
+                row.createCell(4, XSSFCell.CELL_TYPE_NUMERIC).setCellValue(resData.getPnum());
+                row.createCell(5, XSSFCell.CELL_TYPE_NUMERIC).setCellValue(resData.getAenum());
+                row.createCell(6, XSSFCell.CELL_TYPE_NUMERIC).setCellValue(resData.getWhnum());
+                row.createCell(7, XSSFCell.CELL_TYPE_NUMERIC).setCellValue(resData.getLsnum());
+                row.createCell(8, XSSFCell.CELL_TYPE_STRING).setCellValue(resData.getSalesETMSCode());
+                row.createCell(9, XSSFCell.CELL_TYPE_STRING).setCellValue(resData.getSalesName());
+                row.createCell(10, XSSFCell.CELL_TYPE_STRING).setCellValue(resData.getDsmName());
+                row.createCell(11, XSSFCell.CELL_TYPE_STRING).setCellValue(resData.getRegion());
+                row.createCell(12, XSSFCell.CELL_TYPE_STRING).setCellValue(resData.getRsmRegion());
+                row.createCell(13, XSSFCell.CELL_TYPE_NUMERIC).setCellValue(resData.getOqd());
+                row.createCell(14, XSSFCell.CELL_TYPE_NUMERIC).setCellValue(resData.getTqd());
+                row.createCell(15, XSSFCell.CELL_TYPE_NUMERIC).setCellValue(resData.getOtid());
+                row.createCell(16, XSSFCell.CELL_TYPE_NUMERIC).setCellValue(resData.getTbid());
+                row.createCell(17, XSSFCell.CELL_TYPE_NUMERIC).setCellValue(resData.getTtid());
+                row.createCell(18, XSSFCell.CELL_TYPE_NUMERIC).setCellValue(resData.getThbid());
+                row.createCell(19, XSSFCell.CELL_TYPE_NUMERIC).setCellValue(resData.getFbid());
+                row.createCell(20, XSSFCell.CELL_TYPE_NUMERIC).setCellValue(resData.getXbknum());
+            	row.createCell(21, XSSFCell.CELL_TYPE_NUMERIC).setCellValue(resData.getXbk1num());
+            	row.createCell(22, XSSFCell.CELL_TYPE_NUMERIC).setCellValue(resData.getXbk2num());
+            	row.createCell(23, XSSFCell.CELL_TYPE_NUMERIC).setCellValue(resData.getXbk3num());
+            	row.createCell(24, XSSFCell.CELL_TYPE_STRING).setCellValue(resData.getIsRe2());
+            }
+        }
+    }
+    
+    private void populateWeekMonthSheet1CellStyle(HSSFCellStyle top1Style,HSSFCellStyle rsmTitleStyle,HSSFCellStyle rsmTitleBorderStyle
+    		,HSSFCellStyle rsmValueStyle,HSSFCellStyle rsmValueBorderStyle,HSSFCellStyle top2Style,HSSFCellStyle numberCellStyle
+    		,HSSFCellStyle numberCellRightBorderStyle,HSSFCellStyle percentCellStyle,HSSFCellStyle percentCellRightBorderStyle
+    		,HSSFCellStyle averageDoseCellStyle,HSSFCellStyle averageDoseRightCellStyle){
+        top1Style.setAlignment(HSSFCellStyle.ALIGN_CENTER);
+        top1Style.setVerticalAlignment(HSSFCellStyle.VERTICAL_CENTER);
+        top1Style.setBorderLeft(HSSFCellStyle.BORDER_THIN);
+        top1Style.setBorderRight(HSSFCellStyle.BORDER_THIN);
+        top1Style.setLeftBorderColor(HSSFColor.BLACK.index);
+        top1Style.setRightBorderColor(HSSFColor.BLACK.index);
+        top1Style.setWrapText(true);
+        
+        rsmTitleStyle.setAlignment(HSSFCellStyle.ALIGN_CENTER);
+        rsmTitleStyle.setVerticalAlignment(HSSFCellStyle.VERTICAL_CENTER);
+        rsmTitleStyle.setBorderLeft(HSSFCellStyle.BORDER_THIN);
+        rsmTitleStyle.setBorderRight(HSSFCellStyle.BORDER_THIN);
+        rsmTitleStyle.setLeftBorderColor(HSSFColor.BLACK.index);
+        rsmTitleStyle.setRightBorderColor(HSSFColor.BLACK.index);
+        
+        rsmTitleBorderStyle.setAlignment(HSSFCellStyle.ALIGN_CENTER);
+        rsmTitleBorderStyle.setVerticalAlignment(HSSFCellStyle.VERTICAL_CENTER);
+        rsmTitleBorderStyle.setBorderRight(HSSFCellStyle.BORDER_THICK);
+        rsmTitleBorderStyle.setRightBorderColor(HSSFColor.BLACK.index);
+        
+        rsmValueStyle.setAlignment(HSSFCellStyle.ALIGN_LEFT);
+        rsmValueStyle.setVerticalAlignment(HSSFCellStyle.VERTICAL_CENTER);
+        rsmValueStyle.setBorderLeft(HSSFCellStyle.BORDER_THIN);
+        rsmValueStyle.setBorderRight(HSSFCellStyle.BORDER_THIN);
+        rsmValueStyle.setLeftBorderColor(HSSFColor.BLACK.index);
+        rsmValueStyle.setRightBorderColor(HSSFColor.BLACK.index);
+        
+        rsmValueBorderStyle.setAlignment(HSSFCellStyle.ALIGN_LEFT);
+        rsmValueBorderStyle.setVerticalAlignment(HSSFCellStyle.VERTICAL_CENTER);
+        rsmValueBorderStyle.setBorderRight(HSSFCellStyle.BORDER_THICK);
+        rsmValueBorderStyle.setRightBorderColor(HSSFColor.BLACK.index);
+        
+        top2Style.setAlignment(HSSFCellStyle.ALIGN_CENTER);
+        top2Style.setVerticalAlignment(HSSFCellStyle.VERTICAL_CENTER);
+        top2Style.setBorderRight(HSSFCellStyle.BORDER_THICK);
+        top2Style.setRightBorderColor(HSSFColor.BLACK.index);
+        top2Style.setWrapText(true);
+        
+        numberCellStyle.setDataFormat(HSSFDataFormat.getBuiltinFormat("#,##0"));
+        numberCellStyle.setBorderRight(HSSFCellStyle.BORDER_THIN);
+        numberCellStyle.setRightBorderColor(HSSFColor.BLACK.index);
+        numberCellStyle.setBorderBottom(HSSFCellStyle.BORDER_THIN);
+        numberCellStyle.setBottomBorderColor(HSSFColor.BLACK.index);
+        numberCellStyle.setBorderLeft(HSSFCellStyle.BORDER_THIN);
+        numberCellStyle.setLeftBorderColor(HSSFColor.BLACK.index);
+        
+        numberCellRightBorderStyle.setDataFormat(HSSFDataFormat.getBuiltinFormat("#,##0"));
+        numberCellRightBorderStyle.setRightBorderColor(HSSFColor.BLACK.index);
+        numberCellRightBorderStyle.setBorderRight(HSSFCellStyle.BORDER_THICK);
+        numberCellRightBorderStyle.setBorderBottom(HSSFCellStyle.BORDER_THIN);
+        numberCellRightBorderStyle.setBottomBorderColor(HSSFColor.BLACK.index);
+        
+        percentCellStyle.setDataFormat(HSSFDataFormat.getBuiltinFormat("0%"));
+        percentCellStyle.setBorderBottom(HSSFCellStyle.BORDER_THIN);
+        percentCellStyle.setBottomBorderColor(HSSFColor.BLACK.index);
+        percentCellStyle.setBorderRight(HSSFCellStyle.BORDER_THIN);
+        percentCellStyle.setRightBorderColor(HSSFColor.BLACK.index);
+
+        percentCellRightBorderStyle.setDataFormat(HSSFDataFormat.getBuiltinFormat("0%"));
+        percentCellRightBorderStyle.setRightBorderColor(HSSFColor.BLACK.index);
+        percentCellRightBorderStyle.setBorderRight(HSSFCellStyle.BORDER_THICK);
+        percentCellRightBorderStyle.setBorderBottom(HSSFCellStyle.BORDER_THIN);
+        percentCellRightBorderStyle.setBottomBorderColor(HSSFColor.BLACK.index);
+        
+        averageDoseCellStyle.setDataFormat(HSSFDataFormat.getBuiltinFormat("0.00"));
+        averageDoseCellStyle.setBorderBottom(HSSFCellStyle.BORDER_THIN);
+        averageDoseCellStyle.setBottomBorderColor(HSSFColor.BLACK.index);
+        averageDoseCellStyle.setBorderRight(HSSFCellStyle.BORDER_THIN);
+        averageDoseCellStyle.setRightBorderColor(HSSFColor.BLACK.index);
+        
+        averageDoseRightCellStyle.setDataFormat(HSSFDataFormat.getBuiltinFormat("0.00"));
+        averageDoseRightCellStyle.setRightBorderColor(HSSFColor.BLACK.index);
+        averageDoseRightCellStyle.setBorderRight(HSSFCellStyle.BORDER_THICK);
+        averageDoseRightCellStyle.setBorderBottom(HSSFCellStyle.BORDER_THIN);
+        averageDoseRightCellStyle.setBottomBorderColor(HSSFColor.BLACK.index);
+    }
+    
+    private void populateWeekMonthSheet2CellStyle(HSSFCellStyle top1Style, HSSFCellStyle top2Style,HSSFCellStyle top2LeftStyle,HSSFCellStyle top2RightStyle
+    		,HSSFCellStyle valueLeftStyle,HSSFCellStyle valueRightStyle,HSSFCellStyle valueStyle
+    		,HSSFCellStyle valueBottomStyle, HSSFCellStyle valueBottomRightStyle,HSSFCellStyle valueBottomLeftStyle
+    		,HSSFCellStyle numberBottomStyle,HSSFCellStyle numberBottomRightStyle,HSSFCellStyle percentBottomStyle
+    		,HSSFCellStyle percentBottomRightStyle,HSSFCellStyle averageDoseBottomStyle,HSSFCellStyle averageDoseBottomRightStyle){
+    	top1Style.setAlignment(HSSFCellStyle.ALIGN_CENTER);
+        top1Style.setVerticalAlignment(HSSFCellStyle.VERTICAL_CENTER);
+        top1Style.setBorderTop(HSSFCellStyle.BORDER_THICK);
+        top1Style.setTopBorderColor(HSSFColor.BLACK.index);
+        top1Style.setBorderRight(HSSFCellStyle.BORDER_THICK);
+        top1Style.setRightBorderColor(HSSFColor.BLACK.index);
+        top1Style.setBorderBottom(HSSFCellStyle.BORDER_THIN);
+        top1Style.setBottomBorderColor(HSSFColor.BLACK.index);
+        top1Style.setBorderLeft(HSSFCellStyle.BORDER_THICK);
+        top1Style.setLeftBorderColor(HSSFColor.BLACK.index);
+        top1Style.setWrapText(true);
+        
+        top2Style.setAlignment(HSSFCellStyle.ALIGN_CENTER);
+        top2Style.setVerticalAlignment(HSSFCellStyle.VERTICAL_CENTER);
+        top2Style.setBorderRight(HSSFCellStyle.BORDER_THIN);
+        top2Style.setRightBorderColor(HSSFColor.BLACK.index);
+        top2Style.setBorderBottom(HSSFCellStyle.BORDER_THIN);
+        top2Style.setBottomBorderColor(HSSFColor.BLACK.index);
+        top2Style.setBorderLeft(HSSFCellStyle.BORDER_THIN);
+        top2Style.setLeftBorderColor(HSSFColor.BLACK.index);
+        top2Style.setWrapText(true);
+        
+        top2LeftStyle.setAlignment(HSSFCellStyle.ALIGN_CENTER);
+        top2LeftStyle.setVerticalAlignment(HSSFCellStyle.VERTICAL_CENTER);
+        top2LeftStyle.setBorderRight(HSSFCellStyle.BORDER_THIN);
+        top2LeftStyle.setRightBorderColor(HSSFColor.BLACK.index);
+        top2LeftStyle.setBorderBottom(HSSFCellStyle.BORDER_THIN);
+        top2LeftStyle.setBottomBorderColor(HSSFColor.BLACK.index);
+        top2LeftStyle.setBorderLeft(HSSFCellStyle.BORDER_THICK);
+        top2LeftStyle.setLeftBorderColor(HSSFColor.BLACK.index);
+        top2LeftStyle.setWrapText(true);
+        
+        top2RightStyle.setAlignment(HSSFCellStyle.ALIGN_CENTER);
+        top2RightStyle.setVerticalAlignment(HSSFCellStyle.VERTICAL_CENTER);
+        top2RightStyle.setBorderRight(HSSFCellStyle.BORDER_THICK);
+        top2RightStyle.setRightBorderColor(HSSFColor.BLACK.index);
+        top2RightStyle.setBorderBottom(HSSFCellStyle.BORDER_THIN);
+        top2RightStyle.setBottomBorderColor(HSSFColor.BLACK.index);
+        top2RightStyle.setBorderLeft(HSSFCellStyle.BORDER_THIN);
+        top2RightStyle.setLeftBorderColor(HSSFColor.BLACK.index);
+        top2RightStyle.setWrapText(true);
+        
+        valueLeftStyle.setBorderTop(HSSFCellStyle.BORDER_THIN);
+        valueLeftStyle.setTopBorderColor(HSSFColor.BLACK.index);
+        valueLeftStyle.setBorderRight(HSSFCellStyle.BORDER_THIN);
+        valueLeftStyle.setRightBorderColor(HSSFColor.BLACK.index);
+        valueLeftStyle.setBorderBottom(HSSFCellStyle.BORDER_THIN);
+        valueLeftStyle.setBottomBorderColor(HSSFColor.BLACK.index);
+        valueLeftStyle.setBorderLeft(HSSFCellStyle.BORDER_THICK);
+        valueLeftStyle.setLeftBorderColor(HSSFColor.BLACK.index);
+        
+        valueRightStyle.setBorderTop(HSSFCellStyle.BORDER_THIN);
+        valueRightStyle.setTopBorderColor(HSSFColor.BLACK.index);
+        valueRightStyle.setBorderRight(HSSFCellStyle.BORDER_THICK);
+        valueRightStyle.setRightBorderColor(HSSFColor.BLACK.index);
+        valueRightStyle.setBorderBottom(HSSFCellStyle.BORDER_THIN);
+        valueRightStyle.setBottomBorderColor(HSSFColor.BLACK.index);
+        valueRightStyle.setBorderLeft(HSSFCellStyle.BORDER_THIN);
+        valueRightStyle.setLeftBorderColor(HSSFColor.BLACK.index);
+        
+        valueStyle.setBorderTop(HSSFCellStyle.BORDER_THIN);
+        valueStyle.setTopBorderColor(HSSFColor.BLACK.index);
+        valueStyle.setBorderRight(HSSFCellStyle.BORDER_THIN);
+        valueStyle.setRightBorderColor(HSSFColor.BLACK.index);
+        valueStyle.setBorderBottom(HSSFCellStyle.BORDER_THIN);
+        valueStyle.setBottomBorderColor(HSSFColor.BLACK.index);
+        valueStyle.setBorderLeft(HSSFCellStyle.BORDER_THIN);
+        valueStyle.setLeftBorderColor(HSSFColor.BLACK.index);
+        
+        valueBottomStyle.setBorderBottom(HSSFCellStyle.BORDER_THICK);
+        valueBottomStyle.setBottomBorderColor(HSSFColor.BLACK.index);
+        valueBottomStyle.setBorderRight(HSSFCellStyle.BORDER_THIN);
+        valueBottomStyle.setRightBorderColor(HSSFColor.BLACK.index);
+        
+        valueBottomRightStyle.setBorderBottom(HSSFCellStyle.BORDER_THICK);
+        valueBottomRightStyle.setBottomBorderColor(HSSFColor.BLACK.index);
+        valueBottomRightStyle.setBorderRight(HSSFCellStyle.BORDER_THICK);
+        valueBottomRightStyle.setRightBorderColor(HSSFColor.BLACK.index);
+        
+        valueBottomLeftStyle.setBorderBottom(HSSFCellStyle.BORDER_THICK);
+        valueBottomLeftStyle.setBottomBorderColor(HSSFColor.BLACK.index);
+        valueBottomLeftStyle.setBorderLeft(HSSFCellStyle.BORDER_THICK);
+        valueBottomLeftStyle.setLeftBorderColor(HSSFColor.BLACK.index);
+        valueBottomLeftStyle.setBorderRight(HSSFCellStyle.BORDER_THIN);
+        valueBottomLeftStyle.setRightBorderColor(HSSFColor.BLACK.index);
+        
+        numberBottomStyle.setBorderBottom(HSSFCellStyle.BORDER_THICK);
+        numberBottomStyle.setBottomBorderColor(HSSFColor.BLACK.index);
+        numberBottomStyle.setBorderRight(HSSFCellStyle.BORDER_THIN);
+        numberBottomStyle.setRightBorderColor(HSSFColor.BLACK.index);
+        numberBottomStyle.setDataFormat(HSSFDataFormat.getBuiltinFormat("#,##0"));
+        
+        numberBottomRightStyle.setBorderBottom(HSSFCellStyle.BORDER_THICK);
+        numberBottomRightStyle.setBottomBorderColor(HSSFColor.BLACK.index);
+        numberBottomRightStyle.setBorderRight(HSSFCellStyle.BORDER_THICK);
+        numberBottomRightStyle.setRightBorderColor(HSSFColor.BLACK.index);
+        numberBottomRightStyle.setDataFormat(HSSFDataFormat.getBuiltinFormat("#,##0"));
+        
+        percentBottomStyle.setBorderBottom(HSSFCellStyle.BORDER_THICK);
+        percentBottomStyle.setBottomBorderColor(HSSFColor.BLACK.index);
+        percentBottomStyle.setBorderRight(HSSFCellStyle.BORDER_THIN);
+        percentBottomStyle.setRightBorderColor(HSSFColor.BLACK.index);
+        percentBottomStyle.setDataFormat(HSSFDataFormat.getBuiltinFormat("0%"));
+        
+        percentBottomRightStyle.setBorderBottom(HSSFCellStyle.BORDER_THICK);
+        percentBottomRightStyle.setBottomBorderColor(HSSFColor.BLACK.index);
+        percentBottomRightStyle.setBorderRight(HSSFCellStyle.BORDER_THICK);
+        percentBottomRightStyle.setRightBorderColor(HSSFColor.BLACK.index);
+        percentBottomRightStyle.setDataFormat(HSSFDataFormat.getBuiltinFormat("0%"));
+        
+        averageDoseBottomStyle.setBorderBottom(HSSFCellStyle.BORDER_THICK);
+        averageDoseBottomStyle.setBottomBorderColor(HSSFColor.BLACK.index);
+        averageDoseBottomStyle.setDataFormat(HSSFDataFormat.getBuiltinFormat("0.00"));
+        
+        averageDoseBottomRightStyle.setBorderBottom(HSSFCellStyle.BORDER_THICK);
+        averageDoseBottomRightStyle.setBottomBorderColor(HSSFColor.BLACK.index);
+        averageDoseBottomRightStyle.setBorderRight(HSSFCellStyle.BORDER_THICK);
+        averageDoseBottomRightStyle.setRightBorderColor(HSSFColor.BLACK.index);
+        averageDoseBottomRightStyle.setDataFormat(HSSFDataFormat.getBuiltinFormat("0.00"));
     }
     
     private void populateWeeklyReportFile(StringBuffer remoteWeeklyReportFile, StringBuffer weeklyReportFile2Download, StringBuffer localWeeklyReportFile, Date chooseDate_d, String fileNamePre, String fileSubName, String directoryName){

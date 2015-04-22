@@ -940,7 +940,8 @@ public class ChestSurgeryDAOImpl implements ChestSurgeryDAO {
 	            .append(", IFNULL(sum(risknum),0) as risknum ")
 				.append(LsAttributes.SQL_MONTHLY_STATISTICS_SELECTION)
 	            .append(" from tbl_chestSurgery_data_weekly, tbl_hospital h ")
-	            .append(LsAttributes.SQL_MONTHLY_STATISTICS_RSD_CONDITION);
+	            .append(LsAttributes.SQL_MONTHLY_STATISTICS_RSD_CONDITION)
+	            .append(LsAttributes.SQL_MONTHLY_STATISTICS_RSD_GROUP);
 				break;
 			case LsAttributes.USER_LEVEL_RSM:
 				inRateSQL.append(" select h.region, h.rsmRegion as rsmRegion, '' as dsmCode, '' as dsmName ")
@@ -949,7 +950,8 @@ public class ChestSurgeryDAOImpl implements ChestSurgeryDAO {
 	            .append(", IFNULL(sum(risknum),0) as risknum ")
 				.append(LsAttributes.SQL_MONTHLY_STATISTICS_SELECTION)
 	            .append(" from tbl_chestSurgery_data_weekly, tbl_hospital h ")
-	            .append(LsAttributes.SQL_MONTHLY_STATISTICS_RSM_CONDITION);
+	            .append(LsAttributes.SQL_MONTHLY_STATISTICS_RSM_CONDITION)
+	            .append(LsAttributes.SQL_MONTHLY_STATISTICS_RSM_GROUP);
 				break;
 			case LsAttributes.USER_LEVEL_DSM:
 				inRateSQL.append(" select h.region, h.rsmRegion as rsmRegion, h.dsmCode as dsmCode ")
@@ -959,7 +961,8 @@ public class ChestSurgeryDAOImpl implements ChestSurgeryDAO {
 	            .append(", IFNULL(sum(risknum),0) as risknum ")
 				.append(LsAttributes.SQL_MONTHLY_STATISTICS_SELECTION)
 	            .append(" from tbl_chestSurgery_data_weekly, tbl_hospital h ")
-		        .append(LsAttributes.SQL_MONTHLY_STATISTICS_DSM_CONDITION);
+		        .append(LsAttributes.SQL_MONTHLY_STATISTICS_DSM_CONDITION)
+				.append(LsAttributes.SQL_MONTHLY_STATISTICS_DSM_GROUP);
 				break;
 		}
         return dataBean.getJdbcTemplate().query(inRateSQL.toString(), new Object[]{beginDuraion,endDuraion},new MonthlyStatisticsDataRowMapper());

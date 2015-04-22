@@ -334,6 +334,29 @@ public class BaseController {
     	}
     }
     
+    /**
+     * RE2 周周报 PDF
+     * @param html
+     * @param basePath
+     * @param yesterday
+     * @param systemTime
+     * @param department
+     * @throws Exception
+     */
+    public void createRe2Report(BirtReportUtils html, String basePath, long systemTime, String selfLevel) throws Exception{
+    	checkAndCreateFileFolder(basePath + "re2Report");
+    	
+    	String re2ReportName = new StringBuffer(basePath).append("re2Report/RE2医院呼吸科周周报-").append(systemTime).append(".pdf").toString();
+    	if( LsAttributes.USER_LEVEL_RSD.equals(selfLevel) ){
+    		html.runRe2Report( basePath + "reportDesigns/weeklyMonthlyRESReportBU.rptdesign",re2ReportName);
+    	}else if( LsAttributes.USER_LEVEL_RSM.equals(selfLevel) ){
+    		html.runRe2Report( basePath + "reportDesigns/weeklyMonthlyRESReportBU.rptdesign",re2ReportName);
+    	}else if( LsAttributes.USER_LEVEL_DSM.equals(selfLevel) ){
+    		html.runRe2Report( basePath + "reportDesigns/weeklyMonthlyRESReportBU.rptdesign",re2ReportName);
+    	}
+		logger.info("the RES report of re2 is done.");
+    }
+    
     public void createAllRSMDailyReport(BirtReportUtils html, String basePath, String yesterday, long systemTime, String department ) throws Exception{
         checkAndCreateFileFolder(basePath + "pedAllRSMDailyReport/"+yesterday);
         checkAndCreateFileFolder(basePath + "resAllRSMDailyReport/"+yesterday);

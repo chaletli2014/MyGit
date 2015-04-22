@@ -140,6 +140,10 @@
 		loading();
 		$("#downloadResMonthData").submit();
 	}
+	function downloadResRe2MonthData(){
+		loading();
+		$("#downloadResRe2MonthData").submit();
+	}
    	function downloadKPIHosData(){
         loading();
         $("#downloadKPIHosData").submit();
@@ -438,17 +442,50 @@
 					</div>
 				</div>
 				<div class="element_block">
-				<div class="element_title">呼吸科周周报</div>
+					<div class="element_title">呼吸科周周报</div>
 					<div>
 						<form action="doDownloadResMonthData" id="downloadResMonthData" method="post" enctype="multipart/form-data" data-ajax="false" accept-charset="UTF-8">
 							<input type="hidden" name="fromWeb" value="Y">
+							<input type="hidden" id="isRe2" name="isRe2" value="0"/>
+							<span>选择级别：</span>
+	                        <select name="level">
+	                        	<option value="RSD">RSD</option>
+	                        	<option value="RSM">RSM</option>
+	                        	<option value="DSM">DSM</option>
+	                        </select>
 							<img alt="" src="<%=basePath%>images/button_submit.png" style="cursor: pointer; vertical-align: middle;" onclick="downloadResMonthData()" />
 						</form>
-						<c:if test="${resMonthDataFile != null}">
-							<div>
-								<a href="${resMonthDataFile}">${resMonthDataFileName}</a>
-							</div>
-						</c:if>
+						<c:if test="${resReportFiles != null}">
+	                        <div id="weeklyPDFReport">
+	                            <c:forEach items="${resReportFiles}" var="reportFile">
+	                                <a href="${reportFile.filePath}" target="_blank">${reportFile.fileName}</a>
+	                            </c:forEach>
+	                        </div>
+	                    </c:if>
+					</div>
+				</div>
+				<div class="element_block">
+					<div class="element_title">RE2医院呼吸科周周报</div>
+					<div>
+						<form action="doDownloadResMonthData" id="downloadResRe2MonthData" method="post" enctype="multipart/form-data" data-ajax="false" accept-charset="UTF-8">
+							<input type="hidden" name="fromWeb" value="Y">
+							<input type="hidden" id="isRe2" name="isRe2" value="1"/>
+							<span>选择级别：</span>
+	                        <select name="level">
+	                        	<option value="RSD">RSD</option>
+	                        	<option value="RSM">RSM</option>
+	                        	<option value="DSM">DSM</option>
+	                        </select>
+                        
+							<img alt="" src="<%=basePath%>images/button_submit.png" style="cursor: pointer; vertical-align: middle;" onclick="downloadResRe2MonthData()" />
+						</form>
+						<c:if test="${re2ReportFiles != null}">
+	                        <div id="weeklyPDFReport">
+	                            <c:forEach items="${re2ReportFiles}" var="reportFile">
+	                                <a href="${reportFile.filePath}" target="_blank">${reportFile.fileName}</a>
+	                            </c:forEach>
+	                        </div>
+	                    </c:if>
 					</div>
 				</div>
 			</c:if>

@@ -442,3 +442,10 @@ alter table tbl_respirology_data add column xbk2num int not null default 0;
 alter table tbl_respirology_data add column xbk3num int not null default 0;
 
 alter table tbl_hospital add column isRe2 varchar(2) not null default 0;
+
+alter table tbl_respirology_data_weekly add column xbknum int not null default 0;
+alter table tbl_respirology_data_weekly add column xbk1num int not null default 0;
+alter table tbl_respirology_data_weekly add column xbk2num int not null default 0;
+alter table tbl_respirology_data_weekly add column xbk3num int not null default 0;
+
+ALTER  TABLE tbl_month_data ADD INDEX INDEX_MONTH_HOSPITALCODE (hospitalCode);
