@@ -4442,7 +4442,7 @@ public class ReportController extends BaseController{
         rsmRegionTitleCell.setCellStyle(month_week_top2LeftStyle);
         
         HSSFCell rsmNameTitleCell = row.createCell(columnCount++, XSSFCell.CELL_TYPE_STRING);
-        rsmNameTitleCell.setCellValue("RSM");
+        rsmNameTitleCell.setCellValue("姓名");
         rsmNameTitleCell.setCellStyle(month_week_top2RightStyle);
         
         HSSFCell hosNumTitle2Cell = row.createCell(columnCount++, XSSFCell.CELL_TYPE_STRING);
@@ -4977,7 +4977,7 @@ public class ReportController extends BaseController{
     	rsmRegionTitleCell.setCellStyle(rsmTitleStyle);
     	
     	HSSFCell rsmNameTitleCell = row.createCell(columnCount++, XSSFCell.CELL_TYPE_STRING);
-    	rsmNameTitleCell.setCellValue("RSM");
+    	rsmNameTitleCell.setCellValue("姓名");
     	rsmNameTitleCell.setCellStyle(rsmTitleBorderStyle);
     	
     	HSSFCell hosNumTitleCell = row.createCell(columnCount++, XSSFCell.CELL_TYPE_STRING);
