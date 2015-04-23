@@ -4217,8 +4217,8 @@ public class ReportController extends BaseController{
             	StringBuffer localReportFile = new StringBuffer(localPath);
             	long systemTime = System.currentTimeMillis();
             	
-            	remoteReportFile.append("re2Report/").append("RE2医院呼吸科周周报-").append("-").append(systemTime).append(".pdf");
-            	localReportFile.append("re2Report/").append("RE2医院呼吸科周周报-").append("-").append(systemTime).append(".pdf");
+            	remoteReportFile.append("re2Report/").append("RE2医院呼吸科周周报-").append(systemTime).append(".pdf");
+            	localReportFile.append("re2Report/").append("RE2医院呼吸科周周报-").append(systemTime).append(".pdf");
             	
             	File reportFile = new File(localReportFile.toString());
             	
