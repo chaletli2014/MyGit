@@ -4208,7 +4208,7 @@ public class ReportController extends BaseController{
             }
         }
         
-        if( "1".equals(isRe2) ){
+        if( "1".equals(isRe2) && !LsAttributes.USER_LEVEL_DSM.equalsIgnoreCase(selfLevel) ){
         	try{
         		String pdfFileName = "";
         		String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+request.getContextPath()+"/";
