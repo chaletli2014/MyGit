@@ -11,6 +11,7 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -4021,20 +4022,14 @@ public class ReportController extends BaseController{
         String selfLevel = request.getParameter("level");
         
         List<ReportFileObject> reportFiles = new ArrayList<ReportFileObject>();
+        List<String> keys = new ArrayList<String>();
+        String lastWeekDuration = DateUtils.getWeeklyDurationStr(new Date(),"MM.dd");
         try{
-                File resMonthData = new File(request.getRealPath("/") + "resMonthData/");
+        	long systemTime = System.currentTimeMillis();
+                File resMonthData = new File(request.getRealPath("/") + "resMonthData/"+systemTime+"/");
                 if( !resMonthData.exists() ){
                     resMonthData.mkdir();
                 }
-                
-                fileName = "resMonthData/呼吸科上报数据汇总.xls";
-                
-                File tmpFile = new File(request.getRealPath("/") + fileName);
-                if( !tmpFile.exists() ){
-                    tmpFile.createNewFile();
-                }
-                
-                fOut = new FileOutputStream(tmpFile);
                 
                 HSSFWorkbook workbook = new HSSFWorkbook();
                 
@@ -4091,6 +4086,21 @@ public class ReportController extends BaseController{
                 int sheetNum = 0;
                 
                 List<RespirologyExportData> resExportData = respirologyService.getResMonthExportData(isRe2, selfLevel);
+                keys = new ArrayList<String>(resExportData.get(0).getInRateMap().keySet());
+                
+                fileName = new StringBuffer("resMonthData/").append(systemTime).append("/").append("呼吸科上报数据汇总-")
+                .append(selfLevel)
+                .append("(")
+                .append(keys.get(0)).append("到").append(lastWeekDuration)
+                .append(").xls")
+                .toString();
+                
+                File tmpFile = new File(request.getRealPath("/") + fileName);
+                if( !tmpFile.exists() ){
+                    tmpFile.createNewFile();
+                }
+                
+                fOut = new FileOutputStream(tmpFile);
                 
                 workbook.createSheet("呼吸科周周报");
                 HSSFSheet sheet = workbook.getSheetAt(sheetNum++);
@@ -4217,8 +4227,19 @@ public class ReportController extends BaseController{
             	StringBuffer localReportFile = new StringBuffer(localPath);
             	long systemTime = System.currentTimeMillis();
             	
-            	remoteReportFile.append("re2Report/").append("RE2医院呼吸科周周报-").append(systemTime).append(".pdf");
-            	localReportFile.append("re2Report/").append("RE2医院呼吸科周周报-").append(systemTime).append(".pdf");
+            	String folderName = new StringBuffer("re2Report/").append(systemTime).append("/").toString();
+            	
+            	String fileFullName = new StringBuffer("RE2医院呼吸科周周报-")
+            							.append(selfLevel)
+						                .append("(")
+						                .append(keys.get(0)).append("到").append(lastWeekDuration)
+						            	.append(").pdf").toString();
+            	
+            	checkAndCreateFileFolder(basePath+folderName);
+            	
+            	remoteReportFile.append(folderName).append(fileFullName);
+            	
+            	localReportFile.append(folderName).append(fileFullName);
             	
             	File reportFile = new File(localReportFile.toString());
             	
@@ -4226,7 +4247,7 @@ public class ReportController extends BaseController{
             		BirtReportUtils html = new BirtReportUtils();
             		logger.info("begin to generate RE2 report");
             		html.startPlatform();
-            		createRe2Report(html, localPath, systemTime, selfLevel);
+            		createRe2Report(html, localPath, systemTime, selfLevel, folderName+fileFullName);
             		html.stopPlatform();
             		logger.info("end to generate RE2 report");
             		
@@ -4767,10 +4788,10 @@ public class ReportController extends BaseController{
                             }
                         }
                     }else{
-                        if( resExportDataCount == resExportData.size()-1 ){
-                            lsNumValueCell.setCellStyle(month_week_numberBottomRightStyle);
+                    	if( resExportDataCount == resExportData.size()-1 ){
+                    		lsNumValueCell.setCellStyle(month_week_numberBottomRightStyle);
                         }else{
-                            lsNumValueCell.setCellStyle(numberCellStyle);
+                        	lsNumValueCell.setCellStyle(numberCellRightBorderStyle);
                         }
                     }
                     i++;
@@ -5550,8 +5571,8 @@ public class ReportController extends BaseController{
         numberCellStyle.setLeftBorderColor(HSSFColor.BLACK.index);
         
         numberCellRightBorderStyle.setDataFormat(HSSFDataFormat.getBuiltinFormat("#,##0"));
-        numberCellRightBorderStyle.setRightBorderColor(HSSFColor.BLACK.index);
         numberCellRightBorderStyle.setBorderRight(HSSFCellStyle.BORDER_THICK);
+        numberCellRightBorderStyle.setRightBorderColor(HSSFColor.BLACK.index);
         numberCellRightBorderStyle.setBorderBottom(HSSFCellStyle.BORDER_THIN);
         numberCellRightBorderStyle.setBottomBorderColor(HSSFColor.BLACK.index);
         

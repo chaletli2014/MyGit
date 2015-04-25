@@ -343,10 +343,8 @@ public class BaseController {
      * @param department
      * @throws Exception
      */
-    public void createRe2Report(BirtReportUtils html, String basePath, long systemTime, String selfLevel) throws Exception{
-    	checkAndCreateFileFolder(basePath + "re2Report");
-    	
-    	String re2ReportName = new StringBuffer(basePath).append("re2Report/RE2医院呼吸科周周报-").append(systemTime).append(".pdf").toString();
+    public void createRe2Report(BirtReportUtils html, String basePath, long systemTime, String selfLevel, String fileNameWithFolder) throws Exception{
+    	String re2ReportName = new StringBuffer(basePath).append(fileNameWithFolder).toString();
     	if( LsAttributes.USER_LEVEL_RSD.equals(selfLevel) ){
     		html.runRe2Report( basePath + "reportDesigns/weeklyMonthlyRESReportBU.rptdesign",re2ReportName);
     	}else if( LsAttributes.USER_LEVEL_RSM.equals(selfLevel) ){

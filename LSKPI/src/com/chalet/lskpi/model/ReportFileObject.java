@@ -1,11 +1,14 @@
 package com.chalet.lskpi.model;
+
+import java.io.Serializable;
+
 /**
  * @author Chalet
  * @version 创建时间：2014年4月3日 下午11:27:17
  * 类说明
  */
 
-public class ReportFileObject {
+public class ReportFileObject implements Serializable{
 
 	private String filePath;
 	private String fileName;

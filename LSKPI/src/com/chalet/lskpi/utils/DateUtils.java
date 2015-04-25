@@ -120,6 +120,31 @@ public class DateUtils {
     	return sb.toString();
     }
     
+    /**
+     * 获取参数日期所在周的上周的duration
+     * @param date
+     * @return
+     */
+    public static String getWeeklyDurationStr(Date date, String formater){
+    	if( null == formater || "".equalsIgnoreCase(formater) ){
+    		return getWeeklyDurationYYYYMMDD(date);
+    	}else{
+    		SimpleDateFormat sdf = new SimpleDateFormat(formater);
+    		
+    		StringBuffer sb = new StringBuffer("");
+    		if( date.getDay() == 0 ){
+    			sb.append(sdf.format(new Date(date.getTime() - 13*24*60*60*1000)))
+    			.append("-")
+    			.append(sdf.format(new Date(date.getTime() - 7*24*60*60*1000)));
+    		}else{
+    			sb.append(sdf.format(new Date(date.getTime() - (date.getDay()+6)*24*60*60*1000)))
+    			.append("-")
+    			.append(sdf.format(new Date(date.getTime() - date.getDay()*24*60*60*1000)));
+    		}
+    		return sb.toString();
+    	}
+    }
+    
     public static String getLastMonthForTitle(){
         SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM");
         
