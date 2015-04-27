@@ -313,7 +313,7 @@ public class RespirologyServiceImpl implements RespirologyService {
     	
     	if( LsAttributes.USER_LEVEL_BM.equalsIgnoreCase(currentUser.getLevel()) ){
     		orderedResData.addAll(leftResData);
-    	}else{
+    	}else if( null != orderedResData && orderedResData.size() == 1  ){
     		orderedResData.addAll(1,leftResData);
     	}
     	logger.info(String.format("end to populate the res daily data...current telephone is %s", telephone));
