@@ -38,6 +38,11 @@ public class PediatricsData {
     private String dragonType;
     
     private int portNum;
+    
+    /**
+     * 雾化博雾人次
+     */
+    private int whbwnum;
 	
 	public int getDataId() {
 		return dataId;
@@ -170,5 +175,11 @@ public class PediatricsData {
 	}
 	public void setPortNum(int portNum) {
 		this.portNum = portNum;
+	}
+	public int getWhbwnum() {
+		return whbwnum;
+	}
+	public void setWhbwnum(int whbwnum) {
+		this.whbwnum = whbwnum;
 	}
 }

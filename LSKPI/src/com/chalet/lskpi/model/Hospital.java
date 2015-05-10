@@ -31,6 +31,8 @@ public class Hospital {
     
     private int portNum;
     
+    private String isWHBW;
+    
     public int getId() {
         return id;
     }
@@ -156,5 +158,11 @@ public class Hospital {
 	}
 	public void setIsRe2(String isRe2) {
 		this.isRe2 = isRe2;
+	}
+	public String getIsWHBW() {
+		return isWHBW;
+	}
+	public void setIsWHBW(String isWHBW) {
+		this.isWHBW = isWHBW;
 	}
 }

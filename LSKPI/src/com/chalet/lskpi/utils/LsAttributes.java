@@ -1268,7 +1268,7 @@ public class LsAttributes {
     public static final StringBuffer SQL_WHERE_CONDITION_PED_COLLECTION_HOSPITAL = new StringBuffer("isPedAssessed='1' ");
     
     public static final StringBuffer SQL_SELECTION_HOSPITAL = new StringBuffer("")
-    		.append(", h.city, h.province, h.region, h.rsmRegion, h.saleCode, h.saleName, h.dsmCode, h.portNum, h.isRe2 ");
+    		.append(", h.city, h.province, h.region, h.rsmRegion, h.saleCode, h.saleName, h.dsmCode, h.portNum, h.isRe2, h.isWHBW");
     
     /**
      * 呼吸科周周报---
@@ -1335,7 +1335,7 @@ public class LsAttributes {
 	        
 	    sb.append(SQL_MONTHWEEKLYREPORT_COMMON_SELECTION_1);
 	    if( "1".equals(isRe2) ){
-	    	sb.append("     and ( (rdw2.date_YYYY > 2015 and rdw2.date_MM > 4)  or ( rdw2.date_YYYY > 2016 )) ");
+	    	sb.append("     and ( (rdw2.date_YYYY >= 2015 and rdw2.date_MM >= 4)  or ( rdw2.date_YYYY >= 2016 )) ");
     		sb.append("		and h2.isRe2 = '1' ");
     	}else{
     		sb.append("     and ( (rdw2.date_YYYY > 2013 and rdw2.date_MM > 3)  or ( rdw2.date_YYYY > 2014 )) ");
@@ -1368,7 +1368,7 @@ public class LsAttributes {
 	    sb.append(" where h.code = rdw.hospitalCode ");
 	    
 	    if( "1".equals(isRe2) ){
-	    	sb.append(" and ( (rdw.date_YYYY > 2015 and rdw.date_MM > 4)  or ( rdw.date_YYYY > 2016 )) ")
+	    	sb.append(" and ( (rdw.date_YYYY >= 2015 and rdw.date_MM >= 4)  or ( rdw.date_YYYY >= 2016 )) ")
 	        .append(" and rdw.duration < ? ")
     		.append(" and h.isRe2 = '1' ");
     	}else{
@@ -1401,7 +1401,7 @@ public class LsAttributes {
 	    sb.append(SQL_MONTHWEEKLYREPORT_COMMON_SELECTION_1);
     	
     	if( "1".equals(isRe2) ){
-	    	sb.append("     and ( (rdw2.date_YYYY > 2015 and rdw2.date_MM > 4)  or ( rdw2.date_YYYY > 2016 )) ");
+	    	sb.append("     and ( (rdw2.date_YYYY >= 2015 and rdw2.date_MM >= 4)  or ( rdw2.date_YYYY >= 2016 )) ");
     		sb.append("		and h2.isRe2 = '1' ");
     	}else{
     		sb.append("     and ( (rdw2.date_YYYY > 2013 and rdw2.date_MM > 3)  or ( rdw2.date_YYYY > 2014 )) ");
@@ -1422,7 +1422,7 @@ public class LsAttributes {
 	        .append(" where h.code = rdw.hospitalCode ");
 	    
         if( "1".equals(isRe2) ){
-        	sb.append(" and ( (rdw.date_YYYY > 2015 and rdw.date_MM > 4)  or ( rdw.date_YYYY > 2016 )) ")
+        	sb.append(" and ( (rdw.date_YYYY >= 2015 and rdw.date_MM >= 4)  or ( rdw.date_YYYY >= 2016 )) ")
         	.append(" and rdw.duration < ? ")
     		.append(" and h.isRe2 = '1' ");
     	}else{

@@ -115,4 +115,6 @@ public interface HospitalDAO {
     public List<Map<String, Integer>> getKPISalesNumMap(String department, String isRe2, String level) throws Exception;
     
     public void updatePortNum(Hospital hospitalWithPortNum) throws Exception;
+    
+    public void updateWHBWStatus(Hospital hospital) throws Exception;
 }

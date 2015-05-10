@@ -15,6 +15,7 @@ import org.springframework.cache.annotation.Cacheable;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.dao.IncorrectResultSizeDataAccessException;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.chalet.lskpi.comparator.DailyReportDataAverageComparator;
 import com.chalet.lskpi.comparator.DailyReportDataInRateComparator;
@@ -218,6 +219,7 @@ public class PediatricsServiceImpl implements PediatricsService {
 	}
 
 	@Override
+	@Transactional
 	public void insert(PediatricsData pediatricsData, UserInfo operator, Hospital hospital) throws Exception {
 		pediatricsDAO.insert(pediatricsData, operator, hospital);
 	}

@@ -928,5 +928,14 @@ public class HospitalDAOImpl implements HospitalDAO {
         
         dataBean.getJdbcTemplate().update(sql.toString(), new Object[]{hospitalWithPortNum.getPortNum(),hospitalWithPortNum.getCode()});
 	}
+	
+	@Override
+	public void updateWHBWStatus(Hospital hospital) throws Exception{
+		StringBuffer sql = new StringBuffer("update tbl_hospital set ")
+        .append(" isWHBW=? ")
+        .append(" where id=? ");
+        
+        dataBean.getJdbcTemplate().update(sql.toString(), new Object[]{hospital.getIsWHBW(),hospital.getId()});
+	}
 
 }

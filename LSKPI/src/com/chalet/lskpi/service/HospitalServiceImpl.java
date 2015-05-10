@@ -458,4 +458,9 @@ public class HospitalServiceImpl implements HospitalService {
 			throws Exception {
 		hospitalDAO.updatePortNum(hospitalWithPortNum);
 	}
+	
+	@Override
+	public void updateWHBWStatus(Hospital hospital) throws Exception{
+		hospitalDAO.updateWHBWStatus(hospital);
+	}
 }

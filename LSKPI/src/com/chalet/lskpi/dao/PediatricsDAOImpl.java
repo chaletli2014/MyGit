@@ -1837,7 +1837,7 @@ public class PediatricsDAOImpl implements PediatricsDAO {
 	public void insert(final PediatricsData pediatricsData, final UserInfo operator, final Hospital hospital) throws Exception {
 		logger.info(">>PediatricsDAOImpl insert");
 		
-		final String sql = "insert into tbl_pediatrics_data(id,createdate,hospitalName,pnum,whnum,lsnum,etmsCode,operatorName,region,rsmRegion,hqd,hbid,oqd,obid,tqd,tbid,recipeType,updatedate,dsmCode,portNum) values(null,NOW(),?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,NOW(),?,?)";
+		final String sql = "insert into tbl_pediatrics_data(id,createdate,hospitalName,pnum,whnum,lsnum,etmsCode,operatorName,region,rsmRegion,hqd,hbid,oqd,obid,tqd,tbid,recipeType,updatedate,dsmCode,portNum,whbwnum) values(null,NOW(),?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,NOW(),?,?,?)";
 		KeyHolder keyHolder = new GeneratedKeyHolder();
 		dataBean.getJdbcTemplate().update(new PreparedStatementCreator(){
 			@Override
@@ -1861,6 +1861,7 @@ public class PediatricsDAOImpl implements PediatricsDAO {
 				ps.setString(15, pediatricsData.getRecipeType());
 				ps.setString(16, (operator.getSuperior()==null||"".equalsIgnoreCase(operator.getSuperior()))?operator.getUserCode():operator.getSuperior());
 				ps.setInt(17, hospital.getPortNum());
+				ps.setInt(18, pediatricsData.getWhbwnum());
 				return ps;
 			}
 		}, keyHolder);
@@ -1916,6 +1917,7 @@ public class PediatricsDAOImpl implements PediatricsDAO {
 	    sql.append(", tqd=? ");
 	    sql.append(", tbid=? ");
 	    sql.append(", recipeType=? ");
+	    sql.append(", whbwnum=? ");
 	    
 	    List<Object> paramList = new ArrayList<Object>();
 	    paramList.add(pediatricsData.getPnum());
@@ -1928,6 +1930,7 @@ public class PediatricsDAOImpl implements PediatricsDAO {
 	    paramList.add(pediatricsData.getTqd());
 	    paramList.add(pediatricsData.getTbid());
 	    paramList.add(pediatricsData.getRecipeType());
+	    paramList.add(pediatricsData.getWhbwnum());
 
 	    if( null == operator ){
 	    	logger.info("using web to update the data, no need to update the sales info");

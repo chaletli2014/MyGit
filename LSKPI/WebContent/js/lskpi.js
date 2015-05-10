@@ -305,3 +305,13 @@ function confirmTypein(title, popupDivID, formID) {
     });
     $("#"+popupDivID).popup("open");
 }
+
+function checkWHBW(){
+	var checkStatus = $("#isWHBW").is(':checked');
+	if( checkStatus ){
+		showCustomrizedMessage('请注意：如果开启博利康尼数据录入并保存，则不能再取消');
+		$("#whbw_div").css("display","block");
+	}else{
+		$("#whbw_div").css("display","none");
+	}
+}

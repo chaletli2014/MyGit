@@ -454,6 +454,8 @@ public class IndexController extends BaseController{
             	logger.info("get the pediatrics data of the selected hospital - " + selectedHospital);
                 existedData = pediatricsService.getPediatricsDataByHospital(selectedHospital);
                 
+                Hospital hospital = hospitalService.getHospitalByCode(selectedHospital);
+                
                 if( existedData != null ){
 			    	logger.info(String.format("init ped existedData is %s", existedData.getHospitalName()));
 			    }
@@ -461,10 +463,11 @@ public class IndexController extends BaseController{
                 
                 //if existedData is null, then the data is not set, the port num should be shown as the one of hospital.
                 if( existedData == null ){
-                	Hospital hospital = hospitalService.getHospitalByCode(selectedHospital);
                 	existedData = new PediatricsData();
                 	existedData.setPortNum(hospital.getPortNum());
                 }
+                
+                view.addObject("hosObj", hospital);
             }
             
             view.addObject("existedData", existedData);
@@ -519,12 +522,19 @@ public class IndexController extends BaseController{
                 logger.info(String.format("the res data is found which id is %s", dataId));
             }
             
+            String isWHBWChecked = request.getParameter("isWHBW");
+            
+            Hospital hospital = hospitalService.getHospitalByCode(hospitalCode);
+            
+            if( "on".equalsIgnoreCase(isWHBWChecked) ){
+            	hospital.setIsWHBW("1");
+            	hospitalService.updateWHBWStatus(hospital);
+            }
+            
             //new data
             if( null == dataId || "".equalsIgnoreCase(dataId) || "0".equalsIgnoreCase(dataId) ){
                 PediatricsData pediatricsData = new PediatricsData();
                 populatePediatricsData(request,pediatricsData);
-                
-                Hospital hospital = hospitalService.getHospitalByCode(hospitalCode);
                 
                 logger.info("insert the data of pediatrics");
                 pediatricsService.insert(pediatricsData, currentUser, hospital);
@@ -904,6 +914,8 @@ public class IndexController extends BaseController{
         int whnum = StringUtils.getIntegerFromString(request.getParameter("whnum"));
         //当日雾化令舒病人数
         int lsnum = StringUtils.getIntegerFromString(request.getParameter("lsnum"));
+        //当日雾化博雾人次
+        int whbwnum = StringUtils.getIntegerFromString(request.getParameter("whbwnum"));
         //0.5mg QD
         double hqd = StringUtils.getDoubleFromString(request.getParameter("hqd"));
         //0.5mg BID
@@ -923,6 +935,7 @@ public class IndexController extends BaseController{
         pediatricsData.setPnum(pnum);
         pediatricsData.setWhnum(whnum);
         pediatricsData.setLsnum(lsnum);
+        pediatricsData.setWhbwnum(whbwnum);
         pediatricsData.setHqd(hqd);
         pediatricsData.setHbid(hbid);
         pediatricsData.setOqd(oqd);
