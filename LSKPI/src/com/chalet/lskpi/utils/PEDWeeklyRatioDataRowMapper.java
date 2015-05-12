@@ -38,6 +38,11 @@ public class PEDWeeklyRatioDataRowMapper implements RowMapper<WeeklyRatioData>{
         weeklyRatioData.setTmgRateRatio(rs.getDouble("tmgRateRatio"));
         weeklyRatioData.setFmgRate(rs.getDouble("fmgRate"));
         weeklyRatioData.setFmgRateRatio(rs.getDouble("fmgRateRatio"));
+        
+        weeklyRatioData.setWhbwnum(rs.getInt("whbwnum"));
+        weeklyRatioData.setWhbwNumRatio(rs.getDouble("whbwNumRatio"));
+        weeklyRatioData.setBlRate(rs.getDouble("blRate"));
+        weeklyRatioData.setBlRateRatio(rs.getDouble("blRateRatio"));
         return weeklyRatioData;
     }
 }

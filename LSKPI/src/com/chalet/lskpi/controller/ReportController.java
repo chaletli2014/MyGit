@@ -263,6 +263,14 @@ public class ReportController extends BaseController{
     		return "redirect:showUploadData";
     	}
     }
+    
+    /**
+     * 下载各科室原始数据
+     * @param request request 
+     * @param response response 
+     * @return 下载文件
+     * @throws IOException
+     */
     @RequestMapping("/doDownloadDailyData")
     public String doDownloadDailyData(HttpServletRequest request, HttpServletResponse response) throws IOException{
     	logger.info("download the daily data..");
@@ -419,6 +427,7 @@ public class ReportController extends BaseController{
                     row.createCell(columnNum++, XSSFCell.CELL_TYPE_STRING).setCellValue("当日门诊人次");
                     row.createCell(columnNum++, XSSFCell.CELL_TYPE_STRING).setCellValue("当日雾化人次");
                     row.createCell(columnNum++, XSSFCell.CELL_TYPE_STRING).setCellValue("当日雾化令舒人次");
+                    row.createCell(columnNum++, XSSFCell.CELL_TYPE_STRING).setCellValue("雾化博雾人次");
                     row.createCell(columnNum++, XSSFCell.CELL_TYPE_STRING).setCellValue("雾化端口数量");
                     row.createCell(columnNum++, XSSFCell.CELL_TYPE_STRING).setCellValue("销售代表ETMSCode");
                     row.createCell(columnNum++, XSSFCell.CELL_TYPE_STRING).setCellValue("销售代表姓名");
@@ -446,6 +455,7 @@ public class ReportController extends BaseController{
                         row.createCell(dataColumnNum++, XSSFCell.CELL_TYPE_NUMERIC).setCellValue(pedData.getPnum());
                         row.createCell(dataColumnNum++, XSSFCell.CELL_TYPE_NUMERIC).setCellValue(pedData.getWhnum());
                         row.createCell(dataColumnNum++, XSSFCell.CELL_TYPE_NUMERIC).setCellValue(pedData.getLsnum());
+                        row.createCell(dataColumnNum++, XSSFCell.CELL_TYPE_NUMERIC).setCellValue(pedData.getWhbwnum());
                         row.createCell(dataColumnNum++, XSSFCell.CELL_TYPE_NUMERIC).setCellValue(pedData.getPortNum());
                         row.createCell(dataColumnNum++, XSSFCell.CELL_TYPE_STRING).setCellValue(pedData.getSalesETMSCode());
                         row.createCell(dataColumnNum++, XSSFCell.CELL_TYPE_STRING).setCellValue(pedData.getSalesName());

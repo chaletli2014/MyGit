@@ -33,6 +33,7 @@ public class PediatricsWithPortNumRowMapper implements RowMapper<PediatricsData>
     	pediatricsData.setIsPedAssessed(rs.getString("isPedAssessed"));
     	pediatricsData.setDragonType(rs.getString("dragonType"));
     	pediatricsData.setPortNum(rs.getInt("portNum"));
+    	pediatricsData.setWhbwnum(rs.getInt("whbwnum"));
         return pediatricsData;
     }
     

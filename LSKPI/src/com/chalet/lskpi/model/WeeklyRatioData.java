@@ -35,6 +35,11 @@ public class WeeklyRatioData {
     private RateElement firstRate;
     private RateElement secondRate;
     
+    private int whbwnum;
+    private double whbwNumRatio;
+    private double blRate;
+    private double blRateRatio;
+    
     public double getPatNumRatio() {
         return patNumRatio;
     }
@@ -202,5 +207,29 @@ public class WeeklyRatioData {
 	}
 	public void setName(String name) {
 		this.name = name;
+	}
+	public int getWhbwnum() {
+		return whbwnum;
+	}
+	public void setWhbwnum(int whbwnum) {
+		this.whbwnum = whbwnum;
+	}
+	public double getWhbwNumRatio() {
+		return whbwNumRatio;
+	}
+	public void setWhbwNumRatio(double whbwNumRatio) {
+		this.whbwNumRatio = whbwNumRatio;
+	}
+	public double getBlRate() {
+		return blRate;
+	}
+	public void setBlRate(double blRate) {
+		this.blRate = blRate;
+	}
+	public double getBlRateRatio() {
+		return blRateRatio;
+	}
+	public void setBlRateRatio(double blRateRatio) {
+		this.blRateRatio = blRateRatio;
 	}
 }

@@ -31,6 +31,9 @@ public class MobilePEDDailyData {
     private double coreWhRate;
     private double emergingWhRate;
     
+    private int whbwnum;
+    private double blRate;
+    
     public String getUserName() {
         return userName;
     }
@@ -158,5 +161,17 @@ public class MobilePEDDailyData {
 	}
 	public void setEmergingWhRate(double emergingWhRate) {
 		this.emergingWhRate = emergingWhRate;
+	}
+	public int getWhbwnum() {
+		return whbwnum;
+	}
+	public void setWhbwnum(int whbwnum) {
+		this.whbwnum = whbwnum;
+	}
+	public double getBlRate() {
+		return blRate;
+	}
+	public void setBlRate(double blRate) {
+		this.blRate = blRate;
 	}
 }

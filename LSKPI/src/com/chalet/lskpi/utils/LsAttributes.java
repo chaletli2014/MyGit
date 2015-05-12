@@ -211,7 +211,11 @@ public class LsAttributes {
     	    .append(" , lastweekdata.tmgRate as tmgRate ")
     	    .append(" , ROUND((lastweekdata.tmgRate - last2weekdata.tmgRate ),2) as tmgRateRatio ")
     	    .append(" , lastweekdata.fmgRate as fmgRate ")
-    	    .append(" , ROUND((lastweekdata.fmgRate - last2weekdata.fmgRate ),2) as fmgRateRatio ");
+    	    .append(" , ROUND((lastweekdata.fmgRate - last2weekdata.fmgRate ),2) as fmgRateRatio ")
+    	    .append(" , lastweekdata.whbwnum ")
+    	    .append(" , ROUND((lastweekdata.whbwnum - last2weekdata.whbwnum) / last2weekdata.whbwnum,2) as whbwNumRatio ")
+    	    .append(" , lastweekdata.blRate ")
+    	    .append(" , ROUND((lastweekdata.blRate - last2weekdata.blRate),2) as blRateRatio ");
     
     public static final StringBuffer SQL_WEEKLY_PED_RATIO_DATA_LASTWEEK_SELECT_PED 
     	= new StringBuffer(" 	IFNULL(sum(lastweek.pnum),0) as pnum, ")
@@ -222,9 +226,17 @@ public class LsAttributes {
 				    .append("	IFNULL(sum(lastweek.hmgRate*lastweek.lsnum)/sum(lastweek.lsnum),0) as hmgRate, ")
 				    .append("	IFNULL(sum(lastweek.omgRate*lastweek.lsnum)/sum(lastweek.lsnum),0) as omgRate, ")
 				    .append("	IFNULL(sum(lastweek.tmgRate*lastweek.lsnum)/sum(lastweek.lsnum),0) as tmgRate, ")
-				    .append("	IFNULL(sum(lastweek.fmgRate*lastweek.lsnum)/sum(lastweek.lsnum),0) as fmgRate ")
-				    .append("	from ( select * from tbl_pediatrics_data_weekly where duration = '").append(lastWeekDuration).append("' ) lastweek, tbl_hospital h ")
-				    .append("   where lastweek.hospitalCode = h.code ");
+				    .append("	IFNULL(sum(lastweek.fmgRate*lastweek.lsnum)/sum(lastweek.lsnum),0) as fmgRate, ")
+				    .append("	IFNULL(sum(lastweek.whbwnum),0) as whbwnum, ")
+				    .append("	IFNULL(sum(lastweek.whbwnum) / ")
+				    .append("			sum( ")
+				    .append("	 		case when lastweek.whbwnum != 0 then lastweek.lsnum ")
+				    .append("	 			else 0 ")
+				    .append("	 		end )")
+				    .append("	,0) as blRate ")
+				    .append("	from tbl_pediatrics_data_weekly lastweek, tbl_hospital h ")
+				    .append("   where lastweek.hospitalCode = h.code ")
+    				.append("   and lastweek.duration = '").append(lastWeekDuration).append("' ");
     
     public static final StringBuffer SQL_WEEKLY_PED_RATIO_DATA_LAST2WEEK_SELECT_PED 
 		= new StringBuffer("	IFNULL(sum(last2week.pnum),0) as pnum, ")
@@ -235,9 +247,17 @@ public class LsAttributes {
 				    .append("	IFNULL(sum(last2week.hmgRate*last2week.lsnum)/sum(last2week.lsnum),0) as hmgRate, ")
 				    .append("	IFNULL(sum(last2week.omgRate*last2week.lsnum)/sum(last2week.lsnum),0) as omgRate, ")
 				    .append("	IFNULL(sum(last2week.tmgRate*last2week.lsnum)/sum(last2week.lsnum),0) as tmgRate, ")
-				    .append("	IFNULL(sum(last2week.fmgRate*last2week.lsnum)/sum(last2week.lsnum),0) as fmgRate ")
-				    .append("	from ( select * from tbl_pediatrics_data_weekly where duration = '").append(last2WeekDuration).append("' ) last2week, tbl_hospital h ")
-				    .append("   where last2week.hospitalCode = h.code ");
+				    .append("	IFNULL(sum(last2week.fmgRate*last2week.lsnum)/sum(last2week.lsnum),0) as fmgRate, ")
+				    .append("	IFNULL(sum(last2week.whbwnum),0) as whbwnum, ")
+				    .append("	IFNULL(sum(last2week.whbwnum) / ")
+				    .append("			sum( ")
+				    .append("	 		case when last2week.whbwnum != 0 then last2week.lsnum ")
+				    .append("	 			else 0 ")
+				    .append("	 		end )")
+				    .append("	,0) as blRate ")
+				    .append("	from tbl_pediatrics_data_weekly last2week, tbl_hospital h ")
+				    .append("   where last2week.hospitalCode = h.code ")
+    				.append("   and last2week.duration = '").append(last2WeekDuration).append("' ");
     
     public static final StringBuffer SQL_HOSPITAL_WEEKLY_PED_RATIO_DATA_LASTWEEK_SELECT_PED 
         = new StringBuffer(" 	IFNULL(lastweek.pnum,0) as pnum, ")
@@ -248,7 +268,8 @@ public class LsAttributes {
                     .append("	IFNULL(lastweek.hmgRate,0) as hmgRate, ")
                     .append("	IFNULL(lastweek.omgRate,0) as omgRate, ")
                     .append("	IFNULL(lastweek.tmgRate,0) as tmgRate, ")
-                    .append("	IFNULL(lastweek.fmgRate,0) as fmgRate ")
+                    .append("	IFNULL(lastweek.fmgRate,0) as fmgRate, ")
+                    .append("	IFNULL(lastweek.whbwnum,0) as whbwnum ")
                     .append("	from ( select * from tbl_pediatrics_data_weekly  where duration = '").append(lastWeekDuration).append("' ) lastweek ");
     
     public static final StringBuffer SQL_HOSPITAL_WEEKLY_PED_RATIO_DATA_LAST2WEEK_SELECT_PED 
@@ -260,7 +281,8 @@ public class LsAttributes {
                     .append("	IFNULL(last2week.hmgRate,0) as hmgRate, ")
                     .append("	IFNULL(last2week.omgRate,0) as omgRate, ")
                     .append("	IFNULL(last2week.tmgRate,0) as tmgRate, ")
-                    .append("	IFNULL(last2week.fmgRate,0) as fmgRate ")
+                    .append("	IFNULL(last2week.fmgRate,0) as fmgRate, ")
+                    .append("	IFNULL(last2week.whbwnum,0) as whbwnum ")
                     .append("	from ( select * from tbl_pediatrics_data_weekly where duration = '").append(last2WeekDuration).append("' ) last2week ");
     
     public static final StringBuffer SQL_WEEKLY_PED_RATIO_DATA_SELECT_RES 
@@ -932,7 +954,15 @@ public class LsAttributes {
             .append(" IFNULL( sum( IFNULL(pd.hqd,0)/100*IFNULL(pd.lsnum,0) ) / sum( IFNULL(pd.lsnum,0) ),0 ) as hmgRate,")
             .append(" IFNULL( sum( IFNULL(pd.hbid,0)/100*IFNULL(pd.lsnum,0) + IFNULL(pd.oqd,0)/100*IFNULL(pd.lsnum,0) ) / sum( IFNULL(pd.lsnum,0) ),0 ) as omgRate,")
             .append(" IFNULL( sum( IFNULL(pd.obid,0)/100*IFNULL(pd.lsnum,0) + IFNULL(pd.tqd,0)/100*IFNULL(pd.lsnum,0) ) / sum( IFNULL(pd.lsnum,0) ),0 ) as tmgRate,")
-            .append(" IFNULL( sum( IFNULL(pd.tbid,0)/100*IFNULL(pd.lsnum,0) ) / sum( IFNULL(pd.lsnum,0) ),0 ) as fmgRate ");
+            .append(" IFNULL( sum( IFNULL(pd.tbid,0)/100*IFNULL(pd.lsnum,0) ) / sum( IFNULL(pd.lsnum,0) ),0 ) as fmgRate, ")
+            .append(" IFNULL(sum(pd.whbwnum),0) as whbwnum, ")
+            .append(" IFNULL(sum(pd.whbwnum) / ")
+		    .append("			sum( ")
+		    .append("	 		case when pd.whbwnum != 0 then pd.lsnum ")
+		    .append("	 			else 0 ")
+		    .append("	 		end )")
+		    .append(" ,0) as blRate ");
+            
     
     public static final StringBuffer SQL_DAILYREPORT_SELECTION_ALIAS_PED
         = new StringBuffer("")
@@ -945,7 +975,9 @@ public class LsAttributes {
             .append(" IFNULL(dailyData.hmgRate,0) as hmgRate,  ")
             .append(" IFNULL(dailyData.omgRate,0) as omgRate,  ")
             .append(" IFNULL(dailyData.tmgRate,0) as tmgRate,  ")
-            .append(" IFNULL(dailyData.fmgRate,0) as fmgRate ");
+            .append(" IFNULL(dailyData.fmgRate,0) as fmgRate, ")
+            .append(" IFNULL(dailyData.whbwnum,0) as whbwnum, ")
+            .append(" IFNULL(dailyData.blRate,0) as blRate ");
     
     public static final StringBuffer SQL_DAILYREPORT_SELECTION_RES
             = new StringBuffer("")

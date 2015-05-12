@@ -33,12 +33,14 @@ function checkForm(){
                 <div class="dailyReport_table_Title">${selfTitle}</div>
 	            <table class="mobileReport_table">
 	               	<tr class="mobileReport_table_header">
-	                   	<td width="20%">姓名</td>
-						<td width="16%">上报率</td>
-						<td width="16%">雾化率</td>
-						<td width="16%">平均剂量</td>
-						<td width="16%">门诊人次</td>
-						<td width="16%">雾化人次</td>
+	                   	<td width="16%">姓名</td>
+						<td width="12%">上报率</td>
+						<td width="12%">雾化率</td>
+						<td width="12%">平均剂量</td>
+						<td width="12%">门诊人次</td>
+						<td width="12%">雾化人次</td>
+						<td width="12%">雾化博雾人次</td>
+						<td width="12%">博令人次比</td>
 	               </tr>
 	               <c:forEach items="${weeklyRatioData}" var="ratioData" varStatus="status">
 		               <tr class="mobileReport_table_body <c:if test="${status.count%2==0}">mobileReport_tr_even</c:if>">
@@ -48,6 +50,8 @@ function checkForm(){
 		                   <td class="report_data_number"><fmt:formatNumber type="percent" value="${ratioData.averageDose}" pattern="#0.00"/></td>
 		                   <td class="report_data_number"><fmt:formatNumber value="${ratioData.pnum}" pattern="#,###" /></td>
 		                   <td class="report_data_number"><fmt:formatNumber value="${ratioData.lsnum}" pattern="#,###" /></td>
+		                   <td class="report_data_number"><fmt:formatNumber value="${ratioData.whbwnum}" pattern="#,###" /></td>
+		                   <td class="report_data_number"><fmt:formatNumber type="percent" value="${ratioData.blRate}" pattern="#0%"/></td>
 		               </tr>
 		               <tr class="mobileReport_table_body <c:if test="${status.count%2==0}">mobileReport_tr_even</c:if>">
 		               		<td class="<c:if test="${ratioData.inRateRatio>0}">ratio_up</c:if><c:if test="${ratioData.inRateRatio<0}">ratio_down</c:if>">
@@ -85,6 +89,20 @@ function checkForm(){
 			               		</span>
 					   			<fmt:formatNumber type="percent" value="${ratioData.lsNumRatio<0?-ratioData.lsNumRatio:ratioData.lsNumRatio}" pattern="#0%"/>
 					   		</td>
+					   		<td class="<c:if test="${ratioData.whbwNumRatio>0}">ratio_up_noimg</c:if><c:if test="${ratioData.whbwNumRatio<0}">ratio_down_noimg</c:if>">
+					   			<span class="narrow_font">
+						    		<c:if test="${ratioData.whbwNumRatio>0}">+</c:if>
+			               			<c:if test="${ratioData.whbwNumRatio<0}">-</c:if>
+			               		</span>
+					   			<fmt:formatNumber type="percent" value="${ratioData.whbwNumRatio<0?-ratioData.whbwNumRatio:ratioData.whbwNumRatio}" pattern="#0%"/>
+					   		</td>
+					   		<td class="<c:if test="${ratioData.blRateRatio>0}">ratio_up</c:if><c:if test="${ratioData.blRateRatio<0}">ratio_down</c:if>">
+					    		<span class="narrow_font">
+						    		<c:if test="${ratioData.blRateRatio>0}">+</c:if>
+			               			<c:if test="${ratioData.blRateRatio<0}">-</c:if>
+			               		</span>
+					    		<fmt:formatNumber type="percent" value="${ratioData.blRateRatio<0?-ratioData.blRateRatio:ratioData.blRateRatio}" pattern="#0%"/>
+					    	</td>
 					   </tr>
 	               </c:forEach>
 	               <c:if test="${countryRatioData!=null}">
@@ -95,6 +113,8 @@ function checkForm(){
 		                   <td class="report_data_number"><fmt:formatNumber type="percent" value="${countryRatioData.averageDose}" pattern="#0.00"/></td>
 		                   <td class="report_data_number"><fmt:formatNumber value="${countryRatioData.pnum}" pattern="#,###" /></td>
 		                   <td class="report_data_number"><fmt:formatNumber value="${countryRatioData.lsnum}" pattern="#,###" /></td>
+		                   <td class="report_data_number"><fmt:formatNumber value="${countryRatioData.whbwnum}" pattern="#,###" /></td>
+		                   <td class="report_data_number"><fmt:formatNumber type="percent" value="${countryRatioData.blRate}" pattern="#0%"/></td>
 		               </tr>
 		               <tr class="mobileReport_table_body <c:if test="${fn:length(weeklyRatioData)%2 != 0}">mobileReport_tr_even</c:if>">
 		               		<td class="<c:if test="${countryRatioData.inRateRatio>0}">ratio_up</c:if><c:if test="${countryRatioData.inRateRatio<0}">ratio_down</c:if>">
@@ -132,6 +152,20 @@ function checkForm(){
 			               		</span>
 					   			<fmt:formatNumber type="percent" value="${countryRatioData.lsNumRatio<0?-countryRatioData.lsNumRatio:countryRatioData.lsNumRatio}" pattern="#0%"/>
 					   		</td>
+					   		<td class="<c:if test="${countryRatioData.whbwNumRatio>0}">ratio_up_noimg</c:if><c:if test="${countryRatioData.whbwNumRatio<0}">ratio_down_noimg</c:if>">
+					   			<span class="narrow_font">
+						    		<c:if test="${countryRatioData.whbwNumRatio>0}">+</c:if>
+			               			<c:if test="${countryRatioData.whbwNumRatio<0}">-</c:if>
+			               		</span>
+					   			<fmt:formatNumber type="percent" value="${countryRatioData.whbwNumRatio<0?-countryRatioData.whbwNumRatio:countryRatioData.whbwNumRatio}" pattern="#0%"/>
+					   		</td>
+					   		<td class="<c:if test="${countryRatioData.blRateRatio>0}">ratio_up</c:if><c:if test="${countryRatioData.blRateRatio<0}">ratio_down</c:if>">
+					    		<span class="narrow_font">
+						    		<c:if test="${countryRatioData.blRateRatio>0}">+</c:if>
+			               			<c:if test="${countryRatioData.blRateRatio<0}">-</c:if>
+			               		</span>
+					    		<fmt:formatNumber type="percent" value="${countryRatioData.blRateRatio<0?-countryRatioData.blRateRatio:countryRatioData.blRateRatio}" pattern="#0%"/>
+					    	</td>
 					   </tr>
 	               </c:if>
 	            </table>

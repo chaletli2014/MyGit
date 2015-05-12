@@ -452,3 +452,5 @@ ALTER  TABLE tbl_month_data ADD INDEX INDEX_MONTH_HOSPITALCODE (hospitalCode);
 
 alter table tbl_pediatrics_data add column whbwnum int not null default 0;
 alter table tbl_hospital add column isWHBW varchar(2) not null default 0;
+
+alter table tbl_pediatrics_data_weekly add column whbwnum int not null default 0;
