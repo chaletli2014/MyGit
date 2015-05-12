@@ -41,7 +41,7 @@
 		                   <td class="report_data_number"><fmt:formatNumber type="percent" value="${reportData.averageDose}" pattern="#0.00"/></td>
 		                   <td class="report_data_number"><fmt:formatNumber value="${reportData.patNum}" pattern="#,###"/></td>
 		                   <td class="report_data_number"><fmt:formatNumber value="${reportData.lsNum}" pattern="#,###"/></td>
-		                   <td class="report_data_number"><fmt:formatNumber value="${reportData.whbwNum}" pattern="#,###"/></td>
+		                   <td class="report_data_number"><fmt:formatNumber value="${reportData.whbwnum}" pattern="#,###"/></td>
 		                   <td class="report_data_number"><fmt:formatNumber type="percent" value="${reportData.blRate}" pattern="#0%"/></td>
 		               </tr>
 	               </c:forEach>
@@ -55,7 +55,7 @@
 		                   <td class="report_data_number"><fmt:formatNumber type="percent" value="${mobileDailyReportParentData.averageDose}" pattern="#0.00"/></td>
 		                   <td class="report_data_number"><fmt:formatNumber value="${mobileDailyReportParentData.patNum}" pattern="#,###"/></td>
 		                   <td class="report_data_number"><fmt:formatNumber value="${mobileDailyReportParentData.lsNum}" pattern="#,###"/></td>
-		                   <td class="report_data_number"><fmt:formatNumber value="${mobileDailyReportParentData.whbwNum}" pattern="#,###"/></td>
+		                   <td class="report_data_number"><fmt:formatNumber value="${mobileDailyReportParentData.whbwnum}" pattern="#,###"/></td>
 		                   <td class="report_data_number"><fmt:formatNumber type="percent" value="${mobileDailyReportParentData.blRate}" pattern="#0%"/></td>
 		               </tr>
 	               </c:if>
@@ -103,7 +103,7 @@
 									<fmt:formatNumber value="${reportData.lsNum}" pattern="#,###" />
 								</td>
 								<td class="report_data_number">
-									<fmt:formatNumber value="${reportData.whbwNum}" pattern="#,###" />
+									<fmt:formatNumber value="${reportData.whbwnum}" pattern="#,###" />
 								</td>
 								<td class="report_data_number">
 									<fmt:formatNumber type="percent" value="${reportData.blRate}" pattern="#0%" />
@@ -155,7 +155,7 @@
 								<fmt:formatNumber value="${reportData.lsNum}" pattern="#,###" />
 							</td>
 							<td class="report_data_number">
-								<fmt:formatNumber value="${reportData.whbwNum}" pattern="#,###" />
+								<fmt:formatNumber value="${reportData.whbwnum}" pattern="#,###" />
 							</td>
 							<td class="report_data_number">
 								<fmt:formatNumber type="percent" value="${reportData.blRate}" pattern="#0%" />
