@@ -7,6 +7,7 @@
 <%@include file="header.jsp" %> 
 <script type="text/javascript">
 function submitForm(){
+	$(".submit_btn").removeAttr("onclick");
     $.mobile.showPageLoadingMsg('b','数据保存中',false);
     $('#doDeleteDoctorForm').submit();
 }

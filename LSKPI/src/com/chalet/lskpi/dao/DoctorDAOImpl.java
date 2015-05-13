@@ -300,10 +300,15 @@ public class DoctorDAOImpl implements DoctorDAO {
 	@Override
 	public String getDeleteReasonByDrId(int drId) throws Exception {
 		StringBuffer sql = new StringBuffer("")
-        .append(" select deleteReason ")
+        .append(" select distinct deleteReason ")
         .append(" from tbl_doctor_approval ")
         .append(" where drId=? and status = '0' ");
-        return dataBean.getJdbcTemplate().queryForObject(sql.toString(), new Object[]{drId}, String.class);
+        List<String> deleteReasons = dataBean.getJdbcTemplate().queryForList(sql.toString(), new Object[]{drId}, String.class);
+        if( null != deleteReasons ){
+        	return deleteReasons.get(0);
+        }else{
+        	return "UNKNOWN";
+        }
 	}
 	
 	@Override

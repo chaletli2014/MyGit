@@ -21,7 +21,8 @@ function checkForm(){
 }
 function deletedoctor(dataId,doctorname){
     $.mobile.showPageLoadingMsg('b','数据加载中',false);
-    window.location.href = "<%=basePath%>doApprovalDoctor?dataId="+dataId;
+    $("#dataId").val(dataId);
+    $("#approvalDoctorForm").submit();
 }
 </script>
 <body onload="checkMessage('${message}')">
@@ -115,6 +116,9 @@ function deletedoctor(dataId,doctorname){
 			     </div>
 			   </div>
 		     </div>
+		     <form id="approvalDoctorForm" action="doApprovalDoctor" method="POST" data-ajax="false">
+		    	<input type="hidden" id="dataId" name="dataId" value=""/>
+		     </form>
 		     <form id="relateDoctorForm" action="doRelateDoctor" method="POST" data-ajax="false">
 		     	<input type="hidden" id="relatedDoctorName" name="relatedDoctorName" value=""/>
 		     	<input type="hidden" id="relatedHospitalCode" name="relatedHospitalCode" value=""/>

@@ -77,6 +77,10 @@ public class LsAttributes {
      * 医生添加成功。
      */
     public static final String RETURNED_MESSAGE_14 = "医生添加成功！";
+    /**
+     * 操作已提交，请勿重复操作！
+     */
+    public static final String RETURNED_MESSAGE_15 = "操作已提交，请勿重复操作！";
     
     /**
      * 获取用户信息失败，请重新登录APP.

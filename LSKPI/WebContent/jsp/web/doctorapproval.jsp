@@ -7,6 +7,8 @@
 <%@include file="header.jsp" %> 
 <script type="text/javascript">
 function doDeleteDr(drId){
+	$("#popupConfirm #delete_dr_submit").removeAttr("onclick");
+	
 	$.mobile.showPageLoadingMsg('b','数据加载中',false);
     window.location.href = "<%=basePath%>doDeleteDoctor?dataId="+drId;
 }

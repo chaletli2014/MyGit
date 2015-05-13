@@ -2,13 +2,16 @@ package com.chalet.lskpi.controller;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
+import org.springframework.util.CollectionUtils;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -335,7 +338,10 @@ public class HomeCollectionController extends BaseController{
         
         try{
         	String[] drIds = dataId.split(",");
-        	for( String drId : drIds ){
+        	Set<String> drIdSet = new HashSet<String>();
+        	drIdSet.addAll(CollectionUtils.arrayToList(drIds));
+        	
+        	for( String drId : drIdSet ){
         		Doctor doctor = new Doctor();
         		doctor.setId(Integer.parseInt(drId));
         		String reason = homeService.getDeleteReasonByDrId(Integer.parseInt(drId));
@@ -421,16 +427,25 @@ public class HomeCollectionController extends BaseController{
     		return "redirect:doctormaintenance";
     	}
     	
-    	String dataId = request.getParameter("dataId");
-    	if( null == dataId || "".equalsIgnoreCase(dataId) ){
-    		request.getSession().setAttribute(LsAttributes.COLLECT_HOMEDATA_MESSAGE, LsAttributes.RETURNED_MESSAGE_9);
-    		return "redirect:doctormaintenance";
-    	}
-    	
     	String reason = request.getParameter("reason");
     	String reason_other = request.getParameter("reason_other");
     	if( null != reason && "other".equalsIgnoreCase(reason) ){
     		reason = reason_other;
+    	}
+    	
+    	if( null != request.getSession().getAttribute("alreadyDeleted") ){
+    		request.getSession().setAttribute(LsAttributes.COLLECT_HOMEDATA_MESSAGE, LsAttributes.RETURNED_MESSAGE_15);
+    		return "redirect:doctormaintenance";
+    	}
+    	
+    	if( null != reason && !"".equalsIgnoreCase(reason) ){
+    		request.getSession().setAttribute("alreadyDeleted", "Y");
+    	}
+    	
+    	String dataId = request.getParameter("dataId");
+    	if( null == dataId || "".equalsIgnoreCase(dataId) ){
+    		request.getSession().setAttribute(LsAttributes.COLLECT_HOMEDATA_MESSAGE, LsAttributes.RETURNED_MESSAGE_9);
+    		return "redirect:doctormaintenance";
     	}
     	
     	if( LsAttributes.USER_LEVEL_DSM.equalsIgnoreCase(currentUser.getLevel()) 
@@ -466,6 +481,9 @@ public class HomeCollectionController extends BaseController{
             dataId = (String)request.getSession().getAttribute(LsAttributes.COLLECT_HOMEDATA_DATAID);
         }
         view.addObject("dataId", dataId);
+        
+        request.getSession().removeAttribute("alreadyDeleted");
+        
         view.setViewName("deletereason");
         return view;
     }
