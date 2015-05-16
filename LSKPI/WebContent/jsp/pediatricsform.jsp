@@ -20,13 +20,20 @@ function submitForm(){
     }
 }
 function checkForm(){
-	//$("#hqd"),$("#hbid"),$("#oqd"),$("#obid"),$("#tqd"),$("#tbid")
     if( !checkIsNotNull( $("#hospital") ) ){
-        showCustomrizedMessage("医院不能为空或者字母");
+        showCustomrizedMessage("医院不能为空");
         return false;
     }
     if( !checkIsNotNull( $("#pnum"),$("#whnum"),$("#lsnum") ) ){
         showCustomrizedMessage("数据不能为空或者字母");
+        return false;
+    }
+    
+    if( !obj1ltobj2("homeWhEmergingNum2","homeWhEmergingNum1") ){
+        return false;
+    }
+    
+    if( !obj1ltobj2("whnum","lsnum") ){
         return false;
     }
 	
@@ -41,17 +48,13 @@ function checkForm(){
 	if( !numlt9999("whnum") ){
         return false;
 	}
-    /*
-    if( !obj1ltobj2("pnum","whnum") ){
-        return false;
-    }
-    
-    if( !obj1ltobj2("pnum","lsnum") ){
-        return false;
-    }
-    */
     
     if( !percentValidate($("#hqd"),$("#hbid"),$("#oqd"),$("#obid"),$("#tqd"),$("#tbid")) ){
+        return false;
+    }
+    
+    if( !percentValidate($("#whdaysEmerging1Rate"),$("#whdaysEmerging2Rate"),$("#whdaysEmerging3Rate")
+    		,$("#whdaysEmerging4Rate"),$("#whdaysEmerging5Rate"),$("#whdaysEmerging6Rate"),$("#whdaysEmerging7Rate")) ){
         return false;
     }
     
@@ -65,7 +68,7 @@ function checkForm(){
     <div style="position:absolute; left:-9999px;"><a href="#" id="setfoc"></a></div>
     <div data-role="page" id="home">
         <jsp:include page="page_header.jsp" flush="true">
-        	<jsp:param name="title" value="儿科每日数据采集"/>
+        	<jsp:param name="title" value="儿科每日门急诊雾化数据采集"/>
         	<jsp:param name="basePath" value="<%=basePath%>"/>
         </jsp:include>
         <div data-role="content"  data-theme="a">
@@ -96,6 +99,7 @@ function checkForm(){
                     <label for="lsnum" id="lsnum_label">当日雾化令舒病人次</label>
                     <input type="number" name="lsnum" id="lsnum" value="${existedData.lsnum==null?0:existedData.lsnum}"/>
                 </div>
+                <%--
                 <c:if test="${hosObj!=null && hosObj.isWHBW=='0'}">
                   <section>
 				    <div class="roundedOne">
@@ -113,10 +117,14 @@ function checkForm(){
 	                	$("#whbw_div").css("display","block");
 	                </script>
                 </c:if>
+                 --%>
                 <div data-role="fieldcontain">
                     <label for="portNum" id="portNum_label">雾化端口数量</label>
                     <input type="number" id="portNum" value="${existedData.portNum==null?0:existedData.portNum}" readonly="readonly" disabled="disabled"/>
                 </div>
+                <div class="form_group_title">用药剂量</div>
+                <HR style="FILTER: alpha(opacity=100,finishopacity=0,style=1)" width="100%" color=#987cb9 SIZE=3>
+                
                 <div class="ui-grid-a formCollection">
 	                <div class="ui-block-a">
 	                	<div data-role="fieldcontain" >
@@ -159,6 +167,95 @@ function checkForm(){
 		                </div>
 	                </div>
 	            </div>
+	            
+	            <div class="form_group_title">雾化天数</div>
+	            <HR style="FILTER: alpha(opacity=100,finishopacity=0,style=1)" width="100%" color=#987cb9 SIZE=3>
+	            
+	            <div class="ui-grid-a formCollection">
+	                <div class="ui-block-a">
+	                	<div data-role="fieldcontain" >
+		                    <label for="whdaysEmerging1Rate" id="whdays1_label">1天(%)</label>
+		                    <input type="number" name="whdaysEmerging1Rate" id="whdaysEmerging1Rate" value="${existedData.whdaysEmerging1Rate==null?0:existedData.whdaysEmerging1Rate}"/>
+		                </div>
+	                </div>
+	                <div class="ui-block-b">
+	                	<div data-role="fieldcontain" >
+		                    <label for="whdaysEmerging2Rate" id="whdays2_label">2天(%)</label>
+		                    <input type="number" name="whdaysEmerging2Rate" id="whdaysEmerging2Rate" value="${existedData.whdaysEmerging2Rate==null?0:existedData.whdaysEmerging2Rate}"/>
+		                </div>
+	                </div>
+	            </div>
+	            <div class="ui-grid-a formCollection">
+	                <div class="ui-block-a">
+	                	<div data-role="fieldcontain" >
+		                    <label for="whdaysEmerging3Rate" id="whdays3_label">3天(%)</label>
+		                    <input type="number" name="whdaysEmerging3Rate" id="whdaysEmerging3Rate" value="${existedData.whdaysEmerging3Rate==null?0:existedData.whdaysEmerging3Rate}"/>
+		                </div>
+	                </div>
+	                <div class="ui-block-b">
+	                	<div data-role="fieldcontain" >
+		                    <label for="whdaysEmerging4Rate" id="whdays4_label">4天(%)</label>
+		                    <input type="number" name="whdaysEmerging4Rate" id="whdaysEmerging4Rate" value="${existedData.whdaysEmerging4Rate==null?0:existedData.whdaysEmerging4Rate}"/>
+		                </div>
+	                </div>
+	            </div>
+	            <div class="ui-grid-a formCollection">
+	                <div class="ui-block-a">
+	                	<div data-role="fieldcontain" >
+		                    <label for="whdaysEmerging5Rate" id="whdays5_label">5天(%)</label>
+		                    <input type="number" name="whdaysEmerging5Rate" id="whdaysEmerging5Rate" value="${existedData.whdaysEmerging5Rate==null?0:existedData.whdaysEmerging5Rate}"/>
+		                </div>
+	                </div>
+	                <div class="ui-block-b">
+	                	<div data-role="fieldcontain" >
+		                    <label for="whdaysEmerging6Rate" id="whdays6_label">6天(%)</label>
+		                    <input type="number" name="whdaysEmerging6Rate" id="whdaysEmerging6Rate" value="${existedData.whdaysEmerging6Rate==null?0:existedData.whdaysEmerging6Rate}"/>
+		                </div>
+	                </div>
+	            </div>
+	            <div class="ui-grid-a formCollection">
+	                <div class="ui-block-a">
+	                	<div data-role="fieldcontain" >
+		                    <label for="whdaysEmerging7Rate" id="whdays7_label">7天及以上(%)</label>
+		                    <input type="number" name="whdaysEmerging7Rate" id="whdaysEmerging7Rate" value="${existedData.whdaysEmerging7Rate==null?0:existedData.whdaysEmerging7Rate}"/>
+		                </div>
+	                </div>
+	                <div class="ui-block-b">
+	                </div>
+	            </div>
+	            
+                <div class="form_group_title">门急诊家庭雾化</div>
+                <HR style="FILTER: alpha(opacity=100,finishopacity=0,style=1)" width="100%" color=#987cb9 SIZE=3>
+                
+                <div class="ui-grid-a formCollection">
+	                <div class="ui-block-a">
+	                	<div data-role="fieldcontain" >
+		                    <label for="homeWhEmergingNum1" id="homeWhEmergingNum1_label">赠卖泵数量</label>
+		                    <input type="number" name="homeWhEmergingNum1" id="homeWhEmergingNum1" value="${existedData.homeWhEmergingNum1==null?0:existedData.homeWhEmergingNum1}"/>
+		                </div>
+	                </div>
+	                <div class="ui-block-b">
+	                	<div data-role="fieldcontain" >
+		                    <label for="homeWhEmergingNum2" id="homeWhEmergingNum2_label">带药人数</label>
+		                    <input type="number" name="homeWhEmergingNum2" id="homeWhEmergingNum2" value="${existedData.homeWhEmergingNum2==null?0:existedData.homeWhEmergingNum2}"/>
+		                </div>
+	                </div>
+	            </div>
+	            <div class="ui-grid-a formCollection">
+	                <div class="ui-block-a">
+	                	<div data-role="fieldcontain" >
+		                    <label for="homeWhEmergingNum3" id="homeWhEmergingNum3_label">平均带药天数</label>
+		                    <input type="number" name="homeWhEmergingNum3" id="homeWhEmergingNum3" value="${existedData.homeWhEmergingNum3==null?0:existedData.homeWhEmergingNum3}"/>
+		                </div>
+	                </div>
+	                <div class="ui-block-b">
+	                	<div data-role="fieldcontain" >
+		                    <label for="homeWhEmergingNum4" id="homeWhEmergingNum4_label">总带药支数</label>
+		                    <input type="number" name="homeWhEmergingNum4" id="homeWhEmergingNum4" value="${existedData.homeWhEmergingNum4==null?0:existedData.homeWhEmergingNum4}"/>
+		                </div>
+	                </div>
+	            </div>
+	            <%--
                 <div data-role="fieldcontain" class="formCollection">
                     <label for="recipeType" >该医院主要处方方式</label>
                     <select name="recipeType" id="recipeType" >
@@ -167,6 +264,7 @@ function checkForm(){
                         </c:forEach>
                     </select>
                 </div>
+	             --%>
                 <div style="text-align: center;">
 		            <a class="submit_btn" href="javascript:void(0)" onclick="submitForm()">
 			            <img alt="" src="<%=basePath%>images/button_submit.png" style="cursor: pointer;" />

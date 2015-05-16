@@ -24,13 +24,16 @@ import com.chalet.lskpi.model.WeeklyRatioData;
 
 public interface PediatricsDAO {
 
-    public PediatricsData getPediatricsDataByHospital(String hospitalName) throws Exception;
+    public PediatricsData getPediatricsDataByHospital(String hospitalCode) throws Exception;
+    public PediatricsData getPediatricsRoomDataByHospital(String hospitalCode) throws Exception;
     public PediatricsData getPediatricsDataByHospitalAndDate(String hospitalName, Date createdate) throws Exception;
     public List<PediatricsData> getPediatricsDataByDate(Date createdatebegin, Date createdateend) throws Exception;
     public PediatricsData getPediatricsDataById(int id) throws Exception;
 	public void insert(PediatricsData pediatricsData, UserInfo operator, Hospital hospital) throws Exception;
 	public void insert(PediatricsData pediatricsData, String dsmCode) throws Exception;
 	public void update(PediatricsData pediatricsData, UserInfo operator) throws Exception;
+	public void insertRoomData(PediatricsData pediatricsData, UserInfo operator, Hospital hospital) throws Exception;
+	public void updateRoomData(PediatricsData pediatricsData, UserInfo operator) throws Exception;
 	
 	public MobilePEDDailyData getDailyPEDData4CountoryMobile(Timestamp paramDate, String hospitalShownFlag)throws Exception;
 	public List<MobilePEDDailyData> getDailyPEDData4RSMByRegion(String region, String hospitalShownFlag) throws Exception;

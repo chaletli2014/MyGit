@@ -6,9 +6,9 @@
 <html lang="en-US">
 <%@include file="header.jsp" %> 
 <script type="text/javascript">
-function loadData(hospitalName){
+function loadData(hospitaCode){
 	$.mobile.showPageLoadingMsg('b','数据加载中',false);
-	window.location.href="<%=basePath%>pediatrics?selectedHospital="+encodeURI(hospitalName);
+	window.location.href="<%=basePath%>pediatricsRoom?selectedHospital="+encodeURI(hospitaCode);
 }
 function submitForm(){
     if(checkForm()){
@@ -28,18 +28,14 @@ function checkForm(){
         showCustomrizedMessage("数据不能为空或者字母");
         return false;
     }
-    
-    if( !obj1ltobj2("homeWhEmergingNum2","homeWhEmergingNum1") ){
-        return false;
-    }
-    
-    if( !obj1ltobj2("whnum","lsnum") ){
-        return false;
-    }
 	
 	if( !isInteger($("#pnum"),$("#whnum"),$("#lsnum"))  ){
         return false;
 	}
+	
+    if( !obj1ltobj2("whnum","lsnum") ){
+        return false;
+    }
 	
 	if( !isLsNumAndPNumValid() ){
         return false;
@@ -53,8 +49,12 @@ function checkForm(){
         return false;
     }
     
-    if( !percentValidate($("#whdaysEmerging1Rate"),$("#whdaysEmerging2Rate"),$("#whdaysEmerging3Rate")
-    		,$("#whdaysEmerging4Rate"),$("#whdaysEmerging5Rate"),$("#whdaysEmerging6Rate"),$("#whdaysEmerging7Rate")) ){
+    if( !percentValidate($("#whdaysRoom1Rate"),$("#whdaysRoom2Rate"),$("#whdaysRoom3Rate")
+    		,$("#whdaysRoom4Rate"),$("#whdaysRoom5Rate"),$("#whdaysRoom6Rate"),$("#whdaysRoom7Rate")) ){
+        return false;
+    }
+    
+    if( !obj1ltobj2("homeWhRoomNum2","homeWhRoomNum1") ){
         return false;
     }
     
@@ -68,13 +68,13 @@ function checkForm(){
     <div style="position:absolute; left:-9999px;"><a href="#" id="setfoc"></a></div>
     <div data-role="page" id="home">
         <jsp:include page="page_header.jsp" flush="true">
-        	<jsp:param name="title" value="儿科每日门急诊雾化数据采集"/>
+        	<jsp:param name="title" value="儿科每日病房雾化数据采集"/>
         	<jsp:param name="basePath" value="<%=basePath%>"/>
         </jsp:include>
         <div data-role="content"  data-theme="a">
         	<div class="roundCorner">
         	<div class="report_process_bg_description">标*为Core医院，每周填报3次；标**为Emerging医院，每周填报1次</div>
-            <form id="pediatricsForm" action="collectPediatrics" method="POST" data-ajax="false">
+            <form id="pediatricsForm" action="collectPediatricsRoom" method="POST" data-ajax="false">
             	<input type="hidden" name="dataId" value="${existedData.dataId}"/>
 	        	<input type="hidden" name="selectedHospital" value="${selectedHospital}"/>
 	        	<input type="hidden" name="portNum" value="${existedData.portNum}"/>
@@ -88,7 +88,7 @@ function checkForm(){
 	                </select>
                 </div>
                	<div data-role="fieldcontain" class="formCollection">
-                    <label for="pnum" id="pnum_label">当日门诊人数</label>
+                    <label for="pnum" id="pnum_label">当日住院人数</label>
                     <input type="number" name="pnum" id="pnum" value="${existedData.pnum==null?0:existedData.pnum}"/>
                 </div>
               	<div data-role="fieldcontain">
@@ -117,11 +117,11 @@ function checkForm(){
 	                	$("#whbw_div").css("display","block");
 	                </script>
                 </c:if>
-                 --%>
                 <div data-role="fieldcontain">
                     <label for="portNum" id="portNum_label">雾化端口数量</label>
                     <input type="number" id="portNum" value="${existedData.portNum==null?0:existedData.portNum}" readonly="readonly" disabled="disabled"/>
                 </div>
+                 --%>
                 <div class="form_group_title">用药剂量</div>
                 <HR style="FILTER: alpha(opacity=100,finishopacity=0,style=1)" width="100%" color=#987cb9 SIZE=3>
                 
@@ -174,84 +174,102 @@ function checkForm(){
 	            <div class="ui-grid-a formCollection">
 	                <div class="ui-block-a">
 	                	<div data-role="fieldcontain" >
-		                    <label for="whdaysEmerging1Rate" id="whdays1_label">1天(%)</label>
-		                    <input type="number" name="whdaysEmerging1Rate" id="whdaysEmerging1Rate" value="${existedData.whdaysEmerging1Rate==null?0:existedData.whdaysEmerging1Rate}"/>
+		                    <label for="whdaysRoom1Rate" id="whdaysRoom1Rate_label">1天(%)</label>
+		                    <input type="number" name="whdaysRoom1Rate" id="whdaysRoom1Rate" value="${existedData.whdaysRoom1Rate==null?0:existedData.whdaysRoom1Rate}"/>
 		                </div>
 	                </div>
 	                <div class="ui-block-b">
 	                	<div data-role="fieldcontain" >
-		                    <label for="whdaysEmerging2Rate" id="whdays2_label">2天(%)</label>
-		                    <input type="number" name="whdaysEmerging2Rate" id="whdaysEmerging2Rate" value="${existedData.whdaysEmerging2Rate==null?0:existedData.whdaysEmerging2Rate}"/>
+		                    <label for="whdaysRoom2Rate" id="whdaysRoom2Rate_label">2天(%)</label>
+		                    <input type="number" name="whdaysRoom2Rate" id="whdaysRoom2Rate" value="${existedData.whdaysRoom2Rate==null?0:existedData.whdaysRoom2Rate}"/>
 		                </div>
 	                </div>
 	            </div>
 	            <div class="ui-grid-a formCollection">
 	                <div class="ui-block-a">
 	                	<div data-role="fieldcontain" >
-		                    <label for="whdaysEmerging3Rate" id="whdays3_label">3天(%)</label>
-		                    <input type="number" name="whdaysEmerging3Rate" id="whdaysEmerging3Rate" value="${existedData.whdaysEmerging3Rate==null?0:existedData.whdaysEmerging3Rate}"/>
+		                    <label for="whdaysRoom3Rate" id="whdaysRoom3Rate_label">3天(%)</label>
+		                    <input type="number" name="whdaysRoom3Rate" id="whdaysRoom3Rate" value="${existedData.whdaysRoom3Rate==null?0:existedData.whdaysRoom3Rate}"/>
 		                </div>
 	                </div>
 	                <div class="ui-block-b">
 	                	<div data-role="fieldcontain" >
-		                    <label for="whdaysEmerging4Rate" id="whdays4_label">4天(%)</label>
-		                    <input type="number" name="whdaysEmerging4Rate" id="whdaysEmerging4Rate" value="${existedData.whdaysEmerging4Rate==null?0:existedData.whdaysEmerging4Rate}"/>
+		                    <label for="whdaysRoom4Rate" id="whdaysRoom4Rate_label">4天(%)</label>
+		                    <input type="number" name="whdaysRoom4Rate" id="whdaysRoom4Rate" value="${existedData.whdaysRoom4Rate==null?0:existedData.whdaysRoom4Rate}"/>
 		                </div>
 	                </div>
 	            </div>
 	            <div class="ui-grid-a formCollection">
 	                <div class="ui-block-a">
 	                	<div data-role="fieldcontain" >
-		                    <label for="whdaysEmerging5Rate" id="whdays5_label">5天(%)</label>
-		                    <input type="number" name="whdaysEmerging5Rate" id="whdaysEmerging5Rate" value="${existedData.whdaysEmerging5Rate==null?0:existedData.whdaysEmerging5Rate}"/>
+		                    <label for="whdaysRoom5Rate" id="whdaysRoom5Rate_label">5天(%)</label>
+		                    <input type="number" name="whdaysRoom5Rate" id="whdaysRoom5Rate" value="${existedData.whdaysRoom5Rate==null?0:existedData.whdaysRoom5Rate}"/>
 		                </div>
 	                </div>
 	                <div class="ui-block-b">
 	                	<div data-role="fieldcontain" >
-		                    <label for="whdaysEmerging6Rate" id="whdays6_label">6天(%)</label>
-		                    <input type="number" name="whdaysEmerging6Rate" id="whdaysEmerging6Rate" value="${existedData.whdaysEmerging6Rate==null?0:existedData.whdaysEmerging6Rate}"/>
+		                    <label for="whdaysRoom6Rate" id="whdaysRoom6Rate_label">6天(%)</label>
+		                    <input type="number" name="whdaysRoom6Rate" id="whdaysRoom6Rate" value="${existedData.whdaysRoom6Rate==null?0:existedData.whdaysRoom6Rate}"/>
 		                </div>
 	                </div>
 	            </div>
 	            <div class="ui-grid-a formCollection">
 	                <div class="ui-block-a">
 	                	<div data-role="fieldcontain" >
-		                    <label for="whdaysEmerging7Rate" id="whdays7_label">7天及以上(%)</label>
-		                    <input type="number" name="whdaysEmerging7Rate" id="whdaysEmerging7Rate" value="${existedData.whdaysEmerging7Rate==null?0:existedData.whdaysEmerging7Rate}"/>
+		                    <label for="whdaysRoom7Rate" id="whdaysRoom7Rate_label">7天(%)</label>
+		                    <input type="number" name="whdaysRoom7Rate" id="whdaysRoom7Rate" value="${existedData.whdaysRoom7Rate==null?0:existedData.whdaysRoom7Rate}"/>
 		                </div>
 	                </div>
 	                <div class="ui-block-b">
+	                	<div data-role="fieldcontain" >
+		                    <label for="whdaysRoom8Rate" id="whdaysRoom8Rate_label">8天(%)</label>
+		                    <input type="number" name="whdaysRoom8Rate" id="whdaysRoom8Rate" value="${existedData.whdaysRoom8Rate==null?0:existedData.whdaysRoom8Rate}"/>
+		                </div>
+	                </div>
+	            </div>
+	            <div class="ui-grid-a formCollection">
+	                <div class="ui-block-a">
+	                	<div data-role="fieldcontain" >
+		                    <label for="whdaysRoom9Rate" id="whdaysRoom9Rate_label">9天(%)</label>
+		                    <input type="number" name="whdaysRoom9Rate" id="whdaysRoom9Rate" value="${existedData.whdaysRoom9Rate==null?0:existedData.whdaysRoom9Rate}"/>
+		                </div>
+	                </div>
+	                <div class="ui-block-b">
+	                	<div data-role="fieldcontain" >
+		                    <label for="whdaysRoom10Rate" id="whdaysRoom10Rate_label">10天及以上(%)</label>
+		                    <input type="number" name="whdaysRoom10Rate" id="whdaysRoom10Rate" value="${existedData.whdaysRoom10Rate==null?0:existedData.whdaysRoom10Rate}"/>
+		                </div>
 	                </div>
 	            </div>
 	            
-                <div class="form_group_title">门急诊家庭雾化</div>
+                <div class="form_group_title">病房家庭雾化</div>
                 <HR style="FILTER: alpha(opacity=100,finishopacity=0,style=1)" width="100%" color=#987cb9 SIZE=3>
                 
                 <div class="ui-grid-a formCollection">
 	                <div class="ui-block-a">
 	                	<div data-role="fieldcontain" >
-		                    <label for="homeWhEmergingNum1" id="homeWhEmergingNum1_label">赠卖泵数量</label>
-		                    <input type="number" name="homeWhEmergingNum1" id="homeWhEmergingNum1" value="${existedData.homeWhEmergingNum1==null?0:existedData.homeWhEmergingNum1}"/>
+		                    <label for="homeWhRoomNum1" id="homewhNum1_label">赠卖泵数量</label>
+		                    <input type="number" name="homeWhRoomNum1" id="homeWhRoomNum1" value="${existedData.homeWhRoomNum1==null?0:existedData.homeWhRoomNum1}"/>
 		                </div>
 	                </div>
 	                <div class="ui-block-b">
 	                	<div data-role="fieldcontain" >
-		                    <label for="homeWhEmergingNum2" id="homeWhEmergingNum2_label">带药人数</label>
-		                    <input type="number" name="homeWhEmergingNum2" id="homeWhEmergingNum2" value="${existedData.homeWhEmergingNum2==null?0:existedData.homeWhEmergingNum2}"/>
+		                    <label for="homeWhRoomNum2" id="homewhNum2_label">带药人数</label>
+		                    <input type="number" name="homeWhRoomNum2" id="homeWhRoomNum2" value="${existedData.homeWhRoomNum2==null?0:existedData.homeWhRoomNum2}"/>
 		                </div>
 	                </div>
 	            </div>
 	            <div class="ui-grid-a formCollection">
 	                <div class="ui-block-a">
 	                	<div data-role="fieldcontain" >
-		                    <label for="homeWhEmergingNum3" id="homeWhEmergingNum3_label">平均带药天数</label>
-		                    <input type="number" name="homeWhEmergingNum3" id="homeWhEmergingNum3" value="${existedData.homeWhEmergingNum3==null?0:existedData.homeWhEmergingNum3}"/>
+		                    <label for="homeWhRoomNum3" id="homewhNum3_label">平均带药天数</label>
+		                    <input type="number" name="homeWhRoomNum3" id="homeWhRoomNum3" value="${existedData.homeWhRoomNum3==null?0:existedData.homeWhRoomNum3}"/>
 		                </div>
 	                </div>
 	                <div class="ui-block-b">
 	                	<div data-role="fieldcontain" >
-		                    <label for="homeWhEmergingNum4" id="homeWhEmergingNum4_label">总带药支数</label>
-		                    <input type="number" name="homeWhEmergingNum4" id="homeWhEmergingNum4" value="${existedData.homeWhEmergingNum4==null?0:existedData.homeWhEmergingNum4}"/>
+		                    <label for="homeWhRoomNum4" id="homewhNum4_label">总带药支数</label>
+		                    <input type="number" name="homeWhRoomNum4" id="homeWhRoomNum4" value="${existedData.homeWhRoomNum4==null?0:existedData.homeWhRoomNum4}"/>
 		                </div>
 	                </div>
 	            </div>

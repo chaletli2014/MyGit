@@ -29,6 +29,7 @@ import com.chalet.lskpi.mapper.MonthlyStatisticsEmergingDataRowMapper;
 import com.chalet.lskpi.mapper.PediatricsCoreHosRowMapper;
 import com.chalet.lskpi.mapper.PediatricsEmergingHosRowMapper;
 import com.chalet.lskpi.mapper.PediatricsMobileRowMapper;
+import com.chalet.lskpi.mapper.PediatricsRoomRowMapper;
 import com.chalet.lskpi.mapper.PediatricsRowMapper;
 import com.chalet.lskpi.mapper.PediatricsWhPortRowMapper;
 import com.chalet.lskpi.mapper.PediatricsWithPortNumRowMapper;
@@ -1049,6 +1050,12 @@ public class PediatricsDAOImpl implements PediatricsDAO {
 			throws Exception {
 		return dataBean.getJdbcTemplate().queryForObject("select pd.*,h.code as hospitalCode,h.dsmName,h.isPedAssessed,h.dragonType from tbl_pediatrics_data pd, tbl_hospital h where h.code=? and DATE_FORMAT(pd.createdate,'%Y-%m-%d') = curdate() and pd.hospitalName = h.name", new Object[]{hospitalCode}, new PediatricsRowMapper());
 	}
+	
+	@Override
+	public PediatricsData getPediatricsRoomDataByHospital(String hospitalCode)
+			throws Exception {
+		return dataBean.getJdbcTemplate().queryForObject("select pd.*,h.code as hospitalCode,h.dsmName,h.isPedAssessed,h.dragonType from tbl_pediatrics_data pd, tbl_hospital h where h.code=? and DATE_FORMAT(pd.createdate,'%Y-%m-%d') = curdate() and pd.hospitalName = h.name", new Object[]{hospitalCode}, new PediatricsRoomRowMapper());
+	}
 
 	@Override
 	public PediatricsData getPediatricsDataByHospitalAndDate(
@@ -1836,8 +1843,13 @@ public class PediatricsDAOImpl implements PediatricsDAO {
 	@Override
 	public void insert(final PediatricsData pediatricsData, final UserInfo operator, final Hospital hospital) throws Exception {
 		logger.info(">>PediatricsDAOImpl insert");
-		
-		final String sql = "insert into tbl_pediatrics_data(id,createdate,hospitalName,pnum,whnum,lsnum,etmsCode,operatorName,region,rsmRegion,hqd,hbid,oqd,obid,tqd,tbid,recipeType,updatedate,dsmCode,portNum,whbwnum) values(null,NOW(),?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,NOW(),?,?,?)";
+		final String sql = new StringBuilder("insert into tbl_pediatrics_data(")
+			.append("id,createdate,hospitalName,pnum,whnum,lsnum,etmsCode,operatorName,region,rsmRegion,")
+			.append("hqd,hbid,oqd,obid,tqd,tbid,recipeType,updatedate,dsmCode,portNum,whbwnum,")
+			.append("whdays_emerging_1,whdays_emerging_2,whdays_emerging_3,whdays_emerging_4,whdays_emerging_5,whdays_emerging_6,whdays_emerging_7,")
+			.append("home_wh_emerging_num1,home_wh_emerging_num2,home_wh_emerging_num3,home_wh_emerging_num4 ")
+			.append(") values( ")
+			.append("null,NOW(),?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,NOW(),?,?,?,?,?,?,?,?,?,?,?,?,?,?)").toString();
 		KeyHolder keyHolder = new GeneratedKeyHolder();
 		dataBean.getJdbcTemplate().update(new PreparedStatementCreator(){
 			@Override
@@ -1862,6 +1874,71 @@ public class PediatricsDAOImpl implements PediatricsDAO {
 				ps.setString(16, (operator.getSuperior()==null||"".equalsIgnoreCase(operator.getSuperior()))?operator.getUserCode():operator.getSuperior());
 				ps.setInt(17, hospital.getPortNum());
 				ps.setInt(18, pediatricsData.getWhbwnum());
+				ps.setDouble(19, pediatricsData.getWhdaysEmerging1Rate());
+				ps.setDouble(20, pediatricsData.getWhdaysEmerging2Rate());
+				ps.setDouble(21, pediatricsData.getWhdaysEmerging3Rate());
+				ps.setDouble(22, pediatricsData.getWhdaysEmerging4Rate());
+				ps.setDouble(23, pediatricsData.getWhdaysEmerging5Rate());
+				ps.setDouble(24, pediatricsData.getWhdaysEmerging6Rate());
+				ps.setDouble(25, pediatricsData.getWhdaysEmerging7Rate());
+				ps.setInt(26, pediatricsData.getHomeWhEmergingNum1());
+				ps.setInt(27, pediatricsData.getHomeWhEmergingNum2());
+				ps.setInt(28, pediatricsData.getHomeWhEmergingNum3());
+				ps.setInt(29, pediatricsData.getHomeWhEmergingNum4());
+				return ps;
+			}
+		}, keyHolder);
+		logger.info("returned id is "+keyHolder.getKey().intValue());
+	}
+	
+	@Override
+	public void insertRoomData(final PediatricsData pediatricsData, final UserInfo operator, final Hospital hospital) throws Exception {
+		logger.info(">>PediatricsDAOImpl insert");
+		final String sql = new StringBuilder("insert into tbl_pediatrics_data(")
+		.append("id,createdate,hospitalName,pnum_room,whnum_room,lsnum_room,etmsCode,operatorName,region,rsmRegion,")
+		.append("hqd_room,hbid_room,oqd_room,obid_room,tqd_room,tbid_room,recipeType,updatedate,dsmCode,portNum,whbwnum_room,")
+		.append("whdays_room_1,whdays_room_2,whdays_room_3,whdays_room_4,whdays_room_5,whdays_room_6,whdays_room_7,whdays_room_8,whdays_room_9,whdays_room_10,")
+		.append("home_wh_room_num1,home_wh_room_num2,home_wh_room_num3,home_wh_room_num4 ")
+		.append(") values( ")
+		.append("null,NOW(),?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,NOW(),?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)").toString();
+		KeyHolder keyHolder = new GeneratedKeyHolder();
+		dataBean.getJdbcTemplate().update(new PreparedStatementCreator(){
+			@Override
+			public PreparedStatement createPreparedStatement(
+					Connection connection) throws SQLException {
+				PreparedStatement ps = connection.prepareStatement(sql,Statement.RETURN_GENERATED_KEYS);
+				ps.setString(1, hospital.getName());
+				ps.setInt(2, pediatricsData.getPnum());
+				ps.setInt(3, pediatricsData.getWhnum());
+				ps.setInt(4, pediatricsData.getLsnum());
+				ps.setString(5, hospital.getSaleCode());
+				ps.setString(6, operator.getName());
+				ps.setString(7, hospital.getRegion());
+				ps.setString(8, hospital.getRsmRegion());
+				ps.setDouble(9, pediatricsData.getHqd());
+				ps.setDouble(10, pediatricsData.getHbid());
+				ps.setDouble(11, pediatricsData.getOqd());
+				ps.setDouble(12, pediatricsData.getObid());
+				ps.setDouble(13, pediatricsData.getTqd());
+				ps.setDouble(14, pediatricsData.getTbid());
+				ps.setString(15, pediatricsData.getRecipeType());
+				ps.setString(16, (operator.getSuperior()==null||"".equalsIgnoreCase(operator.getSuperior()))?operator.getUserCode():operator.getSuperior());
+				ps.setInt(17, hospital.getPortNum());
+				ps.setInt(18, pediatricsData.getWhbwnum());
+				ps.setDouble(19, pediatricsData.getWhdaysRoom1Rate());
+				ps.setDouble(20, pediatricsData.getWhdaysRoom2Rate());
+				ps.setDouble(21, pediatricsData.getWhdaysRoom3Rate());
+				ps.setDouble(22, pediatricsData.getWhdaysRoom4Rate());
+				ps.setDouble(23, pediatricsData.getWhdaysRoom5Rate());
+				ps.setDouble(24, pediatricsData.getWhdaysRoom6Rate());
+				ps.setDouble(25, pediatricsData.getWhdaysRoom7Rate());
+				ps.setDouble(26, pediatricsData.getWhdaysRoom8Rate());
+				ps.setDouble(27, pediatricsData.getWhdaysRoom9Rate());
+				ps.setDouble(28, pediatricsData.getWhdaysRoom10Rate());
+				ps.setInt(29, pediatricsData.getHomeWhRoomNum1());
+				ps.setInt(30, pediatricsData.getHomeWhRoomNum2());
+				ps.setInt(31, pediatricsData.getHomeWhRoomNum3());
+				ps.setInt(32, pediatricsData.getHomeWhRoomNum4());
 				return ps;
 			}
 		}, keyHolder);
@@ -1872,7 +1949,13 @@ public class PediatricsDAOImpl implements PediatricsDAO {
 	public void insert(final PediatricsData pediatricsData, final String dsmCode) throws Exception {
 	    logger.info("insert data - daily upload");
 	    
-	    final String sql = "insert into tbl_pediatrics_data(id,createdate,hospitalName,pnum,whnum,lsnum,etmsCode,operatorName,region,rsmRegion,hqd,hbid,oqd,obid,tqd,tbid,recipeType,updatedate,dsmCode,portNum) values(null,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,NOW(),?,?)";
+	    final String sql = new StringBuilder("insert into tbl_pediatrics_data(")
+		.append("id,createdate,hospitalName,pnum,whnum,lsnum,etmsCode,operatorName,region,rsmRegion,")
+		.append("hqd,hbid,oqd,obid,tqd,tbid,recipeType,updatedate,dsmCode,portNum,whbwnum,")
+		.append("whdays_emerging_1,whdays_emerging_2,whdays_emerging_3,whdays_emerging_4,whdays_emerging_5,whdays_emerging_6,whdays_emerging_7,")
+		.append("home_wh_emerging_num1,home_wh_emerging_num2,home_wh_emerging_num3,home_wh_emerging_num4 ")
+		.append(") values( ")
+		.append("null,NOW(),?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,NOW(),?,?,?,?,?,?,?,?,?,?,?,?,?,?)").toString();
 	    KeyHolder keyHolder = new GeneratedKeyHolder();
 	    dataBean.getJdbcTemplate().update(new PreparedStatementCreator(){
 	        @Override
@@ -1897,6 +1980,18 @@ public class PediatricsDAOImpl implements PediatricsDAO {
 				ps.setString(16, pediatricsData.getRecipeType());
 				ps.setString(17, dsmCode);
 				ps.setInt(18, pediatricsData.getPortNum());
+				ps.setInt(19, pediatricsData.getWhbwnum());
+				ps.setDouble(20, pediatricsData.getWhdaysEmerging1Rate());
+				ps.setDouble(21, pediatricsData.getWhdaysEmerging2Rate());
+				ps.setDouble(22, pediatricsData.getWhdaysEmerging3Rate());
+				ps.setDouble(23, pediatricsData.getWhdaysEmerging4Rate());
+				ps.setDouble(24, pediatricsData.getWhdaysEmerging5Rate());
+				ps.setDouble(25, pediatricsData.getWhdaysEmerging6Rate());
+				ps.setDouble(26, pediatricsData.getWhdaysEmerging7Rate());
+				ps.setInt(27, pediatricsData.getHomeWhEmergingNum1());
+				ps.setInt(28, pediatricsData.getHomeWhEmergingNum2());
+				ps.setInt(29, pediatricsData.getHomeWhEmergingNum3());
+				ps.setInt(30, pediatricsData.getHomeWhEmergingNum4());
 	            return ps;
 	        }
 	    }, keyHolder);
@@ -1918,6 +2013,17 @@ public class PediatricsDAOImpl implements PediatricsDAO {
 	    sql.append(", tbid=? ");
 	    sql.append(", recipeType=? ");
 	    sql.append(", whbwnum=? ");
+	    sql.append(", whdays_emerging_1=? ");
+	    sql.append(", whdays_emerging_2=? ");
+	    sql.append(", whdays_emerging_3=? ");
+	    sql.append(", whdays_emerging_4=? ");
+	    sql.append(", whdays_emerging_5=? ");
+	    sql.append(", whdays_emerging_6=? ");
+	    sql.append(", whdays_emerging_7=? ");
+	    sql.append(", home_wh_emerging_num1=? ");
+	    sql.append(", home_wh_emerging_num2=? ");
+	    sql.append(", home_wh_emerging_num3=? ");
+	    sql.append(", home_wh_emerging_num4=? ");
 	    
 	    List<Object> paramList = new ArrayList<Object>();
 	    paramList.add(pediatricsData.getPnum());
@@ -1931,6 +2037,17 @@ public class PediatricsDAOImpl implements PediatricsDAO {
 	    paramList.add(pediatricsData.getTbid());
 	    paramList.add(pediatricsData.getRecipeType());
 	    paramList.add(pediatricsData.getWhbwnum());
+	    paramList.add(pediatricsData.getWhdaysEmerging1Rate());
+	    paramList.add(pediatricsData.getWhdaysEmerging2Rate());
+	    paramList.add(pediatricsData.getWhdaysEmerging3Rate());
+	    paramList.add(pediatricsData.getWhdaysEmerging4Rate());
+	    paramList.add(pediatricsData.getWhdaysEmerging5Rate());
+	    paramList.add(pediatricsData.getWhdaysEmerging6Rate());
+	    paramList.add(pediatricsData.getWhdaysEmerging7Rate());
+	    paramList.add(pediatricsData.getHomeWhEmergingNum1());
+	    paramList.add(pediatricsData.getHomeWhEmergingNum2());
+	    paramList.add(pediatricsData.getHomeWhEmergingNum3());
+	    paramList.add(pediatricsData.getHomeWhEmergingNum4());
 
 	    if( null == operator ){
 	    	logger.info("using web to update the data, no need to update the sales info");
@@ -1945,6 +2062,79 @@ public class PediatricsDAOImpl implements PediatricsDAO {
 	    }
 	    
 	    sql.append(" where id=? ");
+		dataBean.getJdbcTemplate().update(sql.toString(), paramList.toArray());
+	}
+	
+	@Override
+	public void updateRoomData(PediatricsData pediatricsData, UserInfo operator) throws Exception {
+		StringBuffer sql = new StringBuffer("update tbl_pediatrics_data set ");
+		sql.append("updatedate=NOW()");
+		sql.append(", pnum_room=? ");
+		sql.append(", whnum_room=? ");
+		sql.append(", lsnum_room=? ");
+		sql.append(", hqd_room=? ");
+		sql.append(", hbid_room=? ");
+		sql.append(", oqd_room=? ");
+		sql.append(", obid_room=? ");
+		sql.append(", tqd_room=? ");
+		sql.append(", tbid_room=? ");
+		sql.append(", recipeType=? ");
+		sql.append(", whbwnum_room=? ");
+		sql.append(", whdays_room_1=? ");
+		sql.append(", whdays_room_2=? ");
+		sql.append(", whdays_room_3=? ");
+		sql.append(", whdays_room_4=? ");
+		sql.append(", whdays_room_5=? ");
+		sql.append(", whdays_room_6=? ");
+		sql.append(", whdays_room_7=? ");
+		sql.append(", whdays_room_8=? ");
+		sql.append(", whdays_room_9=? ");
+		sql.append(", whdays_room_10=? ");
+		sql.append(", home_wh_room_num1=? ");
+		sql.append(", home_wh_room_num2=? ");
+		sql.append(", home_wh_room_num3=? ");
+		sql.append(", home_wh_room_num4=? ");
+		
+		List<Object> paramList = new ArrayList<Object>();
+		paramList.add(pediatricsData.getPnum());
+		paramList.add(pediatricsData.getWhnum());
+		paramList.add(pediatricsData.getLsnum());
+		paramList.add(pediatricsData.getHqd());
+		paramList.add(pediatricsData.getHbid());
+		paramList.add(pediatricsData.getOqd());
+		paramList.add(pediatricsData.getObid());
+		paramList.add(pediatricsData.getTqd());
+		paramList.add(pediatricsData.getTbid());
+		paramList.add(pediatricsData.getRecipeType());
+		paramList.add(pediatricsData.getWhbwnum());
+		paramList.add(pediatricsData.getWhdaysRoom1Rate());
+		paramList.add(pediatricsData.getWhdaysRoom2Rate());
+		paramList.add(pediatricsData.getWhdaysRoom3Rate());
+		paramList.add(pediatricsData.getWhdaysRoom4Rate());
+		paramList.add(pediatricsData.getWhdaysRoom5Rate());
+		paramList.add(pediatricsData.getWhdaysRoom6Rate());
+		paramList.add(pediatricsData.getWhdaysRoom7Rate());
+		paramList.add(pediatricsData.getWhdaysRoom8Rate());
+		paramList.add(pediatricsData.getWhdaysRoom9Rate());
+		paramList.add(pediatricsData.getWhdaysRoom10Rate());
+		paramList.add(pediatricsData.getHomeWhRoomNum1());
+		paramList.add(pediatricsData.getHomeWhRoomNum2());
+		paramList.add(pediatricsData.getHomeWhRoomNum3());
+		paramList.add(pediatricsData.getHomeWhRoomNum4());
+		
+		if( null == operator ){
+			logger.info("using web to update the data, no need to update the sales info");
+			paramList.add(pediatricsData.getDataId());
+		}else{
+//	    	sql.append(", etmsCode=? ");
+			sql.append(", operatorName=? ");
+			
+//	    	paramList.add(operator.getUserCode());
+			paramList.add(operator.getName());
+			paramList.add(pediatricsData.getDataId());
+		}
+		
+		sql.append(" where id=? ");
 		dataBean.getJdbcTemplate().update(sql.toString(), paramList.toArray());
 	}
 	

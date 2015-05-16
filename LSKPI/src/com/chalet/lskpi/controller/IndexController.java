@@ -425,6 +425,11 @@ public class IndexController extends BaseController{
         return "redirect:respirology";
     }
     
+    /**
+     * 儿科门急诊初始化界面
+     * @param request
+     * @return
+     */
     @RequestMapping("/pediatrics")
     public ModelAndView pediatrics(HttpServletRequest request){
         ModelAndView view = new LsKPIModelAndView(request);
@@ -486,6 +491,72 @@ public class IndexController extends BaseController{
         return view;
     }
     
+    /**
+     * 儿科病房初始化界面
+     * @param request
+     * @return
+     */
+    @RequestMapping("/pediatricsRoom")
+    public ModelAndView pediatricsRoom(HttpServletRequest request){
+    	ModelAndView view = new LsKPIModelAndView(request);
+    	String operator_telephone = verifyCurrentUser(request,view);
+    	
+    	UserInfo currentUser = (UserInfo)request.getSession().getAttribute(LsAttributes.CURRENT_OPERATOR_OBJECT);
+    	if( !super.isCurrentUserValid(currentUser, operator_telephone, view, true) ){
+    		return view;
+    	}
+    	
+    	List<Hospital> hospitals = new ArrayList<Hospital>();
+    	try{
+    		hospitals = hospitalService.getHospitalsByUserTel(operator_telephone,LsAttributes.DEPARTMENT_PED);
+    		
+    		List<String> recipeTypes = new ArrayList<String>();
+    		for( int i = 1; i <=7; i++ ){
+    			recipeTypes.add(i+"");
+    		}
+    		
+    		view.addObject("recipeTypes", recipeTypes);
+    		view.addObject("hospitals", hospitals);
+    		
+    		String selectedHospital = request.getParameter("selectedHospital");
+    		PediatricsData existedData = new PediatricsData();
+    		if( (null != selectedHospital && !"".equalsIgnoreCase(selectedHospital)) ){
+    			
+    			logger.info("get the pediatrics data of the selected hospital - " + selectedHospital);
+    			existedData = pediatricsService.getPediatricsRoomDataByHospital(selectedHospital);
+    			
+    			Hospital hospital = hospitalService.getHospitalByCode(selectedHospital);
+    			
+    			if( existedData != null ){
+    				logger.info(String.format("init ped existedData is %s", existedData.getHospitalName()));
+    			}
+    			view.addObject("selectedHospital", selectedHospital);
+    			
+    			//if existedData is null, then the data is not set, the port num should be shown as the one of hospital.
+    			if( existedData == null ){
+    				existedData = new PediatricsData();
+    				existedData.setPortNum(hospital.getPortNum());
+    			}
+    			
+    			view.addObject("hosObj", hospital);
+    		}
+    		
+    		view.addObject("existedData", existedData);
+    		
+    		String message = "";
+    		if( null != request.getSession().getAttribute(LsAttributes.COLLECT_PEDIATRICS_MESSAGE) ){
+    			message = (String)request.getSession().getAttribute(LsAttributes.COLLECT_PEDIATRICS_MESSAGE);
+    		}
+    		view.addObject(LsAttributes.JSP_VERIFY_MESSAGE, message);
+    		request.getSession().removeAttribute(LsAttributes.COLLECT_PEDIATRICS_MESSAGE);
+    		
+    	}catch(Exception e){
+    		logger.info("fail to init the pediatrics,",e);
+    	}
+    	view.setViewName("pediatricsroomform");
+    	return view;
+    }
+    
     @RequestMapping("/collectPediatrics")
     public String collectPediatrics(HttpServletRequest request){
     	String operator_telephone = (String)request.getSession(true).getAttribute(LsAttributes.CURRENT_OPERATOR);
@@ -522,14 +593,14 @@ public class IndexController extends BaseController{
                 logger.info(String.format("the res data is found which id is %s", dataId));
             }
             
-            String isWHBWChecked = request.getParameter("isWHBW");
+//            String isWHBWChecked = request.getParameter("isWHBW");
             
             Hospital hospital = hospitalService.getHospitalByCode(hospitalCode);
             
-            if( "on".equalsIgnoreCase(isWHBWChecked) ){
-            	hospital.setIsWHBW("1");
-            	hospitalService.updateWHBWStatus(hospital);
-            }
+//            if( "on".equalsIgnoreCase(isWHBWChecked) ){
+//            	hospital.setIsWHBW("1");
+//            	hospitalService.updateWHBWStatus(hospital);
+//            }
             
             //new data
             if( null == dataId || "".equalsIgnoreCase(dataId) || "0".equalsIgnoreCase(dataId) ){
@@ -558,6 +629,80 @@ public class IndexController extends BaseController{
         }
         
         return "redirect:pediatrics";
+    }
+    
+    @RequestMapping("/collectPediatricsRoom")
+    public String collectPediatricsRoom(HttpServletRequest request){
+    	String operator_telephone = (String)request.getSession(true).getAttribute(LsAttributes.CURRENT_OPERATOR);
+    	logger.info("collectPediatrics, user = "+operator_telephone);
+    	try{
+    		UserInfo currentUser = (UserInfo)request.getSession().getAttribute(LsAttributes.CURRENT_OPERATOR_OBJECT);
+    		if( null == operator_telephone || "".equalsIgnoreCase(operator_telephone) || null == currentUser ){
+    			request.getSession().setAttribute(LsAttributes.COLLECT_PEDIATRICS_MESSAGE, LsAttributes.NO_USER_FOUND_WEB);
+    			return "redirect:pediatrics";
+    		}
+    		if( ! ( LsAttributes.USER_LEVEL_REP.equalsIgnoreCase(currentUser.getLevel()) 
+    				|| LsAttributes.USER_LEVEL_DSM.equalsIgnoreCase(currentUser.getLevel()))){
+    			request.getSession().setAttribute(LsAttributes.COLLECT_PEDIATRICS_MESSAGE, LsAttributes.RETURNED_MESSAGE_3);
+    			return "redirect:pediatrics";
+    		}
+    		
+    		String dataId = request.getParameter("dataId");
+    		String hospitalCode = request.getParameter("hospital");
+    		
+    		if( null == hospitalCode || "".equalsIgnoreCase(hospitalCode) ){
+    			request.getSession().setAttribute(LsAttributes.COLLECT_PEDIATRICS_MESSAGE, LsAttributes.RETURNED_MESSAGE_7);
+    			return "redirect:pediatrics";
+    		}
+    		
+    		logger.info(String.format("doing the data persistence, dataId is %s, hospital is %s", dataId,hospitalCode));
+    		
+    		PediatricsData existedData = pediatricsService.getPediatricsRoomDataByHospital(hospitalCode);
+    		if( null != existedData ){
+    			logger.info(String.format("check the ped data again when user %s collecting, the data id is %s", operator_telephone, existedData.getDataId()));
+    		}
+    		if( ( null == dataId || "".equalsIgnoreCase(dataId) || "0".equalsIgnoreCase(dataId) ) 
+    				&& null != existedData){
+    			dataId = String.valueOf(existedData.getDataId());
+    			logger.info(String.format("the res data is found which id is %s", dataId));
+    		}
+    		
+//    		String isWHBWChecked = request.getParameter("isWHBW");
+    		
+    		Hospital hospital = hospitalService.getHospitalByCode(hospitalCode);
+    		
+//    		if( "on".equalsIgnoreCase(isWHBWChecked) ){
+//    			hospital.setIsWHBW("1");
+//    			hospitalService.updateWHBWStatus(hospital);
+//    		}
+    		
+    		//new data
+    		if( null == dataId || "".equalsIgnoreCase(dataId) || "0".equalsIgnoreCase(dataId) ){
+    			PediatricsData pediatricsData = new PediatricsData();
+    			populatePediatricsData(request,pediatricsData);
+    			
+    			logger.info("insert the data of pediatrics");
+    			pediatricsService.insertRoomData(pediatricsData, currentUser, hospital);
+    		}else{
+    			//update the current data
+    			PediatricsData dbPediatricsData = pediatricsService.getPediatricsDataById(Integer.parseInt(dataId));
+    			if( null == dbPediatricsData ){
+    				request.getSession().setAttribute(LsAttributes.COLLECT_RESPIROLOGY_MESSAGE, LsAttributes.RETURNED_MESSAGE_1);
+    			}else{
+    				populatePediatricsData(request,dbPediatricsData);
+    				
+    				logger.info("update the data of pediatrics");
+    				pediatricsService.updateRoomData(dbPediatricsData, currentUser);
+    			}
+    		}
+    		
+    		request.getSession().setAttribute(LsAttributes.COLLECT_PEDIATRICS_MESSAGE, LsAttributes.RETURNED_MESSAGE_0);
+    	}catch(Exception e){
+    		logger.error("fail to collect pediatrics "+e.getMessage(),e);
+    		request.getSession().setAttribute(LsAttributes.COLLECT_PEDIATRICS_MESSAGE, LsAttributes.RETURNED_MESSAGE_1);
+    	}
+    	
+    	return "redirect:pediatricsRoom";
     }
     
     @RequestMapping("/showUploadData")
@@ -943,5 +1088,67 @@ public class IndexController extends BaseController{
         pediatricsData.setTqd(tqd);
         pediatricsData.setTbid(tbid);
         pediatricsData.setRecipeType(recipeType);
+        
+        /**
+         * 儿科门急诊
+         */
+        double whdays1 = StringUtils.getDoubleFromString(request.getParameter("whdaysEmerging1Rate"));
+        double whdays2 = StringUtils.getDoubleFromString(request.getParameter("whdaysEmerging2Rate"));
+        double whdays3 = StringUtils.getDoubleFromString(request.getParameter("whdaysEmerging3Rate"));
+        double whdays4 = StringUtils.getDoubleFromString(request.getParameter("whdaysEmerging4Rate"));
+        double whdays5 = StringUtils.getDoubleFromString(request.getParameter("whdaysEmerging5Rate"));
+        double whdays6 = StringUtils.getDoubleFromString(request.getParameter("whdaysEmerging6Rate"));
+        double whdays7 = StringUtils.getDoubleFromString(request.getParameter("whdaysEmerging7Rate"));
+        
+        int homeWhEmergingNum1 = StringUtils.getIntegerFromString(request.getParameter("homeWhEmergingNum1"));
+        int homeWhEmergingNum2 = StringUtils.getIntegerFromString(request.getParameter("homeWhEmergingNum2"));
+        int homeWhEmergingNum3 = StringUtils.getIntegerFromString(request.getParameter("homeWhEmergingNum3"));
+        int homeWhEmergingNum4 = StringUtils.getIntegerFromString(request.getParameter("homeWhEmergingNum4"));
+        
+        pediatricsData.setWhdaysEmerging1Rate(whdays1);
+        pediatricsData.setWhdaysEmerging2Rate(whdays2);
+        pediatricsData.setWhdaysEmerging3Rate(whdays3);
+        pediatricsData.setWhdaysEmerging4Rate(whdays4);
+        pediatricsData.setWhdaysEmerging5Rate(whdays5);
+        pediatricsData.setWhdaysEmerging6Rate(whdays6);
+        pediatricsData.setWhdaysEmerging7Rate(whdays7);
+        pediatricsData.setHomeWhEmergingNum1(homeWhEmergingNum1);
+        pediatricsData.setHomeWhEmergingNum2(homeWhEmergingNum2);
+        pediatricsData.setHomeWhEmergingNum3(homeWhEmergingNum3);
+        pediatricsData.setHomeWhEmergingNum4(homeWhEmergingNum4);
+        
+        /**
+         * 儿科病房
+         */
+        double whdaysRoom1 = StringUtils.getDoubleFromString(request.getParameter("whdaysRoom1Rate"));
+        double whdaysRoom2 = StringUtils.getDoubleFromString(request.getParameter("whdaysRoom2Rate"));
+        double whdaysRoom3 = StringUtils.getDoubleFromString(request.getParameter("whdaysRoom3Rate"));
+        double whdaysRoom4 = StringUtils.getDoubleFromString(request.getParameter("whdaysRoom4Rate"));
+        double whdaysRoom5 = StringUtils.getDoubleFromString(request.getParameter("whdaysRoom5Rate"));
+        double whdaysRoom6 = StringUtils.getDoubleFromString(request.getParameter("whdaysRoom6Rate"));
+        double whdaysRoom7 = StringUtils.getDoubleFromString(request.getParameter("whdaysRoom7Rate"));
+        double whdaysRoom8 = StringUtils.getDoubleFromString(request.getParameter("whdaysRoom8Rate"));
+        double whdaysRoom9 = StringUtils.getDoubleFromString(request.getParameter("whdaysRoom9Rate"));
+        double whdaysRoom10 = StringUtils.getDoubleFromString(request.getParameter("whdaysRoom10Rate"));
+        
+        int homeWhRoomNum1 = StringUtils.getIntegerFromString(request.getParameter("homeWhRoomNum1"));
+        int homeWhRoomNum2 = StringUtils.getIntegerFromString(request.getParameter("homeWhRoomNum2"));
+        int homeWhRoomNum3 = StringUtils.getIntegerFromString(request.getParameter("homeWhRoomNum3"));
+        int homeWhRoomNum4 = StringUtils.getIntegerFromString(request.getParameter("homeWhRoomNum4"));
+        
+        pediatricsData.setWhdaysRoom1Rate(whdaysRoom1);
+        pediatricsData.setWhdaysRoom2Rate(whdaysRoom2);
+        pediatricsData.setWhdaysRoom3Rate(whdaysRoom3);
+        pediatricsData.setWhdaysRoom4Rate(whdaysRoom4);
+        pediatricsData.setWhdaysRoom5Rate(whdaysRoom5);
+        pediatricsData.setWhdaysRoom6Rate(whdaysRoom6);
+        pediatricsData.setWhdaysRoom7Rate(whdaysRoom7);
+        pediatricsData.setWhdaysRoom8Rate(whdaysRoom8);
+        pediatricsData.setWhdaysRoom9Rate(whdaysRoom9);
+        pediatricsData.setWhdaysRoom10Rate(whdaysRoom10);
+        pediatricsData.setHomeWhRoomNum1(homeWhRoomNum1);
+        pediatricsData.setHomeWhRoomNum2(homeWhRoomNum2);
+        pediatricsData.setHomeWhRoomNum3(homeWhRoomNum3);
+        pediatricsData.setHomeWhRoomNum4(homeWhRoomNum4);
     }
 }

@@ -122,6 +122,13 @@ public class ReportController extends BaseController{
         return returnValue;
     }
     
+    /**
+     * 医院KPI医院列表下载
+     * @param request
+     * @param response
+     * @return
+     * @throws IOException
+     */
     @RequestMapping("/doDownloadKPIHosData")
     public String doDownloadKPIHosData(HttpServletRequest request, HttpServletResponse response) throws IOException{
     	logger.info("download the KPI Hospital..");

@@ -43,6 +43,132 @@ public class PediatricsData {
      * 雾化博雾人次
      */
     private int whbwnum;
+    
+    /**
+     * 门急诊雾化天数1天占比(%)
+     */
+    private double whdaysEmerging1Rate;
+    
+    /**
+     * 门急诊雾化天数2天占比(%)
+     */
+    private double whdaysEmerging2Rate;
+    
+    /**
+     * 门急诊雾化天数3天占比(%)
+     */
+    private double whdaysEmerging3Rate;
+    
+    /**
+     * 门急诊雾化天数4天占比(%)
+     */
+    private double whdaysEmerging4Rate;
+    
+    /**
+     * 门急诊雾化天数5天占比(%)
+     */
+    private double whdaysEmerging5Rate;
+    
+    /**
+     * 门急诊雾化天数6天占比(%)
+     */
+    private double whdaysEmerging6Rate;
+    
+    /**
+     * 门急诊雾化天数7天及以上占比(%)
+     */
+    private double whdaysEmerging7Rate;
+    
+    /**
+     * 门急诊赠卖泵数量
+     */
+    private int homeWhEmergingNum1;
+    
+    /**
+     * 门急诊带药人数
+     */
+    private int homeWhEmergingNum2;
+    
+    /**
+     * 门急诊平均带药天数
+     */
+    private int homeWhEmergingNum3;
+    
+    /**
+     * 门急诊总带药支数
+     */
+    private int homeWhEmergingNum4;
+    
+    
+    /**
+     * 病房雾化天数1天占比(%)
+     */
+    private double whdaysRoom1Rate;
+    
+    /**
+     * 病房雾化天数2天占比(%)
+     */
+    private double whdaysRoom2Rate;
+    
+    /**
+     * 病房雾化天数3天占比(%)
+     */
+    private double whdaysRoom3Rate;
+    
+    /**
+     * 病房雾化天数4天占比(%)
+     */
+    private double whdaysRoom4Rate;
+    
+    /**
+     * 病房雾化天数5天占比(%)
+     */
+    private double whdaysRoom5Rate;
+    
+    /**
+     * 病房雾化天数6天占比(%)
+     */
+    private double whdaysRoom6Rate;
+    
+    /**
+     * 病房雾化天数7天占比(%)
+     */
+    private double whdaysRoom7Rate;
+    
+    /**
+     * 病房雾化天数8天占比(%)
+     */
+    private double whdaysRoom8Rate;
+    
+    /**
+     * 病房雾化天数9天占比(%)
+     */
+    private double whdaysRoom9Rate;
+    
+    /**
+     * 病房雾化天数10天及以上占比(%)
+     */
+    private double whdaysRoom10Rate;
+    
+    /**
+     * 病房赠卖泵数量
+     */
+    private int homeWhRoomNum1;
+    
+    /**
+     * 病房带药人数
+     */
+    private int homeWhRoomNum2;
+    
+    /**
+     * 病房平均带药天数
+     */
+    private int homeWhRoomNum3;
+    
+    /**
+     * 病房总带药支数
+     */
+    private int homeWhRoomNum4;
 	
 	public int getDataId() {
 		return dataId;
@@ -181,5 +307,155 @@ public class PediatricsData {
 	}
 	public void setWhbwnum(int whbwnum) {
 		this.whbwnum = whbwnum;
+	}
+	public double getWhdaysEmerging1Rate() {
+		return whdaysEmerging1Rate;
+	}
+	public void setWhdaysEmerging1Rate(double whdaysEmerging1Rate) {
+		this.whdaysEmerging1Rate = whdaysEmerging1Rate;
+	}
+	public double getWhdaysEmerging2Rate() {
+		return whdaysEmerging2Rate;
+	}
+	public void setWhdaysEmerging2Rate(double whdaysEmerging2Rate) {
+		this.whdaysEmerging2Rate = whdaysEmerging2Rate;
+	}
+	public double getWhdaysEmerging3Rate() {
+		return whdaysEmerging3Rate;
+	}
+	public void setWhdaysEmerging3Rate(double whdaysEmerging3Rate) {
+		this.whdaysEmerging3Rate = whdaysEmerging3Rate;
+	}
+	public double getWhdaysEmerging4Rate() {
+		return whdaysEmerging4Rate;
+	}
+	public void setWhdaysEmerging4Rate(double whdaysEmerging4Rate) {
+		this.whdaysEmerging4Rate = whdaysEmerging4Rate;
+	}
+	public double getWhdaysEmerging5Rate() {
+		return whdaysEmerging5Rate;
+	}
+	public void setWhdaysEmerging5Rate(double whdaysEmerging5Rate) {
+		this.whdaysEmerging5Rate = whdaysEmerging5Rate;
+	}
+	public double getWhdaysEmerging6Rate() {
+		return whdaysEmerging6Rate;
+	}
+	public void setWhdaysEmerging6Rate(double whdaysEmerging6Rate) {
+		this.whdaysEmerging6Rate = whdaysEmerging6Rate;
+	}
+	public double getWhdaysEmerging7Rate() {
+		return whdaysEmerging7Rate;
+	}
+	public void setWhdaysEmerging7Rate(double whdaysEmerging7Rate) {
+		this.whdaysEmerging7Rate = whdaysEmerging7Rate;
+	}
+	public int getHomeWhEmergingNum1() {
+		return homeWhEmergingNum1;
+	}
+	public void setHomeWhEmergingNum1(int homeWhEmergingNum1) {
+		this.homeWhEmergingNum1 = homeWhEmergingNum1;
+	}
+	public int getHomeWhEmergingNum2() {
+		return homeWhEmergingNum2;
+	}
+	public void setHomeWhEmergingNum2(int homeWhEmergingNum2) {
+		this.homeWhEmergingNum2 = homeWhEmergingNum2;
+	}
+	public int getHomeWhEmergingNum3() {
+		return homeWhEmergingNum3;
+	}
+	public void setHomeWhEmergingNum3(int homeWhEmergingNum3) {
+		this.homeWhEmergingNum3 = homeWhEmergingNum3;
+	}
+	public int getHomeWhEmergingNum4() {
+		return homeWhEmergingNum4;
+	}
+	public void setHomeWhEmergingNum4(int homeWhEmergingNum4) {
+		this.homeWhEmergingNum4 = homeWhEmergingNum4;
+	}
+	public double getWhdaysRoom1Rate() {
+		return whdaysRoom1Rate;
+	}
+	public void setWhdaysRoom1Rate(double whdaysRoom1Rate) {
+		this.whdaysRoom1Rate = whdaysRoom1Rate;
+	}
+	public double getWhdaysRoom2Rate() {
+		return whdaysRoom2Rate;
+	}
+	public void setWhdaysRoom2Rate(double whdaysRoom2Rate) {
+		this.whdaysRoom2Rate = whdaysRoom2Rate;
+	}
+	public double getWhdaysRoom3Rate() {
+		return whdaysRoom3Rate;
+	}
+	public void setWhdaysRoom3Rate(double whdaysRoom3Rate) {
+		this.whdaysRoom3Rate = whdaysRoom3Rate;
+	}
+	public double getWhdaysRoom4Rate() {
+		return whdaysRoom4Rate;
+	}
+	public void setWhdaysRoom4Rate(double whdaysRoom4Rate) {
+		this.whdaysRoom4Rate = whdaysRoom4Rate;
+	}
+	public double getWhdaysRoom5Rate() {
+		return whdaysRoom5Rate;
+	}
+	public void setWhdaysRoom5Rate(double whdaysRoom5Rate) {
+		this.whdaysRoom5Rate = whdaysRoom5Rate;
+	}
+	public double getWhdaysRoom6Rate() {
+		return whdaysRoom6Rate;
+	}
+	public void setWhdaysRoom6Rate(double whdaysRoom6Rate) {
+		this.whdaysRoom6Rate = whdaysRoom6Rate;
+	}
+	public double getWhdaysRoom7Rate() {
+		return whdaysRoom7Rate;
+	}
+	public void setWhdaysRoom7Rate(double whdaysRoom7Rate) {
+		this.whdaysRoom7Rate = whdaysRoom7Rate;
+	}
+	public double getWhdaysRoom8Rate() {
+		return whdaysRoom8Rate;
+	}
+	public void setWhdaysRoom8Rate(double whdaysRoom8Rate) {
+		this.whdaysRoom8Rate = whdaysRoom8Rate;
+	}
+	public double getWhdaysRoom9Rate() {
+		return whdaysRoom9Rate;
+	}
+	public void setWhdaysRoom9Rate(double whdaysRoom9Rate) {
+		this.whdaysRoom9Rate = whdaysRoom9Rate;
+	}
+	public double getWhdaysRoom10Rate() {
+		return whdaysRoom10Rate;
+	}
+	public void setWhdaysRoom10Rate(double whdaysRoom10Rate) {
+		this.whdaysRoom10Rate = whdaysRoom10Rate;
+	}
+	public int getHomeWhRoomNum1() {
+		return homeWhRoomNum1;
+	}
+	public void setHomeWhRoomNum1(int homeWhRoomNum1) {
+		this.homeWhRoomNum1 = homeWhRoomNum1;
+	}
+	public int getHomeWhRoomNum2() {
+		return homeWhRoomNum2;
+	}
+	public void setHomeWhRoomNum2(int homeWhRoomNum2) {
+		this.homeWhRoomNum2 = homeWhRoomNum2;
+	}
+	public int getHomeWhRoomNum3() {
+		return homeWhRoomNum3;
+	}
+	public void setHomeWhRoomNum3(int homeWhRoomNum3) {
+		this.homeWhRoomNum3 = homeWhRoomNum3;
+	}
+	public int getHomeWhRoomNum4() {
+		return homeWhRoomNum4;
+	}
+	public void setHomeWhRoomNum4(int homeWhRoomNum4) {
+		this.homeWhRoomNum4 = homeWhRoomNum4;
 	}
 }

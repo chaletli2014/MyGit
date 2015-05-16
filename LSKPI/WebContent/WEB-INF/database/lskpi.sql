@@ -454,3 +454,43 @@ alter table tbl_pediatrics_data add column whbwnum int not null default 0;
 alter table tbl_hospital add column isWHBW varchar(2) not null default 0;
 
 alter table tbl_pediatrics_data_weekly add column whbwnum int not null default 0;
+
+alter table tbl_pediatrics_data add column whdays_emerging_1 DECIMAL(11,6) not null default 0 comment '门急诊雾化天数1天占比(%)';
+alter table tbl_pediatrics_data add column whdays_emerging_2 DECIMAL(11,6) not null default 0 comment '门急诊雾化天数2天占比(%)';
+alter table tbl_pediatrics_data add column whdays_emerging_3 DECIMAL(11,6) not null default 0 comment '门急诊雾化天数3天占比(%)';
+alter table tbl_pediatrics_data add column whdays_emerging_4 DECIMAL(11,6) not null default 0 comment '门急诊雾化天数4天占比(%)';
+alter table tbl_pediatrics_data add column whdays_emerging_5 DECIMAL(11,6) not null default 0 comment '门急诊雾化天数5天占比(%)';
+alter table tbl_pediatrics_data add column whdays_emerging_6 DECIMAL(11,6) not null default 0 comment '门急诊雾化天数6天占比(%)';
+alter table tbl_pediatrics_data add column whdays_emerging_7 DECIMAL(11,6) not null default 0 comment '门急诊雾化天数7天及以上占比(%)';
+alter table tbl_pediatrics_data add column home_wh_emerging_num1 int not null default 0 comment '门急诊赠卖泵数量';
+alter table tbl_pediatrics_data add column home_wh_emerging_num2 int not null default 0 comment '门急诊带药人数';
+alter table tbl_pediatrics_data add column home_wh_emerging_num3 int not null default 0 comment '门急诊平均带药天数';
+alter table tbl_pediatrics_data add column home_wh_emerging_num4 int not null default 0 comment '门急诊总带药支数';
+
+alter table tbl_pediatrics_data add column pnum_room int not null default 0 comment '当日住院人数';
+alter table tbl_pediatrics_data add column whdays_room_1 DECIMAL(11,6) not null default 0 comment '病房雾化天数1天占比(%)';
+alter table tbl_pediatrics_data add column whdays_room_2 DECIMAL(11,6) not null default 0 comment '病房雾化天数2天占比(%)';
+alter table tbl_pediatrics_data add column whdays_room_3 DECIMAL(11,6) not null default 0 comment '病房雾化天数3天占比(%)';
+alter table tbl_pediatrics_data add column whdays_room_4 DECIMAL(11,6) not null default 0 comment '病房雾化天数4天占比(%)';
+alter table tbl_pediatrics_data add column whdays_room_5 DECIMAL(11,6) not null default 0 comment '病房雾化天数5天占比(%)';
+alter table tbl_pediatrics_data add column whdays_room_6 DECIMAL(11,6) not null default 0 comment '病房雾化天数6天占比(%)';
+alter table tbl_pediatrics_data add column whdays_room_7 DECIMAL(11,6) not null default 0 comment '病房雾化天数7天占比(%)';
+alter table tbl_pediatrics_data add column whdays_room_8 DECIMAL(11,6) not null default 0 comment '病房雾化天数8天占比(%)';
+alter table tbl_pediatrics_data add column whdays_room_9 DECIMAL(11,6) not null default 0 comment '病房雾化天数9天占比(%)';
+alter table tbl_pediatrics_data add column whdays_room_10 DECIMAL(11,6) not null default 0 comment '病房雾化天数10天占比(%)';
+alter table tbl_pediatrics_data add column home_wh_room_num1 int not null default 0 comment '病房赠卖泵数量';
+alter table tbl_pediatrics_data add column home_wh_room_num2 int not null default 0 comment '病房带药人数';
+alter table tbl_pediatrics_data add column home_wh_room_num3 int not null default 0 comment '病房平均带药天数';
+alter table tbl_pediatrics_data add column home_wh_room_num4 int not null default 0 comment '病房总带药支数';
+
+alter table tbl_pediatrics_data add column whnum_room int not null default 0 comment '病房雾化人数'
+,add column lsnum_room int not null default 0 comment '病房雾化令舒人数'
+,add column hqd_room DECIMAL(11,6) not null default 0 comment '病房0.5mgqd'
+,add column hbid_room DECIMAL(11,6) not null default 0 comment '病房0.5mgbid'
+,add column oqd_room DECIMAL(11,6) not null default 0 comment '病房1mgqd'
+,add column obid_room DECIMAL(11,6) not null default 0 comment '病房1mgbid'
+,add column tqd_room DECIMAL(11,6) not null default 0 comment '病房2mgqd'
+,add column tbid_room DECIMAL(11,6) not null default 0 comment '病房2mgbid'
+,add column recipeType_room varchar(20) not null default '1' comment '病房2mgbid'
+,add column whbwnum_room int not null default 0 comment '病房雾化博雾人次';
+

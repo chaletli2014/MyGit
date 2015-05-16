@@ -207,6 +207,20 @@ public class PediatricsServiceImpl implements PediatricsService {
 	        return null;
 	    }
 	}
+	
+	@Override
+	public PediatricsData getPediatricsRoomDataByHospital(String hospitalCode)
+			throws Exception {
+		try{
+			return pediatricsDAO.getPediatricsRoomDataByHospital(hospitalCode);
+		} catch(EmptyResultDataAccessException erd){
+			logger.info("there is no record found.");
+			return null;
+		} catch(Exception e){
+			logger.error("fail to get the pediatrics data by hospital - " + hospitalCode,e);
+			return null;
+		}
+	}
 
 	@Override
 	public PediatricsData getPediatricsDataById(int id) throws Exception {
@@ -238,11 +252,22 @@ public class PediatricsServiceImpl implements PediatricsService {
         }
         pediatricsDAO.insert(pediatricsData, dsmCode);
     }
+    
+    @Override
+    public void insertRoomData(PediatricsData pediatricsData, UserInfo operator, Hospital hospital) throws Exception {
+    	pediatricsDAO.insertRoomData(pediatricsData, operator, hospital);
+    }
 
 	@Override
 	public void update(PediatricsData pediatricsData, UserInfo operator)
 			throws Exception {
 		pediatricsDAO.update(pediatricsData, operator);
+	}
+	
+	@Override
+	public void updateRoomData(PediatricsData pediatricsData, UserInfo operator)
+			throws Exception {
+		pediatricsDAO.updateRoomData(pediatricsData, operator);
 	}
 
 	@Override

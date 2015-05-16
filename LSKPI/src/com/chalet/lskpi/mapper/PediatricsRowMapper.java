@@ -34,7 +34,18 @@ public class PediatricsRowMapper implements RowMapper<PediatricsData>{
     	pediatricsData.setDragonType(rs.getString("dragonType"));
     	pediatricsData.setPortNum(rs.getInt("portNum"));
     	pediatricsData.setWhbwnum(rs.getInt("whbwnum"));
+    	
+    	pediatricsData.setWhdaysEmerging1Rate(rs.getDouble("whdays_emerging_1"));
+    	pediatricsData.setWhdaysEmerging2Rate(rs.getDouble("whdays_emerging_2"));
+    	pediatricsData.setWhdaysEmerging3Rate(rs.getDouble("whdays_emerging_3"));
+    	pediatricsData.setWhdaysEmerging4Rate(rs.getDouble("whdays_emerging_4"));
+    	pediatricsData.setWhdaysEmerging5Rate(rs.getDouble("whdays_emerging_5"));
+    	pediatricsData.setWhdaysEmerging6Rate(rs.getDouble("whdays_emerging_6"));
+    	pediatricsData.setWhdaysEmerging7Rate(rs.getDouble("whdays_emerging_7"));
+    	pediatricsData.setHomeWhEmergingNum1(rs.getInt("home_wh_emerging_num1"));
+    	pediatricsData.setHomeWhEmergingNum2(rs.getInt("home_wh_emerging_num2"));
+    	pediatricsData.setHomeWhEmergingNum3(rs.getInt("home_wh_emerging_num3"));
+    	pediatricsData.setHomeWhEmergingNum4(rs.getInt("home_wh_emerging_num4"));
         return pediatricsData;
     }
-    
 }
