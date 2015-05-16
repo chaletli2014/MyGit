@@ -26,7 +26,10 @@ function showNextPage(pageURL){
 	            <img alt="" src="<%=basePath%>images/img_bg_res_weekly_w.png" onclick="showNextPage('<%=basePath%>resWeeklyreport')" style="cursor: pointer;">
         	</div>
         	<div data-role="fieldcontain" class="department_img_div">
+        	<%--
                 <img alt="" src="<%=basePath%>images/img_bg_chestSurgery_weekly_w.png" onclick="showNextPage('<%=basePath%>cheWeeklyreport')" style="cursor: pointer;">
+        	 --%>
+                <img alt="" src="<%=basePath%>images/img_bg_chestSurgery_weekly_w.png" onclick="showCustomrizedMessage('由于KPI系统简化调整，胸外科部分暂时不用填写，敬请注意，谢谢！');" style="cursor: pointer;">
             </div>
         	<div data-role="fieldcontain" class="department_img_div">
 	            <img alt="" src="<%=basePath%>images/img_bg_home_report_w.png" onclick="showNextPage('<%=basePath%>homeReport')" style="cursor: pointer;">
