@@ -9,9 +9,13 @@ public class MobilePEDDailyData {
     private int hosNum;
     private int inNum;
     private int patNum;
+    private int patNumRoom;
     private int whNum;
+    private int whNumRoom;
     private int lsNum;
+    private int lsNumRoom;
     private double averageDose;
+    private double averageDoseRoom;
     private double hmgRate;
     private double omgRate;
     private double tmgRate;
@@ -22,6 +26,7 @@ public class MobilePEDDailyData {
     
     private double inRate;
     private double whRate;
+    private double whRateRoom;
     
     private String regionCenterCN;
     
@@ -32,7 +37,21 @@ public class MobilePEDDailyData {
     private double emergingWhRate;
     
     private int whbwnum;
+    private int whbwnumRoom;
     private double blRate;
+    private double blRateRoom;
+    
+    private double whdays;
+    private double whdaysRoom;
+    
+    private int homeWhEmergingNum1;
+    private int homeWhEmergingNum2;
+    private int homeWhEmergingNum3;
+    private int homeWhEmergingNum4;
+    private int homeWhRoomNum1;
+    private int homeWhRoomNum2;
+    private int homeWhRoomNum3;
+    private int homeWhRoomNum4;
     
     public String getUserName() {
         return userName;
@@ -173,5 +192,107 @@ public class MobilePEDDailyData {
 	}
 	public void setBlRate(double blRate) {
 		this.blRate = blRate;
+	}
+	public int getPatNumRoom() {
+		return patNumRoom;
+	}
+	public void setPatNumRoom(int patNumRoom) {
+		this.patNumRoom = patNumRoom;
+	}
+	public int getWhNumRoom() {
+		return whNumRoom;
+	}
+	public void setWhNumRoom(int whNumRoom) {
+		this.whNumRoom = whNumRoom;
+	}
+	public int getLsNumRoom() {
+		return lsNumRoom;
+	}
+	public void setLsNumRoom(int lsNumRoom) {
+		this.lsNumRoom = lsNumRoom;
+	}
+	public double getAverageDoseRoom() {
+		return averageDoseRoom;
+	}
+	public void setAverageDoseRoom(double averageDoseRoom) {
+		this.averageDoseRoom = averageDoseRoom;
+	}
+	public double getWhRateRoom() {
+		return whRateRoom;
+	}
+	public void setWhRateRoom(double whRateRoom) {
+		this.whRateRoom = whRateRoom;
+	}
+	public int getWhbwnumRoom() {
+		return whbwnumRoom;
+	}
+	public void setWhbwnumRoom(int whbwnumRoom) {
+		this.whbwnumRoom = whbwnumRoom;
+	}
+	public double getBlRateRoom() {
+		return blRateRoom;
+	}
+	public void setBlRateRoom(double blRateRoom) {
+		this.blRateRoom = blRateRoom;
+	}
+	public double getWhdays() {
+		return whdays;
+	}
+	public void setWhdays(double whdays) {
+		this.whdays = whdays;
+	}
+	public double getWhdaysRoom() {
+		return whdaysRoom;
+	}
+	public void setWhdaysRoom(double whdaysRoom) {
+		this.whdaysRoom = whdaysRoom;
+	}
+	public int getHomeWhEmergingNum1() {
+		return homeWhEmergingNum1;
+	}
+	public void setHomeWhEmergingNum1(int homeWhEmergingNum1) {
+		this.homeWhEmergingNum1 = homeWhEmergingNum1;
+	}
+	public int getHomeWhEmergingNum2() {
+		return homeWhEmergingNum2;
+	}
+	public void setHomeWhEmergingNum2(int homeWhEmergingNum2) {
+		this.homeWhEmergingNum2 = homeWhEmergingNum2;
+	}
+	public int getHomeWhEmergingNum3() {
+		return homeWhEmergingNum3;
+	}
+	public void setHomeWhEmergingNum3(int homeWhEmergingNum3) {
+		this.homeWhEmergingNum3 = homeWhEmergingNum3;
+	}
+	public int getHomeWhEmergingNum4() {
+		return homeWhEmergingNum4;
+	}
+	public void setHomeWhEmergingNum4(int homeWhEmergingNum4) {
+		this.homeWhEmergingNum4 = homeWhEmergingNum4;
+	}
+	public int getHomeWhRoomNum1() {
+		return homeWhRoomNum1;
+	}
+	public void setHomeWhRoomNum1(int homeWhRoomNum1) {
+		this.homeWhRoomNum1 = homeWhRoomNum1;
+	}
+	public int getHomeWhRoomNum2() {
+		return homeWhRoomNum2;
+	}
+	public void setHomeWhRoomNum2(int homeWhRoomNum2) {
+		this.homeWhRoomNum2 = homeWhRoomNum2;
+	}
+	public int getHomeWhRoomNum3() {
+		return homeWhRoomNum3;
+	}
+	public void setHomeWhRoomNum3(int homeWhRoomNum3) {
+		this.homeWhRoomNum3 = homeWhRoomNum3;
+	}
+	public int getHomeWhRoomNum4() {
+		return homeWhRoomNum4;
+	}
+	public void setHomeWhRoomNum4(int homeWhRoomNum4) {
+		this.homeWhRoomNum4 = homeWhRoomNum4;
 	}
 }

@@ -20,10 +20,10 @@ function showDailyReportPage(pageURL){
         </jsp:include>
         <div data-role="content" data-theme="a">
         	<div data-role="fieldcontain" class="department_img_div">
-	            <img alt="" src="<%=basePath%>images/img_bg_ped_daily_all.png" onclick="showDailyReportPage('<%=basePath%>peddailyreport?hospitalShownFlag=all')" style="cursor: pointer;">
+	            <img alt="" src="<%=basePath%>images/img_bg_ped_daily_emerging.png" onclick="showDailyReportPage('<%=basePath%>peddailyreport?pedType=e')" style="cursor: pointer;">
         	</div>
         	<div data-role="fieldcontain" class="department_img_div">
-	            <img alt="" src="<%=basePath%>images/img_bg_ped_daily_part.png" onclick="showDailyReportPage('<%=basePath%>peddailyreport')" style="cursor: pointer;">
+	            <img alt="" src="<%=basePath%>images/img_bg_ped_daily_room.png" onclick="showDailyReportPage('<%=basePath%>peddailyreport?pedType=r')" style="cursor: pointer;">
         	</div>
         	<div data-role="fieldcontain" class="department_img_div">
 	            <img alt="" src="<%=basePath%>images/img_bg_res_daily.png" onclick="showDailyReportPage('<%=basePath%>resdailyreport')" style="cursor: pointer;">

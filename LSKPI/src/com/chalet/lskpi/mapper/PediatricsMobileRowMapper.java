@@ -26,6 +26,25 @@ public class PediatricsMobileRowMapper implements RowMapper<MobilePEDDailyData>{
         mobilePEDDailyData.setRegionCenterCN(rs.getString("regionCenterCN"));
         mobilePEDDailyData.setWhbwnum(rs.getInt("whbwnum"));
         mobilePEDDailyData.setBlRate(rs.getDouble("blRate"));
+        mobilePEDDailyData.setWhdays(rs.getDouble("whdays_emerging"));
+        
+        mobilePEDDailyData.setPatNumRoom(rs.getInt("pNum_room"));
+        mobilePEDDailyData.setWhNumRoom(rs.getInt("whNum_room"));
+        mobilePEDDailyData.setLsNumRoom(rs.getInt("lsNum_room"));
+        mobilePEDDailyData.setAverageDoseRoom(rs.getDouble("averageDose_room"));
+        mobilePEDDailyData.setWhbwnumRoom(rs.getInt("whbwnum_room"));
+        mobilePEDDailyData.setBlRateRoom(rs.getDouble("blRate_room"));
+        mobilePEDDailyData.setWhdaysRoom(rs.getDouble("whdays_room"));
+        
+        mobilePEDDailyData.setHomeWhEmergingNum1(rs.getInt("home_wh_emerging_num1"));
+        mobilePEDDailyData.setHomeWhEmergingNum2(rs.getInt("home_wh_emerging_num2"));
+        mobilePEDDailyData.setHomeWhEmergingNum3(rs.getInt("home_wh_emerging_num3"));
+        mobilePEDDailyData.setHomeWhEmergingNum4(rs.getInt("home_wh_emerging_num4"));
+        mobilePEDDailyData.setHomeWhRoomNum1(rs.getInt("home_wh_room_num1"));
+        mobilePEDDailyData.setHomeWhRoomNum2(rs.getInt("home_wh_room_num2"));
+        mobilePEDDailyData.setHomeWhRoomNum3(rs.getInt("home_wh_room_num3"));
+        mobilePEDDailyData.setHomeWhRoomNum4(rs.getInt("home_wh_room_num4"));
+        
         return mobilePEDDailyData;
     }
 }

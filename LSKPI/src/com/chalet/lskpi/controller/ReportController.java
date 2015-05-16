@@ -11,7 +11,6 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -1455,13 +1454,23 @@ public class ReportController extends BaseController{
     	    Timestamp paramDate = new Timestamp(DateUtils.populateParamDate(date).getTime());
     	    
             String telephone = (String)request.getSession().getAttribute(LsAttributes.CURRENT_OPERATOR);
-            String hospitalShownFlag = (String)request.getParameter("hospitalShownFlag");
+//            String hospitalShownFlag = (String)request.getParameter("hospitalShownFlag");
+            
+            String hospitalShownFlag = "all";
             if( "all".equalsIgnoreCase(hospitalShownFlag) ){
             	hospitalShownFlag = LsAttributes.SQL_WHERE_CONDITION_PED_COLLECTION_HOSPITAL.toString();
             }else{
             	hospitalShownFlag = LsAttributes.SQL_WHERE_CONDITION_DAILYREPORT_HOSPITAL.toString();
             }
             logger.info(String.format("daily PED report, the current user is %s, hospitalShownFlag is %s", telephone,hospitalShownFlag));
+            
+            String pedType = (String)request.getParameter("pedType");
+            
+            if( "e".equalsIgnoreCase(pedType) ){
+            	view.setViewName("pedDailyReport");
+            }else if("r".equalsIgnoreCase(pedType)){
+            	view.setViewName("pedRoomDailyReport");
+            }
             
             List<MobilePEDDailyData> mobilePEDData = pediatricsService.getDailyPEDData4Mobile(telephone,currentUser,hospitalShownFlag);
             logger.info("get daily ped data for mobile end...");
@@ -1507,7 +1516,6 @@ public class ReportController extends BaseController{
             logger.error("fail to get the daily ped report data",e);
             view.addObject(LsAttributes.JSP_VERIFY_MESSAGE, LsAttributes.RETURNED_MESSAGE_2);
         }
-        view.setViewName("pedDailyReport");
         return view;
     }
     
