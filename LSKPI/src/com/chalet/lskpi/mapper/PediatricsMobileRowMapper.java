@@ -45,6 +45,13 @@ public class PediatricsMobileRowMapper implements RowMapper<MobilePEDDailyData>{
         mobilePEDDailyData.setHomeWhRoomNum3(rs.getInt("home_wh_room_num3"));
         mobilePEDDailyData.setHomeWhRoomNum4(rs.getInt("home_wh_room_num4"));
         
+        if( rs.getInt("hosNum") != 0 ){
+        	mobilePEDDailyData.setInRate(rs.getDouble("inNum")/rs.getDouble("hosNum"));
+        }else{
+        	mobilePEDDailyData.setInRate(0);
+        }
+        
+        
         return mobilePEDDailyData;
     }
 }
