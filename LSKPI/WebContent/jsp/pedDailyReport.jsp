@@ -79,7 +79,7 @@
 		                   <td>${reportData.userName}</td>
 		                   <td class="report_data_number"><fmt:formatNumber value="${reportData.homeWhEmergingNum1}" pattern="#,###"/></td>
 		                   <td class="report_data_number"><fmt:formatNumber value="${reportData.homeWhEmergingNum2}" pattern="#,###"/></td>
-		                   <td class="report_data_number"><fmt:formatNumber value="${reportData.homeWhEmergingNum3}" pattern="#,###"/></td>
+		                   <td class="report_data_number"><fmt:formatNumber value="${reportData.homeWhEmergingAverDays}" pattern="#0.0"/></td>
 		                   <td class="report_data_number"><fmt:formatNumber value="${reportData.homeWhEmergingNum4}" pattern="#,###"/></td>
 		               </tr>
 	               </c:forEach>
@@ -88,7 +88,7 @@
 		                   <td rowspan="2">${mobileDailyReportParentData.userName}</td>
 		                   <td class="report_data_number"><fmt:formatNumber value="${mobileDailyReportParentData.homeWhEmergingNum1}" pattern="#,###"/></td>
 		                   <td class="report_data_number"><fmt:formatNumber value="${mobileDailyReportParentData.homeWhEmergingNum2}" pattern="#,###"/></td>
-		                   <td class="report_data_number"><fmt:formatNumber value="${mobileDailyReportParentData.homeWhEmergingNum3}" pattern="#,###"/></td>
+		                   <td class="report_data_number"><fmt:formatNumber value="${mobileDailyReportParentData.homeWhEmergingAverDays}" pattern="#0.0"/></td>
 		                   <td class="report_data_number"><fmt:formatNumber value="${mobileDailyReportParentData.homeWhEmergingNum4}" pattern="#,###"/></td>
 		               </tr>
 	               </c:if>
@@ -145,7 +145,7 @@
 			                   <td>${reportData.userName}</td>
 			                   <td class="report_data_number"><fmt:formatNumber value="${reportData.homeWhEmergingNum1}" pattern="#,###"/></td>
 			                   <td class="report_data_number"><fmt:formatNumber value="${reportData.homeWhEmergingNum2}" pattern="#,###"/></td>
-			                   <td class="report_data_number"><fmt:formatNumber value="${reportData.homeWhEmergingNum3}" pattern="#,###"/></td>
+			                   <td class="report_data_number"><fmt:formatNumber value="${reportData.homeWhEmergingAverDays}" pattern="#0.0"/></td>
 			                   <td class="report_data_number"><fmt:formatNumber value="${reportData.homeWhEmergingNum4}" pattern="#,###"/></td>
 			               </tr>
 		               </c:forEach>
@@ -203,13 +203,14 @@
 			                   <td>${reportData.userName}</td>
 			                   <td class="report_data_number"><fmt:formatNumber value="${reportData.homeWhEmergingNum1}" pattern="#,###"/></td>
 			                   <td class="report_data_number"><fmt:formatNumber value="${reportData.homeWhEmergingNum2}" pattern="#,###"/></td>
-			                   <td class="report_data_number"><fmt:formatNumber value="${reportData.homeWhEmergingNum3}" pattern="#,###"/></td>
+			                   <td class="report_data_number"><fmt:formatNumber value="${reportData.homeWhEmergingAverDays}" pattern="#0.0"/></td>
 			                   <td class="report_data_number"><fmt:formatNumber value="${reportData.homeWhEmergingNum4}" pattern="#,###"/></td>
 			               </tr>
 		               </c:forEach>
 		            </table>
 			</div>
             </c:if>
+            <%--
             <c:if test="${operatorObj!= null && (operatorObj.level=='RSM'||operatorObj.level=='RSD'||operatorObj.level=='BM')}">
 	            <div class="roundCorner" style="padding:4px;">
 	                <div class="dailyReport_table_Title">全国RSM数据排行</div>
@@ -257,6 +258,7 @@
 	                </table>
 	            </div>
             </c:if>
+             --%>
         </div>
         <jsp:include page="page_footer.jsp">
             <jsp:param value="<%=basePath%>" name="basePath"/>

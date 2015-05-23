@@ -34,6 +34,31 @@ public class PediatricsWithPortNumRowMapper implements RowMapper<PediatricsData>
     	pediatricsData.setDragonType(rs.getString("dragonType"));
     	pediatricsData.setPortNum(rs.getInt("portNum"));
     	pediatricsData.setWhbwnum(rs.getInt("whbwnum"));
+    	pediatricsData.setHomeWhEmergingNum1(rs.getInt("home_wh_emerging_num1"));
+    	pediatricsData.setHomeWhEmergingNum2(rs.getInt("home_wh_emerging_num2"));
+    	pediatricsData.setHomeWhEmergingNum3(rs.getInt("home_wh_emerging_num3"));
+    	pediatricsData.setHomeWhEmergingNum4(rs.getInt("home_wh_emerging_num4"));
+    	pediatricsData.setHomeWhRoomNum1(rs.getInt("home_wh_room_num1"));
+    	pediatricsData.setHomeWhRoomNum2(rs.getInt("home_wh_room_num2"));
+    	pediatricsData.setHomeWhRoomNum3(rs.getInt("home_wh_room_num3"));
+    	pediatricsData.setHomeWhRoomNum4(rs.getInt("home_wh_room_num4"));
+    	pediatricsData.setWhdaysEmerging1Rate(rs.getDouble("whdays_emerging_1"));
+    	pediatricsData.setWhdaysEmerging2Rate(rs.getDouble("whdays_emerging_2"));
+    	pediatricsData.setWhdaysEmerging3Rate(rs.getDouble("whdays_emerging_3"));
+    	pediatricsData.setWhdaysEmerging4Rate(rs.getDouble("whdays_emerging_4"));
+    	pediatricsData.setWhdaysEmerging5Rate(rs.getDouble("whdays_emerging_5"));
+    	pediatricsData.setWhdaysEmerging6Rate(rs.getDouble("whdays_emerging_6"));
+    	pediatricsData.setWhdaysEmerging7Rate(rs.getDouble("whdays_emerging_7"));
+    	pediatricsData.setWhdaysRoom1Rate(rs.getDouble("whdays_room_1"));
+    	pediatricsData.setWhdaysRoom2Rate(rs.getDouble("whdays_room_2"));
+    	pediatricsData.setWhdaysRoom3Rate(rs.getDouble("whdays_room_3"));
+    	pediatricsData.setWhdaysRoom4Rate(rs.getDouble("whdays_room_4"));
+    	pediatricsData.setWhdaysRoom5Rate(rs.getDouble("whdays_room_5"));
+    	pediatricsData.setWhdaysRoom6Rate(rs.getDouble("whdays_room_6"));
+    	pediatricsData.setWhdaysRoom7Rate(rs.getDouble("whdays_room_7"));
+    	pediatricsData.setWhdaysRoom8Rate(rs.getDouble("whdays_room_8"));
+    	pediatricsData.setWhdaysRoom9Rate(rs.getDouble("whdays_room_9"));
+    	pediatricsData.setWhdaysRoom10Rate(rs.getDouble("whdays_room_10"));
         return pediatricsData;
     }
     

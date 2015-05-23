@@ -950,6 +950,8 @@ public class LsAttributes {
     public static final StringBuffer SQL_DAILYREPORT_SELECTION_PED
         = new StringBuffer("")
             .append(" count(1) as inNum, ")
+            .append(" sum(case when pd.home_wh_emerging_num3 != 0 then 1 else 0 end ) as emergingInNum, ")
+            .append(" sum(case when pd.home_wh_room_num3 != 0 then 1 else 0 end ) as roomInNum, ")
             .append(" IFNULL(sum(pd.pnum),0) as pnum, ")
             .append(" IFNULL(sum(pd.pnum_room),0) as pnum_room, ")
             .append(" IFNULL(sum(pd.whnum),0) as whnum, ")
@@ -1009,6 +1011,8 @@ public class LsAttributes {
     public static final StringBuffer SQL_DAILYREPORT_SELECTION_ALIAS_PED
         = new StringBuffer("")
             .append(" dailyData.inNum, ")
+            .append(" dailyData.emergingInNum, ")
+            .append(" dailyData.roomInNum, ")
             .append(" dailyData.pnum, ")
             .append(" dailyData.pnum_room, ")
             .append(" dailyData.whnum, ")

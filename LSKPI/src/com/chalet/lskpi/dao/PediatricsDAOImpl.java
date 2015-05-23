@@ -1955,7 +1955,7 @@ public class PediatricsDAOImpl implements PediatricsDAO {
 		.append("whdays_emerging_1,whdays_emerging_2,whdays_emerging_3,whdays_emerging_4,whdays_emerging_5,whdays_emerging_6,whdays_emerging_7,")
 		.append("home_wh_emerging_num1,home_wh_emerging_num2,home_wh_emerging_num3,home_wh_emerging_num4 ")
 		.append(") values( ")
-		.append("null,NOW(),?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,NOW(),?,?,?,?,?,?,?,?,?,?,?,?,?,?)").toString();
+		.append("null,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,NOW(),?,?,?,?,?,?,?,?,?,?,?,?,?,?)").toString();
 	    KeyHolder keyHolder = new GeneratedKeyHolder();
 	    dataBean.getJdbcTemplate().update(new PreparedStatementCreator(){
 	        @Override

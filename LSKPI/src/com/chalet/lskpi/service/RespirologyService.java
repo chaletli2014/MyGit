@@ -66,7 +66,7 @@ public interface RespirologyService {
     
     public List<MobileRESDailyData> getDailyRESData4MobileByRegion(String region) throws Exception;
     
-    public List<RespirologyExportData> getResMonthExportData(String isRe2, String level) throws Exception;
+    public List<RespirologyExportData> getResMonthExportData(String isRe2, String level, boolean in2Month) throws Exception;
     
     public List<MonthlyStatisticsData> getMonthlyStatisticsData(String beginDuraion, String endDuraion, String level) throws Exception;
     public MonthlyStatisticsData getMonthlyStatisticsCountryData(String beginDuraion, String endDuraion) throws Exception;

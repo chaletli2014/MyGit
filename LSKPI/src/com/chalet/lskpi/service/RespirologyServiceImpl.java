@@ -40,6 +40,7 @@ import com.chalet.lskpi.model.UserInfo;
 import com.chalet.lskpi.model.WeeklyRatioData;
 import com.chalet.lskpi.utils.DateUtils;
 import com.chalet.lskpi.utils.LsAttributes;
+import com.ibm.icu.util.Calendar;
 
 /**
  * @author Chalet
@@ -795,8 +796,11 @@ public class RespirologyServiceImpl implements RespirologyService {
         return count>0;
     }
 
-    public List<RespirologyExportData> getResMonthExportData(String isRe2, String level) throws Exception {
+    public List<RespirologyExportData> getResMonthExportData(String isRe2, String level, boolean in2Month) throws Exception {
     	Date today = new Date();
+    	Calendar cal = Calendar.getInstance();
+    	cal.setTime(today);
+    	
     	String beginDuration = DateUtils.getMonthInRateBeginDuration(today);
     	String endDuration = DateUtils.getMonthInRateEndDuration(today);
     	logger.info(String.format("get res month export data, in this month, beginDuration is %s,endDuration is %s , isRe2 is %s, level is %s", beginDuration,endDuration, isRe2, level));
@@ -914,29 +918,32 @@ public class RespirologyServiceImpl implements RespirologyService {
             boolean isRsmRegionExistsMonth = false;
             for( RespirologyMonthDBData resData : monthDBData ){
                 if( resData.getRsmRegion().equalsIgnoreCase(title) ){
-                    
-                    rsmData.setRsmName(resData.getRsmName());
-                    monthColumnName = resData.getDataYear()+"年"+resData.getDataMonth()+"月";
-                    
-                    pNumMap.put(monthColumnName, resData.getPnum()/resData.getWeeklyCount());
-                    lsNumMap.put(monthColumnName, resData.getLsnum()/resData.getWeeklyCount());
-                    aeNumMap.put(monthColumnName, resData.getAenum()/resData.getWeeklyCount());
-                    inRateMap.put(monthColumnName, resData.getInRate());
-                    whRateMap.put(monthColumnName, resData.getWhRate());
-                    averageDoseMap.put(monthColumnName, resData.getAverageDose());
-                    whDaysMap.put(monthColumnName, resData.getWhDays());
-                    dValueMap.put(monthColumnName, resData.getLsnum()/resData.getWeeklyCount()-resData.getAenum()/resData.getWeeklyCount());
-                    if( 0 == resData.getAenum() ){
-                    	xbkAeNumMap.put(monthColumnName, 0.00);
-                    }else{
-                    	xbkAeNumMap.put(monthColumnName, resData.getXbknum()/resData.getAenum());
-                    }
-                    if( 0 == resData.getPnum() ){
-                    	aePNumMap.put(monthColumnName, 0.00);
-                    }else{
-                    	aePNumMap.put(monthColumnName, resData.getAenum()/resData.getPnum());
-                    }
-                    isRsmRegionExistsMonth = true;
+                	monthColumnName = resData.getDataYear()+"年"+resData.getDataMonth()+"月";
+                	
+                	if( !in2Month || ( in2Month && cal.get(Calendar.YEAR) == Integer.valueOf(resData.getDataYear()) 
+                			&& cal.get(Calendar.MONTH) - Integer.valueOf(resData.getDataMonth()) <=1 ) ){
+                		rsmData.setRsmName(resData.getRsmName());
+                		
+                		pNumMap.put(monthColumnName, resData.getPnum()/resData.getWeeklyCount());
+                		lsNumMap.put(monthColumnName, resData.getLsnum()/resData.getWeeklyCount());
+                		aeNumMap.put(monthColumnName, resData.getAenum()/resData.getWeeklyCount());
+                		inRateMap.put(monthColumnName, resData.getInRate());
+                		whRateMap.put(monthColumnName, resData.getWhRate());
+                		averageDoseMap.put(monthColumnName, resData.getAverageDose());
+                		whDaysMap.put(monthColumnName, resData.getWhDays());
+                		dValueMap.put(monthColumnName, resData.getLsnum()/resData.getWeeklyCount()-resData.getAenum()/resData.getWeeklyCount());
+                		if( 0 == resData.getAenum() ){
+                			xbkAeNumMap.put(monthColumnName, 0.00);
+                		}else{
+                			xbkAeNumMap.put(monthColumnName, resData.getXbknum()/resData.getAenum());
+                		}
+                		if( 0 == resData.getPnum() ){
+                			aePNumMap.put(monthColumnName, 0.00);
+                		}else{
+                			aePNumMap.put(monthColumnName, resData.getAenum()/resData.getPnum());
+                		}
+                		isRsmRegionExistsMonth = true;
+                	}
                 }
             }
             /**

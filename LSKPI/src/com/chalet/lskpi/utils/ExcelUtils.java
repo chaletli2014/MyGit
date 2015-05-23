@@ -803,6 +803,140 @@ public class ExcelUtils {
     				}catch(Exception e){
     				    logger.error("ignore the parse of double format for tbid",e);
     				}
+    				double whdaysEmerging1Rate=0;
+    				double whdaysEmerging2Rate=0;
+    				double whdaysEmerging3Rate=0;
+    				double whdaysEmerging4Rate=0;
+    				double whdaysEmerging5Rate=0;
+    				double whdaysEmerging6Rate=0;
+    				double whdaysEmerging7Rate=0;
+    				
+    				try{
+    					whdaysEmerging1Rate = Double.parseDouble(row.getCell(headerColumn.get(headers.get(columnNum++))).toString());
+    				}catch(Exception e){
+    				    logger.error("ignore the parse of double format for whdaysEmerging1Rate",e);
+    				}
+    				try{
+    					whdaysEmerging2Rate = Double.parseDouble(row.getCell(headerColumn.get(headers.get(columnNum++))).toString());
+    				}catch(Exception e){
+    				    logger.error("ignore the parse of double format for whdaysEmerging2Rate",e);
+    				}
+    				try{
+    					whdaysEmerging3Rate = Double.parseDouble(row.getCell(headerColumn.get(headers.get(columnNum++))).toString());
+    				}catch(Exception e){
+    				    logger.error("ignore the parse of double format for whdaysEmerging3Rate",e);
+    				}
+    				try{
+    					whdaysEmerging4Rate = Double.parseDouble(row.getCell(headerColumn.get(headers.get(columnNum++))).toString());
+    				}catch(Exception e){
+    				    logger.error("ignore the parse of double format for whdaysEmerging4Rate",e);
+    				}
+    				try{
+    					whdaysEmerging5Rate = Double.parseDouble(row.getCell(headerColumn.get(headers.get(columnNum++))).toString());
+    				}catch(Exception e){
+    				    logger.error("ignore the parse of double format for whdaysEmerging5Rate",e);
+    				}
+    				try{
+    					whdaysEmerging6Rate = Double.parseDouble(row.getCell(headerColumn.get(headers.get(columnNum++))).toString());
+    				}catch(Exception e){
+    				    logger.error("ignore the parse of double format for whdaysEmerging6Rate",e);
+    				}
+    				try{
+    					whdaysEmerging7Rate = Double.parseDouble(row.getCell(headerColumn.get(headers.get(columnNum++))).toString());
+    				}catch(Exception e){
+    				    logger.error("ignore the parse of double format for whdaysEmerging7Rate",e);
+    				}
+    				Cell homeWhEmergingNum1Cell = row.getCell(headerColumn.get(headers.get(columnNum++)));
+    				homeWhEmergingNum1Cell.setCellType(Cell.CELL_TYPE_STRING);
+    				String homeWhEmergingNum1 = homeWhEmergingNum1Cell.toString();
+    				
+    				Cell homeWhEmergingNum2Cell = row.getCell(headerColumn.get(headers.get(columnNum++)));
+    				homeWhEmergingNum2Cell.setCellType(Cell.CELL_TYPE_STRING);
+    				String homeWhEmergingNum2 = homeWhEmergingNum2Cell.toString();
+    				
+    				Cell homeWhEmergingNum3Cell = row.getCell(headerColumn.get(headers.get(columnNum++)));
+    				homeWhEmergingNum3Cell.setCellType(Cell.CELL_TYPE_STRING);
+    				String homeWhEmergingNum3 = homeWhEmergingNum3Cell.toString();
+    				
+    				Cell homeWhEmergingNum4Cell = row.getCell(headerColumn.get(headers.get(columnNum++)));
+    				homeWhEmergingNum4Cell.setCellType(Cell.CELL_TYPE_STRING);
+    				String homeWhEmergingNum4 = homeWhEmergingNum4Cell.toString();
+    				
+    				double whdaysRoom1Rate=0;
+    				double whdaysRoom2Rate=0;
+    				double whdaysRoom3Rate=0;
+    				double whdaysRoom4Rate=0;
+    				double whdaysRoom5Rate=0;
+    				double whdaysRoom6Rate=0;
+    				double whdaysRoom7Rate=0;
+    				double whdaysRoom8Rate=0;
+    				double whdaysRoom9Rate=0;
+    				double whdaysRoom10Rate=0;
+    				try{
+    					whdaysRoom1Rate = Double.parseDouble(row.getCell(headerColumn.get(headers.get(columnNum++))).toString());
+    				}catch(Exception e){
+    				    logger.error("ignore the parse of double format for whdaysRoom1Rate",e);
+    				}
+    				try{
+    					whdaysRoom2Rate = Double.parseDouble(row.getCell(headerColumn.get(headers.get(columnNum++))).toString());
+    				}catch(Exception e){
+    				    logger.error("ignore the parse of double format for whdaysRoom2Rate",e);
+    				}
+    				try{
+    					whdaysRoom3Rate = Double.parseDouble(row.getCell(headerColumn.get(headers.get(columnNum++))).toString());
+    				}catch(Exception e){
+    				    logger.error("ignore the parse of double format for whdaysRoom3Rate",e);
+    				}
+    				try{
+    					whdaysRoom4Rate = Double.parseDouble(row.getCell(headerColumn.get(headers.get(columnNum++))).toString());
+    				}catch(Exception e){
+    				    logger.error("ignore the parse of double format for whdaysRoom4Rate",e);
+    				}
+    				try{
+    					whdaysRoom5Rate = Double.parseDouble(row.getCell(headerColumn.get(headers.get(columnNum++))).toString());
+    				}catch(Exception e){
+    				    logger.error("ignore the parse of double format for whdaysRoom5Rate",e);
+    				}
+    				try{
+    					whdaysRoom6Rate = Double.parseDouble(row.getCell(headerColumn.get(headers.get(columnNum++))).toString());
+    				}catch(Exception e){
+    				    logger.error("ignore the parse of double format for whdaysRoom6Rate",e);
+    				}
+    				try{
+    					whdaysRoom7Rate = Double.parseDouble(row.getCell(headerColumn.get(headers.get(columnNum++))).toString());
+    				}catch(Exception e){
+    				    logger.error("ignore the parse of double format for whdaysRoom7Rate",e);
+    				}
+    				try{
+    					whdaysRoom8Rate = Double.parseDouble(row.getCell(headerColumn.get(headers.get(columnNum++))).toString());
+    				}catch(Exception e){
+    				    logger.error("ignore the parse of double format for whdaysRoom8Rate",e);
+    				}
+    				try{
+    					whdaysRoom9Rate = Double.parseDouble(row.getCell(headerColumn.get(headers.get(columnNum++))).toString());
+    				}catch(Exception e){
+    				    logger.error("ignore the parse of double format for whdaysRoom9Rate",e);
+    				}
+    				try{
+    					whdaysRoom10Rate = Double.parseDouble(row.getCell(headerColumn.get(headers.get(columnNum++))).toString());
+    				}catch(Exception e){
+    				    logger.error("ignore the parse of double format for whdaysRoom10Rate",e);
+    				}
+    				Cell homeWhRoomNum1Cell = row.getCell(headerColumn.get(headers.get(columnNum++)));
+    				homeWhRoomNum1Cell.setCellType(Cell.CELL_TYPE_STRING);
+    				String homeWhRoomNum1 = homeWhRoomNum1Cell.toString();
+    				
+    				Cell homeWhRoomNum2Cell = row.getCell(headerColumn.get(headers.get(columnNum++)));
+    				homeWhRoomNum2Cell.setCellType(Cell.CELL_TYPE_STRING);
+    				String homeWhRoomNum2 = homeWhRoomNum2Cell.toString();
+    				
+    				Cell homeWhRoomNum3Cell = row.getCell(headerColumn.get(headers.get(columnNum++)));
+    				homeWhRoomNum3Cell.setCellType(Cell.CELL_TYPE_STRING);
+    				String homeWhRoomNum3 = homeWhRoomNum3Cell.toString();
+    				
+    				Cell homeWhRoomNum4Cell = row.getCell(headerColumn.get(headers.get(columnNum++)));
+    				homeWhRoomNum4Cell.setCellType(Cell.CELL_TYPE_STRING);
+    				String homeWhRoomNum4 = homeWhRoomNum4Cell.toString();
     				
     				String recipeType = row.getCell(headerColumn.get(headers.get(columnNum++))).toString();
     				
@@ -828,6 +962,31 @@ public class ExcelUtils {
     					pedData.setObid(obid*100);
     					pedData.setTqd(tqd*100);
     					pedData.setTbid(tbid*100);
+    					pedData.setWhdaysEmerging1Rate(whdaysEmerging1Rate*100);
+    					pedData.setWhdaysEmerging2Rate(whdaysEmerging2Rate*100);
+    					pedData.setWhdaysEmerging3Rate(whdaysEmerging3Rate*100);
+    					pedData.setWhdaysEmerging4Rate(whdaysEmerging4Rate*100);
+    					pedData.setWhdaysEmerging5Rate(whdaysEmerging5Rate*100);
+    					pedData.setWhdaysEmerging6Rate(whdaysEmerging6Rate*100);
+    					pedData.setWhdaysEmerging7Rate(whdaysEmerging7Rate*100);
+    					pedData.setHomeWhEmergingNum1(Integer.parseInt(homeWhEmergingNum1));
+    					pedData.setHomeWhEmergingNum2(Integer.parseInt(homeWhEmergingNum2));
+    					pedData.setHomeWhEmergingNum3(Integer.parseInt(homeWhEmergingNum3));
+    					pedData.setHomeWhEmergingNum4(Integer.parseInt(homeWhEmergingNum4));
+    					pedData.setWhdaysRoom1Rate(whdaysRoom1Rate*100);
+    					pedData.setWhdaysRoom2Rate(whdaysRoom2Rate*100);
+    					pedData.setWhdaysRoom3Rate(whdaysRoom3Rate*100);
+    					pedData.setWhdaysRoom4Rate(whdaysRoom4Rate*100);
+    					pedData.setWhdaysRoom5Rate(whdaysRoom5Rate*100);
+    					pedData.setWhdaysRoom6Rate(whdaysRoom6Rate*100);
+    					pedData.setWhdaysRoom7Rate(whdaysRoom7Rate*100);
+    					pedData.setWhdaysRoom8Rate(whdaysRoom8Rate*100);
+    					pedData.setWhdaysRoom9Rate(whdaysRoom9Rate*100);
+    					pedData.setWhdaysRoom10Rate(whdaysRoom10Rate*100);
+    					pedData.setHomeWhRoomNum1(Integer.parseInt(homeWhRoomNum1));
+    					pedData.setHomeWhRoomNum2(Integer.parseInt(homeWhRoomNum2));
+    					pedData.setHomeWhRoomNum3(Integer.parseInt(homeWhRoomNum3));
+    					pedData.setHomeWhRoomNum4(Integer.parseInt(homeWhRoomNum4));
     					pedData.setRecipeType(recipeType);
     					pedData.setCreatedate(createdate);
     					

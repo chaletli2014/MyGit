@@ -53,6 +53,9 @@ public class MobilePEDDailyData {
     private int homeWhRoomNum3;
     private int homeWhRoomNum4;
     
+    private double homeWhEmergingAverDays;
+    private double homeWhRoomAverDays;
+    
     public String getUserName() {
         return userName;
     }
@@ -294,5 +297,17 @@ public class MobilePEDDailyData {
 	}
 	public void setHomeWhRoomNum4(int homeWhRoomNum4) {
 		this.homeWhRoomNum4 = homeWhRoomNum4;
+	}
+	public double getHomeWhEmergingAverDays() {
+		return homeWhEmergingAverDays;
+	}
+	public void setHomeWhEmergingAverDays(double homeWhEmergingAverDays) {
+		this.homeWhEmergingAverDays = homeWhEmergingAverDays;
+	}
+	public double getHomeWhRoomAverDays() {
+		return homeWhRoomAverDays;
+	}
+	public void setHomeWhRoomAverDays(double homeWhRoomAverDays) {
+		this.homeWhRoomAverDays = homeWhRoomAverDays;
 	}
 }

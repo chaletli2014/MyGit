@@ -108,7 +108,7 @@ public class PediatricsServiceImpl implements PediatricsService {
                 mpd.setSecondRate(rates.get(1));
                 mpd.setInRate(mpd.getHosNum()==0?0:(double)mpd.getInNum()/mpd.getHosNum());
                 mpd.setWhRate(mpd.getPatNum()==0?0:(double)mpd.getLsNum()/mpd.getPatNum());
-                
+                mpd.setWhRateRoom(mpd.getPatNumRoom()==0?0:(double)mpd.getLsNumRoom()/mpd.getPatNumRoom());
                 
 //                mpd.setCoreInRate(pedCoreData.getCoreInRate());
 //                mpd.setCoreWhRate(pedCoreData.getCoreWhRate());
@@ -363,6 +363,7 @@ public class PediatricsServiceImpl implements PediatricsService {
             pedDailyData.setSecondRate(rates.get(1));
             pedDailyData.setInRate(pedDailyData.getHosNum()==0?0:(double)pedDailyData.getInNum()/pedDailyData.getHosNum());
             pedDailyData.setWhRate(pedDailyData.getPatNum()==0?0:(double)pedDailyData.getLsNum()/pedDailyData.getPatNum());
+            pedDailyData.setWhRateRoom(pedDailyData.getPatNumRoom()==0?0:(double)pedDailyData.getLsNumRoom()/pedDailyData.getPatNumRoom());
             
             pedDailyData.setCoreInRate(pedCoreInRateMap.get(pedDailyData.getUserCode()));
             pedDailyData.setCoreWhRate(pedCoreWhRateMap.get(pedDailyData.getUserCode()));

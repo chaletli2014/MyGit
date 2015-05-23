@@ -445,7 +445,32 @@ public class ReportController extends BaseController{
                     row.createCell(columnNum++, XSSFCell.CELL_TYPE_STRING).setCellValue("1mg QD");
                     row.createCell(columnNum++, XSSFCell.CELL_TYPE_STRING).setCellValue("1mg BID");
                     row.createCell(columnNum++, XSSFCell.CELL_TYPE_STRING).setCellValue("2mg QD");
-                    row.createCell(columnNum++, XSSFCell.CELL_TYPE_STRING).setCellValue("2mg BID");
+                    row.createCell(columnNum++, XSSFCell.CELL_TYPE_STRING).setCellValue("2mg BID");    
+                    row.createCell(columnNum++, XSSFCell.CELL_TYPE_STRING).setCellValue("门急诊雾化天数1天占比");
+                    row.createCell(columnNum++, XSSFCell.CELL_TYPE_STRING).setCellValue("门急诊雾化天数2天占比");
+                    row.createCell(columnNum++, XSSFCell.CELL_TYPE_STRING).setCellValue("门急诊雾化天数3天占比");
+                    row.createCell(columnNum++, XSSFCell.CELL_TYPE_STRING).setCellValue("门急诊雾化天数4天占比");
+                    row.createCell(columnNum++, XSSFCell.CELL_TYPE_STRING).setCellValue("门急诊雾化天数5天占比");
+                    row.createCell(columnNum++, XSSFCell.CELL_TYPE_STRING).setCellValue("门急诊雾化天数6天占比");
+                    row.createCell(columnNum++, XSSFCell.CELL_TYPE_STRING).setCellValue("门急诊雾化天数7天及以上占比");
+                    row.createCell(columnNum++, XSSFCell.CELL_TYPE_STRING).setCellValue("门急诊赠卖泵数量");
+                    row.createCell(columnNum++, XSSFCell.CELL_TYPE_STRING).setCellValue("门急诊带药人数");
+                    row.createCell(columnNum++, XSSFCell.CELL_TYPE_STRING).setCellValue("门急诊平均带药天数");
+                    row.createCell(columnNum++, XSSFCell.CELL_TYPE_STRING).setCellValue("门急诊总带药支数");                    
+                    row.createCell(columnNum++, XSSFCell.CELL_TYPE_STRING).setCellValue("病房雾化天数1天占比");
+                    row.createCell(columnNum++, XSSFCell.CELL_TYPE_STRING).setCellValue("病房雾化天数2天占比");
+                    row.createCell(columnNum++, XSSFCell.CELL_TYPE_STRING).setCellValue("病房雾化天数3天占比");
+                    row.createCell(columnNum++, XSSFCell.CELL_TYPE_STRING).setCellValue("病房雾化天数4天占比");
+                    row.createCell(columnNum++, XSSFCell.CELL_TYPE_STRING).setCellValue("病房雾化天数5天占比");
+                    row.createCell(columnNum++, XSSFCell.CELL_TYPE_STRING).setCellValue("病房雾化天数6天占比");
+                    row.createCell(columnNum++, XSSFCell.CELL_TYPE_STRING).setCellValue("病房雾化天数7天占比");
+                    row.createCell(columnNum++, XSSFCell.CELL_TYPE_STRING).setCellValue("病房雾化天数8天占比");
+                    row.createCell(columnNum++, XSSFCell.CELL_TYPE_STRING).setCellValue("病房雾化天数9天占比");
+                    row.createCell(columnNum++, XSSFCell.CELL_TYPE_STRING).setCellValue("病房雾化天数10天及以上占比");
+                    row.createCell(columnNum++, XSSFCell.CELL_TYPE_STRING).setCellValue("病房赠卖泵数量");
+                    row.createCell(columnNum++, XSSFCell.CELL_TYPE_STRING).setCellValue("病房带药人数");
+                    row.createCell(columnNum++, XSSFCell.CELL_TYPE_STRING).setCellValue("病房平均带药天数");
+                    row.createCell(columnNum++, XSSFCell.CELL_TYPE_STRING).setCellValue("病房总带药支数");   
                     row.createCell(columnNum++, XSSFCell.CELL_TYPE_STRING).setCellValue("该医院主要处方方式");
                     row.createCell(columnNum++, XSSFCell.CELL_TYPE_STRING).setCellValue("是否为KPI医院（在=1，不在=0）");
                     row.createCell(columnNum++, XSSFCell.CELL_TYPE_STRING).setCellValue("Dragon Type");
@@ -492,6 +517,84 @@ public class ReportController extends BaseController{
                         HSSFCell tbidCell = row.createCell(dataColumnNum++, XSSFCell.CELL_TYPE_NUMERIC);
                         tbidCell.setCellValue(pedData.getTbid()/100);
                         tbidCell.setCellStyle(percentCellStyle);
+                        
+                        HSSFCell whdaysEmerging1RateCell  = row.createCell(dataColumnNum++, XSSFCell.CELL_TYPE_NUMERIC);
+                        whdaysEmerging1RateCell.setCellValue(pedData.getWhdaysEmerging1Rate()/100);
+                        whdaysEmerging1RateCell.setCellStyle(percentCellStyle);
+                        
+                        HSSFCell whdaysEmerging2RateCell  =row.createCell(dataColumnNum++, XSSFCell.CELL_TYPE_NUMERIC);
+                        whdaysEmerging2RateCell.setCellValue(pedData.getWhdaysEmerging2Rate()/100);
+                        whdaysEmerging2RateCell.setCellStyle(percentCellStyle);
+                        
+                        HSSFCell whdaysEmerging3RateCell  =row.createCell(dataColumnNum++, XSSFCell.CELL_TYPE_NUMERIC);
+                        whdaysEmerging3RateCell.setCellValue(pedData.getWhdaysEmerging3Rate()/100);
+                        whdaysEmerging3RateCell.setCellStyle(percentCellStyle);
+                        
+                        HSSFCell whdaysEmerging4RateCell  =row.createCell(dataColumnNum++, XSSFCell.CELL_TYPE_NUMERIC);
+                        whdaysEmerging4RateCell.setCellValue(pedData.getWhdaysEmerging4Rate()/100);
+                        whdaysEmerging4RateCell.setCellStyle(percentCellStyle);
+                        
+                        HSSFCell whdaysEmerging5RateCell  =row.createCell(dataColumnNum++, XSSFCell.CELL_TYPE_NUMERIC);
+                        whdaysEmerging5RateCell.setCellValue(pedData.getWhdaysEmerging5Rate()/100);
+                        whdaysEmerging5RateCell.setCellStyle(percentCellStyle);
+                        
+                        HSSFCell whdaysEmerging6RateCell  =row.createCell(dataColumnNum++, XSSFCell.CELL_TYPE_NUMERIC);
+                        whdaysEmerging6RateCell.setCellValue(pedData.getWhdaysEmerging6Rate()/100);
+                        whdaysEmerging6RateCell.setCellStyle(percentCellStyle);
+                        
+                        HSSFCell whdaysEmerging7RateCell  =row.createCell(dataColumnNum++, XSSFCell.CELL_TYPE_NUMERIC);
+                        whdaysEmerging7RateCell.setCellValue(pedData.getWhdaysEmerging7Rate()/100);
+                        whdaysEmerging7RateCell.setCellStyle(percentCellStyle);
+                        
+                        row.createCell(dataColumnNum++, XSSFCell.CELL_TYPE_NUMERIC).setCellValue(pedData.getHomeWhEmergingNum1());
+                        row.createCell(dataColumnNum++, XSSFCell.CELL_TYPE_NUMERIC).setCellValue(pedData.getHomeWhEmergingNum2());
+                        row.createCell(dataColumnNum++, XSSFCell.CELL_TYPE_NUMERIC).setCellValue(pedData.getHomeWhEmergingNum3());
+                        row.createCell(dataColumnNum++, XSSFCell.CELL_TYPE_NUMERIC).setCellValue(pedData.getHomeWhEmergingNum4());
+
+                        HSSFCell whdaysRoom1RateCell  =row.createCell(dataColumnNum++, XSSFCell.CELL_TYPE_NUMERIC);
+                        whdaysRoom1RateCell.setCellValue(pedData.getWhdaysRoom1Rate()/100);
+                        whdaysRoom1RateCell.setCellStyle(percentCellStyle);
+                        
+                        HSSFCell whdaysRoom2RateCell  =row.createCell(dataColumnNum++, XSSFCell.CELL_TYPE_NUMERIC);
+                        whdaysRoom2RateCell.setCellValue(pedData.getWhdaysRoom2Rate()/100);
+                        whdaysRoom2RateCell.setCellStyle(percentCellStyle);
+                        
+                        HSSFCell whdaysRoom3RateCell  =row.createCell(dataColumnNum++, XSSFCell.CELL_TYPE_NUMERIC);
+                        whdaysRoom3RateCell.setCellValue(pedData.getWhdaysRoom3Rate()/100);
+                        whdaysRoom3RateCell.setCellStyle(percentCellStyle);
+                        
+                        HSSFCell whdaysRoom4RateCell  =row.createCell(dataColumnNum++, XSSFCell.CELL_TYPE_NUMERIC);
+                        whdaysRoom4RateCell.setCellValue(pedData.getWhdaysRoom4Rate()/100);
+                        whdaysRoom4RateCell.setCellStyle(percentCellStyle);
+                        
+                        HSSFCell whdaysRoom5RateCell  =row.createCell(dataColumnNum++, XSSFCell.CELL_TYPE_NUMERIC);
+                        whdaysRoom5RateCell.setCellValue(pedData.getWhdaysRoom5Rate()/100);
+                        whdaysRoom5RateCell.setCellStyle(percentCellStyle);
+                        
+                        HSSFCell whdaysRoom6RateCell  =row.createCell(dataColumnNum++, XSSFCell.CELL_TYPE_NUMERIC);
+                        whdaysRoom6RateCell.setCellValue(pedData.getWhdaysRoom6Rate()/100);
+                        whdaysRoom6RateCell.setCellStyle(percentCellStyle);
+                        
+                        HSSFCell whdaysRoom7RateCell  =row.createCell(dataColumnNum++, XSSFCell.CELL_TYPE_NUMERIC);
+                        whdaysRoom7RateCell.setCellValue(pedData.getWhdaysRoom7Rate()/100);
+                        whdaysRoom7RateCell.setCellStyle(percentCellStyle);
+                        
+                        HSSFCell whdaysRoom8RateCell  =row.createCell(dataColumnNum++, XSSFCell.CELL_TYPE_NUMERIC);
+                        whdaysRoom8RateCell.setCellValue(pedData.getWhdaysRoom8Rate()/100);
+                        whdaysRoom8RateCell.setCellStyle(percentCellStyle);
+                        
+                        HSSFCell whdaysRoom9RateCell  =row.createCell(dataColumnNum++, XSSFCell.CELL_TYPE_NUMERIC);
+                        whdaysRoom9RateCell.setCellValue(pedData.getWhdaysRoom9Rate()/100);
+                        whdaysRoom9RateCell.setCellStyle(percentCellStyle);
+                        
+                        HSSFCell whdaysRoom10RateCell  =row.createCell(dataColumnNum++, XSSFCell.CELL_TYPE_NUMERIC);
+                        whdaysRoom10RateCell.setCellValue(pedData.getWhdaysRoom10Rate()/100);
+                        whdaysRoom10RateCell.setCellStyle(percentCellStyle);
+                        
+                        row.createCell(dataColumnNum++, XSSFCell.CELL_TYPE_NUMERIC).setCellValue(pedData.getHomeWhRoomNum1());
+                        row.createCell(dataColumnNum++, XSSFCell.CELL_TYPE_NUMERIC).setCellValue(pedData.getHomeWhRoomNum2());
+                        row.createCell(dataColumnNum++, XSSFCell.CELL_TYPE_NUMERIC).setCellValue(pedData.getHomeWhRoomNum3());
+                        row.createCell(dataColumnNum++, XSSFCell.CELL_TYPE_NUMERIC).setCellValue(pedData.getHomeWhRoomNum4());
                         
                         row.createCell(dataColumnNum++, XSSFCell.CELL_TYPE_STRING).setCellValue(populateRecipeTypeValue(pedData.getRecipeType()));
                         row.createCell(dataColumnNum++, XSSFCell.CELL_TYPE_STRING).setCellValue(pedData.getIsPedAssessed());
@@ -4079,12 +4182,12 @@ public class ReportController extends BaseController{
                 HSSFCellStyle month_week_top1Style=workbook.createCellStyle();
                 HSSFCellStyle month_week_top2Style=workbook.createCellStyle();
                 HSSFCellStyle month_week_top2LeftStyle=workbook.createCellStyle();
-                HSSFCellStyle month_week_top2RightStyle=workbook.createCellStyle();
                 HSSFCellStyle month_week_valueLeftStyle=workbook.createCellStyle();
                 HSSFCellStyle month_week_valueRightStyle=workbook.createCellStyle();
                 HSSFCellStyle month_week_valueStyle=workbook.createCellStyle();
                 HSSFCellStyle month_week_valueBottomStyle=workbook.createCellStyle();
                 HSSFCellStyle month_week_valueBottomRightStyle=workbook.createCellStyle();
+                HSSFCellStyle month_week_top2RightStyle=workbook.createCellStyle();
                 HSSFCellStyle month_week_valueBottomLeftStyle=workbook.createCellStyle();
                 HSSFCellStyle month_week_numberBottomStyle=workbook.createCellStyle();
                 HSSFCellStyle month_week_numberBottomRightStyle=workbook.createCellStyle();
@@ -4110,7 +4213,8 @@ public class ReportController extends BaseController{
                 
                 int sheetNum = 0;
                 
-                List<RespirologyExportData> resExportData = respirologyService.getResMonthExportData(isRe2, selfLevel);
+                List<RespirologyExportData> resExportData = respirologyService.getResMonthExportData(isRe2, selfLevel, false);
+                List<RespirologyExportData> resExportDataIn2Months = respirologyService.getResMonthExportData(isRe2, selfLevel, true);
                 keys = new ArrayList<String>(resExportData.get(0).getInRateMap().keySet());
                 
                 fileName = new StringBuffer("resMonthData/").append(systemTime).append("/").append("呼吸科上报数据汇总-")
@@ -4134,10 +4238,10 @@ public class ReportController extends BaseController{
                 //build the header
                 HSSFRow row = sheet.createRow(currentRowNum++);
                 
-                if( null != resExportData && resExportData.size() > 0 ){
+                if( null != resExportDataIn2Months && resExportDataIn2Months.size() > 0 ){
                 	int columnCount = 1;
                 	
-                	currentRowNum = populateSheet1Title(row, sheet, resExportData, isRe2, currentRowNum, columnCount
+                	currentRowNum = populateSheet1Title(row, sheet, resExportDataIn2Months, isRe2, currentRowNum, columnCount
                 			, month_week_top1Style, month_week_top2LeftStyle, month_week_top2RightStyle, month_week_top2Style);
                 	
                     sheet.setColumnWidth(0, 2*256);
@@ -4147,7 +4251,7 @@ public class ReportController extends BaseController{
                     
                     int resExportDataCount = 0;
                     
-                    populateSheet1Content(resExportData, row, sheet, currentRowNum, resExportDataCount, isRe2
+                    populateSheet1Content(resExportDataIn2Months, row, sheet, currentRowNum, resExportDataCount, isRe2
                     		, month_week_valueBottomLeftStyle, month_week_valueLeftStyle, month_week_valueBottomRightStyle, month_week_valueRightStyle
                     		, month_week_numberBottomRightStyle, numberCellRightBorderStyle
                     		, month_week_percentBottomRightStyle, percentCellRightBorderStyle, month_week_percentBottomStyle, percentCellStyle
@@ -4175,7 +4279,7 @@ public class ReportController extends BaseController{
                  * 下级的周周报
                  */
                 if( null != childLevel && !"".equals(childLevel) ){
-                	resExportData = respirologyService.getResMonthExportData(isRe2, childLevel);
+                	resExportData = respirologyService.getResMonthExportData(isRe2, childLevel, false);
                     
                     workbook.createSheet("下级呼吸科周周报");
                     sheet = workbook.getSheetAt(sheetNum++);
@@ -4682,7 +4786,7 @@ public class ReportController extends BaseController{
 		
 		Map<String, Double> currentWeekLsAERateMap = null;
 		Iterator<String> currentWeekLsAERateIte = null;
-    	
+		
     	for( RespirologyExportData res : resExportData ){
             
         	if( !"N/A".equals(res.getRsmName()) && 0 != res.getHosNum() ){
