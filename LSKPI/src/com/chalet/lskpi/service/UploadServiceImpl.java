@@ -17,6 +17,7 @@ import com.chalet.lskpi.dao.HospitalDAO;
 import com.chalet.lskpi.dao.PropertyDAO;
 import com.chalet.lskpi.dao.UserDAO;
 import com.chalet.lskpi.model.Doctor;
+import com.chalet.lskpi.model.Hospital;
 import com.chalet.lskpi.model.Property;
 
 @Service("uploadService")
@@ -38,6 +39,11 @@ public class UploadServiceImpl implements UploadService {
     @Autowired
     @Qualifier("propertyDAO")
     private PropertyDAO propertyDAO;
+    
+    
+    @Autowired
+    @Qualifier("hospitalService")
+    private HospitalService hospitalService;
     
     Logger logger = Logger.getLogger(UploadServiceImpl.class);
 
@@ -110,6 +116,18 @@ public class UploadServiceImpl implements UploadService {
         }
         return duplicateDoctors;
     }
-    
+
+	@Override
+	@Transactional
+	public void uploadWhbwHospital(List<Hospital> whbwHospitals)
+			throws Exception {
+		try{
+			hospitalService.removeAllHospitalWhbwStatus();
+			hospitalService.updateWHBWStatus(whbwHospitals);
+		}catch(Exception e){
+			logger.error("fail to update the whbw hospital data,",e);
+            throw new Exception("更新雾化博雾医院信息失败");
+		}
+	}
     
 }

@@ -3,6 +3,7 @@ package com.chalet.lskpi.dao;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import com.chalet.lskpi.model.Hospital;
 import com.chalet.lskpi.model.HospitalSalesQueryObj;
@@ -10,7 +11,6 @@ import com.chalet.lskpi.model.HospitalSalesQueryParam;
 import com.chalet.lskpi.model.KPIHospital4Export;
 import com.chalet.lskpi.model.Monthly12Data;
 import com.chalet.lskpi.model.MonthlyData;
-import com.chalet.lskpi.model.MonthlyStatisticsData;
 import com.chalet.lskpi.model.MonthlyRatioData;
 import com.chalet.lskpi.model.UserInfo;
 import com.chalet.lskpi.model.WeeklyDataOfHospital;
@@ -117,4 +117,7 @@ public interface HospitalDAO {
     public void updatePortNum(Hospital hospitalWithPortNum) throws Exception;
     
     public void updateWHBWStatus(Hospital hospital) throws Exception;
+    
+    public void removeAllHospitalWhbwStatus() throws Exception;
+    public void updateWHBWStatus(Set<String> hospitalCodes) throws Exception;
 }

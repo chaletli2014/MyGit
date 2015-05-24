@@ -144,12 +144,7 @@ public class UploadController {
                 return "redirect:login";
             }
             
-            logger.info("refresh the message info firstly");
-            request.getSession().removeAttribute(LsAttributes.INVALID_DATA);
-            request.getSession().removeAttribute(LsAttributes.EXISTS_DATA);
-            request.getSession().removeAttribute(LsAttributes.VALID_DATA_NUM);
-            request.getSession().removeAttribute(LsAttributes.UPLOAD_FILE_MESSAGE);
-            logger.info("refresh the message info done.");
+            removeSessionAttribute(request);
             
             List<String> dataHeaders = new ArrayList<String>();
             dataHeaders.add("录入日期");
@@ -227,12 +222,7 @@ public class UploadController {
                 return "redirect:login";
             }
             
-            logger.info("refresh the message info firstly");
-            request.getSession().removeAttribute(LsAttributes.INVALID_DATA);
-            request.getSession().removeAttribute(LsAttributes.EXISTS_DATA);
-            request.getSession().removeAttribute(LsAttributes.VALID_DATA_NUM);
-            request.getSession().removeAttribute(LsAttributes.UPLOAD_FILE_MESSAGE);
-            logger.info("refresh the message info done.");
+            removeSessionAttribute(request);
             
             List<String> dataHeaders = new ArrayList<String>();
             dataHeaders.add("录入日期");
@@ -302,13 +292,7 @@ public class UploadController {
                 return "redirect:login";
             }
     	    
-    	    logger.info("refresh the message info firstly");
-    	    request.getSession().removeAttribute(LsAttributes.INVALID_DATA);
-            request.getSession().removeAttribute(LsAttributes.EXISTS_DATA);
-            request.getSession().removeAttribute(LsAttributes.VALID_DATA_NUM);
-            request.getSession().removeAttribute(LsAttributes.UPLOAD_FILE_MESSAGE);
-    	    logger.info("refresh the message info done.");
-    	    
+    	    removeSessionAttribute(request);
     	    
     		List<String> dataHeaders = new ArrayList<String>();
     		dataHeaders.add("录入日期");
@@ -411,13 +395,7 @@ public class UploadController {
     			return "redirect:login";
     		}
     		
-    		logger.info("refresh the message info firstly");
-    		request.getSession().removeAttribute(LsAttributes.INVALID_DATA);
-    		request.getSession().removeAttribute(LsAttributes.EXISTS_DATA);
-    		request.getSession().removeAttribute(LsAttributes.VALID_DATA_NUM);
-    		request.getSession().removeAttribute(LsAttributes.UPLOAD_FILE_MESSAGE);
-    		logger.info("refresh the message info done.");
-    		
+    		removeSessionAttribute(request);
     		
     		List<String> dataHeaders = new ArrayList<String>();
     		dataHeaders.add("录入日期");
@@ -479,13 +457,7 @@ public class UploadController {
                 return "redirect:login";
             }
             
-            logger.info("refresh the message info firstly");
-            request.getSession().removeAttribute(LsAttributes.INVALID_DATA);
-            request.getSession().removeAttribute(LsAttributes.EXISTS_DATA);
-            request.getSession().removeAttribute(LsAttributes.VALID_DATA_NUM);
-            request.getSession().removeAttribute(LsAttributes.UPLOAD_FILE_MESSAGE);
-            logger.info("refresh the message info done.");
-            
+            removeSessionAttribute(request);
             
             List<String> dataHeaders = new ArrayList<String>();
             dataHeaders.add("目标医院CODE修正");
@@ -518,13 +490,7 @@ public class UploadController {
     			return "redirect:login";
     		}
     		
-    		logger.info("refresh the message info firstly");
-    		request.getSession().removeAttribute(LsAttributes.INVALID_DATA);
-    		request.getSession().removeAttribute(LsAttributes.EXISTS_DATA);
-    		request.getSession().removeAttribute(LsAttributes.VALID_DATA_NUM);
-    		request.getSession().removeAttribute(LsAttributes.UPLOAD_FILE_MESSAGE);
-    		logger.info("refresh the message info done.");
-    		
+    		removeSessionAttribute(request);
     		
     		List<String> dataHeaders = new ArrayList<String>();
     		dataHeaders.add("Hospital Code");
@@ -754,5 +720,49 @@ public class UploadController {
     	}
     	request.getSession().setAttribute(LsAttributes.MESSAGE_AREA_ID, "uploadUserCodeResult_div");
     	return "redirect:showUploadData";
+    }
+    
+    /**
+     * 上传
+     * @param request
+     * @return
+     */
+    @RequestMapping("/doUploadWhbwHospital")
+    public String doUploadWhbwHospital(HttpServletRequest request){
+        logger.info("upload the whbw hospitals..");
+        List<String> dataHeaders = new ArrayList<String>();
+        try{
+            if( null == request.getSession().getAttribute(LsAttributes.WEB_LOGIN_USER) ){
+                return "redirect:login";
+            }
+            
+            removeSessionAttribute(request);
+            
+            dataHeaders.add("Hospital Code");
+            
+            long begin = System.currentTimeMillis();
+            List<Hospital> whbwHospitals = ExcelUtils.getWhbwHospitalFromFile(loadFile(request), dataHeaders);
+            long end = System.currentTimeMillis();
+            logger.info("whbwHospitals size is " + whbwHospitals.size() + ", spend time " + (end - begin) + " ms");
+            uploadService.uploadWhbwHospital(whbwHospitals);
+            
+            request.getSession().setAttribute(LsAttributes.UPLOAD_FILE_MESSAGE, LsAttributes.RETURNED_MESSAGE_0);
+        }catch(Exception e){
+            logger.error("fail to upload the file,",e);
+            request.getSession().setAttribute(LsAttributes.UPLOAD_FILE_MESSAGE, (null==e.getMessage()||"".equalsIgnoreCase(e.getMessage()))?LsAttributes.RETURNED_MESSAGE_1:e.getMessage());
+        }finally{
+        	dataHeaders = null;
+        }
+        request.getSession().setAttribute(LsAttributes.MESSAGE_AREA_ID, "uploadWhbwHosResult_div");
+        return "redirect:showUploadData";
+    }
+    
+    private void removeSessionAttribute( HttpServletRequest request){
+    	logger.info("refresh the message info firstly");
+        request.getSession().removeAttribute(LsAttributes.INVALID_DATA);
+        request.getSession().removeAttribute(LsAttributes.EXISTS_DATA);
+        request.getSession().removeAttribute(LsAttributes.VALID_DATA_NUM);
+        request.getSession().removeAttribute(LsAttributes.UPLOAD_FILE_MESSAGE);
+        logger.info("refresh the message info done.");
     }
 }

@@ -99,24 +99,13 @@ function checkForm(){
                     <label for="lsnum" id="lsnum_label">当日雾化令舒病人次</label>
                     <input type="number" name="lsnum" id="lsnum" value="${existedData.lsnum==null?0:existedData.lsnum}"/>
                 </div>
-                <%--
-                <c:if test="${hosObj!=null && hosObj.isWHBW=='0'}">
-                  <section>
-				    <div class="roundedOne">
-				      <input type="checkbox" id="isWHBW" name="isWHBW" onclick="checkWHBW()"/>
-				      <label for="isWHBW" id="whbw_label" class="whbw_label">是否统计博利康尼数据</label>
-				    </div>
-				  </section>
-                </c:if>
-                <div data-role="fieldcontain" spellcheck="true" id="whbw_div" style="display:none;">
-                    <label for="whbwnum" id="whbwnum_label">当日雾化博利康尼人次</label>
-                    <input type="number" name="whbwnum" id="whbwnum" value="${existedData.whbwnum==null?0:existedData.whbwnum}"/>
-                </div>
                 <c:if test="${hosObj!=null && hosObj.isWHBW=='1'}">
-	                <script type="text/javascript">
-	                	$("#whbw_div").css("display","block");
-	                </script>
+	                <div data-role="fieldcontain" spellcheck="true" id="whbw_div">
+	                    <label for="whbwnum" id="whbwnum_label">当日雾化博利康尼人次</label>
+	                    <input type="number" name="whbwnum" id="whbwnum" value="${existedData.whbwnum==null?0:existedData.whbwnum}"/>
+	                </div>
                 </c:if>
+                <%--
                  --%>
                 <div data-role="fieldcontain">
                     <label for="portNum" id="portNum_label">雾化端口数量</label>

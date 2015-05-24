@@ -97,4 +97,7 @@ public interface HospitalService {
     public void uploadPortNumData(Hospital hospitalWithPortNum) throws Exception;
     
     public void updateWHBWStatus(Hospital hospital) throws Exception;
+    
+    public void removeAllHospitalWhbwStatus() throws Exception;
+    public void updateWHBWStatus(List<Hospital> hospitals) throws Exception;
 }

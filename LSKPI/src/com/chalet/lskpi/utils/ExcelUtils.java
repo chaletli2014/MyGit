@@ -225,9 +225,7 @@ public class ExcelUtils {
                 throw new Exception("文件格式不正确，无法导入数据");
             }
             //get the data
-            String hospitalCode_tmp = "";
             Map<String, Integer> doctorCount = new HashMap<String, Integer>();
-            int count = 0;
             NumberFormat nf = NumberFormat.getInstance();
             //设置是否使用分组
             nf.setGroupingUsed(false);
@@ -1663,6 +1661,61 @@ public class ExcelUtils {
         }
     	
     	return userCodes;
+    }
+
+    /**
+     * 解析雾化博雾文件，提取医院信息
+     * @param filePath 上传的文件
+     * @param headers 读取文件的标头名,只需要读取hospital code
+     * @return List<Hospital> 雾化博雾医院列表
+     * @throws Exception Exception
+     */
+    public static List<Hospital> getWhbwHospitalFromFile(String filePath,List<String> headers) throws Exception{
+        List<Hospital> hospitals = new ArrayList<Hospital>();
+        FileInputStream is = null;
+        try{
+            is = new FileInputStream(filePath);
+            Workbook book = createCommonWorkbook(is);
+            Sheet sheet = book.getSheetAt(0);
+            
+            int header_count = 0;
+            Map<String, Integer> headerColumn = new HashMap<String, Integer>();
+            
+            Row row = sheet.getRow(sheet.getFirstRowNum());
+            for( int i = row.getFirstCellNum(); i < row.getPhysicalNumberOfCells(); i++ ){
+                if( headers.contains(row.getCell(i).toString()) ){
+                    headerColumn.put(row.getCell(i).toString(), i);
+                    header_count++;
+                }
+            }
+            logger.info("whbw hospital header_count is " + header_count);
+            if( header_count != headers.size() ){
+                throw new Exception("文件格式不正确，无法导入数据");
+            }
+            //get the data
+            for( int i = sheet.getFirstRowNum() + 1; i < sheet.getPhysicalNumberOfRows(); i++ ){
+                row = sheet.getRow(i);
+                
+                Cell hospitalCodeCell = row.getCell(headerColumn.get(headers.get(0)));
+                hospitalCodeCell.setCellType(Cell.CELL_TYPE_STRING);
+                String hospitalCode = hospitalCodeCell.toString();
+                
+                if( null != hospitalCode && !"#N/A".equalsIgnoreCase(hospitalCode) ){
+                    Hospital hospital = new Hospital();
+                    hospital.setCode(hospitalCode);
+                    hospitals.add(hospital);
+                }
+            }
+        }catch(Exception e){
+            logger.error("fail to get whbw hospital from the excel file.",e);
+            throw new Exception(e.getMessage());
+        }finally{
+            if(null!=is){
+                is.close();
+            }
+        }
+        
+        return hospitals;
     }
 
     public static Workbook createCommonWorkbook(InputStream inp) throws IOException, InvalidFormatException { 

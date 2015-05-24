@@ -10,12 +10,15 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.jdbc.core.BatchPreparedStatementSetter;
 import org.springframework.jdbc.core.PreparedStatementCreator;
+import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
+import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Repository;
@@ -27,7 +30,6 @@ import com.chalet.lskpi.mapper.KPIHospitalRowMapper;
 import com.chalet.lskpi.mapper.Monthly12DataRowMapper;
 import com.chalet.lskpi.mapper.MonthlyCollectionDataRowMapper;
 import com.chalet.lskpi.mapper.MonthlyDataRowMapper;
-import com.chalet.lskpi.mapper.MonthlyStatisticsDataRowMapper;
 import com.chalet.lskpi.mapper.MonthlyRatioDataRowMapper;
 import com.chalet.lskpi.mapper.UserInfoRowMapper;
 import com.chalet.lskpi.model.Hospital;
@@ -36,7 +38,6 @@ import com.chalet.lskpi.model.HospitalSalesQueryParam;
 import com.chalet.lskpi.model.KPIHospital4Export;
 import com.chalet.lskpi.model.Monthly12Data;
 import com.chalet.lskpi.model.MonthlyData;
-import com.chalet.lskpi.model.MonthlyStatisticsData;
 import com.chalet.lskpi.model.MonthlyRatioData;
 import com.chalet.lskpi.model.UserInfo;
 import com.chalet.lskpi.model.WeeklyDataOfHospital;
@@ -936,6 +937,19 @@ public class HospitalDAOImpl implements HospitalDAO {
         .append(" where id=? ");
         
         dataBean.getJdbcTemplate().update(sql.toString(), new Object[]{hospital.getIsWHBW(),hospital.getId()});
+	}
+
+	@Override
+	public void removeAllHospitalWhbwStatus() throws Exception {
+        dataBean.getJdbcTemplate().update("update tbl_hospital set isWHBW=0");
+	}
+
+	@Override
+	public void updateWHBWStatus(Set<String> hospitalCodes) throws Exception {
+		NamedParameterJdbcTemplate namedJdbcTemplate = new NamedParameterJdbcTemplate(dataBean.getJdbcTemplate());
+		MapSqlParameterSource parameters = new MapSqlParameterSource();
+	    parameters.addValue("hosCodes", hospitalCodes);
+		namedJdbcTemplate.update("update tbl_hospital set isWHBW=1 where code in (:hosCodes)", parameters);
 	}
 
 }

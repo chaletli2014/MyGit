@@ -3,8 +3,10 @@ package com.chalet.lskpi.service;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -462,5 +464,19 @@ public class HospitalServiceImpl implements HospitalService {
 	@Override
 	public void updateWHBWStatus(Hospital hospital) throws Exception{
 		hospitalDAO.updateWHBWStatus(hospital);
+	}
+
+	@Override
+	public void removeAllHospitalWhbwStatus() throws Exception {
+		hospitalDAO.removeAllHospitalWhbwStatus();
+	}
+
+	@Override
+	public void updateWHBWStatus(List<Hospital> hospitals) throws Exception {
+		Set<String> hospitalCodes = new HashSet<String>();
+		for( Hospital hos : hospitals ){
+			hospitalCodes.add(hos.getCode());
+		}
+		hospitalDAO.updateWHBWStatus(hospitalCodes);
 	}
 }

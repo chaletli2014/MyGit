@@ -46,6 +46,14 @@
 		loading();
 		$("#uploadBMUserData").submit();
 	}
+	function uploadWhbwHospital() {
+		if( $("#whbwHos") && $("#whbwHos").val() == '' ){
+			alert('请选择一个文件进行上传');
+			return false;
+		}
+		loading();
+		$("#uploadWhbwHospital").submit();
+	}
 	function uploadDoctorData() {
 		if( $("#doctorData") && $("#doctorData").val() == '' ){
 			alert('请选择一个文件进行上传');
@@ -528,6 +536,22 @@
 						<input type="file" name="bMData" id="bMData" /> 
 				        <img alt="" src="<%=basePath%>images/button_submit.png" style="cursor: pointer; vertical-align: middle;" onclick="uploadBMUserData()" />
 				        <div id="uploadBMUserResult_div" class="uploadDataResult_div" style="display: none;">
+                            <c:if test="${message != null && message != ''}">
+                                <div>
+                                    <div>${message}</div>
+                                </div>
+                            </c:if>
+                        </div>
+					</form>
+				</div>
+			</div>
+			<div class="element_block">
+				<div>上传数据--雾化博雾医院列表</div>
+				<div>
+					<form id="uploadWhbwHospital" action="doUploadWhbwHospital" method="post" enctype="multipart/form-data" data-ajax="false" accept-charset="UTF-8">
+						<input type="file" name="whbwHos" id="whbwHos" /> 
+				        <img alt="" src="<%=basePath%>images/button_submit.png" style="cursor: pointer; vertical-align: middle;" onclick="uploadWhbwHospital()" />
+				        <div id="uploadWhbwHosResult_div" class="uploadDataResult_div" style="display: none;">
                             <c:if test="${message != null && message != ''}">
                                 <div>
                                     <div>${message}</div>
