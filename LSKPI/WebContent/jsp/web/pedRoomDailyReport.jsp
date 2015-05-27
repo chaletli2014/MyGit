@@ -203,7 +203,6 @@
 		            </table>
 			</div>
             </c:if>
-            <%--
             <c:if test="${operatorObj!= null && (operatorObj.level=='RSM'||operatorObj.level=='RSD'||operatorObj.level=='BM')}">
 	            <div class="roundCorner" style="padding:4px;">
 	                <div class="dailyReport_table_Title">全国RSM数据排行</div>
@@ -216,35 +215,62 @@
 		               <tr class="mobileReport_table_body">
 		                   <td>上报率</td>
 		                   <td>${rsmData.topInRateRSMName}</td>
-		                   <td class="report_data_number"><fmt:formatNumber type="percent" value="${rsmData.topInRate}" pattern="#0.00%"/></td>
+		                   <td class="report_data_number"><fmt:formatNumber type="percent" value="${rsmData.topInRate}" pattern="#0%"/></td>
 		                   <td>${rsmData.bottomInRateRSMName}</td>
-		                   <td class="report_data_number"><fmt:formatNumber type="percent" value="${rsmData.bottomInRate}" pattern="#0.00%"/></td>
+		                   <td class="report_data_number"><fmt:formatNumber type="percent" value="${rsmData.bottomInRate}" pattern="#0%"/></td>
 		               </tr>
 		               <tr class="mobileReport_table_body">
-		                   <td >Core医院雾化率</td>
-		                   <td>${rsmData.coreTopWhRateRSMName}</td>
-		                   <td class="report_data_number"><fmt:formatNumber type="percent" value="${rsmData.coreTopWhRate}" pattern="#0.00%"/></td>
-		                   <td>${rsmData.coreBottomWhRateRSMName}</td>
-		                   <td class="report_data_number"><fmt:formatNumber type="percent" value="${rsmData.coreBottomWhRate}" pattern="#0.00%"/></td>
+		                   <td>雾化率</td>
+		                   <td>${rsmData.topRoomWhRateRSMName}</td>
+		                   <td class="report_data_number"><fmt:formatNumber type="percent" value="${rsmData.topRoomWhRate}" pattern="#0%"/></td>
+		                   <td>${rsmData.bottomRoomWhRateRSMName}</td>
+		                   <td class="report_data_number"><fmt:formatNumber type="percent" value="${rsmData.bottomRoomWhRate}" pattern="#0%"/></td>
 		               </tr>
 		               <tr class="mobileReport_table_body">
-		                   <td >Emerging医院雾化率</td>
-		                   <td>${rsmData.topEmergingWhRateRSMName}</td>
-		                   <td class="report_data_number"><fmt:formatNumber type="percent" value="${rsmData.topEmergingWhRate}" pattern="#0.00%"/></td>
-		                   <td>${rsmData.bottomEmergingWhRateRSMName}</td>
-		                   <td class="report_data_number"><fmt:formatNumber type="percent" value="${rsmData.bottomEmergingWhRate}" pattern="#0.00%"/></td>
+		                   <td>天数</td>
+		                   <td>${rsmData.topRoomWhDaysRSMName}</td>
+		                   <td class="report_data_number"><fmt:formatNumber type="percent" value="${rsmData.topRoomWhDays}" pattern="#0.00"/></td>
+		                   <td>${rsmData.bottomRoomWhDaysRSMName}</td>
+		                   <td class="report_data_number"><fmt:formatNumber type="percent" value="${rsmData.bottomRoomWhDays}" pattern="#0.00"/></td>
 		               </tr>
 		               <tr class="mobileReport_table_body">
 		                   <td >平均剂量</td>
-		                   <td>${rsmData.topAvRSMName}</td>
-		                   <td class="report_data_number"><fmt:formatNumber type="percent" value="${rsmData.topAverageDose}" pattern="#0.00"/></td>
-		                   <td>${rsmData.bottomAvRSMName}</td>
-		                   <td class="report_data_number"><fmt:formatNumber type="percent" value="${rsmData.bottomAverageDose}" pattern="#0.00"/></td>
+		                   <td>${rsmData.topRoomAverageDoseRSMName}</td>
+		                   <td class="report_data_number"><fmt:formatNumber type="percent" value="${rsmData.topRoomAverageDose}" pattern="#0.00"/></td>
+		                   <td>${rsmData.bottomRoomAverageDoseRSMName}</td>
+		                   <td class="report_data_number"><fmt:formatNumber type="percent" value="${rsmData.bottomRoomAverageDose}" pattern="#0.00"/></td>
+		               </tr>
+		               <tr class="mobileReport_table_body">
+		                   <td >博令人次比</td>
+		                   <td>${rsmData.topRoomBlRateRSMName}</td>
+		                   <td class="report_data_number"><fmt:formatNumber type="percent" value="${rsmData.topRoomBlRate}" pattern="#0%"/></td>
+		                   <td>${rsmData.bottomRoomBlRateRSMName}</td>
+		                   <td class="report_data_number"><fmt:formatNumber type="percent" value="${rsmData.bottomRoomBlRate}" pattern="#0%"/></td>
+		               </tr>
+		               <tr class="mobileReport_table_body">
+		                   <td >赠卖泵数量</td>
+		                   <td>${rsmData.topRoomWhNum1RSMName}</td>
+		                   <td class="report_data_number"><fmt:formatNumber type="percent" value="${rsmData.topRoomWhNum1}" pattern="#,###"/></td>
+		                   <td>${rsmData.bottomRoomWhNum1RSMName}</td>
+		                   <td class="report_data_number"><fmt:formatNumber type="percent" value="${rsmData.bottomRoomWhNum1}" pattern="#,###"/></td>
+		               </tr>
+		               <tr class="mobileReport_table_body">
+		                   <td >平均带药天数</td>
+		                   <td>${rsmData.topRoomWhNum3RSMName}</td>
+		                   <td class="report_data_number"><fmt:formatNumber type="percent" value="${rsmData.topRoomWhNum3}" pattern="#0.0"/></td>
+		                   <td>${rsmData.bottomRoomWhNum3RSMName}</td>
+		                   <td class="report_data_number"><fmt:formatNumber type="percent" value="${rsmData.bottomRoomWhNum3}" pattern="#0.0"/></td>
+		               </tr>
+		               <tr class="mobileReport_table_body">
+		                   <td>总带药支数</td>
+		                   <td>${rsmData.topRoomWhNum4RSMName}</td>
+		                   <td class="report_data_number"><fmt:formatNumber type="percent" value="${rsmData.topRoomWhNum4}" pattern="#,###"/></td>
+		                   <td>${rsmData.bottomRoomWhNum4RSMName}</td>
+		                   <td class="report_data_number"><fmt:formatNumber type="percent" value="${rsmData.bottomRoomWhNum4}" pattern="#,###"/></td>
 		               </tr>
 	                </table>
 	            </div>
             </c:if>
-             --%>
         </div>
         <jsp:include page="page_footer.jsp">
             <jsp:param value="<%=basePath%>" name="basePath"/>

@@ -75,24 +75,137 @@ public interface PediatricsDAO {
 	
 	public List<DailyReportData> getAllRSMDataByTelephone(String hospitalShownFlag) throws Exception;
 	
-	public TopAndBottomRSMData getTopAndBottomInRateRSMData(TopAndBottomRSMData rsmData, String hospitalShownFlag) throws Exception;
-	public TopAndBottomRSMData getTopAndBottomWhRateRSMData(TopAndBottomRSMData rsmData, String hospitalShownFlag) throws Exception;
-	public TopAndBottomRSMData getTopAndBottomAverageDoseRSMData(TopAndBottomRSMData rsmData, String hospitalShownFlag) throws Exception;
+	public TopAndBottomRSMData getTopAndBottomInRateRSMData(TopAndBottomRSMData rsmData, String hospitalShownFlag, Timestamp paramDate) throws Exception;
+	public TopAndBottomRSMData getTopAndBottomWhRateRSMData(TopAndBottomRSMData rsmData, String hospitalShownFlag, Timestamp paramDate) throws Exception;
+	public TopAndBottomRSMData getTopAndBottomAverageDoseRSMData(TopAndBottomRSMData rsmData, String hospitalShownFlag, Timestamp paramDate) throws Exception;
 	public TopAndBottomRSMData getCoreTopAndBottomRSMData(String hospitalShownFlag) throws Exception;
 	public TopAndBottomRSMData getCoreTopAndBottomRSMWhRateData(String hospitalShownFlag) throws Exception;
+	
+	/**
+	 * 获取全国最大最小RSM Room医院平均剂量指标
+	 * getRoomTopAndBottomAverageDoseRSMData
+	 * @param rsmData rsmData
+	 * @param hospitalShownFlag hospitalShownFlag
+	 * @param paramDate paramDate
+	 * @return TopAndBottomRSMData
+	 * @throws Exception Exception
+	 */
+	public TopAndBottomRSMData getRoomTopAndBottomAverageDoseRSMData(TopAndBottomRSMData rsmData, String hospitalShownFlag, Timestamp paramDate) throws Exception;
+	
+	/**
+	 * 获取全国最大最小RSM Room天数指标
+	 * getRoomTopAndBottomWhDaysRSMData
+	 * @param rsmData rsmData
+	 * @param hospitalShownFlag hospitalShownFlag
+	 * @param paramDate paramDate
+	 * @return TopAndBottomRSMData
+	 * @throws Exception Exception
+	 */
+	public TopAndBottomRSMData getRoomTopAndBottomWhDaysRSMData(TopAndBottomRSMData rsmData, String hospitalShownFlag, Timestamp paramDate) throws Exception;
+	
+	/**
+	 * 获取全国最大最小RSM Room博令人次比指标
+	 * getRoomTopAndBottomBlRateRSMData
+	 * @param rsmData rsmData
+	 * @param hospitalShownFlag hospitalShownFlag
+	 * @param paramDate paramDate
+	 * @return TopAndBottomRSMData
+	 * @throws Exception Exception
+	 */
+	public TopAndBottomRSMData getRoomTopAndBottomBlRateRSMData(TopAndBottomRSMData rsmData, String hospitalShownFlag, Timestamp paramDate) throws Exception;
+	/**
+	 * 获取全国最大最小RSM Room赠卖泵数量指标
+	 * getRoomTopAndBottomHomeWhNum1RSMData
+	 * @param rsmData rsmData
+	 * @param hospitalShownFlag hospitalShownFlag
+	 * @param paramDate paramDate
+	 * @return TopAndBottomRSMData
+	 * @throws Exception Exception
+	 */
+	public TopAndBottomRSMData getRoomTopAndBottomHomeWhNum1RSMData(TopAndBottomRSMData rsmData, String hospitalShownFlag, Timestamp paramDate) throws Exception;
+	/**
+	 * 获取全国最大最小RSM Room平均带药天数指标
+	 * getRoomTopAndBottomAverDaysRSMData
+	 * @param rsmData rsmData
+	 * @param hospitalShownFlag hospitalShownFlag
+	 * @param paramDate paramDate
+	 * @return TopAndBottomRSMData
+	 * @throws Exception Exception
+	 */
+	public TopAndBottomRSMData getRoomTopAndBottomAverDaysRSMData(TopAndBottomRSMData rsmData, String hospitalShownFlag, Timestamp paramDate) throws Exception;
+	/**
+	 * 获取全国最大最小RSM Room总带药支数指标
+	 * getRoomTopAndBottomHomeWhNum4RSMData
+	 * @param rsmData rsmData
+	 * @param hospitalShownFlag hospitalShownFlag
+	 * @param paramDate paramDate
+	 * @return TopAndBottomRSMData
+	 * @throws Exception Exception
+	 */
+	public TopAndBottomRSMData getRoomTopAndBottomHomeWhNum4RSMData(TopAndBottomRSMData rsmData, String hospitalShownFlag, Timestamp paramDate) throws Exception;
+	
 	/**
 	 * 获取全国最大最小RSM Emerging医院雾化率指标
-	 * @return
+	 * @return TopAndBottomRSMData
+	 * @param hospitalShownFlag 判断取所有KPI还是重点KPI
 	 * @throws Exception
 	 */
 	public TopAndBottomRSMData getEmergingTopAndBottomRSMWhRateData(String hospitalShownFlag) throws Exception;
+	
+	/**
+	 * 获取全国最大最小RSM 病房雾化率指标
+	 * @return TopAndBottomRSMData
+	 * @param hospitalShownFlag 判断取所有KPI还是重点KPI
+	 * @throws Exception
+	 */
+	public TopAndBottomRSMData getRoomTopAndBottomRSMWhRateData(TopAndBottomRSMData rsmData, String hospitalShownFlag, Timestamp paramDate) throws Exception;
+	
 	/**
 	 * 获取全国最大最小RSM 雾化端口使用率指标
 	 * @param rsmData
-	 * @return
+	 * @return TopAndBottomRSMData
 	 * @throws Exception
 	 */
-	public TopAndBottomRSMData getTopAndBottomWhPortRateRSMData(TopAndBottomRSMData rsmData, String hospitalShownFlag) throws Exception;
+	public TopAndBottomRSMData getTopAndBottomWhPortRateRSMData(TopAndBottomRSMData rsmData, String hospitalShownFlag, Timestamp paramDate) throws Exception;
+	
+	/**
+	 * 获取全国最大最小RSM 天数
+	 * @param rsmData rsmData
+	 * @return TopAndBottomRSMData
+	 * @throws Exception
+	 */
+	public TopAndBottomRSMData getTopAndBottomWhDaysRSMData(TopAndBottomRSMData rsmData, String hospitalShownFlag) throws Exception;
+	
+	/**
+	 * 获取全国最大最小RSM 博令人次比指标
+	 * @param rsmData rsmData
+	 * @return TopAndBottomRSMData
+	 * @throws Exception
+	 */
+	public TopAndBottomRSMData getTopAndBottomBlRateRSMData(TopAndBottomRSMData rsmData, String hospitalShownFlag) throws Exception;
+	/**
+	 * 获取全国最大最小RSM 赠卖泵数量
+	 * @param rsmData rsmData
+	 * @return TopAndBottomRSMData
+	 * @throws Exception
+	 */
+	public TopAndBottomRSMData getTopAndBottomHomeWhNum1RSMData(TopAndBottomRSMData rsmData, String hospitalShownFlag) throws Exception;
+	
+	/**
+	 * 获取全国最大最小RSM 平均带药天数
+	 * @param rsmData rsmData
+	 * @return TopAndBottomRSMData
+	 * @throws Exception
+	 */
+	public TopAndBottomRSMData getTopAndBottomAverDaysRSMData(TopAndBottomRSMData rsmData, String hospitalShownFlag) throws Exception;
+	
+	/**
+	 * 获取全国最大最小RSM 总带药支数
+	 * @param rsmData rsmData
+	 * @return TopAndBottomRSMData
+	 * @throws Exception
+	 */
+	public TopAndBottomRSMData getTopAndBottomHomeWhNum4RSMData(TopAndBottomRSMData rsmData, String hospitalShownFlag) throws Exception;
 	
 	public void generateWeeklyPEDDataOfHospital() throws Exception;
 	public int removeOldWeeklyPEDData(String duration) throws Exception;

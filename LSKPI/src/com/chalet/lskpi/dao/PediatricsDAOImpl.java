@@ -35,7 +35,19 @@ import com.chalet.lskpi.mapper.PediatricsWhPortRowMapper;
 import com.chalet.lskpi.mapper.PediatricsWithPortNumRowMapper;
 import com.chalet.lskpi.mapper.ReportProcessPEDDataRowMapper;
 import com.chalet.lskpi.mapper.TopAndBottomAverageDoseRSMDataRowMapper;
+import com.chalet.lskpi.mapper.TopAndBottomBlRateRSMDataRowMapper;
+import com.chalet.lskpi.mapper.TopAndBottomEmergingNum1RSMDataRowMapper;
+import com.chalet.lskpi.mapper.TopAndBottomEmergingNum3RSMDataRowMapper;
+import com.chalet.lskpi.mapper.TopAndBottomEmergingNum4RSMDataRowMapper;
 import com.chalet.lskpi.mapper.TopAndBottomInRateRSMDataRowMapper;
+import com.chalet.lskpi.mapper.TopAndBottomRoomAverageDoseRSMDataRowMapper;
+import com.chalet.lskpi.mapper.TopAndBottomRoomBlRateRSMDataRowMapper;
+import com.chalet.lskpi.mapper.TopAndBottomRoomNum1RSMDataRowMapper;
+import com.chalet.lskpi.mapper.TopAndBottomRoomNum3RSMDataRowMapper;
+import com.chalet.lskpi.mapper.TopAndBottomRoomNum4RSMDataRowMapper;
+import com.chalet.lskpi.mapper.TopAndBottomRoomWhDaysRSMDataRowMapper;
+import com.chalet.lskpi.mapper.TopAndBottomRoomWhRateRSMDataRowMapper;
+import com.chalet.lskpi.mapper.TopAndBottomWhDaysRSMDataRowMapper;
 import com.chalet.lskpi.mapper.TopAndBottomWhPortRateRSMDataRowMapper;
 import com.chalet.lskpi.mapper.TopAndBottomWhRateRSMDataRowMapper;
 import com.chalet.lskpi.model.DailyReportData;
@@ -528,16 +540,13 @@ public class PediatricsDAOImpl implements PediatricsDAO {
 	}
 	
 	@Override
-	public TopAndBottomRSMData getTopAndBottomInRateRSMData(TopAndBottomRSMData rsmData, String hospitalShownFlag) throws Exception {
+	public TopAndBottomRSMData getTopAndBottomInRateRSMData(TopAndBottomRSMData rsmData, String hospitalShownFlag, Timestamp paramDate) throws Exception {
 		StringBuffer maxSB = new StringBuffer();
 		StringBuffer minSB = new StringBuffer();
 		
 		TopAndBottomRSMData dbMaxData = new TopAndBottomRSMData();
 		TopAndBottomRSMData dbMinData = new TopAndBottomRSMData();
 		
-		Date date = new Date();
-	    Timestamp paramDate = new Timestamp(DateUtils.populateParamDate(date).getTime());
-	    
 	    try{
 	    	maxSB.append(" select (inNumTemp.inNum/hosNumTemp.hosNum) as inRateMax,hosNumTemp.name as inRateMaxUser,0 as inRateMin,'' as inRateMinUser ")
 	    	.append("	from ( ")
@@ -556,7 +565,7 @@ public class PediatricsDAOImpl implements PediatricsDAO {
 	    	.append("			and h.").append(hospitalShownFlag)
 	    	.append("			group by h.rsmRegion ")
 	    	.append("		) inNum1 right join tbl_userinfo u on inNum1.rsmRegion = u.region ")
-	    	.append("		where u.level='RSM' ")
+	    	.append("		where u.level='RSM' and u.name != 'Vacant' ")
 	    	.append("	) inNumTemp ")
 	    	.append("	where hosNumTemp.rsmRegion = inNumTemp.rsmRegion ")
 	    	.append("	order by inNumTemp.inNum/hosNumTemp.hosNum desc ")
@@ -581,7 +590,7 @@ public class PediatricsDAOImpl implements PediatricsDAO {
 	    	.append("			and h.").append(hospitalShownFlag)
 	    	.append("			group by h.rsmRegion ")
 	    	.append("		) inNum1 right join tbl_userinfo u on inNum1.rsmRegion = u.region ")
-	    	.append("		where u.level='RSM' ")
+	    	.append("		where u.level='RSM' and u.name != 'Vacant' ")
 	    	.append("	) inNumTemp")
 	    	.append("	where hosNumTemp.rsmRegion = inNumTemp.rsmRegion ")
 	    	.append("	order by inNumTemp.inNum/hosNumTemp.hosNum ")
@@ -600,11 +609,9 @@ public class PediatricsDAOImpl implements PediatricsDAO {
 	}
 	
 	@Override
-	public TopAndBottomRSMData getTopAndBottomWhRateRSMData(TopAndBottomRSMData rsmData, String hospitalShownFlag) throws Exception {
+	public TopAndBottomRSMData getTopAndBottomWhRateRSMData(TopAndBottomRSMData rsmData, String hospitalShownFlag, Timestamp paramDate) throws Exception {
 		StringBuffer maxSB = new StringBuffer();
 		StringBuffer minSB = new StringBuffer();
-		Date date = new Date();
-		Timestamp paramDate = new Timestamp(DateUtils.populateParamDate(date).getTime());
 		
 		TopAndBottomRSMData dbMaxData = new TopAndBottomRSMData();
 		TopAndBottomRSMData dbMinData = new TopAndBottomRSMData();
@@ -620,7 +627,7 @@ public class PediatricsDAOImpl implements PediatricsDAO {
 			.append("				and h.").append(hospitalShownFlag)
 			.append("				group by h.rsmRegion ")
 			.append("			) pNum1 right join tbl_userinfo u on pNum1.rsmRegion = u.region ")
-			.append("			where u.level='RSM' ")
+			.append("			where u.level='RSM' and u.name != 'Vacant' ")
 			.append("		) pNumTemp, ")
 			.append("	( select IFNULL(lsNum1.lsNum,0) as lsNum, u.region as rsmRegion, u.name from ( ")
 			.append("			select IFNULL(sum(pd.lsnum),0) as lsNum, h.rsmRegion ")
@@ -630,7 +637,7 @@ public class PediatricsDAOImpl implements PediatricsDAO {
 			.append("			and h.").append(hospitalShownFlag)
 			.append("			group by h.rsmRegion ")
 			.append("		) lsNum1 right join tbl_userinfo u on lsNum1.rsmRegion = u.region ")
-			.append("	where u.level='RSM' ")
+			.append("		where u.level='RSM' and u.name != 'Vacant' ")
 			.append("	) lsNumTemp ")
 			.append("	where pNumTemp.rsmRegion = lsNumTemp.rsmRegion ")
 			.append("	order by lsNumTemp.lsNum/pNumTemp.pNum desc ")
@@ -647,7 +654,7 @@ public class PediatricsDAOImpl implements PediatricsDAO {
 			.append("				and h.").append(hospitalShownFlag)
 			.append("				group by h.rsmRegion ")
 			.append("			) pNum1 right join tbl_userinfo u on pNum1.rsmRegion = u.region ")
-			.append("			where u.level='RSM' ")
+			.append("			where u.level='RSM' and u.name != 'Vacant' ")
 			.append("		) pNumTemp, ")
 			.append("		( select IFNULL(lsNum1.lsNum,0) as lsNum, u.region as rsmRegion, u.name from ( ")
 			.append("			select IFNULL(sum(pd.lsnum),0) as lsNum, h.rsmRegion ")
@@ -657,7 +664,7 @@ public class PediatricsDAOImpl implements PediatricsDAO {
 			.append("			and h.").append(hospitalShownFlag)
 			.append("			group by h.rsmRegion ")
 			.append("			) lsNum1 right join tbl_userinfo u on lsNum1.rsmRegion = u.region ")
-			.append("			where u.level='RSM' ")
+			.append("			where u.level='RSM' and u.name != 'Vacant' ")
 			.append("		) lsNumTemp")
 			.append("		where pNumTemp.rsmRegion = lsNumTemp.rsmRegion ")
 			.append("		order by lsNumTemp.lsNum/pNumTemp.pNum ")
@@ -675,13 +682,83 @@ public class PediatricsDAOImpl implements PediatricsDAO {
 	}
 	
 	@Override
-	public TopAndBottomRSMData getTopAndBottomAverageDoseRSMData(TopAndBottomRSMData rsmData, String hospitalShownFlag) throws Exception {
+	public TopAndBottomRSMData getRoomTopAndBottomRSMWhRateData(TopAndBottomRSMData rsmData, String hospitalShownFlag, Timestamp paramDate) throws Exception {
 		StringBuffer maxSB = new StringBuffer();
 		StringBuffer minSB = new StringBuffer();
 		
-		Date date = new Date();
-		Timestamp paramDate = new Timestamp(DateUtils.populateParamDate(date).getTime());
-
+		TopAndBottomRSMData dbMaxData = new TopAndBottomRSMData();
+		TopAndBottomRSMData dbMinData = new TopAndBottomRSMData();
+		
+		try{
+			maxSB.append(" select IFNULL(lsNumTemp.lsNum/pNumTemp.pNum,0) as whRateMax,pNumTemp.name as whRateMaxUser, 0 as whRateMin,''as whRateMinUser ")
+			.append("	from ( ")
+			.append("			select IFNULL(pNum1.pNum,0) as pNum, u.region as rsmRegion, u.name from (")
+			.append("				select IFNULL(sum(pd.pnum_room),0) as pNum, h.rsmRegion ")
+			.append("				from tbl_pediatrics_data pd, tbl_hospital h ")
+			.append("				where pd.hospitalName = h.name ")
+			.append("				and pd.createdate between ? and DATE_ADD(?, INTERVAL 1 DAY)")
+			.append("				and h.").append(hospitalShownFlag)
+			.append("				group by h.rsmRegion ")
+			.append("			) pNum1 right join tbl_userinfo u on pNum1.rsmRegion = u.region ")
+			.append("			where u.level='RSM' and u.name != 'Vacant' ")
+			.append("		) pNumTemp, ")
+			.append("	( select IFNULL(lsNum1.lsNum,0) as lsNum, u.region as rsmRegion, u.name from ( ")
+			.append("			select IFNULL(sum(pd.lsnum_room),0) as lsNum, h.rsmRegion ")
+			.append("			from tbl_pediatrics_data pd, tbl_hospital h ")
+			.append("			where pd.hospitalName = h.name ")
+			.append("			and pd.createdate between ? and DATE_ADD(?, INTERVAL 1 DAY)")
+			.append("			and h.").append(hospitalShownFlag)
+			.append("			group by h.rsmRegion ")
+			.append("		) lsNum1 right join tbl_userinfo u on lsNum1.rsmRegion = u.region ")
+			.append("		where u.level='RSM' and u.name != 'Vacant' ")
+			.append("	) lsNumTemp ")
+			.append("	where pNumTemp.rsmRegion = lsNumTemp.rsmRegion ")
+			.append("	order by lsNumTemp.lsNum/pNumTemp.pNum desc ")
+			.append("	limit 1	");
+			dbMaxData = dataBean.getJdbcTemplate().queryForObject(maxSB.toString(), new Object[]{paramDate,paramDate,paramDate,paramDate},new TopAndBottomRoomWhRateRSMDataRowMapper());
+			
+			minSB.append(" select IFNULL(lsNumTemp.lsNum/pNumTemp.pNum,0) as whRateMin,pNumTemp.name as whRateMinUser, 0 as whRateMax,''as whRateMaxUser ")
+			.append("	from ( ")
+			.append("			select IFNULL(pNum1.pNum,0) as pNum, u.region as rsmRegion, u.name from ( ")
+			.append("				select IFNULL(sum(pd.pnum_room),0) as pNum, h.rsmRegion ")
+			.append("				from tbl_pediatrics_data pd, tbl_hospital h ")
+			.append("				where pd.hospitalName = h.name ")
+			.append("				and pd.createdate between ? and DATE_ADD(?, INTERVAL 1 DAY) ")
+			.append("				and h.").append(hospitalShownFlag)
+			.append("				group by h.rsmRegion ")
+			.append("			) pNum1 right join tbl_userinfo u on pNum1.rsmRegion = u.region ")
+			.append("			where u.level='RSM' and u.name != 'Vacant' ")
+			.append("		) pNumTemp, ")
+			.append("		( select IFNULL(lsNum1.lsNum,0) as lsNum, u.region as rsmRegion, u.name from ( ")
+			.append("			select IFNULL(sum(pd.lsnum_room),0) as lsNum, h.rsmRegion ")
+			.append("			from tbl_pediatrics_data pd, tbl_hospital h ")
+			.append("			where pd.hospitalName = h.name ")
+			.append("			and pd.createdate between ? and DATE_ADD(?, INTERVAL 1 DAY) ")
+			.append("			and h.").append(hospitalShownFlag)
+			.append("			group by h.rsmRegion ")
+			.append("			) lsNum1 right join tbl_userinfo u on lsNum1.rsmRegion = u.region ")
+			.append("			where u.level='RSM' and u.name != 'Vacant' ")
+			.append("		) lsNumTemp")
+			.append("		where pNumTemp.rsmRegion = lsNumTemp.rsmRegion ")
+			.append("		order by lsNumTemp.lsNum/pNumTemp.pNum ")
+			.append("		limit 1	");
+			dbMinData = dataBean.getJdbcTemplate().queryForObject(minSB.toString(), new Object[]{paramDate,paramDate,paramDate,paramDate},new TopAndBottomRoomWhRateRSMDataRowMapper());
+		}catch(EmptyResultDataAccessException ee){
+			logger.warn("getRoomTopAndBottomRSMWhRateData,data is empty");
+		}
+		
+		rsmData.setTopRoomWhRate(dbMaxData.getTopRoomWhRate());
+		rsmData.setTopRoomWhRateRSMName(dbMaxData.getTopRoomWhRateRSMName());
+		rsmData.setBottomRoomWhRate(dbMinData.getBottomRoomWhRate());
+		rsmData.setBottomRoomWhRateRSMName(dbMinData.getBottomRoomWhRateRSMName());
+		return rsmData;
+	}
+	
+	@Override
+	public TopAndBottomRSMData getTopAndBottomAverageDoseRSMData(TopAndBottomRSMData rsmData, String hospitalShownFlag, Timestamp paramDate) throws Exception {
+		StringBuffer maxSB = new StringBuffer();
+		StringBuffer minSB = new StringBuffer();
+		
 		TopAndBottomRSMData dbMaxData = new TopAndBottomRSMData();
 		TopAndBottomRSMData dbMinData = new TopAndBottomRSMData();
 		try{
@@ -694,7 +771,7 @@ public class PediatricsDAOImpl implements PediatricsDAO {
 			.append("			and h.").append(hospitalShownFlag)
 			.append("			group by h.rsmRegion ")
 			.append("		) av2 right join tbl_userinfo u on u.region = av2.rsmRegion ")
-			.append("		where u.level='RSM' ")
+			.append("		where u.level='RSM' and u.name != 'Vacant' ")
 			.append("		order by av2.averageDose desc ")
 			.append("		limit 1	");
 			dbMaxData =  dataBean.getJdbcTemplate().queryForObject(maxSB.toString(), new Object[]{paramDate,paramDate},new TopAndBottomAverageDoseRSMDataRowMapper());
@@ -708,7 +785,7 @@ public class PediatricsDAOImpl implements PediatricsDAO {
 			.append("			and h.").append(hospitalShownFlag)
 			.append("			group by h.rsmRegion ")
 			.append("		) av1 right join tbl_userinfo u on u.region = av1.rsmRegion ")
-			.append("		where u.level='RSM' ")
+			.append("		where u.level='RSM' and u.name != 'Vacant' ")
 			.append("		order by av1.averageDose")
 			.append("		limit 1	");
 			dbMinData =  dataBean.getJdbcTemplate().queryForObject(minSB.toString(), new Object[]{paramDate,paramDate},new TopAndBottomAverageDoseRSMDataRowMapper());
@@ -725,12 +802,59 @@ public class PediatricsDAOImpl implements PediatricsDAO {
 	}
 	
 	@Override
-	public TopAndBottomRSMData getTopAndBottomWhPortRateRSMData(TopAndBottomRSMData rsmData, String hospitalShownFlag) throws Exception {
+	public TopAndBottomRSMData getRoomTopAndBottomAverageDoseRSMData(TopAndBottomRSMData rsmData, String hospitalShownFlag, Timestamp paramDate) throws Exception {
 		StringBuffer maxSB = new StringBuffer();
 		StringBuffer minSB = new StringBuffer();
 		
-		Date date = new Date();
-		Timestamp paramDate = new Timestamp(DateUtils.populateParamDate(date).getTime());
+		TopAndBottomRSMData dbMaxData = new TopAndBottomRSMData();
+		TopAndBottomRSMData dbMinData = new TopAndBottomRSMData();
+		try{
+			maxSB.append("select IFNULL(av2.averageDose,0) as averageDoseMax, u.name as averageDoseMaxUser, 0 as averageDoseMin, '' as averageDoseMinUser from ")
+			.append("		( ")
+			.append("			select IFNULL( sum( ( ( 0.5*IFNULL(pd.hqd_room,0) + 0.5*2*IFNULL(pd.hbid_room,0) + 1*1*IFNULL(pd.oqd_room,0) + 1*2*IFNULL(pd.obid_room,0) + 2*1*IFNULL(pd.tqd_room,0) + 2*2*IFNULL(pd.tbid_room,0) ) ")
+			.append("			/ 100 ) * IFNULL(pd.lsnum_room,0) ) / IFNULL(sum(pd.lsnum_room),0),0 ) as averageDose, h.rsmRegion ")
+			.append("			from tbl_pediatrics_data pd, tbl_hospital h")
+			.append("			where pd.hospitalName = h.name ")
+			.append("			and pd.createdate between ? and DATE_ADD(?, INTERVAL 1 DAY) ")
+			.append("			and h.").append(hospitalShownFlag)
+			.append("			group by h.rsmRegion ")
+			.append("		) av2 right join tbl_userinfo u on u.region = av2.rsmRegion ")
+			.append("		where u.level='RSM' and u.name != 'Vacant' ")
+			.append("		order by av2.averageDose desc ")
+			.append("		limit 1	");
+			dbMaxData =  dataBean.getJdbcTemplate().queryForObject(maxSB.toString(), new Object[]{paramDate,paramDate},new TopAndBottomRoomAverageDoseRSMDataRowMapper());
+			
+			minSB.append("select IFNULL(av1.averageDose,0) as averageDoseMin, u.name as averageDoseMinUser, 0 as averageDoseMax, '' as averageDoseMaxUser from ")
+			.append("		( ")
+			.append("			select IFNULL( sum( ( ( 0.5*IFNULL(pd.hqd_room,0) + 0.5*2*IFNULL(pd.hbid_room,0) + 1*1*IFNULL(pd.oqd_room,0) + 1*2*IFNULL(pd.obid_room,0) + 2*1*IFNULL(pd.tqd_room,0) + 2*2*IFNULL(pd.tbid_room,0) ) ")
+			.append("			/ 100 ) * IFNULL(pd.lsnum_room,0) ) / IFNULL(sum(pd.lsnum_room),0),0 ) as averageDose, h.rsmRegion ")
+			.append("			from tbl_pediatrics_data pd, tbl_hospital h ")
+			.append("			where pd.hospitalName = h.name ")
+			.append("			and pd.createdate between ? and DATE_ADD(?, INTERVAL 1 DAY) ")
+			.append("			and h.").append(hospitalShownFlag)
+			.append("			group by h.rsmRegion ")
+			.append("		) av1 right join tbl_userinfo u on u.region = av1.rsmRegion ")
+			.append("		where u.level='RSM' and u.name != 'Vacant' ")
+			.append("		order by av1.averageDose")
+			.append("		limit 1	");
+			dbMinData =  dataBean.getJdbcTemplate().queryForObject(minSB.toString(), new Object[]{paramDate,paramDate},new TopAndBottomRoomAverageDoseRSMDataRowMapper());
+		}catch(EmptyResultDataAccessException ee){
+			logger.warn("getRoomTopAndBottomAverageDoseRSMData,data is empty");
+		}
+		
+		rsmData.setTopRoomAverageDose(dbMaxData.getTopRoomAverageDose());
+		rsmData.setTopRoomAverageDoseRSMName(dbMaxData.getTopRoomAverageDoseRSMName());
+		rsmData.setBottomRoomAverageDose(dbMinData.getBottomRoomAverageDose());
+		rsmData.setBottomRoomAverageDoseRSMName(dbMinData.getBottomRoomAverageDoseRSMName());
+		
+		return rsmData;
+	}
+	
+	@Override
+	public TopAndBottomRSMData getTopAndBottomWhPortRateRSMData(TopAndBottomRSMData rsmData, String hospitalShownFlag, Timestamp paramDate) throws Exception {
+		StringBuffer maxSB = new StringBuffer();
+		StringBuffer minSB = new StringBuffer();
+		
 		int portRateBase = Integer.parseInt(CustomizedProperty.getContextProperty("portRateBase", "24"));
 
 		TopAndBottomRSMData dbMaxData = new TopAndBottomRSMData();
@@ -747,7 +871,7 @@ public class PediatricsDAOImpl implements PediatricsDAO {
 			.append("			and pd.portNum != 0 ")
 			.append("			group by h.rsmRegion ")
 			.append("		) av2 right join tbl_userinfo u on u.region = av2.rsmRegion ")
-			.append("		where u.level='RSM' ")
+			.append("		where u.level='RSM' and u.name != 'Vacant' ")
 			.append("		order by av2.whPortRate desc ")
 			.append("		limit 1	");
 			dbMaxData =  dataBean.getJdbcTemplate().queryForObject(maxSB.toString(), new Object[]{portRateBase,paramDate,paramDate},new TopAndBottomWhPortRateRSMDataRowMapper());
@@ -762,7 +886,7 @@ public class PediatricsDAOImpl implements PediatricsDAO {
 			.append("			and h.").append(hospitalShownFlag)
 			.append("			group by h.rsmRegion ")
 			.append("		) av1 right join tbl_userinfo u on u.region = av1.rsmRegion ")
-			.append("		where u.level='RSM' ")
+			.append("		where u.level='RSM' and u.name != 'Vacant' ")
 			.append("		order by av1.whPortRate")
 			.append("		limit 1	");
 			dbMinData =  dataBean.getJdbcTemplate().queryForObject(minSB.toString(), new Object[]{portRateBase,paramDate,paramDate},new TopAndBottomWhPortRateRSMDataRowMapper());
@@ -774,6 +898,545 @@ public class PediatricsDAOImpl implements PediatricsDAO {
 		rsmData.setTopWhPortRateRSMName(dbMaxData.getTopWhPortRateRSMName());
 		rsmData.setBottomWhPortRate(dbMinData.getBottomWhPortRate());
 		rsmData.setBottomWhPortRateRSMName(dbMinData.getBottomWhPortRateRSMName());
+		
+		return rsmData;
+	}
+	
+	@Override
+	public TopAndBottomRSMData getTopAndBottomWhDaysRSMData(TopAndBottomRSMData rsmData, String hospitalShownFlag) throws Exception {
+		StringBuffer maxSB = new StringBuffer();
+		StringBuffer minSB = new StringBuffer();
+		
+		Date date = new Date();
+		Timestamp paramDate = new Timestamp(DateUtils.populateParamDate(date).getTime());
+		
+		TopAndBottomRSMData dbMaxData = new TopAndBottomRSMData();
+		TopAndBottomRSMData dbMinData = new TopAndBottomRSMData();
+		
+		try{
+			maxSB.append("select IFNULL(av2.whdays_emerging,0) as whDaysMax, u.name as whDaysMaxUser, 0 as whDaysMin, '' as whDaysMinUser from ")
+			.append("		( ")
+			.append(" 			select IFNULL(sum( ( ( 1*IFNULL(pd.whdays_emerging_1,0) + 2*IFNULL(pd.whdays_emerging_2,0) ")
+		    .append("  				+ 3*IFNULL(pd.whdays_emerging_3,0) + 4*IFNULL(pd.whdays_emerging_4,0) ")
+		    .append("  				+ 5*IFNULL(pd.whdays_emerging_5,0) + 6*IFNULL(pd.whdays_emerging_6,0) ")
+		    .append("  				+ 7*IFNULL(pd.whdays_emerging_7,0) ")
+		    .append("				) / 100) * IFNULL(pd.lsnum,0)) / IFNULL(sum(pd.lsnum),0),0 ) as whdays_emerging ")
+			.append("			, h.rsmRegion")
+			.append("			from tbl_pediatrics_data pd, tbl_hospital h")
+			.append("			where pd.hospitalName = h.name ")
+			.append("			and pd.createdate between ? and DATE_ADD(?, INTERVAL 1 DAY) ")
+			.append("			and h.").append(hospitalShownFlag)
+			.append("			group by h.rsmRegion ")
+			.append("		) av2 right join tbl_userinfo u on u.region = av2.rsmRegion ")
+			.append("		where u.level='RSM' and u.name != 'Vacant' ")
+			.append("		order by av2.whdays_emerging desc ")
+			.append("		limit 1	");
+			dbMaxData =  dataBean.getJdbcTemplate().queryForObject(maxSB.toString(), new Object[]{paramDate,paramDate},new TopAndBottomWhDaysRSMDataRowMapper());
+			
+			minSB.append("select IFNULL(av1.whdays_emerging,0) as whDaysMin, u.name as whDaysMinUser, 0 as whDaysMax, '' as whDaysMaxUser from ")
+			.append("		( ")
+			.append(" 			select IFNULL(sum( ( ( 1*IFNULL(pd.whdays_emerging_1,0) + 2*IFNULL(pd.whdays_emerging_2,0) ")
+		    .append("  				+ 3*IFNULL(pd.whdays_emerging_3,0) + 4*IFNULL(pd.whdays_emerging_4,0) ")
+		    .append("  				+ 5*IFNULL(pd.whdays_emerging_5,0) + 6*IFNULL(pd.whdays_emerging_6,0) ")
+		    .append("  				+ 7*IFNULL(pd.whdays_emerging_7,0) ")
+		    .append("				) / 100) * IFNULL(pd.lsnum,0)) / IFNULL(sum(pd.lsnum),0),0 ) as whdays_emerging ")
+			.append("			, h.rsmRegion")
+			.append("			from tbl_pediatrics_data pd, tbl_hospital h ")
+			.append("			where pd.hospitalName = h.name ")
+			.append("			and pd.createdate between ? and DATE_ADD(?, INTERVAL 1 DAY) ")
+			.append("			and h.").append(hospitalShownFlag)
+			.append("			group by h.rsmRegion ")
+			.append("		) av1 right join tbl_userinfo u on u.region = av1.rsmRegion ")
+			.append("		where u.level='RSM' and u.name != 'Vacant' ")
+			.append("		order by av1.whdays_emerging")
+			.append("		limit 1	");
+			dbMinData =  dataBean.getJdbcTemplate().queryForObject(minSB.toString(), new Object[]{paramDate,paramDate},new TopAndBottomWhDaysRSMDataRowMapper());
+		}catch(EmptyResultDataAccessException ee){
+			logger.warn("getTopAndBottomWhDaysRSMData,data is empty");
+		}
+		
+		rsmData.setTopEmergingWhDays(dbMaxData.getTopEmergingWhDays());
+		rsmData.setTopEmergingWhDaysRSMName(dbMaxData.getTopEmergingWhDaysRSMName());
+		rsmData.setBottomEmergingWhDays(dbMinData.getBottomEmergingWhDays());
+		rsmData.setBottomEmergingWhDaysRSMName(dbMinData.getBottomEmergingWhDaysRSMName());
+		
+		return rsmData;
+	}
+	
+	@Override
+	public TopAndBottomRSMData getRoomTopAndBottomWhDaysRSMData(TopAndBottomRSMData rsmData, String hospitalShownFlag, Timestamp paramDate) throws Exception {
+		StringBuffer maxSB = new StringBuffer();
+		StringBuffer minSB = new StringBuffer();
+		
+		TopAndBottomRSMData dbMaxData = new TopAndBottomRSMData();
+		TopAndBottomRSMData dbMinData = new TopAndBottomRSMData();
+		
+		try{
+			maxSB.append("select IFNULL(av2.whdays_room,0) as whDaysMax, u.name as whDaysMaxUser, 0 as whDaysMin, '' as whDaysMinUser from ")
+			.append("		( ")
+			.append(" 			select IFNULL(sum( ( ( 1*IFNULL(pd.whdays_room_1,0) + 2*IFNULL(pd.whdays_room_2,0) ")
+			.append("  				+ 3*IFNULL(pd.whdays_room_3,0) + 4*IFNULL(pd.whdays_room_4,0) ")
+			.append("  				+ 5*IFNULL(pd.whdays_room_5,0) + 6*IFNULL(pd.whdays_room_6,0) ")
+			.append("  				+ 7*IFNULL(pd.whdays_room_7,0) ")
+			.append("				) / 100) * IFNULL(pd.lsnum_room,0)) / IFNULL(sum(pd.lsnum_room),0),0 ) as whdays_room ")
+			.append("			, h.rsmRegion")
+			.append("			from tbl_pediatrics_data pd, tbl_hospital h")
+			.append("			where pd.hospitalName = h.name ")
+			.append("			and pd.createdate between ? and DATE_ADD(?, INTERVAL 1 DAY) ")
+			.append("			and h.").append(hospitalShownFlag)
+			.append("			group by h.rsmRegion ")
+			.append("		) av2 right join tbl_userinfo u on u.region = av2.rsmRegion ")
+			.append("		where u.level='RSM' and u.name != 'Vacant' ")
+			.append("		order by av2.whdays_room desc ")
+			.append("		limit 1	");
+			dbMaxData =  dataBean.getJdbcTemplate().queryForObject(maxSB.toString(), new Object[]{paramDate,paramDate},new TopAndBottomRoomWhDaysRSMDataRowMapper());
+			
+			minSB.append("select IFNULL(av1.whdays_room,0) as whDaysMin, u.name as whDaysMinUser, 0 as whDaysMax, '' as whDaysMaxUser from ")
+			.append("		( ")
+			.append(" 			select IFNULL(sum( ( ( 1*IFNULL(pd.whdays_room_1,0) + 2*IFNULL(pd.whdays_room_2,0) ")
+			.append("  				+ 3*IFNULL(pd.whdays_room_3,0) + 4*IFNULL(pd.whdays_room_4,0) ")
+			.append("  				+ 5*IFNULL(pd.whdays_room_5,0) + 6*IFNULL(pd.whdays_room_6,0) ")
+			.append("  				+ 7*IFNULL(pd.whdays_room_7,0) ")
+			.append("				) / 100) * IFNULL(pd.lsnum_room,0)) / IFNULL(sum(pd.lsnum_room),0),0 ) as whdays_room ")
+			.append("			, h.rsmRegion")
+			.append("			from tbl_pediatrics_data pd, tbl_hospital h ")
+			.append("			where pd.hospitalName = h.name ")
+			.append("			and pd.createdate between ? and DATE_ADD(?, INTERVAL 1 DAY) ")
+			.append("			and h.").append(hospitalShownFlag)
+			.append("			group by h.rsmRegion ")
+			.append("		) av1 right join tbl_userinfo u on u.region = av1.rsmRegion ")
+			.append("		where u.level='RSM' and u.name != 'Vacant' ")
+			.append("		order by av1.whdays_room ")
+			.append("		limit 1	");
+			dbMinData =  dataBean.getJdbcTemplate().queryForObject(minSB.toString(), new Object[]{paramDate,paramDate},new TopAndBottomRoomWhDaysRSMDataRowMapper());
+		}catch(EmptyResultDataAccessException ee){
+			logger.warn("getRoomTopAndBottomWhDaysRSMData,data is empty");
+		}
+		
+		rsmData.setTopRoomWhDays(dbMaxData.getTopRoomWhDays());
+		rsmData.setTopRoomWhDaysRSMName(dbMaxData.getTopRoomWhDaysRSMName());
+		rsmData.setBottomRoomWhDays(dbMinData.getBottomRoomWhDays());
+		rsmData.setBottomRoomWhDaysRSMName(dbMinData.getBottomRoomWhDaysRSMName());
+		
+		return rsmData;
+	}
+	
+	@Override
+	public TopAndBottomRSMData getTopAndBottomBlRateRSMData(TopAndBottomRSMData rsmData, String hospitalShownFlag) throws Exception {
+		StringBuffer maxSB = new StringBuffer();
+		StringBuffer minSB = new StringBuffer();
+		
+		Date date = new Date();
+		Timestamp paramDate = new Timestamp(DateUtils.populateParamDate(date).getTime());
+		
+		TopAndBottomRSMData dbMaxData = new TopAndBottomRSMData();
+		TopAndBottomRSMData dbMinData = new TopAndBottomRSMData();
+		
+		try{
+			maxSB.append("select IFNULL(av2.blRate,0) as blRateMax, u.name as blRateMaxUser, 0 as blRateMin, '' as blRateMinUser from ")
+			.append("		( ")
+			.append("			select IFNULL(IFNULL(sum(pd.whbwnum),0)/IFNULL(sum(pd.lsnum),0),0) as blRate, h.rsmRegion")
+			.append("			from tbl_pediatrics_data pd, tbl_hospital h")
+			.append("			where pd.hospitalName = h.name ")
+			.append("			and pd.createdate between ? and DATE_ADD(?, INTERVAL 1 DAY) ")
+			.append("			and h.").append(hospitalShownFlag)
+			.append("			and pd.whbwnum != 0 ")
+			.append("			group by h.rsmRegion ")
+			.append("		) av2 right join tbl_userinfo u on u.region = av2.rsmRegion ")
+			.append("		where u.level='RSM' and u.name != 'Vacant' ")
+			.append("		order by av2.blRate desc ")
+			.append("		limit 1	");
+			dbMaxData =  dataBean.getJdbcTemplate().queryForObject(maxSB.toString(), new Object[]{paramDate,paramDate},new TopAndBottomBlRateRSMDataRowMapper());
+			
+			minSB.append("select IFNULL(av1.blRate,0) as blRateMin, u.name as blRateMinUser, 0 as blRateMax, '' as blRateMaxUser from ")
+			.append("		( ")
+			.append("			select IFNULL(IFNULL(sum(pd.whbwnum),0)/IFNULL(sum(pd.lsnum),0),0) as blRate, h.rsmRegion")
+			.append("			from tbl_pediatrics_data pd, tbl_hospital h ")
+			.append("			where pd.hospitalName = h.name ")
+			.append("			and pd.createdate between ? and DATE_ADD(?, INTERVAL 1 DAY) ")
+			.append("			and pd.whbwnum != 0 ")
+			.append("			and h.").append(hospitalShownFlag)
+			.append("			group by h.rsmRegion ")
+			.append("		) av1 right join tbl_userinfo u on u.region = av1.rsmRegion ")
+			.append("		where u.level='RSM' and u.name != 'Vacant' ")
+			.append("		order by av1.blRate")
+			.append("		limit 1	");
+			dbMinData =  dataBean.getJdbcTemplate().queryForObject(minSB.toString(), new Object[]{paramDate,paramDate},new TopAndBottomBlRateRSMDataRowMapper());
+		}catch(EmptyResultDataAccessException ee){
+			logger.warn("getTopAndBottomBlRateRSMData,data is empty");
+		}
+		
+		rsmData.setTopEmergingBlRate(dbMaxData.getTopEmergingBlRate());
+		rsmData.setTopEmergingBlRateRSMName(dbMaxData.getTopEmergingBlRateRSMName());
+		rsmData.setBottomEmergingBlRate(dbMinData.getBottomEmergingBlRate());
+		rsmData.setBottomEmergingBlRateRSMName(dbMinData.getBottomEmergingBlRateRSMName());
+		
+		return rsmData;
+	}
+	
+	@Override
+	public TopAndBottomRSMData getRoomTopAndBottomBlRateRSMData(TopAndBottomRSMData rsmData, String hospitalShownFlag, Timestamp paramDate) throws Exception {
+		StringBuffer maxSB = new StringBuffer();
+		StringBuffer minSB = new StringBuffer();
+		
+		TopAndBottomRSMData dbMaxData = new TopAndBottomRSMData();
+		TopAndBottomRSMData dbMinData = new TopAndBottomRSMData();
+		
+		try{
+			maxSB.append("select IFNULL(av2.blRate,0) as blRateMax, u.name as blRateMaxUser, 0 as blRateMin, '' as blRateMinUser from ")
+			.append("		( ")
+			.append("			select IFNULL(IFNULL(sum(pd.whbwnum_room),0)/IFNULL(sum(pd.lsnum_room),0),0) as blRate, h.rsmRegion")
+			.append("			from tbl_pediatrics_data pd, tbl_hospital h")
+			.append("			where pd.hospitalName = h.name ")
+			.append("			and pd.createdate between ? and DATE_ADD(?, INTERVAL 1 DAY) ")
+			.append("			and h.").append(hospitalShownFlag)
+			.append("			and pd.whbwnum_room != 0 ")
+			.append("			group by h.rsmRegion ")
+			.append("		) av2 right join tbl_userinfo u on u.region = av2.rsmRegion ")
+			.append("		where u.level='RSM' and u.name != 'Vacant' ")
+			.append("		order by av2.blRate desc ")
+			.append("		limit 1	");
+			dbMaxData =  dataBean.getJdbcTemplate().queryForObject(maxSB.toString(), new Object[]{paramDate,paramDate},new TopAndBottomRoomBlRateRSMDataRowMapper());
+			
+			minSB.append("select IFNULL(av1.blRate,0) as blRateMin, u.name as blRateMinUser, 0 as blRateMax, '' as blRateMaxUser from ")
+			.append("		( ")
+			.append("			select IFNULL(IFNULL(sum(pd.whbwnum_room),0)/IFNULL(sum(pd.lsnum_room),0),0) as blRate, h.rsmRegion")
+			.append("			from tbl_pediatrics_data pd, tbl_hospital h ")
+			.append("			where pd.hospitalName = h.name ")
+			.append("			and pd.createdate between ? and DATE_ADD(?, INTERVAL 1 DAY) ")
+			.append("			and pd.whbwnum_room != 0 ")
+			.append("			and h.").append(hospitalShownFlag)
+			.append("			group by h.rsmRegion ")
+			.append("		) av1 right join tbl_userinfo u on u.region = av1.rsmRegion ")
+			.append("		where u.level='RSM' and u.name != 'Vacant' ")
+			.append("		order by av1.blRate")
+			.append("		limit 1	");
+			dbMinData =  dataBean.getJdbcTemplate().queryForObject(minSB.toString(), new Object[]{paramDate,paramDate},new TopAndBottomRoomBlRateRSMDataRowMapper());
+		}catch(EmptyResultDataAccessException ee){
+			logger.warn("getRoomTopAndBottomBlRateRSMData,data is empty");
+		}
+		
+		rsmData.setTopRoomBlRate(dbMaxData.getTopRoomBlRate());
+		rsmData.setTopRoomBlRateRSMName(dbMaxData.getTopRoomBlRateRSMName());
+		rsmData.setBottomRoomBlRate(dbMinData.getBottomRoomBlRate());
+		rsmData.setBottomRoomBlRateRSMName(dbMinData.getBottomRoomBlRateRSMName());
+		
+		return rsmData;
+	}
+	
+	@Override
+	public TopAndBottomRSMData getTopAndBottomHomeWhNum1RSMData(TopAndBottomRSMData rsmData, String hospitalShownFlag) throws Exception {
+		StringBuffer maxSB = new StringBuffer();
+		StringBuffer minSB = new StringBuffer();
+		
+		Date date = new Date();
+		Timestamp paramDate = new Timestamp(DateUtils.populateParamDate(date).getTime());
+		
+		TopAndBottomRSMData dbMaxData = new TopAndBottomRSMData();
+		TopAndBottomRSMData dbMinData = new TopAndBottomRSMData();
+		
+		try{
+			maxSB.append("select IFNULL(av2.homeEmergingNum1,0) as homeEmergingNum1Max, u.name as homeEmergingNum1MaxUser, 0 as homeEmergingNum1Min, '' as homeEmergingNum1MinUser from ")
+			.append("		( ")
+			.append("			select IFNULL(sum(pd.home_wh_emerging_num1),0) as homeEmergingNum1, h.rsmRegion")
+			.append("			from tbl_pediatrics_data pd, tbl_hospital h")
+			.append("			where pd.hospitalName = h.name ")
+			.append("			and pd.createdate between ? and DATE_ADD(?, INTERVAL 1 DAY) ")
+			.append("			and h.").append(hospitalShownFlag)
+			.append("			group by h.rsmRegion ")
+			.append("		) av2 right join tbl_userinfo u on u.region = av2.rsmRegion ")
+			.append("		where u.level='RSM' and u.name != 'Vacant' ")
+			.append("		order by av2.homeEmergingNum1 desc ")
+			.append("		limit 1	");
+			dbMaxData =  dataBean.getJdbcTemplate().queryForObject(maxSB.toString(), new Object[]{paramDate,paramDate},new TopAndBottomEmergingNum1RSMDataRowMapper());
+			
+			minSB.append("select IFNULL(av1.homeEmergingNum1,0) as homeEmergingNum1Min, u.name as homeEmergingNum1MinUser, 0 as homeEmergingNum1Max, '' as homeEmergingNum1MaxUser from ")
+			.append("		( ")
+			.append("			select IFNULL(sum(pd.home_wh_emerging_num1),0) as homeEmergingNum1, h.rsmRegion")
+			.append("			from tbl_pediatrics_data pd, tbl_hospital h ")
+			.append("			where pd.hospitalName = h.name ")
+			.append("			and pd.createdate between ? and DATE_ADD(?, INTERVAL 1 DAY) ")
+			.append("			and h.").append(hospitalShownFlag)
+			.append("			group by h.rsmRegion ")
+			.append("		) av1 right join tbl_userinfo u on u.region = av1.rsmRegion ")
+			.append("		where u.level='RSM' and u.name != 'Vacant' ")
+			.append("		order by av1.homeEmergingNum1")
+			.append("		limit 1	");
+			dbMinData =  dataBean.getJdbcTemplate().queryForObject(minSB.toString(), new Object[]{paramDate,paramDate},new TopAndBottomEmergingNum1RSMDataRowMapper());
+		}catch(EmptyResultDataAccessException ee){
+			logger.warn("getTopAndBottomHomeWhNum1RSMData,data is empty");
+		}
+		
+		rsmData.setTopEmergingWhNum1(dbMaxData.getTopEmergingWhNum1());
+		rsmData.setTopEmergingWhNum1RSMName(dbMaxData.getTopEmergingWhNum1RSMName());
+		rsmData.setBottomEmergingWhNum1(dbMinData.getBottomEmergingWhNum1());
+		rsmData.setBottomEmergingWhNum1RSMName(dbMinData.getBottomEmergingWhNum1RSMName());
+		
+		return rsmData;
+	}
+	
+	@Override
+	public TopAndBottomRSMData getRoomTopAndBottomHomeWhNum1RSMData(TopAndBottomRSMData rsmData, String hospitalShownFlag, Timestamp paramDate) throws Exception {
+		StringBuffer maxSB = new StringBuffer();
+		StringBuffer minSB = new StringBuffer();
+		
+		TopAndBottomRSMData dbMaxData = new TopAndBottomRSMData();
+		TopAndBottomRSMData dbMinData = new TopAndBottomRSMData();
+		
+		try{
+			maxSB.append("select IFNULL(av2.homeRoomNum1,0) as homeRoomNum1Max, u.name as homeRoomNum1MaxUser, 0 as homeRoomNum1Min, '' as homeRoomNum1MinUser from ")
+			.append("		( ")
+			.append("			select IFNULL(sum(pd.home_wh_room_num1),0) as homeRoomNum1, h.rsmRegion")
+			.append("			from tbl_pediatrics_data pd, tbl_hospital h")
+			.append("			where pd.hospitalName = h.name ")
+			.append("			and pd.createdate between ? and DATE_ADD(?, INTERVAL 1 DAY) ")
+			.append("			and h.").append(hospitalShownFlag)
+			.append("			group by h.rsmRegion ")
+			.append("		) av2 right join tbl_userinfo u on u.region = av2.rsmRegion ")
+			.append("		where u.level='RSM' and u.name != 'Vacant' ")
+			.append("		order by av2.homeRoomNum1 desc ")
+			.append("		limit 1	");
+			dbMaxData =  dataBean.getJdbcTemplate().queryForObject(maxSB.toString(), new Object[]{paramDate,paramDate},new TopAndBottomRoomNum1RSMDataRowMapper());
+			
+			minSB.append("select IFNULL(av1.homeRoomNum1,0) as homeRoomNum1Min, u.name as homeRoomNum1MinUser, 0 as homeRoomNum1Max, '' as homeRoomNum1MaxUser from ")
+			.append("		( ")
+			.append("			select IFNULL(sum(pd.home_wh_room_num1),0) as homeRoomNum1, h.rsmRegion")
+			.append("			from tbl_pediatrics_data pd, tbl_hospital h ")
+			.append("			where pd.hospitalName = h.name ")
+			.append("			and pd.createdate between ? and DATE_ADD(?, INTERVAL 1 DAY) ")
+			.append("			and h.").append(hospitalShownFlag)
+			.append("			group by h.rsmRegion ")
+			.append("		) av1 right join tbl_userinfo u on u.region = av1.rsmRegion ")
+			.append("		where u.level='RSM' and u.name != 'Vacant' ")
+			.append("		order by av1.homeRoomNum1")
+			.append("		limit 1	");
+			dbMinData =  dataBean.getJdbcTemplate().queryForObject(minSB.toString(), new Object[]{paramDate,paramDate},new TopAndBottomRoomNum1RSMDataRowMapper());
+		}catch(EmptyResultDataAccessException ee){
+			logger.warn("getRoomTopAndBottomHomeWhNum1RSMData,data is empty");
+		}
+		
+		rsmData.setTopRoomWhNum1(dbMaxData.getTopRoomWhNum1());
+		rsmData.setTopRoomWhNum1RSMName(dbMaxData.getTopRoomWhNum1RSMName());
+		rsmData.setBottomRoomWhNum1(dbMinData.getBottomRoomWhNum1());
+		rsmData.setBottomRoomWhNum1RSMName(dbMinData.getBottomRoomWhNum1RSMName());
+		
+		return rsmData;
+	}
+	
+	@Override
+	public TopAndBottomRSMData getTopAndBottomAverDaysRSMData(TopAndBottomRSMData rsmData, String hospitalShownFlag) throws Exception {
+		StringBuffer maxSB = new StringBuffer();
+		StringBuffer minSB = new StringBuffer();
+		
+		Date date = new Date();
+		Timestamp paramDate = new Timestamp(DateUtils.populateParamDate(date).getTime());
+		
+		TopAndBottomRSMData dbMaxData = new TopAndBottomRSMData();
+		TopAndBottomRSMData dbMinData = new TopAndBottomRSMData();
+		
+		try{
+			maxSB.append("select IFNULL(av2.homeAverNum3,0) as homeAverNum3Max, u.name as homeAverNum3MaxUser, 0 as homeAverNum3Min, '' as homeAverNum3MinUser from ")
+			.append("		( ")
+			.append("			select IFNULL( sum(pd.home_wh_emerging_num3) ")
+			.append(" 			 		/ sum(")
+			.append(" 					case when home_wh_emerging_num3 != 0 then 1 ")
+			.append(" 					else 0 ")
+			.append("					end ), 0) as homeAverNum3, ")
+			.append(" 			h.rsmRegion")
+			.append("			from tbl_pediatrics_data pd, tbl_hospital h")
+			.append("			where pd.hospitalName = h.name ")
+			.append("			and pd.createdate between ? and DATE_ADD(?, INTERVAL 1 DAY) ")
+			.append("			and h.").append(hospitalShownFlag)
+			.append("			group by h.rsmRegion ")
+			.append("		) av2 right join tbl_userinfo u on u.region = av2.rsmRegion ")
+			.append("		where u.level='RSM' and u.name != 'Vacant' ")
+			.append("		order by av2.homeAverNum3 desc ")
+			.append("		limit 1	");
+			dbMaxData =  dataBean.getJdbcTemplate().queryForObject(maxSB.toString(), new Object[]{paramDate,paramDate},new TopAndBottomEmergingNum3RSMDataRowMapper());
+			
+			minSB.append("select IFNULL(av1.homeAverNum3,0) as homeAverNum3Min, u.name as homeAverNum3MinUser, 0 as homeAverNum3Max, '' as homeAverNum3MaxUser from ")
+			.append("		( ")
+			.append("			select IFNULL( sum(pd.home_wh_emerging_num3) ")
+			.append(" 			 		/ sum(")
+			.append(" 					case when home_wh_emerging_num3 != 0 then 1 ")
+			.append(" 					else 0 ")
+			.append("					end ), 0) as homeAverNum3, ")
+			.append(" 			h.rsmRegion")
+			.append("			from tbl_pediatrics_data pd, tbl_hospital h ")
+			.append("			where pd.hospitalName = h.name ")
+			.append("			and pd.createdate between ? and DATE_ADD(?, INTERVAL 1 DAY) ")
+			.append("			and h.").append(hospitalShownFlag)
+			.append("			group by h.rsmRegion ")
+			.append("		) av1 right join tbl_userinfo u on u.region = av1.rsmRegion ")
+			.append("		where u.level='RSM' and u.name != 'Vacant' ")
+			.append("		order by av1.homeAverNum3")
+			.append("		limit 1	");
+			dbMinData =  dataBean.getJdbcTemplate().queryForObject(minSB.toString(), new Object[]{paramDate,paramDate},new TopAndBottomEmergingNum3RSMDataRowMapper());
+		}catch(EmptyResultDataAccessException ee){
+			logger.warn("getTopAndBottomAverDaysRSMData,data is empty");
+		}
+		
+		rsmData.setTopEmergingWhNum3(dbMaxData.getTopEmergingWhNum3());
+		rsmData.setTopEmergingWhNum3RSMName(dbMaxData.getTopEmergingWhNum3RSMName());
+		rsmData.setBottomEmergingWhNum3(dbMinData.getBottomEmergingWhNum3());
+		rsmData.setBottomEmergingWhNum3RSMName(dbMinData.getBottomEmergingWhNum3RSMName());
+		
+		return rsmData;
+	}
+	
+	@Override
+	public TopAndBottomRSMData getRoomTopAndBottomAverDaysRSMData(TopAndBottomRSMData rsmData, String hospitalShownFlag, Timestamp paramDate) throws Exception {
+		StringBuffer maxSB = new StringBuffer();
+		StringBuffer minSB = new StringBuffer();
+		
+		TopAndBottomRSMData dbMaxData = new TopAndBottomRSMData();
+		TopAndBottomRSMData dbMinData = new TopAndBottomRSMData();
+		
+		try{
+			maxSB.append("select IFNULL(av2.homeAverNum3,0) as homeAverNum3Max, u.name as homeAverNum3MaxUser, 0 as homeAverNum3Min, '' as homeAverNum3MinUser from ")
+			.append("		( ")
+			.append("			select IFNULL( sum(pd.home_wh_room_num3) ")
+			.append(" 			 		/ sum(")
+			.append(" 					case when home_wh_room_num3 != 0 then 1 ")
+			.append(" 					else 0 ")
+			.append("					end ), 0) as homeAverNum3, ")
+			.append(" 			h.rsmRegion")
+			.append("			from tbl_pediatrics_data pd, tbl_hospital h")
+			.append("			where pd.hospitalName = h.name ")
+			.append("			and pd.createdate between ? and DATE_ADD(?, INTERVAL 1 DAY) ")
+			.append("			and h.").append(hospitalShownFlag)
+			.append("			group by h.rsmRegion ")
+			.append("		) av2 right join tbl_userinfo u on u.region = av2.rsmRegion ")
+			.append("		where u.level='RSM' and u.name != 'Vacant' ")
+			.append("		order by av2.homeAverNum3 desc ")
+			.append("		limit 1	");
+			dbMaxData =  dataBean.getJdbcTemplate().queryForObject(maxSB.toString(), new Object[]{paramDate,paramDate},new TopAndBottomRoomNum3RSMDataRowMapper());
+			
+			minSB.append("select IFNULL(av1.homeAverNum3,0) as homeAverNum3Min, u.name as homeAverNum3MinUser, 0 as homeAverNum3Max, '' as homeAverNum3MaxUser from ")
+			.append("		( ")
+			.append("			select IFNULL( sum(pd.home_wh_room_num3) ")
+			.append(" 			 		/ sum(")
+			.append(" 					case when home_wh_room_num3 != 0 then 1 ")
+			.append(" 					else 0 ")
+			.append("					end ), 0) as homeAverNum3, ")
+			.append(" 			h.rsmRegion")
+			.append("			from tbl_pediatrics_data pd, tbl_hospital h ")
+			.append("			where pd.hospitalName = h.name ")
+			.append("			and pd.createdate between ? and DATE_ADD(?, INTERVAL 1 DAY) ")
+			.append("			and h.").append(hospitalShownFlag)
+			.append("			group by h.rsmRegion ")
+			.append("		) av1 right join tbl_userinfo u on u.region = av1.rsmRegion ")
+			.append("		where u.level='RSM' and u.name != 'Vacant' ")
+			.append("		order by av1.homeAverNum3")
+			.append("		limit 1	");
+			dbMinData =  dataBean.getJdbcTemplate().queryForObject(minSB.toString(), new Object[]{paramDate,paramDate},new TopAndBottomRoomNum3RSMDataRowMapper());
+		}catch(EmptyResultDataAccessException ee){
+			logger.warn("getRoomTopAndBottomAverDaysRSMData,data is empty");
+		}
+		
+		rsmData.setTopRoomWhNum3(dbMaxData.getTopRoomWhNum3());
+		rsmData.setTopRoomWhNum3RSMName(dbMaxData.getTopRoomWhNum3RSMName());
+		rsmData.setBottomRoomWhNum3(dbMinData.getBottomRoomWhNum3());
+		rsmData.setBottomRoomWhNum3RSMName(dbMinData.getBottomRoomWhNum3RSMName());
+		
+		return rsmData;
+	}
+	
+	@Override
+	public TopAndBottomRSMData getTopAndBottomHomeWhNum4RSMData(TopAndBottomRSMData rsmData, String hospitalShownFlag) throws Exception {
+		StringBuffer maxSB = new StringBuffer();
+		StringBuffer minSB = new StringBuffer();
+		
+		Date date = new Date();
+		Timestamp paramDate = new Timestamp(DateUtils.populateParamDate(date).getTime());
+		
+		TopAndBottomRSMData dbMaxData = new TopAndBottomRSMData();
+		TopAndBottomRSMData dbMinData = new TopAndBottomRSMData();
+		
+		try{
+			maxSB.append("select IFNULL(av2.homeEmergingNum4,0) as homeEmergingNum4Max, u.name as homeEmergingNum4MaxUser, 0 as homeEmergingNum4Min, '' as homeEmergingNum4MinUser from ")
+			.append("		( ")
+			.append("			select IFNULL(sum(pd.home_wh_emerging_num4),0) as homeEmergingNum4, h.rsmRegion")
+			.append("			from tbl_pediatrics_data pd, tbl_hospital h")
+			.append("			where pd.hospitalName = h.name ")
+			.append("			and pd.createdate between ? and DATE_ADD(?, INTERVAL 1 DAY) ")
+			.append("			and h.").append(hospitalShownFlag)
+			.append("			group by h.rsmRegion ")
+			.append("		) av2 right join tbl_userinfo u on u.region = av2.rsmRegion ")
+			.append("		where u.level='RSM' and u.name != 'Vacant' ")
+			.append("		order by av2.homeEmergingNum4 desc ")
+			.append("		limit 1	");
+			dbMaxData =  dataBean.getJdbcTemplate().queryForObject(maxSB.toString(), new Object[]{paramDate,paramDate},new TopAndBottomEmergingNum4RSMDataRowMapper());
+			
+			minSB.append("select IFNULL(av1.homeEmergingNum4,0) as homeEmergingNum4Min, u.name as homeEmergingNum4MinUser, 0 as homeEmergingNum4Max, '' as homeEmergingNum4MaxUser from ")
+			.append("		( ")
+			.append("			select IFNULL(sum(pd.home_wh_emerging_num4),0) as homeEmergingNum4, h.rsmRegion")
+			.append("			from tbl_pediatrics_data pd, tbl_hospital h ")
+			.append("			where pd.hospitalName = h.name ")
+			.append("			and pd.createdate between ? and DATE_ADD(?, INTERVAL 1 DAY) ")
+			.append("			and h.").append(hospitalShownFlag)
+			.append("			group by h.rsmRegion ")
+			.append("		) av1 right join tbl_userinfo u on u.region = av1.rsmRegion ")
+			.append("		where u.level='RSM' and u.name != 'Vacant' ")
+			.append("		order by av1.homeEmergingNum4")
+			.append("		limit 1	");
+			dbMinData =  dataBean.getJdbcTemplate().queryForObject(minSB.toString(), new Object[]{paramDate,paramDate},new TopAndBottomEmergingNum4RSMDataRowMapper());
+		}catch(EmptyResultDataAccessException ee){
+			logger.warn("getTopAndBottomHomeWhNum4RSMData,data is empty");
+		}
+		
+		rsmData.setTopEmergingWhNum4(dbMaxData.getTopEmergingWhNum4());
+		rsmData.setTopEmergingWhNum4RSMName(dbMaxData.getTopEmergingWhNum4RSMName());
+		rsmData.setBottomEmergingWhNum4(dbMinData.getBottomEmergingWhNum4());
+		rsmData.setBottomEmergingWhNum4RSMName(dbMinData.getBottomEmergingWhNum4RSMName());
+		
+		return rsmData;
+	}
+	
+	@Override
+	public TopAndBottomRSMData getRoomTopAndBottomHomeWhNum4RSMData(TopAndBottomRSMData rsmData, String hospitalShownFlag, Timestamp paramDate) throws Exception {
+		StringBuffer maxSB = new StringBuffer();
+		StringBuffer minSB = new StringBuffer();
+		
+		TopAndBottomRSMData dbMaxData = new TopAndBottomRSMData();
+		TopAndBottomRSMData dbMinData = new TopAndBottomRSMData();
+		
+		try{
+			maxSB.append("select IFNULL(av2.homeRoomNum4,0) as homeRoomNum4Max, u.name as homeRoomNum4MaxUser, 0 as homeRoomNum4Min, '' as homeRoomNum4MinUser from ")
+			.append("		( ")
+			.append("			select IFNULL(sum(pd.home_wh_room_num4),0) as homeRoomNum4, h.rsmRegion")
+			.append("			from tbl_pediatrics_data pd, tbl_hospital h")
+			.append("			where pd.hospitalName = h.name ")
+			.append("			and pd.createdate between ? and DATE_ADD(?, INTERVAL 1 DAY) ")
+			.append("			and h.").append(hospitalShownFlag)
+			.append("			group by h.rsmRegion ")
+			.append("		) av2 right join tbl_userinfo u on u.region = av2.rsmRegion ")
+			.append("		where u.level='RSM' and u.name != 'Vacant' ")
+			.append("		order by av2.homeRoomNum4 desc ")
+			.append("		limit 1	");
+			dbMaxData =  dataBean.getJdbcTemplate().queryForObject(maxSB.toString(), new Object[]{paramDate,paramDate},new TopAndBottomRoomNum4RSMDataRowMapper());
+			
+			minSB.append("select IFNULL(av1.homeRoomNum4,0) as homeRoomNum4Min, u.name as homeRoomNum4MinUser, 0 as homeRoomNum4Max, '' as homeRoomNum4MaxUser from ")
+			.append("		( ")
+			.append("			select IFNULL(sum(pd.home_wh_room_num4),0) as homeRoomNum4, h.rsmRegion")
+			.append("			from tbl_pediatrics_data pd, tbl_hospital h ")
+			.append("			where pd.hospitalName = h.name ")
+			.append("			and pd.createdate between ? and DATE_ADD(?, INTERVAL 1 DAY) ")
+			.append("			and h.").append(hospitalShownFlag)
+			.append("			group by h.rsmRegion ")
+			.append("		) av1 right join tbl_userinfo u on u.region = av1.rsmRegion ")
+			.append("		where u.level='RSM' and u.name != 'Vacant' ")
+			.append("		order by av1.homeRoomNum4")
+			.append("		limit 1	");
+			dbMinData =  dataBean.getJdbcTemplate().queryForObject(minSB.toString(), new Object[]{paramDate,paramDate},new TopAndBottomRoomNum4RSMDataRowMapper());
+		}catch(EmptyResultDataAccessException ee){
+			logger.warn("getTopAndBottomHomeWhNum4RSMData,data is empty");
+		}
+		
+		rsmData.setTopRoomWhNum4(dbMaxData.getTopRoomWhNum4());
+		rsmData.setTopRoomWhNum4RSMName(dbMaxData.getTopRoomWhNum4RSMName());
+		rsmData.setBottomRoomWhNum4(dbMinData.getBottomRoomWhNum4());
+		rsmData.setBottomRoomWhNum4RSMName(dbMinData.getBottomRoomWhNum4RSMName());
 		
 		return rsmData;
 	}

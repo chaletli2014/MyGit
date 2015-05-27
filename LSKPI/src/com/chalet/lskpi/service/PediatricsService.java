@@ -42,7 +42,7 @@ public interface PediatricsService {
 	public TopAndBottomRSMData getTopAndBottomWhRateRSMData(String telephone, String hospitalShownFlag) throws Exception;
 	public TopAndBottomRSMData getTopAndBottomAverageRSMData(String telephone, String hospitalShownFlag) throws Exception;
 	
-	public TopAndBottomRSMData getTopAndBottomRSMData(Timestamp paramDate, String hospitalShownFlag) throws Exception;
+	public TopAndBottomRSMData getTopAndBottomRSMData(Timestamp paramDate, String hospitalShownFlag, String pedType) throws Exception;
 	
 	public ReportProcessData getSalesSelfReportProcessPEDData(String telephone) throws Exception;
     public List<ReportProcessDataDetail> getSalesSelfReportProcessPEDDetailData(String telephone) throws Exception;

@@ -36,6 +36,10 @@ function checkForm(){
     if( !obj1ltobj2("whnum","lsnum") ){
         return false;
     }
+    
+    if( !obj1ltobj2("pnum","lsnum") ){
+        return false;
+    }
 	
 	if( !isInteger($("#pnum"),$("#whnum"),$("#lsnum"))  ){
         return false;

@@ -570,41 +570,102 @@ public class PediatricsServiceImpl implements PediatricsService {
     
 	@Override
 	@Cacheable(value="getTopAndBottomRSMData")
-	public TopAndBottomRSMData getTopAndBottomRSMData(Timestamp paramDate, String hospitalShownFlag) throws Exception {
+	public TopAndBottomRSMData getTopAndBottomRSMData(Timestamp paramDate, String hospitalShownFlag, String pedType) throws Exception {
 		TopAndBottomRSMData topAndBottomRSMData = new TopAndBottomRSMData();
 		
-		topAndBottomRSMData = pediatricsDAO.getTopAndBottomInRateRSMData(topAndBottomRSMData,hospitalShownFlag);
+		topAndBottomRSMData = pediatricsDAO.getTopAndBottomInRateRSMData(topAndBottomRSMData,hospitalShownFlag, paramDate);
 		logger.info("inRate end");
-		topAndBottomRSMData = pediatricsDAO.getTopAndBottomWhRateRSMData(topAndBottomRSMData,hospitalShownFlag);
-		logger.info("whRate end");
-		topAndBottomRSMData = pediatricsDAO.getTopAndBottomAverageDoseRSMData(topAndBottomRSMData,hospitalShownFlag);
-		logger.info("averageDose end");
-		topAndBottomRSMData = pediatricsDAO.getTopAndBottomWhPortRateRSMData(topAndBottomRSMData,hospitalShownFlag);
-		logger.info("whPortRate end");
 		
-		TopAndBottomRSMData coreRSMData = pediatricsDAO.getCoreTopAndBottomRSMData(hospitalShownFlag);
-		logger.info("core end");
-		TopAndBottomRSMData coreWhRateData = pediatricsDAO.getCoreTopAndBottomRSMWhRateData(hospitalShownFlag);
-		logger.info("coreWhRate end");
+		if( "e".equalsIgnoreCase(pedType) ){
+			topAndBottomRSMData = pediatricsDAO.getTopAndBottomAverageDoseRSMData(topAndBottomRSMData,hospitalShownFlag, paramDate);
+			logger.info("averageDose end");
+			topAndBottomRSMData = pediatricsDAO.getTopAndBottomWhPortRateRSMData(topAndBottomRSMData,hospitalShownFlag, paramDate);
+			logger.info("whPortRate end");
+			topAndBottomRSMData = pediatricsDAO.getTopAndBottomWhRateRSMData(topAndBottomRSMData,hospitalShownFlag, paramDate);
+			logger.info("whRate end");
+			
+			/**
+			 * 门急诊天数
+			 */
+			topAndBottomRSMData = pediatricsDAO.getTopAndBottomWhDaysRSMData(topAndBottomRSMData, hospitalShownFlag);
+			
+			/**
+			 * 门急诊博令人次比
+			 */
+			topAndBottomRSMData = pediatricsDAO.getTopAndBottomBlRateRSMData(topAndBottomRSMData, hospitalShownFlag);
+			
+			/**
+			 * 门急诊赠卖泵数量
+			 */
+			topAndBottomRSMData = pediatricsDAO.getTopAndBottomHomeWhNum1RSMData(topAndBottomRSMData, hospitalShownFlag);
+			
+			/**
+			 * 门急诊平均带药天数
+			 */
+			topAndBottomRSMData = pediatricsDAO.getTopAndBottomAverDaysRSMData(topAndBottomRSMData, hospitalShownFlag);
+			
+			/**
+			 * 门急诊总带药支数
+			 */
+			topAndBottomRSMData = pediatricsDAO.getTopAndBottomHomeWhNum4RSMData(topAndBottomRSMData, hospitalShownFlag);
+		}else if( "r".equalsIgnoreCase(pedType) ){
+			
+			topAndBottomRSMData = pediatricsDAO.getRoomTopAndBottomAverageDoseRSMData(topAndBottomRSMData,hospitalShownFlag, paramDate);
+			logger.info("averageDose end");
+			topAndBottomRSMData = pediatricsDAO.getRoomTopAndBottomRSMWhRateData(topAndBottomRSMData,hospitalShownFlag, paramDate);
+			logger.info("whRate end");
+			
+			/**
+			 * 门急诊天数
+			 */
+			topAndBottomRSMData = pediatricsDAO.getRoomTopAndBottomWhDaysRSMData(topAndBottomRSMData, hospitalShownFlag, paramDate);
+			
+			/**
+			 * 门急诊博令人次比
+			 */
+			topAndBottomRSMData = pediatricsDAO.getRoomTopAndBottomBlRateRSMData(topAndBottomRSMData, hospitalShownFlag, paramDate);
+			
+			/**
+			 * 门急诊赠卖泵数量
+			 */
+			topAndBottomRSMData = pediatricsDAO.getRoomTopAndBottomHomeWhNum1RSMData(topAndBottomRSMData, hospitalShownFlag, paramDate);
+			
+			/**
+			 * 门急诊平均带药天数
+			 */
+			topAndBottomRSMData = pediatricsDAO.getRoomTopAndBottomAverDaysRSMData(topAndBottomRSMData, hospitalShownFlag, paramDate);
+			
+			/**
+			 * 门急诊总带药支数
+			 */
+			topAndBottomRSMData = pediatricsDAO.getRoomTopAndBottomHomeWhNum4RSMData(topAndBottomRSMData, hospitalShownFlag, paramDate);
+		}
 		
-		TopAndBottomRSMData emergingWhRateData = pediatricsDAO.getEmergingTopAndBottomRSMWhRateData(hospitalShownFlag);
-		logger.info("emergingWhRate end");
 		
-		topAndBottomRSMData.setCoreBottomInRate(coreRSMData.getCoreBottomInRate());
-		topAndBottomRSMData.setCoreBottomInRateRSMName(coreRSMData.getCoreBottomInRateRSMName());
-		topAndBottomRSMData.setCoreTopInRate(coreRSMData.getCoreTopInRate());
-		topAndBottomRSMData.setCoreTopInRateRSMName(coreRSMData.getCoreTopInRateRSMName());
 		
-		topAndBottomRSMData.setCoreBottomWhRate(coreWhRateData.getCoreBottomWhRate());
-		topAndBottomRSMData.setCoreBottomWhRateRSMName(coreWhRateData.getCoreBottomWhRateRSMName());
-		topAndBottomRSMData.setCoreTopWhRate(coreWhRateData.getCoreTopWhRate());
-		topAndBottomRSMData.setCoreTopWhRateRSMName(coreWhRateData.getCoreTopWhRateRSMName());
 		
-		topAndBottomRSMData.setTopEmergingWhRate(emergingWhRateData.getTopEmergingWhRate());
-		topAndBottomRSMData.setTopEmergingWhRateRSMName(emergingWhRateData.getTopEmergingWhRateRSMName());
-		topAndBottomRSMData.setBottomEmergingWhRate(emergingWhRateData.getBottomEmergingWhRate());
-		topAndBottomRSMData.setBottomEmergingWhRateRSMName(emergingWhRateData.getBottomEmergingWhRateRSMName());
+//		TopAndBottomRSMData coreRSMData = pediatricsDAO.getCoreTopAndBottomRSMData(hospitalShownFlag);
+//		logger.info("core end");
+//		TopAndBottomRSMData coreWhRateData = pediatricsDAO.getCoreTopAndBottomRSMWhRateData(hospitalShownFlag);
+//		logger.info("coreWhRate end");
+//		
+//		TopAndBottomRSMData emergingWhRateData = pediatricsDAO.getEmergingTopAndBottomRSMWhRateData(hospitalShownFlag);
+//		logger.info("emergingWhRate end");
 		
+//		topAndBottomRSMData.setCoreBottomInRate(coreRSMData.getCoreBottomInRate());
+//		topAndBottomRSMData.setCoreBottomInRateRSMName(coreRSMData.getCoreBottomInRateRSMName());
+//		topAndBottomRSMData.setCoreTopInRate(coreRSMData.getCoreTopInRate());
+//		topAndBottomRSMData.setCoreTopInRateRSMName(coreRSMData.getCoreTopInRateRSMName());
+//		
+//		topAndBottomRSMData.setCoreBottomWhRate(coreWhRateData.getCoreBottomWhRate());
+//		topAndBottomRSMData.setCoreBottomWhRateRSMName(coreWhRateData.getCoreBottomWhRateRSMName());
+//		topAndBottomRSMData.setCoreTopWhRate(coreWhRateData.getCoreTopWhRate());
+//		topAndBottomRSMData.setCoreTopWhRateRSMName(coreWhRateData.getCoreTopWhRateRSMName());
+//		
+//		topAndBottomRSMData.setTopEmergingWhRate(emergingWhRateData.getTopEmergingWhRate());
+//		topAndBottomRSMData.setTopEmergingWhRateRSMName(emergingWhRateData.getTopEmergingWhRateRSMName());
+//		topAndBottomRSMData.setBottomEmergingWhRate(emergingWhRateData.getBottomEmergingWhRate());
+//		topAndBottomRSMData.setBottomEmergingWhRateRSMName(emergingWhRateData.getBottomEmergingWhRateRSMName());
 		
 		return topAndBottomRSMData;
 	}

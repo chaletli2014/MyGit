@@ -53,6 +53,102 @@ public class TopAndBottomRSMData {
 	private String bottomWhPortRateRSMName;
 	private double bottomWhPortRate;
 	
+	/**
+	 * 儿科病房雾化率
+	 */
+	private String topRoomWhRateRSMName;
+	private double topRoomWhRate;
+	private String bottomRoomWhRateRSMName;
+	private double bottomRoomWhRate;
+	
+	/**
+	 * 儿科病房平均计量
+	 */
+	private String topRoomAverageDoseRSMName;
+	private double topRoomAverageDose;
+	private String bottomRoomAverageDoseRSMName;
+	private double bottomRoomAverageDose;
+	
+	/**
+	 * 儿科门急诊天数
+	 */
+	private String topEmergingWhDaysRSMName;
+	private double topEmergingWhDays;
+	private String bottomEmergingWhDaysRSMName;
+	private double bottomEmergingWhDays;
+	
+	/**
+	 * 儿科病房天数
+	 */
+	private String topRoomWhDaysRSMName;
+	private double topRoomWhDays;
+	private String bottomRoomWhDaysRSMName;
+	private double bottomRoomWhDays;
+	
+	/**
+	 * 儿科门急诊博令人次比
+	 */
+	private String topEmergingBlRateRSMName;
+	private double topEmergingBlRate;
+	private String bottomEmergingBlRateRSMName;
+	private double bottomEmergingBlRate;
+	
+	/**
+	 * 儿科病房博令人次比
+	 */
+	private String topRoomBlRateRSMName;
+	private double topRoomBlRate;
+	private String bottomRoomBlRateRSMName;
+	private double bottomRoomBlRate;
+	
+	/**
+	 * 儿科门急诊赠卖泵数量
+	 */
+	private String topEmergingWhNum1RSMName;
+	private double topEmergingWhNum1;
+	private String bottomEmergingWhNum1RSMName;
+	private double bottomEmergingWhNum1;
+	
+	/**
+	 * 儿科病房赠卖泵数量
+	 */
+	private String topRoomWhNum1RSMName;
+	private double topRoomWhNum1;
+	private String bottomRoomWhNum1RSMName;
+	private double bottomRoomWhNum1;
+	
+	/**
+	 * 儿科门急诊平均带药天数
+	 */
+	private String topEmergingWhNum3RSMName;
+	private double topEmergingWhNum3;
+	private String bottomEmergingWhNum3RSMName;
+	private double bottomEmergingWhNum3;
+	
+	/**
+	 * 儿科病房平均带药天数
+	 */
+	private String topRoomWhNum3RSMName;
+	private double topRoomWhNum3;
+	private String bottomRoomWhNum3RSMName;
+	private double bottomRoomWhNum3;
+	
+	/**
+	 * 儿科门急诊总带药支数
+	 */
+	private String topEmergingWhNum4RSMName;
+	private double topEmergingWhNum4;
+	private String bottomEmergingWhNum4RSMName;
+	private double bottomEmergingWhNum4;
+	
+	/**
+	 * 儿科病房总带药支数
+	 */
+	private String topRoomWhNum4RSMName;
+	private double topRoomWhNum4;
+	private String bottomRoomWhNum4RSMName;
+	private double bottomRoomWhNum4;
+	
 	public String getTopRSMName() {
 		return topRSMName;
 	}
@@ -256,6 +352,294 @@ public class TopAndBottomRSMData {
 	}
 	public void setBottomWhPortRate(double bottomWhPortRate) {
 		this.bottomWhPortRate = bottomWhPortRate;
+	}
+	public String getTopEmergingWhDaysRSMName() {
+		return topEmergingWhDaysRSMName;
+	}
+	public void setTopEmergingWhDaysRSMName(String topEmergingWhDaysRSMName) {
+		this.topEmergingWhDaysRSMName = topEmergingWhDaysRSMName;
+	}
+	public double getTopEmergingWhDays() {
+		return topEmergingWhDays;
+	}
+	public void setTopEmergingWhDays(double topEmergingWhDays) {
+		this.topEmergingWhDays = topEmergingWhDays;
+	}
+	public String getBottomEmergingWhDaysRSMName() {
+		return bottomEmergingWhDaysRSMName;
+	}
+	public void setBottomEmergingWhDaysRSMName(String bottomEmergingWhDaysRSMName) {
+		this.bottomEmergingWhDaysRSMName = bottomEmergingWhDaysRSMName;
+	}
+	public double getBottomEmergingWhDays() {
+		return bottomEmergingWhDays;
+	}
+	public void setBottomEmergingWhDays(double bottomEmergingWhDays) {
+		this.bottomEmergingWhDays = bottomEmergingWhDays;
+	}
+	public String getTopRoomWhDaysRSMName() {
+		return topRoomWhDaysRSMName;
+	}
+	public void setTopRoomWhDaysRSMName(String topRoomWhDaysRSMName) {
+		this.topRoomWhDaysRSMName = topRoomWhDaysRSMName;
+	}
+	public double getTopRoomWhDays() {
+		return topRoomWhDays;
+	}
+	public void setTopRoomWhDays(double topRoomWhDays) {
+		this.topRoomWhDays = topRoomWhDays;
+	}
+	public String getBottomRoomWhDaysRSMName() {
+		return bottomRoomWhDaysRSMName;
+	}
+	public void setBottomRoomWhDaysRSMName(String bottomRoomWhDaysRSMName) {
+		this.bottomRoomWhDaysRSMName = bottomRoomWhDaysRSMName;
+	}
+	public double getBottomRoomWhDays() {
+		return bottomRoomWhDays;
+	}
+	public void setBottomRoomWhDays(double bottomRoomWhDays) {
+		this.bottomRoomWhDays = bottomRoomWhDays;
+	}
+	public String getTopEmergingBlRateRSMName() {
+		return topEmergingBlRateRSMName;
+	}
+	public void setTopEmergingBlRateRSMName(String topEmergingBlRateRSMName) {
+		this.topEmergingBlRateRSMName = topEmergingBlRateRSMName;
+	}
+	public double getTopEmergingBlRate() {
+		return topEmergingBlRate;
+	}
+	public void setTopEmergingBlRate(double topEmergingBlRate) {
+		this.topEmergingBlRate = topEmergingBlRate;
+	}
+	public String getBottomEmergingBlRateRSMName() {
+		return bottomEmergingBlRateRSMName;
+	}
+	public void setBottomEmergingBlRateRSMName(String bottomEmergingBlRateRSMName) {
+		this.bottomEmergingBlRateRSMName = bottomEmergingBlRateRSMName;
+	}
+	public double getBottomEmergingBlRate() {
+		return bottomEmergingBlRate;
+	}
+	public void setBottomEmergingBlRate(double bottomEmergingBlRate) {
+		this.bottomEmergingBlRate = bottomEmergingBlRate;
+	}
+	public String getTopRoomBlRateRSMName() {
+		return topRoomBlRateRSMName;
+	}
+	public void setTopRoomBlRateRSMName(String topRoomBlRateRSMName) {
+		this.topRoomBlRateRSMName = topRoomBlRateRSMName;
+	}
+	public double getTopRoomBlRate() {
+		return topRoomBlRate;
+	}
+	public void setTopRoomBlRate(double topRoomBlRate) {
+		this.topRoomBlRate = topRoomBlRate;
+	}
+	public String getBottomRoomBlRateRSMName() {
+		return bottomRoomBlRateRSMName;
+	}
+	public void setBottomRoomBlRateRSMName(String bottomRoomBlRateRSMName) {
+		this.bottomRoomBlRateRSMName = bottomRoomBlRateRSMName;
+	}
+	public double getBottomRoomBlRate() {
+		return bottomRoomBlRate;
+	}
+	public void setBottomRoomBlRate(double bottomRoomBlRate) {
+		this.bottomRoomBlRate = bottomRoomBlRate;
+	}
+	public String getTopEmergingWhNum1RSMName() {
+		return topEmergingWhNum1RSMName;
+	}
+	public void setTopEmergingWhNum1RSMName(String topEmergingWhNum1RSMName) {
+		this.topEmergingWhNum1RSMName = topEmergingWhNum1RSMName;
+	}
+	public double getTopEmergingWhNum1() {
+		return topEmergingWhNum1;
+	}
+	public void setTopEmergingWhNum1(double topEmergingWhNum1) {
+		this.topEmergingWhNum1 = topEmergingWhNum1;
+	}
+	public String getBottomEmergingWhNum1RSMName() {
+		return bottomEmergingWhNum1RSMName;
+	}
+	public void setBottomEmergingWhNum1RSMName(String bottomEmergingWhNum1RSMName) {
+		this.bottomEmergingWhNum1RSMName = bottomEmergingWhNum1RSMName;
+	}
+	public double getBottomEmergingWhNum1() {
+		return bottomEmergingWhNum1;
+	}
+	public void setBottomEmergingWhNum1(double bottomEmergingWhNum1) {
+		this.bottomEmergingWhNum1 = bottomEmergingWhNum1;
+	}
+	public String getTopRoomWhNum1RSMName() {
+		return topRoomWhNum1RSMName;
+	}
+	public void setTopRoomWhNum1RSMName(String topRoomWhNum1RSMName) {
+		this.topRoomWhNum1RSMName = topRoomWhNum1RSMName;
+	}
+	public double getTopRoomWhNum1() {
+		return topRoomWhNum1;
+	}
+	public void setTopRoomWhNum1(double topRoomWhNum1) {
+		this.topRoomWhNum1 = topRoomWhNum1;
+	}
+	public String getBottomRoomWhNum1RSMName() {
+		return bottomRoomWhNum1RSMName;
+	}
+	public void setBottomRoomWhNum1RSMName(String bottomRoomWhNum1RSMName) {
+		this.bottomRoomWhNum1RSMName = bottomRoomWhNum1RSMName;
+	}
+	public double getBottomRoomWhNum1() {
+		return bottomRoomWhNum1;
+	}
+	public void setBottomRoomWhNum1(double bottomRoomWhNum1) {
+		this.bottomRoomWhNum1 = bottomRoomWhNum1;
+	}
+	public String getTopEmergingWhNum3RSMName() {
+		return topEmergingWhNum3RSMName;
+	}
+	public void setTopEmergingWhNum3RSMName(String topEmergingWhNum3RSMName) {
+		this.topEmergingWhNum3RSMName = topEmergingWhNum3RSMName;
+	}
+	public double getTopEmergingWhNum3() {
+		return topEmergingWhNum3;
+	}
+	public void setTopEmergingWhNum3(double topEmergingWhNum3) {
+		this.topEmergingWhNum3 = topEmergingWhNum3;
+	}
+	public String getBottomEmergingWhNum3RSMName() {
+		return bottomEmergingWhNum3RSMName;
+	}
+	public void setBottomEmergingWhNum3RSMName(String bottomEmergingWhNum3RSMName) {
+		this.bottomEmergingWhNum3RSMName = bottomEmergingWhNum3RSMName;
+	}
+	public double getBottomEmergingWhNum3() {
+		return bottomEmergingWhNum3;
+	}
+	public void setBottomEmergingWhNum3(double bottomEmergingWhNum3) {
+		this.bottomEmergingWhNum3 = bottomEmergingWhNum3;
+	}
+	public String getTopRoomWhNum3RSMName() {
+		return topRoomWhNum3RSMName;
+	}
+	public void setTopRoomWhNum3RSMName(String topRoomWhNum3RSMName) {
+		this.topRoomWhNum3RSMName = topRoomWhNum3RSMName;
+	}
+	public double getTopRoomWhNum3() {
+		return topRoomWhNum3;
+	}
+	public void setTopRoomWhNum3(double topRoomWhNum3) {
+		this.topRoomWhNum3 = topRoomWhNum3;
+	}
+	public String getBottomRoomWhNum3RSMName() {
+		return bottomRoomWhNum3RSMName;
+	}
+	public void setBottomRoomWhNum3RSMName(String bottomRoomWhNum3RSMName) {
+		this.bottomRoomWhNum3RSMName = bottomRoomWhNum3RSMName;
+	}
+	public double getBottomRoomWhNum3() {
+		return bottomRoomWhNum3;
+	}
+	public void setBottomRoomWhNum3(double bottomRoomWhNum3) {
+		this.bottomRoomWhNum3 = bottomRoomWhNum3;
+	}
+	public String getTopEmergingWhNum4RSMName() {
+		return topEmergingWhNum4RSMName;
+	}
+	public void setTopEmergingWhNum4RSMName(String topEmergingWhNum4RSMName) {
+		this.topEmergingWhNum4RSMName = topEmergingWhNum4RSMName;
+	}
+	public double getTopEmergingWhNum4() {
+		return topEmergingWhNum4;
+	}
+	public void setTopEmergingWhNum4(double topEmergingWhNum4) {
+		this.topEmergingWhNum4 = topEmergingWhNum4;
+	}
+	public String getBottomEmergingWhNum4RSMName() {
+		return bottomEmergingWhNum4RSMName;
+	}
+	public void setBottomEmergingWhNum4RSMName(String bottomEmergingWhNum4RSMName) {
+		this.bottomEmergingWhNum4RSMName = bottomEmergingWhNum4RSMName;
+	}
+	public double getBottomEmergingWhNum4() {
+		return bottomEmergingWhNum4;
+	}
+	public void setBottomEmergingWhNum4(double bottomEmergingWhNum4) {
+		this.bottomEmergingWhNum4 = bottomEmergingWhNum4;
+	}
+	public String getTopRoomWhNum4RSMName() {
+		return topRoomWhNum4RSMName;
+	}
+	public void setTopRoomWhNum4RSMName(String topRoomWhNum4RSMName) {
+		this.topRoomWhNum4RSMName = topRoomWhNum4RSMName;
+	}
+	public double getTopRoomWhNum4() {
+		return topRoomWhNum4;
+	}
+	public void setTopRoomWhNum4(double topRoomWhNum4) {
+		this.topRoomWhNum4 = topRoomWhNum4;
+	}
+	public String getBottomRoomWhNum4RSMName() {
+		return bottomRoomWhNum4RSMName;
+	}
+	public void setBottomRoomWhNum4RSMName(String bottomRoomWhNum4RSMName) {
+		this.bottomRoomWhNum4RSMName = bottomRoomWhNum4RSMName;
+	}
+	public double getBottomRoomWhNum4() {
+		return bottomRoomWhNum4;
+	}
+	public void setBottomRoomWhNum4(double bottomRoomWhNum4) {
+		this.bottomRoomWhNum4 = bottomRoomWhNum4;
+	}
+	public String getTopRoomWhRateRSMName() {
+		return topRoomWhRateRSMName;
+	}
+	public void setTopRoomWhRateRSMName(String topRoomWhRateRSMName) {
+		this.topRoomWhRateRSMName = topRoomWhRateRSMName;
+	}
+	public double getTopRoomWhRate() {
+		return topRoomWhRate;
+	}
+	public void setTopRoomWhRate(double topRoomWhRate) {
+		this.topRoomWhRate = topRoomWhRate;
+	}
+	public String getBottomRoomWhRateRSMName() {
+		return bottomRoomWhRateRSMName;
+	}
+	public void setBottomRoomWhRateRSMName(String bottomRoomWhRateRSMName) {
+		this.bottomRoomWhRateRSMName = bottomRoomWhRateRSMName;
+	}
+	public double getBottomRoomWhRate() {
+		return bottomRoomWhRate;
+	}
+	public void setBottomRoomWhRate(double bottomRoomWhRate) {
+		this.bottomRoomWhRate = bottomRoomWhRate;
+	}
+	public String getTopRoomAverageDoseRSMName() {
+		return topRoomAverageDoseRSMName;
+	}
+	public void setTopRoomAverageDoseRSMName(String topRoomAverageDoseRSMName) {
+		this.topRoomAverageDoseRSMName = topRoomAverageDoseRSMName;
+	}
+	public double getTopRoomAverageDose() {
+		return topRoomAverageDose;
+	}
+	public void setTopRoomAverageDose(double topRoomAverageDose) {
+		this.topRoomAverageDose = topRoomAverageDose;
+	}
+	public String getBottomRoomAverageDoseRSMName() {
+		return bottomRoomAverageDoseRSMName;
+	}
+	public void setBottomRoomAverageDoseRSMName(String bottomRoomAverageDoseRSMName) {
+		this.bottomRoomAverageDoseRSMName = bottomRoomAverageDoseRSMName;
+	}
+	public double getBottomRoomAverageDose() {
+		return bottomRoomAverageDose;
+	}
+	public void setBottomRoomAverageDose(double bottomRoomAverageDose) {
+		this.bottomRoomAverageDose = bottomRoomAverageDose;
 	}
 
 }

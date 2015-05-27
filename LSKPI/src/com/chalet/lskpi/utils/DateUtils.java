@@ -20,6 +20,11 @@ public class DateUtils {
     	return formatter_1.format(date);
     }
     
+    /**
+     * 返回昨天的日期，如果遇到周一和周日，则返回上周五
+     * @param date date
+     * @return Date
+     */
     public static Date populateParamDate(Date date){
         Calendar calendar = Calendar.getInstance();
         calendar.setTime(date);

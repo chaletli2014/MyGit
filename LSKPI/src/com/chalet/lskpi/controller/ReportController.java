@@ -1608,7 +1608,7 @@ public class ReportController extends BaseController{
                     || LsAttributes.USER_LEVEL_RSD.equalsIgnoreCase(currentUser.getLevel())
                     || LsAttributes.USER_LEVEL_RSM.equalsIgnoreCase(currentUser.getLevel())){
             	
-                TopAndBottomRSMData rsmData = pediatricsService.getTopAndBottomRSMData(paramDate,hospitalShownFlag);
+                TopAndBottomRSMData rsmData = pediatricsService.getTopAndBottomRSMData(paramDate,hospitalShownFlag, pedType);
                 view.addObject("rsmData", rsmData);
                 logger.info("get the top and bottom rsm data end...");
             }
