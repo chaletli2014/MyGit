@@ -1107,7 +1107,18 @@ public class LsAttributes {
 		    .append(" , IFNULL(round(sum(averageDose*lsnum)/sum(lsnum),4),0) as averageDose ");
     
     public static final StringBuffer SQL_MONTHLY_STATISTICS_CORE_EMERGING_SELECTION
-	    = new StringBuffer(", IFNULL(sum(least(innum,3)),0) / (count(1)*3) as inRate ")
+	    = new StringBuffer(", IFNULL(sum( ")
+	    .append("			case ")
+	    .append("			when h.dragonType='Core' then least(innum,3)")
+	    .append("			when h.dragonType='Emerging' then least(innum,1) ")
+	    .append("			end")
+	    .append("		) / ")
+	    .append("		sum( ")
+	    .append("			case ")
+	    .append("			when h.dragonType='Core' then 3 ")
+	    .append("			when h.dragonType='Emerging' then 1 ")
+	    .append("			end ")
+	    .append("),0) as inRate ")
 		.append(", IFNULL(round(sum(lsnum)/sum(pnum),4),0) as whRate ");
     
     public static final StringBuffer SQL_MONTHLY_STATISTICS_CORE_EMERGING_SELECTION_RES

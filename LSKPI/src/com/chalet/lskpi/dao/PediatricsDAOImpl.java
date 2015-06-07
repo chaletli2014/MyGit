@@ -505,11 +505,11 @@ public class PediatricsDAOImpl implements PediatricsDAO {
 	    .append("from ( ")
 	    .append("	SELECT ")
 	    .append("	h.code,	")
-	    .append("	count_hos.inNum, ")
-	    .append("	(sum(pd.pnum)/count_hos.inNum)*5 as pnum, ")
-	    .append("	(sum(pd.whnum)/count_hos.inNum)*5 as whnum, ")
-	    .append("	(sum(pd.lsnum)/count_hos.inNum)*5 as lsnum, ")
-	    .append("	(sum(pd.portNum)/count_hos.inNum)*5 as portNum, ")
+	    .append("	sum(1) as inNum, ")
+	    .append("	(sum(pd.pnum)/sum(1))*5 as pnum, ")
+	    .append("	(sum(pd.whnum)/sum(1))*5 as whnum, ")
+	    .append("	(sum(pd.lsnum)/sum(1))*5 as lsnum, ")
+	    .append("	(sum(pd.portNum)/sum(1))*5 as portNum, ")
 	    .append("	IFNULL( ")
 	    .append("		sum( ")
 	    .append("			( ( 0.5*IFNULL(pd.hqd,0) + 0.5*2*IFNULL(pd.hbid,0) + 1*1*IFNULL(pd.oqd,0) + 1*2*IFNULL(pd.obid,0) + 2*1*IFNULL(pd.tqd,0) + 2*2*IFNULL(pd.tbid,0) ) / 100 )* IFNULL(pd.lsnum,0) ")
@@ -518,24 +518,15 @@ public class PediatricsDAOImpl implements PediatricsDAO {
 	    .append("	IFNULL( sum((IFNULL(pd.hbid,0)*pd.lsnum + IFNULL(pd.oqd,0)*pd.lsnum)/100)/sum(pd.lsnum),0 ) omgRate, ")
 	    .append("	IFNULL( sum((IFNULL(pd.obid,0)*pd.lsnum + IFNULL(pd.tqd,0)*pd.lsnum)/100)/sum(pd.lsnum),0 ) tmgRate, ")
 	    .append("	IFNULL( sum(IFNULL(pd.tbid,0)*pd.lsnum/100)/sum(pd.lsnum),0 ) fmgRate ")
-	    .append("	FROM tbl_pediatrics_data pd, tbl_hospital h, ")
-	    .append("	(	")
-	    .append("		select count(1) as inNum, h.code ")
-	    .append("		from tbl_pediatrics_data pd, tbl_hospital h ")
-	    .append("		WHERE pd.createdate between DATE_SUB(?, Interval 6 day) and DATE_ADD(?, Interval 1 day) ")
-	    .append("		and pd.hospitalName = h.name ")
-	    .append("		and h.isPedAssessed='1' ")
-	    .append("		GROUP BY h.code ")
-	    .append("	) count_hos ")
+	    .append("	FROM tbl_pediatrics_data pd, tbl_hospital h ")
 	    .append("	WHERE pd.createdate between DATE_SUB(?, Interval 6 day) and DATE_ADD(?, Interval 1 day) ")
 	    .append("	and pd.hospitalName = h.name ")
-	    .append("	and h.code = count_hos.code")
 	    .append("	and h.isPedAssessed='1' ")
 	    .append("	GROUP BY h.code ")
 	    .append(") pd_data ")
 	    .append("right join tbl_hospital h on pd_data.code = h.code ")
 	    .append("where h.isPedAssessed='1'");
-	    int result = dataBean.getJdbcTemplate().update(sb.toString(), new Object[]{lastweekDay,lastweekDay,lastweekDay,lastweekDay,lastweekDay,lastweekDay});
+	    int result = dataBean.getJdbcTemplate().update(sb.toString(), new Object[]{lastweekDay,lastweekDay,lastweekDay,lastweekDay});
 	    logger.info(String.format("finish to generate the ped weekly data, the result is %s", result));
 	}
 	
@@ -2801,13 +2792,27 @@ public class PediatricsDAOImpl implements PediatricsDAO {
 		dataBean.getJdbcTemplate().update(sql.toString(), paramList.toArray());
 	}
 	
+	/**
+	 * 儿科每月汇总数据
+	 */
 	@Override
 	public List<MonthlyStatisticsData> getMonthlyStatisticsData(String beginDuraion, String endDuraion, String level) throws Exception {
 		StringBuffer inRateSQL = new StringBuffer("");
 		switch(level){
 			case LsAttributes.USER_LEVEL_RSD:
 				inRateSQL.append(" select h.region, '' as rsmRegion, '' as dsmCode, '' as dsmName ")
-	            .append(", IFNULL(sum(least(innum,3)),0) / (count(1)*3) as inRate ")
+	            .append(", IFNULL(sum( ")
+	            .append("			case ")
+	            .append("			when h.dragonType='Core' then least(innum,3)")
+	            .append("			when h.dragonType='Emerging' then least(innum,1) ")
+	            .append("			end")
+	            .append("		) / ")
+	            .append("		sum( ")
+	            .append("			case ")
+	            .append("			when h.dragonType='Core' then 3 ")
+	            .append("			when h.dragonType='Emerging' then 1 ")
+	            .append("			end ")
+	            .append("),0) as inRate ")
 	            .append(", 0 as aenum ")
 	            .append(", 0 as risknum ")
 				.append(LsAttributes.SQL_MONTHLY_STATISTICS_SELECTION)
@@ -2817,7 +2822,18 @@ public class PediatricsDAOImpl implements PediatricsDAO {
 				break;
 			case LsAttributes.USER_LEVEL_RSM:
 				inRateSQL.append(" select h.region, h.rsmRegion as rsmRegion, '' as dsmCode, '' as dsmName ")
-	            .append(", IFNULL(sum(least(innum,3)),0) / (count(1)*3) as inRate ")
+	            .append(", IFNULL(sum( ")
+	            .append("			case ")
+	            .append("			when h.dragonType='Core' then least(innum,3)")
+	            .append("			when h.dragonType='Emerging' then least(innum,1) ")
+	            .append("			end")
+	            .append("		) / ")
+	            .append("		sum( ")
+	            .append("			case ")
+	            .append("			when h.dragonType='Core' then 3 ")
+	            .append("			when h.dragonType='Emerging' then 1 ")
+	            .append("			end ")
+	            .append("),0) as inRate ")
 	            .append(", 0 as aenum ")
 	            .append(", 0 as risknum ")
 				.append(LsAttributes.SQL_MONTHLY_STATISTICS_SELECTION)
@@ -2828,7 +2844,18 @@ public class PediatricsDAOImpl implements PediatricsDAO {
 			case LsAttributes.USER_LEVEL_DSM:
 				inRateSQL.append(" select h.region, h.rsmRegion as rsmRegion, h.dsmCode as dsmCode ")
 	            .append(", (select distinct name from tbl_userinfo u where u.userCode = h.dsmCode and u.region = h.rsmRegion and u.regionCenter = h.region ) as dsmName")
-				.append(", IFNULL(sum(least(innum,3)),0) / (count(1)*3) as inRate ")
+				.append(", IFNULL(sum( ")
+	            .append("			case ")
+	            .append("			when h.dragonType='Core' then least(innum,3)")
+	            .append("			when h.dragonType='Emerging' then least(innum,1) ")
+	            .append("			end")
+	            .append("		) / ")
+	            .append("		sum( ")
+	            .append("			case ")
+	            .append("			when h.dragonType='Core' then 3 ")
+	            .append("			when h.dragonType='Emerging' then 1 ")
+	            .append("			end ")
+	            .append("),0) as inRate ")
 				.append(", 0 as aenum ")
 	            .append(", 0 as risknum ")
 				.append(LsAttributes.SQL_MONTHLY_STATISTICS_SELECTION)
@@ -2850,20 +2877,23 @@ public class PediatricsDAOImpl implements PediatricsDAO {
 				inRateSQL.append(" select h.region, '' as rsmRegion, '' as dsmCode, '' as dsmName ")
 	            .append(LsAttributes.SQL_MONTHLY_STATISTICS_CORE_EMERGING_SELECTION)
 	            .append(" from tbl_pediatrics_data_weekly, tbl_hospital h ")
-	            .append(LsAttributes.SQL_MONTHLY_STATISTICS_CORE_RSD_CONDITION);
+	            .append(LsAttributes.SQL_MONTHLY_STATISTICS_CORE_RSD_CONDITION)
+				.append(LsAttributes.SQL_MONTHLY_STATISTICS_RSD_GROUP);
 				break;
 			case LsAttributes.USER_LEVEL_RSM:
 				inRateSQL.append(" select h.region, h.rsmRegion as rsmRegion, '' as dsmCode, '' as dsmName ")
 	            .append(LsAttributes.SQL_MONTHLY_STATISTICS_CORE_EMERGING_SELECTION)
 	            .append(" from tbl_pediatrics_data_weekly, tbl_hospital h ")
-	            .append(LsAttributes.SQL_MONTHLY_STATISTICS_CORE_RSM_CONDITION);
+	            .append(LsAttributes.SQL_MONTHLY_STATISTICS_CORE_RSM_CONDITION)
+	            .append(LsAttributes.SQL_MONTHLY_STATISTICS_RSM_GROUP);
 				break;
 			case LsAttributes.USER_LEVEL_DSM:
 				inRateSQL.append(" select h.region, h.rsmRegion as rsmRegion, h.dsmCode as dsmCode ")
 	            .append(", (select distinct name from tbl_userinfo u where u.userCode = h.dsmCode and u.region = h.rsmRegion and u.regionCenter = h.region ) as dsmName")
 				.append(LsAttributes.SQL_MONTHLY_STATISTICS_CORE_EMERGING_SELECTION)
 	            .append(" from tbl_pediatrics_data_weekly, tbl_hospital h ")
-		        .append(LsAttributes.SQL_MONTHLY_STATISTICS_CORE_DSM_CONDITION);
+		        .append(LsAttributes.SQL_MONTHLY_STATISTICS_CORE_DSM_CONDITION)
+		        .append(LsAttributes.SQL_MONTHLY_STATISTICS_DSM_GROUP);
 				break;
 		}
         return dataBean.getJdbcTemplate().query(inRateSQL.toString(), new Object[]{beginDuraion,endDuraion},new MonthlyStatisticsCoreDataRowMapper());
@@ -2879,20 +2909,23 @@ public class PediatricsDAOImpl implements PediatricsDAO {
 				inRateSQL.append(" select h.region, '' as rsmRegion, '' as dsmCode, '' as dsmName ")
 	            .append(LsAttributes.SQL_MONTHLY_STATISTICS_CORE_EMERGING_SELECTION)
 	            .append(" from tbl_pediatrics_data_weekly, tbl_hospital h ")
-	            .append(LsAttributes.SQL_MONTHLY_STATISTICS_EMERGING_RSD_CONDITION);
+	            .append(LsAttributes.SQL_MONTHLY_STATISTICS_EMERGING_RSD_CONDITION)
+				.append(LsAttributes.SQL_MONTHLY_STATISTICS_RSD_GROUP);
 				break;
 			case LsAttributes.USER_LEVEL_RSM:
 				inRateSQL.append(" select h.region, h.rsmRegion as rsmRegion, '' as dsmCode, '' as dsmName ")
 	            .append(LsAttributes.SQL_MONTHLY_STATISTICS_CORE_EMERGING_SELECTION)
 	            .append(" from tbl_pediatrics_data_weekly, tbl_hospital h ")
-	            .append(LsAttributes.SQL_MONTHLY_STATISTICS_EMERGING_RSM_CONDITION);
+	            .append(LsAttributes.SQL_MONTHLY_STATISTICS_EMERGING_RSM_CONDITION)
+	            .append(LsAttributes.SQL_MONTHLY_STATISTICS_RSM_GROUP);
 				break;
 			case LsAttributes.USER_LEVEL_DSM:
 				inRateSQL.append(" select h.region, h.rsmRegion as rsmRegion, h.dsmCode as dsmCode ")
 	            .append(", (select distinct name from tbl_userinfo u where u.userCode = h.dsmCode and u.region = h.rsmRegion and u.regionCenter = h.region ) as dsmName")
 	            .append(LsAttributes.SQL_MONTHLY_STATISTICS_CORE_EMERGING_SELECTION)
 	            .append(" from tbl_pediatrics_data_weekly, tbl_hospital h ")
-		        .append(LsAttributes.SQL_MONTHLY_STATISTICS_EMERGING_DSM_CONDITION);
+		        .append(LsAttributes.SQL_MONTHLY_STATISTICS_EMERGING_DSM_CONDITION)
+		        .append(LsAttributes.SQL_MONTHLY_STATISTICS_DSM_GROUP);
 				break;
 		}
         return dataBean.getJdbcTemplate().query(inRateSQL.toString(), new Object[]{beginDuraion,endDuraion},new MonthlyStatisticsEmergingDataRowMapper());
@@ -2903,12 +2936,23 @@ public class PediatricsDAOImpl implements PediatricsDAO {
 			String beginDuraion, String endDuraion) throws Exception {
 		StringBuffer inRateSQL = new StringBuffer("");
 		inRateSQL.append(" select '' as region, '' as rsmRegion, '' as dsmCode, '' as dsmName ")
-        .append(", IFNULL(sum(least(innum,3)),0) / (count(1)*3) as inRate ")
+        .append(", IFNULL(sum( ")
+        .append("			case ")
+        .append("			when h.dragonType='Core' then least(innum,3)")
+        .append("			when h.dragonType='Emerging' then least(innum,1) ")
+        .append("			end")
+        .append("		) / ")
+        .append("		sum( ")
+        .append("			case ")
+        .append("			when h.dragonType='Core' then 3 ")
+        .append("			when h.dragonType='Emerging' then 1 ")
+        .append("			end ")
+        .append("),0) as inRate ")
         .append(", 0 as aenum ")
         .append(", 0 as risknum ")
 		.append(LsAttributes.SQL_MONTHLY_STATISTICS_SELECTION)
-        .append(" from tbl_pediatrics_data_weekly ")
-        .append(" where duration between ? and ? ");
+        .append(" from tbl_pediatrics_data_weekly pd, tbl_hospital h ")
+        .append(" where duration between ? and ? and pd.hospitalCode = h.code ");
         return dataBean.getJdbcTemplate().queryForObject(inRateSQL.toString(), new Object[]{beginDuraion,endDuraion},new MonthlyStatisticsDataRowMapper());
 	}
 
