@@ -72,7 +72,7 @@ function checkForm(){
     <div style="position:absolute; left:-9999px;"><a href="#" id="setfoc"></a></div>
     <div data-role="page" id="home">
         <jsp:include page="page_header.jsp" flush="true">
-        	<jsp:param name="title" value="儿科每日门急诊雾化数据采集"/>
+        	<jsp:param name="title" value="儿科每周门急诊雾化数据采集"/>
         	<jsp:param name="basePath" value="<%=basePath%>"/>
         </jsp:include>
         <div data-role="content"  data-theme="a">
