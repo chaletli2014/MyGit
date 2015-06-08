@@ -875,11 +875,11 @@ public class ChestSurgeryDAOImpl implements ChestSurgeryDAO {
             .append("from ( ")
             .append("   SELECT ")
             .append("   h.code, ")
-            .append("   count_hos.inNum, ")
-            .append("   (sum(cd.pnum)/count_hos.inNum)*5 as pnum, ")
-            .append("   (sum(cd.risknum)/count_hos.inNum)*5 as risknum, ")
-            .append("   (sum(cd.whnum)/count_hos.inNum)*5 as whnum, ")
-            .append("   (sum(cd.lsnum)/count_hos.inNum)*5 as lsnum, ")
+            .append("   sum(1) as inNum, ")
+            .append("   (sum(cd.pnum)/sum(1))*5 as pnum, ")
+            .append("   (sum(cd.risknum)/sum(1))*5 as risknum, ")
+            .append("   (sum(cd.whnum)/sum(1))*5 as whnum, ")
+            .append("   (sum(cd.lsnum)/sum(1))*5 as lsnum, ")
             .append("   IFNULL( ")
             .append("       sum( ")
             .append("           ( ( 1*IFNULL(cd.oqd,0) + 2*1*IFNULL(cd.tqd,0) + 1*3*IFNULL(cd.otid,0) + 2*2*IFNULL(cd.tbid,0) + 2*3*IFNULL(cd.ttid,0) + 3*2*IFNULL(cd.thbid,0) + 4*2*IFNULL(cd.fbid,0) ) / 100 )* IFNULL(cd.lsnum,0) ")
@@ -890,24 +890,15 @@ public class ChestSurgeryDAOImpl implements ChestSurgeryDAO {
             .append("   IFNULL( sum(IFNULL(cd.tbid,0)*cd.lsnum/100)/sum(cd.lsnum),0 ) fmgRate, ")
             .append("   IFNULL( sum((IFNULL(cd.ttid,0)*cd.lsnum + IFNULL(cd.thbid,0)*cd.lsnum)/100)/sum(cd.lsnum),0 ) smgRate, ")
             .append("   IFNULL( sum(IFNULL(cd.fbid,0)*cd.lsnum/100)/sum(cd.lsnum),0 ) emgRate ")
-            .append("   FROM tbl_chestSurgery_data cd, tbl_hospital h, ")
-            .append("   (   ")
-            .append("       select count(1) as inNum, h.code ")
-            .append("       from tbl_chestSurgery_data cd, tbl_hospital h ")
-            .append("       WHERE cd.createdate between DATE_SUB(?, Interval 6 day) and DATE_ADD(?, Interval 1 day) ")
-            .append("       and cd.hospitalCode = h.code ")
-            .append("       and h.isChestSurgeryAssessed='1' ")
-            .append("       GROUP BY h.code ")
-            .append("   ) count_hos ")
+            .append("   FROM tbl_chestSurgery_data cd, tbl_hospital h ")
             .append("   WHERE cd.createdate between DATE_SUB(?, Interval 6 day) and DATE_ADD(?, Interval 1 day) ")
             .append("   and cd.hospitalCode = h.code ")
-            .append("   and h.code = count_hos.code")
             .append("   and h.isChestSurgeryAssessed='1' ")
             .append("   GROUP BY h.code ")
             .append(") cd_data ")
             .append("right join tbl_hospital h on cd_data.code = h.code ")
             .append("where h.isChestSurgeryAssessed='1'");
-        int result = dataBean.getJdbcTemplate().update(sb.toString(), new Object[]{lastweekDay,lastweekDay,lastweekDay,lastweekDay,lastweekDay,lastweekDay,lastweekDay,lastweekDay});
+        int result = dataBean.getJdbcTemplate().update(sb.toString(), new Object[]{lastweekDay,lastweekDay,lastweekDay,lastweekDay,lastweekDay,lastweekDay});
         logger.info(String.format("finish to generate the chest surgery weekly data, the result is %s", result));
     }
     
