@@ -6,6 +6,7 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
@@ -2978,6 +2979,88 @@ public class PediatricsDAOImpl implements PediatricsDAO {
         return dataBean.getJdbcTemplate().queryForObject(inRateSQL.toString(), new Object[]{beginDuraion,endDuraion},new MonthlyStatisticsEmergingDataRowMapper());
 	}
 	
+	@Override
+	public PediatricsData getPediatricsHomeDataByHospital( String hospitalCode ) throws Exception {
+		Date thisMonday = DateUtils.getTheBeginDateOfCurrentWeek();
+		Timestamp thisMondayParam = new Timestamp(thisMonday.getTime());
+		
+		Calendar calendar = Calendar.getInstance();
+        calendar.setTime(thisMonday);
+        calendar.add(Calendar.DAY_OF_MONTH, 7);
+        Timestamp nextMondayParam = new Timestamp(calendar.getTime().getTime());
+        
+		
+		StringBuilder sql = new StringBuilder(" select pd.*,h.code as hospitalCode,h.dsmName,h.isPedAssessed,h.dragonType ");
+		sql.append(" from tbl_pediatrics_data pd, tbl_hospital h ");
+		sql.append(" where h.code=? ");
+		sql.append(" and pd.hospitalName = h.name ");
+		sql.append(" and pd.createdate between ? and ? ");
+		sql.append(" order by pd.createdate desc limit 1");
+		return dataBean.getJdbcTemplate().queryForObject(sql.toString(), new Object[]{hospitalCode,thisMondayParam,nextMondayParam}, new PediatricsWithPortNumRowMapper());
+	}
+	
+	@Override
+	public PediatricsData getExistsPediatricsHomeDataByHospital( String hospitalCode ) throws Exception {
+		Date thisMonday = DateUtils.getTheBeginDateOfCurrentWeek();
+		Timestamp thisMondayParam = new Timestamp(thisMonday.getTime());
+		
+		Calendar calendar = Calendar.getInstance();
+		calendar.setTime(thisMonday);
+		calendar.add(Calendar.DAY_OF_MONTH, 7);
+		Timestamp nextMondayParam = new Timestamp(calendar.getTime().getTime());
+		
+		
+		StringBuilder sql = new StringBuilder(" select pd.*,h.code as hospitalCode,h.dsmName,h.isPedAssessed,h.dragonType ");
+		sql.append(" from tbl_pediatrics_data pd, tbl_hospital h ");
+		sql.append(" where h.code=? ");
+		sql.append(" and pd.hospitalName = h.name ");
+		sql.append(" and pd.createdate between ? and ? ");
+		sql.append(" and ( ( pd.home_wh_emerging_num1 != 0 ");
+		sql.append(" and pd.home_wh_emerging_num1 is not null ) ");
+		sql.append(" or ( pd.home_wh_room_num1 != 0 ");
+		sql.append(" and pd.home_wh_room_num1 is not null ) )");
+		return dataBean.getJdbcTemplate().queryForObject(sql.toString(), new Object[]{hospitalCode,thisMondayParam,nextMondayParam}, new PediatricsWithPortNumRowMapper());
+	}
+	
+	@Override
+	public void updateHomeData(PediatricsData pediatricsData, UserInfo operator)
+			throws Exception {
+		StringBuffer sql = new StringBuffer("update tbl_pediatrics_data set ");	
+		sql.append("updatedate=NOW()");
+	    sql.append(", home_wh_emerging_num1=? ");
+	    sql.append(", home_wh_emerging_num2=? ");
+	    sql.append(", home_wh_emerging_num3=? ");
+	    sql.append(", home_wh_emerging_num4=? ");
+		sql.append(", home_wh_room_num1=? ");
+		sql.append(", home_wh_room_num2=? ");
+		sql.append(", home_wh_room_num3=? ");
+		sql.append(", home_wh_room_num4=? ");
+		
+		List<Object> paramList = new ArrayList<Object>();
+	    paramList.add(pediatricsData.getHomeWhEmergingNum1());
+	    paramList.add(pediatricsData.getHomeWhEmergingNum2());
+	    paramList.add(pediatricsData.getHomeWhEmergingNum3());
+	    paramList.add(pediatricsData.getHomeWhEmergingNum4());
+		paramList.add(pediatricsData.getHomeWhRoomNum1());
+		paramList.add(pediatricsData.getHomeWhRoomNum2());
+		paramList.add(pediatricsData.getHomeWhRoomNum3());
+		paramList.add(pediatricsData.getHomeWhRoomNum4());
+		if( null == operator ){
+			logger.info("using web to update the data, no need to update the sales info");
+			paramList.add(pediatricsData.getDataId());
+		}else{
+//	    	sql.append(", etmsCode=? ");
+			sql.append(", operatorName=? ");
+			
+//	    	paramList.add(operator.getUserCode());
+			paramList.add(operator.getName());
+			paramList.add(pediatricsData.getDataId());
+		}
+		
+		sql.append(" where id=? ");
+		dataBean.getJdbcTemplate().update(sql.toString(), paramList.toArray());
+	}
+	
 	public DataBean getDataBean() {
         return dataBean;
     }
@@ -2985,4 +3068,8 @@ public class PediatricsDAOImpl implements PediatricsDAO {
     public void setDataBean(DataBean dataBean) {
         this.dataBean = dataBean;
     }
+
+
+
+
 }

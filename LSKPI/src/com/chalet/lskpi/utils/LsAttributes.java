@@ -83,6 +83,11 @@ public class LsAttributes {
     public static final String RETURNED_MESSAGE_15 = "操作已提交，请勿重复操作！";
     
     /**
+     * 儿科雾化数据未录入，无法录入儿科家庭雾化数据.
+     */
+    public static final String RETURNED_MESSAGE_16 = "儿科雾化数据未录入，无法录入儿科家庭雾化数据";
+    
+    /**
      * 获取用户信息失败，请重新登录APP.
      */
     public static final String NO_USER_FOUND = "获取用户信息失败，请重新登录APP";

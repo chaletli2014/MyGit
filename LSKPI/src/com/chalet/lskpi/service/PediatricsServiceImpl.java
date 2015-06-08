@@ -223,6 +223,25 @@ public class PediatricsServiceImpl implements PediatricsService {
 	}
 
 	@Override
+	public PediatricsData getPediatricsHomeDataByHospital( String hospitalCode ) throws Exception {
+		PediatricsData dbPedData = null;
+		try {
+			dbPedData = pediatricsDAO.getExistsPediatricsHomeDataByHospital(hospitalCode);
+		} catch (EmptyResultDataAccessException erd) {
+			logger.info("there is no exists ped home record found.");
+			try{
+				dbPedData = pediatricsDAO.getPediatricsHomeDataByHospital(hospitalCode);
+			}catch (EmptyResultDataAccessException er) {
+				logger.info("there is no ped home record found.");
+			}
+		}catch(Exception e){
+			logger.error("fail to get the pediatricsHome data by hospital - " + hospitalCode,e);
+		}
+		
+		return dbPedData;
+	}
+	
+	@Override
 	public PediatricsData getPediatricsDataById(int id) throws Exception {
 		try{
             return pediatricsDAO.getPediatricsDataById(id);
@@ -270,6 +289,13 @@ public class PediatricsServiceImpl implements PediatricsService {
 		pediatricsDAO.updateRoomData(pediatricsData, operator);
 	}
 
+	@Override
+	public void updateHomeData(PediatricsData pediatricsData, UserInfo operator)
+			throws Exception {
+        pediatricsDAO.updateHomeData(pediatricsData, operator);
+		
+	}
+	
 	@Override
 	public List<PediatricsData> getPediatricsDataByDate(Date createdatebegin, Date createdateend) throws Exception {
 		try{
@@ -1017,4 +1043,6 @@ public class PediatricsServiceImpl implements PediatricsService {
 			return new MonthlyStatisticsData();
 		}
 	}
+
+
 }

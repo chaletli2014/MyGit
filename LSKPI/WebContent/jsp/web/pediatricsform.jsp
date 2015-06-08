@@ -32,11 +32,11 @@ function checkForm(){
     if( !obj1ltobj2("homeWhEmergingNum2","homeWhEmergingNum1") ){
         return false;
     }
-    
+    /**
     if( !obj1ltobj2("whnum","lsnum") ){
         return false;
     }
-
+    */
     if( !obj1ltobj2("pnum","lsnum") ){
         return false;
     }
@@ -77,7 +77,7 @@ function checkForm(){
         </jsp:include>
         <div data-role="content"  data-theme="a">
         	<div class="roundCorner">
-        	<div class="report_process_bg_description">标*为Core医院，每周填报3次；标**为Emerging医院，每周填报1次</div>
+        	<div class="report_process_bg_description">标*为Core医院，标**为Emerging医院，所有医院每周只填报一次</div>
             <form id="pediatricsForm" action="collectPediatrics" method="POST" data-ajax="false">
             	<input type="hidden" name="dataId" value="${existedData.dataId}"/>
 	        	<input type="hidden" name="selectedHospital" value="${selectedHospital}"/>
@@ -216,7 +216,7 @@ function checkForm(){
 	                <div class="ui-block-b">
 	                </div>
 	            </div>
-	            
+	            <%-- 
                 <div class="form_group_title">门急诊家庭雾化</div>
                 <HR style="FILTER: alpha(opacity=100,finishopacity=0,style=1)" width="100%" color=#987cb9 SIZE=3>
                 
@@ -248,6 +248,7 @@ function checkForm(){
 		                </div>
 	                </div>
 	            </div>
+	            --%>
 	            <%--
                 <div data-role="fieldcontain" class="formCollection">
                     <label for="recipeType" >该医院主要处方方式</label>
@@ -258,6 +259,7 @@ function checkForm(){
                     </select>
                 </div>
 	             --%>
+	             
                 <div style="text-align: center;">
 		            <a class="submit_btn" href="javascript:void(0)" onclick="submitForm()">
 			            <img alt="" src="<%=basePath%>images/button_submit.png" style="cursor: pointer;" />
@@ -269,7 +271,7 @@ function checkForm(){
         <%@include file="../popupConfirm.jsp" %>
         <jsp:include page="page_footer.jsp">
             <jsp:param value="<%=basePath%>" name="basePath"/>
-            <jsp:param value="collectData" name="backURL"/>
+            <jsp:param value="collectPediatricsData" name="backURL"/>
         </jsp:include>
     </div>
 </body>  

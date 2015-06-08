@@ -13,12 +13,17 @@
         	<jsp:param name="basePath" value="<%=basePath%>"/>
         </jsp:include>
         <div data-role="content" data-theme="a">
+            <div data-role="fieldcontain" class="department_img_div">
+	            <img alt="" src="<%=basePath%>images/img_bg_ped_w.png" onclick="javascript:window.location.href='<%=basePath%>collectPediatricsData'" style="cursor: pointer;">
+        	</div>
+            <%-- 
         	<div data-role="fieldcontain" class="department_img_div">
 	            <img alt="" src="<%=basePath%>images/img_bg_ped_emerging_w.png" onclick="javascript:window.location.href='<%=basePath%>pediatrics'" style="cursor: pointer;">
         	</div>
         	<div data-role="fieldcontain" class="department_img_div">
 	            <img alt="" src="<%=basePath%>images/img_bg_ped_room_w.png" onclick="javascript:window.location.href='<%=basePath%>pediatricsRoom'" style="cursor: pointer;">
         	</div>
+        	--%>
         	<div data-role="fieldcontain" class="department_img_div">
 	            <img alt="" src="<%=basePath%>images/img_bg_res_w.png" onclick="javascript:window.location.href='<%=basePath%>respirology'" style="cursor: pointer;">
         	</div>

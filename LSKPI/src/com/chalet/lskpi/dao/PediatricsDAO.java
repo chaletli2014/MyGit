@@ -26,6 +26,20 @@ public interface PediatricsDAO {
 
     public PediatricsData getPediatricsDataByHospital(String hospitalCode) throws Exception;
     public PediatricsData getPediatricsRoomDataByHospital(String hospitalCode) throws Exception;
+    /**
+     * 获取当周参数医院对应的儿科的最新一条数据
+     * @param hospitalCode
+     * @return
+     * @throws Exception
+     */
+    public PediatricsData getPediatricsHomeDataByHospital(String hospitalCode) throws Exception;
+    /**
+     * 获取当周参数医院对应的儿科已经录入过的家庭雾化数据
+     * @param hospitalCode
+     * @return
+     * @throws Exception
+     */
+    public PediatricsData getExistsPediatricsHomeDataByHospital(String hospitalCode) throws Exception;
     public PediatricsData getPediatricsDataByHospitalAndDate(String hospitalName, Date createdate) throws Exception;
     public List<PediatricsData> getPediatricsDataByDate(Date createdatebegin, Date createdateend) throws Exception;
     public PediatricsData getPediatricsDataById(int id) throws Exception;
@@ -34,6 +48,7 @@ public interface PediatricsDAO {
 	public void update(PediatricsData pediatricsData, UserInfo operator) throws Exception;
 	public void insertRoomData(PediatricsData pediatricsData, UserInfo operator, Hospital hospital) throws Exception;
 	public void updateRoomData(PediatricsData pediatricsData, UserInfo operator) throws Exception;
+	public void updateHomeData(PediatricsData pediatricsData,UserInfo operator)throws Exception;
 	
 	public MobilePEDDailyData getDailyPEDData4CountoryMobile(Timestamp paramDate, String hospitalShownFlag)throws Exception;
 	public List<MobilePEDDailyData> getDailyPEDData4RSMByRegion(String region, String hospitalShownFlag) throws Exception;

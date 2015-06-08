@@ -109,6 +109,20 @@ public class IndexController extends BaseController{
         return view;
     }
     
+    @RequestMapping("/collectPediatricsData")
+    public ModelAndView collectPediatricsData(HttpServletRequest request){
+        ModelAndView view = new LsKPIModelAndView(request);
+        String currentUserTel = verifyCurrentUser(request,view);
+        UserInfo currentUser = (UserInfo)request.getSession().getAttribute(LsAttributes.CURRENT_OPERATOR_OBJECT);
+        logger.info(String.format("current user's telephone is %s, the user in session is %s", currentUserTel,currentUser));
+        if( !super.isCurrentUserValid(currentUser, currentUserTel, view, false) ){
+        	return view;
+        }
+        
+        view.setViewName("peddepartment");
+        return view;
+    }
+    
     @RequestMapping("/collectmonthlydata")
     public ModelAndView collectmonthlydata(HttpServletRequest request){
     	ModelAndView view = new LsKPIModelAndView(request);
@@ -492,6 +506,77 @@ public class IndexController extends BaseController{
     }
     
     /**
+     * 儿科家庭雾化初始化界面
+     * @param request
+     * @return
+     */
+    @RequestMapping("/pediatricsHome")
+    public ModelAndView pediatricsHome(HttpServletRequest request){
+        ModelAndView view = new LsKPIModelAndView(request);
+        String operator_telephone = verifyCurrentUser(request,view);
+        
+        UserInfo currentUser = (UserInfo)request.getSession().getAttribute(LsAttributes.CURRENT_OPERATOR_OBJECT);
+        if( !super.isCurrentUserValid(currentUser, operator_telephone, view, true) ){
+        	return view;
+        }
+        
+        List<Hospital> hospitals = new ArrayList<Hospital>();
+        try{
+            hospitals = hospitalService.getHospitalsByUserTel(operator_telephone,LsAttributes.DEPARTMENT_PED);
+            
+            List<String> recipeTypes = new ArrayList<String>();
+            for( int i = 1; i <=7; i++ ){
+                recipeTypes.add(i+"");
+            }
+            
+            view.addObject("recipeTypes", recipeTypes);
+            view.addObject("hospitals", hospitals);
+            
+            String selectedHospital = request.getParameter("selectedHospital");
+            PediatricsData existedData = new PediatricsData();
+            if( (null != selectedHospital && !"".equalsIgnoreCase(selectedHospital)) ){
+            	
+            	logger.info("get the pediatrics data of the selected hospital - " + selectedHospital);
+            	existedData = pediatricsService.getPediatricsHomeDataByHospital(selectedHospital);  
+                if (null == existedData) {
+    				 request.getSession().setAttribute(LsAttributes.COLLECT_PEDIATRICS_MESSAGE, LsAttributes.RETURNED_MESSAGE_16);
+    			}
+                
+                Hospital hospital = hospitalService.getHospitalByCode(selectedHospital);
+                
+                if( existedData != null ){
+			    	logger.info(String.format("init ped existedData is %s", existedData.getHospitalName()));
+			    }
+                view.addObject("selectedHospital", selectedHospital);
+                
+                //if existedData is null, then the data is not set, the port num should be shown as the one of hospital.
+                if( existedData == null ){
+                	existedData = new PediatricsData();
+                	existedData.setPortNum(hospital.getPortNum());
+                }
+                
+                view.addObject("hosObj", hospital);
+            }
+            
+            view.addObject("existedData", existedData);
+            
+            String message = "";
+            if( null != request.getSession().getAttribute(LsAttributes.COLLECT_PEDIATRICS_MESSAGE) ){
+                message = (String)request.getSession().getAttribute(LsAttributes.COLLECT_PEDIATRICS_MESSAGE);
+            }
+            view.addObject(LsAttributes.JSP_VERIFY_MESSAGE, message);
+            request.getSession().removeAttribute(LsAttributes.COLLECT_PEDIATRICS_MESSAGE);
+            
+        }catch(Exception e){
+            logger.info("fail to init the pediatricsHome,",e);
+        }
+        view.setViewName("pediatricsHomeform");
+        return view;
+    }
+    
+    
+    
+    /**
      * 儿科病房初始化界面
      * @param request
      * @return
@@ -631,6 +716,52 @@ public class IndexController extends BaseController{
         return "redirect:pediatrics";
     }
     
+    @RequestMapping("/collectPediatricsHome")
+    public String collectPediatricsHome(HttpServletRequest request){
+    	String operator_telephone = (String)request.getSession(true).getAttribute(LsAttributes.CURRENT_OPERATOR);
+    	logger.info("collectPediatrics, user = "+operator_telephone);
+        try{
+        	UserInfo currentUser = (UserInfo)request.getSession().getAttribute(LsAttributes.CURRENT_OPERATOR_OBJECT);
+            if( null == operator_telephone || "".equalsIgnoreCase(operator_telephone) || null == currentUser ){
+                request.getSession().setAttribute(LsAttributes.COLLECT_PEDIATRICS_MESSAGE, LsAttributes.NO_USER_FOUND_WEB);
+            	return "redirect:pediatricsHome";
+            }
+            if( ! ( LsAttributes.USER_LEVEL_REP.equalsIgnoreCase(currentUser.getLevel()) 
+                            || LsAttributes.USER_LEVEL_DSM.equalsIgnoreCase(currentUser.getLevel()))){
+                request.getSession().setAttribute(LsAttributes.COLLECT_PEDIATRICS_MESSAGE, LsAttributes.RETURNED_MESSAGE_3);
+                return "redirect:pediatricsHome";
+            }
+            
+            String dataId = request.getParameter("dataId");
+            String hospitalCode = request.getParameter("hospital");
+            
+            if( null == hospitalCode || "".equalsIgnoreCase(hospitalCode) ){
+            	request.getSession().setAttribute(LsAttributes.COLLECT_PEDIATRICS_MESSAGE, LsAttributes.RETURNED_MESSAGE_7);
+            	return "redirect:pediatricsHome";
+            }            
+            logger.info(String.format("doing the data persistence, dataId is %s, hospital is %s", dataId,hospitalCode));
+            PediatricsData pediatricsHomeData=pediatricsService.getPediatricsHomeDataByHospital(hospitalCode);  
+            if (null != pediatricsHomeData) {
+                 populatePediatricsData(request,pediatricsHomeData);
+                 pediatricsService.updateHomeData(pediatricsHomeData, currentUser);
+                 request.getSession().setAttribute(LsAttributes.COLLECT_PEDIATRICS_MESSAGE, LsAttributes.RETURNED_MESSAGE_0);
+			}else {
+				 request.getSession().setAttribute(LsAttributes.COLLECT_PEDIATRICS_MESSAGE, LsAttributes.RETURNED_MESSAGE_16);
+			}
+            
+        }catch(Exception e){
+            logger.error("fail to collect pediatricsHome "+e.getMessage(),e);
+            request.getSession().setAttribute(LsAttributes.COLLECT_PEDIATRICS_MESSAGE, LsAttributes.RETURNED_MESSAGE_1);
+        }
+        
+        return "redirect:pediatricsHome";
+    }  
+    
+    /**
+     * 儿科病房雾化数据采集
+     * @param request
+     * @return
+     */
     @RequestMapping("/collectPediatricsRoom")
     public String collectPediatricsRoom(HttpServletRequest request){
     	String operator_telephone = (String)request.getSession(true).getAttribute(LsAttributes.CURRENT_OPERATOR);

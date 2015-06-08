@@ -214,7 +214,7 @@ function checkForm(){
 	                <div class="ui-block-b">
 	                </div>
 	            </div>
-	            
+	            <%-- 
                 <div class="form_group_title">门急诊家庭雾化</div>
                 <HR style="FILTER: alpha(opacity=100,finishopacity=0,style=1)" width="100%" color=#987cb9 SIZE=3>
                 
@@ -246,6 +246,7 @@ function checkForm(){
 		                </div>
 	                </div>
 	            </div>
+	           --%> 
 	            <%--
                 <div data-role="fieldcontain" class="formCollection">
                     <label for="recipeType" >该医院主要处方方式</label>
@@ -267,7 +268,7 @@ function checkForm(){
         <%@include file="popupConfirm.jsp" %>
         <jsp:include page="page_footer.jsp">
             <jsp:param value="<%=basePath%>" name="basePath"/>
-            <jsp:param value="collectData" name="backURL"/>
+            <jsp:param value="collectPediatricsData" name="backURL"/>
         </jsp:include>
     </div>
 </body>  

@@ -42,6 +42,9 @@ public class PediatricsRoomRowMapper implements RowMapper<PediatricsData>{
     	pediatricsData.setWhdaysRoom5Rate(rs.getDouble("whdays_room_5"));
     	pediatricsData.setWhdaysRoom6Rate(rs.getDouble("whdays_room_6"));
     	pediatricsData.setWhdaysRoom7Rate(rs.getDouble("whdays_room_7"));
+    	pediatricsData.setWhdaysRoom8Rate(rs.getDouble("whdays_room_8"));
+    	pediatricsData.setWhdaysRoom9Rate(rs.getDouble("whdays_room_9"));
+    	pediatricsData.setWhdaysRoom10Rate(rs.getDouble("whdays_room_10"));
     	pediatricsData.setHomeWhRoomNum1(rs.getInt("home_wh_room_num1"));
     	pediatricsData.setHomeWhRoomNum2(rs.getInt("home_wh_room_num2"));
     	pediatricsData.setHomeWhRoomNum3(rs.getInt("home_wh_room_num3"));
