@@ -1432,7 +1432,7 @@ public class RespirologyDAOImpl implements RespirologyDAO {
 	            .append(LsAttributes.SQL_MONTHLY_STATISTICS_CORE_EMERGING_SELECTION_RES)
 	            .append(" from tbl_respirology_data_weekly, tbl_hospital h ")
 	            .append(LsAttributes.SQL_MONTHLY_STATISTICS_EMERGING_RSD_CONDITION)
-	            .append(" and h.isAssessed='1' ")
+	            .append(" and h.isResAssessed='1' ")
 				.append(LsAttributes.SQL_MONTHLY_STATISTICS_RSD_GROUP);
 				break;
 			case LsAttributes.USER_LEVEL_RSM:
@@ -1440,7 +1440,7 @@ public class RespirologyDAOImpl implements RespirologyDAO {
 	            .append(LsAttributes.SQL_MONTHLY_STATISTICS_CORE_EMERGING_SELECTION_RES)
 	            .append(" from tbl_respirology_data_weekly, tbl_hospital h ")
 	            .append(LsAttributes.SQL_MONTHLY_STATISTICS_EMERGING_RSM_CONDITION)
-				.append(" and h.isAssessed='1' ")
+				.append(" and h.isResAssessed='1' ")
 				.append(LsAttributes.SQL_MONTHLY_STATISTICS_RSM_GROUP);
 				break;
 			case LsAttributes.USER_LEVEL_DSM:
@@ -1449,7 +1449,7 @@ public class RespirologyDAOImpl implements RespirologyDAO {
 	            .append(LsAttributes.SQL_MONTHLY_STATISTICS_CORE_EMERGING_SELECTION_RES)
 	            .append(" from tbl_respirology_data_weekly, tbl_hospital h ")
 		        .append(LsAttributes.SQL_MONTHLY_STATISTICS_EMERGING_DSM_CONDITION)
-		        .append(" and h.isAssessed='1' ")
+		        .append(" and h.isResAssessed='1' ")
 				.append(LsAttributes.SQL_MONTHLY_STATISTICS_DSM_GROUP);
 				break;
 		}
