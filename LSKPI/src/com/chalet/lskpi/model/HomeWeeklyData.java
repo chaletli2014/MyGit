@@ -40,6 +40,51 @@ public class HomeWeeklyData {
     private int reportNum;
     
     private double inRate;
+    
+    /**
+     * 卖赠泵数量
+     */
+    private int homeWhNum1;
+    
+    /**
+     * 平均带药天数
+     */
+    private double averDays;
+    
+    /**
+     * 总带药支数
+     */
+    private int homeWhNum4;
+    
+    /**
+     * 儿科家庭雾化上报医院数
+     */
+    private int inNum;
+    
+    /**
+     * 儿科病房卖赠泵数量
+     */
+    private int homeRoomWhNum1;
+    
+    /**
+     * 儿科病房平均带药天数
+     */
+    private double roomAverDays;
+    
+    /**
+     * 儿科病房总带药支数
+     */
+    private int homeRoomWhNum4;
+    
+    /**
+     * 儿科病房家庭雾化上报医院数
+     */
+    private int roomInNum;
+    
+    /**
+     * 儿科病房家庭雾化上报率
+     */
+    private double roomInRate;
 
     public int getTotalDrNum() {
         return totalDrNum;
@@ -156,5 +201,77 @@ public class HomeWeeklyData {
 
 	public void setInRate(double inRate) {
 		this.inRate = inRate;
+	}
+
+	public int getHomeWhNum1() {
+		return homeWhNum1;
+	}
+
+	public void setHomeWhNum1(int homeWhNum1) {
+		this.homeWhNum1 = homeWhNum1;
+	}
+
+	public double getAverDays() {
+		return averDays;
+	}
+
+	public void setAverDays(double averDays) {
+		this.averDays = averDays;
+	}
+
+	public int getHomeWhNum4() {
+		return homeWhNum4;
+	}
+
+	public void setHomeWhNum4(int homeWhNum4) {
+		this.homeWhNum4 = homeWhNum4;
+	}
+
+	public int getInNum() {
+		return inNum;
+	}
+
+	public void setInNum(int inNum) {
+		this.inNum = inNum;
+	}
+
+	public int getHomeRoomWhNum1() {
+		return homeRoomWhNum1;
+	}
+
+	public void setHomeRoomWhNum1(int homeRoomWhNum1) {
+		this.homeRoomWhNum1 = homeRoomWhNum1;
+	}
+
+	public double getRoomAverDays() {
+		return roomAverDays;
+	}
+
+	public void setRoomAverDays(double roomAverDays) {
+		this.roomAverDays = roomAverDays;
+	}
+
+	public int getHomeRoomWhNum4() {
+		return homeRoomWhNum4;
+	}
+
+	public void setHomeRoomWhNum4(int homeRoomWhNum4) {
+		this.homeRoomWhNum4 = homeRoomWhNum4;
+	}
+
+	public int getRoomInNum() {
+		return roomInNum;
+	}
+
+	public void setRoomInNum(int roomInNum) {
+		this.roomInNum = roomInNum;
+	}
+
+	public double getRoomInRate() {
+		return roomInRate;
+	}
+
+	public void setRoomInRate(double roomInRate) {
+		this.roomInRate = roomInRate;
 	}
 }

@@ -388,11 +388,17 @@ public class BaseController {
         view.addObject("titleSuffix", titleSuffix.toString());
     }
     
-    public void populateHomeWeeklyReportTitle4AllRSM(ModelAndView view){
+    public void populateHomeWeeklyReportTitle4AllRSM(ModelAndView view, String pedType){
     	StringBuffer titleSuffix = new StringBuffer();
     	titleSuffix.append(LsAttributes.DAILYREPORTTITLE_2)
-    	.append(LsAttributes.USER_LEVEL_RSM)
-    	.append(LsAttributes.HOMEWEEKLYREPORTTITLE);
+    	.append(LsAttributes.USER_LEVEL_RSM);
+    	
+    	if( "emerging".equalsIgnoreCase(pedType) ){
+    		titleSuffix.append(LsAttributes.HOMEWEEKLYREPORTTITLE_EMERGING);
+    	}else if( "room".equalsIgnoreCase(pedType) ){
+    		titleSuffix.append(LsAttributes.HOMEWEEKLYREPORTTITLE_ROOM);
+    	}
+    	titleSuffix.append(LsAttributes.HOMEWEEKLYREPORTTITLE);
     	
     	view.addObject("titleSuffix", titleSuffix.toString());
     }

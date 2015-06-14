@@ -21,6 +21,7 @@ import com.chalet.lskpi.mapper.HomeDataExportRowMapper;
 import com.chalet.lskpi.mapper.HomeDataRowMapper;
 import com.chalet.lskpi.mapper.HomeWeeklyDataRowMapper;
 import com.chalet.lskpi.mapper.NoReportDoctorRowMapper;
+import com.chalet.lskpi.mapper.PedHomeWeeklyDataRowMapper;
 import com.chalet.lskpi.model.ExportDoctor;
 import com.chalet.lskpi.model.HomeData;
 import com.chalet.lskpi.model.HomeWeeklyData;
@@ -662,5 +663,239 @@ public class HomeDAOImpl implements HomeDAO {
 		sb.append(" delete from tbl_doctor_weekly where duration = ?");
 		int rowNum = dataBean.getJdbcTemplate().update(sb.toString(), duration);
 		logger.info(String.format("remove old doctor done, number is %s", rowNum));
+	}
+
+	@Override
+	public List<HomeWeeklyData> getPedHomeWeeklyDataOfSales(
+			String pedType, String dsmCode, String region, Date beginDate, Date endDate)
+			throws Exception {
+		StringBuffer sql = new StringBuffer("");
+		
+        sql.append(LsAttributes.SQL_PED_HOME_WEEKLY_DATA_SELECTION)
+        	.append(",ui.name ")
+        	.append(", '' as regionCenterCN ")
+        	.append(", (select count(1) from tbl_hospital h1 ")
+        	.append("	where h1.isPedAssessed = '1' and h1.rsmRegion = ui.region and h1.dsmCode = ui.superior and h1.saleCode = ui.userCode ) as hosNum ")
+        	.append("from ( ");
+
+        if( "emerging".equalsIgnoreCase(pedType) ){
+        	sql.append(LsAttributes.SQL_PED_HOME_WEEKLY_DATA_SUB_SELECTION);
+        }else{
+        	sql.append(LsAttributes.SQL_PED_ROOM_HOME_WEEKLY_DATA_SUB_SELECTION);
+        }
+        
+		sql.append("			,h.saleCode ")
+			.append(LsAttributes.SQL_PED_HOME_WEEKLY_DATA_SUB2_SELECTION)
+			.append("			and h.dsmCode = ? ")
+			.append("			and h.rsmRegion = ? ")
+			.append("			group by h.rsmRegion,h.dsmCode,h.saleCode ")
+	        .append(") homeData")
+	        .append(" right join tbl_userinfo ui on ui.userCode = homeData.saleCode ")
+	        .append(" where ui.superior = ? and ui.region= ? and ui.level='REP' ");
+        return dataBean.getJdbcTemplate().query(sql.toString(), new Object[]{
+        	new Timestamp(beginDate.getTime()), new Timestamp(endDate.getTime())
+        	, dsmCode, region, dsmCode, region}
+        	, new PedHomeWeeklyDataRowMapper());
+	}
+
+	@Override
+	public List<HomeWeeklyData> getPedHomeWeeklyDataOfDSM(
+			String pedType, String region, Date beginDate, Date endDate) throws Exception {
+		StringBuffer sql = new StringBuffer("");
+		
+        sql.append(LsAttributes.SQL_PED_HOME_WEEKLY_DATA_SELECTION)
+        	.append(",ui.name ")
+        	.append(", '' as regionCenterCN ")
+        	.append(", (select count(1) from tbl_hospital h1 where h1.isPedAssessed = '1' and h1.rsmRegion = ui.region and h1.dsmCode = ui.userCode ) as hosNum ")
+        	.append("from ( ");
+
+        if( "emerging".equalsIgnoreCase(pedType) ){
+        	sql.append(LsAttributes.SQL_PED_HOME_WEEKLY_DATA_SUB_SELECTION);
+        }else{
+        	sql.append(LsAttributes.SQL_PED_ROOM_HOME_WEEKLY_DATA_SUB_SELECTION);
+        }
+        
+		sql.append("			,h.dsmCode ")
+			.append(LsAttributes.SQL_PED_HOME_WEEKLY_DATA_SUB2_SELECTION)
+			.append("			and h.rsmRegion = ? ")
+			.append("			group by h.rsmRegion,h.dsmCode ")
+	        .append(") homeData")
+	        .append(" right join tbl_userinfo ui on ui.userCode = homeData.dsmCode ")
+	        .append(" where ui.region= ? and ui.level='DSM' ");
+        return dataBean.getJdbcTemplate().query(sql.toString(), new Object[]{
+        	new Timestamp(beginDate.getTime()), new Timestamp(endDate.getTime())
+        	, region, region}
+        	, new PedHomeWeeklyDataRowMapper());
+	}
+
+	@Override
+	public List<HomeWeeklyData> getPedHomeWeeklyDataOfRSM(
+			String pedType, String regionCenter, Date beginDate, Date endDate) throws Exception {
+		StringBuffer sql = new StringBuffer("");
+		
+        sql.append(LsAttributes.SQL_PED_HOME_WEEKLY_DATA_SELECTION)
+        	.append(", ui.region as name ")
+        	.append(", (select distinct property_value from tbl_property where property_name=ui.regionCenter ) as regionCenterCN ")
+        	.append(", (select count(1) from tbl_hospital h1 where h1.isPedAssessed = '1' and h1.rsmRegion = ui.region ) as hosNum ")
+        	.append("from ( ");
+
+        if( "emerging".equalsIgnoreCase(pedType) ){
+        	sql.append(LsAttributes.SQL_PED_HOME_WEEKLY_DATA_SUB_SELECTION);
+        }else{
+        	sql.append(LsAttributes.SQL_PED_ROOM_HOME_WEEKLY_DATA_SUB_SELECTION);
+        }
+		sql.append("			,h.rsmRegion ")
+			.append(LsAttributes.SQL_PED_HOME_WEEKLY_DATA_SUB2_SELECTION)
+			.append("			and h.region = ? ")
+			.append("			group by h.rsmRegion ")
+	        .append(") homeData")
+	        .append(" right join tbl_userinfo ui on ui.region = homeData.rsmRegion ")
+	        .append(" where ui.regionCenter= ? and ui.level='RSM' ");
+        return dataBean.getJdbcTemplate().query(sql.toString(), new Object[]{
+        	new Timestamp(beginDate.getTime()), new Timestamp(endDate.getTime())
+        	, regionCenter, regionCenter}
+        	, new PedHomeWeeklyDataRowMapper());
+	}
+
+	@Override
+	public List<HomeWeeklyData> getPedHomeWeeklyDataOfRSD(
+			String pedType, Date beginDate, Date endDate) throws Exception {
+		StringBuffer sql = new StringBuffer("");
+		
+        sql.append(LsAttributes.SQL_PED_HOME_WEEKLY_DATA_SELECTION)
+        	.append(", (select distinct property_value from tbl_property where property_name=ui.regionCenter ) as name ")
+        	.append(", '' as regionCenterCN ")
+        	.append(", (select count(1) from tbl_hospital h1 where h1.isPedAssessed = '1' and h1.region = ui.regionCenter ) as hosNum ")
+        	.append("from ( ");
+        
+        if( "emerging".equalsIgnoreCase(pedType) ){
+        	sql.append(LsAttributes.SQL_PED_HOME_WEEKLY_DATA_SUB_SELECTION);
+        }else{
+        	sql.append(LsAttributes.SQL_PED_ROOM_HOME_WEEKLY_DATA_SUB_SELECTION);
+        }
+        
+        sql.append("			,h.region ")
+			.append(LsAttributes.SQL_PED_HOME_WEEKLY_DATA_SUB2_SELECTION)
+			.append("			group by h.region ")
+	        .append(") homeData")
+	        .append(" right join tbl_userinfo ui on ui.regionCenter = homeData.region ")
+	        .append(" where ui.level='RSD' ");
+        return dataBean.getJdbcTemplate().query(sql.toString(), new Object[]{
+        	new Timestamp(beginDate.getTime()), new Timestamp(endDate.getTime())}
+        	, new PedHomeWeeklyDataRowMapper());
+	}
+
+	@Override
+	public HomeWeeklyData getPedHomeWeeklyDataOfCountory(
+			String pedType, Date beginDate, Date endDate) throws Exception {
+		StringBuffer sql = new StringBuffer("");
+		
+        sql.append(LsAttributes.SQL_PED_HOME_WEEKLY_DATA_SELECTION)
+        	.append(", '全国' as name ")
+        	.append(", '' as regionCenterCN ")
+        	.append(", (select count(1) from tbl_hospital h1 where h1.isPedAssessed = '1' ) as hosNum ")
+        	.append("from ( ");
+
+        if( "emerging".equalsIgnoreCase(pedType) ){
+        	sql.append(LsAttributes.SQL_PED_HOME_WEEKLY_DATA_SUB_SELECTION);
+        }else{
+        	sql.append(LsAttributes.SQL_PED_ROOM_HOME_WEEKLY_DATA_SUB_SELECTION);
+        }
+        
+		sql.append(LsAttributes.SQL_PED_HOME_WEEKLY_DATA_SUB2_SELECTION)
+	        .append(") homeData");
+        return dataBean.getJdbcTemplate().queryForObject(sql.toString(), new Object[]{
+        	new Timestamp(beginDate.getTime()), new Timestamp(endDate.getTime())}
+        	, new PedHomeWeeklyDataRowMapper());
+	}
+
+	@Override
+	public HomeWeeklyData getPedHomeWeeklyDataOfSingleRSD(
+			String pedType, String regionCenter, Date beginDate, Date endDate) throws Exception {
+		StringBuffer sql = new StringBuffer("");
+		
+        sql.append(LsAttributes.SQL_PED_HOME_WEEKLY_DATA_SELECTION)
+        	.append(", (select distinct property_value from tbl_property where property_name=? ) as name ")
+        	.append(", '' as regionCenterCN ")
+        	.append(", (select count(1) from tbl_hospital h1 where h1.isPedAssessed = '1' and h1.region = ui.regionCenter ) as hosNum ")
+        	.append("from ( ");
+
+        if( "emerging".equalsIgnoreCase(pedType) ){
+        	sql.append(LsAttributes.SQL_PED_HOME_WEEKLY_DATA_SUB_SELECTION);
+        }else{
+        	sql.append(LsAttributes.SQL_PED_ROOM_HOME_WEEKLY_DATA_SUB_SELECTION);
+        }
+        
+		sql.append("			,h.region ")
+			.append(LsAttributes.SQL_PED_HOME_WEEKLY_DATA_SUB2_SELECTION)
+			.append("			and h.region = ? ")
+	        .append(") homeData")
+	        .append(" right join tbl_userinfo ui on ui.regionCenter = homeData.region ")
+	        .append(" where ui.level='RSD' and ui.regionCenter = ? ");
+        return dataBean.getJdbcTemplate().queryForObject(sql.toString(), new Object[]{
+        	regionCenter, new Timestamp(beginDate.getTime()), new Timestamp(endDate.getTime())
+        	,regionCenter,regionCenter}
+        	, new PedHomeWeeklyDataRowMapper());
+	}
+
+	@Override
+	public HomeWeeklyData getPedHomeWeeklyDataOfSingleRSM(
+			String pedType, String region, Date beginDate, Date endDate) throws Exception {
+		StringBuffer sql = new StringBuffer("");
+		
+        sql.append(LsAttributes.SQL_PED_HOME_WEEKLY_DATA_SELECTION)
+        	.append(", ui.region as name ")
+        	.append(", (select distinct property_value from tbl_property where property_name=ui.regionCenter ) as regionCenterCN ")
+        	.append(", (select count(1) from tbl_hospital h1 where h1.isPedAssessed = '1' and h1.rsmRegion = ui.region ) as hosNum ")
+        	.append("from ( ");
+
+        if( "emerging".equalsIgnoreCase(pedType) ){
+        	sql.append(LsAttributes.SQL_PED_HOME_WEEKLY_DATA_SUB_SELECTION);
+        }else{
+        	sql.append(LsAttributes.SQL_PED_ROOM_HOME_WEEKLY_DATA_SUB_SELECTION);
+        }
+        
+		sql.append("			,h.rsmRegion ")
+			.append(LsAttributes.SQL_PED_HOME_WEEKLY_DATA_SUB2_SELECTION)
+			.append("			and h.rsmRegion = ? ")
+	        .append(") homeData")
+	        .append(" right join tbl_userinfo ui on ui.region = homeData.rsmRegion ")
+	        .append(" where ui.level='RSM' and ui.region = ? ");
+        return dataBean.getJdbcTemplate().queryForObject(sql.toString(), new Object[]{
+        	new Timestamp(beginDate.getTime()), new Timestamp(endDate.getTime())
+        	,region,region}
+        	, new PedHomeWeeklyDataRowMapper());
+	}
+
+	@Override
+	public HomeWeeklyData getPedHomeWeeklyDataOfSingleDSM(
+			String pedType, String dsmCode, String region, Date beginDate, Date endDate)
+			throws Exception {
+		StringBuffer sql = new StringBuffer("");
+		
+        sql.append(LsAttributes.SQL_PED_HOME_WEEKLY_DATA_SELECTION)
+        	.append(", ui.name as name ")
+        	.append(", '' as regionCenterCN ")
+        	.append(", (select count(1) from tbl_hospital h1 where h1.isPedAssessed = '1' and h1.rsmRegion = ui.region and h1.dsmCode = ui.userCode ) as hosNum ")
+        	.append("from ( ");
+
+        if( "emerging".equalsIgnoreCase(pedType) ){
+        	sql.append(LsAttributes.SQL_PED_HOME_WEEKLY_DATA_SUB_SELECTION);
+        }else{
+        	sql.append(LsAttributes.SQL_PED_ROOM_HOME_WEEKLY_DATA_SUB_SELECTION);
+        }
+        
+		sql.append("			,h.dsmCode ")
+			.append("			,h.rsmRegion ")
+			.append(LsAttributes.SQL_PED_HOME_WEEKLY_DATA_SUB2_SELECTION)
+			.append("			and h.dsmCode = ? ")
+			.append("			and h.rsmRegion = ? ")
+	        .append(") homeData")
+	        .append(" right join tbl_userinfo ui on ui.userCode = homeData.dsmCode and ui.region = homeData.rsmRegion ")
+	        .append(" where ui.level='DSM' and ui.userCode = ? and ui.region = ? ");
+        return dataBean.getJdbcTemplate().queryForObject(sql.toString(), new Object[]{
+        	new Timestamp(beginDate.getTime()), new Timestamp(endDate.getTime())
+        	,dsmCode,region,dsmCode,region}
+        	, new PedHomeWeeklyDataRowMapper());
 	}
 }

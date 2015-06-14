@@ -174,6 +174,8 @@ public class LsAttributes {
     public static final String MONTHLYCOLLECTIONDATEERROR="销售袋数采集为次月1号到10号，目前无法录入";
     
     public static final String HOMEWEEKLYREPORTTITLE = "家庭雾化周报";
+    public static final String HOMEWEEKLYREPORTTITLE_EMERGING="门急诊";
+    public static final String HOMEWEEKLYREPORTTITLE_ROOM="病房";
     
     public static final String DATAQUERY_PROCESS_DATA="processData";
     public static final String DATAQUERY_PROCESS_DATA_DETAIL="processDataDetail";
@@ -1282,6 +1284,43 @@ public class LsAttributes {
             .append(" , homeData.lsnum ")
             .append(" , homeData.lsRate ")
             .append(" , homeData.reachRate ");
+    
+    public static final StringBuffer SQL_PED_HOME_WEEKLY_DATA_SELECTION
+		    = new StringBuffer(" select IFNULL(homeData.homeWhNum1,0) as homeWhNum1 ")
+		    .append(" , IFNULL(homeData.homeWhNum4,0) as homeWhNum4 ")
+		    .append(" , IFNULL(homeData.averDays,0) as averDays ")
+	    	.append(" , IFNULL(homeData.inNum,0) as inNum ");
+    
+    public static final StringBuffer SQL_PED_HOME_WEEKLY_DATA_SUB_SELECTION
+		    = new StringBuffer(" select IFNULL(sum(pd.home_wh_emerging_num1),0) as homeWhNum1 ")
+			.append(" ,IFNULL(sum(pd.home_wh_emerging_num4),0) as homeWhNum4 ")
+			.append(" ,IFNULL( sum(pd.home_wh_emerging_num3) ")
+			.append("	/ sum(")
+			.append("		case when pd.home_wh_emerging_num3 != 0 then 1 ")
+			.append("		else 0 ")
+			.append("		end ), 0) as averDays ")
+			.append(" ,IFNULL( ")
+			.append("	sum(case when pd.home_wh_emerging_num1 != 0 then 1 ")
+			.append("		else 0 ")
+			.append("		end ), 0) as inNum ");
+    
+    public static final StringBuffer SQL_PED_ROOM_HOME_WEEKLY_DATA_SUB_SELECTION
+		    = new StringBuffer(" select IFNULL(sum(pd.home_wh_room_num1),0) as homeWhNum1 ")
+		    .append(" ,IFNULL(sum(pd.home_wh_room_num4),0) as homeWhNum4 ")
+		    .append(" ,IFNULL( sum(pd.home_wh_room_num3) ")
+		    .append("	/ sum(")
+		    .append("		case when pd.home_wh_room_num3 != 0 then 1 ")
+		    .append("		else 0 ")
+		    .append("		end ), 0) as averDays ")
+		    .append(" ,IFNULL( ")
+		    .append("	sum(case when pd.home_wh_room_num1 != 0 then 1 ")
+		    .append("		else 0 ")
+		    .append("		end ), 0) as inNum ");
+    public static final StringBuffer SQL_PED_HOME_WEEKLY_DATA_SUB2_SELECTION
+    		= new StringBuffer(" from tbl_pediatrics_data pd, tbl_hospital h force index(INDEX_HOSPITAL_NAME)")
+			.append(" where pd.hospitalName = h.name ")
+			.append(" and pd.createdate between ? and ? ")
+			.append(" and h.isPedAssessed = '1' ");
     
     public static final StringBuffer SQL_HOME_WEEKLY_DATA_SUB_SELECTION
             = new StringBuffer("")

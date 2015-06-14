@@ -20,7 +20,7 @@ function showNextPage(pageURL){
         </jsp:include>
         <div data-role="content" data-theme="a">
         	<div data-role="fieldcontain" class="department_img_div">
-	            <img alt="" src="<%=basePath%>images/img_bg_ped_weekly.png" onclick="showNextPage('<%=basePath%>pedWeeklyreport')" style="cursor: pointer;">
+	            <img alt="" src="<%=basePath%>images/img_bg_ped_weekly.png" onclick="showNextPage('<%=basePath%>weeklypeddepartment')" style="cursor: pointer;">
         	</div>
         	<div data-role="fieldcontain" class="department_img_div">
 	            <img alt="" src="<%=basePath%>images/img_bg_res_weekly.png" onclick="showNextPage('<%=basePath%>resWeeklyreport')" style="cursor: pointer;">
@@ -32,7 +32,7 @@ function showNextPage(pageURL){
 	            <img alt="" src="<%=basePath%>images/img_bg_chestSurgery_weekly.png" onclick="showCustomrizedMessage('由于KPI系统简化调整，胸外科部分暂时不用填写，敬请注意，谢谢！');" style="cursor: pointer;">
         	</div>
         	<div data-role="fieldcontain" class="department_img_div">
-	            <img alt="" src="<%=basePath%>images/img_bg_home_report.png" onclick="showNextPage('<%=basePath%>homeReport')" style="cursor: pointer;">
+	            <img alt="" src="<%=basePath%>images/img_bg_home_report.png" onclick="showNextPage('<%=basePath%>homeReportDepartment')" style="cursor: pointer;">
         	</div>
         	<div data-role="fieldcontain" class="department_img_div">
 	            <img alt="" src="<%=basePath%>images/img_bg_monthly_report.png" onclick="showNextPage('<%=basePath%>monthlyDataReport')" style="cursor: pointer;">

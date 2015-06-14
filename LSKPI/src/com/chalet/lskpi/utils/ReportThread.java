@@ -474,6 +474,12 @@ public class ReportThread extends Thread {
         String weeklyHtmlCHEReportFileName = basePath + "weeklyHTMLReport/"+lastThursday+"/weeklyCHEReport-"+userLevel+"-"+telephone+"-"+DateUtils.getDirectoryNameOfLastDuration()+".html";
         String weeklyHtmlCHEBUReportFileName = basePath + "weeklyHTMLReport/"+lastThursday+"/weeklyCHEReport-"+userLevel+"-"+DateUtils.getDirectoryNameOfLastDuration()+".html";
         
+        String weeklyHtmlPEDEmergingHomeReportFileName = basePath + "weeklyHTMLReport/"+lastThursday+"/weeklyPEDEmergingHomeReport-"+userLevel+"-"+telephone+"-"+DateUtils.getDirectoryNameOfLastDuration()+".html";
+        String weeklyHtmlPEDEmergingHomeBUReportFileName = basePath + "weeklyHTMLReport/"+lastThursday+"/weeklyPEDEmergingHomeReport-"+userLevel+"-"+DateUtils.getDirectoryNameOfLastDuration()+".html";
+        
+        String weeklyHtmlPEDRoomHomeReportFileName = basePath + "weeklyHTMLReport/"+lastThursday+"/weeklyPEDRoomHomeReport-"+userLevel+"-"+telephone+"-"+DateUtils.getDirectoryNameOfLastDuration()+".html";
+        String weeklyHtmlPEDRoomHomeBUReportFileName = basePath + "weeklyHTMLReport/"+lastThursday+"/weeklyPEDRoomHomeReport-"+userLevel+"-"+DateUtils.getDirectoryNameOfLastDuration()+".html";
+        
         String reportImagesBasePath = new StringBuilder(basePath).append("/reportImages-").append(lastThursday).toString();
         String reportImagesContextPath = new StringBuilder(contextPath).append("/reportImages-").append(lastThursday).toString();
         
@@ -485,6 +491,27 @@ public class ReportThread extends Thread {
                 }else{
                     logger.info("The weekly html ped report for RSD is already generated, no need to do again.");
                 }
+                
+                /**
+                 * 儿科门急诊家庭雾化
+                 */
+                if( !new File(weeklyHtmlPEDEmergingHomeReportFileName).exists() ){
+                	html.runReport( basePath + "reportDesigns/weeklyPedHomeReportForMobileRSD.rptdesign",telephone,"","",weeklyHtmlPEDEmergingHomeReportFileName,"html",reportImagesBasePath,reportImagesContextPath);
+                	logger.info("the weekly html PED home Emerging report to RSD is done.");
+                }else{
+                	logger.info("The weekly html ped home Emerging report for RSD is already generated, no need to do again.");
+                }
+                
+                /**
+                 * 儿科病房家庭雾化
+                 */
+                if( !new File(weeklyHtmlPEDRoomHomeReportFileName).exists() ){
+                	html.runReport( basePath + "reportDesigns/weeklyPedRoomHomeReportForMobileRSD.rptdesign",telephone,"","",weeklyHtmlPEDRoomHomeReportFileName,"html",reportImagesBasePath,reportImagesContextPath);
+                	logger.info("the weekly html PED home room report to RSD is done.");
+                }else{
+                	logger.info("The weekly html ped home room report for RSD is already generated, no need to do again.");
+                }
+                
                 if( 1 == Integer.parseInt(CustomizedProperty.getContextProperty("generate_res_weekly_report", "0")) ){
                 	if( !new File(weeklyHtmlRESReportFileName).exists() ){
                 		html.runReport( basePath + "reportDesigns/weeklyRESReportForMobile.rptdesign",telephone,"","",weeklyHtmlRESReportFileName,"html",reportImagesBasePath,reportImagesContextPath);
@@ -508,6 +535,26 @@ public class ReportThread extends Thread {
                     logger.info("the weekly html PED report to RSM is done.");
                 }else{
                     logger.info("The weekly html ped report for RSM is already generated, no need to do again.");
+                }
+                
+                /**
+                 * 儿科门急诊家庭雾化
+                 */
+                if( !new File(weeklyHtmlPEDEmergingHomeReportFileName).exists() ){
+                	html.runReport( basePath + "reportDesigns/weeklyPedHomeReportForMobileRSM.rptdesign",telephone,"","",weeklyHtmlPEDEmergingHomeReportFileName,"html",reportImagesBasePath,reportImagesContextPath);
+                	logger.info("the weekly html PED home Emerging report to RSM is done.");
+                }else{
+                	logger.info("The weekly html ped home Emerging report for RSM is already generated, no need to do again.");
+                }
+                
+                /**
+                 * 儿科病房家庭雾化
+                 */
+                if( !new File(weeklyHtmlPEDRoomHomeReportFileName).exists() ){
+                	html.runReport( basePath + "reportDesigns/weeklyPedRoomHomeReportForMobileRSM.rptdesign",telephone,"","",weeklyHtmlPEDRoomHomeReportFileName,"html",reportImagesBasePath,reportImagesContextPath);
+                	logger.info("the weekly html PED home room report to RSM is done.");
+                }else{
+                	logger.info("The weekly html ped home room report for RSM is already generated, no need to do again.");
                 }
                 
                 if( 1 == Integer.parseInt(CustomizedProperty.getContextProperty("generate_res_weekly_report", "0")) ){
@@ -534,6 +581,27 @@ public class ReportThread extends Thread {
                 }else{
                     logger.info("The weekly html ped report for DSM is already generated, no need to do again.");
                 }
+                
+                /**
+                 * 儿科门急诊家庭雾化
+                 */
+                if( !new File(weeklyHtmlPEDEmergingHomeReportFileName).exists() ){
+                	html.runReport( basePath + "reportDesigns/weeklyPedHomeReportForMobileDSM.rptdesign",telephone,"","",weeklyHtmlPEDEmergingHomeReportFileName,"html",reportImagesBasePath,reportImagesContextPath);
+                	logger.info("the weekly html PED home Emerging report to DSM is done.");
+                }else{
+                	logger.info("The weekly html ped home Emerging report for DSM is already generated, no need to do again.");
+                }
+                
+                /**
+                 * 儿科病房家庭雾化
+                 */
+                if( !new File(weeklyHtmlPEDRoomHomeReportFileName).exists() ){
+                	html.runReport( basePath + "reportDesigns/weeklyPedRoomHomeReportForMobileDSM.rptdesign",telephone,"","",weeklyHtmlPEDRoomHomeReportFileName,"html",reportImagesBasePath,reportImagesContextPath);
+                	logger.info("the weekly html PED home room report to DSM is done.");
+                }else{
+                	logger.info("The weekly html ped home room report for DSM is already generated, no need to do again.");
+                }
+                
                 if( 1 == Integer.parseInt(CustomizedProperty.getContextProperty("generate_res_weekly_report", "0")) ){
                 	if( !new File(weeklyHtmlRESReportFileName).exists() ){
                 		html.runReport( basePath + "reportDesigns/weeklyRESReportForMobileDSM.rptdesign",telephone,"","",weeklyHtmlRESReportFileName,"html",reportImagesBasePath,reportImagesContextPath);
@@ -556,6 +624,26 @@ public class ReportThread extends Thread {
                     logger.info("the weekly html PED report to BU Head is done.");
                 }else{
                     logger.info("The weekly html ped report for BU Head is already generated, no need to do again.");
+                }
+                
+                /**
+                 * 儿科门急诊家庭雾化
+                 */
+                if( !new File(weeklyHtmlPEDEmergingHomeBUReportFileName).exists() ){
+                	html.runReport( basePath + "reportDesigns/weeklyPedHomeReportForMobileBU.rptdesign",telephone,"","",weeklyHtmlPEDEmergingHomeBUReportFileName,"html",reportImagesBasePath,reportImagesContextPath);
+                	logger.info("the weekly html PED home Emerging report to BU is done.");
+                }else{
+                	logger.info("The weekly html ped home Emerging report for BU is already generated, no need to do again.");
+                }
+                
+                /**
+                 * 儿科病房家庭雾化
+                 */
+                if( !new File(weeklyHtmlPEDRoomHomeBUReportFileName).exists() ){
+                	html.runReport( basePath + "reportDesigns/weeklyPedRoomHomeReportForMobileBU.rptdesign",telephone,"","",weeklyHtmlPEDRoomHomeBUReportFileName,"html",reportImagesBasePath,reportImagesContextPath);
+                	logger.info("the weekly html PED home room report to BU is done.");
+                }else{
+                	logger.info("The weekly html ped home room report for BU is already generated, no need to do again.");
                 }
                 
                 if( 1 == Integer.parseInt(CustomizedProperty.getContextProperty("generate_res_weekly_report", "0")) ){
@@ -590,6 +678,13 @@ public class ReportThread extends Thread {
     	String weeklyHtmlCHEReportFileName = basePath + "weeklyHTMLReportForWeb/"+reportGenerateDate+"/weeklyCHEReport-"+userLevel+"-"+telephone+"-"+reportGenerateDate+".html";
     	String weeklyHtmlCHEBUReportFileName = basePath + "weeklyHTMLReportForWeb/"+reportGenerateDate+"/weeklyCHEReport-"+userLevel+"-"+reportGenerateDate+".html";
         
+
+        String weeklyHtmlPEDEmergingHomeReportFileName = basePath + "weeklyHTMLReportForWeb/"+reportGenerateDate+"/weeklyPEDEmergingHomeReport-"+userLevel+"-"+telephone+"-"+reportGenerateDate+".html";
+        String weeklyHtmlPEDEmergingHomeBUReportFileName = basePath + "weeklyHTMLReportForWeb/"+reportGenerateDate+"/weeklyPEDEmergingHomeReport-"+userLevel+"-"+reportGenerateDate+".html";
+        
+        String weeklyHtmlPEDRoomHomeReportFileName = basePath + "weeklyHTMLReportForWeb/"+reportGenerateDate+"/weeklyPEDRoomHomeReport-"+userLevel+"-"+telephone+"-"+reportGenerateDate+".html";
+        String weeklyHtmlPEDRoomHomeBUReportFileName = basePath + "weeklyHTMLReportForWeb/"+reportGenerateDate+"/weeklyPEDRoomHomeReport-"+userLevel+"-"+reportGenerateDate+".html";
+    	
         String reportImagesBasePath = new StringBuilder(basePath).append("/reportImages-").append(reportGenerateDate).toString();
         String reportImagesContextPath = new StringBuilder(contextPath).append("/reportImages-").append(reportGenerateDate).toString();
     	
@@ -600,6 +695,26 @@ public class ReportThread extends Thread {
                     logger.info("the web weekly html PED report to RSD is done.");
                 }else{
                     logger.info("The web weekly html ped report for RSD is already generated, no need to do again.");
+                }
+                
+                /**
+                 * 儿科门急诊家庭雾化
+                 */
+                if( !new File(weeklyHtmlPEDEmergingHomeReportFileName).exists() ){
+                	html.runReport( basePath + "reportDesigns/weeklyPedHomeReportForWebRSD.rptdesign",telephone,"","",weeklyHtmlPEDEmergingHomeReportFileName,"html",reportImagesBasePath,reportImagesContextPath);
+                	logger.info("the web weekly html PED home Emerging report to RSD is done.");
+                }else{
+                	logger.info("The web weekly html ped home Emerging report for RSD is already generated, no need to do again.");
+                }
+                
+                /**
+                 * 儿科病房家庭雾化
+                 */
+                if( !new File(weeklyHtmlPEDRoomHomeReportFileName).exists() ){
+                	html.runReport( basePath + "reportDesigns/weeklyPedRoomHomeReportForWebRSD.rptdesign",telephone,"","",weeklyHtmlPEDRoomHomeReportFileName,"html",reportImagesBasePath,reportImagesContextPath);
+                	logger.info("the web weekly html PED home room report to RSD is done.");
+                }else{
+                	logger.info("The web weekly html ped home room report for RSD is already generated, no need to do again.");
                 }
                 
                 if( 1 == Integer.parseInt(CustomizedProperty.getContextProperty("generate_res_weekly_report", "0")) ){
@@ -627,6 +742,26 @@ public class ReportThread extends Thread {
                     logger.info("The web weekly html ped report for RSM is already generated, no need to do again.");
                 }
                 
+                /**
+                 * 儿科门急诊家庭雾化
+                 */
+                if( !new File(weeklyHtmlPEDEmergingHomeReportFileName).exists() ){
+                	html.runReport( basePath + "reportDesigns/weeklyPedHomeReportForWebRSM.rptdesign",telephone,"","",weeklyHtmlPEDEmergingHomeReportFileName,"html",reportImagesBasePath,reportImagesContextPath);
+                	logger.info("the web weekly html PED home Emerging report to RSM is done.");
+                }else{
+                	logger.info("The web weekly html ped home Emerging report for RSM is already generated, no need to do again.");
+                }
+                
+                /**
+                 * 儿科病房家庭雾化
+                 */
+                if( !new File(weeklyHtmlPEDRoomHomeReportFileName).exists() ){
+                	html.runReport( basePath + "reportDesigns/weeklyPedRoomHomeReportForWebRSM.rptdesign",telephone,"","",weeklyHtmlPEDRoomHomeReportFileName,"html",reportImagesBasePath,reportImagesContextPath);
+                	logger.info("the web weekly html PED home room report to RSM is done.");
+                }else{
+                	logger.info("The web weekly html ped home room report for RSM is already generated, no need to do again.");
+                }
+                
                 if( 1 == Integer.parseInt(CustomizedProperty.getContextProperty("generate_res_weekly_report", "0")) ){
                 	if( !new File(weeklyHtmlRESReportFileName).exists() ){
                 		html.runReport( basePath + "reportDesigns/weeklyRESReportForWebRSM.rptdesign",telephone,"","",weeklyHtmlRESReportFileName,"html",reportImagesBasePath,reportImagesContextPath);
@@ -652,6 +787,26 @@ public class ReportThread extends Thread {
                     logger.info("The web weekly html ped report for DSM is already generated, no need to do again.");
                 }
                 
+                /**
+                 * 儿科门急诊家庭雾化
+                 */
+                if( !new File(weeklyHtmlPEDEmergingHomeReportFileName).exists() ){
+                	html.runReport( basePath + "reportDesigns/weeklyPedHomeReportForWebDSM.rptdesign",telephone,"","",weeklyHtmlPEDEmergingHomeReportFileName,"html",reportImagesBasePath,reportImagesContextPath);
+                	logger.info("the web weekly html PED home Emerging report to DSM is done.");
+                }else{
+                	logger.info("The web weekly html ped home Emerging report for DSM is already generated, no need to do again.");
+                }
+                
+                /**
+                 * 儿科病房家庭雾化
+                 */
+                if( !new File(weeklyHtmlPEDRoomHomeReportFileName).exists() ){
+                	html.runReport( basePath + "reportDesigns/weeklyPedRoomHomeReportForWebDSM.rptdesign",telephone,"","",weeklyHtmlPEDRoomHomeReportFileName,"html",reportImagesBasePath,reportImagesContextPath);
+                	logger.info("the web weekly html PED home room report to DSM is done.");
+                }else{
+                	logger.info("The web weekly html ped home room report for DSM is already generated, no need to do again.");
+                }
+                
                 if( 1 == Integer.parseInt(CustomizedProperty.getContextProperty("generate_res_weekly_report", "0")) ){
                 	if( !new File(weeklyHtmlRESReportFileName).exists() ){
                 		html.runReport( basePath + "reportDesigns/weeklyRESReportForWebDSM.rptdesign",telephone,"","",weeklyHtmlRESReportFileName,"html",reportImagesBasePath,reportImagesContextPath);
@@ -674,6 +829,26 @@ public class ReportThread extends Thread {
                     logger.info("the web weekly html PED report to BU Head is done.");
                 }else{
                     logger.info("The web weekly html ped report for BU Head is already generated, no need to do again.");
+                }
+                
+                /**
+                 * 儿科门急诊家庭雾化
+                 */
+                if( !new File(weeklyHtmlPEDEmergingHomeBUReportFileName).exists() ){
+                	html.runReport( basePath + "reportDesigns/weeklyPedHomeReportForWebBU.rptdesign",telephone,"","",weeklyHtmlPEDEmergingHomeBUReportFileName,"html",reportImagesBasePath,reportImagesContextPath);
+                	logger.info("the web weekly html PED home Emerging report to BU is done.");
+                }else{
+                	logger.info("The web weekly html ped home Emerging report for BU is already generated, no need to do again.");
+                }
+                
+                /**
+                 * 儿科病房家庭雾化
+                 */
+                if( !new File(weeklyHtmlPEDRoomHomeBUReportFileName).exists() ){
+                	html.runReport( basePath + "reportDesigns/weeklyPedRoomHomeReportForWebBU.rptdesign",telephone,"","",weeklyHtmlPEDRoomHomeBUReportFileName,"html",reportImagesBasePath,reportImagesContextPath);
+                	logger.info("the web weekly html PED home room report to BU is done.");
+                }else{
+                	logger.info("The web weekly html ped home room report for BU is already generated, no need to do again.");
                 }
                 
                 if( 1 == Integer.parseInt(CustomizedProperty.getContextProperty("generate_res_weekly_report", "0")) ){

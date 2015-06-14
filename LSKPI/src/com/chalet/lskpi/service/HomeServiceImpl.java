@@ -113,20 +113,73 @@ public class HomeServiceImpl implements HomeService {
     }
     
     public List<HomeWeeklyData> getHomeWeeklyDataOfLowerUser(UserInfo currentUser) throws Exception {
+    	List<HomeWeeklyData> homeWeeklyData = new ArrayList<HomeWeeklyData>();
+    	Date beginDate = DateUtils.getHomeWeeklyReportBegionDate();
+    	Date endDate = new Date(beginDate.getTime() + 7 * 24 * 60 * 60 * 1000);
+    	switch(currentUser.getLevel()){
+    	case LsAttributes.USER_LEVEL_BM:
+    		break;
+    	case LsAttributes.USER_LEVEL_RSD:
+    		homeWeeklyData = homeDAO.getHomeWeeklyDataOfRSM(currentUser.getRegionCenter(),beginDate, endDate);
+    		break;
+    	case LsAttributes.USER_LEVEL_RSM:
+    		homeWeeklyData = homeDAO.getHomeWeeklyDataOfDSM(currentUser.getRegion(),beginDate, endDate);
+    		break;
+    	case LsAttributes.USER_LEVEL_DSM:
+    		homeWeeklyData = homeDAO.getHomeWeeklyDataOfSales(currentUser.getUserCode(),currentUser.getRegion(),beginDate, endDate);
+    		break;
+    	case LsAttributes.USER_LEVEL_REP:
+    		break;
+    	}
+    	return homeWeeklyData;
+    }
+    
+    public HomeWeeklyData getHomeWeeklyDataOfUpperUser(UserInfo currentUser) throws Exception {
+    	HomeWeeklyData homeWeeklyData = new HomeWeeklyData();
+    	Date beginDate = DateUtils.getHomeWeeklyReportBegionDate();
+    	Date endDate = new Date(beginDate.getTime() + 7 * 24 * 60 * 60 * 1000);
+    	switch(currentUser.getLevel()){
+    	case LsAttributes.USER_LEVEL_BM:
+    		homeWeeklyData = homeDAO.getHomeWeeklyDataOfCountory(beginDate, endDate);
+    		break;
+    	case LsAttributes.USER_LEVEL_RSD:
+    		homeWeeklyData = homeDAO.getHomeWeeklyDataOfCountory(beginDate, endDate);
+    		break;
+    	case LsAttributes.USER_LEVEL_RSM:
+    		homeWeeklyData = homeDAO.getHomeWeeklyDataOfSingleRSD(currentUser.getRegionCenter(),beginDate, endDate);
+    		break;
+    	case LsAttributes.USER_LEVEL_DSM:
+    		homeWeeklyData = homeDAO.getHomeWeeklyDataOfSingleRSM(currentUser.getRegion(),beginDate, endDate);
+    		break;
+    	case LsAttributes.USER_LEVEL_REP:
+    		homeWeeklyData = homeDAO.getHomeWeeklyDataOfSingleDSM(currentUser.getSuperior(),currentUser.getRegion(),beginDate, endDate);
+    		break;
+    	}
+    	return homeWeeklyData;
+    }
+    
+    @Override
+    public List<HomeWeeklyData> getPedHomeWeeklyDataOfLowerUser(UserInfo currentUser, String pedType) throws Exception {
         List<HomeWeeklyData> homeWeeklyData = new ArrayList<HomeWeeklyData>();
-        Date beginDate = DateUtils.getHomeWeeklyReportBegionDate();
-        Date endDate = new Date(beginDate.getTime() + 7 * 24 * 60 * 60 * 1000);
+        /**
+    	 * endDate 本周一
+    	 */
+    	Date endDate = DateUtils.getTheBeginDateOfCurrentWeek();
+    	/**
+    	 * beginDate 上周一
+    	 */
+    	Date beginDate = DateUtils.getDateByParam(endDate, -7);
         switch(currentUser.getLevel()){
             case LsAttributes.USER_LEVEL_BM:
                 break;
             case LsAttributes.USER_LEVEL_RSD:
-                homeWeeklyData = homeDAO.getHomeWeeklyDataOfRSM(currentUser.getRegionCenter(),beginDate, endDate);
+                homeWeeklyData = homeDAO.getPedHomeWeeklyDataOfRSM(pedType, currentUser.getRegionCenter(),beginDate, endDate);
                 break;
             case LsAttributes.USER_LEVEL_RSM:
-                homeWeeklyData = homeDAO.getHomeWeeklyDataOfDSM(currentUser.getRegion(),beginDate, endDate);
+                homeWeeklyData = homeDAO.getPedHomeWeeklyDataOfDSM(pedType, currentUser.getRegion(),beginDate, endDate);
                 break;
             case LsAttributes.USER_LEVEL_DSM:
-                homeWeeklyData = homeDAO.getHomeWeeklyDataOfSales(currentUser.getUserCode(),currentUser.getRegion(),beginDate, endDate);
+                homeWeeklyData = homeDAO.getPedHomeWeeklyDataOfSales(pedType, currentUser.getUserCode(),currentUser.getRegion(),beginDate, endDate);
                 break;
             case LsAttributes.USER_LEVEL_REP:
                 break;
@@ -134,29 +187,84 @@ public class HomeServiceImpl implements HomeService {
         return homeWeeklyData;
     }
     
-    public HomeWeeklyData getHomeWeeklyDataOfUpperUser(UserInfo currentUser) throws Exception {
+    @Override
+    public HomeWeeklyData getPedHomeWeeklyDataOfUpperUser(UserInfo currentUser, String pedType) throws Exception {
         HomeWeeklyData homeWeeklyData = new HomeWeeklyData();
-        Date beginDate = DateUtils.getHomeWeeklyReportBegionDate();
-        Date endDate = new Date(beginDate.getTime() + 7 * 24 * 60 * 60 * 1000);
+        /**
+    	 * endDate 本周一
+    	 */
+    	Date endDate = DateUtils.getTheBeginDateOfCurrentWeek();
+    	/**
+    	 * beginDate 上周一
+    	 */
+    	Date beginDate = DateUtils.getDateByParam(endDate, -7);
         switch(currentUser.getLevel()){
             case LsAttributes.USER_LEVEL_BM:
-                homeWeeklyData = homeDAO.getHomeWeeklyDataOfCountory(beginDate, endDate);
+                homeWeeklyData = homeDAO.getPedHomeWeeklyDataOfCountory(pedType, beginDate, endDate);
                 break;
             case LsAttributes.USER_LEVEL_RSD:
-                homeWeeklyData = homeDAO.getHomeWeeklyDataOfCountory(beginDate, endDate);
+                homeWeeklyData = homeDAO.getPedHomeWeeklyDataOfCountory(pedType, beginDate, endDate);
                 break;
             case LsAttributes.USER_LEVEL_RSM:
-                homeWeeklyData = homeDAO.getHomeWeeklyDataOfSingleRSD(currentUser.getRegionCenter(),beginDate, endDate);
+                homeWeeklyData = homeDAO.getPedHomeWeeklyDataOfSingleRSD(pedType, currentUser.getRegionCenter(),beginDate, endDate);
                 break;
             case LsAttributes.USER_LEVEL_DSM:
-                homeWeeklyData = homeDAO.getHomeWeeklyDataOfSingleRSM(currentUser.getRegion(),beginDate, endDate);
+                homeWeeklyData = homeDAO.getPedHomeWeeklyDataOfSingleRSM(pedType, currentUser.getRegion(),beginDate, endDate);
                 break;
             case LsAttributes.USER_LEVEL_REP:
-                homeWeeklyData = homeDAO.getHomeWeeklyDataOfSingleDSM(currentUser.getSuperior(),currentUser.getRegion(),beginDate, endDate);
+                homeWeeklyData = homeDAO.getPedHomeWeeklyDataOfSingleDSM(pedType, currentUser.getSuperior(),currentUser.getRegion(),beginDate, endDate);
                 break;
         }
         return homeWeeklyData;
     }
+    
+    @Override
+    public List<HomeWeeklyData> getPedHomeWeeklyDataOfCurrentUser(UserInfo currentUser, String pedType) throws Exception {
+    	List<HomeWeeklyData> homeWeeklyData = new ArrayList<HomeWeeklyData>();
+    	/**
+    	 * endDate 本周一
+    	 */
+    	Date endDate = DateUtils.getTheBeginDateOfCurrentWeek();
+    	/**
+    	 * beginDate 上周一
+    	 */
+    	Date beginDate = DateUtils.getDateByParam(endDate, -7);
+    	
+    	switch(currentUser.getLevel()){
+    	case LsAttributes.USER_LEVEL_BM:
+    		homeWeeklyData = homeDAO.getPedHomeWeeklyDataOfRSD(pedType, beginDate, endDate);
+    		break;
+    	case LsAttributes.USER_LEVEL_RSD:
+    		homeWeeklyData = homeDAO.getPedHomeWeeklyDataOfRSD(pedType, beginDate, endDate);
+    		break;
+    	case LsAttributes.USER_LEVEL_RSM:
+    		homeWeeklyData = homeDAO.getPedHomeWeeklyDataOfRSM(pedType, currentUser.getRegionCenter(),beginDate, endDate);
+    		break;
+    	case LsAttributes.USER_LEVEL_DSM:
+    		homeWeeklyData = homeDAO.getPedHomeWeeklyDataOfDSM(pedType, currentUser.getRegion(),beginDate, endDate);
+    		break;
+    	case LsAttributes.USER_LEVEL_REP:
+    		homeWeeklyData = homeDAO.getPedHomeWeeklyDataOfSales(pedType, currentUser.getSuperior(),currentUser.getRegion(),beginDate, endDate);
+    		break;
+    	}
+    	return homeWeeklyData;
+    }
+    
+	@Override
+	public List<HomeWeeklyData> getPedHomeWeeklyDataByRegion(String regionCenter, String pedType) throws Exception {
+		List<HomeWeeklyData> rsmHomeWeeklyData = new ArrayList<HomeWeeklyData>();
+		/**
+    	 * endDate 本周一
+    	 */
+    	Date endDate = DateUtils.getTheBeginDateOfCurrentWeek();
+    	/**
+    	 * beginDate 上周一
+    	 */
+    	Date beginDate = DateUtils.getDateByParam(endDate, -7);
+        
+        rsmHomeWeeklyData = homeDAO.getPedHomeWeeklyDataOfRSM(pedType, regionCenter,beginDate, endDate);
+		return rsmHomeWeeklyData;
+	}
 
     public List<ExportDoctor> getAllDoctors() throws Exception {
         return homeDAO.getAllDoctors();

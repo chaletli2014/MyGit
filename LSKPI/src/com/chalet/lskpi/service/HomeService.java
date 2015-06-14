@@ -24,6 +24,41 @@ public interface HomeService {
     public List<HomeWeeklyData> getHomeWeeklyDataOfLowerUser(UserInfo currentUser) throws Exception;
     public HomeWeeklyData getHomeWeeklyDataOfUpperUser(UserInfo currentUser) throws Exception;
     
+    /**
+     * 获取当前用户的儿科家庭雾化周报
+     * @param currentUser
+     * @param pedType 儿科科室，门急诊还是病房
+     * @return
+     * @throws Exception
+     */
+    public List<HomeWeeklyData> getPedHomeWeeklyDataOfCurrentUser(UserInfo currentUser, String pedType) throws Exception;
+    
+    /**
+     * 获取当前用户下级的儿科家庭雾化周报
+     * @param currentUser
+     * @param pedType 儿科科室，门急诊还是病房
+     * @return
+     * @throws Exception
+     */
+    public List<HomeWeeklyData> getPedHomeWeeklyDataOfLowerUser(UserInfo currentUser, String pedType) throws Exception;
+    
+    /**
+     * 获取当前用户上级的儿科家庭雾化周报
+     * @param currentUser
+     * @param pedType 儿科科室，门急诊还是病房
+     * @return
+     * @throws Exception
+     */
+    public HomeWeeklyData getPedHomeWeeklyDataOfUpperUser(UserInfo currentUser, String pedType) throws Exception;
+    
+    /**
+     * 获取RSD下所有RSM的儿科家庭雾化周报
+     * @param regionCenter
+     * @return
+     * @throws Exception
+     */
+    public List<HomeWeeklyData> getPedHomeWeeklyDataByRegion(String regionCenter, String pedType) throws Exception;
+    
     public List<ExportDoctor> getAllDoctors() throws Exception;
     public List<HomeWeeklyData> getWeeklyDataByRegion(String regionCenter) throws Exception;
     public List<HomeWeeklyData> getWeeklyDataByRegion(String regionCenter, Date beginDate) throws Exception;

@@ -165,7 +165,7 @@
         <iframe src="${reportFile}" id="iframepage" scrolling="no" width="100%" onload="javascript:dyniframesize('iframepage');"></iframe>
         <jsp:include page="page_footer.jsp">
             <jsp:param value="<%=basePath%>" name="basePath"/>
-            <jsp:param value="weeklyreport" name="backURL"/>
+            <jsp:param value="homeReportDepartment" name="backURL"/>
         </jsp:include>
     </div>
 </body>  

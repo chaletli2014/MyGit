@@ -239,6 +239,21 @@ public class DateUtils {
     }
     
     /**
+     * 修正周期为周一到周天
+     * @param date 源日期
+     * @param days 加减天数
+     * @return 返回下周一
+     */
+    public static Date getDateByParam(Date date, int days){
+    	Calendar calendar = Calendar.getInstance();
+    	calendar.setTime(date);
+		calendar.add(Calendar.DAY_OF_MONTH, days);
+    	
+    	Date beginDate = calendar.getTime();
+    	return new Date(beginDate.getYear(),beginDate.getMonth(),beginDate.getDate());
+    }
+    
+    /**
      * 修正新的统计周期，起始日期为参数所在周的周一
      * @param refreshDate
      * @return 参数 refreshDate所在周的周一

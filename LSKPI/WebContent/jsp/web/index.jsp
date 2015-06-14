@@ -18,7 +18,7 @@
                     <img alt="" src="<%=basePath%>images/img_bg_1_w.png" onclick="javascript:window.location.href='<%=basePath%>collectData'" style="cursor: pointer;">
                 </div>
                 <div class="ui-block-b">
-                    <img alt="" src="<%=basePath%>images/img_bg_2_w.png" onclick="javascript:window.location.href='<%=basePath%>dailyReport'" style="cursor: pointer;">
+                    <img alt="" src="<%=basePath%>images/img_bg_ped_daily_disable_w.png" onclick="javascript:void(0)" style="cursor: pointer;">
                 </div>
             </div>
             <div class="ui-grid-a ls-grid-img">

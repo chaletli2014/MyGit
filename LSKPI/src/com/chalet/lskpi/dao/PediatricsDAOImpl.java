@@ -7,6 +7,7 @@ import java.sql.Statement;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 
@@ -477,12 +478,27 @@ public class PediatricsDAOImpl implements PediatricsDAO {
 	    return dataBean.getJdbcTemplate().update(sql, new Object[] { duration });
 	}
 	
+	/**
+	 * 因为现在儿科一周只录入1次，所以不需要对医院进行除次数乘5的算法
+	 */
 	@Override
 	public void generateWeeklyPEDDataOfHospital(Date refreshDate) throws Exception {
 	    Timestamp lastweekDay = new Timestamp(refreshDate.getTime());
 	    StringBuffer sb = new StringBuffer();
 	    
-	    sb.append("insert into tbl_pediatrics_data_weekly(id,duration,hospitalName,hospitalCode,innum,pnum,whnum,lsnum,averageDose,hmgRate,omgRate,tmgRate,fmgRate,saleCode,dsmCode,rsmRegion,region,updatedate,portNum) ")
+	    sb.append("insert into tbl_pediatrics_data_weekly(id,duration,hospitalName,hospitalCode,innum,pnum,whnum,lsnum,averageDose,hmgRate,omgRate,tmgRate,fmgRate,saleCode,dsmCode,rsmRegion,region,updatedate,portNum ")
+	    .append(",whbwnum")
+	    .append(",roomWhbwnum")
+	    .append(",homeWhNum1")
+	    .append(",homeWhNum2")
+	    .append(",homeWhNum3")
+	    .append(",homeWhNum4")
+	    .append(",homeRoomWhNum1")
+	    .append(",homeRoomWhNum2")
+	    .append(",homeRoomWhNum3")
+	    .append(",homeRoomWhNum4")
+	    .append(",whDaysEmerging")
+	    .append(",whDaysRoom )")
 	    .append("select ")
 	    .append("null,")
 	    .append(" CONCAT(DATE_FORMAT(DATE_SUB(?, Interval 6 day),'%Y.%m.%d'), '-',DATE_FORMAT(?,'%Y.%m.%d')) as duration, ")
@@ -502,15 +518,27 @@ public class PediatricsDAOImpl implements PediatricsDAO {
 	    .append("h.rsmRegion, ")
 	    .append("h.region, ")
 	    .append("now(),  ")
-	    .append("pd_data.portNum ")
+	    .append("pd_data.portNum, ")
+	    .append("IFNULL( pd_data.whbwnum,0),")
+	    .append("IFNULL( pd_data.roomWhbwnum,0),")
+	    .append("IFNULL( pd_data.homeWhEmergingNum1,0), ")
+	    .append("IFNULL( pd_data.homeWhEmergingNum2,0), ")
+	    .append("IFNULL( pd_data.homeWhEmergingNum3,0), ")
+	    .append("IFNULL( pd_data.homeWhEmergingNum4,0), ")
+	    .append("IFNULL( pd_data.homeWhRoomNum1,0), ")
+	    .append("IFNULL( pd_data.homeWhRoomNum2,0), ")
+	    .append("IFNULL( pd_data.homeWhRoomNum3,0), ")
+	    .append("IFNULL( pd_data.homeWhRoomNum4,0), ")
+	    .append("IFNULL( pd_data.whDaysEmerging,0), ")
+	    .append("IFNULL( pd_data.whDaysRoom,0) ")
 	    .append("from ( ")
 	    .append("	SELECT ")
 	    .append("	h.code,	")
 	    .append("	sum(1) as inNum, ")
-	    .append("	(sum(pd.pnum)/sum(1))*5 as pnum, ")
-	    .append("	(sum(pd.whnum)/sum(1))*5 as whnum, ")
-	    .append("	(sum(pd.lsnum)/sum(1))*5 as lsnum, ")
-	    .append("	(sum(pd.portNum)/sum(1))*5 as portNum, ")
+	    .append("	(sum(pd.pnum)/sum(1))*1 as pnum, ")
+	    .append("	(sum(pd.whnum)/sum(1))*1 as whnum, ")
+	    .append("	(sum(pd.lsnum)/sum(1))*1 as lsnum, ")
+	    .append("	(sum(pd.portNum)/sum(1))*1 as portNum, ")
 	    .append("	IFNULL( ")
 	    .append("		sum( ")
 	    .append("			( ( 0.5*IFNULL(pd.hqd,0) + 0.5*2*IFNULL(pd.hbid,0) + 1*1*IFNULL(pd.oqd,0) + 1*2*IFNULL(pd.obid,0) + 2*1*IFNULL(pd.tqd,0) + 2*2*IFNULL(pd.tbid,0) ) / 100 )* IFNULL(pd.lsnum,0) ")
@@ -518,7 +546,28 @@ public class PediatricsDAOImpl implements PediatricsDAO {
 	    .append("	IFNULL( sum(IFNULL(pd.hqd,0)*pd.lsnum/100)/sum(pd.lsnum),0) hmgRate,")
 	    .append("	IFNULL( sum((IFNULL(pd.hbid,0)*pd.lsnum + IFNULL(pd.oqd,0)*pd.lsnum)/100)/sum(pd.lsnum),0 ) omgRate, ")
 	    .append("	IFNULL( sum((IFNULL(pd.obid,0)*pd.lsnum + IFNULL(pd.tqd,0)*pd.lsnum)/100)/sum(pd.lsnum),0 ) tmgRate, ")
-	    .append("	IFNULL( sum(IFNULL(pd.tbid,0)*pd.lsnum/100)/sum(pd.lsnum),0 ) fmgRate ")
+	    .append("	IFNULL( sum(IFNULL(pd.tbid,0)*pd.lsnum/100)/sum(pd.lsnum),0 ) fmgRate, ")
+	    .append("	(sum(pd.home_wh_emerging_num1)/sum(1))*1 as homeWhEmergingNum1, ")
+	    .append("	(sum(pd.home_wh_emerging_num2)/sum(1))*1 as homeWhEmergingNum2, ")
+	    .append("	(sum(pd.home_wh_emerging_num3)/sum(1))*1 as homeWhEmergingNum3, ")
+	    .append("	(sum(pd.home_wh_emerging_num4)/sum(1))*1 as homeWhEmergingNum4, ")
+	    .append("	(sum(pd.home_wh_room_num1)/sum(1))*1 as homeWhRoomNum1, ")
+	    .append("	(sum(pd.home_wh_room_num2)/sum(1))*1 as homeWhRoomNum2, ")
+	    .append("	(sum(pd.home_wh_room_num3)/sum(1))*1 as homeWhRoomNum3, ")
+	    .append("	(sum(pd.home_wh_room_num4)/sum(1))*1 as homeWhRoomNum4, ")
+	    .append("	(sum(pd.whbwnum)/sum(1))*1 as whbwnum, ")
+	    .append("	(sum(pd.whbwnum_room)/sum(1))*1 as roomWhbwnum, ")
+	    .append(" IFNULL(sum( ( ( 1*IFNULL(pd.whdays_emerging_1,0) + 2*IFNULL(pd.whdays_emerging_2,0) ")
+	    .append("  + 3*IFNULL(pd.whdays_emerging_3,0) + 4*IFNULL(pd.whdays_emerging_4,0) ")
+	    .append("  + 5*IFNULL(pd.whdays_emerging_5,0) + 6*IFNULL(pd.whdays_emerging_6,0) ")
+	    .append("  + 7*IFNULL(pd.whdays_emerging_7,0) ")
+	    .append(") / 100) * IFNULL(pd.lsnum,0)) / IFNULL(sum(pd.lsnum),0),0 ) as whdaysEmerging, ")
+	    .append(" IFNULL(sum( ( ( 1*IFNULL(pd.whdays_room_1,0) + 2*IFNULL(pd.whdays_room_2,0) ")
+	    .append("  + 3*IFNULL(pd.whdays_room_3,0) + 4*IFNULL(pd.whdays_room_4,0) ")
+	    .append("  + 5*IFNULL(pd.whdays_room_5,0) + 6*IFNULL(pd.whdays_room_6,0) ")
+	    .append("  + 7*IFNULL(pd.whdays_room_7,0) + 8*IFNULL(pd.whdays_room_8,0) ")
+	    .append("  + 9*IFNULL(pd.whdays_room_9,0) + 10*IFNULL(pd.whdays_room_10,0) ")
+	    .append(") / 100) * IFNULL(pd.lsnum,0)) / IFNULL(sum(pd.lsnum),0),0 ) as whdaysRoom ")
 	    .append("	FROM tbl_pediatrics_data pd, tbl_hospital h ")
 	    .append("	WHERE pd.createdate between DATE_SUB(?, Interval 6 day) and DATE_ADD(?, Interval 1 day) ")
 	    .append("	and pd.hospitalName = h.name ")
@@ -1700,16 +1749,36 @@ public class PediatricsDAOImpl implements PediatricsDAO {
 		return dataBean.getJdbcTemplate().query(sb.toString(), new Object[]{paramDate,paramDate},new DailyReportDataRowMapper());
 	}
 	
+	/**
+	 * 每周录入一次,
+	 * 对历史数据，如果录入多次，则获取最新的一条
+	 */
 	@Override
 	public PediatricsData getPediatricsDataByHospital(String hospitalCode)
 			throws Exception {
-		return dataBean.getJdbcTemplate().queryForObject("select pd.*,h.code as hospitalCode,h.dsmName,h.isPedAssessed,h.dragonType from tbl_pediatrics_data pd, tbl_hospital h where h.code=? and DATE_FORMAT(pd.createdate,'%Y-%m-%d') = curdate() and pd.hospitalName = h.name", new Object[]{hospitalCode}, new PediatricsRowMapper());
+		Date thisMonday = DateUtils.getTheBeginDateOfCurrentWeek();
+		Timestamp thisMondayParam = new Timestamp(thisMonday.getTime());
+		
+		Calendar calendar = Calendar.getInstance();
+		calendar.setTime(thisMonday);
+		calendar.add(Calendar.DAY_OF_MONTH, 7);
+		Timestamp nextMondayParam = new Timestamp(calendar.getTime().getTime());
+		
+		return dataBean.getJdbcTemplate().queryForObject("select pd.*,h.code as hospitalCode,h.dsmName,h.isPedAssessed,h.dragonType from tbl_pediatrics_data pd, tbl_hospital h where h.code=? and pd.createdate between ? and ? and pd.hospitalName = h.name order by pd.createdate desc limit 1", new Object[]{hospitalCode,thisMondayParam,nextMondayParam}, new PediatricsRowMapper());
 	}
 	
 	@Override
 	public PediatricsData getPediatricsRoomDataByHospital(String hospitalCode)
 			throws Exception {
-		return dataBean.getJdbcTemplate().queryForObject("select pd.*,h.code as hospitalCode,h.dsmName,h.isPedAssessed,h.dragonType from tbl_pediatrics_data pd, tbl_hospital h where h.code=? and DATE_FORMAT(pd.createdate,'%Y-%m-%d') = curdate() and pd.hospitalName = h.name", new Object[]{hospitalCode}, new PediatricsRoomRowMapper());
+		Date thisMonday = DateUtils.getTheBeginDateOfCurrentWeek();
+		Timestamp thisMondayParam = new Timestamp(thisMonday.getTime());
+		
+		Calendar calendar = Calendar.getInstance();
+		calendar.setTime(thisMonday);
+		calendar.add(Calendar.DAY_OF_MONTH, 7);
+		Timestamp nextMondayParam = new Timestamp(calendar.getTime().getTime());
+		
+		return dataBean.getJdbcTemplate().queryForObject("select pd.*,h.code as hospitalCode,h.dsmName,h.isPedAssessed,h.dragonType from tbl_pediatrics_data pd, tbl_hospital h where h.code=? and pd.createdate between ? and ? and pd.hospitalName = h.name order by pd.createdate desc limit 1", new Object[]{hospitalCode,thisMondayParam,nextMondayParam}, new PediatricsRoomRowMapper());
 	}
 
 	@Override

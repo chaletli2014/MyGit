@@ -19,7 +19,7 @@
                 </div>
                 <div class="ui-block-b">
                     <%-- javascript:window.location.href='<%=basePath%>dailyReport' --%>
-                    <img alt="" src="<%=basePath%>images/img_bg_2.png" onclick="javascript:window.location.href='<%=basePath%>dailyReport'" style="cursor: pointer;">
+                    <img alt="" src="<%=basePath%>images/img_bg_ped_daily_disable.png" onclick="javascript:void(0)" style="cursor: pointer;">
                 </div>
             </div>
             <div class="ui-grid-a ls-grid-img">

@@ -494,3 +494,17 @@ alter table tbl_pediatrics_data add column whnum_room int not null default 0 com
 ,add column recipeType_room varchar(20) not null default '1' comment '病房2mgbid'
 ,add column whbwnum_room int not null default 0 comment '病房雾化博雾人次';
 
+ALTER  TABLE tbl_property ADD INDEX INDEX_property_name (property_name);
+
+alter table tbl_pediatrics_data_weekly add column homeWhNum1 int not null default 0 comment '门急诊卖赠泵数量'
+,add column homeWhNum2 int not null default 0 comment '门急诊平均带药人数'
+,add column homeWhNum3 int not null default 0 comment '门急诊平均带药天数'
+,add column homeWhNum4 int not null default 0 comment '门急诊总带药支数'
+,add column homeRoomWhNum1 int not null default 0 comment '病房卖赠泵数量'
+,add column homeRoomWhNum2 int not null default 0 comment '病房平均带药人数'
+,add column homeRoomWhNum3 int not null default 0 comment '病房平均带药天数'
+,add column homeRoomWhNum4 int not null default 0 comment '病房总带药支数'
+,add column whbwnum int not null default 0 comment '门急诊雾化博雾人次'
+,add column roomWhbwnum int not null default 0 comment '病房雾化博雾人次'
+,add column whDaysEmerging DECIMAL(11,2) not null default 0 comment '门急诊平均天数'
+,add column whDaysRoom DECIMAL(11,2) not null default 0 comment '病房平均天数';

@@ -1776,7 +1776,54 @@ public class ReportController extends BaseController{
         return view;
     }
     
-
+    @RequestMapping("/weeklypeddepartment")
+    public ModelAndView weeklypeddepartment(HttpServletRequest request){
+    	logger.info("weekly ped report department");
+    	ModelAndView view = new LsKPIModelAndView(request);
+    	String currentUserTel = verifyCurrentUser(request,view);
+    	UserInfo currentUser = (UserInfo)request.getSession().getAttribute(LsAttributes.CURRENT_OPERATOR_OBJECT);
+    	
+    	logger.info(String.format("weekly report: current user's telephone is %s, the user in session is %s", currentUserTel,currentUser));
+    	
+    	if( null == currentUserTel || "".equalsIgnoreCase(currentUserTel) || null == currentUser ){
+    		view.addObject(LsAttributes.JSP_VERIFY_MESSAGE, LsAttributes.NO_USER_FOUND_WEB);
+    		view.setViewName("index");
+    		return view;
+    	}
+    	
+    	view.setViewName("weeklyPedReportDepartment");
+    	return view;
+    }
+    
+    /**
+     * 家庭雾化周报(儿科门急诊，病房，医生)
+     * @param request
+     * @return
+     */
+    @RequestMapping("/homeReportDepartment")
+    public ModelAndView homeReportDepartment(HttpServletRequest request){
+    	logger.info("weekly home report department");
+    	ModelAndView view = new LsKPIModelAndView(request);
+    	String currentUserTel = verifyCurrentUser(request,view);
+    	UserInfo currentUser = (UserInfo)request.getSession().getAttribute(LsAttributes.CURRENT_OPERATOR_OBJECT);
+    	
+    	logger.info(String.format("weekly report: current user's telephone is %s, the user in session is %s", currentUserTel,currentUser));
+    	
+    	if( null == currentUserTel || "".equalsIgnoreCase(currentUserTel) || null == currentUser ){
+    		view.addObject(LsAttributes.JSP_VERIFY_MESSAGE, LsAttributes.NO_USER_FOUND_WEB);
+    		view.setViewName("index");
+    		return view;
+    	}
+    	
+    	view.setViewName("weeklyHomeReportDepartment");
+    	return view;
+    }
+    
+    /**
+     * 家庭雾化周报(医生)
+     * @param request
+     * @return
+     */
     @RequestMapping("/homeReport")
     public ModelAndView homeReport(HttpServletRequest request){
         logger.info("home data weekly report");
@@ -1816,7 +1863,7 @@ public class ReportController extends BaseController{
                 }
                 
                 view.addObject("allRSMHomeWeeklyData", allRSMData);
-                populateHomeWeeklyReportTitle4AllRSM(view);
+                populateHomeWeeklyReportTitle4AllRSM(view,"");
             }
             
             view.addObject("currentUser", currentUser);
@@ -1879,6 +1926,135 @@ public class ReportController extends BaseController{
         }
         
         view.setViewName("homeCollectionReport");
+        return view;
+    }
+    
+    /**
+     * 家庭雾化周报(儿科门急诊，病房)
+     * @param request
+     * @return
+     */
+    @RequestMapping("/pedHomeReport")
+    public ModelAndView pedHomeReport(HttpServletRequest request){
+        logger.info("home data weekly report");
+        ModelAndView view = new LsKPIModelAndView(request);
+        String currentUserTel = verifyCurrentUser(request,view);
+        UserInfo currentUser = (UserInfo)request.getSession().getAttribute(LsAttributes.CURRENT_OPERATOR_OBJECT);
+        
+        logger.info(String.format("home data weekly report: current user's telephone is %s", currentUserTel));
+        
+        if( null == currentUserTel || "".equalsIgnoreCase(currentUserTel) || null == currentUser ){
+            view.addObject(LsAttributes.JSP_VERIFY_MESSAGE, LsAttributes.NO_USER_FOUND_WEB);
+            view.setViewName("index");
+            return view;
+        }
+        
+        String pedType = request.getParameter("pedType");
+        
+        try{
+            List<HomeWeeklyData> homeWeeklyDataList = homeService.getPedHomeWeeklyDataOfCurrentUser(currentUser,pedType);
+            view.addObject("homeWeeklyDataList", homeWeeklyDataList);
+            logger.info(String.format("end to get the home weekly data of user %s", currentUser.getTelephone()));
+            
+            List<HomeWeeklyData> lowerHomeWeeklyDataList = homeService.getPedHomeWeeklyDataOfLowerUser(currentUser, pedType);
+            view.addObject("lowerHomeWeeklyDataList", lowerHomeWeeklyDataList);
+            logger.info(String.format("end to get the lower home weekly data of user %s", currentUser.getTelephone()));
+            
+            HomeWeeklyData upperHomeWeeklyData = homeService.getPedHomeWeeklyDataOfUpperUser(currentUser, pedType);
+            view.addObject("upperHomeWeeklyData", upperHomeWeeklyData);
+            logger.info(String.format("end to get the upper home weekly data of user %s", currentUser.getTelephone()));
+            
+            if( LsAttributes.USER_LEVEL_BM.equalsIgnoreCase(currentUser.getLevel()) ){
+            	List<String> allRegionCenters = userService.getAllRegionName();
+                List<List<HomeWeeklyData>> allRSMData = new ArrayList<List<HomeWeeklyData>>();
+                
+                for( String regionCenter : allRegionCenters ){
+                    List<HomeWeeklyData> rsmData = homeService.getPedHomeWeeklyDataByRegion(regionCenter, pedType);
+                    logger.info(String.format("get weekly home data of %s RSM end...", regionCenter));
+                    allRSMData.add(rsmData);
+                }
+                
+                view.addObject("allRSMHomeWeeklyData", allRSMData);
+                populateHomeWeeklyReportTitle4AllRSM(view, pedType);
+            }
+            
+            view.addObject("currentUser", currentUser);
+            String dsmName = "";
+            if( LsAttributes.USER_LEVEL_REP.equalsIgnoreCase(currentUser.getLevel()) ){
+                dsmName = userService.getUserInfoByUserCode(currentUser.getSuperior()).getName();
+            }
+            
+            String homeWeeklyReportTitle = "";
+            if( "emerging".equalsIgnoreCase(pedType) ){
+            	homeWeeklyReportTitle = LsAttributes.HOMEWEEKLYREPORTTITLE_EMERGING+LsAttributes.HOMEWEEKLYREPORTTITLE;
+            }else{
+            	homeWeeklyReportTitle = LsAttributes.HOMEWEEKLYREPORTTITLE_ROOM+LsAttributes.HOMEWEEKLYREPORTTITLE;
+            }
+            populateHomeWeeklyReportTitle(currentUser, view, homeWeeklyReportTitle, dsmName);
+            
+            logger.info(String.format("begin to get the last 12 weeks report, current user is %s", currentUser.getTelephone()));
+            //add the last 12 weekly report
+            String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+request.getContextPath()+"/";
+            String localPath = request.getRealPath("/");
+            StringBuffer localReportFile = new StringBuffer(localPath);
+            StringBuffer remoteReportFile = new StringBuffer(basePath);
+            
+            String directory = BrowserUtils.getDirectory(request.getHeader("User-Agent"),"weeklyHTMLReport");
+            String reportGenerateDate = DateUtils.getDirectoryNameOfLastDuration();
+            
+            //weeklyPEDEmergingHomeReport-"+userLevel+"-"+telephone+"-"+DateUtils.getDirectoryNameOfLastDuration()+".html";
+            String reportName = "";
+            if( "emerging".equalsIgnoreCase(pedType) ){
+            	reportName = "weeklyPEDEmergingHomeReport-";
+            }else{
+            	reportName = "weeklyPEDRoomHomeReport-";
+            }
+            if( LsAttributes.USER_LEVEL_BM.equalsIgnoreCase(currentUser.getLevel()) ){
+                remoteReportFile.append(directory).append(reportGenerateDate).append("/")
+                .append(reportName)
+                .append(currentUser.getLevel())
+                .append("-")
+                .append(reportGenerateDate)
+                .append(".html");
+                
+                localReportFile.append(directory).append(reportGenerateDate).append("/")
+                .append(reportName)
+                .append(currentUser.getLevel())
+                .append("-")
+                .append(reportGenerateDate)
+                .append(".html");
+            }else{
+                remoteReportFile.append(directory).append(reportGenerateDate).append("/")
+                .append(reportName)
+                .append(currentUser.getLevel())
+                .append("-")
+                .append(currentUserTel)
+                .append("-")
+                .append(reportGenerateDate)
+                .append(".html");
+                
+                localReportFile.append(directory).append(reportGenerateDate).append("/")
+                .append(reportName)
+                .append(currentUser.getLevel())
+                .append("-")
+                .append(currentUserTel)
+                .append("-")
+                .append(reportGenerateDate)
+                .append(".html");
+            }
+            
+            File reportfile = new File(localReportFile.toString());
+            if( reportfile.exists() ){
+                view.addObject("reportFile", remoteReportFile.toString());
+            }else{
+                view.addObject("reportFile", basePath+"jsp/weeklyReport_404.html");
+            }
+            
+        }catch(Exception e){
+            logger.error("fail to get the last 12 home weekly data,",e);
+        }
+        
+        view.setViewName("pedHomeCollectionReport");
         return view;
     }
     

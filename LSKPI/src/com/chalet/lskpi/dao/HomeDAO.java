@@ -27,6 +27,26 @@ public interface HomeDAO {
     public HomeWeeklyData getHomeWeeklyDataOfSingleRSM(String region, Date beginDate, Date endDate) throws Exception;
     public HomeWeeklyData getHomeWeeklyDataOfSingleDSM(String dsmCode, String region, Date beginDate, Date endDate) throws Exception;
     
+    /**
+     * 获取儿科门急诊家庭雾化周报数据
+     * @param dsmCode
+     * @param region
+     * @param beginDate
+     * @param endDate
+     * @return
+     * @throws Exception
+     */
+    public List<HomeWeeklyData> getPedHomeWeeklyDataOfSales(String pedType, String dsmCode, String region,Date beginDate, Date endDate) throws Exception;
+    public List<HomeWeeklyData> getPedHomeWeeklyDataOfDSM(String pedType, String region, Date beginDate, Date endDate) throws Exception;
+    public List<HomeWeeklyData> getPedHomeWeeklyDataOfRSM(String pedType, String regionCenter, Date beginDate, Date endDate) throws Exception;
+    public List<HomeWeeklyData> getPedHomeWeeklyDataOfRSD(String pedType, Date beginDate, Date endDate) throws Exception;
+    
+    public HomeWeeklyData getPedHomeWeeklyDataOfCountory(String pedType, Date beginDate, Date endDate) throws Exception;
+    public HomeWeeklyData getPedHomeWeeklyDataOfSingleRSD(String pedType, String regionCenter, Date beginDate, Date endDate) throws Exception;
+    public HomeWeeklyData getPedHomeWeeklyDataOfSingleRSM(String pedType, String region, Date beginDate, Date endDate) throws Exception;
+    public HomeWeeklyData getPedHomeWeeklyDataOfSingleDSM(String pedType, String dsmCode, String region, Date beginDate, Date endDate) throws Exception;
+    
+    
     public List<HomeWeeklyNoReportDr> getWeeklyNoReportDr(Date beginDate, Date endDate, String duration) throws Exception;
     
     public List<ExportDoctor> getAllDoctors() throws Exception;

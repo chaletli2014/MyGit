@@ -148,19 +148,18 @@ public class ReportUtils {
             	}
                 break;
             case LsAttributes.USER_LEVEL_BM:
+            	if( !new File(weeklyPDFPEDReportFileName).exists() || (isFirstRefresh && !checkFileExists)  ){
+            		html.runRefreshReport( basePath + "reportDesigns/refresh_weeklyPEDReportBU.rptdesign",telephone,startDate,endDate,weeklyPDFPEDReportFileName,"pdf","","","");
+            		logger.info("the ped weekly report for BU is done.");
+            	}else{
+            		logger.info("The ped weekly report for BU is already generated, no need to do again.");
+            	}
                 
                 if( !new File(weeklyPDFRESReportFileName).exists() || (isFirstRefresh && !checkFileExists)  ){
                     html.runRefreshReport( basePath + "reportDesigns/refresh_weeklyRESReportBU.rptdesign",telephone,startDate,endDate,weeklyPDFRESReportFileName,"pdf","","","");
                     logger.info("the res weekly res report for BU is done.");
                 }else{
                     logger.info("The res weekly report for BU is already generated, no need to do again.");
-                }
-                
-                if( !new File(weeklyPDFPEDReportFileName).exists() || (isFirstRefresh && !checkFileExists)  ){
-                    html.runRefreshReport( basePath + "reportDesigns/refresh_weeklyPEDReportBU.rptdesign",telephone,startDate,endDate,weeklyPDFPEDReportFileName,"pdf","","","");
-                    logger.info("the ped weekly report for BU is done.");
-                }else{
-                    logger.info("The ped weekly report for BU is already generated, no need to do again.");
                 }
                 
                 if( !new File(weeklyPDFCHEReportFileName).exists() || (isFirstRefresh && !checkFileExists)  ){

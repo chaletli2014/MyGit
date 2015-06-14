@@ -27,13 +27,13 @@ function checkForm(){
         </jsp:include>
         <div data-role="content" data-theme="a"> 
         	<div data-role="fieldcontain" class="department_img_div">
-	            <img alt="" src="<%=basePath%>images/img_bg_ped_emerging_w.png" onclick="javascript:window.location.href='<%=basePath%>pediatrics'" style="cursor: pointer;">
+	            <img alt="" src="<%=basePath%>images/img_bg_ped_emerging.png" onclick="javascript:window.location.href='<%=basePath%>pediatrics'" style="cursor: pointer;">
         	</div>
         	<div data-role="fieldcontain" class="department_img_div">
-	            <img alt="" src="<%=basePath%>images/img_bg_ped_room_w.png" onclick="javascript:window.location.href='<%=basePath%>pediatricsRoom'" style="cursor: pointer;">
+	            <img alt="" src="<%=basePath%>images/img_bg_ped_room.png" onclick="javascript:window.location.href='<%=basePath%>pediatricsRoom'" style="cursor: pointer;">
         	</div>
         	<div data-role="fieldcontain" class="department_img_div">
-	            <img alt="" src="<%=basePath%>images/img_bg_ped_home_w.png" onclick="checkForm()" style="cursor: pointer;">
+	            <img alt="" src="<%=basePath%>images/img_bg_ped_home.png" onclick="checkForm()" style="cursor: pointer;">
         	</div>
         </div>
         <jsp:include page="page_footer.jsp" flush="true">
