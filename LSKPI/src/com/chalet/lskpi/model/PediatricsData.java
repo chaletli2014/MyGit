@@ -14,14 +14,23 @@ public class PediatricsData {
 	private String hospitalName;
 	private String hospitalCode;
 	private int pnum;
+	private int pnum_room;
 	private int whnum;
+	private int whnum_room;
 	private int lsnum;
+	private int lsnum_room;
 	private double hqd;
 	private double hbid;
 	private double oqd;
 	private double obid;
 	private double tqd;
 	private double tbid;
+	private double hqd_room;
+	private double hbid_room;
+	private double oqd_room;
+	private double obid_room;
+	private double tqd_room;
+	private double tbid_room;
 	private String recipeType;
 	
 	//below four are used in the upload daily res data feature.
@@ -44,6 +53,7 @@ public class PediatricsData {
      */
     private int whbwnum;
     
+    private int whbwnum_room;
     /**
      * 门急诊雾化天数1天占比(%)
      */
@@ -458,4 +468,65 @@ public class PediatricsData {
 	public void setHomeWhRoomNum4(int homeWhRoomNum4) {
 		this.homeWhRoomNum4 = homeWhRoomNum4;
 	}
+	public int getPnum_room() {
+		return pnum_room;
+	}
+	public void setPnum_room(int pnum_room) {
+		this.pnum_room = pnum_room;
+	}
+	public int getWhnum_room() {
+		return whnum_room;
+	}
+	public void setWhnum_room(int whnum_room) {
+		this.whnum_room = whnum_room;
+	}
+	public int getLsnum_room() {
+		return lsnum_room;
+	}
+	public void setLsnum_room(int lsnum_room) {
+		this.lsnum_room = lsnum_room;
+	}
+	public double getHqd_room() {
+		return hqd_room;
+	}
+	public void setHqd_room(double hqd_room) {
+		this.hqd_room = hqd_room;
+	}
+	public double getHbid_room() {
+		return hbid_room;
+	}
+	public void setHbid_room(double hbid_room) {
+		this.hbid_room = hbid_room;
+	}
+	public double getOqd_room() {
+		return oqd_room;
+	}
+	public void setOqd_room(double oqd_room) {
+		this.oqd_room = oqd_room;
+	}
+	public double getObid_room() {
+		return obid_room;
+	}
+	public void setObid_room(double obid_room) {
+		this.obid_room = obid_room;
+	}
+	public double getTqd_room() {
+		return tqd_room;
+	}
+	public void setTqd_room(double tqd_room) {
+		this.tqd_room = tqd_room;
+	}
+	public double getTbid_room() {
+		return tbid_room;
+	}
+	public void setTbid_room(double tbid_room) {
+		this.tbid_room = tbid_room;
+	}
+	public int getWhbwnum_room() {
+		return whbwnum_room;
+	}
+	public void setWhbwnum_room(int whbwnum_room) {
+		this.whbwnum_room = whbwnum_room;
+	}
+	
 }

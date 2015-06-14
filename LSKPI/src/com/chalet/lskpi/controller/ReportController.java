@@ -430,22 +430,22 @@ public class ReportController extends BaseController{
                     row.createCell(columnNum++, XSSFCell.CELL_TYPE_STRING).setCellValue("录入日期");
                     row.createCell(columnNum++, XSSFCell.CELL_TYPE_STRING).setCellValue("医院编号");
                     row.createCell(columnNum++, XSSFCell.CELL_TYPE_STRING).setCellValue("医院名称");
-                    row.createCell(columnNum++, XSSFCell.CELL_TYPE_STRING).setCellValue("当日门诊人次");
-                    row.createCell(columnNum++, XSSFCell.CELL_TYPE_STRING).setCellValue("当日雾化人次");
-                    row.createCell(columnNum++, XSSFCell.CELL_TYPE_STRING).setCellValue("当日雾化令舒人次");
-                    row.createCell(columnNum++, XSSFCell.CELL_TYPE_STRING).setCellValue("雾化博雾人次");
-                    row.createCell(columnNum++, XSSFCell.CELL_TYPE_STRING).setCellValue("雾化端口数量");
+                    row.createCell(columnNum++, XSSFCell.CELL_TYPE_STRING).setCellValue("当日门急诊门诊人次");
+                    row.createCell(columnNum++, XSSFCell.CELL_TYPE_STRING).setCellValue("当日门急诊雾化人次");
+                    row.createCell(columnNum++, XSSFCell.CELL_TYPE_STRING).setCellValue("当日门急诊雾化令舒人次");
+                    row.createCell(columnNum++, XSSFCell.CELL_TYPE_STRING).setCellValue("门急诊雾化博雾人次");
+                    row.createCell(columnNum++, XSSFCell.CELL_TYPE_STRING).setCellValue("门急诊雾化端口数量");
                     row.createCell(columnNum++, XSSFCell.CELL_TYPE_STRING).setCellValue("销售代表ETMSCode");
                     row.createCell(columnNum++, XSSFCell.CELL_TYPE_STRING).setCellValue("销售代表姓名");
                     row.createCell(columnNum++, XSSFCell.CELL_TYPE_STRING).setCellValue("所属DSM");
                     row.createCell(columnNum++, XSSFCell.CELL_TYPE_STRING).setCellValue("所属Region");
                     row.createCell(columnNum++, XSSFCell.CELL_TYPE_STRING).setCellValue("所属RSM Region");
-                    row.createCell(columnNum++, XSSFCell.CELL_TYPE_STRING).setCellValue("0.5mg QD");
-                    row.createCell(columnNum++, XSSFCell.CELL_TYPE_STRING).setCellValue("0.5mg BID");
-                    row.createCell(columnNum++, XSSFCell.CELL_TYPE_STRING).setCellValue("1mg QD");
-                    row.createCell(columnNum++, XSSFCell.CELL_TYPE_STRING).setCellValue("1mg BID");
-                    row.createCell(columnNum++, XSSFCell.CELL_TYPE_STRING).setCellValue("2mg QD");
-                    row.createCell(columnNum++, XSSFCell.CELL_TYPE_STRING).setCellValue("2mg BID");    
+                    row.createCell(columnNum++, XSSFCell.CELL_TYPE_STRING).setCellValue("门急诊 0.5mg QD");
+                    row.createCell(columnNum++, XSSFCell.CELL_TYPE_STRING).setCellValue("门急诊 0.5mg BID");
+                    row.createCell(columnNum++, XSSFCell.CELL_TYPE_STRING).setCellValue("门急诊 1mg QD");
+                    row.createCell(columnNum++, XSSFCell.CELL_TYPE_STRING).setCellValue("门急诊 1mg BID");
+                    row.createCell(columnNum++, XSSFCell.CELL_TYPE_STRING).setCellValue("门急诊 2mg QD");
+                    row.createCell(columnNum++, XSSFCell.CELL_TYPE_STRING).setCellValue("门急诊 2mg BID"); 
                     row.createCell(columnNum++, XSSFCell.CELL_TYPE_STRING).setCellValue("门急诊雾化天数1天占比");
                     row.createCell(columnNum++, XSSFCell.CELL_TYPE_STRING).setCellValue("门急诊雾化天数2天占比");
                     row.createCell(columnNum++, XSSFCell.CELL_TYPE_STRING).setCellValue("门急诊雾化天数3天占比");
@@ -456,21 +456,31 @@ public class ReportController extends BaseController{
                     row.createCell(columnNum++, XSSFCell.CELL_TYPE_STRING).setCellValue("门急诊赠卖泵数量");
                     row.createCell(columnNum++, XSSFCell.CELL_TYPE_STRING).setCellValue("门急诊带药人数");
                     row.createCell(columnNum++, XSSFCell.CELL_TYPE_STRING).setCellValue("门急诊平均带药天数");
-                    row.createCell(columnNum++, XSSFCell.CELL_TYPE_STRING).setCellValue("门急诊总带药支数");                    
-                    row.createCell(columnNum++, XSSFCell.CELL_TYPE_STRING).setCellValue("病房雾化天数1天占比");
-                    row.createCell(columnNum++, XSSFCell.CELL_TYPE_STRING).setCellValue("病房雾化天数2天占比");
-                    row.createCell(columnNum++, XSSFCell.CELL_TYPE_STRING).setCellValue("病房雾化天数3天占比");
-                    row.createCell(columnNum++, XSSFCell.CELL_TYPE_STRING).setCellValue("病房雾化天数4天占比");
-                    row.createCell(columnNum++, XSSFCell.CELL_TYPE_STRING).setCellValue("病房雾化天数5天占比");
-                    row.createCell(columnNum++, XSSFCell.CELL_TYPE_STRING).setCellValue("病房雾化天数6天占比");
-                    row.createCell(columnNum++, XSSFCell.CELL_TYPE_STRING).setCellValue("病房雾化天数7天占比");
-                    row.createCell(columnNum++, XSSFCell.CELL_TYPE_STRING).setCellValue("病房雾化天数8天占比");
-                    row.createCell(columnNum++, XSSFCell.CELL_TYPE_STRING).setCellValue("病房雾化天数9天占比");
-                    row.createCell(columnNum++, XSSFCell.CELL_TYPE_STRING).setCellValue("病房雾化天数10天及以上占比");
-                    row.createCell(columnNum++, XSSFCell.CELL_TYPE_STRING).setCellValue("病房赠卖泵数量");
-                    row.createCell(columnNum++, XSSFCell.CELL_TYPE_STRING).setCellValue("病房带药人数");
-                    row.createCell(columnNum++, XSSFCell.CELL_TYPE_STRING).setCellValue("病房平均带药天数");
-                    row.createCell(columnNum++, XSSFCell.CELL_TYPE_STRING).setCellValue("病房总带药支数");   
+                    row.createCell(columnNum++, XSSFCell.CELL_TYPE_STRING).setCellValue("门急诊总带药支数");
+                    row.createCell(columnNum++, XSSFCell.CELL_TYPE_STRING).setCellValue("当日住院门诊人次");
+                    row.createCell(columnNum++, XSSFCell.CELL_TYPE_STRING).setCellValue("当日住院雾化人次");
+                    row.createCell(columnNum++, XSSFCell.CELL_TYPE_STRING).setCellValue("当日住院雾化令舒人次");
+                    row.createCell(columnNum++, XSSFCell.CELL_TYPE_STRING).setCellValue("住院雾化博雾人次");
+                    row.createCell(columnNum++, XSSFCell.CELL_TYPE_STRING).setCellValue("住院 0.5mg QD");
+                    row.createCell(columnNum++, XSSFCell.CELL_TYPE_STRING).setCellValue("住院 0.5mg BID");
+                    row.createCell(columnNum++, XSSFCell.CELL_TYPE_STRING).setCellValue("住院 1mg QD");
+                    row.createCell(columnNum++, XSSFCell.CELL_TYPE_STRING).setCellValue("住院 1mg BID");
+                    row.createCell(columnNum++, XSSFCell.CELL_TYPE_STRING).setCellValue("住院 2mg QD");
+                    row.createCell(columnNum++, XSSFCell.CELL_TYPE_STRING).setCellValue("住院 2mg BID"); 
+                    row.createCell(columnNum++, XSSFCell.CELL_TYPE_STRING).setCellValue("住院雾化天数1天占比");
+                    row.createCell(columnNum++, XSSFCell.CELL_TYPE_STRING).setCellValue("住院雾化天数2天占比");
+                    row.createCell(columnNum++, XSSFCell.CELL_TYPE_STRING).setCellValue("住院雾化天数3天占比");
+                    row.createCell(columnNum++, XSSFCell.CELL_TYPE_STRING).setCellValue("住院雾化天数4天占比");
+                    row.createCell(columnNum++, XSSFCell.CELL_TYPE_STRING).setCellValue("住院雾化天数5天占比");
+                    row.createCell(columnNum++, XSSFCell.CELL_TYPE_STRING).setCellValue("住院雾化天数6天占比");
+                    row.createCell(columnNum++, XSSFCell.CELL_TYPE_STRING).setCellValue("住院雾化天数7天占比");
+                    row.createCell(columnNum++, XSSFCell.CELL_TYPE_STRING).setCellValue("住院雾化天数8天占比");
+                    row.createCell(columnNum++, XSSFCell.CELL_TYPE_STRING).setCellValue("住院雾化天数9天占比");
+                    row.createCell(columnNum++, XSSFCell.CELL_TYPE_STRING).setCellValue("住院雾化天数10天及以上占比");
+                    row.createCell(columnNum++, XSSFCell.CELL_TYPE_STRING).setCellValue("住院赠卖泵数量");
+                    row.createCell(columnNum++, XSSFCell.CELL_TYPE_STRING).setCellValue("住院带药人数");
+                    row.createCell(columnNum++, XSSFCell.CELL_TYPE_STRING).setCellValue("住院平均带药天数");
+                    row.createCell(columnNum++, XSSFCell.CELL_TYPE_STRING).setCellValue("住院总带药支数");   
                     row.createCell(columnNum++, XSSFCell.CELL_TYPE_STRING).setCellValue("该医院主要处方方式");
                     row.createCell(columnNum++, XSSFCell.CELL_TYPE_STRING).setCellValue("是否为KPI医院（在=1，不在=0）");
                     row.createCell(columnNum++, XSSFCell.CELL_TYPE_STRING).setCellValue("Dragon Type");
@@ -550,6 +560,35 @@ public class ReportController extends BaseController{
                         row.createCell(dataColumnNum++, XSSFCell.CELL_TYPE_NUMERIC).setCellValue(pedData.getHomeWhEmergingNum2());
                         row.createCell(dataColumnNum++, XSSFCell.CELL_TYPE_NUMERIC).setCellValue(pedData.getHomeWhEmergingNum3());
                         row.createCell(dataColumnNum++, XSSFCell.CELL_TYPE_NUMERIC).setCellValue(pedData.getHomeWhEmergingNum4());
+                        
+                        row.createCell(dataColumnNum++, XSSFCell.CELL_TYPE_NUMERIC).setCellValue(pedData.getPnum_room());
+                        row.createCell(dataColumnNum++, XSSFCell.CELL_TYPE_NUMERIC).setCellValue(pedData.getWhnum_room());
+                        row.createCell(dataColumnNum++, XSSFCell.CELL_TYPE_NUMERIC).setCellValue(pedData.getLsnum_room());
+                        row.createCell(dataColumnNum++, XSSFCell.CELL_TYPE_NUMERIC).setCellValue(pedData.getWhbwnum_room());
+                        
+                        HSSFCell hqd_roomCell = row.createCell(dataColumnNum++, XSSFCell.CELL_TYPE_NUMERIC);
+                        hqd_roomCell.setCellValue(pedData.getHqd_room()/100);
+                        hqd_roomCell.setCellStyle(percentCellStyle);
+                        
+                        HSSFCell hbid_roomCell = row.createCell(dataColumnNum++, XSSFCell.CELL_TYPE_NUMERIC);
+                        hbid_roomCell.setCellValue(pedData.getHbid_room()/100);
+                        hbid_roomCell.setCellStyle(percentCellStyle);
+                        
+                        HSSFCell oqd_roomCell = row.createCell(dataColumnNum++, XSSFCell.CELL_TYPE_NUMERIC);
+                        oqd_roomCell.setCellValue(pedData.getOqd_room()/100);
+                        oqd_roomCell.setCellStyle(percentCellStyle);
+                        
+                        HSSFCell obid_roomCell = row.createCell(dataColumnNum++, XSSFCell.CELL_TYPE_NUMERIC);
+                        obid_roomCell.setCellValue(pedData.getObid_room()/100);
+                        obid_roomCell.setCellStyle(percentCellStyle);
+                        
+                        HSSFCell tqd_roomCell = row.createCell(dataColumnNum++, XSSFCell.CELL_TYPE_NUMERIC);
+                        tqd_roomCell.setCellValue(pedData.getTqd_room()/100);
+                        tqd_roomCell.setCellStyle(percentCellStyle);
+                        
+                        HSSFCell tbid_roomCell = row.createCell(dataColumnNum++, XSSFCell.CELL_TYPE_NUMERIC);
+                        tbid_roomCell.setCellValue(pedData.getTbid_room()/100);
+                        tbid_roomCell.setCellStyle(percentCellStyle);
 
                         HSSFCell whdaysRoom1RateCell  =row.createCell(dataColumnNum++, XSSFCell.CELL_TYPE_NUMERIC);
                         whdaysRoom1RateCell.setCellValue(pedData.getWhdaysRoom1Rate()/100);
