@@ -2854,30 +2854,17 @@ IFNULL(
 	and h.dsmCode = u1.userCode 
 ),'vacant' ) name,  
 count(1) as actualHosNum,
+count(1) as hosNum,
+sum(least(pdw.innum,1)) as inNum,
 sum(
 	case 
-		when h.dragonType='Core' then 3
-		when h.dragonType='Emerging' then 1 
+		when h.dragonType='Core' then 1
+		when h.dragonType='Emerging' then 0
 	end
-) as hosNum,
-sum(
-	case 
-		when h.dragonType='Core' then least(pdw.innum,3)
-		when h.dragonType='Emerging' then least(pdw.innum,1)
-	end
-) as inNum,
-(
-	select count(1) 
-	from tbl_pediatrics_data_weekly pdw1,tbl_hospital h1 
-	where h.dsmCode = h1.dsmCode 
-	and h.rsmRegion = h1.rsmRegion 
-	and pdw1.hospitalCode = h1.code 
-	and pdw1.duration = pdw.duration 
-	and h1.dragonType='Core'
 ) as coreHosNum,
 sum(
 	case 
-		when h.dragonType='Core' then least(pdw.innum,3)
+		when h.dragonType='Core' then least(pdw.innum,1)
 		when h.dragonType='Emerging' then 0 
 	end
 ) as coreInNum,
@@ -5208,29 +5195,17 @@ new Date(currentDate.getFullYear(),month,currentDate.getDate());</expression>
 h.rsmRegion, 
 h.region, 
 count(1) as actualHosNum,
+count(1) as hosNum,
+sum(least(pdw.innum,1)) as inNum,
 sum(
 	case 
-		when h.dragonType='Core' then 3
-		when h.dragonType='Emerging' then 1 
+		when h.dragonType='Core' then 1
+		when h.dragonType='Emerging' then 0
 	end
-) as hosNum,
-sum(
-	case 
-		when h.dragonType='Core' then least(pdw.innum,3)
-		when h.dragonType='Emerging' then least(pdw.innum,1)
-	end
-) as inNum,
-(
-	select count(1) 
-	from tbl_pediatrics_data_weekly pdw1,tbl_hospital h1 
-	where h.rsmRegion = h1.rsmRegion 
-	and pdw1.hospitalCode = h1.code 
-	and pdw1.duration = pdw.duration 
-	and h1.dragonType='Core'
 ) as coreHosNum,
 sum(
 	case 
-		when h.dragonType='Core' then least(pdw.innum,3)
+		when h.dragonType='Core' then least(pdw.innum,1)
 		when h.dragonType='Emerging' then 0 
 	end
 ) as coreInNum,
@@ -7544,7 +7519,7 @@ dataSetRow["inNum"]/dataSetRow["hosNum"]&#13;
                     <expression name="expression" type="javascript">if( dataSetRow["coreHosNum"] == 0 ){&#13;
 	0&#13;
 }else{&#13;
-	dataSetRow["coreInNum"]/(dataSetRow["coreHosNum"]*3)&#13;
+	dataSetRow["coreInNum"]/dataSetRow["coreHosNum"]&#13;
 }</expression>
                     <property name="dataType">float</property>
                     <property name="allowExport">true</property>
@@ -7581,7 +7556,7 @@ dataSetRow["inNum"]/dataSetRow["hosNum"]&#13;
                     <expression name="expression" type="javascript">if( row["coreHosNumRSMTotal"] == 0 ){&#13;
 	0&#13;
 }else{&#13;
-	row["coreInNumRSMTotal"]/(row["coreHosNumRSMTotal"]*3)&#13;
+	row["coreInNumRSMTotal"]/row["coreHosNumRSMTotal"]&#13;
 }</expression>
                     <property name="dataType">float</property>
                     <property name="allowExport">true</property>
@@ -23652,7 +23627,7 @@ dataSetRow["inNum"]/dataSetRow["hosNum"]&#13;
                     <expression name="expression" type="javascript">if( dataSetRow["coreHosNum"] == 0 ){&#13;
 	0&#13;
 }else{&#13;
-	dataSetRow["coreInNum"]/(dataSetRow["coreHosNum"]*3)&#13;
+	dataSetRow["coreInNum"]/dataSetRow["coreHosNum"]&#13;
 }</expression>
                     <property name="dataType">float</property>
                     <property name="allowExport">true</property>
@@ -23689,7 +23664,7 @@ dataSetRow["inNum"]/dataSetRow["hosNum"]&#13;
                     <expression name="expression" type="javascript">if( row["coreHosNumRSMTotal"]== 0 ){&#13;
 	0&#13;
 }else{&#13;
-	row["coreInNumRSMTotal"]/(row["coreHosNumRSMTotal"]*3)&#13;
+	row["coreInNumRSMTotal"]/row["coreHosNumRSMTotal"]&#13;
 }</expression>
                     <property name="dataType">float</property>
                     <property name="allowExport">true</property>
