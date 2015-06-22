@@ -52,19 +52,50 @@ public class ReportUtils {
     public static void createWeeklyPDFReport(BirtReportUtils html, UserInfo user,String telephone, String startDate, String endDate, String basePath, String contextPath, String lastThursday, String email, boolean isFirstRefresh, boolean checkFileExists, List<String> regionList) throws Exception{
         String userLevel = user.getLevel();
         String fileSubName = StringUtils.getFileSubName(user);
-        String pedFileNamePre = basePath + "weeklyReport/"+lastThursday+"/儿科周报-"+fileSubName+"-"+lastThursday;
-        String resFileNamePre = basePath + "weeklyReport/"+lastThursday+"/呼吸科周报-"+fileSubName+"-"+lastThursday;
-        String cheFileNamePre = basePath + "weeklyReport/"+lastThursday+"/胸外科周报-"+fileSubName+"-"+lastThursday;
+        String weeklyPDFPEDEmergingReportFileName = new StringBuilder(basePath).append("weeklyReport/")
+        		.append(lastThursday)
+        		.append("/儿科门急诊周报-")
+        		.append(fileSubName)
+        		.append("-")
+        		.append(lastThursday)
+        		.append(".pdf").toString();
         
-        String weeklyPDFPEDReportFileName = pedFileNamePre+".pdf";
-        String weeklyPDFRESReportFileName = resFileNamePre+".pdf";
-        String weeklyPDFCHEReportFileName = cheFileNamePre+".pdf";
+        String weeklyPDFPEDRoomReportFileName = new StringBuilder(basePath).append("weeklyReport/")
+		        .append(lastThursday)
+		        .append("/儿科住院周报-")
+		        .append(fileSubName)
+		        .append("-")
+		        .append(lastThursday)
+		        .append(".pdf").toString();
+        
+        String weeklyPDFRESReportFileName = new StringBuilder(basePath).append("weeklyReport/")
+        		.append(lastThursday)
+        		.append("/呼吸科周报-")
+        		.append(fileSubName)
+        		.append("-")
+        		.append(lastThursday)
+        		.append(".pdf").toString();
+        
+        String weeklyPDFCHEReportFileName = new StringBuilder(basePath).append("weeklyReport/")
+        		.append(lastThursday)
+        		.append("/胸外科周报-")
+        		.append(fileSubName)
+        		.append("-")
+        		.append(lastThursday)
+        		.append(".pdf").toString();
         
         switch(userLevel){
             case LsAttributes.USER_LEVEL_RSD:
               //RSD
-            	if( !new File(weeklyPDFPEDReportFileName).exists() || ( !checkFileExists && new File(weeklyPDFPEDReportFileName).exists()) ){
-            		html.runRefreshReport( basePath + "reportDesigns/refresh_weeklyPEDReportRSD.rptdesign",telephone,startDate,endDate,weeklyPDFPEDReportFileName,"pdf","","","");
+            	if( !new File(weeklyPDFPEDEmergingReportFileName).exists() || ( !checkFileExists && new File(weeklyPDFPEDEmergingReportFileName).exists()) ){
+            		html.runRefreshReport( basePath + "reportDesigns/refresh_weeklyPEDReportRSD.rptdesign",telephone,startDate,endDate,weeklyPDFPEDEmergingReportFileName,"pdf","","","");
+            		logger.info("the weekly report for RSD is done.");
+            	}else{
+            		logger.info(String.format(LOG_MESSAGE, fileSubName));
+            	}
+            	
+            	if( !new File(weeklyPDFPEDRoomReportFileName).exists() || ( !checkFileExists && new File(weeklyPDFPEDRoomReportFileName).exists()) ){
+            		html.runRefreshReport( basePath + "reportDesigns/refresh_weeklyPEDRoomReportRSD.rptdesign",telephone,startDate,endDate,weeklyPDFPEDRoomReportFileName,"pdf","","","");
             		logger.info("the weekly report for RSD is done.");
             	}else{
             		logger.info(String.format(LOG_MESSAGE, fileSubName));
@@ -87,8 +118,15 @@ public class ReportUtils {
                 break;
             case LsAttributes.USER_LEVEL_RSM:
               //RSM
-            	if( !new File(weeklyPDFPEDReportFileName).exists() || ( !checkFileExists && new File(weeklyPDFPEDReportFileName).exists()) ){
-            		html.runRefreshReport( basePath + "reportDesigns/refresh_weeklyPEDReportRSM.rptdesign",telephone,startDate,endDate,weeklyPDFPEDReportFileName,"pdf","","","");
+            	if( !new File(weeklyPDFPEDEmergingReportFileName).exists() || ( !checkFileExists && new File(weeklyPDFPEDEmergingReportFileName).exists()) ){
+            		html.runRefreshReport( basePath + "reportDesigns/refresh_weeklyPEDReportRSM.rptdesign",telephone,startDate,endDate,weeklyPDFPEDEmergingReportFileName,"pdf","","","");
+            		logger.info("the weekly report for RSM is done.");
+            	}else{
+            		logger.info(String.format(LOG_MESSAGE, fileSubName));
+            	}
+            	
+            	if( !new File(weeklyPDFPEDRoomReportFileName).exists() || ( !checkFileExists && new File(weeklyPDFPEDRoomReportFileName).exists()) ){
+            		html.runRefreshReport( basePath + "reportDesigns/refresh_weeklyPEDRoomReportRSM.rptdesign",telephone,startDate,endDate,weeklyPDFPEDRoomReportFileName,"pdf","","","");
             		logger.info("the weekly report for RSM is done.");
             	}else{
             		logger.info(String.format(LOG_MESSAGE, fileSubName));
@@ -110,13 +148,20 @@ public class ReportUtils {
                 break;
             case LsAttributes.USER_LEVEL_DSM:
               //DSM
-            	if( !new File(weeklyPDFPEDReportFileName).exists() || ( !checkFileExists && new File(weeklyPDFPEDReportFileName).exists()) ){
-            		html.runRefreshReport( basePath + "reportDesigns/refresh_weeklyPEDReportDSM.rptdesign",telephone,startDate,endDate,weeklyPDFPEDReportFileName,"pdf","","","");
+            	if( !new File(weeklyPDFPEDEmergingReportFileName).exists() || ( !checkFileExists && new File(weeklyPDFPEDEmergingReportFileName).exists()) ){
+            		html.runRefreshReport( basePath + "reportDesigns/refresh_weeklyPEDReportDSM.rptdesign",telephone,startDate,endDate,weeklyPDFPEDEmergingReportFileName,"pdf","","","");
             		logger.info("the weekly report for DSM is done.");
             	}else{
             		logger.info(String.format(LOG_MESSAGE, fileSubName));
             	}
             
+            	if( !new File(weeklyPDFPEDRoomReportFileName).exists() || ( !checkFileExists && new File(weeklyPDFPEDRoomReportFileName).exists()) ){
+            		html.runRefreshReport( basePath + "reportDesigns/refresh_weeklyPEDRoomReportDSM.rptdesign",telephone,startDate,endDate,weeklyPDFPEDRoomReportFileName,"pdf","","","");
+            		logger.info("the weekly report for DSM is done.");
+            	}else{
+            		logger.info(String.format(LOG_MESSAGE, fileSubName));
+            	}
+            	
             	if( !new File(weeklyPDFRESReportFileName).exists() || ( !checkFileExists && new File(weeklyPDFRESReportFileName).exists()) ){
             		html.runRefreshReport( basePath + "reportDesigns/refresh_weeklyRESReportDSM.rptdesign",telephone,startDate,endDate,weeklyPDFRESReportFileName,"pdf","","","");
             		logger.info("the weekly res report for DSM is done.");
@@ -133,8 +178,8 @@ public class ReportUtils {
                 break;
             case LsAttributes.USER_LEVEL_REP:
               //REP
-            	if( !new File(weeklyPDFPEDReportFileName).exists() || ( !checkFileExists && new File(weeklyPDFPEDReportFileName).exists()) ){
-            		html.runRefreshReport( basePath + "reportDesigns/refresh_weeklyPEDReportREP.rptdesign",telephone,startDate,endDate,weeklyPDFPEDReportFileName,"pdf","","","");
+            	if( !new File(weeklyPDFPEDEmergingReportFileName).exists() || ( !checkFileExists && new File(weeklyPDFPEDEmergingReportFileName).exists()) ){
+            		html.runRefreshReport( basePath + "reportDesigns/refresh_weeklyPEDReportREP.rptdesign",telephone,startDate,endDate,weeklyPDFPEDEmergingReportFileName,"pdf","","","");
             		logger.info("the weekly report for REP is done.");
             	}else{
             		logger.info(String.format(LOG_MESSAGE, fileSubName));
@@ -148,8 +193,15 @@ public class ReportUtils {
             	}
                 break;
             case LsAttributes.USER_LEVEL_BM:
-            	if( !new File(weeklyPDFPEDReportFileName).exists() || (isFirstRefresh && !checkFileExists)  ){
-            		html.runRefreshReport( basePath + "reportDesigns/refresh_weeklyPEDReportBU.rptdesign",telephone,startDate,endDate,weeklyPDFPEDReportFileName,"pdf","","","");
+            	if( !new File(weeklyPDFPEDEmergingReportFileName).exists() || (isFirstRefresh && !checkFileExists)  ){
+            		html.runRefreshReport( basePath + "reportDesigns/refresh_weeklyPEDReportBU.rptdesign",telephone,startDate,endDate,weeklyPDFPEDEmergingReportFileName,"pdf","","","");
+            		logger.info("the ped weekly report for BU is done.");
+            	}else{
+            		logger.info("The ped weekly report for BU is already generated, no need to do again.");
+            	}
+            	
+            	if( !new File(weeklyPDFPEDRoomReportFileName).exists() || (isFirstRefresh && !checkFileExists)  ){
+            		html.runRefreshReport( basePath + "reportDesigns/refresh_weeklyPEDRoomReportBU.rptdesign",telephone,startDate,endDate,weeklyPDFPEDRoomReportFileName,"pdf","","","");
             		logger.info("the ped weekly report for BU is done.");
             	}else{
             		logger.info("The ped weekly report for BU is already generated, no need to do again.");

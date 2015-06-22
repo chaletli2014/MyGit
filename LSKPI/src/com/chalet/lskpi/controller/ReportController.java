@@ -2554,6 +2554,13 @@ public class ReportController extends BaseController{
         }
     }
     
+    /**
+     * 周报数据查询
+     * @param request 周报数据查询
+     * @param response 周报数据查询
+     * @return
+     * @throws IOException IOException
+     */
     @RequestMapping("/doDownloadWeeklyData")
     public String doDownloadWeeklyData(HttpServletRequest request, HttpServletResponse response) throws IOException{
     	logger.info("download the weekly data..");
@@ -2562,6 +2569,10 @@ public class ReportController extends BaseController{
 		StringBuffer remoteWeeklyReportFile = new StringBuffer(basePath).append("weeklyReport2Download/");
 		StringBuffer weeklyReportFile2Download = new StringBuffer(localPath).append("weeklyReport2Download/");
 		StringBuffer localWeeklyReportFile = new StringBuffer(localPath).append("weeklyReport/");
+		
+		StringBuffer remoteRoomWeeklyReportFile = new StringBuffer(basePath).append("weeklyReport2Download/");
+		StringBuffer weeklyRoomReportFile2Download = new StringBuffer(localPath).append("weeklyReport2Download/");
+		StringBuffer localRoomWeeklyReportFile = new StringBuffer(localPath).append("weeklyReport/");
 		
 		String fromWeb = request.getParameter("fromWeb");
 		String emailto = request.getParameter("emailto");
@@ -2655,7 +2666,8 @@ public class ReportController extends BaseController{
 				    	populateWeeklyReportFile(remoteWeeklyReportFile, weeklyReportFile2Download, localWeeklyReportFile, chooseDate_d, "呼吸科周报-DSM-", dsm.getName(),directoryName);
 				    	break;
 				    case "2":
-				    	populateWeeklyReportFile(remoteWeeklyReportFile, weeklyReportFile2Download, localWeeklyReportFile, chooseDate_d, "儿科周报-DSM-", dsm.getName(),directoryName);
+				    	populateWeeklyReportFile(remoteWeeklyReportFile, weeklyReportFile2Download, localWeeklyReportFile, chooseDate_d, "儿科门急诊周报-DSM-", dsm.getName(),directoryName);
+				    	populateWeeklyReportFile(remoteRoomWeeklyReportFile, weeklyRoomReportFile2Download, localRoomWeeklyReportFile, chooseDate_d, "儿科住院周报-DSM-", dsm.getName(),directoryName);
 				    	break;
 				    case "3":
 				    	populateWeeklyReportFile(remoteWeeklyReportFile, weeklyReportFile2Download, localWeeklyReportFile, chooseDate_d, "胸外科周报-DSM-", dsm.getName(),directoryName);
@@ -2672,7 +2684,8 @@ public class ReportController extends BaseController{
 						populateWeeklyReportFile(remoteWeeklyReportFile, weeklyReportFile2Download, localWeeklyReportFile, chooseDate_d, "呼吸科周报-RSM-", selectedRSM,directoryName);
 						break;
 					case "2":
-						populateWeeklyReportFile(remoteWeeklyReportFile, weeklyReportFile2Download, localWeeklyReportFile, chooseDate_d, "儿科周报-RSM-", selectedRSM,directoryName);
+						populateWeeklyReportFile(remoteWeeklyReportFile, weeklyReportFile2Download, localWeeklyReportFile, chooseDate_d, "儿科门急诊周报-RSM-", selectedRSM,directoryName);
+						populateWeeklyReportFile(remoteRoomWeeklyReportFile, weeklyRoomReportFile2Download, localRoomWeeklyReportFile, chooseDate_d, "儿科住院周报-RSM-", selectedRSM,directoryName);
 						break;
 					case "3":
 						populateWeeklyReportFile(remoteWeeklyReportFile, weeklyReportFile2Download, localWeeklyReportFile, chooseDate_d, "胸外科周报-RSM-", selectedRSM,directoryName);
@@ -2689,7 +2702,8 @@ public class ReportController extends BaseController{
 						populateWeeklyReportFile(remoteWeeklyReportFile, weeklyReportFile2Download, localWeeklyReportFile, chooseDate_d, "呼吸科周报-RSD-", selectedRSD,directoryName);
 						break;
 					case "2":
-						populateWeeklyReportFile(remoteWeeklyReportFile, weeklyReportFile2Download, localWeeklyReportFile, chooseDate_d, "儿科周报-RSD-", selectedRSD,directoryName);
+						populateWeeklyReportFile(remoteWeeklyReportFile, weeklyReportFile2Download, localWeeklyReportFile, chooseDate_d, "儿科门急诊周报-RSD-", selectedRSD,directoryName);
+						populateWeeklyReportFile(remoteRoomWeeklyReportFile, weeklyRoomReportFile2Download, localRoomWeeklyReportFile, chooseDate_d, "儿科住院周报-RSD-", selectedRSD,directoryName);
 						break;
 					case "3":
 						populateWeeklyReportFile(remoteWeeklyReportFile, weeklyReportFile2Download, localWeeklyReportFile, chooseDate_d, "胸外科周报-RSD-", selectedRSD,directoryName);
@@ -2706,17 +2720,43 @@ public class ReportController extends BaseController{
 			    try{
 			    	switch(department){
 						case "1":
-							populateWeeklyReportAttachedFiles(filePaths,reportFiles, localPath, basePath, chooseDate_d, weeklyReportFile2Download, localWeeklyReportFile, remoteWeeklyReportFile, "呼吸科周报", "",directoryName);
+							populateWeeklyReportAttachedFiles(filePaths,reportFiles, localPath, basePath
+									, chooseDate_d
+									, weeklyReportFile2Download
+									, localWeeklyReportFile
+									, remoteWeeklyReportFile
+									, "呼吸科周报", "",directoryName);
 							break;
 						case "2":
-							populateWeeklyReportAttachedFiles(filePaths,reportFiles, localPath, basePath, chooseDate_d, weeklyReportFile2Download, localWeeklyReportFile, remoteWeeklyReportFile, "儿科周报", "",directoryName);
+							populateWeeklyReportAttachedFiles(filePaths,reportFiles, localPath, basePath
+									, chooseDate_d
+									, weeklyReportFile2Download
+									, localWeeklyReportFile
+									, remoteWeeklyReportFile
+									, "儿科门急诊周报", "",directoryName);
+							populateWeeklyReportAttachedFiles(filePaths,reportFiles, localPath, basePath
+									, chooseDate_d
+									, weeklyReportFile2Download
+									, localWeeklyReportFile
+									, remoteWeeklyReportFile
+									, "儿科住院周报", "",directoryName);
 							break;
 						case "3":
-							populateWeeklyReportAttachedFiles(filePaths,reportFiles, localPath, basePath, chooseDate_d, weeklyReportFile2Download, localWeeklyReportFile, remoteWeeklyReportFile, "胸外科周报", "",directoryName);
+							populateWeeklyReportAttachedFiles(filePaths,reportFiles, localPath, basePath
+									, chooseDate_d
+									, weeklyReportFile2Download
+									, localWeeklyReportFile
+									, remoteWeeklyReportFile
+									, "胸外科周报", "",directoryName);
 							break;
 						case "4":
 							directoryName = DateUtils.getDirectoryNameOfCurrentDuration(new Date(chooseDate_d.getTime() + 7*24*60*60*1000));
-							populateWeeklyReportAttachedFiles(filePaths,reportFiles, localPath, basePath, chooseDate_d, weeklyReportFile2Download, localWeeklyReportFile, remoteWeeklyReportFile, "家庭雾化周报", "",directoryName);
+							populateWeeklyReportAttachedFiles(filePaths,reportFiles, localPath, basePath
+									, chooseDate_d
+									, weeklyReportFile2Download
+									, localWeeklyReportFile
+									, remoteWeeklyReportFile
+									, "家庭雾化周报", "",directoryName);
 							break;
 						default:
 					}
@@ -2750,10 +2790,13 @@ public class ReportController extends BaseController{
 			    }
 			}
 			
-			File dailyReportFile = new File(localWeeklyReportFile.toString());
+			File weeklyReportFile = new File(localWeeklyReportFile.toString());
 	        File targetReportFile = new File(weeklyReportFile2Download.toString());
 	        
-	        if( !dailyReportFile.exists() ){
+	        File weeklyRoomReportFile = new File(localRoomWeeklyReportFile.toString());
+	        File targetRoomReportFile = new File(weeklyRoomReportFile2Download.toString());
+	        
+	        if( !weeklyReportFile.exists() ){
 	            logger.error("fail to generate the daily report to export, no file is found");
 	            
 	            request.getSession().setAttribute(LsAttributes.WEEKLY_PDF_REPORT_MESSAGE, LsAttributes.NO_WEEKLY_PDF_FOUND);
@@ -2763,13 +2806,20 @@ public class ReportController extends BaseController{
 	                return "redirect:showUploadData";
 	            }
 	        }else{
-	            FileUtils.copySourceFile2TargetFile(dailyReportFile, targetReportFile);
+	            FileUtils.copySourceFile2TargetFile(weeklyReportFile, targetReportFile);
+	            
+	            FileUtils.copySourceFile2TargetFile(weeklyRoomReportFile, targetRoomReportFile);
 	            
 	            ReportFileObject rfo = new ReportFileObject();
 	            rfo.setFileName(remoteWeeklyReportFile.toString().substring(remoteWeeklyReportFile.toString().lastIndexOf("/")+1));
 	            rfo.setFilePath(remoteWeeklyReportFile.toString());
 	            
+	            ReportFileObject roomRfo = new ReportFileObject();
+	            roomRfo.setFileName(remoteRoomWeeklyReportFile.toString().substring(remoteRoomWeeklyReportFile.toString().lastIndexOf("/")+1));
+	            roomRfo.setFilePath(remoteRoomWeeklyReportFile.toString());
+	            
 	            reportFiles.add(rfo);
+	            reportFiles.add(roomRfo);
 	            
 	            try{
 	            	if( "download".equalsIgnoreCase(eventtype) ){
