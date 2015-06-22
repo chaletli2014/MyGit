@@ -24,6 +24,7 @@ public class PediatricsMobileRowMapper implements RowMapper<MobilePEDDailyData>{
         mobilePEDDailyData.setTmgRate(rs.getDouble("tmgRate"));
         mobilePEDDailyData.setFmgRate(rs.getDouble("fmgRate"));
         mobilePEDDailyData.setRegionCenterCN(rs.getString("regionCenterCN"));
+        mobilePEDDailyData.setRegion(rs.getString("region"));
         mobilePEDDailyData.setWhbwnum(rs.getInt("whbwnum"));
         mobilePEDDailyData.setBlRate(rs.getDouble("blRate"));
         mobilePEDDailyData.setWhdays(rs.getDouble("whdays_emerging"));

@@ -28,8 +28,11 @@ import com.chalet.lskpi.mapper.EmergingTopAndBottomRSMWhRateRowMapper;
 import com.chalet.lskpi.mapper.MonthlyStatisticsCoreDataRowMapper;
 import com.chalet.lskpi.mapper.MonthlyStatisticsDataRowMapper;
 import com.chalet.lskpi.mapper.MonthlyStatisticsEmergingDataRowMapper;
+import com.chalet.lskpi.mapper.PedHomeWeeklyDataRowMapper;
 import com.chalet.lskpi.mapper.PediatricsCoreHosRowMapper;
 import com.chalet.lskpi.mapper.PediatricsEmergingHosRowMapper;
+import com.chalet.lskpi.mapper.PediatricsHomeRowMapper;
+import com.chalet.lskpi.mapper.PediatricsMobilePEDWeeklyRowMapper;
 import com.chalet.lskpi.mapper.PediatricsMobileRowMapper;
 import com.chalet.lskpi.mapper.PediatricsRoomRowMapper;
 import com.chalet.lskpi.mapper.PediatricsRowMapper;
@@ -3127,20 +3130,24 @@ public class PediatricsDAOImpl implements PediatricsDAO {
 	    sql.append(", home_wh_emerging_num2=? ");
 	    sql.append(", home_wh_emerging_num3=? ");
 	    sql.append(", home_wh_emerging_num4=? ");
+	    sql.append(",lttEmergingNum=?");
 		sql.append(", home_wh_room_num1=? ");
 		sql.append(", home_wh_room_num2=? ");
 		sql.append(", home_wh_room_num3=? ");
 		sql.append(", home_wh_room_num4=? ");
+		sql.append(",lttRoomNum=?");
 		
 		List<Object> paramList = new ArrayList<Object>();
 	    paramList.add(pediatricsData.getHomeWhEmergingNum1());
 	    paramList.add(pediatricsData.getHomeWhEmergingNum2());
 	    paramList.add(pediatricsData.getHomeWhEmergingNum3());
 	    paramList.add(pediatricsData.getHomeWhEmergingNum4());
+	    paramList.add(pediatricsData.getLttEmergingNum());
 		paramList.add(pediatricsData.getHomeWhRoomNum1());
 		paramList.add(pediatricsData.getHomeWhRoomNum2());
 		paramList.add(pediatricsData.getHomeWhRoomNum3());
 		paramList.add(pediatricsData.getHomeWhRoomNum4());
+		paramList.add(pediatricsData.getLttRoomNum());
 		if( null == operator ){
 			logger.info("using web to update the data, no need to update the sales info");
 			paramList.add(pediatricsData.getDataId());
@@ -3157,6 +3164,301 @@ public class PediatricsDAOImpl implements PediatricsDAO {
 		dataBean.getJdbcTemplate().update(sql.toString(), paramList.toArray());
 	}
 	
+	/**
+	 * 儿科门急诊每周汇总数据
+	 */
+	@Override
+	public List<MobilePEDDailyData> getWeeklyPediatricsEmergingDatas(String duration,String level) {
+		StringBuffer sql = new StringBuffer("");
+		switch(level){
+		   case LsAttributes.USER_LEVEL_RSD:
+			    sql.append("select u.regionCenter as regionCenterCN,u.region,u.name")
+			    .append(", count(1) as hosNum")
+			    .append(", sum( ")
+		        .append("			case ")
+		        .append("			when h.dragonType='Core' then least(pdw.innum,1)")
+		        .append("			when h.dragonType='Emerging' then least(pdw.innum,1) ")
+		        .append("			end")
+		        .append(") as inNum")
+		        .append(",ROUND(IFNULL(sum(pdw.pnum),0),0) as pnum")
+		        .append(",ROUND(IFNULL(sum(pdw.whnum),0),0) as whnum")
+		        .append(",ROUND(IFNULL(sum(pdw.lsnum),0),0) as lsnum")
+		        .append(",ROUND(IFNULL(sum(pdw.lsnum)/sum(pdw.pnum),0),2) as whRate")
+		        .append(",ROUND(IFNULL(sum(pdw.averageDose*pdw.lsnum)/sum(pdw.lsnum),0),2) as averageDose")
+		        .append(",ROUND(IFNULL(sum(pdw.hmgRate*pdw.lsnum)/sum(pdw.lsnum),0),1) as hmgRate")
+		        .append(",ROUND(IFNULL(sum(pdw.omgRate*pdw.lsnum)/sum(pdw.lsnum),0),1) as omgRate")
+		        .append(",ROUND(IFNULL(sum(pdw.tmgRate*pdw.lsnum)/sum(pdw.lsnum),0),1) as tmgRate")
+		        .append(",ROUND(IFNULL(sum(pdw.fmgRate*pdw.lsnum)/sum(pdw.lsnum),0),1) as fmgRate")
+		        .append(",ROUND(IFNULL(sum(pdw.whDaysEmerging*pdw.lsnum)/sum(pdw.lsnum),0),2) as whdays_emerging")
+		        .append(",IFNULL(sum(pdw.whbwnum),0) as whbwnum ")
+		        .append(",IFNULL(sum(pdw.whbwnum)/sum(pdw.lsnum),0) as blRate ")
+		        .append(" from tbl_pediatrics_data_weekly pdw, tbl_userinfo u, tbl_hospital h")
+		        .append(" where h.code = pdw.hospitalCode")
+		        .append(" and h.region = u.regionCenter")
+		        .append(" and pdw.duration =?")
+		        .append(" and u.level=?")
+		        .append(" group by pdw.duration, h.region")
+		        .append(" order by regionCenter asc, duration asc");
+			     break;
+		   case LsAttributes.USER_LEVEL_RSM:   
+			    sql.append("select u.regionCenter as regionCenterCN,u.region,u.name")
+			    .append(", count(1) as hosNum")
+			    .append(", sum( ")
+		        .append("			case ")
+		        .append("			when h.dragonType='Core' then least(pdw.innum,1)")
+		        .append("			when h.dragonType='Emerging' then least(pdw.innum,1) ")
+		        .append("			end")
+		        .append(") as inNum")
+		        .append(",ROUND(IFNULL(sum(pdw.pnum),0),0) as pnum")
+		        .append(",ROUND(IFNULL(sum(pdw.whnum),0),0) as whnum")
+		        .append(",ROUND(IFNULL(sum(pdw.lsnum),0),0) as lsnum")
+		        .append(",ROUND(IFNULL(sum(pdw.lsnum)/sum(pdw.pnum),0),2) as whRate")
+		        .append(",ROUND(IFNULL(sum(pdw.averageDose*pdw.lsnum)/sum(pdw.lsnum),0),2) as averageDose")
+		        .append(",ROUND(IFNULL(sum(pdw.hmgRate*pdw.lsnum)/sum(pdw.lsnum),0),1) as hmgRate")
+		        .append(",ROUND(IFNULL(sum(pdw.omgRate*pdw.lsnum)/sum(pdw.lsnum),0),1) as omgRate")
+		        .append(",ROUND(IFNULL(sum(pdw.tmgRate*pdw.lsnum)/sum(pdw.lsnum),0),1) as tmgRate")
+		        .append(",ROUND(IFNULL(sum(pdw.fmgRate*pdw.lsnum)/sum(pdw.lsnum),0),1) as fmgRate")
+		        .append(",ROUND(IFNULL(sum(pdw.whDaysEmerging*pdw.lsnum)/sum(pdw.lsnum),0),2) as whdays_emerging")
+		        .append(",IFNULL(sum(pdw.whbwnum),0) as whbwnum ")
+		        .append(",IFNULL(sum(pdw.whbwnum)/sum(pdw.lsnum),0) as blRate ")
+		        .append(" from tbl_pediatrics_data_weekly pdw, tbl_userinfo u, tbl_hospital h")
+		        .append(" where h.code = pdw.hospitalCode")
+		        .append(" and h.rsmRegion = u.region")
+		        .append(" and pdw.duration =?")
+		        .append(" and u.level=?")
+		        .append(" group by pdw.duration, h.region, h.rsmRegion")
+		        .append(" order by regionCenter asc, region asc, duration asc");
+			    break;
+		   case LsAttributes.USER_LEVEL_DSM: 
+			    sql.append("select u.regionCenter as regionCenterCN,u.region,u.name")
+			    .append(", count(1) as hosNum")
+			    .append(", sum( ")
+		        .append("			case ")
+		        .append("			when h.dragonType='Core' then least(pdw.innum,1)")
+		        .append("			when h.dragonType='Emerging' then least(pdw.innum,1)")
+		        .append("			end")
+		        .append(") as inNum")
+		        .append(",ROUND(IFNULL(sum(pdw.pnum),0),0) as pnum")
+		        .append(",ROUND(IFNULL(sum(pdw.whnum),0),0) as whnum")
+		        .append(",ROUND(IFNULL(sum(pdw.lsnum),0),0) as lsnum")
+		        .append(",ROUND(IFNULL(sum(pdw.lsnum)/sum(pdw.pnum),0),2) as whRate")
+		        .append(",ROUND(IFNULL(sum(pdw.averageDose*pdw.lsnum)/sum(pdw.lsnum),0),2) as averageDose")
+		        .append(",ROUND(IFNULL(sum(pdw.hmgRate*pdw.lsnum)/sum(pdw.lsnum),0),1) as hmgRate")
+		        .append(",ROUND(IFNULL(sum(pdw.omgRate*pdw.lsnum)/sum(pdw.lsnum),0),1) as omgRate")
+		        .append(",ROUND(IFNULL(sum(pdw.tmgRate*pdw.lsnum)/sum(pdw.lsnum),0),1) as tmgRate")
+		        .append(",ROUND(IFNULL(sum(pdw.fmgRate*pdw.lsnum)/sum(pdw.lsnum),0),1) as fmgRate")
+		        .append(",ROUND(IFNULL(sum(pdw.whDaysEmerging*pdw.lsnum)/sum(pdw.lsnum),0),2) as whdays_emerging")
+		        .append(",IFNULL(sum(pdw.whbwnum),0) as whbwnum ")
+		        .append(",IFNULL(sum(pdw.whbwnum)/sum(pdw.lsnum),0) as blRate ")
+		        .append(" from tbl_pediatrics_data_weekly pdw, tbl_userinfo u, tbl_hospital h")
+		        .append(" where h.code = pdw.hospitalCode")
+		        .append(" and h.rsmRegion = u.region")
+		        .append(" and h.dsmCode = u.userCode")
+		        .append(" and pdw.duration =?")
+		        .append(" and u.level=?")
+		        .append(" group by pdw.duration, h.dsmCode")
+		        .append(" order by regionCenter asc, region asc, name asc,duration asc");
+			    break;
+		}
+		
+		return dataBean.getJdbcTemplate().query(sql.toString(), new Object[]{duration,level}, new PediatricsMobilePEDWeeklyRowMapper());
+	}
+	
+	/**
+	 * 儿科家庭雾化每周汇总数据
+	 */
+	@Override
+	public List<MobilePEDDailyData> getWeeklyPEDHomeDatas(Date beginDate, Date endDate,String level,String department) {
+		StringBuffer sql = new StringBuffer("");
+		switch(level){
+		 case LsAttributes.USER_LEVEL_RSD:
+		        sql.append(LsAttributes.SQL_PED_HOME_WEEKLY_DATA_SELECTION)
+	        	.append(", ui.regionCenter as regionCenterCN ")
+	        	.append(", ui.region")
+	        	.append(", ui.name")
+	        	.append(", (select count(1) from tbl_hospital h1 where h1.isPedAssessed = '1' and h1.region = ui.regionCenter ) as hosNum ")
+	        	.append("from ( ");
+		        
+		        if( "6".equalsIgnoreCase(department) ){
+		        	sql.append(LsAttributes.SQL_PED_HOME_WEEKLY_DATA_SUB_SELECTION);
+		        }else{
+		        	sql.append(LsAttributes.SQL_PED_ROOM_HOME_WEEKLY_DATA_SUB_SELECTION);
+		        }
+		        
+		        sql.append("			,h.region ")
+				.append(LsAttributes.SQL_PED_HOME_WEEKLY_DATA_SUB2_SELECTION)
+				.append("			group by h.region ")
+		        .append(") homeData")
+		        .append(" right join tbl_userinfo ui on ui.regionCenter = homeData.region ")
+		        .append(" where ui.level='RSD' order by ui.regionCenter asc, ui.region asc ");
+		        break;
+		 case LsAttributes.USER_LEVEL_RSM:
+			 sql.append(LsAttributes.SQL_PED_HOME_WEEKLY_DATA_SELECTION)
+		        .append(", ui.regionCenter as regionCenterCN ")
+	        	.append(", ui.region")
+                .append(", ui.name ")
+	        	.append(", (select count(1) from tbl_hospital h1 where h1.isPedAssessed = '1' and h1.rsmRegion = ui.region ) as hosNum ")
+	        	.append("from ( ");
+			 
+			    if ( "6".equalsIgnoreCase(department) ) {
+			    	sql.append(LsAttributes.SQL_PED_HOME_WEEKLY_DATA_SUB_SELECTION);
+			     }else {
+			    	 sql.append(LsAttributes.SQL_PED_ROOM_HOME_WEEKLY_DATA_SUB_SELECTION);
+				}
+			    
+				sql.append("			,h.rsmRegion ")
+				.append(LsAttributes.SQL_PED_HOME_WEEKLY_DATA_SUB2_SELECTION)
+				.append("			group by h.rsmRegion ")
+		        .append(") homeData")
+		        .append(" right join tbl_userinfo ui on ui.region = homeData.rsmRegion ")
+		        .append(" where  ui.level='RSM' order by ui.regionCenter asc, ui.region asc ");
+				break;
+		 case LsAttributes.USER_LEVEL_DSM:
+			 sql.append(LsAttributes.SQL_PED_HOME_WEEKLY_DATA_SELECTION)
+		        .append(", ui.regionCenter as regionCenterCN ")
+	        	.append(", ui.region")
+	        	.append(", ui.name ")
+	        	.append(", (select count(1) from tbl_hospital h1 where h1.isPedAssessed = '1' and h1.rsmRegion = ui.region and h1.dsmCode = ui.userCode ) as hosNum ")
+	        	.append("from ( ");
+			 
+			    if ( "6".equalsIgnoreCase(department) ) {
+			    	sql.append(LsAttributes.SQL_PED_HOME_WEEKLY_DATA_SUB_SELECTION);
+			     }else {
+			    	 sql.append(LsAttributes.SQL_PED_ROOM_HOME_WEEKLY_DATA_SUB_SELECTION);
+				}
+			    
+				sql.append("	,h.rsmRegion ")
+				.append("	,h.dsmCode ")
+				.append(LsAttributes.SQL_PED_HOME_WEEKLY_DATA_SUB2_SELECTION)
+				.append("			group by h.rsmRegion,h.dsmCode ")
+		        .append(") homeData")
+		        .append(" right join tbl_userinfo ui on ui.region = homeData.rsmRegion and ui.userCode = homeData.dsmCode ")
+		        .append(" where  ui.level='DSM' order by ui.regionCenter asc, ui.region asc ");
+			    break;
+				
+		}
+		return dataBean.getJdbcTemplate().query(sql.toString(), new Object[]{beginDate,endDate}, new PediatricsHomeRowMapper());
+	}
+	
+    /**
+	 * 查询儿科病房每周数据
+	 */
+	@Override
+	public List<MobilePEDDailyData> getWeeklyPEDRoomDatas(Date beginDate,Date endDate, String level) throws Exception {
+		StringBuffer sql = new StringBuffer("");
+		switch (level) {
+		case LsAttributes.USER_LEVEL_RSD:
+			  sql.append(" select ui.regionCenter as regionCenterCN, ui.region , ui.name ")
+			  .append(", (select count(1) from tbl_hospital h1 where h1.isPedAssessed ='1' and h1.region = ui.regionCenter ) as hosNum ")
+			  .append(", homeData.innum ")
+			  .append(", IFNULL(homeData.pnum,0) as pnum ")
+			  .append(", IFNULL(homeData.whnum,0) as whnum ")
+			  .append(", IFNULL(homeData.lsnum,0) as lsnum ")
+			  .append(", IFNULL(homeData.whRate,0) as whRate ")
+			  .append(", IFNULL(homeData.averageDose,0) as averageDose ")
+			  .append(", IFNULL(homeData.hmgRate,0) as hmgRate ")
+			  .append(", IFNULL(homeData.omgRate,0) as omgRate ")
+			  .append(", IFNULL(homeData.tmgRate,0) as tmgRate ")
+			  .append(", IFNULL(homeData.fmgRate,0) as fmgRate ")
+			  .append(", IFNULL(homeData.whbwnum,0) as whbwnum ")
+			  .append(", IFNULL(homeData.whdays_emerging,0) as whdays_emerging ")
+			  .append(", IFNULL(homeData.blRate,0) as blRate ")
+			  .append("  from (  select count(distinct h.name)as inNum ")
+			  .append(", IFNULL(sum(pd.pnum_room),0) as pnum ")
+			  .append(", IFNULL(sum(pd.whnum_room),0) as whnum ")
+			  .append(", IFNULL(sum(pd.lsnum_room),0) as lsnum ")
+			  .append(", ROUND(IFNULL(sum(pd.lsnum_room)/sum(pd.pnum_room),0),2) as whRate ")
+			  .append(", ROUND(IFNULL( sum( ( ( 0.5*IFNULL(pd.hqd_room,0) + 0.5*2*IFNULL(pd.hbid_room,0) + 1*1*IFNULL(pd.oqd_room,0) + 1*2*IFNULL(pd.obid_room,0) + 2*1*IFNULL(pd.tqd_room,0) + 2*2*IFNULL(pd.tbid_room,0) ) / 100 )* IFNULL(pd.lsnum_room,0) ")
+			  .append(") / IFNULL(sum(pd.lsnum_room),0) ,0),2) averageDose ")
+			  .append(", ROUND(IFNULL( sum(IFNULL(pd.hqd_room,0)*pd.lsnum_room/100)/sum(pd.lsnum_room),0),1) hmgRate ")
+			  .append(", ROUND(IFNULL( sum((IFNULL(pd.hbid_room,0)*pd.lsnum_room + IFNULL(pd.oqd_room,0)*pd.lsnum_room)/100)/sum(pd.lsnum_room),0 ),1) omgRate ")
+			  .append(", ROUND(IFNULL( sum((IFNULL(pd.obid_room,0)*pd.lsnum_room + IFNULL(pd.tqd_room,0)*pd.lsnum_room)/100)/sum(pd.lsnum_room),0 ),1) tmgRate ")
+			  .append(", ROUND(IFNULL( sum(IFNULL(pd.tbid_room,0)*pd.lsnum_room/100)/sum(pd.lsnum_room),0 ),1) fmgRate ")
+			  .append(", (sum(pd.whbwnum_room)) as whbwnum ")
+			  .append(", ROUND(IFNULL(sum( ( ( 1*IFNULL(pd.whdays_room_1,0) + 2*IFNULL(pd.whdays_room_2,0) ")
+			  .append("+ 3*IFNULL(pd.whdays_room_3,0) + 4*IFNULL(pd.whdays_room_4,0) ")
+			  .append("+ 5*IFNULL(pd.whdays_room_5,0) + 6*IFNULL(pd.whdays_room_6,0) ")
+			  .append("+ 7*IFNULL(pd.whdays_room_7,0) + 8*IFNULL(pd.whdays_room_8,0) ")
+			  .append("+ 9*IFNULL(pd.whdays_room_9,0) + 10*IFNULL(pd.whdays_room_10,0) ")
+			  .append(")/ 100) * IFNULL(pd.lsnum_room,0)) / IFNULL(sum(pd.lsnum_room),0),0 ),2) as whdays_emerging ")
+			  .append(", ROUND(IFNULL(sum(pd.whbwnum_room)/sum(pd.lsnum_room),0),2) as blRate ")
+			  .append(", h.region ")
+			  .append(" from tbl_pediatrics_data pd, tbl_hospital h force index(INDEX_HOSPITAL_NAME) where ")
+			  .append(" pd.hospitalName = h.name  and pd.createdate between ? and ? ")
+			  .append(" and h.isPedAssessed = '1' group by h.region ) homeData ")
+			  .append(", tbl_userinfo ui  where ui.regionCenter = homeData.region and ui.level='RSD' order by ui.regionCenter,ui.region,ui.name ");
+			break;
+		case LsAttributes.USER_LEVEL_RSM:
+			  sql.append(" select ui.regionCenter as regionCenterCN, ui.region , ui.name ")
+			  .append(", (select count(1) from tbl_hospital h1 where h1.isPedAssessed ='1' and h1.rsmRegion = ui.region ) as hosNum ")
+			  .append(", homeData.inNum ")
+			  .append(", IFNULL(homeData.pnum,0) as pnum ")
+			  .append(", IFNULL(homeData.whnum,0) as whnum ")
+			  .append(", IFNULL(homeData.lsnum,0) as lsnum ")
+			  .append(", IFNULL(homeData.whRate,0) as whRate ")
+			  .append(", IFNULL(homeData.averageDose,0) as averageDose ")
+			  .append(", IFNULL(homeData.hmgRate,0) as hmgRate ")
+			  .append(", IFNULL(homeData.omgRate,0) as omgRate ")
+			  .append(", IFNULL(homeData.tmgRate,0) as tmgRate ")
+			  .append(", IFNULL(homeData.fmgRate,0) as fmgRate ")
+			  .append(", IFNULL(homeData.whbwnum,0) as whbwnum ")
+			  .append(", IFNULL(homeData.whdays_emerging,0) as whdays_emerging ")
+			  .append(", IFNULL(homeData.blRate,0) as blRate ")
+			  .append("  from (  select count(distinct h.name)as innum ")
+			  .append(", IFNULL(sum(pd.pnum_room),0) as pnum ")
+			  .append(", IFNULL(sum(pd.whnum_room),0) as whnum ")
+			  .append(", IFNULL(sum(pd.lsnum_room),0) as lsnum ")
+			  .append(", ROUND(IFNULL(sum(pd.lsnum_room)/sum(pd.pnum_room),0),2) as whRate ")
+			  .append(", ROUND(IFNULL( sum( ( ( 0.5*IFNULL(pd.hqd_room,0) + 0.5*2*IFNULL(pd.hbid_room,0) + 1*1*IFNULL(pd.oqd_room,0) + 1*2*IFNULL(pd.obid_room,0) + 2*1*IFNULL(pd.tqd_room,0) + 2*2*IFNULL(pd.tbid_room,0) ) / 100 )* IFNULL(pd.lsnum_room,0) ")
+			  .append(") / IFNULL(sum(pd.lsnum_room),0) ,0),2) averageDose ")
+			  .append(", ROUND(IFNULL( sum(IFNULL(pd.hqd_room,0)*pd.lsnum_room/100)/sum(pd.lsnum_room),0),1) hmgRate ")
+			  .append(", ROUND(IFNULL( sum((IFNULL(pd.hbid_room,0)*pd.lsnum_room + IFNULL(pd.oqd_room,0)*pd.lsnum_room)/100)/sum(pd.lsnum_room),0 ),1) omgRate ")
+			  .append(", ROUND(IFNULL( sum((IFNULL(pd.obid_room,0)*pd.lsnum_room + IFNULL(pd.tqd_room,0)*pd.lsnum_room)/100)/sum(pd.lsnum_room),0 ),1) tmgRate ")
+			  .append(", ROUND(IFNULL( sum(IFNULL(pd.tbid_room,0)*pd.lsnum_room/100)/sum(pd.lsnum_room),0 ),1) fmgRate ")
+			  .append(", (sum(pd.whbwnum_room)) as whbwnum ")
+			  .append(", ROUND(IFNULL(sum( ( ( 1*IFNULL(pd.whdays_room_1,0) + 2*IFNULL(pd.whdays_room_2,0) ")
+			  .append("+ 3*IFNULL(pd.whdays_room_3,0) + 4*IFNULL(pd.whdays_room_4,0) ")
+			  .append("+ 5*IFNULL(pd.whdays_room_5,0) + 6*IFNULL(pd.whdays_room_6,0) ")
+			  .append("+ 7*IFNULL(pd.whdays_room_7,0) + 8*IFNULL(pd.whdays_room_8,0) ")
+			  .append("+ 9*IFNULL(pd.whdays_room_9,0) + 10*IFNULL(pd.whdays_room_10,0) ")
+			  .append(")/ 100) * IFNULL(pd.lsnum_room,0)) / IFNULL(sum(pd.lsnum_room),0),0 ),2) as whdays_emerging ")
+			  .append(", ROUND(IFNULL(sum(pd.whbwnum_room)/sum(pd.lsnum_room),0),2) as blRate ")
+			  .append(", h.rsmRegion ")
+			  .append(" from tbl_pediatrics_data pd, tbl_hospital h force index(INDEX_HOSPITAL_NAME) where ")
+			  .append(" pd.hospitalName = h.name  and pd.createdate between ? and ? ")
+			  .append(" and h.isPedAssessed = '1' group by h.rsmRegion ) homeData ")
+			  .append(", tbl_userinfo ui  where ui.region = homeData.rsmRegion and ui.level='RSM' order by ui.regionCenter,ui.region,ui.name ");
+			break;
+		case LsAttributes.USER_LEVEL_DSM:
+			sql.append(" select ui.regionCenter as regionCenterCN, ui.region , ui.name ")
+			  .append(", (select count(1) from tbl_hospital h1 where h1.isPedAssessed ='1' and h1.rsmRegion = ui.region and h1.dsmCode = ui.userCode ) as hosNum ")
+			  .append(", count(distinct h.name) as inNum ")
+			  .append(", IFNULL(sum(pd.pnum_room),0) as pnum ")
+			  .append(", IFNULL(sum(pd.whnum_room),0) as whnum ")
+			  .append(", IFNULL(sum(pd.lsnum_room),0) as lsnum ")
+			  .append(", ROUND(IFNULL(sum(pd.lsnum_room)/sum(pd.pnum_room),0),2) as whRate ")
+			  .append(", ROUND(IFNULL( sum( ( ( 0.5*IFNULL(pd.hqd_room,0) + 0.5*2*IFNULL(pd.hbid_room,0) + 1*1*IFNULL(pd.oqd_room,0) + 1*2*IFNULL(pd.obid_room,0) + 2*1*IFNULL(pd.tqd_room,0) + 2*2*IFNULL(pd.tbid_room,0) ) / 100 )* IFNULL(pd.lsnum_room,0) ")
+			  .append(") / IFNULL(sum(pd.lsnum_room),0) ,0),2) averageDose ")
+			  .append(", ROUND(IFNULL( sum(IFNULL(pd.hqd_room,0)*pd.lsnum_room/100)/sum(pd.lsnum_room),0),1) hmgRate ")
+			  .append(", ROUND(IFNULL( sum((IFNULL(pd.hbid_room,0)*pd.lsnum_room + IFNULL(pd.oqd_room,0)*pd.lsnum_room)/100)/sum(pd.lsnum_room),0 ),1) omgRate ")
+			  .append(", ROUND(IFNULL( sum((IFNULL(pd.obid_room,0)*pd.lsnum_room + IFNULL(pd.tqd_room,0)*pd.lsnum_room)/100)/sum(pd.lsnum_room),0 ),1) tmgRate ")
+			  .append(", ROUND(IFNULL( sum(IFNULL(pd.tbid_room,0)*pd.lsnum_room/100)/sum(pd.lsnum_room),0 ),1) fmgRate ")
+			  .append(", (sum(pd.whbwnum_room)) as whbwnum ")
+			  .append(", ROUND(IFNULL(sum( ( ( 1*IFNULL(pd.whdays_room_1,0) + 2*IFNULL(pd.whdays_room_2,0) ")
+			  .append("+ 3*IFNULL(pd.whdays_room_3,0) + 4*IFNULL(pd.whdays_room_4,0) ")
+			  .append("+ 5*IFNULL(pd.whdays_room_5,0) + 6*IFNULL(pd.whdays_room_6,0) ")
+			  .append("+ 7*IFNULL(pd.whdays_room_7,0) + 8*IFNULL(pd.whdays_room_8,0) ")
+			  .append("+ 9*IFNULL(pd.whdays_room_9,0) + 10*IFNULL(pd.whdays_room_10,0) ")
+			  .append(")/ 100) * IFNULL(pd.lsnum_room,0)) / IFNULL(sum(pd.lsnum_room),0),0 ),2) as whdays_emerging ")
+			  .append(", ROUND(IFNULL(sum(pd.whbwnum_room)/sum(pd.lsnum_room),0),2) as blRate ")
+			  .append(" from tbl_pediatrics_data pd, tbl_hospital h force index(INDEX_HOSPITAL_NAME),tbl_userinfo ui where ")
+			  .append(" pd.hospitalName = h.name and h.rsmRegion = ui.region and  ui.userCode=pd.dsmCode  and pd.createdate between ? and ? ")
+			  .append(" and h.isPedAssessed = '1' and ui.level='DSM' group by h.dsmCode ,h.rsmRegion,h.region order by ui.regionCenter,ui.region,ui.name ");
+			break;
+		}
+		return dataBean.getJdbcTemplate().query(sql.toString(), new Object[]{beginDate,endDate}, new PediatricsMobilePEDWeeklyRowMapper());
+	}
+	
 	public DataBean getDataBean() {
         return dataBean;
     }
@@ -3164,8 +3466,5 @@ public class PediatricsDAOImpl implements PediatricsDAO {
     public void setDataBean(DataBean dataBean) {
         this.dataBean = dataBean;
     }
-
-
-
-
+    
 }

@@ -9,12 +9,12 @@
 function checkForm(){
 	var today = new Date();
 	var dayInWeek = today.getDay()
-		if (dayInWeek<5) {
-	        showCustomrizedMessage("儿科家庭雾化数据须在每周五才能填写，敬请注意，谢谢!");
-	        return false;
-		} else {
-			window.location.href="<%=basePath%>pediatricsHome";
-		}
+    if (dayInWeek >= 5 || dayInWeek==0) {
+		window.location.href="<%=basePath%>pediatricsHome";
+	} else {
+        showCustomrizedMessage("儿科家庭雾化数据须在每周五才能填写，敬请注意，谢谢!");
+        return false;
+	}
 
 	}
 </script>

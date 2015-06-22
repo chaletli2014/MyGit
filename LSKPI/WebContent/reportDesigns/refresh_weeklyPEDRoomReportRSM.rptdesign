@@ -8566,25 +8566,22 @@ dataSetRow["inNum"]/dataSetRow["hosNum"]&#13;
                 <property name="textAlign">right</property>
                 <property name="width">0.59375in</property>
             </column>
-            <column id="1562">
-                <property name="textAlign">right</property>
-                <property name="width">0.84375in</property>
-            </column>
             <column id="1563">
                 <property name="textAlign">right</property>
                 <property name="width">0.6354166666666666in</property>
             </column>
-            <column id="1564">
+            <column id="4509">
                 <property name="textAlign">right</property>
                 <property name="width">0.6770833333333334in</property>
+            </column>
+            <column id="4463">
+                <property name="repeat">1</property>
+                <property name="textAlign">right</property>
+                <property name="width">1.1875in</property>
             </column>
             <column id="1565">
                 <property name="textAlign">right</property>
                 <property name="width">1.0625in</property>
-            </column>
-            <column id="4463">
-                <property name="textAlign">right</property>
-                <property name="width">1.1875in</property>
             </column>
             <column id="1566">
                 <property name="textAlign">right</property>
@@ -8659,26 +8656,6 @@ dataSetRow["inNum"]/dataSetRow["hosNum"]&#13;
                             <text-property name="text">医院数</text-property>
                         </label>
                     </cell>
-                    <cell id="1489">
-                        <property name="borderBottomColor">#000000</property>
-                        <property name="borderBottomStyle">solid</property>
-                        <property name="borderBottomWidth">1px</property>
-                        <property name="borderLeftColor">#000000</property>
-                        <property name="borderLeftStyle">solid</property>
-                        <property name="borderLeftWidth">1px</property>
-                        <property name="borderRightColor">#000000</property>
-                        <property name="borderRightStyle">solid</property>
-                        <property name="borderRightWidth">1px</property>
-                        <property name="borderTopColor">#000000</property>
-                        <property name="borderTopStyle">solid</property>
-                        <property name="borderTopWidth">1px</property>
-                        <label id="1490">
-                            <property name="fontWeight">normal</property>
-                            <property name="color">white</property>
-                            <property name="textAlign">center</property>
-                            <text-property name="text">Core上报率</text-property>
-                        </label>
-                    </cell>
                     <cell id="1491">
                         <property name="borderBottomColor">#000000</property>
                         <property name="borderBottomStyle">solid</property>
@@ -8699,7 +8676,7 @@ dataSetRow["inNum"]/dataSetRow["hosNum"]&#13;
                             <text-property name="text">上报率</text-property>
                         </label>
                     </cell>
-                    <cell id="1493">
+                    <cell id="4506">
                         <property name="borderBottomColor">#000000</property>
                         <property name="borderBottomStyle">solid</property>
                         <property name="borderBottomWidth">1px</property>
@@ -8712,31 +8689,11 @@ dataSetRow["inNum"]/dataSetRow["hosNum"]&#13;
                         <property name="borderTopColor">#000000</property>
                         <property name="borderTopStyle">solid</property>
                         <property name="borderTopWidth">1px</property>
-                        <label id="1494">
+                        <label id="1498">
                             <property name="fontWeight">normal</property>
                             <property name="color">white</property>
                             <property name="textAlign">center</property>
-                            <text-property name="text">住院人次</text-property>
-                        </label>
-                    </cell>
-                    <cell id="1495">
-                        <property name="borderBottomColor">#000000</property>
-                        <property name="borderBottomStyle">solid</property>
-                        <property name="borderBottomWidth">1px</property>
-                        <property name="borderLeftColor">#000000</property>
-                        <property name="borderLeftStyle">solid</property>
-                        <property name="borderLeftWidth">1px</property>
-                        <property name="borderRightColor">#000000</property>
-                        <property name="borderRightStyle">solid</property>
-                        <property name="borderRightWidth">1px</property>
-                        <property name="borderTopColor">#000000</property>
-                        <property name="borderTopStyle">solid</property>
-                        <property name="borderTopWidth">1px</property>
-                        <label id="1496">
-                            <property name="fontWeight">normal</property>
-                            <property name="color">white</property>
-                            <property name="textAlign">center</property>
-                            <text-property name="text">雾化令舒人次</text-property>
+                            <text-property name="text">雾化率</text-property>
                         </label>
                     </cell>
                     <cell id="4460">
@@ -8759,6 +8716,26 @@ dataSetRow["inNum"]/dataSetRow["hosNum"]&#13;
                             <text-property name="text">Core医院雾化率</text-property>
                         </label>
                     </cell>
+                    <cell id="1495">
+                        <property name="borderBottomColor">#000000</property>
+                        <property name="borderBottomStyle">solid</property>
+                        <property name="borderBottomWidth">1px</property>
+                        <property name="borderLeftColor">#000000</property>
+                        <property name="borderLeftStyle">solid</property>
+                        <property name="borderLeftWidth">1px</property>
+                        <property name="borderRightColor">#000000</property>
+                        <property name="borderRightStyle">solid</property>
+                        <property name="borderRightWidth">1px</property>
+                        <property name="borderTopColor">#000000</property>
+                        <property name="borderTopStyle">solid</property>
+                        <property name="borderTopWidth">1px</property>
+                        <label id="1494">
+                            <property name="fontWeight">normal</property>
+                            <property name="color">white</property>
+                            <property name="textAlign">center</property>
+                            <text-property name="text">住院人次</text-property>
+                        </label>
+                    </cell>
                     <cell id="1497">
                         <property name="borderBottomColor">#000000</property>
                         <property name="borderBottomStyle">solid</property>
@@ -8772,11 +8749,11 @@ dataSetRow["inNum"]/dataSetRow["hosNum"]&#13;
                         <property name="borderTopColor">#000000</property>
                         <property name="borderTopStyle">solid</property>
                         <property name="borderTopWidth">1px</property>
-                        <label id="1498">
+                        <label id="1496">
                             <property name="fontWeight">normal</property>
                             <property name="color">white</property>
                             <property name="textAlign">center</property>
-                            <text-property name="text">雾化率</text-property>
+                            <text-property name="text">雾化令舒人次</text-property>
                         </label>
                     </cell>
                     <cell id="1499">
@@ -8883,24 +8860,6 @@ dataSetRow["inNum"]/dataSetRow["hosNum"]&#13;
                             <property name="resultSetColumn">actualHosNum</property>
                         </data>
                     </cell>
-                    <cell id="1515">
-                        <property name="fontFamily">"Arial"</property>
-                        <property name="borderBottomStyle">solid</property>
-                        <property name="borderBottomWidth">thin</property>
-                        <property name="borderLeftStyle">solid</property>
-                        <property name="borderLeftWidth">thin</property>
-                        <property name="borderRightStyle">solid</property>
-                        <property name="borderRightWidth">thin</property>
-                        <property name="borderTopStyle">solid</property>
-                        <property name="borderTopWidth">thin</property>
-                        <data id="1516">
-                            <structure name="numberFormat">
-                                <property name="category">Percent</property>
-                                <property name="pattern">###0.0%{RoundingMode=HALF_UP}</property>
-                            </structure>
-                            <property name="resultSetColumn">coreInRateRSM</property>
-                        </data>
-                    </cell>
                     <cell id="1517">
                         <property name="borderBottomStyle">solid</property>
                         <property name="borderBottomWidth">thin</property>
@@ -8919,7 +8878,7 @@ dataSetRow["inNum"]/dataSetRow["hosNum"]&#13;
                             <property name="resultSetColumn">inRateRSM</property>
                         </data>
                     </cell>
-                    <cell id="1519">
+                    <cell id="4507">
                         <property name="borderBottomStyle">solid</property>
                         <property name="borderBottomWidth">thin</property>
                         <property name="borderLeftStyle">solid</property>
@@ -8928,31 +8887,13 @@ dataSetRow["inNum"]/dataSetRow["hosNum"]&#13;
                         <property name="borderRightWidth">thin</property>
                         <property name="borderTopStyle">solid</property>
                         <property name="borderTopWidth">thin</property>
-                        <data id="1520">
+                        <data id="1524">
                             <property name="fontFamily">"Arial"</property>
                             <structure name="numberFormat">
-                                <property name="category">Fixed</property>
-                                <property name="pattern">#,##0{RoundingMode=HALF_UP}</property>
+                                <property name="category">Percent</property>
+                                <property name="pattern">###0.0%{RoundingMode=HALF_UP}</property>
                             </structure>
-                            <property name="resultSetColumn">pnum</property>
-                        </data>
-                    </cell>
-                    <cell id="1521">
-                        <property name="borderBottomStyle">solid</property>
-                        <property name="borderBottomWidth">thin</property>
-                        <property name="borderLeftStyle">solid</property>
-                        <property name="borderLeftWidth">thin</property>
-                        <property name="borderRightStyle">solid</property>
-                        <property name="borderRightWidth">thin</property>
-                        <property name="borderTopStyle">solid</property>
-                        <property name="borderTopWidth">thin</property>
-                        <data id="1522">
-                            <property name="fontFamily">"Arial"</property>
-                            <structure name="numberFormat">
-                                <property name="category">Fixed</property>
-                                <property name="pattern">#,##0{RoundingMode=HALF_UP}</property>
-                            </structure>
-                            <property name="resultSetColumn">lsnum</property>
+                            <property name="resultSetColumn">whRate</property>
                         </data>
                     </cell>
                     <cell id="4461">
@@ -8972,6 +8913,24 @@ dataSetRow["inNum"]/dataSetRow["hosNum"]&#13;
                             <property name="resultSetColumn">coreWhRate</property>
                         </data>
                     </cell>
+                    <cell id="1521">
+                        <property name="borderBottomStyle">solid</property>
+                        <property name="borderBottomWidth">thin</property>
+                        <property name="borderLeftStyle">solid</property>
+                        <property name="borderLeftWidth">thin</property>
+                        <property name="borderRightStyle">solid</property>
+                        <property name="borderRightWidth">thin</property>
+                        <property name="borderTopStyle">solid</property>
+                        <property name="borderTopWidth">thin</property>
+                        <data id="4510">
+                            <property name="fontFamily">"Arial"</property>
+                            <structure name="numberFormat">
+                                <property name="category">Fixed</property>
+                                <property name="pattern">#,##0{RoundingMode=HALF_UP}</property>
+                            </structure>
+                            <property name="resultSetColumn">pnum</property>
+                        </data>
+                    </cell>
                     <cell id="1523">
                         <property name="borderBottomStyle">solid</property>
                         <property name="borderBottomWidth">thin</property>
@@ -8981,13 +8940,13 @@ dataSetRow["inNum"]/dataSetRow["hosNum"]&#13;
                         <property name="borderRightWidth">thin</property>
                         <property name="borderTopStyle">solid</property>
                         <property name="borderTopWidth">thin</property>
-                        <data id="1524">
+                        <data id="1522">
                             <property name="fontFamily">"Arial"</property>
                             <structure name="numberFormat">
-                                <property name="category">Percent</property>
-                                <property name="pattern">###0.0%{RoundingMode=HALF_UP}</property>
+                                <property name="category">Fixed</property>
+                                <property name="pattern">#,##0{RoundingMode=HALF_UP}</property>
                             </structure>
-                            <property name="resultSetColumn">whRate</property>
+                            <property name="resultSetColumn">lsnum</property>
                         </data>
                     </cell>
                     <cell id="1525">
@@ -9078,24 +9037,6 @@ dataSetRow["inNum"]/dataSetRow["hosNum"]&#13;
                             <property name="resultSetColumn">actualHosNumTotal</property>
                         </data>
                     </cell>
-                    <cell id="1540">
-                        <property name="fontFamily">"Arial"</property>
-                        <property name="borderBottomStyle">solid</property>
-                        <property name="borderBottomWidth">1px</property>
-                        <property name="borderLeftStyle">solid</property>
-                        <property name="borderLeftWidth">1px</property>
-                        <property name="borderRightStyle">solid</property>
-                        <property name="borderRightWidth">1px</property>
-                        <property name="borderTopStyle">solid</property>
-                        <property name="borderTopWidth">2px</property>
-                        <data id="1541">
-                            <structure name="numberFormat">
-                                <property name="category">Percent</property>
-                                <property name="pattern">###0.0%{RoundingMode=HALF_UP}</property>
-                            </structure>
-                            <property name="resultSetColumn">coreInRateRSMTotal</property>
-                        </data>
-                    </cell>
                     <cell id="1542">
                         <property name="borderBottomStyle">solid</property>
                         <property name="borderBottomWidth">1px</property>
@@ -9114,7 +9055,7 @@ dataSetRow["inNum"]/dataSetRow["hosNum"]&#13;
                             <property name="resultSetColumn">inRateRSMTotal</property>
                         </data>
                     </cell>
-                    <cell id="1544">
+                    <cell id="4508">
                         <property name="borderBottomStyle">solid</property>
                         <property name="borderBottomWidth">1px</property>
                         <property name="borderLeftStyle">solid</property>
@@ -9123,31 +9064,13 @@ dataSetRow["inNum"]/dataSetRow["hosNum"]&#13;
                         <property name="borderRightWidth">1px</property>
                         <property name="borderTopStyle">solid</property>
                         <property name="borderTopWidth">2px</property>
-                        <data id="1545">
+                        <data id="1549">
                             <property name="fontFamily">"Arial"</property>
                             <structure name="numberFormat">
-                                <property name="category">Fixed</property>
-                                <property name="pattern">#,##0{RoundingMode=HALF_UP}</property>
+                                <property name="category">Percent</property>
+                                <property name="pattern">###0.0%{RoundingMode=HALF_UP}</property>
                             </structure>
-                            <property name="resultSetColumn">pnumRSMTotal</property>
-                        </data>
-                    </cell>
-                    <cell id="1546">
-                        <property name="borderBottomStyle">solid</property>
-                        <property name="borderBottomWidth">1px</property>
-                        <property name="borderLeftStyle">solid</property>
-                        <property name="borderLeftWidth">1px</property>
-                        <property name="borderRightStyle">solid</property>
-                        <property name="borderRightWidth">1px</property>
-                        <property name="borderTopStyle">solid</property>
-                        <property name="borderTopWidth">2px</property>
-                        <data id="1547">
-                            <property name="fontFamily">"Arial"</property>
-                            <structure name="numberFormat">
-                                <property name="category">Fixed</property>
-                                <property name="pattern">#,##0{RoundingMode=HALF_UP}</property>
-                            </structure>
-                            <property name="resultSetColumn">lsnumRSMTotal</property>
+                            <property name="resultSetColumn">whRateRSMTotal</property>
                         </data>
                     </cell>
                     <cell id="4462">
@@ -9167,6 +9090,24 @@ dataSetRow["inNum"]/dataSetRow["hosNum"]&#13;
                             <property name="resultSetColumn">coreWhRateTotal</property>
                         </data>
                     </cell>
+                    <cell id="1546">
+                        <property name="borderBottomStyle">solid</property>
+                        <property name="borderBottomWidth">1px</property>
+                        <property name="borderLeftStyle">solid</property>
+                        <property name="borderLeftWidth">1px</property>
+                        <property name="borderRightStyle">solid</property>
+                        <property name="borderRightWidth">1px</property>
+                        <property name="borderTopStyle">solid</property>
+                        <property name="borderTopWidth">2px</property>
+                        <data id="1545">
+                            <property name="fontFamily">"Arial"</property>
+                            <structure name="numberFormat">
+                                <property name="category">Fixed</property>
+                                <property name="pattern">#,##0{RoundingMode=HALF_UP}</property>
+                            </structure>
+                            <property name="resultSetColumn">pnumRSMTotal</property>
+                        </data>
+                    </cell>
                     <cell id="1548">
                         <property name="borderBottomStyle">solid</property>
                         <property name="borderBottomWidth">1px</property>
@@ -9176,13 +9117,13 @@ dataSetRow["inNum"]/dataSetRow["hosNum"]&#13;
                         <property name="borderRightWidth">1px</property>
                         <property name="borderTopStyle">solid</property>
                         <property name="borderTopWidth">2px</property>
-                        <data id="1549">
+                        <data id="1547">
                             <property name="fontFamily">"Arial"</property>
                             <structure name="numberFormat">
-                                <property name="category">Percent</property>
-                                <property name="pattern">###0.0%{RoundingMode=HALF_UP}</property>
+                                <property name="category">Fixed</property>
+                                <property name="pattern">#,##0{RoundingMode=HALF_UP}</property>
                             </structure>
-                            <property name="resultSetColumn">whRateRSMTotal</property>
+                            <property name="resultSetColumn">lsnumRSMTotal</property>
                         </data>
                     </cell>
                     <cell id="1550">
@@ -25225,6 +25166,10 @@ dataSetRow["inNum"]/dataSetRow["hosNum"]&#13;
                         <property name="borderTopStyle">solid</property>
                         <property name="borderTopWidth">2px</property>
                         <data id="4505">
+                            <structure name="numberFormat">
+                                <property name="category">Fixed</property>
+                                <property name="pattern">###0.00{RoundingMode=HALF_UP}</property>
+                            </structure>
                             <property name="resultSetColumn">averDaysTotal</property>
                         </data>
                     </cell>
@@ -39917,5 +39862,13 @@ dataSetRow["inNum"]/dataSetRow["hosNum"]&#13;
                 </cell>
             </row>
         </grid>
+        <data id="1520">
+            <property name="fontFamily">"Arial"</property>
+            <structure name="numberFormat">
+                <property name="category">Fixed</property>
+                <property name="pattern">#,##0{RoundingMode=HALF_UP}</property>
+            </structure>
+            <property name="resultSetColumn">pnum</property>
+        </data>
     </body>
 </report>

@@ -457,6 +457,7 @@ public class ReportController extends BaseController{
                     row.createCell(columnNum++, XSSFCell.CELL_TYPE_STRING).setCellValue("门急诊带药人数");
                     row.createCell(columnNum++, XSSFCell.CELL_TYPE_STRING).setCellValue("门急诊平均带药天数");
                     row.createCell(columnNum++, XSSFCell.CELL_TYPE_STRING).setCellValue("门急诊总带药支数");
+                    row.createCell(columnNum++, XSSFCell.CELL_TYPE_STRING).setCellValue("门急诊带药(DOT>=30天)人数");
                     row.createCell(columnNum++, XSSFCell.CELL_TYPE_STRING).setCellValue("当日住院门诊人次");
                     row.createCell(columnNum++, XSSFCell.CELL_TYPE_STRING).setCellValue("当日住院雾化人次");
                     row.createCell(columnNum++, XSSFCell.CELL_TYPE_STRING).setCellValue("当日住院雾化令舒人次");
@@ -480,7 +481,8 @@ public class ReportController extends BaseController{
                     row.createCell(columnNum++, XSSFCell.CELL_TYPE_STRING).setCellValue("住院赠卖泵数量");
                     row.createCell(columnNum++, XSSFCell.CELL_TYPE_STRING).setCellValue("住院带药人数");
                     row.createCell(columnNum++, XSSFCell.CELL_TYPE_STRING).setCellValue("住院平均带药天数");
-                    row.createCell(columnNum++, XSSFCell.CELL_TYPE_STRING).setCellValue("住院总带药支数");   
+                    row.createCell(columnNum++, XSSFCell.CELL_TYPE_STRING).setCellValue("住院总带药支数");
+                    row.createCell(columnNum++, XSSFCell.CELL_TYPE_STRING).setCellValue("住院带药(DOT>=30天)人数");
                     row.createCell(columnNum++, XSSFCell.CELL_TYPE_STRING).setCellValue("该医院主要处方方式");
                     row.createCell(columnNum++, XSSFCell.CELL_TYPE_STRING).setCellValue("是否为KPI医院（在=1，不在=0）");
                     row.createCell(columnNum++, XSSFCell.CELL_TYPE_STRING).setCellValue("Dragon Type");
@@ -560,6 +562,7 @@ public class ReportController extends BaseController{
                         row.createCell(dataColumnNum++, XSSFCell.CELL_TYPE_NUMERIC).setCellValue(pedData.getHomeWhEmergingNum2());
                         row.createCell(dataColumnNum++, XSSFCell.CELL_TYPE_NUMERIC).setCellValue(pedData.getHomeWhEmergingNum3());
                         row.createCell(dataColumnNum++, XSSFCell.CELL_TYPE_NUMERIC).setCellValue(pedData.getHomeWhEmergingNum4());
+                        row.createCell(dataColumnNum++, XSSFCell.CELL_TYPE_NUMERIC).setCellValue(pedData.getLttEmergingNum());
                         
                         row.createCell(dataColumnNum++, XSSFCell.CELL_TYPE_NUMERIC).setCellValue(pedData.getPnum_room());
                         row.createCell(dataColumnNum++, XSSFCell.CELL_TYPE_NUMERIC).setCellValue(pedData.getWhnum_room());
@@ -634,6 +637,7 @@ public class ReportController extends BaseController{
                         row.createCell(dataColumnNum++, XSSFCell.CELL_TYPE_NUMERIC).setCellValue(pedData.getHomeWhRoomNum2());
                         row.createCell(dataColumnNum++, XSSFCell.CELL_TYPE_NUMERIC).setCellValue(pedData.getHomeWhRoomNum3());
                         row.createCell(dataColumnNum++, XSSFCell.CELL_TYPE_NUMERIC).setCellValue(pedData.getHomeWhRoomNum4());
+                        row.createCell(dataColumnNum++, XSSFCell.CELL_TYPE_NUMERIC).setCellValue(pedData.getLttRoomNum());
                         
                         row.createCell(dataColumnNum++, XSSFCell.CELL_TYPE_STRING).setCellValue(populateRecipeTypeValue(pedData.getRecipeType()));
                         row.createCell(dataColumnNum++, XSSFCell.CELL_TYPE_STRING).setCellValue(pedData.getIsPedAssessed());
@@ -2740,6 +2744,40 @@ public class ReportController extends BaseController{
 									, localWeeklyReportFile
 									, remoteWeeklyReportFile
 									, "儿科住院周报", "",directoryName);
+							
+					    	File pedDir = new File(request.getRealPath("/") + "weeklyPedReport/");
+		            		if( !pedDir.exists() ){
+		            			pedDir.mkdir();
+		            		}
+		            		String  fileName = new StringBuffer("weeklyPedReport/儿科门急诊数据-")
+		                            .append(DateUtils.getWeeklyDuration(chooseDate_d))
+		                            .append(".xls").toString();
+		            		File tmpFile = new File(request.getRealPath("/") + fileName);
+		            		if( !tmpFile.exists() ){
+		            			tmpFile.createNewFile();
+		            		}
+		            		downloadPedWeeklyData("2", "RSD", tmpFile, chooseDate_d);
+		            	    ReportFileObject rfo = new ReportFileObject();
+		            	    rfo.setFileName(fileName.substring(fileName.lastIndexOf("/")+1));
+		            	    rfo.setFilePath(fileName);
+		            	    reportFiles.add(rfo);
+		            	    
+		            	    File pedRoomDir = new File(request.getRealPath("/") + "weeklyPedReport/");
+		            		if( !pedRoomDir.exists() ){
+		            			 pedRoomDir.mkdir();
+		            		}
+		            		String  fileName_room = new StringBuffer("weeklyPedReport/儿科病房数据-")
+		                            .append(DateUtils.getWeeklyDuration(chooseDate_d))
+		                            .append(".xls").toString();
+		            		File tmpFile_room = new File(request.getRealPath("/") + fileName_room);
+		            		if( !tmpFile_room.exists() ){
+		            			tmpFile_room.createNewFile();
+		            		}
+		            		downloadPedWeeklyData("5", "RSD", tmpFile_room, chooseDate_d);
+		            	    ReportFileObject rfo_room = new ReportFileObject();
+		            	    rfo_room.setFileName(fileName_room.substring(fileName_room.lastIndexOf("/")+1));
+		            	    rfo_room.setFilePath(fileName_room);
+		            	    reportFiles.add(rfo_room);
 							break;
 						case "3":
 							populateWeeklyReportAttachedFiles(filePaths,reportFiles, localPath, basePath
@@ -2758,6 +2796,44 @@ public class ReportController extends BaseController{
 									, remoteWeeklyReportFile
 									, "家庭雾化周报", "",directoryName);
 							break;
+						case "6":
+							//populateWeeklyReportAttachedFiles(filePaths,reportFiles, localPath, basePath, chooseDate_d, weeklyReportFile2Download, localWeeklyReportFile, remoteWeeklyReportFile, "家庭雾化门急诊周报", "",directoryName);	
+					    	File pedHomeDir = new File(request.getRealPath("/") + "weeklyPedReport/");
+		            		if( !pedHomeDir.exists() ){
+		            			 pedHomeDir.mkdir();
+		            		}
+		            		String  fileName_home = new StringBuffer("weeklyPedReport/家庭雾化门急诊数据-")
+		                            .append(DateUtils.getWeeklyDuration(chooseDate_d))
+		                            .append(".xls").toString();
+		            		File tmpFile_home = new File(request.getRealPath("/") + fileName_home);
+		            		if( !tmpFile_home.exists() ){
+		            			tmpFile_home.createNewFile();
+		            		}
+		            		downloadPedWeeklyData(department, "RSD", tmpFile_home, chooseDate_d);
+		            	    ReportFileObject rfo_home = new ReportFileObject();
+		            	    rfo_home.setFileName(fileName_home.substring(fileName_home.lastIndexOf("/")+1));
+		            	    rfo_home.setFilePath(fileName_home);
+		            	    reportFiles.add(rfo_home);
+						    break;
+						case "7":
+							//populateWeeklyReportAttachedFiles(filePaths,reportFiles, localPath, basePath, chooseDate_d, weeklyReportFile2Download, localWeeklyReportFile, remoteWeeklyReportFile, "家庭雾化病房周报", "",directoryName);	
+					    	File pedHomeRoomDir = new File(request.getRealPath("/") + "weeklyPedReport/");
+		            		if( !pedHomeRoomDir.exists() ){
+		            			 pedHomeRoomDir.mkdir();
+		            		}
+		            		String  fileName_home_room = new StringBuffer("weeklyPedReport/家庭雾化病房数据-")
+		                            .append(DateUtils.getWeeklyDuration(chooseDate_d))
+		                            .append(".xls").toString();
+		            		File tmpFile_home_room = new File(request.getRealPath("/") + fileName_home_room);
+		            		if( !tmpFile_home_room.exists() ){
+		            			tmpFile_home_room.createNewFile();
+		            		}
+		            		downloadPedWeeklyData(department, "RSD", tmpFile_home_room, chooseDate_d);
+		            	    ReportFileObject rfo_home_room = new ReportFileObject();
+		            	    rfo_home_room.setFileName(fileName_home_room.substring(fileName_home_room.lastIndexOf("/")+1));
+		            	    rfo_home_room.setFilePath(fileName_home_room);
+		            	    reportFiles.add(rfo_home_room);
+		            	    break;
 						default:
 					}
 			    }catch(Exception e){
@@ -6189,4 +6265,209 @@ public class ReportController extends BaseController{
         
         filePaths.add(weeklyReportFile2Download.toString());
     }
+    
+    /**
+     * 儿科全国RSD+RSM+DSM周数据下载
+     * @throws IOException 
+     */
+    public void downloadPedWeeklyData(String department,String level,File tmpFile, Date chooseDate_d) throws IOException{
+    	FileOutputStream fOut = null;
+    	Calendar cal = Calendar.getInstance();
+    	cal.setTime(DateUtils.getDateByParam(chooseDate_d, 7));
+    	
+    	String duration = DateUtils.getWeeklyDurationYYYYMMDD(cal.getTime());
+    	try {
+    		HSSFWorkbook workbook = new HSSFWorkbook();
+        	HSSFCellStyle percentCellStyle = workbook.createCellStyle();
+            percentCellStyle.setDataFormat(HSSFDataFormat.getBuiltinFormat("0%"));	
+            if ("2".equalsIgnoreCase(department)) {
+              fOut = new FileOutputStream(tmpFile); 
+              workbook.createSheet("儿科门急诊"+level+"数据");
+              HSSFSheet sheet = workbook.getSheetAt(0);
+              commonSubSheet(chooseDate_d, level, sheet,duration, percentCellStyle,department);
+          	  String childLevel = "";
+          	  String child2Level= "";
+          	  if( LsAttributes.USER_LEVEL_RSD.equalsIgnoreCase(level) ){
+          		    childLevel = LsAttributes.USER_LEVEL_RSM;
+                    workbook.createSheet("儿科门急诊"+childLevel+"数据");
+                    HSSFSheet childSheet1 = workbook.getSheetAt(1);
+                    commonSubSheet(chooseDate_d, childLevel, childSheet1, duration, percentCellStyle,department);
+      		       
+                    child2Level = LsAttributes.USER_LEVEL_DSM;
+                    workbook.createSheet("儿科门急诊"+child2Level+"数据");
+                    HSSFSheet childSheet2 = workbook.getSheetAt(2);
+                    commonSubSheet(chooseDate_d, child2Level, childSheet2, duration, percentCellStyle,department);
+          	  }
+            }else if ("5".equalsIgnoreCase(department)) {
+                fOut = new FileOutputStream(tmpFile); 
+                workbook.createSheet("儿科病房"+level+"数据");
+                HSSFSheet sheet = workbook.getSheetAt(0);
+                commonSubSheet(chooseDate_d, level, sheet,duration, percentCellStyle,department);
+            	  String childLevel = "";
+            	  String child2Level= "";
+            	  if( LsAttributes.USER_LEVEL_RSD.equalsIgnoreCase(level) ){
+            		  childLevel = LsAttributes.USER_LEVEL_RSM;
+                      workbook.createSheet("儿科病房"+childLevel+"数据");
+                      HSSFSheet childSheet1 = workbook.getSheetAt(1);
+                      commonSubSheet(chooseDate_d, childLevel, childSheet1, duration, percentCellStyle,department);
+            		  
+                      child2Level = LsAttributes.USER_LEVEL_DSM;
+                      workbook.createSheet("儿科病房"+child2Level+"数据");
+                      HSSFSheet childSheet2 = workbook.getSheetAt(2);
+                      commonSubSheet(chooseDate_d, child2Level, childSheet2, duration, percentCellStyle,department);
+            	  }
+			}else if ("6".equalsIgnoreCase(department)) {
+	                 fOut = new FileOutputStream(tmpFile); 
+	                 workbook.createSheet("家庭雾化门急诊"+level+"数据");
+	                 HSSFSheet sheet = workbook.getSheetAt(0);
+	                 commonMainSheet(chooseDate_d, level, sheet, percentCellStyle,department);
+	            	  String childLevel = "";
+	            	  String child2Level= "";
+	            	  if( LsAttributes.USER_LEVEL_RSD.equalsIgnoreCase(level) ){
+	            		  childLevel = LsAttributes.USER_LEVEL_RSM;
+	                      workbook.createSheet("家庭雾化门急诊"+childLevel+"数据");
+	                      HSSFSheet childSheet1 = workbook.getSheetAt(1);
+	                      commonMainSheet(chooseDate_d, childLevel, childSheet1, percentCellStyle,department);
+	            		  
+	                      child2Level = LsAttributes.USER_LEVEL_DSM;
+	                      workbook.createSheet("家庭雾化门急诊"+child2Level+"数据");
+	                      HSSFSheet childSheet2 = workbook.getSheetAt(2);
+	                      commonMainSheet(chooseDate_d, child2Level, childSheet2, percentCellStyle,department);
+	            	  }
+            }else if ("7".equalsIgnoreCase(department)) {
+	                fOut = new FileOutputStream(tmpFile); 
+	                workbook.createSheet("家庭雾化病房"+level+"数据");
+	                HSSFSheet sheet = workbook.getSheetAt(0);
+	                commonMainSheet(chooseDate_d, level, sheet, percentCellStyle,department);
+		           	  String childLevel = "";
+		           	  String child2Level= "";
+		           	  if( LsAttributes.USER_LEVEL_RSD.equalsIgnoreCase(level) ){
+		           		     childLevel = LsAttributes.USER_LEVEL_RSM;
+		                     workbook.createSheet("家庭雾化病房"+childLevel+"数据");
+		                     HSSFSheet childSheet1 = workbook.getSheetAt(1);
+		                     commonMainSheet(chooseDate_d, childLevel, childSheet1, percentCellStyle,department);
+		           		    
+		                     child2Level = LsAttributes.USER_LEVEL_DSM;
+		                     workbook.createSheet("家庭雾化病房"+child2Level+"数据");
+		                     HSSFSheet childSheet2 = workbook.getSheetAt(2);
+		                     commonMainSheet(chooseDate_d, child2Level, childSheet2, percentCellStyle,department);
+		           	  }
+			}
+            workbook.write(fOut);
+    	 }catch(Exception e){
+             logger.error("fail to generate the file,",e);
+         }finally{
+             if( fOut != null ){
+                 fOut.close();
+             }
+         }
+    }
+    
+   public void commonSubSheet(Date paramDate, String level, HSSFSheet sheet,String duration,HSSFCellStyle percentCellStyle,String department) throws Exception{
+       int currentRowNum = 0;
+       HSSFRow row = sheet.createRow(currentRowNum++);
+       int columnNum = 0;
+       row.createCell(columnNum++, XSSFCell.CELL_TYPE_STRING).setCellValue(level+"名单");
+       if( !LsAttributes.USER_LEVEL_RSD.equalsIgnoreCase(level) ){
+    	   row.createCell(columnNum++, XSSFCell.CELL_TYPE_STRING).setCellValue("region");
+       }
+       row.createCell(columnNum++, XSSFCell.CELL_TYPE_STRING).setCellValue("姓名");
+       row.createCell(columnNum++, XSSFCell.CELL_TYPE_STRING).setCellValue("应该上报医院数");
+       row.createCell(columnNum++, XSSFCell.CELL_TYPE_STRING).setCellValue("实际上报医院数");
+       row.createCell(columnNum++, XSSFCell.CELL_TYPE_STRING).setCellValue("上报率");
+       row.createCell(columnNum++, XSSFCell.CELL_TYPE_STRING).setCellValue("门诊人数");
+       row.createCell(columnNum++, XSSFCell.CELL_TYPE_STRING).setCellValue("雾化人次");
+       row.createCell(columnNum++, XSSFCell.CELL_TYPE_STRING).setCellValue("雾化令舒病人次");
+       row.createCell(columnNum++, XSSFCell.CELL_TYPE_STRING).setCellValue("雾化率");
+       row.createCell(columnNum++, XSSFCell.CELL_TYPE_STRING).setCellValue("平均剂量");
+       row.createCell(columnNum++, XSSFCell.CELL_TYPE_STRING).setCellValue("0.5mg%");
+       row.createCell(columnNum++, XSSFCell.CELL_TYPE_STRING).setCellValue("1mg%");
+       row.createCell(columnNum++, XSSFCell.CELL_TYPE_STRING).setCellValue("2mg%");
+       row.createCell(columnNum++, XSSFCell.CELL_TYPE_STRING).setCellValue("4mg%");
+       row.createCell(columnNum++, XSSFCell.CELL_TYPE_STRING).setCellValue("儿科门急诊平均天数");
+       row.createCell(columnNum++, XSSFCell.CELL_TYPE_STRING).setCellValue("博利康尼雾化人次");
+       row.createCell(columnNum++, XSSFCell.CELL_TYPE_STRING).setCellValue("博令比");
+       List<MobilePEDDailyData>  pedDatas=null;
+       if ("2".equalsIgnoreCase(department)) {
+    	   pedDatas=pediatricsService.getWeeklyPediatricsDatas(duration, level);
+	    }else {
+	       pedDatas=pediatricsService.getWeeklyPEDRoomDatas(paramDate, level);
+		}
+       for (MobilePEDDailyData peData : pedDatas) {
+     	  row = sheet.createRow(currentRowNum++);
+     	  int dataColumnNum = 0;
+     	  row.createCell(dataColumnNum++, XSSFCell.CELL_TYPE_STRING).setCellValue(peData.getRegionCenterCN());
+     	 if( !LsAttributes.USER_LEVEL_RSD.equalsIgnoreCase(level) ){
+     		 row.createCell(dataColumnNum++, XSSFCell.CELL_TYPE_STRING).setCellValue(peData.getRegion());
+     	 }
+     	  row.createCell(dataColumnNum++, XSSFCell.CELL_TYPE_STRING).setCellValue(peData.getUserName());
+     	  row.createCell(dataColumnNum++, XSSFCell.CELL_TYPE_NUMERIC).setCellValue(peData.getHosNum());
+     	  row.createCell(dataColumnNum++, XSSFCell.CELL_TYPE_NUMERIC).setCellValue(peData.getInNum());
+           HSSFCell inRateCell = row.createCell(dataColumnNum++, XSSFCell.CELL_TYPE_NUMERIC);
+           inRateCell.setCellValue(peData.getInRate());
+           inRateCell.setCellStyle(percentCellStyle);
+           row.createCell(dataColumnNum++, XSSFCell.CELL_TYPE_NUMERIC).setCellValue(peData.getPatNum());
+           row.createCell(dataColumnNum++, XSSFCell.CELL_TYPE_NUMERIC).setCellValue(peData.getWhNum());
+           row.createCell(dataColumnNum++, XSSFCell.CELL_TYPE_NUMERIC).setCellValue(peData.getLsNum());
+           HSSFCell whRateCell = row.createCell(dataColumnNum++, XSSFCell.CELL_TYPE_NUMERIC);
+           whRateCell.setCellValue(peData.getWhRate());
+           whRateCell.setCellStyle(percentCellStyle);
+           row.createCell(dataColumnNum++, XSSFCell.CELL_TYPE_STRING).setCellValue(peData.getAverageDose());
+           HSSFCell hmgRateCell = row.createCell(dataColumnNum++, XSSFCell.CELL_TYPE_NUMERIC);
+           hmgRateCell.setCellValue(peData.getHmgRate());
+           hmgRateCell.setCellStyle(percentCellStyle);
+           HSSFCell omgRateCell = row.createCell(dataColumnNum++, XSSFCell.CELL_TYPE_NUMERIC);
+           omgRateCell.setCellValue(peData.getOmgRate());
+           omgRateCell.setCellStyle(percentCellStyle);
+           HSSFCell tmgRateCell = row.createCell(dataColumnNum++, XSSFCell.CELL_TYPE_NUMERIC);
+           tmgRateCell.setCellValue(peData.getTmgRate());
+           tmgRateCell.setCellStyle(percentCellStyle);
+           HSSFCell fmgRateCell = row.createCell(dataColumnNum++, XSSFCell.CELL_TYPE_NUMERIC);
+           fmgRateCell.setCellValue(peData.getFmgRate());
+           fmgRateCell.setCellStyle(percentCellStyle);
+           row.createCell(dataColumnNum++, XSSFCell.CELL_TYPE_STRING).setCellValue(peData.getWhdays());
+           row.createCell(dataColumnNum++, XSSFCell.CELL_TYPE_NUMERIC).setCellValue(peData.getWhbwnum());
+           HSSFCell blRateCell = row.createCell(dataColumnNum++, XSSFCell.CELL_TYPE_NUMERIC);
+           blRateCell.setCellValue(peData.getBlRate());
+           blRateCell.setCellStyle(percentCellStyle);
+		}
+	   
+   }
+   
+   public void commonMainSheet(Date paramDate, String level, HSSFSheet sheet,HSSFCellStyle percentCellStyle,String department) throws Exception{
+	   int currentRowNum = 0;
+       HSSFRow row = sheet.createRow(currentRowNum++);
+       int columnNum = 0;
+       row.createCell(columnNum++, XSSFCell.CELL_TYPE_STRING).setCellValue(level+"名单");
+       if( !LsAttributes.USER_LEVEL_RSD.equalsIgnoreCase(level) ){
+    	   row.createCell(columnNum++, XSSFCell.CELL_TYPE_STRING).setCellValue("region");
+       }
+       row.createCell(columnNum++, XSSFCell.CELL_TYPE_STRING).setCellValue("姓名");
+       row.createCell(columnNum++, XSSFCell.CELL_TYPE_STRING).setCellValue("应该上报医院数");
+       row.createCell(columnNum++, XSSFCell.CELL_TYPE_STRING).setCellValue("实际上报医院数");
+       row.createCell(columnNum++, XSSFCell.CELL_TYPE_STRING).setCellValue("上报率");
+       row.createCell(columnNum++, XSSFCell.CELL_TYPE_STRING).setCellValue("卖赠泵数量");
+       row.createCell(columnNum++, XSSFCell.CELL_TYPE_STRING).setCellValue("平均带药天数");
+       row.createCell(columnNum++, XSSFCell.CELL_TYPE_STRING).setCellValue("总带药支数");
+       List<MobilePEDDailyData> pedDatas  =pediatricsService.getWeeklyPEDHomeDatas(paramDate,level,department);
+       for (MobilePEDDailyData peData : pedDatas) {
+      	  row = sheet.createRow(currentRowNum++);
+      	  int dataColumnNum = 0;
+     	  row.createCell(dataColumnNum++, XSSFCell.CELL_TYPE_STRING).setCellValue(peData.getRegionCenterCN());
+     	 if( !LsAttributes.USER_LEVEL_RSD.equalsIgnoreCase(level) ){
+     		 row.createCell(dataColumnNum++, XSSFCell.CELL_TYPE_STRING).setCellValue(peData.getRegion());
+     	 }
+     	  row.createCell(dataColumnNum++, XSSFCell.CELL_TYPE_STRING).setCellValue(peData.getUserName());
+     	  row.createCell(dataColumnNum++, XSSFCell.CELL_TYPE_NUMERIC).setCellValue(peData.getHosNum());
+     	  row.createCell(dataColumnNum++, XSSFCell.CELL_TYPE_NUMERIC).setCellValue(peData.getInNum());
+          HSSFCell inRateCell = row.createCell(dataColumnNum++, XSSFCell.CELL_TYPE_NUMERIC);
+           inRateCell.setCellValue(peData.getInRate());
+           inRateCell.setCellStyle(percentCellStyle);
+           row.createCell(dataColumnNum++, XSSFCell.CELL_TYPE_NUMERIC).setCellValue(peData.getHomeWhEmergingNum1());
+           row.createCell(dataColumnNum++, XSSFCell.CELL_TYPE_NUMERIC).setCellValue(peData.getHomeWhEmergingAverDays());
+           row.createCell(dataColumnNum++, XSSFCell.CELL_TYPE_NUMERIC).setCellValue(peData.getHomeWhEmergingNum4());
+       }
+   }
+   
+    
 }

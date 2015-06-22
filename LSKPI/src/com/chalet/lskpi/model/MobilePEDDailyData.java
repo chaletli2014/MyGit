@@ -29,7 +29,7 @@ public class MobilePEDDailyData {
     private double whRateRoom;
     
     private String regionCenterCN;
-    
+    private String region;
     private double coreInRate;
     private double whPortRate;
     
@@ -310,4 +310,11 @@ public class MobilePEDDailyData {
 	public void setHomeWhRoomAverDays(double homeWhRoomAverDays) {
 		this.homeWhRoomAverDays = homeWhRoomAverDays;
 	}
+	public String getRegion() {
+		return region;
+	}
+	public void setRegion(String region) {
+		this.region = region;
+	}
+	
 }

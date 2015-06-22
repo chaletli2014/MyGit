@@ -6,6 +6,7 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
@@ -801,7 +802,13 @@ public class RespirologyDAOImpl implements RespirologyDAO {
 	
 	@Override
 	public RespirologyData getRespirologyDataByHospital(final String hospitalName) throws Exception {
-		return dataBean.getJdbcTemplate().queryForObject("select rd.*,h.code as hospitalCode,h.dsmName,h.isResAssessed, h.dragonType, h.isRe2 from tbl_respirology_data rd, tbl_hospital h where rd.hospitalName=? and DATE_FORMAT(rd.createdate,'%Y-%m-%d') = curdate() and rd.hospitalName = h.name", new Object[]{hospitalName}, new RespirologyRowMapper());
+		Date thisMonday = DateUtils.getTheBeginDateOfCurrentWeek();
+		Timestamp thisMondayParam = new Timestamp(thisMonday.getTime());
+		Calendar calendar = Calendar.getInstance();
+		calendar.setTime(thisMonday);
+		calendar.add(Calendar.DAY_OF_MONTH, 7);
+		Timestamp nextMondayParam = new Timestamp(calendar.getTime().getTime());
+		return dataBean.getJdbcTemplate().queryForObject("select rd.*,h.code as hospitalCode,h.dsmName,h.isResAssessed, h.dragonType, h.isRe2 from tbl_respirology_data rd, tbl_hospital h where rd.hospitalName=? and rd.createdate between ? and ? and rd.hospitalName = h.name order by rd.createdate desc limit 1", new Object[]{hospitalName,thisMondayParam,nextMondayParam}, new RespirologyRowMapper());
 	}
 	
 	@Override

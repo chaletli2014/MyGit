@@ -80,6 +80,20 @@ function checkForm(){
 		                </div>
 	                </div>
 	            </div>
+	            <!--  
+	            <div class="ui-grid-a formCollection">
+	               <div class="ui-block-a">
+	                    <div data-role="fieldcontain">
+			                <label for="lttEmergingNum" id="lttEmergingNum_label">DOT≥30天，病人数</label>
+			                <input type="number" name="lttEmergingNum" id="lttEmergingNum"  value="${existedData.lttEmergingNum==null?0:existedData.lttEmergingNum}" />
+		                 </div> 
+	                </div>
+	            </div>
+	           --> 
+	           	<div data-role="fieldcontain">
+	                <label for="lttRoomNum" id="lttRoomNum_label">带药(DOT≥30天)人数</label>
+	                <input type="number" name="lttRoomNum" id="lttRoomNum"  value="${existedData.lttRoomNum==null?0:existedData.lttRoomNum}"/>
+	            </div>
 	            <div class="form_group_title">住院家庭雾化</div>
                 <HR style="FILTER: alpha(opacity=100,finishopacity=0,style=1)" width="100%" color=#987cb9 SIZE=3>
                 <div class="ui-grid-a formCollection">
@@ -108,8 +122,22 @@ function checkForm(){
 		                    <label for="homeWhRoomNum4" id="homewhNum4_label">总带药支数</label>
 		                    <input type="number" name="homeWhRoomNum4" id="homeWhRoomNum4" value="${existedData.homeWhRoomNum4==null?0:existedData.homeWhRoomNum4}"/>
 		                </div>
-	                </div>
-	            </div>	             
+	                </div>          
+	            </div>
+	            <!--  
+	            <div class="ui-grid-a formCollection">
+	                   <div class="ui-block-a">     
+			                 <div data-role="fieldcontain">
+				                <label for="lttRoomNum" id="lttRoomNum_label">DOT≥30天人数</label>
+				                <input type="number" name="lttRoomNum" id="lttRoomNum"  value="${existedData.lttRoomNum==null?0:existedData.lttRoomNum}" />
+			                 </div>
+			            </div>     
+			    </div>
+			    -->
+			    <div data-role="fieldcontain">
+	                <label for="lttRoomNum" id="lttRoomNum_label">带药(DOT≥30天)人数</label>
+	                <input type="number" name="lttRoomNum" id="lttRoomNum"  value="${existedData.lttRoomNum==null?0:existedData.lttRoomNum}"/>
+	            </div>          
                 <div style="text-align: center;">
 		            <a class="submit_btn" href="javascript:void(0)" onclick="submitForm()">
 			            <img alt="" src="<%=basePath%>images/button_submit.png" style="cursor: pointer;" />

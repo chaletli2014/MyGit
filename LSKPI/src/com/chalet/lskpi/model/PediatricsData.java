@@ -179,6 +179,16 @@ public class PediatricsData {
      * 病房总带药支数
      */
     private int homeWhRoomNum4;
+    
+    /**
+     * 门急诊DOT>=30天,病人次.
+     */
+    private int lttEmergingNum;
+    
+    /**
+     * 住院DOT>=30天,病人次.
+     */
+    private int lttRoomNum;
 	
 	public int getDataId() {
 		return dataId;
@@ -528,5 +538,19 @@ public class PediatricsData {
 	public void setWhbwnum_room(int whbwnum_room) {
 		this.whbwnum_room = whbwnum_room;
 	}
+	public int getLttEmergingNum() {
+		return lttEmergingNum;
+	}
+	public void setLttEmergingNum(int lttEmergingNum) {
+		this.lttEmergingNum = lttEmergingNum;
+	}
+	public int getLttRoomNum() {
+		return lttRoomNum;
+	}
+	public void setLttRoomNum(int lttRoomNum) {
+		this.lttRoomNum = lttRoomNum;
+	}
+	
+	
 	
 }

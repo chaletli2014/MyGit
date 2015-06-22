@@ -80,4 +80,8 @@ public interface PediatricsService {
     public MonthlyStatisticsData getMonthlyStatisticsCountryData(String beginDuraion, String endDuraion) throws Exception;
     public MonthlyStatisticsData getCoreOrEmergingMonthlyStatisticsCountryData(String beginDuraion, String endDuraion, String dragonType) throws Exception;
     public Map<String,MonthlyStatisticsData> getCoreOrEmergingMonthlyStatisticsData(String beginDuraion, String endDuraion, String level, String dragonType) throws Exception;
+    
+    public List<MobilePEDDailyData> getWeeklyPediatricsDatas(String duration,String level) throws Exception;
+    public List<MobilePEDDailyData> getWeeklyPEDHomeDatas(Date paramDate, String level,String department)  throws Exception;
+    public List<MobilePEDDailyData> getWeeklyPEDRoomDatas(Date paramDate, String level) throws Exception;
 }

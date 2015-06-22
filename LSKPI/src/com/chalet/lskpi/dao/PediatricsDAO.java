@@ -255,4 +255,17 @@ public interface PediatricsDAO {
     public MonthlyStatisticsData getMonthlyStatisticsCountryData(String beginDuraion, String endDuraion) throws Exception;
     public MonthlyStatisticsData getCoreMonthlyStatisticsCountryData(String beginDuraion, String endDuraion) throws Exception;
     public MonthlyStatisticsData getEmergingMonthlyStatisticsCountryData(String beginDuraion, String endDuraion) throws Exception;
+    /**
+	 * 查询儿科门急诊周数据
+	 */
+    public List<MobilePEDDailyData> getWeeklyPediatricsEmergingDatas(String duration,String level) throws Exception;
+    /**
+	 * 查询儿科家庭雾化周数据
+	 */
+    public List<MobilePEDDailyData> getWeeklyPEDHomeDatas(Date beginDate, Date endDate,String level,String department) throws Exception;
+    /**
+	 * 查询儿科病房周数据
+	 */
+    public List<MobilePEDDailyData> getWeeklyPEDRoomDatas(Date beginDate, Date endDate,String level) throws Exception;
+    
 }

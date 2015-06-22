@@ -398,9 +398,13 @@
                         <span>选择科室：</span>
                             <select name="department">
                                     <option value="2" <c:if test="${department=='2'}">selected="selected"</c:if>>儿科</option>
+                                    <option value="6" <c:if test="${department=='6'}">selected="selected"</c:if>>家庭雾化门急诊</option>
+                                    <option value="7" <c:if test="${department=='7'}">selected="selected"</c:if>>家庭雾化病房</option>
                                     <option value="1" <c:if test="${department=='1'}">selected="selected"</c:if>>呼吸科</option>
+                                    <!--  
                                     <option value="3" <c:if test="${department=='3'}">selected="selected"</c:if>>胸外科</option>
-                                    <option value="4" <c:if test="${department=='4'}">selected="selected"</c:if>>家庭雾化</option>
+                                    -->
+                                    <option value="4" <c:if test="${department=='4'}">selected="selected"</c:if>>家庭雾化(旧)</option>
                             </select>
                         <br/>
                         <img alt="" src="<%=basePath%>images/button_submit.png" style="cursor: pointer; vertical-align: middle;" onclick="downloadWeeklyData('download')" />

@@ -1044,5 +1044,48 @@ public class PediatricsServiceImpl implements PediatricsService {
 		}
 	}
 
+	@Override
+	public List<MobilePEDDailyData> getWeeklyPediatricsDatas(String duration,String level) throws Exception {
+		try{
+			return pediatricsDAO.getWeeklyPediatricsEmergingDatas(duration, level);
+		}catch(EmptyResultDataAccessException erd){
+			return Collections.emptyList();
+		}
+	}
+
+	@Override
+	public List<MobilePEDDailyData> getWeeklyPEDHomeDatas(Date paramDate, String level,String department) throws Exception {
+		/**
+    	 * endDate 本周一
+    	 */
+    	Date beginDate = DateUtils.getExportHomeWeeklyBegionDate(paramDate);
+    	/**
+    	 * beginDate 上周一
+    	 */
+    	Date endDate = DateUtils.getDateByParam(beginDate, 7);
+    	try{
+		  return pediatricsDAO.getWeeklyPEDHomeDatas(beginDate, endDate, level,department);
+		}catch(EmptyResultDataAccessException erd){
+			return Collections.emptyList();
+		}
+	}
+
+	@Override
+	public List<MobilePEDDailyData> getWeeklyPEDRoomDatas(Date paramDate, String level) throws Exception {
+		
+        /**
+    	 * endDate 本周一
+    	 */
+    	Date beginDate = DateUtils.getExportHomeWeeklyBegionDate(paramDate);
+    	/**
+    	 * beginDate 上周一
+    	 */
+    	Date endDate = DateUtils.getDateByParam(beginDate, 7);
+    	try{
+		  return pediatricsDAO.getWeeklyPEDRoomDatas(beginDate, endDate, level);
+		}catch(EmptyResultDataAccessException erd){
+			return Collections.emptyList();
+		}
+	}
 
 }

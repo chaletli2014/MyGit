@@ -83,13 +83,13 @@ function checkForm(){
         </jsp:include>
         <div data-role="content" data-theme="a">
         	<div class="roundCorner">
-        	<div class="report_process_bg_description">标*为Core医院，每周填报3次；标**为Emerging医院，每周填报1次</div>
+        	<div class="report_process_bg_description">标*为Core医院，标**为Emerging医院，所有医院每周只填报一次</div>
 	        <form id="respirologyForm" action="collectRespirology" method="POST" data-ajax="false" class="validate" onsubmit="return checkForm()">
 	        	<input type="hidden" name="dataId" value="${existedData.dataId}"/>
 	        	<input type="hidden" name="selectedHospital" value="${selectedHospital}"/>
 	            <div data-role="fieldcontain">
 	                <label for="hospital" class="select">医院名称</label>
-	                <select name="hospital" id="hospital" onchange="loadData(this.value)">
+                    <select name="hospital" id="hospital" onchange="loadData(this.value)">
                         <option value="">--请选择--</option>
 	                    <c:forEach var="hospital" items="${hospitals}">
 	                        <option value="${hospital.name}" <c:if test="${hospital.name == selectedHospital}">selected</c:if>>${hospital.name}</option>
