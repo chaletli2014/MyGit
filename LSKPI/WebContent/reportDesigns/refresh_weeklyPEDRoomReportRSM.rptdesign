@@ -8716,7 +8716,7 @@ dataSetRow["inNum"]/dataSetRow["hosNum"]&#13;
                             <property name="fontWeight">normal</property>
                             <property name="color">white</property>
                             <property name="textAlign">center</property>
-                            <text-property name="text">门诊人次</text-property>
+                            <text-property name="text">住院人次</text-property>
                         </label>
                     </cell>
                     <cell id="1495">
@@ -9288,7 +9288,7 @@ dataSetRow["inNum"]/dataSetRow["hosNum"]&#13;
       <Visible>true</Visible>
       <Label>
         <Caption>
-          <Value>周门诊总人数</Value>
+          <Value>周住院总人数</Value>
           <Font>
             <Name>Microsoft YaHei UI</Name>
             <Size>14.0</Size>
@@ -13389,7 +13389,7 @@ dataSetRow["inNum"]/dataSetRow["hosNum"]&#13;
       <Visible>true</Visible>
       <Label>
         <Caption>
-          <Value>医院儿科门诊雾化率</Value>
+          <Value>医院儿科住院雾化率</Value>
           <Font>
             <Name>Microsoft YaHei UI</Name>
             <Size>14.0</Size>
@@ -14628,7 +14628,7 @@ dataSetRow["inNum"]/dataSetRow["hosNum"]&#13;
       <Visible>true</Visible>
       <Label>
         <Caption>
-          <Value>Core医院儿科门诊雾化率</Value>
+          <Value>Core医院儿科住院雾化率</Value>
           <Font>
             <Name>Microsoft YaHei UI</Name>
             <Size>14.0</Size>
@@ -15858,7 +15858,7 @@ dataSetRow["inNum"]/dataSetRow["hosNum"]&#13;
       <Visible>true</Visible>
       <Label>
         <Caption>
-          <Value>Emerging医院儿科门诊雾化率</Value>
+          <Value>Emerging医院儿科住院雾化率</Value>
           <Font>
             <Name>Microsoft YaHei UI</Name>
             <Size>14.0</Size>
@@ -24727,7 +24727,7 @@ dataSetRow["inNum"]/dataSetRow["hosNum"]&#13;
                             <property name="fontWeight">normal</property>
                             <property name="color">white</property>
                             <property name="textAlign">center</property>
-                            <text-property name="text">门诊人次</text-property>
+                            <text-property name="text">住院人次</text-property>
                         </label>
                     </cell>
                     <cell id="1407">
@@ -25296,7 +25296,7 @@ dataSetRow["inNum"]/dataSetRow["hosNum"]&#13;
       <Visible>true</Visible>
       <Label>
         <Caption>
-          <Value>周门诊总人数</Value>
+          <Value>周住院总人数</Value>
           <Font>
             <Name>Microsoft YaHei UI</Name>
             <Size>14.0</Size>
@@ -29399,7 +29399,7 @@ dataSetRow["inNum"]/dataSetRow["hosNum"]&#13;
       <Visible>true</Visible>
       <Label>
         <Caption>
-          <Value>医院儿科门诊雾化率</Value>
+          <Value>医院儿科住院雾化率</Value>
           <Font>
             <Name>Microsoft YaHei UI</Name>
             <Size>14.0</Size>
@@ -30635,7 +30635,7 @@ dataSetRow["inNum"]/dataSetRow["hosNum"]&#13;
       <Visible>true</Visible>
       <Label>
         <Caption>
-          <Value>Core医院儿科门诊雾化率</Value>
+          <Value>Core医院儿科住院雾化率</Value>
           <Font>
             <Name>Microsoft YaHei UI</Name>
             <Size>14.0</Size>
@@ -31866,7 +31866,7 @@ dataSetRow["inNum"]/dataSetRow["hosNum"]&#13;
       <Visible>true</Visible>
       <Label>
         <Caption>
-          <Value>Emerging医院儿科门诊雾化率</Value>
+          <Value>Emerging医院儿科住院雾化率</Value>
           <Font>
             <Name>Microsoft YaHei UI</Name>
             <Size>14.0</Size>
